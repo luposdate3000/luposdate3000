@@ -1,4 +1,4 @@
-interface INetworkRouter {
+interface IRoutingAlgorithm {
     fun startRouting()
     fun isControlPackage(pck: NetworkPackage): Boolean
     fun isSelfEvent(marker: Any): Boolean

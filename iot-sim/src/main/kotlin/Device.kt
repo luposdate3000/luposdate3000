@@ -7,7 +7,7 @@ class Device(
     val supportedLinkTypes: IntArray
     ) : Entity()
 {
-    val router: INetworkRouter = RPLRouter(this)
+    val router: IRoutingAlgorithm = RPLRouter(this)
     val linkManager = LinkManager(this)
     class SensorObservationEndMarker
     var isStarNetworkChild = false
