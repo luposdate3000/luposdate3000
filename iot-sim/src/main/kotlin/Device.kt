@@ -46,13 +46,10 @@ class Device(
     private fun processPackage(pck: NetworkPackage) {
         if(router.isControlPackage(pck)) {
             router.processControlPackage(pck)
-            return
         }
-
-        if(pck.payload is ParkingSample) {
+        else if(pck.payload is ParkingSample) {
             processedSensorDataPackages++
             database?.saveParkingSample(pck.payload)
-            return
         }
     }
 
