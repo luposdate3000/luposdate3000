@@ -27,25 +27,33 @@ class Device(
     }
 
     override fun onEvent(event: Event) {
-        when {
-
-            event.data is NetworkPackage -> processNetworkPackage(event.data as NetworkPackage)
-        }
-    }
-
-    private fun processNetworkPackage(pck: NetworkPackage) {
+        val pck = event.data as NetworkPackage
         packageCounter++
-        when {
-            //hasDatabase() && database!!.isDatabasePackage(pck.payload) -> processDBPackage(pck)
-            router.isControlPackage(pck) -> router.processControlPackage(pck)
-        }
+        if(pck.destinationAddress == address)
+            processPackage(pck)
+        else
+            forwardPackage(pck)
     }
+
+    private fun processPackage(pck: NetworkPackage) {
+        if(router.isControlPackage(pck)) {
+            router.processControlPackage(pck)
+            return
+        }
+
+    }
+
 
     override fun onShutDown() {
         sensor?.stopSampling()
         database?.shutDown()
     }
 
+    private fun forwardPackage(pck: NetworkPackage) {
+        val nextHop = router.getNextHop(pck.destinationAddress)
+        val delay = getNetworkDelay(nextHop)
+        scheduleEvent(Configuration.devices[nextHop], delay, pck)
+    }
 
     fun sendUnRoutedPackage(destinationNeighbour: Int, data: Any) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
@@ -55,9 +63,7 @@ class Device(
 
     fun sendRoutedPackage(src: Int, dest: Int, data: Any) {
         val pck = NetworkPackage(src, dest, data)
-        val nextHop = router.getNextHop(pck.destinationAddress)
-        val delay = getNetworkDelay(nextHop)
-        scheduleEvent(Configuration.devices[nextHop], delay, pck)
+        forwardPackage(pck)
     }
 
     fun waitForObservationEnd(delay: Long) {
