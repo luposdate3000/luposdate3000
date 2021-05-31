@@ -223,74 +223,8 @@ class SimulationTest {
         Assertions.assertEquals(expectedProcessCounter, processCounter)
     }
 
-    @Test
-    fun `beBusy() do lead to a call of processEvent()`() {
-        val delay: Long = 4
-        var processCounter = 0
-        val expectedProcessCounter = 1
 
-        val busyEntity = object : Entity() {
-            override fun onStartUp() {
-                this.beBusy(delay)
-            }
-            override fun onEvent(event: Event) {
-                processCounter++
-            }
-            override fun onShutDown() {}
-        }
-        val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
-        Assertions.assertEquals(delay, endClock)
-        Assertions.assertEquals(expectedProcessCounter, processCounter)
-    }
 
-    @Test
-    fun `state is busy until busyDuration ends`() {
-        val busyDuration: Long = 4
-        var endState: Entity.State? = null
-        var startState: Entity.State? = null
-        val busyEntity = object : Entity() {
-            override fun onStartUp() {
-                this.beBusy(busyDuration)
-                startState = this.currentState
-            }
-            override fun onEvent(event: Event) {}
-            override fun onShutDown() {
-                endState = this.currentState
-            }
-        }
-        val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
-        Assertions.assertEquals(busyDuration, endClock)
-        Assertions.assertEquals(Entity.State.BUSY, startState)
-        Assertions.assertEquals(Entity.State.RUNNABLE, endState)
-    }
-
-    @Test
-    fun `busy entity do not process while being busy`() {
-        val delay: Long = 4
-        val busyDuration: Long = 100
-        var processCounter = 0
-        val eventType = 3
-        var eventProcessedAt: Long= 0
-        val expectedProcessCounter = 2
-
-        val busyEntity = object : Entity() {
-            override fun onStartUp() {
-                this.scheduleEvent(this, delay, eventType)
-                this.beBusy(busyDuration)
-            }
-            override fun onEvent(event: Event) {
-                processCounter++
-                if(event.data == eventType) {
-                    eventProcessedAt = Simulation.clock
-                }
-            }
-            override fun onShutDown() {}
-        }
-        val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
-        Assertions.assertEquals(busyDuration, endClock)
-        Assertions.assertEquals(expectedProcessCounter, processCounter)
-        Assertions.assertEquals(busyDuration, eventProcessedAt)
-    }
 
     @Test
     fun `event is processed when delay equals clock`() {
