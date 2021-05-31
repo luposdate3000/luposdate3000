@@ -50,14 +50,14 @@ class Device(
     fun sendUnRoutedPackage(destinationNeighbour: Int, data: Any) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour)
-        sendEvent(Configuration.devices[destinationNeighbour], delay, pck)
+        scheduleEvent(Configuration.devices[destinationNeighbour], delay, pck)
     }
 
     fun sendRoutedPackage(src: Int, dest: Int, data: Any) {
         val pck = NetworkPackage(src, dest, data)
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop)
-        sendEvent(Configuration.devices[nextHop], delay, pck)
+        scheduleEvent(Configuration.devices[nextHop], delay, pck)
     }
 
     fun waitForObservationEnd(delay: Long) {
@@ -65,7 +65,7 @@ class Device(
     }
 
     fun sendSelfEvent(delay: Long, marker: Any) {
-        sendEvent(this, delay, marker)
+        scheduleEvent(this, delay, marker)
     }
 
 

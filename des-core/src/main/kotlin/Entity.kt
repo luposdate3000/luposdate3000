@@ -39,8 +39,7 @@ abstract class Entity {
         }
     }
 
-    //TODO to schedule
-    protected fun sendEvent(destination: Entity, delay: Long, data: Any) {
+    protected fun scheduleEvent(destination: Entity, delay: Long, data: Any) {
         require(currentState == State.RUNNABLE)
         Simulation.addEvent(delay, this, destination, data)
     }
@@ -52,7 +51,7 @@ abstract class Entity {
     }
 
     protected fun setTimer(time: Long, callback: ITimerExpired) {
-        sendEvent(this, time, callback)
+        scheduleEvent(this, time, callback)
     }
 
     interface ITimerExpired {

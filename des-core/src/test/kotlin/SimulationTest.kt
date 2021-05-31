@@ -30,7 +30,7 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(receivingEntity!!, delay, data)
+                this.scheduleEvent(receivingEntity!!, delay, data)
             }
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
@@ -66,9 +66,9 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(receivingEntity!!, firstDelay, 1)
-                this.sendEvent(receivingEntity!!, secondDelay, 2)
-                this.sendEvent(receivingEntity!!, thirdDelay, 3)
+                this.scheduleEvent(receivingEntity!!, firstDelay, 1)
+                this.scheduleEvent(receivingEntity!!, secondDelay, 2)
+                this.scheduleEvent(receivingEntity!!, thirdDelay, 3)
             }
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
@@ -172,7 +172,7 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(respondingEntity!!, firstDelay,"dummy data")
+                this.scheduleEvent(respondingEntity!!, firstDelay,"dummy data")
             }
             override fun onEvent(event: Event) {
                isResponseReceived = event.data == 2
@@ -183,7 +183,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp(){}
             override fun onEvent(event: Event) {
-                this.sendEvent(event.source, responseDelay,2)
+                this.scheduleEvent(event.source, responseDelay,2)
             }
             override fun onShutDown() {}
         }
@@ -201,10 +201,10 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(respondingEntity!!, delay,"dummy data")
+                this.scheduleEvent(respondingEntity!!, delay,"dummy data")
             }
             override fun onEvent(event: Event) {
-                this.sendEvent(event.source, delay,"dummy data")
+                this.scheduleEvent(event.source, delay,"dummy data")
             }
             override fun onShutDown() {}
         }
@@ -212,7 +212,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp(){}
             override fun onEvent(event: Event) {
-                this.sendEvent(event.source, delay,"dummy data")
+                this.scheduleEvent(event.source, delay,"dummy data")
                 this.terminate()
                 processCounter++
             }
@@ -275,7 +275,7 @@ class SimulationTest {
 
         val busyEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(this, delay, eventType)
+                this.scheduleEvent(this, delay, eventType)
                 this.beBusy(busyDuration)
             }
             override fun onEvent(event: Event) {
@@ -300,9 +300,9 @@ class SimulationTest {
 
         val busyEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(this, delay, eventType)
-                this.sendEvent(this, delay - 1, 0)
-                this.sendEvent(this, delay + 1, 0)
+                this.scheduleEvent(this, delay, eventType)
+                this.scheduleEvent(this, delay - 1, 0)
+                this.scheduleEvent(this, delay + 1, 0)
             }
             override fun onEvent(event: Event) {
                 if(event.data == eventType) {
@@ -327,7 +327,7 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(receivingEntity!!, 4,1)
+                this.scheduleEvent(receivingEntity!!, 4,1)
             }
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
@@ -349,10 +349,10 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(respondingEntity!!, delay,"dummy data")
+                this.scheduleEvent(respondingEntity!!, delay,"dummy data")
             }
             override fun onEvent(event: Event) {
-                this.sendEvent(event.source, delay,"dummy data")
+                this.scheduleEvent(event.source, delay,"dummy data")
             }
             override fun onShutDown() {}
         }
@@ -360,7 +360,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp(){}
             override fun onEvent(event: Event) {
-                this.sendEvent(event.source, delay,"dummy data")
+                this.scheduleEvent(event.source, delay,"dummy data")
             }
             override fun onShutDown() {}
         }
@@ -376,10 +376,10 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.sendEvent(respondingEntity!!, delay,"dummy data")
+                this.scheduleEvent(respondingEntity!!, delay,"dummy data")
             }
             override fun onEvent(event: Event) {
-                this.sendEvent(event.source, delay,"dummy data")
+                this.scheduleEvent(event.source, delay,"dummy data")
             }
             override fun onShutDown() {}
         }
@@ -387,7 +387,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp(){}
             override fun onEvent(event: Event) {
-                this.sendEvent(event.source, delay,"dummy data")
+                this.scheduleEvent(event.source, delay,"dummy data")
                 if(Simulation.eventCounter >= maxEventNumber)
                     Simulation.stop()
             }
