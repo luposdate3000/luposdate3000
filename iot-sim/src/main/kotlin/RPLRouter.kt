@@ -16,8 +16,6 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
     var preferredParent = Parent()
         private set
 
-    class DelayDAOTimerExpiredMarker
-
     private var isDelayDAOTimerRunning = false
 
     var dioSentCounter = 0
@@ -143,23 +141,21 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
     override fun isControlPackage(pck: NetworkPackage)
         = pck.payload is DAO || pck.payload is DIO
 
-    override fun isSelfEvent(marker: Any)
-        = marker is DelayDAOTimerExpiredMarker
-
-    override fun processSelfEvent(marker: Any) {
-        if(marker is DelayDAOTimerExpiredMarker) {
-            isDelayDAOTimerRunning = false
-            forwardDAO()
-        }
-    }
 
     private fun forwardDAO() {
         sendDAO(preferredParent.address)
         forwardedDaoCounter++
     }
 
+    inner class DelayDAOTimerExpired: Entity.ITimerExpired {
+        override fun onExpire() {
+            isDelayDAOTimerRunning = false
+            forwardDAO()
+        }
+    }
+
     private fun startDelayDAOTimer() {
-        device.sendSelfEvent(daoDelay.toLong(), DelayDAOTimerExpiredMarker())
+        device.setTimer(daoDelay.toLong(), DelayDAOTimerExpired())
         isDelayDAOTimerRunning = true
     }
 

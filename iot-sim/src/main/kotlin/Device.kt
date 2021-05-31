@@ -29,7 +29,6 @@ class Device(
     override fun onEvent(event: Event) {
         when {
             event.data is SensorObservationEndMarker -> sensor!!.onSampleTaken()
-            event.data != null && router.isSelfEvent(event.data!!) -> router.processSelfEvent(event.data!!)
             event.data is NetworkPackage -> processNetworkPackage(event.data as NetworkPackage)
         }
     }
@@ -75,7 +74,6 @@ class Device(
 
 
     fun hasDatabase() = database != null
-
 
 
 

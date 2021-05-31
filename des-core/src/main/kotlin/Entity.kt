@@ -31,7 +31,7 @@ abstract class Entity {
         Simulation.addEvent(delay, this, destination, data)
     }
 
-    protected fun setTimer(time: Long, callback: ITimerExpired) {
+    fun setTimer(time: Long, callback: ITimerExpired) {
         scheduleEvent(this, time, callback)
     }
 
