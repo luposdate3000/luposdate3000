@@ -9,8 +9,10 @@ class Device(
 {
     val router: IRoutingAlgorithm = RPLRouter(this)
     val linkManager = LinkManager(this)
-
     var isStarNetworkChild = false
+
+    var processedSensorDataPackages = 0
+        private set
 
     private fun getNetworkDelay(destinationAddress: Int): Long {
         return if (destinationAddress == address) {
@@ -41,6 +43,10 @@ class Device(
             return
         }
 
+        if(pck.payload is ParkingSensor.ParkingSample) {
+            processedSensorDataPackages++
+            return
+        }
     }
 
 

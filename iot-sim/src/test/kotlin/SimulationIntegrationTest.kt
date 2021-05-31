@@ -50,11 +50,6 @@ class SimulationIntegrationTest {
         Assertions.assertEquals(parentRouter.rank, child2Router.preferredParent.rank)
     }
 
-
-
-
-
-
     @ParameterizedTest
     @ValueSource(strings = ["sim/meshToDODAG.json"])
     fun meshToDODAG(fileName: String) {
@@ -75,11 +70,14 @@ class SimulationIntegrationTest {
         val a = Configuration.getNamedDevice("A")
         val aRouter = a.router as RPLRouter
         val f = Configuration.getNamedDevice("F")
-
         aRouter.root = true
         f.sensor!!.setDataSink(a.address)
 
-        Simulation.start(Configuration.devices, Logger(), 100)
+        val maxClock = 100
+        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
+
+        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+        Assertions.assertEquals(numberOfSamples, a.processedSensorDataPackages)
     }
 
     @ParameterizedTest
@@ -90,11 +88,14 @@ class SimulationIntegrationTest {
         val a = Configuration.getNamedDevice("A")
         val f = Configuration.getNamedDevice("F")
         val aRouter = a.router as RPLRouter
-
         aRouter.root = true
         a.sensor!!.setDataSink(f.address)
 
-        Simulation.start(Configuration.devices, Logger(), 100)
+        val maxClock = 100
+        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
+
+        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+        Assertions.assertEquals(numberOfSamples, f.processedSensorDataPackages)
     }
 
     @ParameterizedTest
@@ -106,11 +107,14 @@ class SimulationIntegrationTest {
         val d = Configuration.getNamedDevice("D")
         val f = Configuration.getNamedDevice("F")
         val aRouter = a.router as RPLRouter
-
         aRouter.root = true
         f.sensor!!.setDataSink(d.address)
 
-        Simulation.start(Configuration.devices, Logger(), 100)
+        val maxClock = 100
+        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
+
+        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+        Assertions.assertEquals(numberOfSamples, d.processedSensorDataPackages)
     }
 
 //    @ParameterizedTest
