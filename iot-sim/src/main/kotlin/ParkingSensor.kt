@@ -1,7 +1,7 @@
 class ParkingSensor(
     var device: Device,
     override var dataSinkAddress: Int
-): Device.Sensor {
+): IDeviceSensor {
 
     class ParkingSample(val isOccupied: Boolean)
 

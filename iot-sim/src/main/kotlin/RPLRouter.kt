@@ -1,6 +1,6 @@
 import java.lang.StringBuilder
 
-class RPLRouter(val device: Device): Device.Router {
+class RPLRouter(val device: Device): INetworkRouter {
 
     lateinit var routingTable: RoutingTable
 
