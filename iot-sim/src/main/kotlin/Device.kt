@@ -42,6 +42,7 @@ class Device(
     }
 
     override fun onShutDown() {
+        sensor?.stopSampling()
         database?.shutDown()
     }
 
