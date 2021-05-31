@@ -66,24 +66,11 @@ class Device(
         forwardPackage(pck)
     }
 
-    fun waitForObservationEnd(delay: Long) {
-        sendSelfEvent(delay, SensorObservationEndMarker())
-    }
-
-    fun sendSelfEvent(delay: Long, marker: Any) {
-        scheduleEvent(this, delay, marker)
-    }
-
-
     fun sendSensorSample(destinationAddress: Int, data: Any) {
         sendRoutedPackage(address, destinationAddress, data)
     }
 
-
     fun hasDatabase() = database != null
-
-
-
 
 
     override fun equals(other: Any?): Boolean {
