@@ -52,7 +52,7 @@ class DatabaseAdapter(val device: Device): IRouter {
     }
 
     fun saveParkingSample(sample: ParkingSample) {
-        val rdfString = sample.toRDFString()
+        val rdfString = "TODO" //TODO toRDFString()
         val bytes = toBytes(rdfString)
         saveData(bytes)
     }
@@ -72,7 +72,7 @@ class DatabaseAdapter(val device: Device): IRouter {
         return directoryToBeDeleted.delete()
     }
 
-    fun toBytes(s: String) = s.toByteArray(StandardCharsets.UTF_8)
+    private fun toBytes(s: String) = s.toByteArray(StandardCharsets.UTF_8)
 
     fun isDatabasePackage(pck: Any) = pck is IDatabasePackage
 

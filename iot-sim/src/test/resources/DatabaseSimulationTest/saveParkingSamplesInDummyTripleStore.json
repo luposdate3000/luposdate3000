@@ -15,12 +15,19 @@
       "parkingSensor": false,
       "powerCapacity": -1.0,
       "supportedLinkTypes": []
+    },
+    {
+      "name": "FogWithDatabaseAndSensor",
+      "database": true,
+      "parkingSensor": true,
+      "powerCapacity": -1.0,
+      "supportedLinkTypes": []
     }
   ],
   "fixedDevice": [
     {
       "name": "A",
-      "deviceType": "FogWithDatabase",
+      "deviceType": "FogWithDatabaseAndSensor",
       "latitude": 53.810130070613695,
       "longitude":  10.373366256676398
     },

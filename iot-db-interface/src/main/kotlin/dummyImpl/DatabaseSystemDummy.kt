@@ -52,7 +52,7 @@ class DatabaseSystemDummy : IDatabase {
     }
 
     override fun saveData(data: ByteArray) {
-        //TODO
+        state.dataFile.appendText(String(data))
     }
 
     private fun receive(pck: PreprocessingPackage) {
