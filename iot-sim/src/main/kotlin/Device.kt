@@ -34,6 +34,10 @@ class Device(
         router.startRouting()
     }
 
+    override fun onSteadyState() {
+
+    }
+
     override fun onEvent(event: Event) {
         val pck = event.data as NetworkPackage
         packageCounter++

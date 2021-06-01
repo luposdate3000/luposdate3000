@@ -4,6 +4,8 @@ class EntityStub : Entity() {
     }
     override fun onEvent(event: Event) {
     }
+    override fun onSteadyState() {
+    }
     override fun onShutDown() {
     }
 }

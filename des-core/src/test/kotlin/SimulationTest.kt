@@ -32,6 +32,7 @@ class SimulationTest {
             override fun onStartUp() {
                 this.scheduleEvent(receivingEntity!!, delay, data)
             }
+            override fun onSteadyState() {}
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
         }
@@ -43,6 +44,7 @@ class SimulationTest {
                 actualSrcEntity = event.source
                 actualEventTime = event.occurrenceTime
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity),LoggerStub())
@@ -70,6 +72,7 @@ class SimulationTest {
                 this.scheduleEvent(receivingEntity!!, secondDelay, 2)
                 this.scheduleEvent(receivingEntity!!, thirdDelay, 3)
             }
+            override fun onSteadyState() {}
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
         }
@@ -89,6 +92,7 @@ class SimulationTest {
                     }
                 }
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         Simulation.start(arrayListOf(receivingEntity, sendingEntity),LoggerStub())
@@ -105,6 +109,7 @@ class SimulationTest {
             override fun onStartUp() {
                 entityAIsCalled = true
             }
+            override fun onSteadyState() {}
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
         }
@@ -113,6 +118,7 @@ class SimulationTest {
             override fun onStartUp() {
                 entityBIsCalled = true
             }
+            override fun onSteadyState() {}
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
         }
@@ -121,6 +127,7 @@ class SimulationTest {
             override fun onStartUp() {
                 entityCIsCalled = true
             }
+            override fun onSteadyState() {}
             override fun onEvent(event: Event) {}
             override fun onShutDown() {}
         }
@@ -137,6 +144,7 @@ class SimulationTest {
         val entityA = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(event: Event) {}
+            override fun onSteadyState() {}
             override fun onShutDown() {
                 entityAIsCalled = true
             }
@@ -145,6 +153,7 @@ class SimulationTest {
         val entityB = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(event: Event) {}
+            override fun onSteadyState() {}
             override fun onShutDown() {
                 entityBIsCalled = true
             }
@@ -153,6 +162,7 @@ class SimulationTest {
         val entityC = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(event: Event) {}
+            override fun onSteadyState() {}
             override fun onShutDown() {
                 entityCIsCalled = true
             }
@@ -177,6 +187,7 @@ class SimulationTest {
             override fun onEvent(event: Event) {
                isResponseReceived = event.data == 2
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
 
@@ -185,6 +196,7 @@ class SimulationTest {
             override fun onEvent(event: Event) {
                 this.scheduleEvent(event.source, responseDelay,2)
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),LoggerStub())
@@ -206,6 +218,7 @@ class SimulationTest {
             override fun onEvent(event: Event) {
                 this.scheduleEvent(event.source, delay,"dummy data")
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
 
@@ -216,6 +229,7 @@ class SimulationTest {
                 this.terminate()
                 processCounter++
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),LoggerStub())
@@ -243,6 +257,7 @@ class SimulationTest {
                     eventProcessedAt = Simulation.clock
                 }
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         Simulation.start(arrayListOf(busyEntity),LoggerStub())
@@ -264,11 +279,13 @@ class SimulationTest {
                 this.scheduleEvent(receivingEntity!!, 4,1)
             }
             override fun onEvent(event: Event) {}
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         receivingEntity = object : Entity() {
             override fun onStartUp(){}
             override fun onEvent(event: Event) {}
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         val actualClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity),LoggerStub(), maxClock)
@@ -288,6 +305,7 @@ class SimulationTest {
             override fun onEvent(event: Event) {
                 this.scheduleEvent(event.source, delay,"dummy data")
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
 
@@ -296,6 +314,7 @@ class SimulationTest {
             override fun onEvent(event: Event) {
                 this.scheduleEvent(event.source, delay,"dummy data")
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),LoggerStub(), maxClock)
@@ -315,6 +334,7 @@ class SimulationTest {
             override fun onEvent(event: Event) {
                 this.scheduleEvent(event.source, delay,"dummy data")
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
 
@@ -325,6 +345,7 @@ class SimulationTest {
                 if(Simulation.eventCounter >= maxEventNumber)
                     Simulation.stop()
             }
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),LoggerStub())
@@ -363,6 +384,7 @@ class SimulationTest {
                 this.setTimer(timerDelay3, timer3)
             }
             override fun onEvent(event: Event) {}
+            override fun onSteadyState() {}
             override fun onShutDown() {}
         }
 

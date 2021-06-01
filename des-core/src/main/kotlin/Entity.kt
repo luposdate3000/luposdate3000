@@ -1,12 +1,10 @@
-abstract class Entity {
+abstract class Entity : ISimulationLifeCycle {
 
     private val deferredEvents: EventPriorityQueue = EventPriorityQueue()
     var isTerminated = false
         private set
 
-    abstract fun onStartUp()
     abstract fun onEvent(event: Event)
-    abstract fun onShutDown()
 
     internal fun addIncomingEvent(event: Event) {
         deferredEvents.enqueue(event)
