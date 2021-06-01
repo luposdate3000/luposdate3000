@@ -1,7 +1,7 @@
 import java.util.*
 
 
-class EventPriorityQueue {
+internal class EventPriorityQueue {
 
     private val comparator = compareBy<Event> { it.occurrenceTime }.thenBy { it.sequenceNumber }
     private val queue: PriorityQueue<Event> = PriorityQueue(comparator)

@@ -3,7 +3,7 @@ import routing.RPLRouter
 import sensor.ParkingSensor
 import java.lang.StringBuilder
 
-class Logger: Simulation.Callback {
+class Logger: ISimulationLifeCycle {
 
     override fun onStartUp() {
         log("")
@@ -14,6 +14,10 @@ class Logger: Simulation.Callback {
         log("Number of devices: ${Configuration.devices.size}")
         log("Number of sensors: ${ParkingSensor.sensorCounter}")
         log("Number of links: ${LinkManager.linkCounter}")
+    }
+
+    override fun onSteadyState() {
+        //TODO
     }
 
     override fun onShutDown() {

@@ -15,9 +15,9 @@ object Simulation {
     var maxClock: Long = maxClockDefault
         private set
 
-    var callback: Callback? = null
+    var callback: ISimulationLifeCycle? = null
 
-    fun start(entities: List<Entity>, callback: Callback?, maxClock: Long = maxClockDefault): Long {
+    fun start(entities: List<Entity>, callback: ISimulationLifeCycle?, maxClock: Long = maxClockDefault): Long {
         startUp(entities, callback, maxClock)
         val simClock = run()
         shutDown()
@@ -28,7 +28,7 @@ object Simulation {
         maxClock = clock - 1
     }
 
-    private fun initialize(entities: List<Entity>,callback: Callback?, maxClock: Long) {
+    private fun initialize(entities: List<Entity>, callback: ISimulationLifeCycle?, maxClock: Long) {
         resetVariables()
         this.entities = entities
         this.maxClock = maxClock
@@ -93,14 +93,14 @@ object Simulation {
         }
     }
 
-    fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any) {
+    internal fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any) {
         eventCounter++
         val updatedOccurringTime = clock + occurrenceTime
         val ev = Event(eventCounter, updatedOccurringTime, src, dest, data)
         futureEvents.enqueue(ev)
     }
 
-    private fun startUp(entities: List<Entity>, callback: Callback?, maxClock: Long) {
+    private fun startUp(entities: List<Entity>, callback: ISimulationLifeCycle?, maxClock: Long) {
         initialize(entities, callback, maxClock)
         callback?.onStartUp()
         startUpAllEntities()
@@ -130,11 +130,6 @@ object Simulation {
 
     fun numberOfEntities() = entities.size
 
-    interface Callback {
-        fun onStartUp()
-        fun onShutDown()
-
-    }
 
 
 

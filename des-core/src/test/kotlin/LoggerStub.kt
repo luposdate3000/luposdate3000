@@ -1,6 +1,10 @@
-class CallbackStub: Simulation.Callback {
+class LoggerStub: ISimulationLifeCycle {
     override fun onStartUp() {
         logSimulationStart()
+    }
+
+    override fun onSteadyState() {
+        logSimulationSteadyStateReached()
     }
 
     override fun onShutDown() {
@@ -18,6 +22,10 @@ class CallbackStub: Simulation.Callback {
         log("Simulation has started")
         log("Number of entities: ${Simulation.numberOfEntities()}")
         log("")
+    }
+
+    private fun logSimulationSteadyStateReached() {
+        log("Steady state is reached. Measurements can start.")
     }
 
     private fun logSimulationEnd() {

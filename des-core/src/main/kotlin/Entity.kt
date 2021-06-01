@@ -8,14 +8,14 @@ abstract class Entity {
     abstract fun onEvent(event: Event)
     abstract fun onShutDown()
 
-    fun addIncomingEvent(event: Event) {
+    internal fun addIncomingEvent(event: Event) {
         deferredEvents.enqueue(event)
     }
 
     private fun isTimerExpiredEvent(event: Event)
         = event.data != null && event.data is ITimerExpired
 
-    fun processDeferredEvents() {
+    internal fun processDeferredEvents() {
         var ev: Event
         while (deferredEvents.hasNext() && !isTerminated) {
             ev = deferredEvents.dequeue()
