@@ -29,7 +29,11 @@ class RoutingTableSimulationTest {
         val fRouter = f.router as RPLRouter
 
         aRouter.root = true
-        Simulation.start(Configuration.devices, Logger())
+
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
+
         //routing table from A
         Assertions.assertEquals(5, aRouter.routingTable.destinationCounter)
         Assertions.assertEquals(b.address, aRouter.routingTable.getNextHop(b.address))
@@ -69,7 +73,10 @@ class RoutingTableSimulationTest {
         val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
 
-        Simulation.start(Configuration.devices, Logger())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
+
         Assertions.assertEquals(20, rootRouter.routingTable.destinationCounter)
         Assertions.assertEquals(0, child1Router.routingTable.destinationCounter)
         Assertions.assertEquals(root.address, rootRouter.routingTable.defaultAddress)
@@ -93,7 +100,10 @@ class RoutingTableSimulationTest {
         val c = Configuration.getNamedDevice("C")
 
         aRouter.root = true
-        Simulation.start(Configuration.devices, Logger())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
+
         //routing table from A
         Assertions.assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(a.address))
         Assertions.assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(b.address))
@@ -119,7 +129,10 @@ class RoutingTableSimulationTest {
         val d = Configuration.getNamedDevice("D")
 
         aRouter.root = true
-        Simulation.start(Configuration.devices, Logger())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
+
         //routing table from A
         Assertions.assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(a.address))
         Assertions.assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(b.address))
@@ -151,7 +164,10 @@ class RoutingTableSimulationTest {
 
 
         aRouter.root = true
-        Simulation.start(Configuration.devices, Logger())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
+
         //routing table from A
         Assertions.assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(a.address))
         Assertions.assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(b.address))

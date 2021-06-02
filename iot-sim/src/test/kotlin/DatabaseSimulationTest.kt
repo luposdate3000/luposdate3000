@@ -28,10 +28,14 @@ class DatabaseSimulationTest {
         val g = Configuration.getNamedDevice("G")
         a.sensor!!.setDataSink(g.address)
 
-        val maxClock = 100
+        val maxClock: Long = 100
         val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 
-        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+        val sim = Simulation(Configuration.devices)
+        sim.setMaximalTime(maxClock)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
+
         Assertions.assertEquals(numberOfSamples, g.processedSensorDataPackages)
     }
 

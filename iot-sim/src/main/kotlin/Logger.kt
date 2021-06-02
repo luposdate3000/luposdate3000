@@ -3,7 +3,7 @@ import routing.RPLRouter
 import sensor.ParkingSensor
 import java.lang.StringBuilder
 
-class Logger: ISimulationLifeCycle {
+class Logger(val sim: Simulation): ISimulationLifeCycle {
 
     override fun onStartUp() {
         log("")
@@ -22,14 +22,13 @@ class Logger: ISimulationLifeCycle {
 
     override fun onShutDown() {
         log(getDODAGString())
-        log("Total number of events: ${Simulation.eventCounter}")
         log("Total number of network packages: ${Device.packageCounter}")
         log("Number of received DIOs: ${RPLRouter.dioCounter}, of which further sent: ${RPLRouter.forwardedDioCounter}")
         log("Number of received DAOs: ${RPLRouter.daoCounter}, of which further sent: ${RPLRouter.forwardedDaoCounter}")
         log("Number of data packages: ${Device.observationPackageCounter}")
         log("Number of parking observations: ${ParkingSensor.sampleCounter}")
         log("")
-        log("Simulation clock: ${Simulation.clock}")
+        log("Simulation clock: ${sim.currentClock}")
         log("Simulation completed")
         log("================================================")
         log("")

@@ -60,7 +60,7 @@ class ParkingSensor(var device: Device): ISensor {
     //TODO
     private fun getSample(): ParkingSample {
         val isOccupied = RandomGenerator.random.nextBoolean()
-        val time = Simulation.clock.toString()
+        val time = "dsda"
         return ParkingSample(time, isOccupied, "1", "dasdada")
     }
 

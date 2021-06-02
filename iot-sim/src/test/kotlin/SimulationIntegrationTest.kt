@@ -12,8 +12,10 @@ class SimulationIntegrationTest {
     @ValueSource(strings = ["sim/runSimulationWithoutEntities.json"])
     fun runSimulationWithoutEntities(fileName: String) {
         Configuration.parse(fileName)
-        val endClock = Simulation.start(Configuration.devices, Logger())
-        Assertions.assertEquals(0, endClock)
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
+        Assertions.assertEquals(0, sim.currentClock)
     }
 
     @ParameterizedTest
@@ -21,8 +23,13 @@ class SimulationIntegrationTest {
     fun selfMessagesDoNotDelay(fileName: String) {
         Configuration.parse(fileName)
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
-        val endClock = Simulation.start(Configuration.devices, Logger(), maxClock)
-        Assertions.assertEquals(maxClock, endClock)
+
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.setMaximalTime(maxClock)
+        sim.start()
+
+        Assertions.assertEquals(maxClock, sim.currentClock)
     }
 
     @ParameterizedTest
@@ -39,7 +46,10 @@ class SimulationIntegrationTest {
         val child2Router = child2.router as RPLRouter
         Assertions.assertFalse(child1Router.hasParent())
         Assertions.assertFalse(child2Router.hasParent())
-        Simulation.start(Configuration.devices, Logger())
+
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
 
         Assertions.assertTrue(child1Router.hasParent())
         Assertions.assertTrue(child2Router.hasParent())
@@ -60,7 +70,9 @@ class SimulationIntegrationTest {
         val root = Configuration.randMeshNetworks["meshA"]!!.mesh[0][0]
         val rootRouter = root.router as RPLRouter
         rootRouter.root = true
-        Simulation.start(Configuration.devices, Logger())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.start()
 
         Assertions.assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.destinationCounter)
     }
@@ -76,10 +88,14 @@ class SimulationIntegrationTest {
         aRouter.root = true
         f.sensor!!.setDataSink(a.address)
 
-        val maxClock = 100
+        val maxClock: Long = 100
         val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 
-        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.setMaximalTime(maxClock)
+        sim.start()
+
         Assertions.assertEquals(numberOfSamples, a.processedSensorDataPackages)
     }
 
@@ -94,10 +110,14 @@ class SimulationIntegrationTest {
         aRouter.root = true
         a.sensor!!.setDataSink(f.address)
 
-        val maxClock = 100
+        val maxClock: Long = 100
         val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 
-        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.setMaximalTime(maxClock)
+        sim.start()
+
         Assertions.assertEquals(numberOfSamples, f.processedSensorDataPackages)
     }
 
@@ -113,10 +133,14 @@ class SimulationIntegrationTest {
         aRouter.root = true
         f.sensor!!.setDataSink(d.address)
 
-        val maxClock = 100
+        val maxClock: Long = 100
         val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 
-        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+        val sim = Simulation(Configuration.devices)
+        sim.setLifeCycleCallback(Logger(sim))
+        sim.setMaximalTime(maxClock)
+        sim.start()
+
         Assertions.assertEquals(numberOfSamples, d.processedSensorDataPackages)
     }
 

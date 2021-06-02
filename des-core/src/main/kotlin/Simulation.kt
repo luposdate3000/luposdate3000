@@ -1,107 +1,112 @@
-import java.util.*
 
-object Simulation {
 
-    private var entities: List<Entity> = ArrayList<Entity>()
+class Simulation (private val entities: List<Entity>) {
+
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
-    var clock: Long = 0
+
+    private var steadyClock: Long = Long.MAX_VALUE
+
+    var maxClock: Long = Long.MAX_VALUE
         private set
 
-    private val maxClockDefault: Long = Long.MAX_VALUE
+    private var callback: ISimulationLifeCycle? = null
 
-    var eventCounter = 0
+    var currentClock: Long = 0
         private set
 
-    var maxClock: Long = maxClockDefault
+    var addedEventCounter = 0
         private set
 
-    var callback: ISimulationLifeCycle? = null
+    var processedEventCounter = 0
+        private set
 
-    fun start(entities: List<Entity>, callback: ISimulationLifeCycle?, maxClock: Long = maxClockDefault): Long {
-        startUp(entities, callback, maxClock)
-        val simClock = run()
+
+    fun start() {
+        startUp()
+        run()
         shutDown()
-        return simClock
     }
 
     fun stop() {
-        maxClock = clock - 1
+        maxClock = currentClock
     }
 
-    private fun initialize(entities: List<Entity>, callback: ISimulationLifeCycle?, maxClock: Long) {
-        resetVariables()
-        this.entities = entities
-        this.maxClock = maxClock
-        this.callback = callback
+    fun steadyStateReachedAt(time: Long) {
+        steadyClock = time
     }
+
+    fun setMaximalTime(time: Long) {
+        maxClock = time
+    }
+
+    fun setLifeCycleCallback(callback: ISimulationLifeCycle) {
+        this. callback = callback
+    }
+
 
     private fun startUpAllEntities() {
-        for (ent: Entity in entities) {
-            ent.onStartUp()
+        for (entity: Entity in entities) {
+            entity.simulation = this
+            entity.onStartUp()
         }
     }
 
-    private fun run(): Long {
-        var finished = false
-        while (!finished) {
-            finished = runClockTick()
-        }
-        return clock
+
+    private fun run() {
+        var isFinished = false
+        while (!isFinished)
+            isFinished = runNextTimeStep()
     }
 
-    private fun runClockTick(): Boolean {
-        runAllEntities()
-        if (futureEvents.hasNext() && isInTime()) {
-            dealWithFirstFutureEvents()
-            return false
-        }
-        return true
+
+    private fun runNextTimeStep(): Boolean {
+        if(!futureEvents.hasNext())
+            return true
+
+        if (isSteadyStateReached())
+            transferToSteadyState()
+
+        if(isMaxClockReached())
+            return true
+
+        processEvent()
+        return false
     }
 
-    private fun isInTime(): Boolean {
-        val nextEvent = futureEvents.peek()
-        return nextEvent.occurrenceTime <= maxClock
-    }
-
-    private fun runAllEntities() {
-        for (entity in entities)
-            entity.processDeferredEvents()
-    }
-
-    private fun dealWithFirstFutureEvents() {
-        val first = processNextFutureEvent()
-        processTimeEqualEvents(first.occurrenceTime)
-    }
-
-    private fun processNextFutureEvent(): Event {
+    private fun processEvent() {
+        processedEventCounter++
         val nextEvent = futureEvents.dequeue()
-        clock = nextEvent.occurrenceTime
-        nextEvent.destination.addIncomingEvent(nextEvent)
-        return nextEvent
+        currentClock = nextEvent.occurrenceTime
+        val entity = nextEvent.destination
+        entity.processIncomingEvent(nextEvent)
     }
 
-    private fun processTimeEqualEvents(time: Long) {
-        var nextEvent: Event
-        while (futureEvents.hasNext()) {
-            nextEvent = futureEvents.peek()
-            if (time == nextEvent.occurrenceTime) {
-                processNextFutureEvent()
-            }
-            else {
-                break
-            }
-        }
+    private fun transferToSteadyState() {
+        currentClock = steadyClock
+        notifyAboutSteadyState()
     }
+
+    private fun getTimeOfNextTimeStep() = futureEvents.peek().occurrenceTime
+
+    private fun isSteadyStateReached() =  getTimeOfNextTimeStep() > steadyClock
+
+    private fun isMaxClockReached() = getTimeOfNextTimeStep() > maxClock
+
+    private fun notifyAboutSteadyState() {
+        for (entity in entities)
+            entity.onSteadyState()
+        callback?.onSteadyState()
+    }
+
 
     internal fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any) {
-        eventCounter++
-        val updatedOccurringTime = clock + occurrenceTime
-        val ev = Event(eventCounter, updatedOccurringTime, src, dest, data)
+        addedEventCounter++
+        val updatedOccurringTime = currentClock + occurrenceTime
+        val ev = Event(addedEventCounter, updatedOccurringTime, src, dest, data)
         futureEvents.enqueue(ev)
     }
 
-    private fun startUp(entities: List<Entity>, callback: ISimulationLifeCycle?, maxClock: Long) {
-        initialize(entities, callback, maxClock)
+    private fun startUp() {
         callback?.onStartUp()
         startUpAllEntities()
     }
@@ -109,29 +114,14 @@ object Simulation {
     private fun shutDown() {
         shutDownAllEntities()
         callback?.onShutDown()
-        resetVariables()
     }
 
     private fun shutDownAllEntities() {
-        for (ent: Entity in entities) {
+        for (ent: Entity in entities)
             ent.onShutDown()
-        }
-    }
-
-    private fun resetVariables() {
-        entities = ArrayList()
-        clock = 0
-        maxClock = maxClockDefault
-        futureEvents = EventPriorityQueue()
-        eventCounter = 0
-        callback = null
     }
 
 
     fun numberOfEntities() = entities.size
-
-
-
-
 
 }

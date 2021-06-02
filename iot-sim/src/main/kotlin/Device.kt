@@ -17,7 +17,7 @@ class Device(
     val linkManager = LinkManager(this)
     var isStarNetworkChild = false
 
-    var processedSensorDataPackages = 0
+    var processedSensorDataPackages: Long = 0
         private set
 
     private fun getNetworkDelay(destinationAddress: Int): Long {

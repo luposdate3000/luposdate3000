@@ -1,4 +1,4 @@
-class LoggerStub: ISimulationLifeCycle {
+class LoggerStub(val sim: Simulation): ISimulationLifeCycle {
     override fun onStartUp() {
         logSimulationStart()
     }
@@ -20,7 +20,7 @@ class LoggerStub: ISimulationLifeCycle {
         log("")
         log("================================================")
         log("Simulation has started")
-        log("Number of entities: ${Simulation.numberOfEntities()}")
+        log("Number of entities: ${sim.numberOfEntities()}")
         log("")
     }
 
@@ -30,8 +30,8 @@ class LoggerStub: ISimulationLifeCycle {
 
     private fun logSimulationEnd() {
         log("")
-        log("Number of processed events: ${Simulation.eventCounter}")
-        log("Simulation clock: ${Simulation.clock}")
+        log("Number of processed events: ${sim.addedEventCounter}")
+        log("Simulation clock: ${sim.currentClock}")
         log("Simulation completed")
         log("================================================")
         log("")
