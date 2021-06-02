@@ -205,7 +205,7 @@ public class DictionaryKV internal constructor(
                 addEntry(originalID, id or flagNoBNode)
             }
         )
-        println("imported dictionary with $lastId items")
+        println("imported $lastId dictionaryItems")
         return Pair(mymapping, lastId + 1)
     }
 

@@ -102,13 +102,11 @@ internal object RestEndpoint {
                     EQueryResultToStreamExt.DEFAULT_STREAM
                 }
             }
-            println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
             val eev = EndpointExtendedVisualize(params["query"].toString())
             val key = sessionMap.size + 1
             sessionMap[key] = eev
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(key.toString())
-            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
         paths["/sparql/getLogicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) {
@@ -143,7 +141,6 @@ internal object RestEndpoint {
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
-            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
         paths["/sparql/getVisualisationData"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) {
@@ -157,14 +154,12 @@ internal object RestEndpoint {
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
-            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
         paths["/sparql/closeSession"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("SessionClosedACK")
             sessionMap.remove(params["sessionID"]!!.toInt())
-            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
         paths["/sparql/query"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) {
@@ -179,9 +174,7 @@ internal object RestEndpoint {
                     EQueryResultToStreamExt.DEFAULT_STREAM
                 }
             }
-            println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
-            println(node.toXMLElementRoot(false).toPrettyString())
             val query = node.getQuery()
             val key = "${query.getTransactionID()}"
             val dict = registerDictionary(key, query.getDictionary())
@@ -287,7 +280,6 @@ internal object RestEndpoint {
             val key = params["key"]!!
             val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
             val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-            println(params)
             tripleStoreManager.remoteModifySorted(query, key, mode, idx2, connectionInMy)
         }
         paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {

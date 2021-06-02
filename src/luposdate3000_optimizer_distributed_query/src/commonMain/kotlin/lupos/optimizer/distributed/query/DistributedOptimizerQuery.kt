@@ -226,7 +226,6 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
             assignHosts(c)
         }
         if (node.tag == "partitionDistributionReceiveKey") {
-            println("key -> ${node.attributes["key"]}")
             node.addAttribute("host", getHostForKey(node.attributes["key"]!!)!!)
         }
     }
@@ -268,12 +267,8 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 }
             }
 // publish the query to the other database instances
-            for (k in operatorgraphParts.keys) {
-                println("$k -> ${operatorgraphPartsToHostMap[k]}")
-            }
             var res: XMLElement? = null
             for ((k, v) in operatorgraphParts) {
-                println(v.toPrettyString())
                 assignHosts(v)
                 if (k == "") {
                     res = v

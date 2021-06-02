@@ -61,10 +61,8 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                         }
                         is POPTripleStoreIterator -> {
                             try {
-                                println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
-                                println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
                                 if (node.projectedVariables.size > 0) {
                                     res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
                                 } else {

@@ -29,7 +29,6 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     internal val uuid = UUID_Counter.getNextUUID()
 
     init {
-        // println("MyInputStream $uuid open")
     }
 
     public actual override fun read(buf: ByteArray): Int {
@@ -70,15 +69,12 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     }
 
     public actual override fun readByte(): Byte {
-        // println("MyInputStream $uuid readByte start")
         read(buf4, 1)
-        // println("MyInputStream $uuid readByte done ${(0xFF and buf4[0].toInt()).toString(16).padStart(2, '0')}")
         return buf4[0]
     }
 
     public actual override fun close() {
         stream.close()
-        // println("MyInputStream $uuid close")
     }
 
     @JvmField
@@ -96,14 +92,6 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
                     0.toByte() -> throw Exception("zero Bytes not allowed within utf8-string")
                     else -> {
                         if (len >= buffer.size) {
-/*                            SanityCheck {
-                                try {
-                                    throw Exception("resize input buffer from $len '${buffer.decodeToString()}'")
-                                } catch (e: Throwable) {
-                                    e.printStackTrace()
-                                }
-                            }
-*/
                             val bb = ByteArray(len * 2)
                             buffer.copyInto(bb)
                             buffer = bb
@@ -120,7 +108,6 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
             }
         }
         val res = buffer.decodeToString(0, len)
-        // println("MyInputStream $uuid readLine '$res'")
         return res
     }
 }

@@ -57,7 +57,6 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
     }
 
     private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
-        println("LogicalOptimizerJoinOrder start clusterizeChildren ${nodes.size}")
         val res = mutableListOf<MutableList<IOPBase>>()
         val cacheProvidedVariableNames = nodes.map { it.getProvidedVariableNames().toSet().toList() }
         val cachePossibleSortPriorities = nodes.map { it.getPossibleSortPriorities() }
@@ -76,19 +75,13 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
         }
 
         var remainingNodes = IntArray(nodes.size) { it }.toMutableList()
-        println("cacheProvidedVariableNames ${cacheProvidedVariableNames.mapIndexed { idx, it -> "#$idx -> $it" }}")
-        println("cachePossibleSortPriorities ${cachePossibleSortPriorities.mapIndexed { idx, it -> "#$idx -> $it" }}")
-        println("allVariables ${allVariables.mapIndexed { idx, it -> "#$idx -> $it" }}")
-        println("cachePossibleSortPrioritiesIdx ${cachePossibleSortPrioritiesIdx.mapIndexed { idx, it -> "#$idx -> $it" }}")
         while (remainingNodes.size > 0) {
-            println("a $remainingNodes")
             val allVariablesSortCounters = IntArray(allVariables.size)
             for (i in remainingNodes) {
                 for (j in cachePossibleSortPrioritiesIdx[i]) {
                     allVariablesSortCounters[j]++
                 }
             }
-            println("b ${allVariablesSortCounters.map { it }}")
             var max = 0
             var maxIdx = 0
             for (i in 0 until allVariables.size) {
@@ -97,8 +90,6 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                     maxIdx = i
                 }
             }
-            println("c $max $maxIdx")
-
             val current = mutableListOf<IOPBase>()
             var groupIds = mutableSetOf<Int>()
             for (i in remainingNodes.toList()) {
@@ -117,12 +108,8 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 remainingNodes.remove(i)
                 current.add(node)
             }
-            println("grouped $groupIds")
-            println("d")
             res.add(current)
-            println("e")
         }
-        println("f")
         return res
     }
 

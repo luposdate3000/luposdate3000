@@ -81,15 +81,8 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                 }
                 var bestA: Int
                 var bestB: Int
-//                if (r1 < 0.6) {
-// prefer the joins with strong result-count-reduction
-                //                  bestA = besta1
-                //                 bestB = bestb1
-                //           } else {
-                // otherwise choose join with least amount of expected rows
                 bestA = besta2
                 bestB = bestb2
-                //         }
                 val b = nodes.removeAt(bestB) // first remove at the end of list
                 val a = nodes.removeAt(bestA) // afterwards in front of b otherwise, the index would be wrong
                 val c = LOPJoin(root.query, a, b, false)

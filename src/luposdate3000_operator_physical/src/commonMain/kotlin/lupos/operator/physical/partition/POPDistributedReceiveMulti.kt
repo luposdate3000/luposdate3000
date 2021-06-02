@@ -140,7 +140,6 @@ public class POPDistributedReceiveMulti public constructor(
                 val buf = ByteArray(len)
                 conn.first.read(buf, len)
                 val name = buf.decodeToString()
-                println("received column $cnt $i $uuid '$name'")
                 val j = variables.indexOf(name)
                 SanityCheck.check { j >= 0 && j < variables.size }
                 mapping[i] = j

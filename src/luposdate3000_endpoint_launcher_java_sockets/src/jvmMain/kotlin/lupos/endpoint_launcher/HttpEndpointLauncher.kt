@@ -123,7 +123,6 @@ public actual object HttpEndpointLauncher {
                                         keys.add(c.attributes["key"]!!)
                                     }
                                 }
-                                println("register ... :: $hostname:$port -> $keys")
                                 val container = QueryMappingContainer(xml, Array(keys.size) { null }, Array(keys.size) { null }, Array(keys.size) { null })
                                 for (key in keys) {
                                     queryMappings[key] = container
@@ -131,7 +130,6 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.print("HTTP/1.1 200 OK\n\n")
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
-                                println("execute ... :: $hostname:$port -> ${params["key"]}")
                                 val key = params["key"]!!
                                 val queryContainer = queryMappings[key]!!
                                 val queryXML = queryContainer.xml

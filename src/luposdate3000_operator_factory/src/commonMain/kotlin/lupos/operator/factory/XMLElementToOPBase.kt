@@ -802,7 +802,6 @@ public object XMLElementToOPBase {
         }
         if (res !is AOPBase) {
             val tmp = node.attributes["selectedSort"]
-            println("selectedSortATTR :: $tmp")
             if (tmp != null && tmp.length > 2) {
                 val tmp6 = tmp.substring(1, tmp.length - 1)
                 val tmp2 = tmp6.split(", ")

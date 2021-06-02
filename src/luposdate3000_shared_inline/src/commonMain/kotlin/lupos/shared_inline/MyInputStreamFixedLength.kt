@@ -21,7 +21,6 @@ import kotlin.jvm.JvmField
 
 internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {
     public override fun readInt(): Int {
-        // println("remainingBytes '$remainingBytes'")
         if (remainingBytes >= 4) {
             remainingBytes -= 4
             return stream.readInt()
@@ -31,7 +30,6 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
     }
 
     public override fun readByte(): Byte {
-        // println("remainingBytes '$remainingBytes'")
         if (remainingBytes >= 1) {
             remainingBytes -= 1
             return stream.readByte()
@@ -41,7 +39,6 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
     }
 
     public override fun read(buf: ByteArray): Int {
-        // println("remainingBytes '$remainingBytes'")
         if (remainingBytes >= buf.size) {
             remainingBytes -= buf.size
             return stream.read(buf)
@@ -51,7 +48,6 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
     }
 
     public override fun read(buf: ByteArray, len: Int): Int {
-        // println("remainingBytes '$remainingBytes'")
         if (remainingBytes >= len) {
             remainingBytes -= len
             return stream.read(buf, len)
@@ -61,7 +57,6 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
     }
 
     public override fun read(buf: ByteArray, off: Int, len: Int): Int {
-        // println("remainingBytes '$remainingBytes'")
         if (remainingBytes >= len) {
             remainingBytes -= len
             return stream.read(buf, off, len)
@@ -71,24 +66,19 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
     }
 
     public override fun close() {
-        // println("remainingBytes '$remainingBytes'")
         stream.close()
     }
 
     public override fun readLine(): String? {
 // TODO this may break on utf-8
-        // println("remainingBytes '$remainingBytes'")
         var buf = mutableListOf<Byte>()
-        // println("readLine start")
         try {
             var b = readByte()
-            // println("b 0x${b.toString(16)} ''${b.toChar()}''")
             while (b != '\n'.toByte()) {
                 if (b != '\r'.toByte()) {
                     buf.add(b)
                 }
                 b = readByte()
-                // println("b 0x${b.toString(16)} ''${b.toChar()}''")
             }
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -96,7 +86,6 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
                 return null
             }
         }
-        // println("readLine end ''${buf.toByteArray().decodeToString()}''")
         return buf.toByteArray().decodeToString()
     }
 }

@@ -55,9 +55,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager(), rootPageID, initFromRootPage)
 
-//    internal var logFileInsert = File("logfile-import").openOutputStream(false)
-//    internal var logFileInsertFirst = true
-
     @ProguardTestAnnotation
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
@@ -90,7 +87,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             bufferManager.flushPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:89", rootPageID)
         }
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:91", rootPageID)
-        // logFileInsert = File("logfile-import-$rootPageID").openOutputStream(false)
     }
 
     @JvmField
@@ -596,11 +592,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
-        SanityCheck {
-            for (i in 0 until dataSize / 3) {
-                // println("insertAsBulk (${data[i * 3 + order[0]].toString(16).padStart(8, '0')},${data[i * 3 + order[1]].toString(16).padStart(8, '0')},${data[i * 3 + order[2]].toString(16).padStart(8, '0')})")
-            }
-        }
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -627,11 +618,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
-        SanityCheck {
-            for (i in 0 until dataSize / 3) {
-                // println("removeAsBulk (0x${data[i * 3 + order[0]].toString(16).padStart(8, '0')},0x${data[i * 3 + order[1]].toString(16).padStart(8, '0')},0x${data[i * 3 + order[2]].toString(16).padStart(8, '0')})")
-            }
-        }
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -725,7 +711,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun close() {
         flush()
-        // logFileInsert.close()
         if (root_ != NodeManager.nodeNullPointer) {
             nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:729", root_)
         }

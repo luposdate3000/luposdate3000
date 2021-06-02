@@ -321,7 +321,7 @@ ul.off-canvas-list li label {
 }
 
 select {
-    width: 68%;
+    width: 100%;
 }
 
 #pitchContent {
@@ -418,7 +418,7 @@ select {
 
 
 .CodeMirror {
-    height: 91%;
+    height: calc(100% - 60px);
 }
 
 .query {
@@ -641,8 +641,10 @@ div.read-only {
 
 
 
-
-
+.result-tab-content {
+    overflow: auto;
+    height: 100%;
+}
 
 
 
@@ -652,12 +654,14 @@ div.read-only {
     width: 50%;
     height: 100%;
     display: block;
+    position: relative;
 }
 
 .my-tab-links:after {
     display: block;
     clear: both;
     content: '';
+    margin-bottom: 0;
 }
 
 .my-tab-links li {
@@ -694,8 +698,8 @@ div.read-only {
 .my-tab-content {
     padding: 15px;
     border-radius: 3px;
-    height: 93%;
-    overflow: auto;
+    height: calc(100% - 60px);
+    position: relative;
 }
 
 .my-tab {
@@ -704,5 +708,5 @@ div.read-only {
 
 .my-tab.active {
     display: block;
-    height: 90%;
+    height: calc(100% - 60px);
 }

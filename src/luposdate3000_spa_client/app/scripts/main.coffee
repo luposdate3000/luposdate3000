@@ -282,8 +282,6 @@ App.bindEvents = ->
                     App.physGraph = eev.getOptimizedStepsPhysical();
                     #Result from the query
                     App.result = eev.getResult();
-                    eev.closeEEV();
-                    eev.initEEV();
                     tmpResult = eev.getDataSteps();
                     addAnimationData(tmpResult)
                     formatResultData();
@@ -477,8 +475,9 @@ App.processResults = (data, lang) ->
     resultSets = App.preprocessResults(data, namespaces, colors)
 
     if resultSets.length
-        resultTab = ""
-        if Object.keys(prefixes).length > 0
+        resultTab = "<div class='result-tab-content'>"
+        resultTab += "<div>"
+        if Object.keys(namespaces).length > 0
             resultTab += "<h4>Prefixes</h4>"
             resultTab += "<table>"
             for value, prefix of namespaces
@@ -486,10 +485,10 @@ App.processResults = (data, lang) ->
                 resultTab += "        <td class='sparql-prefix' style='color: "
                 resultTab += colors[value]
                 resultTab += "'>"
-                resultTab += prefix
+                resultTab += _.escape(prefix)
                 resultTab += "</td>"
                 resultTab += "        <td>"
-                resultTab += value
+                resultTab += _.escape(value)
                 resultTab += "</td>"
                 resultTab += "    </tr>"
             resultTab += "</table>"
@@ -521,7 +520,8 @@ App.processResults = (data, lang) ->
                     resultTab += "        </tr>"
                 resultTab += "    </tbody>"
                 resultTab += "</table>"
-
+        resultTab += "</div>"
+        resultTab += "</div>"
         $('#result-tab').html(resultTab)
         if $('#checkbox_downloadResult').is(':checked')
             $('#result-tab').append('<div class="buttonarea"><a id="downloadHTMLResult" download="Result.html" class="button evaluate">Download Result HTML</a></div>')

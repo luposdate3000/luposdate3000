@@ -48,8 +48,11 @@ public object InputToIntermediate {
                 res = res.replace(match.value, replacement)
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
-            println("error during clean :: $s")
+            try {
+                throw Exception("$s", e)
+            } catch (e2: Throwable) {
+                e2.printStackTrace()
+            }
         }
         return res
     }
@@ -314,6 +317,7 @@ public object InputToIntermediate {
         } else {
             throw Exception("unknown filetype $inputFileName")
         }
+        println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
         if (!shouldReturn) {
             val startTime2 = DateHelperRelative.markNow()
             DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
