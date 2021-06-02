@@ -16,20 +16,9 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.ValueDefinition
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
-import kotlin.jvm.JvmField
 
-public class ColumnIteratorAggregate : ColumnIteratorEmpty() {
-    @JvmField
-    public var value: ValueDefinition = DictionaryExt.undefValue2
-
-    @JvmField
-    public var count: Int = 0
-
-    @JvmField
-    public var evaluate: () -> Unit = ::aggregateEvaluate
-    public fun aggregateEvaluate() {
-    }
+public abstract class ColumnIteratorAggregate : ColumnIteratorEmpty() {
+    public abstract fun evaluate()
+    public abstract fun evaluateFinish(): Int
 }
