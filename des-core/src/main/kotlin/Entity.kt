@@ -37,4 +37,6 @@ abstract class Entity : ISimulationLifeCycle {
         isTerminated = true
     }
 
+    fun getCurrentSimulationTime() = simulation.currentClock
+
 }

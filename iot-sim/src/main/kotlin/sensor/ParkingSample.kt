@@ -1,8 +1,10 @@
 package sensor
 
 data class ParkingSample(
-    val timeInHHMM: String,
+    val sampleID: Int,
+    val sensorID: Int,
+    val sampleTime: Long,
     val isOccupied: Boolean,
-    val parkingSpotID: String,
+    val parkingSpotID: Int,
     val area: String)
 

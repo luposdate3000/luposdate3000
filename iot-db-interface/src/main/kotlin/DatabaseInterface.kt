@@ -3,8 +3,7 @@ interface IDatabase {
     fun activate(state: IDatabaseState)
     fun deactivate(): IDatabaseState
     fun end()
-    fun receiveQueryRequest(from: Int, query: ByteArray)
-    fun saveData(data: ByteArray)
+    fun receiveQuery(from: Int, query: ByteArray)
     fun receive(pck: IDatabasePackage)
 }
 

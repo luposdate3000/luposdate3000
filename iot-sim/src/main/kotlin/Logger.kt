@@ -26,7 +26,7 @@ class Logger(val sim: Simulation): ISimulationLifeCycle {
         log("Number of received DIOs: ${RPLRouter.dioCounter}, of which further sent: ${RPLRouter.forwardedDioCounter}")
         log("Number of received DAOs: ${RPLRouter.daoCounter}, of which further sent: ${RPLRouter.forwardedDaoCounter}")
         log("Number of data packages: ${Device.observationPackageCounter}")
-        log("Number of parking observations: ${ParkingSensor.sampleCounter}")
+        log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
         log("")
         log("Simulation clock: ${sim.currentClock}")
         log("Simulation completed")

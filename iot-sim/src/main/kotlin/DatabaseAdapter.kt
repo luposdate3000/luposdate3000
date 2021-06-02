@@ -52,14 +52,29 @@ class DatabaseAdapter(val device: Device): IRouter {
     }
 
     fun saveParkingSample(sample: ParkingSample) {
-        val rdfString = "TODO" //TODO toRDFString()
-        val bytes = toBytes(rdfString)
+        val query = buildInsertQuery(sample)
+        val bytes = toBytes(query)
         saveData(bytes)
+    }
+
+    private fun buildInsertQuery(s: ParkingSample): String {
+        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+                "\n" +
+                "INSERT DATA {\n" +
+                "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
+                "  sosa:hasFeatureOfInterest <parkingSpaceOccupancy/space/${s.area}>;\n" +
+                "  sosa:observedProperty <parkingSpot/${s.parkingSpotID}>;\n" +
+                "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
+                "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
+                "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
+                "}\n"
     }
 
     private fun saveData(data: ByteArray) {
         db.activate(currentState)
-        db.saveData(data)
+        db.receiveQuery(device.address, data)
         currentState = db.deactivate()
     }
 

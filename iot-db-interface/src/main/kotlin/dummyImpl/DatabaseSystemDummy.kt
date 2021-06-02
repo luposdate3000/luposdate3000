@@ -39,9 +39,14 @@ class DatabaseSystemDummy : IDatabase {
         }
     }
 
-    override fun receiveQueryRequest(from: Int, query: ByteArray) {
+    override fun receiveQuery(from: Int, query: ByteArray) {
         state.addressForQueryEndResult = from
         val queryString = query.decodeToString()
+        if(queryString.contains("INSERT DATA")) {
+            saveData(queryString)
+            return
+        }
+
         val operatorGraph = Optimizer.optimize(queryString)
         val operatorGraphParts = Optimizer.split(operatorGraph)
         Optimizer.assignNodesToTripleStroceAccess(operatorGraphParts)
@@ -51,8 +56,8 @@ class DatabaseSystemDummy : IDatabase {
 
     }
 
-    override fun saveData(data: ByteArray) {
-        state.dataFile.appendText(String(data))
+    private fun saveData(data: String) {
+        state.dataFile.appendText(data)
     }
 
     private fun receive(pck: PreprocessingPackage) {

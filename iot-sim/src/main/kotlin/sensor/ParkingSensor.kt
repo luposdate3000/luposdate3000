@@ -3,7 +3,6 @@ package sensor
 import Device
 import Entity
 import RandomGenerator
-import Simulation
 
 class ParkingSensor(var device: Device): ISensor {
 
@@ -11,6 +10,9 @@ class ParkingSensor(var device: Device): ISensor {
         private set
 
     private var isStopped = false
+
+    var sampleCounter = 0
+        private set
 
 
     init {
@@ -23,11 +25,11 @@ class ParkingSensor(var device: Device): ISensor {
         var sensorCounter = 0
             private set
 
-        var sampleCounter = 0
+        var totalSampleCounter = 0
             private set
 
         fun resetCounter() {
-            sampleCounter = 0
+            totalSampleCounter = 0
             sensorCounter = 0
         }
     }
@@ -53,15 +55,20 @@ class ParkingSensor(var device: Device): ISensor {
 
         val data = getSample()
         device.sendSensorSample(dataSinkAddress, data)
-        sampleCounter++
+        totalSampleCounter++
         startSampling()
     }
 
-    //TODO
+
+    //TODO setze die richtigen Daten
     private fun getSample(): ParkingSample {
-        val isOccupied = RandomGenerator.random.nextBoolean()
-        val time = "dsda"
-        return ParkingSample(time, isOccupied, "1", "dasdada")
+        return ParkingSample(
+            sampleID = sampleCounter,
+            sensorID = device.address,
+            sampleTime = device.getCurrentSimulationTime(),
+            isOccupied = RandomGenerator.random.nextBoolean(),
+            parkingSpotID = device.address,
+            area = device.address.toString())
     }
 
 

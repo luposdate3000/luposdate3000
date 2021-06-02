@@ -86,7 +86,6 @@ class Device(
 
     fun hasDatabase() = database != null
 
-
     override fun equals(other: Any?): Boolean {
         if (other === this)
             return true
