@@ -118,7 +118,6 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 current.add(node)
             }
             println("grouped $groupIds")
-            SanityCheck.check { max == current.size }
             println("d")
             res.add(current)
             println("e")
