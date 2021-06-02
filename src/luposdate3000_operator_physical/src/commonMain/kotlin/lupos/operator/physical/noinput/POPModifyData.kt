@@ -83,6 +83,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MutableList<Int>>>()
+        val dictionary = query.getDictionary()
         for (t in data) {
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
@@ -90,7 +91,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
                     tmp = Array<MutableList<Int>>(3) { mutableListOf() }
                     iteratorDataMap[t.graph] = tmp
                 }
-                tmp[i].add((t.children[i] as AOPConstant).value)
+                tmp[i].add(dictionary.valueToGlobal((t.children[i] as AOPConstant).value))
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {

@@ -23,10 +23,15 @@ var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
 
-const panner = new Tone.Panner(0).toDestination();
-if (typeof luposdate3000_endpoint === "undefined") {
-    luposdate3000_endpoint = Luposdate3000_Endpoint
+
+function initLuposdate3000() {
+    if (typeof luposdate3000_endpoint === "undefined") {
+        luposdate3000_endpoint = Luposdate3000_Endpoint
+    }
 }
+
+
+const panner = new Tone.Panner(0).toDestination();
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
 function visualisationSetup() {
@@ -57,7 +62,6 @@ function visualisationSetup() {
         $('.result-tab a').click()
         //First time initialization
     } else {
-        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
 
         //Slider for the Animation Speed
         slider = new Nexus.Slider('#sonification-animation-speed', {

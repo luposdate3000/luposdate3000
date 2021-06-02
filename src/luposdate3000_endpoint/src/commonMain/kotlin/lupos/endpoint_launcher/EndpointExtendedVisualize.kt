@@ -106,16 +106,6 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
         return result
     }
 
-    @JsName("closeEEV")
-    public fun closeEEV() {
-        LuposdateEndpoint.close()
-    }
-
-    @JsName("initEEV")
-    public fun initEEV() {
-        LuposdateEndpoint.initialize()
-    }
-
     // Input: (Sub)-Tree of the Query
 // Output: Node and Edge Information as String for each node of the tree
 //

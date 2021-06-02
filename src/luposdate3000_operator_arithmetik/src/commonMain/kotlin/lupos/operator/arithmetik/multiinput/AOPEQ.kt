@@ -20,7 +20,6 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Exception
-import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
@@ -30,31 +29,31 @@ import lupos.shared_inline.DictionaryHelper
 public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPEQID, "AOPEQ", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " = " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPEQ && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun evaluateID(row: IteratorBundle): () -> Int {
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
-        val buffer = ByteArrayWrapper()
+        val bufferA = ByteArrayWrapper()
+        val bufferB = ByteArrayWrapper()
         return {
-            var res: ValueDefinition = DictionaryExt.booleanTrueValue2
+            var res: Int = DictionaryExt.booleanTrueValue
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
                 if (query.getDictionary().isBnode(a1) || query.getDictionary().isBnode(b1)) {
-                    res = DictionaryExt.booleanFalseValue2
+                    res = DictionaryExt.booleanFalseValue
                 } else {
-                    query.getDictionary().getValue(buffer, a1)
-                    val a = DictionaryHelper.byteArrayToValueDefinition(buffer)
-                    query.getDictionary().getValue(buffer, b1)
-                    val b = DictionaryHelper.byteArrayToValueDefinition(buffer)
+
+                    query.getDictionary().getValue(bufferA, a1)
+                    query.getDictionary().getValue(bufferB, b1)
                     try {
-                        if (a != b) {
-                            res = DictionaryExt.booleanFalseValue2
+                        if (DictionaryHelper.byteArrayCompareAny(bufferA, bufferB) != 0) {
+                            res = DictionaryExt.booleanFalseValue
                         }
                     } catch (e: Luposdate3000Exception) {
-                        res = DictionaryExt.errorValue2
+                        res = DictionaryExt.errorValue
                     } catch (e: Throwable) {
                         e.printStackTrace()
-                        res = DictionaryExt.errorValue2
+                        res = DictionaryExt.errorValue
                     }
                 }
             }

@@ -3,6 +3,8 @@
     isMergeView: false
 
 App.init = ->
+    initLuposdate3000()
+    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
         Instrument: '#instrumentSettings'
@@ -25,7 +27,6 @@ App.init = ->
     octaveSetup()
     pitchSetup()
     spatializationSetup()
-
 
     # Load xml converter
     App.x2js = new X2JS
@@ -266,6 +267,9 @@ App.bindEvents = ->
             locator = endpoint.without
         url = endpoint.url + locator
         if endpoint.name == "Browser Luposdate3000" || endpoint.name == "localhost Luposdate3000"
+            if App.config.sendRDF
+                luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
+                luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
             if withGraph
                 visualisationSetup()
             if endpoint.name == "Browser Luposdate3000"

@@ -142,10 +142,10 @@ public object QueryResultToMemoryTable {
                     val child = node.evaluateRoot(partition)
                     val buffer = ByteArrayWrapper()
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
-                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer)
+                    val value = DictionaryHelper.byteArrayToBoolean(buffer)
                     val res = MemoryTable(Array(0) { "" })
                     res.query = rootNode.getQuery()
-                    res.booleanResult = value.toBoolean()
+                    res.booleanResult = value
                     resultList.add(res)
                     child.columns["?boolean"]!!.close()
                 } else {

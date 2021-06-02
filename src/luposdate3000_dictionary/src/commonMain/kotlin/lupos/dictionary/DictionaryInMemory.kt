@@ -86,21 +86,27 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean) : ADictio
     public override fun createValue(buffer: ByteArrayWrapper): Int {
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
-                return if (buffer.size == 8) {
+                val tmp = if (buffer.size == 8) {
                     DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
                     createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
                 }
+                return tmp
             }
             ETripleComponentTypeExt.BOOLEAN -> {
-                return if (DictionaryHelper.byteArrayToBoolean(buffer)) {
+                val tmp = if (DictionaryHelper.byteArrayToBoolean(buffer)) {
                     DictionaryExt.booleanTrueValue
                 } else {
                     DictionaryExt.booleanFalseValue
                 }
+                return tmp
             }
-            ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
-            ETripleComponentTypeExt.UNDEF -> return DictionaryExt.undefValue
+            ETripleComponentTypeExt.ERROR -> {
+                return DictionaryExt.errorValue
+            }
+            ETripleComponentTypeExt.UNDEF -> {
+                return DictionaryExt.undefValue
+            }
             else -> {
                 if (isLocal) {
                     val tmp = nodeGlobalDictionary.hasValue(buffer)
@@ -121,6 +127,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean) : ADictio
                     }
                     dataI2V[res] = bufferCopy
                 }
+                var oldres = res
                 if (isLocal) {
                     res = res or flagLocal
                 }
