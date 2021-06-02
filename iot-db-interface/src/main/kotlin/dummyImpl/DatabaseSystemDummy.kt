@@ -39,8 +39,8 @@ class DatabaseSystemDummy : IDatabase {
         }
     }
 
-    override fun receiveQuery(from: Int, query: ByteArray) {
-        state.addressForQueryEndResult = from
+    override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
+        state.addressForQueryEndResult = sourceAddress
         val queryString = query.decodeToString()
         if(queryString.contains("INSERT DATA")) {
             saveData(queryString)
@@ -138,7 +138,7 @@ class DatabaseSystemDummy : IDatabase {
 
     private fun getNextHops(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
         val map = HashMap<Int, MutableSet<Int>>(destinationAddresses.size)
-        val nextHops = state.sender.getNextDBHopsFor(destinationAddresses)
+        val nextHops = state.sender.getNextDatabaseHops(destinationAddresses)
         for (i in nextHops.indices) {
             if (!map.containsKey(nextHops[i]))
                 map[nextHops[i]] = mutableSetOf()

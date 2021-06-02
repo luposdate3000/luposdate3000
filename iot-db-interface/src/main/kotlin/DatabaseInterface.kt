@@ -3,14 +3,14 @@ interface IDatabase {
     fun activate(state: IDatabaseState)
     fun deactivate(): IDatabaseState
     fun end()
-    fun receiveQuery(from: Int, query: ByteArray)
+    fun receiveQuery(sourceAddress: Int, query: ByteArray)
     fun receive(pck: IDatabasePackage)
 }
 
 interface IRouter {
-    fun send(to: Int, pck: IDatabasePackage)
-    fun sendQueryResult(to: Int, result: ByteArray)
-    fun getNextDBHopsFor(destinationAddresses: IntArray): IntArray
+    fun send(destinationAddress: Int, pck: IDatabasePackage)
+    fun sendQueryResult(destinationAddress: Int, result: ByteArray)
+    fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
 }
 
 interface IDatabasePackage

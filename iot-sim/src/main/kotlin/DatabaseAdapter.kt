@@ -92,17 +92,17 @@ class DatabaseAdapter(val device: Device): IRouter {
     fun isDatabasePackage(pck: Any) = pck is IDatabasePackage
 
 
-    override fun send(to: Int, pck: IDatabasePackage) {
-        device.sendRoutedPackage(device.address, to, pck)
+    override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+        device.sendRoutedPackage(device.address, destinationAddress, pck)
     }
 
-    override fun sendQueryResult(to: Int, result: ByteArray) {
-        device.sendRoutedPackage(device.address, to, result) //TODO
+    override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
+        device.sendRoutedPackage(device.address, destinationAddress, result) //TODO
     }
 
 
 
-    override fun getNextDBHopsFor(destinationAddresses: IntArray)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray)
         = device.router.getNextDatabaseHops(destinationAddresses)
 
 
