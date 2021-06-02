@@ -15,13 +15,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentType.kt")
+@file:DependsOn("com.ionspin.kotlin:bignum:0.3.1")
+@file:Import("../luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/generate-arithmetik-operators-classes.kt")
+@file:Import("../luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/generate-arithmetik-operators.kt")
+@file:Import("../luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPConstant.kt")
+@file:Import("../luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt")
 @file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentTypeExt.kt")
-@file:Import("generate-arithmetik-operators.kt")
-@file:Import("generate-arithmetik-operators-classes.kt")
+@file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentType.kt")
+@file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt")
+@file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/IOPBase.kt")
+@file:Import("../luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/DictionaryHelper.kt")
+@file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ValueDefinitions.kt")
+@file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/XMLElement.kt")
+@file:Import("../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/DictionaryExt.kt")
+@file:Import("../luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/dynamicArray/ByteArrayWrapperExt.kt")
+@file:Import("../luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared_inline/ByteArrayHelper.kt")
+@file:Import("../luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/ByteArrayHelper.kt")
+@file:CompilerOptions("-Xmulti-platform")
 
-import lupos.scripting.MyOperator
-import lupos.scripting.OperatorBuilder
+import lupos.code_generator_shared.MyOperator
+import lupos.code_generator_shared.OperatorBuilder
 import java.io.File
 
 public val operators = mutableListOf<MyOperator>()
