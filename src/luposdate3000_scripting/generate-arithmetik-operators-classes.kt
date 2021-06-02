@@ -14,22 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.code_generator_shared
+package lupos.scripting
 
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
-import lupos.shared.ValueBoolean
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueInteger
-import lupos.shared.ValueIri
-import lupos.shared.ValueStringBase
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
-import lupos.shared_inline.DictionaryHelper
 
-public enum class OperatorType(public val str: String) {
+public enum class OperatorType(val str: String) {
     BuildInCall("BuildInCall"),
     FunctionCall("FunctionCall"),
     Basic(""),
@@ -40,7 +30,7 @@ public enum class EParamRepresentation {
     BYTEARRAYWRAPPER, // represented as ByteArrayWrapper
     INSTANTIATED, // represented as the parsed Type itself
 }
-public typealias GenerateFunc = (
+typealias GenerateFunc = (
     String, // indention
     Array<String>, // inputNames
     String, // outputName
@@ -51,7 +41,7 @@ public typealias GenerateFunc = (
     (String, ETripleComponentType) -> Unit, // onResult(indention,resultType)
 ) -> Unit
 
-public typealias GenerateFuncOther = (
+typealias GenerateFuncOther = (
     String, // indention
     String, // outputName
     String, // prefix (for intermediates)
@@ -61,7 +51,7 @@ public typealias GenerateFuncOther = (
     (String, ETripleComponentType) -> Unit, // onResult(indention,resultType)
 ) -> Unit
 
-public typealias GenerateFuncOtherInstantiated = (
+typealias GenerateFuncOtherInstantiated = (
     String, // indention
     String, // outputName
     String, // prefix (for intermediates)
@@ -147,7 +137,7 @@ public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, output
     onResult(indention, ETripleComponentTypeExt.BOOLEAN)
 }
 
-public fun generateByteArrayWrapperString(str: String): GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
+fun generateByteArrayWrapperString(str: String): GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
     imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
     imports.add("lupos.shared_inline.DictionaryHelper")
     globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
@@ -155,138 +145,9 @@ public fun generateByteArrayWrapperString(str: String): GenerateFunc = { indenti
     onResult(indention, ETripleComponentTypeExt.STRING)
 }
 
-public fun generateInstantiatedString(str: String): GenerateFunc = { indention, _, outputName, _, _, target, _, onResult ->
+fun generateInstantiatedString(str: String): GenerateFunc = { indention, _, outputName, _, _, target, _, onResult ->
     target.appendLine("$indention$outputName = \"$str\"")
     onResult(indention, ETripleComponentTypeExt.STRING)
-}
-
-public fun generateMethod(child: IOPBase, indention: String, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>, confType: MutableList<MutableSet<ETripleComponentType>>) {
-    val tmpBuf = ByteArrayWrapper()
-
-    val confirmedTypes = mutableListOf<MutableSet<ETripleComponentType>>()
-    for (c in child.getChildren()) {
-        generateMethod(c, indention, inputNames, outputName, prefix, imports, target, globalVariables, confirmedTypes)
-    }
-
-    when (child) {
-        is AOPVariable -> {
-            // Muss in einen Datentyp gecastet werden, um Operationen wie ?pages+5 < 50 im Filter durchführen zu können
-            // Hier klappt .toInt() am Ende ranhängen, sollte aber dynamisch erkannt werden; Anhängig von der Konstanten zuvor machen?
-            target.appendLine("                        query.getDictionary().getValue(buffer, row${child.name})")
-            target.appendLine("                        val child${child.uuid} = DictionaryHelper.byteArrayToValueDefinition(buffer)")
-            confType.add(Array(ETripleComponentTypeExt.values_size) { it }.toMutableSet())
-        }
-        is AOPConstant -> {
-            val dict = child.getQuery().getDictionary()
-            dict.getValue(tmpBuf, child.getValue())
-            val type = DictionaryHelper.byteArrayToType(tmpBuf)
-            confType.add(mutableSetOf(type))
-            when (val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf)) {
-                is ValueBoolean -> {
-                    target.appendLine("        val child${child.uuid} = ${value.value}")
-                }
-                is ValueInteger -> {
-                    target.appendLine("        val child${child.uuid} = BigInteger.fromInt(${value.value})")
-                }
-                is ValueDecimal -> {
-                    target.appendLine("        val child${child.uuid} = MyBigDecimal.fromBigDecimal(${value.value})")
-                }
-                is ValueStringBase -> {
-                    // Erkennt noch nicht, dass es ein String ist?
-                    // Abfragen wie equals/!equals werden noch als == und != übersetzt
-                    target.appendLine(
-                        "        val child${child.uuid} = \"${
-                        value.valueToString()!!.replace("\"", "")
-                        }\""
-                    )
-                }
-                is ValueIri -> {
-                    throw Exception("to do")
-                }
-                else -> {
-                    throw Exception(value.toString())
-                }
-            }
-        }
-        else -> {
-            confType.add(Array(ETripleComponentTypeExt.values_size) { it }.toMutableSet())
-            val operatorName = getOperatorName(child.getClassname())
-            val operators = mutableListOf<MyOperator>()
-            OperatorBuilder.build(operators)
-            val operator = operators.filter { it -> it.name == operatorName }.first()
-            val inputNaming = child.getChildren().map { it -> "child${it.getUUID()}" }
-            val map = operator.generateMap(indention, EParamRepresentation.ID, inputNaming.toTypedArray(), "res", "tmp", imports, target, globalVariables, confirmedTypes)
-            val maxElement = map.maxByOrNull { it -> it.value.size }
-            for (m in map) {
-                // println(m.key);
-            }
-            println(map.size)
-            println(maxElement!!.value.size)
-            // map.map { println(it.key to  it.value.map{it.map { it }}) }
-            val builder = StringBuilder()
-            generateOptimizedWhenStructure(indention, map, builder, map.get(map.keys.first())!!.first().size, 0, inputNaming)
-            println(builder.toString())
-        }
-    }
-}
-
-private fun generateOptimizedWhenStructure(indention: String, map: MutableMap<String, MutableSet<Array<ETripleComponentType>>>, builder: StringBuilder, maxDepth: Int, currentDepth: Int, inputNames: List<String>) {
-
-    if (currentDepth > maxDepth || map.isEmpty()) {
-        return
-    }
-    if (map.size == 1) {
-        builder.append(map.keys.first())
-        return
-    }
-    var first = true
-    val m = mutableMapOf<String, MutableSet<ETripleComponentType>>()
-    for (currenType in 0 until ETripleComponentTypeExt.values_size) {
-        val newMap = mutableMapOf<String, MutableSet<Array<ETripleComponentType>>>()
-        var sameMap = true
-        for ((k, v) in map) {
-            val values = mutableSetOf<Array<ETripleComponentType>>()
-            for (types in v) {
-                if (currenType == types[currentDepth]) {
-                    values.add(types)
-                } else {
-                    sameMap = false
-                }
-            }
-            if (values.size > 0) {
-                newMap[k] = values
-            }
-        }
-        if (newMap.isNotEmpty()) {
-            // newMap.map { println(it.key to  it.value.map{it.map { it }}) }
-            val temBuilder = StringBuilder()
-            generateOptimizedWhenStructure(indention, newMap, temBuilder, maxDepth, currentDepth + 1, inputNames)
-            val tempString = temBuilder.toString()
-            val tempType = m[tempString]
-            if (tempType != null) {
-                tempType.add(currenType)
-            } else {
-                m[tempString] = mutableSetOf(currenType)
-            }
-        }
-    }
-    if (m.size == 1) {
-        builder.append(m.keys.first())
-    } else {
-
-        builder.appendLine(" when (DictionaryHelper.byteArrayToType(${inputNames[currentDepth]})) {")
-        for ((k, v) in m) {
-
-            builder.appendLine(v.joinToString { "ETripleComponentTypeExt.${ETripleComponentTypeExt.names[it]}" } + " -> {")
-            builder.append(k)
-            builder.appendLine("}")
-        }
-        builder.appendLine("}")
-    }
-}
-
-private fun getOperatorName(aopClassname: String): String {
-    return aopClassname.replace("AOPBuildInCall", "").replace("AOPFunctionCall", "").replace("AOP", "")
 }
 
 public class MyOperator(
@@ -429,98 +290,6 @@ public class MyOperator(
         closeWhenStatements(-1, variableCount)
     }
 
-    public fun generateMap(indention: String, representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target_param: StringBuilder, globalVariables: MutableSet<String>, confirmedTypes: MutableList<MutableSet<ETripleComponentType>>): MutableMap<String, MutableSet<Array<ETripleComponentType>>> {
-        var outputMap = mutableMapOf<String, MutableSet<Array<ETripleComponentType>>>()
-        var myInputNames = Array<String>(inputNames.size) { inputNames[it] }
-        var prefix_counter = 0
-        globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-        var typeNames = Array<String>(inputNames.size) { "${prefix}_${prefix_counter++}" }
-        imports.add("lupos.shared.ETripleComponentType")
-        for (i in 0 until inputNames.size) {
-            target_param.appendLine("${indention}val ${typeNames[i]}: ETripleComponentType = DictionaryHelper.byteArrayToType(${myInputNames[i]})")
-        }
-        var myOutputName = outputName
-        implementations.sort()
-        var localindention = indention
-        var lastOperatorTypes = Array(implementations[0].childrenTypes.size) { -1 }
-
-        val target = StringBuilder()
-        for (implementation in implementations) {
-            val generateByteArrayWrapper = implementation.generateByteArrayWrapper
-            var commonOperatorTypes = 0
-            while (lastOperatorTypes[commonOperatorTypes] == implementation.childrenTypes[commonOperatorTypes] && commonOperatorTypes < implementation.childrenTypes.size) {
-                commonOperatorTypes++
-            }
-            if (generateByteArrayWrapper != null) {
-                generateByteArrayWrapper(localindention, myInputNames, myOutputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { indention2, _ ->
-                    if (representation == EParamRepresentation.ID) {
-                        target.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
-                    }
-                }
-            } else {
-                var myInputInstances = Array(inputNames.size) { "${prefix}_${prefix_counter++}" }
-                var myOutputInstance = "${prefix}_${prefix_counter++}"
-                for (i in 0 until inputNames.size) {
-                    val converter = getRepresentationConversionFunction(implementation.childrenTypes[i], EParamRepresentation.BYTEARRAYWRAPPER, EParamRepresentation.INSTANTIATED)
-                    converter.generate(localindention, myInputNames[i], myInputInstances[i], imports, target, globalVariables)
-                }
-                implementation.generateInstantiated(localindention, myInputInstances, myOutputInstance, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { indention2, resultType ->
-                    if (resultType == ETripleComponentTypeExt.BLANK_NODE) {
-                        target.appendLine("$indention2$outputName = $myOutputInstance")
-                    } else {
-                        val converter = getRepresentationConversionFunction(resultType, EParamRepresentation.INSTANTIATED, EParamRepresentation.BYTEARRAYWRAPPER)
-                        converter.generate(indention2, myOutputInstance, myOutputName, imports, target, globalVariables)
-                        if (representation == EParamRepresentation.ID) {
-                            target.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
-                        }
-                    }
-                }
-            }
-
-            var possibleImplementation = true
-            for ((index, type) in implementation.childrenTypes.withIndex()) {
-                if (!confirmedTypes[index].contains(type)) {
-                    possibleImplementation = false
-                    break
-                }
-            }
-            if (possibleImplementation) {
-                if (outputMap[target.toString()] != null) {
-                    val oldValues = outputMap[target.toString()]
-                    oldValues!!.add(implementation.childrenTypes)
-                    outputMap[target.toString()] = oldValues
-                } else {
-                    outputMap[target.toString()] = mutableSetOf(implementation.childrenTypes)
-                }
-            }
-
-            target.clear()
-        }
-
-        return outputMap
-    }
-
-    public fun generateAopMethod(): StringBuilder {
-        var method = StringBuilder()
-        var imports2 = mutableSetOf<String>()
-        var target = StringBuilder()
-
-        var globalVariables = mutableSetOf<String>()
-        generate("            ", EParamRepresentation.ID, Array(implementations[0].childrenTypes.size) { "childIn$it" }, "res", "tmp", imports2, target, globalVariables)
-        imports2.addAll(imports)
-
-        method.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
-
-        for (v in globalVariables) {
-            if (!v.contains(" res: ")) {
-                method.appendLine("        $v")
-            }
-        }
-
-        method.appendLine("}")
-        return method
-    }
-
     public fun generateAOP(): StringBuilder {
         var clazz = StringBuilder()
         clazz.appendLine("package lupos.operator.arithmetik.generated")
@@ -625,11 +394,11 @@ public class MyRepresentationConversionFunction(
 )
 
 public class MyOperatorPartFactory() {
-    internal var list = mutableListOf<MyOperatorPart>()
-    internal var generateInstantiatedOther: GenerateFunc? = null
-    internal var generateByteArrayWrapperOther: GenerateFunc? = null
+    var list = mutableListOf<MyOperatorPart>()
+    var generateInstantiatedOther: GenerateFunc? = null
+    var generateByteArrayWrapperOther: GenerateFunc? = null
 
-    public fun build(): Array<MyOperatorPart> {
+    fun build(): Array<MyOperatorPart> {
         if (generateInstantiatedOther != null) {
             val paramsCount = list[0].childrenTypes.size
             when (paramsCount) {
@@ -707,18 +476,18 @@ public class MyOperatorPartFactory() {
         return list.toTypedArray()
     }
 
-    public fun setOther(generateInstantiated: GenerateFunc, generateByteArrayWrapper: GenerateFunc? = null): MyOperatorPartFactory {
+    fun setOther(generateInstantiated: GenerateFunc, generateByteArrayWrapper: GenerateFunc? = null): MyOperatorPartFactory {
         generateInstantiatedOther = generateInstantiated
         generateByteArrayWrapperOther = generateByteArrayWrapper
         return this
     }
 
-    public fun add(part: MyOperatorPart): MyOperatorPartFactory {
+    fun add(part: MyOperatorPart): MyOperatorPartFactory {
         list.add(part)
         return this
     }
 
-    public fun addForEachChildrenType(childrenTypes: Array<Array<ETripleComponentType>>, generateInstantiated: GenerateFunc, generateByteArrayWrapper: GenerateFunc? = null): MyOperatorPartFactory {
+    fun addForEachChildrenType(childrenTypes: Array<Array<ETripleComponentType>>, generateInstantiated: GenerateFunc, generateByteArrayWrapper: GenerateFunc? = null): MyOperatorPartFactory {
         for (p in childrenTypes) {
             list.add(
                 MyOperatorPart(
@@ -731,24 +500,19 @@ public class MyOperatorPartFactory() {
         return this
     }
 
-    public fun addNumericBinaryOperatorStub(operator: String): MyOperatorPartFactory {
+    fun addNumericBinaryOperatorStub(operator: String): MyOperatorPartFactory {
         list.add(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator BigDecimal.fromBigInteger(${inputNames[1]})")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator BigDecimal.fromBigInteger(${inputNames[1]})")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator BigDecimal.fromBigInteger(${inputNames[1]})")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -757,17 +521,12 @@ public class MyOperatorPartFactory() {
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -776,17 +535,12 @@ public class MyOperatorPartFactory() {
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -795,17 +549,12 @@ public class MyOperatorPartFactory() {
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: BigDecimal = BigDecimal.fromBigInteger(${inputNames[0]}) $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: BigDecimal = BigDecimal.fromBigInteger(${inputNames[0]}) $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: BigDecimal = BigDecimal.fromBigInteger(${inputNames[0]}) $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -814,17 +563,12 @@ public class MyOperatorPartFactory() {
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -833,17 +577,12 @@ public class MyOperatorPartFactory() {
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -852,17 +591,12 @@ public class MyOperatorPartFactory() {
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -870,17 +604,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -888,17 +617,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -907,17 +631,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -925,17 +644,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -943,17 +657,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -961,17 +670,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -979,17 +683,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -997,17 +696,12 @@ public class MyOperatorPartFactory() {
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    if (operator == "/") {
-                        target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                        target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                        target.appendLine("$indention}")
-                    } else {
-                        target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
-                        onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    }
+                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention}")
                 },
             )
         )
@@ -1015,7 +709,7 @@ public class MyOperatorPartFactory() {
     }
 }
 
-public fun getRepresentationConversionFunction(type: ETripleComponentType, inputRepresentation: EParamRepresentation, outputRepresentation: EParamRepresentation): MyRepresentationConversionFunction {
+fun getRepresentationConversionFunction(type: ETripleComponentType, inputRepresentation: EParamRepresentation, outputRepresentation: EParamRepresentation): MyRepresentationConversionFunction {
     for (converter in converters) {
         if (converter.type == type && converter.inputRepresentation == inputRepresentation && converter.outputRepresentation == outputRepresentation) {
             return converter
@@ -1024,7 +718,7 @@ public fun getRepresentationConversionFunction(type: ETripleComponentType, input
     throw Exception("not found ${ETripleComponentTypeExt.names[type]} $inputRepresentation $outputRepresentation")
 }
 
-public val converters: List<MyRepresentationConversionFunction> = listOf(
+public val converters = listOf(
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.INTEGER,
         inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
