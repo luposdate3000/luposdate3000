@@ -35,7 +35,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("int_array.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var dataSize = 0

@@ -73,7 +73,7 @@ private object AssertionFunctions {
     val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     val buffer = ByteArrayWrapper()
     val buffer2 = ByteArrayWrapper()
     fun generateDoubleNumber(len: Int): String {

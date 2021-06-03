@@ -42,7 +42,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("triple_index_insert_sequentiel.${BufferManagerExt.isInMemoryOnly}", 100.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index_insert_sequentiel/src/commonMain/kotlin/lupos/launch/test_triple_index_insert_sequentiel/MainFunc.kt:47")
