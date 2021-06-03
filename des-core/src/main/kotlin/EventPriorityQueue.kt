@@ -1,19 +1,24 @@
-import java.util.*
-
 
 internal class EventPriorityQueue {
 
     private val comparator = compareBy<Event> { it.occurrenceTime }.thenBy { it.sequenceNumber }
-    private val queue: PriorityQueue<Event> = PriorityQueue(comparator)
+
+    private val queue = mutableListOf<Event>()
 
     fun enqueue(newEvent: Event) {
-        queue.add(newEvent)
+        var insertionIndex = queue.binarySearch(newEvent, comparator)
+        if (insertionIndex < 0)
+            insertionIndex = insertionIndex.inv()
+        queue.add(insertionIndex, newEvent)
     }
 
-    fun dequeue(): Event = queue.remove()
+    fun dequeue(): Event
+        =  queue.removeAt(0)
 
-    fun peek(): Event = queue.element()
 
-    fun hasNext() = queue.size > 0
+    fun peek(): Event
+        = queue[0]
+
+    fun hasNext() = queue.isNotEmpty()
 
 }
