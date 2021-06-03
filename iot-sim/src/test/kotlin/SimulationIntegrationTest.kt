@@ -39,7 +39,7 @@ class SimulationIntegrationTest {
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parent = starNet.parent
         val parentRouter = parent.router as RPLRouter
-        parentRouter.root = true
+
         val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
         val child2 = starNet.children[1]
@@ -67,9 +67,8 @@ class SimulationIntegrationTest {
     @ValueSource(strings = ["sim/meshToDODAG.json"])
     fun meshToDODAG(fileName: String) {
         Configuration.parse(fileName)
-        val root = Configuration.randMeshNetworks["meshA"]!!.mesh[0][0]
+        val root = Configuration.getRootDevice()
         val rootRouter = root.router as RPLRouter
-        rootRouter.root = true
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
@@ -83,9 +82,9 @@ class SimulationIntegrationTest {
         //Send data from the leaf F to the root A
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPLRouter
+
         val f = Configuration.getNamedDevice("F")
-        aRouter.root = true
+
         f.sensor!!.setDataSink(a.address)
 
         val maxClock: Long = 100
@@ -106,8 +105,7 @@ class SimulationIntegrationTest {
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
         val f = Configuration.getNamedDevice("F")
-        val aRouter = a.router as RPLRouter
-        aRouter.root = true
+
         a.sensor!!.setDataSink(f.address)
 
         val maxClock: Long = 100
@@ -126,11 +124,9 @@ class SimulationIntegrationTest {
     fun upAndDownwardRouteForwarding(fileName: String) {
         //Send data from the leaf F to the leaf D
         Configuration.parse(fileName)
-        val a = Configuration.getNamedDevice("A")
         val d = Configuration.getNamedDevice("D")
         val f = Configuration.getNamedDevice("F")
-        val aRouter = a.router as RPLRouter
-        aRouter.root = true
+
         f.sensor!!.setDataSink(d.address)
 
         val maxClock: Long = 100

@@ -14,7 +14,7 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
 
     private val notInitializedAddress = -1
 
-    var root = false
+    override var isRoot: Boolean = false
 
     var rank = notInitializedRank
         private set
@@ -130,7 +130,7 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
 
     override fun startRouting() {
         routingTable = RoutingTable(device.address, Configuration.devices.size)
-        if(root) {
+        if(isRoot) {
             rank = ROOT_RANK
             broadcastDIO()
         }

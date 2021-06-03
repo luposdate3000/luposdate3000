@@ -28,6 +28,8 @@ object Configuration {
 
     var dbDeviceAddresses: IntArray = intArrayOf()
 
+    var rootRouterAddress  = -1
+
     private var dbDeviceCounter = 0
 
 
@@ -36,6 +38,7 @@ object Configuration {
         readJsonFile(fileName)
         createSortedLinkTypes()
         createFixedDevices()
+        setRootDevice()
         createFixedLinks()
         createRandomMeshNetworks()
         createRandomStarNetworks()
@@ -132,6 +135,7 @@ object Configuration {
         return devices[index]
     }
 
+    fun getRootDevice() = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val parent = getNamedDevice(network.dataSink)
@@ -150,7 +154,14 @@ object Configuration {
         randStarNetworks[network.networkPrefix] = starNetwork
     }
 
-
+    private fun setRootDevice() {
+        val name = jsonObjects.rootRouter
+        if (name.isNotEmpty()) {
+            val device = getNamedDevice(name)
+            device.router.isRoot = true
+            rootRouterAddress = device.address
+        }
+    }
 
 
     private fun createFixedDevices() {

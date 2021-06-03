@@ -8,6 +8,7 @@ data class JsonObjects(
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevice: List<FixedDevice> = arrayListOf(),
     val fixedLink: List<FixedLink> = arrayListOf(),
+    val rootRouter: String = "",
     val randomMeshNetwork: List<RandomMeshNetwork> = arrayListOf(),
     val randomStarNetwork: List<RandomStarNetwork> = arrayListOf(),
 )

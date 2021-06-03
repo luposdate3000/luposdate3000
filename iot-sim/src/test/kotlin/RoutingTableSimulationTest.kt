@@ -28,8 +28,6 @@ class RoutingTableSimulationTest {
         val f = Configuration.getNamedDevice("F")
         val fRouter = f.router as RPLRouter
 
-        aRouter.root = true
-
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
@@ -69,7 +67,6 @@ class RoutingTableSimulationTest {
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val root = starNet.parent
         val rootRouter = root.router as RPLRouter
-        rootRouter.root = true
         val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
 
@@ -99,7 +96,6 @@ class RoutingTableSimulationTest {
         val bRouter = b.router as RPLRouter
         val c = Configuration.getNamedDevice("C")
 
-        aRouter.root = true
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
@@ -128,7 +124,6 @@ class RoutingTableSimulationTest {
         val c = Configuration.getNamedDevice("C")
         val d = Configuration.getNamedDevice("D")
 
-        aRouter.root = true
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
@@ -162,8 +157,6 @@ class RoutingTableSimulationTest {
         val f = Configuration.getNamedDevice("F")
         val g = Configuration.getNamedDevice("G")
 
-
-        aRouter.root = true
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()

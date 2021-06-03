@@ -25,6 +25,7 @@
   ],
   "fixedLink": [
   ],
+  "rootRouter": "",
   "randomMeshNetwork": [
     {
       "networkPrefix": "meshA",

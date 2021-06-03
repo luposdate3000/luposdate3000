@@ -23,8 +23,6 @@ class DatabaseSimulationTest {
     fun saveParkingSamplesInDummyTripleStore(fileName: String) {
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPLRouter
-        aRouter.root = true
         val g = Configuration.getNamedDevice("G")
         a.sensor!!.setDataSink(g.address)
 

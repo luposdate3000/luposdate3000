@@ -1,6 +1,4 @@
-import com.javadocmd.simplelatlng.LatLng
-import com.javadocmd.simplelatlng.LatLngTool
-import com.javadocmd.simplelatlng.util.LengthUnit
+
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest

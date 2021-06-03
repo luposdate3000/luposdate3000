@@ -3,6 +3,7 @@ package routing
 import NetworkPackage
 
 interface IRoutingAlgorithm {
+    var isRoot: Boolean
     fun startRouting()
     fun isControlPackage(pck: NetworkPackage): Boolean
     fun processControlPackage(pck: NetworkPackage)

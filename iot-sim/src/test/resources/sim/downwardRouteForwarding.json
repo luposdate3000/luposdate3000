@@ -90,6 +90,7 @@
       "dataRateInKbps": 2500
     }
   ],
+  "rootRouter": "A",
   "randomMeshNetwork": [
   ],
   "randomStarNetwork": [
