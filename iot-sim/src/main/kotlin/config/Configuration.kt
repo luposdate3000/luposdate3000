@@ -138,18 +138,19 @@ object Configuration {
     fun getRootDevice() = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
-        val parent = getNamedDevice(network.dataSink)
-        val starNetwork = StarNetwork(parent)
+        val root = getNamedDevice(network.starRoot)
+        val sink = getNamedDevice(network.dataSink)
+        val starNetwork = StarNetwork(root, sink)
         starNetwork.networkPrefix = network.networkPrefix
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
-            val location = GeoLocation.getRandomLocationInRadius(parent.location, linkType.rangeInMeters)
-            val child = createDevice(deviceType, location)
-            child.sensor?.setDataSink(parent.address)
-            parent.linkManager.setLinkIfPossible(child)
-            child.isStarNetworkChild = true
-            starNetwork.children.add(child)
+            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
+            val leaf = createDevice(deviceType, location)
+            leaf.sensor!!.setDataSink(sink.address)
+            root.linkManager.setLinkIfPossible(leaf)
+            leaf.isStarNetworkChild = true
+            starNetwork.children.add(leaf)
         }
         randStarNetworks[network.networkPrefix] = starNetwork
     }

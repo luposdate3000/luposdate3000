@@ -10,7 +10,7 @@
     {
       "name": "Fog",
       "database": true,
-      "parkingSensor": false,
+      "parkingSensor": true,
       "powerCapacity": -1.0,
       "supportedLinkTypes": ["WPAN"]
     },
@@ -44,6 +44,7 @@
   "randomStarNetwork": [
     {
       "networkPrefix": "garageA",
+      "starRoot": "1",
       "dataSink": "1",
       "linkType": "WPAN",
       "deviceType": "StandAloneParkingSensor",
@@ -51,6 +52,7 @@
     },
     {
       "networkPrefix": "garageB",
+      "starRoot": "1",
       "dataSink": "1",
       "linkType": "WPAN",
       "deviceType": "Fog",
@@ -58,6 +60,7 @@
     },
     {
       "networkPrefix": "garageC",
+      "starRoot": "abc",
       "dataSink": "abc",
       "linkType": "WPAN",
       "deviceType": "StandAloneParkingSensor",

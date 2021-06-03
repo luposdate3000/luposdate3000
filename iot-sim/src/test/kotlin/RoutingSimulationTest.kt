@@ -40,7 +40,7 @@ class RoutingSimulationTest {
     fun starNetworkIsASimpleDODAG(fileName: String) {
         Configuration.parse(fileName)
         val starNet = Configuration.randStarNetworks["garageA"]!!
-        val parent = starNet.parent
+        val parent = starNet.dataSink
         val parentRouter = parent.router as RPLRouter
 
         val child1 = starNet.children[0]
@@ -52,6 +52,7 @@ class RoutingSimulationTest {
 
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
+        sim.setMaximalTime(200)
         sim.start()
 
         Assertions.assertTrue(child1Router.hasParent())
@@ -142,5 +143,28 @@ class RoutingSimulationTest {
 
         Assertions.assertEquals(numberOfSamples, d.processedSensorDataPackages)
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["$prefix/upAndDownwardRouteForwarding.json"])
+    fun sensorFromStarSendDataOverMesh(fileName: String) {
+        //TODO zuerst star root
+//        //Send data from the leaf F to the leaf D
+//        Configuration.parse(fileName)
+//        val d = Configuration.getNamedDevice("D")
+//        val f = Configuration.getNamedDevice("F")
+//
+//        f.sensor!!.setDataSink(d.address)
+//
+//        val maxClock: Long = 100
+//        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
+//
+//        val sim = Simulation(Configuration.devices)
+//        sim.setLifeCycleCallback(Logger(sim))
+//        sim.setMaximalTime(maxClock)
+//        sim.start()
+//
+//        Assertions.assertEquals(numberOfSamples, d.processedSensorDataPackages)
+    }
+
 
 }

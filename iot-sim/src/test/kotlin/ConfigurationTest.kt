@@ -123,8 +123,8 @@ class ConfigurationTest {
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
         for(child in starNet.children) {
-            Assertions.assertTrue(child.linkManager.hasLink(starNet.parent))
-            Assertions.assertTrue(starNet.parent.linkManager.hasLink(child))
+            Assertions.assertTrue(child.linkManager.hasLink(starNet.dataSink))
+            Assertions.assertTrue(starNet.dataSink.linkManager.hasLink(child))
         }
     }
 

@@ -65,13 +65,14 @@ class RoutingTableSimulationTest {
     fun starNetworkRoutingTables(fileName: String) {
         Configuration.parse(fileName)
         val starNet = Configuration.randStarNetworks["garageA"]!!
-        val root = starNet.parent
+        val root = starNet.dataSink
         val rootRouter = root.router as RPLRouter
         val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
 
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
+        sim.setMaximalTime(100)
         sim.start()
 
         Assertions.assertEquals(20, rootRouter.routingTable.destinationCounter)

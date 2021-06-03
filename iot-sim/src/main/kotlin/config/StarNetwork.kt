@@ -2,7 +2,7 @@ package config
 
 import Device
 
-class StarNetwork(val parent: Device) {
+class StarNetwork(val root: Device, val dataSink: Device) {
     var networkPrefix = ""
     var children: MutableList<Device> = arrayListOf()
 }

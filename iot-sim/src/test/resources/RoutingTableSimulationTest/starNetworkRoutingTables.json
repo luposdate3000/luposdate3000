@@ -17,7 +17,7 @@
     {
       "name": "StandAloneParkingSensor",
       "database": false,
-      "parkingSensor": false,
+      "parkingSensor": true,
       "powerCapacity": -1.0,
       "supportedLinkTypes": ["WPAN"]
     }
@@ -39,6 +39,7 @@
   "randomStarNetwork": [
     {
       "networkPrefix": "garageA",
+      "starRoot": "Tower1",
       "dataSink": "Tower1",
       "linkType": "WPAN",
       "deviceType": "StandAloneParkingSensor",

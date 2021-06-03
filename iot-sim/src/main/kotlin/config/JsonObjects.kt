@@ -48,6 +48,7 @@ data class FixedLink(
 @Serializable
 data class RandomStarNetwork(
     val networkPrefix: String = "",
+    val starRoot: String = "",
     val dataSink: String = "",
     val linkType: String = "",
     val deviceType: String = "",

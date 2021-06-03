@@ -39,6 +39,7 @@
   "randomStarNetwork": [
     {
       "networkPrefix": "garageA",
+      "starRoot": "Tower1",
       "dataSink": "Tower1",
       "linkType": "WPAN",
       "deviceType": "StandAloneParkingSensor",
