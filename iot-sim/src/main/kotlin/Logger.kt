@@ -1,7 +1,6 @@
 import config.Configuration
 import routing.RPLRouter
 import sensor.ParkingSensor
-import java.lang.StringBuilder
 
 class Logger(val sim: Simulation): ISimulationLifeCycle {
 
