@@ -528,6 +528,13 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 printDependencies(commonDependencies, out)
                 out.println("            }")
                 out.println("        }")
+                out.println("        val commonTest by getting {")
+                out.println("            dependencies {")
+                out.println("                implementation(kotlin(\"test-common\"))")
+                out.println("                implementation(kotlin(\"test-annotations-common\"))")
+                out.println("            }")
+                out.println("        }")
+
                 if (enableJVM) {
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
@@ -545,6 +552,13 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                             }
                         }
                     }
+                    out.println("            }")
+                    out.println("        }")
+
+                    out.println("        val jvmTest by getting {")
+                    out.println("            dependencies {")
+                    out.println("                implementation(kotlin(\"test\"))")
+                    out.println("                implementation(kotlin(\"test-junit\"))")
                     out.println("            }")
                     out.println("        }")
                 }
