@@ -5,11 +5,14 @@ import org.junit.jupiter.params.provider.ValueSource
 import routing.RPLRouter
 import sensor.ParkingSensor
 
-class SimulationIntegrationTest {
+class RoutingSimulationTest {
 
+    companion object {
+        private const val prefix = "RoutingSimulationTest"
+    }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/runSimulationWithoutEntities.json"])
+    @ValueSource(strings = ["$prefix/runSimulationWithoutEntities.json"])
     fun runSimulationWithoutEntities(fileName: String) {
         Configuration.parse(fileName)
         val sim = Simulation(Configuration.devices)
@@ -19,7 +22,7 @@ class SimulationIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/selfMessagesDoNotDelay.json"])
+    @ValueSource(strings = ["$prefix/selfMessagesDoNotDelay.json"])
     fun selfMessagesDoNotDelay(fileName: String) {
         Configuration.parse(fileName)
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
@@ -33,7 +36,7 @@ class SimulationIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/starNetworkIsASimpleDODAG.json"])
+    @ValueSource(strings = ["$prefix/starNetworkIsASimpleDODAG.json"])
     fun starNetworkIsASimpleDODAG(fileName: String) {
         Configuration.parse(fileName)
         val starNet = Configuration.randStarNetworks["garageA"]!!
@@ -64,7 +67,7 @@ class SimulationIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/meshToDODAG.json"])
+    @ValueSource(strings = ["$prefix/meshToDODAG.json"])
     fun meshToDODAG(fileName: String) {
         Configuration.parse(fileName)
         val root = Configuration.getRootDevice()
@@ -77,7 +80,7 @@ class SimulationIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/upwardRouteForwarding.json"])
+    @ValueSource(strings = ["$prefix/upwardRouteForwarding.json"])
     fun upwardRouteForwarding(fileName: String) {
         //Send data from the leaf F to the root A
         Configuration.parse(fileName)
@@ -99,7 +102,7 @@ class SimulationIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/downwardRouteForwarding.json"])
+    @ValueSource(strings = ["$prefix/downwardRouteForwarding.json"])
     fun downwardRouteForwarding(fileName: String) {
         //Send data from the root A to the leaf F
         Configuration.parse(fileName)
@@ -120,7 +123,7 @@ class SimulationIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/upAndDownwardRouteForwarding.json"])
+    @ValueSource(strings = ["$prefix/upAndDownwardRouteForwarding.json"])
     fun upAndDownwardRouteForwarding(fileName: String) {
         //Send data from the leaf F to the leaf D
         Configuration.parse(fileName)
