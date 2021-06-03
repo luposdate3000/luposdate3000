@@ -7,16 +7,19 @@ import sensor.ParkingSensor
 
 class ConfigurationTest {
 
+    companion object {
+        private const val prefix = "ConfigurationTest"
+    }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/parseEmptyConfigFile.json"])
+    @ValueSource(strings = ["$prefix/parseEmptyConfigFile.json"])
     fun parseEmptyConfigFile(fileName: String) {
         Configuration.parse(fileName)
         Assertions.assertTrue(Configuration.devices.isEmpty())
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/oneFixedDevice.json"])
+    @ValueSource(strings = ["$prefix/oneFixedDevice.json"])
     fun oneFixedDevice(fileName: String) {
         Configuration.parse(fileName)
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
@@ -34,8 +37,8 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneComplexDevice.json"])
-    fun `one database device with sensors`(fileName: String) {
+    @ValueSource(strings = ["$prefix/oneDatabaseDeviceWithSensor.json"])
+    fun oneDatabaseDeviceWithSensor(fileName: String) {
         Configuration.parse(fileName)
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
@@ -46,7 +49,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/sensorsKnowTheirDevice.json"])
+    @ValueSource(strings = ["$prefix/sensorsKnowTheirDevice.json"])
     fun sensorsKnowTheirDevice(fileName: String) {
         Configuration.parse(fileName)
         val device = Configuration.getNamedDevice("Tower1")
@@ -55,7 +58,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/sensorsDataSinkIsItsOwnDevice.json"])
+    @ValueSource(strings = ["$prefix/sensorsDataSinkIsItsOwnDevice.json"])
     fun sensorsDataSinkIsItsOwnDevice(fileName: String) {
         Configuration.parse(fileName)
         val device = Configuration.getNamedDevice("Tower1")
@@ -64,7 +67,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/starRootIsDataSinkOfItsSensors.json"])
+    @ValueSource(strings = ["$prefix/starRootIsDataSinkOfItsSensors.json"])
     fun starRootIsDataSinkOfItsSensors(fileName: String) {
         Configuration.parse(fileName)
         val root = Configuration.getNamedDevice("Tower1")
@@ -74,8 +77,8 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneFixedConnection.json"])
-    fun `two devices have a connection`(fileName: String) {
+    @ValueSource(strings = ["$prefix/twoDevicesHaveOneConnection.json"])
+    fun twoDevicesHaveOneConnection(fileName: String) {
         Configuration.parse(fileName)
         val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
         val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
@@ -87,7 +90,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/twoLinkedDevicesShareTheirLinkObject.json"])
+    @ValueSource(strings = ["$prefix/twoLinkedDevicesShareTheirLinkObject.json"])
     fun twoLinkedDevicesShareTheirLinkObject(fileName: String) {
         Configuration.parse(fileName)
         val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
@@ -103,8 +106,8 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneRandomNetwork.json"])
-    fun `count number of devices in random network`(fileName: String) {
+    @ValueSource(strings = ["$prefix/countNumberOfDevicesInRandomNetwork.json"])
+    fun countNumberOfDevicesInRandomNetwork(fileName: String) {
         Configuration.parse(fileName)
         val devices = Configuration.devices
         val network = Configuration.jsonObjects.randomStarNetwork[0]
@@ -114,8 +117,8 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneRandomNetwork.json"])
-    fun `in star network every child is linked to root and vice versa`(fileName: String) {
+    @ValueSource(strings = ["$prefix/checkLinksInStarNetwork.json"])
+    fun checkLinksInStarNetwork(fileName: String) {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
@@ -126,7 +129,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/inStarNetworkChildrenDoNotKnowEachOther.json"])
+    @ValueSource(strings = ["$prefix/inStarNetworkChildrenDoNotKnowEachOther.json"])
     fun inStarNetworkChildrenDoNotKnowEachOther(fileName: String) {
         Configuration.parse(fileName)
         val starNet = Configuration.randStarNetworks["garageA"]!!
@@ -136,7 +139,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/severalStarNetworksDifferInTheNetworkPrefix.json"])
+    @ValueSource(strings = ["$prefix/severalStarNetworksDifferInTheNetworkPrefix.json"])
     fun severalStarNetworksDifferInTheNetworkPrefix(fileName: String) {
         Configuration.parse(fileName)
         val starNetA = Configuration.randStarNetworks["garageA"]!!
@@ -150,8 +153,8 @@ class ConfigurationTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneFixedConnection.json"])
-    fun `check link between two fixed devices`(fileName: String) {
+    @ValueSource(strings = ["$prefix/checkLinkData.json"])
+    fun checkLinkData(fileName: String) {
         Configuration.parse(fileName)
         val device1Address = Configuration.jsonObjects.fixedDevice[0].name
         val device2Address = Configuration.jsonObjects.fixedDevice[1].name
@@ -168,7 +171,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/onlyOneMeshDevice.json"])
+    @ValueSource(strings = ["$prefix/onlyOneMeshDevice.json"])
     fun onlyOneMeshDevice(fileName: String) {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
@@ -178,7 +181,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/onlySouthernMeshDevices.json"])
+    @ValueSource(strings = ["$prefix/onlySouthernMeshDevices.json"])
     fun onlySouthernMeshDevices(fileName: String) {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
@@ -190,7 +193,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/onlyEasternMeshDevices.json"])
+    @ValueSource(strings = ["$prefix/onlyEasternMeshDevices.json"])
     fun onlyEasternMeshDevices(fileName: String) {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
@@ -204,7 +207,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/moreSouthernThanEasternMeshDevices.json"])
+    @ValueSource(strings = ["$prefix/moreSouthernThanEasternMeshDevices.json"])
     fun moreSouthernThanEasternMeshDevices(fileName: String) {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
@@ -219,7 +222,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/edgeMeshDevicesCannotReachEachOther.json"])
+    @ValueSource(strings = ["$prefix/edgeMeshDevicesCannotReachEachOther.json"])
     fun edgeMeshDevicesCannotReachEachOther(fileName: String) {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
@@ -238,7 +241,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/distanceToNeighboringDevicesIsSmaller.json"])
+    @ValueSource(strings = ["$prefix/distanceToNeighboringDevicesIsSmaller.json"])
     fun distanceToNeighboringDevicesIsSmaller(fileName: String) {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
@@ -256,7 +259,7 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/fixedAndMeshedDevicesAreLinkable.json"])
+    @ValueSource(strings = ["$prefix/fixedAndMeshedDevicesAreLinkable.json"])
     fun fixedAndMeshedDevicesAreLinkable(fileName: String) {
         Configuration.parse(fileName)
         val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
@@ -272,7 +275,7 @@ class ConfigurationTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/fixedAndMeshedDevicesAreNotLinkable.json"])
+    @ValueSource(strings = ["$prefix/fixedAndMeshedDevicesAreNotLinkable.json"])
     fun fixedAndMeshedDevicesAreNotLinkable(fileName: String) {
         Configuration.parse(fileName)
         val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
