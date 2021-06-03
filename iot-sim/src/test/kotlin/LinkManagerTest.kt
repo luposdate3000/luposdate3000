@@ -1,4 +1,5 @@
 import config.LinkType
+import geo.GeoLocation
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

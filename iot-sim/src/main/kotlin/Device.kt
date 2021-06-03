@@ -1,4 +1,5 @@
 import config.Configuration
+import geo.GeoLocation
 import routing.IRoutingAlgorithm
 import routing.RPLRouter
 import sensor.ISensor

@@ -1,4 +1,4 @@
-
+import geo.GeoLocation
 
 object Stubs {
 

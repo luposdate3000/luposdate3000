@@ -1,6 +1,6 @@
-import com.javadocmd.simplelatlng.LatLng
-import com.javadocmd.simplelatlng.LatLngTool
-import com.javadocmd.simplelatlng.util.LengthUnit
+package geo
+
+import RandomGenerator
 import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
@@ -18,7 +18,7 @@ class GeoLocation(var latitude: Double, var longitude: Double) {
                 direction,
                 distanceInMeters.toDouble(),
                 LengthUnit.METER)
-            return GeoLocation(loc.latitude, loc.longitude)
+            return GeoLocation(loc.getLatitude(), loc.getLongitude())
         }
 
         fun createNorthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
@@ -53,8 +53,8 @@ class GeoLocation(var latitude: Double, var longitude: Double) {
         }
 
         fun getRandom(): GeoLocation {
-            val loc = LatLng.random()
-            return GeoLocation(loc.latitude, loc.longitude)
+            val loc = LatLng.random(RandomGenerator.random)
+            return GeoLocation(loc.getLatitude(), loc.getLongitude())
         }
 
     }
