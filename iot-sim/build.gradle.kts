@@ -13,6 +13,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("com.javadocmd:simplelatlng:1.3.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.1")
     implementation(project(":des-core"))
     implementation(project(":iot-db-interface"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
