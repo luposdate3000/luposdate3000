@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.test_sorting
+package lupos.launch.test_triple_index
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
