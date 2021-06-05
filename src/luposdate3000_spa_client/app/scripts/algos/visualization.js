@@ -22,6 +22,7 @@ var selectArray = [];
 var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
+var initFlag = false;
 
 
 function initLuposdate3000() {
@@ -62,7 +63,6 @@ function visualisationSetup() {
         $('.result-tab a').click()
         //First time initialization
     } else {
-
         //Slider for the Animation Speed
         slider = new Nexus.Slider('#sonification-animation-speed', {
             'size': [130, 30],
@@ -85,8 +85,6 @@ function visualisationSetup() {
             'size': [40, 30],
             'state': false
         });
-
-        createMapping();
     }
 
     //Show necessary elements, hide pause animation Button
@@ -108,6 +106,9 @@ function visualisationStart() {
 }
 
 function createMapping() {
+    if (!initFlag){
+        initFlag = true;
+    }
     var html = '';
     var i;
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
@@ -543,7 +544,8 @@ $('#luposdate3000_backward').click(function() {
 
 //Creates a table on the result Tab and show the results from the query
 function calculateResult() {
-    App.processResults(App.result, "sparql")
+    App.processResults(App.result, "sparql");
+
 }
 
 //Function to pause the thread.
@@ -610,25 +612,29 @@ function playNoteMapping(id, label, index) {
 
     var tone, velocity, duration, octave;
 
-    current = App.samples[getInstrument(instrumentType, id, label, index)];
+    if (instrumentType != 'None'){
+        current = App.samples[getAudioData(instrumentType, id, label, index, "Instrument")];
+    }else{
+        current = App.samples['piano'];
+    }
 
     //Loudness of the Tone
     if (loudnessType != 'None') {
-        velocity = getLoudness(loudnessType, id, label, index)
+        velocity = getAudioData(loudnessType, id, label, index, "Loudness")
     } else {
         velocity = 1;
     }
 
     //Spatialization
     if (spatializationType != 'None') {
-        panner.pan.value = getSpatialization(spatializationType, id, label, index);
+        panner.pan.value = getAudioData(spatializationType, id, label, index, "Spatialization");
     } else {
         panner.pan.value = 0;
     }
 
     //Duration
     if (durationType != 'None') {
-        duration = getDuration(durationType, id, label, index);
+        duration = getAudioData(durationType, id, label, index, "Duration");
     } else {
         duration = '4n';
     }
@@ -656,9 +662,11 @@ function playNoteMapping(id, label, index) {
             tone = getChord(chordType, id, label, index);
         } else if (pitchType != 'None') {
             tone = getPitch(pitchType, id, label, index);
-            current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
+            //current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
+            triggerNote(tone + octave, duration, "+0", velocity)
         } else {
-            current.connect(panner).triggerAttackRelease('C' + octave, duration, "+0", velocity);
+            //current.connect(panner).triggerAttackRelease('C' + octave, duration, "+0", velocity);
+            triggerNote('C' + octave, duration, "+0", velocity)
         }
     } else {
         tone = getMelody(melodyType, id, label, index);
@@ -666,13 +674,28 @@ function playNoteMapping(id, label, index) {
 
     if (melodyType != 'No' || chordType != 'None') {
         if (tone[0]) {
-            current.connect(panner).triggerAttackRelease(tone[1] + octave, duration, "+0", velocity);
-            current.connect(panner).triggerAttackRelease(tone[2] + octave, duration, "+0.15", velocity);
-            current.connect(panner).triggerAttackRelease(tone[3] + octave, duration, "+0.3", velocity);
+            //current.connect(panner).triggerAttackRelease(tone[1] + octave, duration, "+0", velocity);
+            //current.connect(panner).triggerAttackRelease(tone[2] + octave, duration, "+0.15", velocity);
+            //current.connect(panner).triggerAttackRelease(tone[3] + octave, duration, "+0.3", velocity);
+            triggerNote(tone[1] + octave, duration, "+0", velocity);
+            triggerNote(tone[2] + octave, duration, "+0.15", velocity);
+            triggerNote(tone[3] + octave, duration, "+0.3", velocity);
         } else {
             var chord = [tone[1] + octave, tone[2] + octave, tone[3] + octave];
-            current.connect(panner).triggerAttackRelease(chord, duration, "+0", velocity);
+            //current.connect(panner).triggerAttackRelease(chord, duration, "+0", velocity);
+            triggerNote(chord, duration, "+0", velocity);
         }
+    }
+}
+
+//Avoid buffer problem when instrument files are not yet loaded
+function triggerNote(chord, duration, delay, velocity){
+    if(current._buffers.loaded)
+        current.connect(panner).triggerAttackRelease(chord, duration, delay, velocity);
+    else{
+        sleep(100).then(() => {
+            triggerNote(chord, duration, delay, velocity);
+        });
     }
 }
 
@@ -1047,8 +1070,13 @@ function draw(flag) {
     //Draw network
     if (flag) {
         networkSon = new vis.Network(container, data, options);
+        calculateMinMaxID();
+        calculateMinMaxDepth();
+        calculateMinMaxIndex();
         addCustomContextMenu(networkSon, flag);
-
+        if(!initFlag){
+            createMapping();
+        }
         //By default, the network is dynamic and is changing via a constant animation
         //For the hierarchical layout it is essential that is is turned off after the build-up
         //process.

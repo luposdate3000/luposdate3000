@@ -102,6 +102,11 @@ function spatializationSetup() {
                 $('#spatializationSettings').hide();
                 break;
             case 'Simple':
+                if (!App.config.sonification.Spatialization.hasOwnProperty("Simple")) {
+                    App.config.sonification.Spatialization.Simple = {
+                        value: 0
+                    }
+                }
                 $('#spatializationSettings').show();
                 $('#spatializationSettings').empty();
                 var html = '<fieldset>';
@@ -122,12 +127,18 @@ function spatializationSetup() {
                     'step': 0.05,
                     'value': 0
                 });
+                spatDataIndex.value = App.config.sonification.Spatialization.Simple.value;
+                spatDataIndex.on('change', function(v) {
+                    App.config.sonification.Spatialization.Simple.value = spatDataIndex.value
+                });
                 break;
             case 'Operator-ID':
                 $('#spatializationSettings').show();
                 $('#spatializationSettings').empty();
                 var html = '<fieldset>';
                 var j;
+
+                var configSettings = [];
                 for (j = 0; j <= dataNodes.length - 1; j++) {
                     if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
                         html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
@@ -135,11 +146,19 @@ function spatializationSetup() {
                         html += '<p style=float:left;margin-right:10px;margin-top:9px;>Spatialization: </p>';
                         html += '<div nexus-ui=select id=spatOperator-' + j + ' style=float:left;margin-right:10px;></div>';
                         html += '</div>';
+                        configSettings.push(0);
                     }
                 }
 
                 html += '</fieldset';
                 $('#spatializationSettings').html(html);
+
+                if (!App.config.sonification.Spatialization.hasOwnProperty("OperatorID")) {
+                    App.config.sonification.Spatialization.OperatorID = {
+                        value: configSettings
+                    }
+                }
+
                 for (j = 0; j <= dataNodes.length - 1; j++) {
                     if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
                         var string = '#spatOperator-' + j;
@@ -152,6 +171,10 @@ function spatializationSetup() {
                             'value': 0
 
                         }));
+                        spatOperator[spatOperator.length-1].value = App.config.sonification.Spatialization.OperatorID.value[spatOperator.length-1];
+                        spatOperator[spatOperator.length-1].on('change', function(v) {
+                            App.config.sonification.Spatialization.OperatorID.value[spatOperator.length-1] = spatOperator[spatOperator.length-1].value
+                        });
                     }
                 }
                 break;
@@ -162,16 +185,25 @@ function spatializationSetup() {
                 calcDifferentPositions();
                 var html = "<fieldset>"
 
+                var configSettings = [];
                 for (i = 0; i <= differentPositions.length - 1; i++) {
                     html += '<h7>Layer: ' + i + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Spatialization: </p>';
                     html += '<div nexus-ui=select id=spatOperatorDepth-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(0);
                 }
 
                 html += '</fieldset>';
                 $('#spatializationSettings').html(html);
+
+                if (!App.config.sonification.Spatialization.hasOwnProperty("OperatorDepth")) {
+                    App.config.sonification.Spatialization.OperatorDepth = {
+                        value: configSettings
+                    }
+                }
+
                 for (i = 0; i <= differentPositions.length - 1; i++) {
                     var string = '#spatOperatorDepth-' + i;
                     spatOperatorDepth.push(new Nexus.Slider(string, {
@@ -183,6 +215,10 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
+                    spatOperatorDepth[spatOperatorDepth.length-1].value = App.config.sonification.Spatialization.OperatorDepth.value[spatOperatorDepth.length-1];
+                    spatOperatorDepth[spatOperatorDepth.length-1].on('change', function(v) {
+                        App.config.sonification.Spatialization.OperatorDepth.value[spatOperatorDepth.length-1] = spatOperatorDepth[spatOperatorDepth.length-1].value
+                    });
                 }
                 break;
             case 'Operator-Type':
@@ -191,16 +227,25 @@ function spatializationSetup() {
                 var html = '<fieldset>';
                 calcDifferentTypes();
 
+                var configSettings = [];
                 for (i = 0; i <= differentTypes.length - 1; i++) {
                     html += '<h7>Type: ' + differentTypes[i] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Spatialization: </p>';
                     html += '<div nexus-ui=select id=spatOperatorType-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(0);
                 }
 
                 html += '</fieldset>';
                 $('#spatializationSettings').html(html);
+
+                if (!App.config.sonification.Spatialization.hasOwnProperty("OperatorType")) {
+                    App.config.sonification.Spatialization.OperatorType = {
+                        value: configSettings
+                    }
+                }
+
                 for (i = 0; i <= differentTypes.length - 1; i++) {
                     var string = '#spatOperatorType-' + i;
                     spatOperatorType.push(new Nexus.Slider(string, {
@@ -212,6 +257,10 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
+                    spatOperatorType[spatOperatorType.length-1].value = App.config.sonification.Spatialization.OperatorType.value[spatOperatorType.length-1];
+                    spatOperatorType[spatOperatorType.length-1].on('change', function(v) {
+                        App.config.sonification.Spatialization.OperatorType.value[spatOperatorType.length-1] = spatOperatorType[spatOperatorType.length-1].value
+                    });
                 }
                 break;
             case 'Operator-Variable':
@@ -223,16 +272,25 @@ function spatializationSetup() {
 
                 var i;
 
+                var configSettings = [];
                 for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
                     html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Spatialization: </p>';
                     html += '<div nexus-ui=select id=spatOperatorVariable-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(0);
                 }
 
                 html += '</fieldset>';
                 $('#spatializationSettings').html(html);
+
+                if (!App.config.sonification.Spatialization.hasOwnProperty("OperatorVariable")) {
+                    App.config.sonification.Spatialization.OperatorVariable = {
+                        value: configSettings
+                    }
+                }
+
                 for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
                     var string = '#spatOperatorVariable-' + i;
                     spatOperatorVariable.push(new Nexus.Slider(string, {
@@ -244,6 +302,10 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
+                    spatOperatorVariable[spatOperatorVariable.length-1].value = App.config.sonification.Spatialization.OperatorVariable.value[spatOperatorVariable.length-1];
+                    spatOperatorVariable[spatOperatorVariable.length-1].on('change', function(v) {
+                        App.config.sonification.Spatialization.OperatorVariable.value[spatOperatorVariable.length-1] = spatOperatorVariable[spatOperatorVariable.length-1].value
+                    });
                 }
                 break;
             case 'Data-Index':
@@ -265,16 +327,25 @@ function spatializationSetup() {
                 var i;
                 calcDifferentDataVariables();
 
+                var configSettings = [];
                 for (i = 0; i <= differentDataVariables.length - 1; i++) {
                     html += '<h7>Variable: ' + differentDataVariables[i] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Spatialization: </p>';
                     html += '<div nexus-ui=select id=spatDataVariable-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(0);
                 }
 
                 html += '</fieldset>';
                 $('#spatializationSettings').html(html);
+
+                if (!App.config.sonification.Spatialization.hasOwnProperty("DataVariable")) {
+                    App.config.sonification.Spatialization.DataVariable = {
+                        value: configSettings
+                    }
+                }
+
                 for (i = 0; i <= differentDataVariables.length - 1; i++) {
                     var string = '#spatDataVariable-' + i;
                     spatDataVariable.push(new Nexus.Slider(string, {
@@ -286,6 +357,10 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
+                    spatDataVariable[spatDataVariable.length-1].value = App.config.sonification.Spatialization.DataVariable.value[spatDataVariable.length-1];
+                    spatDataVariable[spatDataVariable.length-1].on('change', function(v) {
+                        App.config.sonification.Spatialization.DataVariable.value[spatDataVariable.length-1] = spatDataVariable[spatDataVariable.length-1].value
+                    });
                 }
                 break;
             case 'Query-Progress':
