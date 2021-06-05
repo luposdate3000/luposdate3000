@@ -315,9 +315,6 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             startEndMapElseBranch.clear()
             cleanupIdenticalIDs()
             myPrint(1, printmode, true)
-            // println(startEndMap)
-            // println(startEndMapElseBranch)
-            // println(identicalIdsMap)
         }
 
         fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "break@error" }) {

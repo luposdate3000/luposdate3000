@@ -47,7 +47,6 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                         }
                         val storeNode = storeNodeTmp
                         storeNode.hasSplitFromStore = false
-                        println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         onChange()
                     }
@@ -62,7 +61,6 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                         }
                         val storeNode = storeNodeTmp
                         storeNode.hasSplitFromStore = false
-                        println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         onChange()
                     }

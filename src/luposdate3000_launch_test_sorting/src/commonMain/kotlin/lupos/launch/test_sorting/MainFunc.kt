@@ -82,7 +82,7 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
             lstart = rend
         }
         size += size
-// //
+//
         lstart = 0
         while (lstart < n) {
             var lend = min(lstart + size * step, n)
@@ -127,7 +127,6 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
 }
 
 private inline fun mergesort1(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline copyAToA: (Int, Int) -> Unit, crossinline cmpBtoA: (Int, Int) -> Int) {
-// require(b.length>=a.length/2)
     var s = 1
     while (s < n) {
         var m = n - 1 - s

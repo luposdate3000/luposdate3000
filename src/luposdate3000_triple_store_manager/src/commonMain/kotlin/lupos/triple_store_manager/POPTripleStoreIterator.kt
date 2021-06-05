@@ -71,7 +71,6 @@ public class POPTripleStoreIterator(
         res.addContent(XMLElement("oparam").addContent(children[2].toXMLElement(partial)))
         res.addContent(XMLElement("idx").addContent(tripleStoreIndexDescription.toXMLElement()))
         return res
-// tripleStoreManager.getIndexFromXML(node["idx"])
     }
 
     public fun getIndexPattern(): EIndexPattern {

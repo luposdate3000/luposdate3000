@@ -18,8 +18,8 @@ package lupos.operator.arithmetik.noinput
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
+import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
-import lupos.shared.ValueBnode
 import lupos.shared.ValueDefinition
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -51,29 +51,20 @@ public class AOPConstant : AOPBase, IAOPConstant {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
-        val tmp = DictionaryHelper.byteArrayToValueDefinition(buffer)
-        return if (tmp is ValueBnode) {
+        return if (DictionaryHelper.byteArrayToType(buffer) == ETripleComponentTypeExt.BLANK_NODE) {
             XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
         } else {
-            tmp.toXMLElement(partial)
+            return DictionaryHelper.byteArrayToXMLElement(buffer)
         }
     }
 
     override fun toSparql(): String {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
-        return DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString() ?: ""
+        return DictionaryHelper.byteArrayToSparql(buffer)
     }
 
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        val buffer = ByteArrayWrapper()
-        query.getDictionary().getValue(buffer, value)
-        val va = DictionaryHelper.byteArrayToValueDefinition(buffer)
-        return {
-            va
-        }
-    }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {
         return {

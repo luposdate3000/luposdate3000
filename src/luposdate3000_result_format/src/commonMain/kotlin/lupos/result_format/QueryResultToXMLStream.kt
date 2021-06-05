@@ -129,7 +129,7 @@ public object QueryResultToXMLStream {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
+    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()

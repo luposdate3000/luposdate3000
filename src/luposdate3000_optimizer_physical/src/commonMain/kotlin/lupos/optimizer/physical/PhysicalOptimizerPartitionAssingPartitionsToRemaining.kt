@@ -43,7 +43,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             if (c is AOPVariable) {
                                 try {
                                     partitionVariable = c.name
-                                    println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
                                     new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
                                     break
                                 } catch (e: Throwable) {
@@ -53,7 +52,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                         }
                         if (new_count > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
-                            println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
                             if (node.projectedVariables.size > 0) {
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
                             } else {

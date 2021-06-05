@@ -27,7 +27,7 @@ var graphSettings = {
 };
 
 
-$('#getgraphdata').click(function() {
+$("a[href=#graph-tab]").click(function() {
     fitNetworkAST();
 });
 

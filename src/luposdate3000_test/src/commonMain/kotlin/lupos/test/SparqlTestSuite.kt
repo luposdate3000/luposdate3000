@@ -641,7 +641,6 @@ public open class SparqlTestSuite {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = MemoryTableFromXML()(jenaResult, xmlQueryResult!!.query!!)
-// println("test xmlJena >>>>>"+jenaResult+"<<<<<")
                         if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true)) {
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")

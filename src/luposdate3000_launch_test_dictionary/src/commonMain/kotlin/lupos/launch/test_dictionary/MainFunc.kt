@@ -38,7 +38,6 @@ import kotlin.math.max
 @JvmField
 internal val verbose = false
 
-// @JvmField internal val maxSize = 16
 @JvmField
 internal val maxSize = 16384
 

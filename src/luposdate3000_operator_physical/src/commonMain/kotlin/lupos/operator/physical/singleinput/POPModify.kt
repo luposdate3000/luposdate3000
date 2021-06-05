@@ -166,7 +166,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                 }
                 val graphName: String = if (first.graphVar) {
                     query.getDictionary().getValue(buffer, row[graphVarIdx])
-                    DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()!!
+                    DictionaryHelper.byteArrayToSparql(buffer)
                 } else {
                     first.graph
                 }

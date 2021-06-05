@@ -1,22 +1,15 @@
 'use strict';
 
-const gulp = require('gulp');
-const concat = require('gulp-concat');
-const clean = require('gulp-clean');
-const coffee = require('gulp-coffee');
-const sourcemaps = require('gulp-sourcemaps');
-const merge = require('merge-stream');
+const gulp = require('gulp'); //base module
+const concat = require('gulp-concat'); //concat multiple files into one
+const clean = require('gulp-clean'); //the clean target
+const coffee = require('gulp-coffee'); //for coffe script
+const sourcemaps = require('gulp-sourcemaps'); //adding the modified sourcemaps to the concatenated files
+const merge = require('merge-stream'); //merging multiple inputstreams into one
 const debug = require('gulp-debug');
-const order = require("gulp-order");
-const sass = require("gulp-sass");
-const hjson = require("gulp-hjson");
-const util = require("gulp-util");
-const svgSprite = require("gulp-svg-sprite")
-
-const handleError = function(err) {
-    new util.log(err);
-    this.emit('end');
-}
+const order = require("gulp-order"); //sorting the files, such that the initialisation ordering is ok
+const hjson = require("gulp-hjson"); //json files which can include comments
+const svgSprite = require("gulp-svg-sprite") //merging images into one
 
 gulp.task('hjson', function() {
     return gulp.src([
@@ -31,24 +24,21 @@ gulp.task('hjson', function() {
 
 
 gulp.task('concatCSS', function() {
-    return merge(
-            gulp.src([
-                "bower_components/foundation/css/foundation.css",
-                "bower_components/codemirror/lib/codemirror.css",
-                "bower_components/font-source-sans-pro/source-sans-pro.css",
-                "bower_components/please-wait/build/please-wait.css",
-                "bower_components/codemirror/addon/fold/foldgutter.css",
-                "bower_components/spectrum/spectrum.css",
-                //                "node_modules/vis-network/styles/vis-network.css",
-            ]),
-            gulp.src([
-                "app/styles/main.scss",
-            ])
-            .pipe(sass({
-                errLogToConsole: true
-            }))
-        )
+    return gulp.src([
+            "bower_components/foundation/css/foundation.css",
+            "bower_components/codemirror/lib/codemirror.css",
+            "bower_components/font-source-sans-pro/source-sans-pro.css",
+            "bower_components/please-wait/build/please-wait.css",
+            "bower_components/codemirror/addon/fold/foldgutter.css",
+            "bower_components/spectrum/spectrum.css",
+            "app/styles/main.css",
+        ])
+        .pipe(sourcemaps.init({
+            loadMaps: true,
+            largeFile: true
+        }))
         .pipe(concat('vendor.css'))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/styles/'));
 });
 
@@ -92,31 +82,31 @@ gulp.task('concatJS', function() {
                 "app/scripts/codemirror-modes/N3/N3.js",
                 "app/scripts/algos/visualization.js", // used by sonification
                 //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+                "app/scripts/algos/luposdate3000/kotlin.js",
+                "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
                 //LUPOSDATE3000 GENERATED CODE END
             ]),
             gulp.src([
@@ -125,7 +115,9 @@ gulp.task('concatJS', function() {
             ])
             .pipe(coffee({
                 bare: true
-            })).on('error', handleError)
+            })).on('error', function(err) {
+                console.log(err)
+            })
         )
         .pipe(sourcemaps.init({
             loadMaps: true,
@@ -161,31 +153,31 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/visualisationUtil/octaveMapping.js",
             "bower_components/spectrum/spectrum.js",
             //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+            "app/scripts/algos/luposdate3000/kotlin.js",
+            "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
             //LUPOSDATE3000 GENERATED CODE END
             "app/scripts/algos/createGraph.js",
             "app/scripts/algos/createOPGraph.js",
@@ -331,13 +323,22 @@ gulp.task('images', function() {
 });
 
 gulp.task('fonts', function() {
-    return gulp.src([
+    return merge(
+        gulp.src([
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-BoldIt.otf",
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Bold.otf",
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Regular.otf",
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Semibold.otf",
+        ])
+        .pipe(gulp.dest('dist/styles/OTF')),
+        gulp.src([
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-BoldIt.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Bold.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Semibold.otf.woff",
         ])
-        .pipe(gulp.dest('dist/styles/WOFF/OTF'));
+        .pipe(gulp.dest('dist/styles/WOFF/OTF'))
+    );
 });
 
 gulp.task('clean', function() {

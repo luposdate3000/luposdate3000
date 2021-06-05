@@ -21,8 +21,9 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
 import lupos.shared.XMLElement
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -37,22 +38,31 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationSAMPLE && distinct == other.distinct && children.contentEquals(other.children)
-    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-        val res = ColumnIteratorAggregate()
-        val child = (children[0] as AOPBase).evaluate(row)
-        res.evaluate = {
-            val value = child()
-            res.value = value
-            res.evaluate = {
+    private class ColumnIteratorAggregateSAMPLE(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        private var value = DictionaryExt.undefValue
+        private var isError = false
+        private var hasInit = false
+
+        override fun evaluate() {
+            if (!hasInit) {
+                value = child()
+                hasInit = true
             }
         }
-        return res
+
+        override fun evaluateFinish(): Int {
+            return value
+        }
     }
 
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
+        return ColumnIteratorAggregateSAMPLE((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+    }
+
+    override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            tmp.value
+            tmp.evaluateFinish()
         }
     }
 

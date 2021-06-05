@@ -23,6 +23,7 @@ import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.ValueBnode
+import lupos.shared.ValueDateTime
 import lupos.shared.ValueDecimal
 import lupos.shared.ValueDefinition
 import lupos.shared.ValueDouble
@@ -32,6 +33,7 @@ import lupos.shared.ValueIri
 import lupos.shared.ValueLanguageTaggedLiteral
 import lupos.shared.ValueSimpleLiteral
 import lupos.shared.ValueTypedLiteral
+import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
@@ -227,7 +229,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper) {
         val dateNow = DateHelper()
-        return dateTimeToByteArray(buffer, BigInteger.parseString(dateNow.year().toString(), 10), dateNow.month(), dateNow.day(), dateNow.hours(), dateNow.minutes(), BigDecimal.parseString(dateNow.seconds().toString(), 10), -99, -99, false)
+        dateTimeToByteArray(buffer, BigInteger.parseString(dateNow.year().toString(), 10), dateNow.month(), dateNow.day(), dateNow.hours(), dateNow.minutes(), BigDecimal.parseString(dateNow.seconds().toString(), 10), -99, -99, false)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -890,6 +892,27 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
+    public inline fun byteArrayToXMLElement(buffer: ByteArrayWrapper): XMLElement {
+        val type = byteArrayToType(buffer)
+        return when (type) {
+            ETripleComponentTypeExt.BLANK_NODE -> XMLElement("ValueBnode").addAttribute("dictvalue", byteArrayToBnode_I(buffer).toString())
+            ETripleComponentTypeExt.BOOLEAN -> XMLElement("ValueBoolean").addAttribute("value", byteArrayToBoolean(buffer).toString())
+            ETripleComponentTypeExt.UNDEF -> XMLElement("ValueUndef")
+            ETripleComponentTypeExt.ERROR -> XMLElement("ValueError")
+            ETripleComponentTypeExt.DOUBLE -> XMLElement("ValueDouble").addAttribute("value", byteArrayToDouble_S(buffer))
+            ETripleComponentTypeExt.FLOAT -> XMLElement("ValueFloat").addAttribute("value", byteArrayToFloat_S(buffer))
+            ETripleComponentTypeExt.INTEGER -> XMLElement("ValueInteger").addAttribute("value", byteArrayToInteger_S(buffer))
+            ETripleComponentTypeExt.DECIMAL -> XMLElement("ValueDecimal").addAttribute("value", byteArrayToDecimal_S(buffer))
+            ETripleComponentTypeExt.IRI -> XMLElement("ValueIri").addAttribute("value", byteArrayToIri(buffer))
+            ETripleComponentTypeExt.STRING -> XMLElement("ValueSimpleLiteral").addAttribute("delimiter", "\"").addAttribute("content", byteArrayToString(buffer))
+            ETripleComponentTypeExt.STRING_LANG -> XMLElement("ValueLanguageTaggedLiteral").addAttribute("delimiter", "\"").addAttribute("content", byteArrayToLang_Content(buffer)).addAttribute("language", byteArrayToLang_Lang(buffer))
+            ETripleComponentTypeExt.STRING_TYPED -> XMLElement("ValueTypedLiteral").addAttribute("delimiter", "\"").addAttribute("content", byteArrayToTyped_Content(buffer)).addAttribute("type_iri", byteArrayToTyped_Type(buffer))
+            ETripleComponentTypeExt.DATE_TIME -> XMLElement("ValueDateTime").addAttribute("value", byteArrayToDateTimeAsTyped_Content(buffer))
+            else -> throw Exception("unreachable $type")
+        }
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun byteArrayToSparql(buffer: ByteArrayWrapper): String {
         val type = byteArrayToType(buffer)
         return when (type) {
@@ -938,6 +961,7 @@ internal object DictionaryHelper {
             ETripleComponentTypeExt.STRING -> ValueSimpleLiteral("\"", byteArrayToString(buffer))
             ETripleComponentTypeExt.STRING_LANG -> ValueLanguageTaggedLiteral("\"", byteArrayToLang_Content(buffer), byteArrayToLang_Lang(buffer))
             ETripleComponentTypeExt.STRING_TYPED -> ValueTypedLiteral("\"", byteArrayToTyped_Content(buffer), byteArrayToTyped_Type(buffer))
+            ETripleComponentTypeExt.DATE_TIME -> ValueDateTime(byteArrayToSparql(buffer))
             else -> throw Exception("unreachable $type")
         }
     }

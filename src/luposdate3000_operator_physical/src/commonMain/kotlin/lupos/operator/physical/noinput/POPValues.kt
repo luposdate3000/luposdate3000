@@ -61,7 +61,7 @@ public open class POPValues : POPBase {
                         "UNDEF "
                     } else {
                         query.getDictionary().getValue(buffer, columns[v]!![i])
-                        DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString() + " "
+                        DictionaryHelper.byteArrayToSparql(buffer)
                     }
                 }
                 res += ")"
@@ -203,7 +203,7 @@ public open class POPValues : POPBase {
                 bindings.addContent(b)
                 for (variableIndex in variables.indices) {
                     query.getDictionary().getValue(buffer, columns[variableIndex]!![i])
-                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
+                    val value = DictionaryHelper.byteArrayToSparql(buffer)
                     if (value != null) {
                         b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
                     } else {

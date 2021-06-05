@@ -44,7 +44,6 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     }
                     val storeNode = storeNodeTmp
                     val max_count = query.partitionOperatorCount[node.partitionID]
-                    println("PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     query.partitionOperatorCount[node.partitionID] = new_count
                     node.partitionCount = new_count
@@ -60,7 +59,6 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     }
                     val storeNode = storeNodeTmp
                     val max_count = query.partitionOperatorCount[node.partitionID]
-                    println("PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     query.partitionOperatorCount[node.partitionID] = new_count
                     node.partitionCount = new_count

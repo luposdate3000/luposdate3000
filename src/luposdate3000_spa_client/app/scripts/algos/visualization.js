@@ -23,10 +23,15 @@ var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
 
-const panner = new Tone.Panner(0).toDestination();
-if (typeof luposdate3000_endpoint === "undefined") {
-    luposdate3000_endpoint = Luposdate3000_Endpoint
+
+function initLuposdate3000() {
+    if (typeof luposdate3000_endpoint === "undefined") {
+        luposdate3000_endpoint = Luposdate3000_Endpoint
+    }
 }
+
+
+const panner = new Tone.Panner(0).toDestination();
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
 function visualisationSetup() {
@@ -54,10 +59,9 @@ function visualisationSetup() {
             networkSon.destroy();
         }
         globalAnimationList = [];
-        $('.results-tab a').click()
+        $('.result-tab a').click()
         //First time initialization
     } else {
-        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
 
         //Slider for the Animation Speed
         slider = new Nexus.Slider('#sonification-animation-speed', {
@@ -150,7 +154,7 @@ function selectMapping() {
 
 // Event Listener
 // Re-fit the canvas if the "Sonification" tab is clicked
-$('#getLuposdate3000Graphlink').click(function() {
+$("a[href=#luposdate3000-graph-tab]").click(function() {
     if ($('#eval-graph-sparql').prop('checked')) {
         sleep(50).then(() => {
             network.redraw();
@@ -244,7 +248,7 @@ $('input[type=radio][name=L3Graph]').change(function() {
 
 });
 
-$('#getLuposdate3000Graphlink').click(function() {
+$("a[href=#luposdate3000-graph-tab]").click(function() {
     sleep(50).then(() => {
         network.redraw();
         network.fit();
@@ -252,7 +256,7 @@ $('#getLuposdate3000Graphlink').click(function() {
 });
 
 
-$('#getLuposdate3000GraphSonlink').click(function() {
+$("a[href=#luposdate3000-sonification-tab]").click(function() {
     sleep(50).then(() => {
         loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
     })
@@ -304,7 +308,6 @@ $('#luposdate3000_play').click(function() {
             }]);
         }
     }
-    $('#getLuposdate3000Graphlink').css("pointer-events", "none");
     $('#luposdate3000_stop').show();
     $('#luposdate3000_play').hide();
     $('#luposdate3000_pause').show();
@@ -481,7 +484,6 @@ $('#dataVariableDepth').click(function() {
 //Event Listener
 // Set stopFlag to stop Animation when stop button is pressed
 $('#luposdate3000_stop').click(function() {
-    $('#getLuposdate3000Graphlink').css("pointer-events", "");
     $('#luposdate3000_stop').hide();
     $('#luposdate3000_play').show();
     $('#luposdate3000_pause').hide();

@@ -67,10 +67,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                 }
             }
             val targetIdx = LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName })
-            // println("targetIdx ${EIndexPatternExt.names[targetIdx]}")
             res = store.getIterator(query, params, targetIdx)
-// println("usedIdx ${((res as POPTripleStoreIterator).tripleStoreIndexDescription as TripleStoreIndexDescription).idx_set.map{EIndexPatternExt.names[it]}}")
-//            println("PhysicalOptimizerTripleIndex : initialize any Iterator ${res.getUUID()}")
             if (res is POPTripleStoreIterator) {
                 res.sortPriorities = node.sortPriorities
                 res.mySortPriority = node.mySortPriority

@@ -19,7 +19,7 @@ var graphOPSetting = {
     direction: "UD"
 };
 
-$('#getopgraphdata').click(function() {
+$("a[href=#op-graph-tab]").click(function() {
     fitNetworkOP();
 });
 

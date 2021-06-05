@@ -110,7 +110,7 @@ public abstract class ADictionary : IDictionary {
             }
             mymapping[id] = i
         }
-        println("imported dictionary with $lastId items")
+        println("imported $lastId dictionaryItems")
         return Pair(mymapping, lastId + 1)
     }
 }
