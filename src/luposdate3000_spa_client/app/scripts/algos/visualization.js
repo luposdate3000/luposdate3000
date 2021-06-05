@@ -871,25 +871,6 @@ function loadData(dataParameter, flag) {
     draw(flag);
 }
 
-function testAjax() {
-    var inputValue = App.cm['sparql'].getValue();
-
-    var formData = {
-        'query': inputValue,
-        'evaluator': "XML_STREAM",
-    };
-    $.ajax({
-            type: 'POST',
-            url: '/sparql/query',
-            data: formData
-        })
-        .done(function(data) {
-            App.resultValue = data;
-        });
-    return App.resultValue;
-}
-
-
 function addCustomContextMenu(networkObject, contextFlag) {
     var string;
     if (contextFlag) {
