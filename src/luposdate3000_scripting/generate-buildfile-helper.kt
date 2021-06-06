@@ -16,7 +16,7 @@
  */
 package launcher
 
-enum class ExecMode { RUN, HELP, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_GRADLE, UNKNOWN, SETUP_SPACLIENT, SETUP_ADDITIONAL_TESTS }
+enum class ExecMode { RUN, HELP, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_GRADLE, UNKNOWN, SETUP_SPACLIENT }
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 enum class ReleaseMode { Enable, Disable }
 enum class DryMode { Enable, Disable }

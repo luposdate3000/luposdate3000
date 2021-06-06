@@ -613,13 +613,6 @@ val defaultParams = mutableListOf(
             execMode = ExecMode.SETUP_GRADLE
         }
     ),
-    ParamClass(
-        "--setupAdditionalTests",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.SETUP_ADDITIONAL_TESTS
-        }
-    ),
 )
 
 fun enableParams(params: List<ParamClass>) {
@@ -693,7 +686,6 @@ when (execMode) {
     ExecMode.GENERATE_LAUNCHER -> onGenerateLauncherMain()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_GRADLE -> onSetupGradle()
-    ExecMode.SETUP_ADDITIONAL_TESTS -> onSetupAdditionalTests()
     ExecMode.SETUP_SPACLIENT -> onSetupSPAClient()
     else -> {
         throw Exception("unknown execMode $execMode")
@@ -768,12 +760,6 @@ fun onSetupGradle() {
             outBuildGradle.println("}")
         }
     }
-}
-
-fun onSetupAdditionalTests() {
-    mainClass = "Luposdate3000_Launch_Generate_Unit_Test_Suite_Multi"
-    onRun()
-    onSetupGradle()
 }
 
 fun onRun() {
