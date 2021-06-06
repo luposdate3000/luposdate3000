@@ -98,33 +98,34 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     }
 
     public fun finish() {
-        if (enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) || enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN) || enabledConfigurations.contains(Config.RUNTIME)) {
-            File(outputFolderSrcJvm + "/MainFunc.kt").withOutputStream { out ->
-                out.println("/*")
-                out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
-                out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
-                out.println(" *")
-                out.println(" * This program is free software: you can redistribute it and/or modify")
-                out.println(" * it under the terms of the GNU General Public License as published by")
-                out.println(" * the Free Software Foundation, version 3.")
-                out.println(" *")
-                out.println(" * This program is distributed in the hope that it will be useful, but")
-                out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
-                out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
-                out.println(" * General Public License for more details.")
-                out.println(" *")
-                out.println(" * You should have received a copy of the GNU General Public License")
-                out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
-                out.println(" */")
-                out.println("package lupos.launch.$folderPathCoponent")
-                out.println("import lupos.shared.Parallel")
-                out.println("")
-                out.println("internal fun mainFunc(): Unit = Parallel.runBlocking {")
+        val flag = enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) || enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN) || enabledConfigurations.contains(Config.RUNTIME)
+        File(outputFolderSrcJvm + "/MainFunc.kt").withOutputStream { out ->
+            out.println("/*")
+            out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+            out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+            out.println(" *")
+            out.println(" * This program is free software: you can redistribute it and/or modify")
+            out.println(" * it under the terms of the GNU General Public License as published by")
+            out.println(" * the Free Software Foundation, version 3.")
+            out.println(" *")
+            out.println(" * This program is distributed in the hope that it will be useful, but")
+            out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+            out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+            out.println(" * General Public License for more details.")
+            out.println(" *")
+            out.println(" * You should have received a copy of the GNU General Public License")
+            out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+            out.println(" */")
+            out.println("package lupos.launch.$folderPathCoponent")
+            out.println("import lupos.shared.Parallel")
+            out.println("")
+            out.println("internal fun mainFunc(): Unit = Parallel.runBlocking {")
+            if (flag) {
                 for (test in allTests) {
                     out.println("    $test()")
                 }
-                out.println("}")
             }
+            out.println("}")
         }
     }
 
@@ -255,15 +256,14 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("")
                 if (configIsBuildTime(configuration.second)) {
                     out.println("public class $testCaseName {")
-//                    out.println("   init{ throw Exception(File(\"src/commonTest/resources/$testCaseName.input\").getAbsolutePath())}")
-                    out.println("    val inputData=File(\"src/commonTest/resources/$testCaseName.input\").readAsString()")
-                    out.println("    val targetData=File(\"src/commonTest/resources/$testCaseName.output\").readAsString()")
-                    out.println("    val targetType=\"$targetType\"")
+                    out.println("   val inputData=File(\"src/commonTest/resources/$testCaseName.input\").readAsString()")
+                    out.println("   val targetData=File(\"src/commonTest/resources/$testCaseName.output\").readAsString()")
+                    out.println("   val targetType=\"$targetType\"")
                 } else {
                     out.println("public object $testCaseName {")
-                    out.println("    internal const val inputData=File(\"src/commonTest/resources/$testCaseName.input\").readAsString()")
-                    out.println("    internal const val targetData=File(\"src/commonTest/resources/$testCaseName.output\").readAsString()")
-                    out.println("    internal const val targetType=\"$targetType\"")
+                    out.println("   internal val inputData=File(\"src/luposdate3000_launch_code_gen_test/src/commonTest/resources/$testCaseName.input\").readAsString()")
+                    out.println("   internal val targetData=File(\"src/luposdate3000_launch_code_gen_test/src/commonTest/resources/$testCaseName.output\").readAsString()")
+                    out.println("   internal val targetType=\"$targetType\"")
                 }
                 if (configIsCodeGen(configuration.second)) {
                     out.println("    @CodeGenerationAnnotation")
@@ -272,7 +272,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("    val query = File(\"src/commonTest/resources/$testCaseName.query\").readAsString()")
                     out.println("    @Test fun `${testName.filter { it.isLetterOrDigit() || it == ' ' }}`(){")
                 } else {
-                    out.println("    internal const val query = File(\"src/commonTest/resources/$testCaseName.query\").readAsString()")
+                    out.println("    internal val query = File(\"src/luposdate3000_launch_code_gen_test/src/commonTest/resources/$testCaseName.query\").readAsString()")
                     out.println("    internal operator fun invoke(){")
                     out.println("        println(\"Test #$counter: '$testName'\")")
                     out.println("        var success = true")
