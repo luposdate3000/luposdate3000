@@ -28,7 +28,6 @@ import java.nio.file.Paths
 import kotlin.jvm.JvmField
 
 internal actual class File actual constructor(@JvmField internal val filename: String) {
-
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun exists() = java.io.File(filename).exists()
 

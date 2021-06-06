@@ -369,6 +369,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         for (filename in listOf("${moduleArgs.moduleFolder}/build.gradle.kts")) {
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
+                out.println("import org.gradle.api.tasks.testing.logging.TestExceptionFormat")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        mavenLocal()")
@@ -721,6 +722,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
                     out.println("}")
                 }
+                out.println("tasks.withType<Test> {")
+                out.println("    testLogging {")
+                out.println("        exceptionFormat = TestExceptionFormat.FULL")
+                out.println("    }")
+                out.println("}")
             }
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()

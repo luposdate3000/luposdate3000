@@ -1,3 +1,0 @@
-Massive-Scale RDF Processing Using Compressed Bitmap Indexes
-
-yago1 A1:: select ?fn ?gn where { ?p <hasAcademicAdvisor> ?a . ?p a <wordnet_scientist_110560637> . ?p <bornIn> ?city . ?a <bornIn> ?city2 . ?p <hasFamilyName> ?fn . ?p <hasGivenName> ?gn . ?city <locatedIn> <Switzerland> . ?city2 <locatedIn> <Germany> . }
