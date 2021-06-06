@@ -4,10 +4,7 @@
             mode: "None",
         },
         Instrument: {
-            mode: "Operator-Depth",
-            OperatorDepth: {
-                value: ["bassoon"],
-            }
+            mode: "None",
         },
         Loudness: {
             mode: "None",

@@ -5,101 +5,6 @@ var octaveOperatorVariable = [];
 var octaveDataIndex;
 var octaveDataVariable = [];
 
-function getOctave(string, id, label, index) {
-    switch (string) {
-        case 'Simple':
-            return octaveDataIndex.value;
-            break;
-        case 'Operator-ID':
-            var i;
-            var j = 0;
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                    if (dataNodes[i].id == id) {
-                        var t = octaveOperator[j].value;
-                        return t;
-                    }
-                    j++;
-                }
-            }
-            break;
-        case 'Operator-Depth':
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (dataNodes[i].id == id) {
-                    for (j = 0; j <= differentPositions.length - 1; j++) {
-                        if (Object.values(networkSon.getPositions(id))[0].y == parseInt(differentPositions[j], 10)) {
-                            var t = octaveOperatorDepth[j].value;
-                            return t;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Operator-Type':
-            var i, j;
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (dataNodes[i].id == id) {
-                    for (j = 0; j <= differentTypes.length; j++) {
-                        if (dataNodes[i].label.split(" ")[0] == differentTypes[j]) {
-                            return octaveOperatorType[j].value;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Operator-Variable':
-            var i, j;
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (dataNodes[i].id == id) {
-                    for (j = 0; j <= differentOperatorVariables.length; j++) {
-                        if (dataNodes[i].label.split("\n")[1] == differentOperatorVariables[j]) {
-                            return octaveOperatorVariable[j].value;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Data-Index':
-            var max = 0;
-            var min = 999999999999999;
-            var i;
-            for (i = 0; i <= globalAnimationList.length - 1; i++) {
-                var k = parseInt(globalAnimationList[i][3], 10);
-                if (k > max) {
-                    max = k;
-                }
-                if (k < min) {
-                    min = k;
-                }
-            }
-
-            var durations = [1, 2, 3, 4, 5, 6, 7];
-            var tmp2 = scale(index, min, max, 1, 7);
-            var output = durations.reduce((prev, curr) => Math.abs(curr - tmp2) < Math.abs(prev - tmp2) ? curr : prev);
-            return '' + output;
-            break;
-        case 'Data-Variable':
-            var i, j;
-            for (i = 0; i <= globalAnimationList.length - 1; i++) {
-                if (globalAnimationList[i][3] == index) {
-                    for (j = 0; j <= differentDataVariables.length; j++) {
-                        if (globalAnimationList[i][2].split(" ")[0] == differentDataVariables[j]) {
-                            return octaveDataVariable[j].value;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Query-Progress':
-            var durations = [1, 2, 3, 4, 5, 6, 7];
-            var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-            var tmp2 = scale(tmp, 0, 100, 1, 7);
-            var output = durations.reduce((prev, curr) => Math.abs(curr - tmp2) < Math.abs(prev - tmp2) ? curr : prev);
-            return '' + output;
-            break;
-    }
-}
-
 function octaveSetup() {
     App.mappingFunctions.Octave = function(string) {
         App.config.sonification.Octave.mode = string
@@ -312,8 +217,14 @@ function octaveSetup() {
 
                 var i;
                 calcDifferentDataVariables();
-
                 var configSettings = [];
+
+                if (!App.config.sonification.Octave.hasOwnProperty("DataVariable")) {
+                    App.config.sonification.Octave.DataVariable = {
+                        value: configSettings
+                    }
+                }
+
                 for (i = 0; i <= differentDataVariables.length - 1; i++) {
                     html += '<h7>Variable: ' + differentDataVariables[i] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';

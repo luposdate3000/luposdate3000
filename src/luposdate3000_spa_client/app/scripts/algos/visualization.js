@@ -126,7 +126,7 @@ function createMapping() {
             noValue = "No"
         }
         selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
-            'size': [100, 40],
+            'size': [200, 40],
             'options': options
         });
         selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
@@ -649,7 +649,7 @@ function playNoteMapping(id, label, index) {
         octave = '';
     } else {
         if (octaveType != 'None') {
-            octave = getOctave(octaveType, id, label, index);
+            octave = getAudioData(octaveType, id, label, index, "Octave");
         } else {
             octave = '3';
         }
@@ -659,9 +659,9 @@ function playNoteMapping(id, label, index) {
     //If Chord is selected the pitch settings will be ignored/overwritten
     if (melodyType == 'No') {
         if (chordType != 'None') {
-            tone = getChord(chordType, id, label, index);
+            tone = getAudioData(chordType, id, label, index, "Chord");
         } else if (pitchType != 'None') {
-            tone = getPitch(pitchType, id, label, index);
+            tone = getAudioData(pitchType, id, label, index, "Pitch");
             //current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
             triggerNote(tone + octave, duration, "+0", velocity)
         } else {
@@ -674,15 +674,11 @@ function playNoteMapping(id, label, index) {
 
     if (melodyType != 'No' || chordType != 'None') {
         if (tone[0]) {
-            //current.connect(panner).triggerAttackRelease(tone[1] + octave, duration, "+0", velocity);
-            //current.connect(panner).triggerAttackRelease(tone[2] + octave, duration, "+0.15", velocity);
-            //current.connect(panner).triggerAttackRelease(tone[3] + octave, duration, "+0.3", velocity);
             triggerNote(tone[1] + octave, duration, "+0", velocity);
             triggerNote(tone[2] + octave, duration, "+0.15", velocity);
             triggerNote(tone[3] + octave, duration, "+0.3", velocity);
         } else {
             var chord = [tone[1] + octave, tone[2] + octave, tone[3] + octave];
-            //current.connect(panner).triggerAttackRelease(chord, duration, "+0", velocity);
             triggerNote(chord, duration, "+0", velocity);
         }
     }
