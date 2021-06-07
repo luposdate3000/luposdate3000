@@ -223,7 +223,6 @@ function audioDimensionSetup(mode, audioDimension) {
                 $("#" + audioDimension.toLowerCase() + "Settings").empty();
                 html = '<fieldset>';
             }
-
             html += '<h7>Select a global setting.</h7><br><br>';
             html += '<div style=overflow:hidden;>'
             html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
@@ -233,15 +232,12 @@ function audioDimensionSetup(mode, audioDimension) {
                 html += '<input type=checkbox id=arpeggioSimple style=overflow:hidden;margin-top:12px;><br>';
             }
             html += '</div>';
-
             if (audioDimension === "Pitch") {
                 $('#pitchSettingsExplicit').html(html);
             } else {
                 html += '</fieldset>';
                 $("#" + audioDimension.toLowerCase() + "Settings").html(html);
             }
-
-
             var configParameter = getConfigParameter(audioDimension);
             var myMenu = createMyMenu(audioDimension, "#" + audioDimension.toLowerCase() + "Simple")
             myMenu.value = App.config.sonification[audioDimension][mode].value;
@@ -270,7 +266,6 @@ function audioDimensionSetup(mode, audioDimension) {
                 $("#" + audioDimension.toLowerCase() + "Settings").empty();
                 html = '<fieldset>';
             }
-
             var i;
             var configSettings = [];
             var arpeggioSettings = [];
@@ -289,7 +284,6 @@ function audioDimensionSetup(mode, audioDimension) {
                     configSettings.push(getDefaultValue(audioDimension));
                 }
             }
-
             if (audioDimension === "Pitch") {
                 $('#pitchSettingsExplicit').html(html);
             } else {
@@ -363,7 +357,6 @@ function calculateMinMaxIndex() {
             minIndex = k;
         }
     }
-
 }
 
 function getChordTones(mode, j, isArray) {
