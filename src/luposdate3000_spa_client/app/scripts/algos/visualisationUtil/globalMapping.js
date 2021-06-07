@@ -1,16 +1,15 @@
 var minId, maxId, minDepth, maxDepth, minIndex, maxIndex;
 
 function getAudioData(string, id, label, index, audioDimension){
-    var mode = eval("App.config.sonification."+audioDimension+".mode");
+    var mode = App.config.sonification[audioDimension].mode;
     console.log(mode);
     var pitchMode = parseInt($('input[type=radio][name=pitch]:checked').val(), 10);
     switch (mode) {
         case 'Simple':
-            console.log("in simple");
             if(audioDimension === "Chord"){
                 return getChordTones(mode, false, false);
             }else{
-                return eval("App.config.sonification." + audioDimension + ".Simple.value");
+                return App.config.sonification[audioDimension].Simple.value;
             }
         case "Operator-ID":
             if (audioDimension === "Pitch" && pitchMode === 0) {
@@ -23,7 +22,7 @@ function getAudioData(string, id, label, index, audioDimension){
                             if(audioDimension === "Chord"){
                                 return getChordTones(mode, j, true);
                             }else{
-                                return eval("App.config.sonification."+audioDimension+".OperatorID.value[j]");
+                                return App.config.sonification[audioDimension].OperatorID.value[j];
                             }
                         }
                         j++;
@@ -32,7 +31,6 @@ function getAudioData(string, id, label, index, audioDimension){
             }
             break;
         case 'Operator-Depth':
-            console.log("in depth");
             if (audioDimension === "Pitch" && pitchMode === 0) {
                 return scale(networkSon.getPosition(id).y, minDepth, maxDepth, 30, 800);
             } else {
@@ -43,7 +41,7 @@ function getAudioData(string, id, label, index, audioDimension){
                                 if(audioDimension === "Chord"){
                                     return getChordTones(mode, j, true);
                                 }else {
-                                    return eval("App.config.sonification." + audioDimension + ".OperatorDepth.value[j]");
+                                    return App.config.sonification[audioDimension].OperatorDepth.value[j];
                                 }
                             }
                         }
@@ -60,7 +58,7 @@ function getAudioData(string, id, label, index, audioDimension){
                             if(audioDimension === "Chord"){
                                 return getChordTones(mode, j, true);
                             }else {
-                                return eval("App.config.sonification." + audioDimension + ".OperatorType.value[j]");
+                                return App.config.sonification[audioDimension].OperatorType.value[j];
                             }
                         }
                     }
@@ -76,7 +74,7 @@ function getAudioData(string, id, label, index, audioDimension){
                             if(audioDimension === "Chord"){
                                 return getChordTones(mode, j, true);
                             }else {
-                                return eval("App.config.sonification." + audioDimension + ".OperatorVariable.value[j]");
+                                return App.config.sonification[audioDimension].OperatorVariable.value[j];
                             }
                         }
                     }
@@ -92,7 +90,7 @@ function getAudioData(string, id, label, index, audioDimension){
                 var output = durations.reduce((prev, curr) => Math.abs(curr - tmp2) < Math.abs(prev - tmp2) ? curr : prev);
                 return output + 'n';
             }else if(audioDimension === "Loudness") {
-                var tmp = eval("App.config.sonification." + audioDimension + ".DataIndex.value");
+                var tmp = App.config.sonification[audioDimension].DataIndex.value;
                 return scale(index, minIndex, maxIndex, 0, tmp);
             }else if(audioDimension === "Octave") {
                 var durations = [1, 2, 3, 4, 5, 6, 7];
@@ -105,7 +103,7 @@ function getAudioData(string, id, label, index, audioDimension){
                 return getChordTones(mode, false, false);
             }
             else{
-                return eval("App.config.sonification."+audioDimension+".DataIndex.value");
+                return App.config.sonification[audioDimension].DataIndex.value;
             }
         case 'Data-Variable':
             var i, j;
@@ -116,7 +114,7 @@ function getAudioData(string, id, label, index, audioDimension){
                             if(audioDimension === "Chord"){
                                 return getChordTones(mode, j, true);
                             }else{
-                                return eval("App.config.sonification."+audioDimension+".DataVariable.value[j]");
+                                return App.config.sonification[audioDimension].DataVariable.value[j];
                             }
                         }
                     }
@@ -135,7 +133,7 @@ function getAudioData(string, id, label, index, audioDimension){
                 return output + 'n';
             }else if (audioDimension === "Loudness") {
                 var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                var tmp2 = eval("App.config.sonification." + audioDimension + ".QueryProgress.value");
+                var tmp2 = App.config.sonification[audioDimension].QueryProgress.value;
                 return scale(tmp, 0, 100, 0, tmp2);
             }else if(audioDimension === "Octave") {
                 var durations = [1, 2, 3, 4, 5, 6, 7];
@@ -149,17 +147,17 @@ function getAudioData(string, id, label, index, audioDimension){
             }else if(audioDimension === "Chord"){
                 return getChordTones(mode, false, false);
             }else{
-                return eval("App.config.sonification."+audioDimension+".QueryProgress.value");
+                return App.config.sonification[audioDimension].QueryProgress.value;
             }
     }
 }
 
 function audioDimensionSetup(mode, audioDimension){
-    eval("App.config.sonification."+audioDimension+".mode = "+mode);
+    App.config.sonification[audioDimension].mode = mode;
 
     switch(mode){
         case 'None':
-            eval("$('#"+audioDimension.toLowerCase()+"Settings').hide()");
+            $("#"+audioDimension.toLowerCase()+"Settings").hide();
             if(audioDimension === "Pitch"){
                 $('#pitchSettingsExplicit').hide();
                 $('#radioPitch').hide();
@@ -167,17 +165,17 @@ function audioDimensionSetup(mode, audioDimension){
             break;
         case 'Simple':
 
-            if (eval("!App.config.sonification."+audioDimension+".hasOwnProperty('Simple')")) {
-                eval("App.config.sonification."+audioDimension+".Simple = {value: getDefaultValue(audioDimension)}");
+            if (!App.config.sonification[audioDimension].hasOwnProperty('Simple'))) {
+                App.config.sonification[audioDimension].Simple = {value: getDefaultValue(audioDimension)};
             }
 
             var html;
-            eval("$('#"+audioDimension.toLowerCase()+"Settings').hide()");
+            $("#"+audioDimension.toLowerCase()+"Settings").hide();
             if(audioDimension === "Pitch"){
                 hidePitchElements();
                 html = '';
             }else{
-                eval("$('#"+audioDimension.toLowerCase()+"Settings').empty()");
+                $("#"+audioDimension.toLowerCase()+"Settings").empty();
                 html = '<fieldset>';
             }
 
@@ -191,28 +189,28 @@ function audioDimensionSetup(mode, audioDimension){
                 $('#pitchSettingsExplicit').html(html);
             }else{
                 html += '</fieldset>';
-                eval("$('#"+audioDimension.toLowerCase()+"Settings').html(html)");
+                $("#"+audioDimension.toLowerCase()+"Settings").html(html);
             }
 
 
             var configParameter = getConfigParameter(audioDimension);
 
 
-            eval(audioDimension.toLowerCase()+"Simple = new Nexus.Select('#"+audioDimension.toLowerCase()+"Simple', {'size': [100, 40],'options': App.operators."+configParameter+"})");
-            eval(audioDimension.toLowerCase()+"Simple.value = App.config.sonification."+audioDimension+".Simple.value");
+            mySimple = new Nexus.Select("#"+audioDimension.toLowerCase()+"Simple", {'size': [100, 40],'options': "App.operators."+configParameter+"});
+            mySimple.value = App.config.sonification[audioDimension].Simple.value;
             if(audioDimension === "Instrument"){
                 loadInstrument(instrumentSimple, false);
             }
-            eval(audioDimension.toLowerCase()+"Simple.on('change', function(v) {App.config.sonification."+audioDimension+".Simple.value = v.value})");
+            mySimple.on('change', function(v) {App.config.sonification[audioDimension].Simple.value = v.value});
             break;
         case 'Operator-ID':
             var html;
-            eval("$('#"+audioDimension.toLowerCase()+"Settings').hide()");
+            $("#"+audioDimension.toLowerCase()+"Settings").hide();
             if(audioDimension === "Pitch"){
                 hidePitchElements();
                 html = '<hr>';
             }else{
-                eval("$('#"+audioDimension.toLowerCase()+"Settings').empty()");
+                $("#"+audioDimension.toLowerCase()+"Settings").empty();
                 html = '<fieldset>';
             }
 
@@ -233,24 +231,24 @@ function audioDimensionSetup(mode, audioDimension){
                 $('#pitchSettingsExplicit').html(html);
             }else{
                 html += '</fieldset>';
-                eval("$('#"+audioDimension.toLowerCase()+"Settings').html(html)");
+                $("#"+audioDimension.toLowerCase()+"Settings").html(html);
             }
 
-            if (eval("!App.config.sonification."+audioDimension+".hasOwnProperty('OperatorID')")) {
-                eval("App.config.sonification."+audioDimension+".OperatorID = {value: configSettings}");
+            if (!App.config.sonification[audioDimension].hasOwnProperty('OperatorID')) {
+                App.config.sonification[audioDimension].OperatorID = {value: configSettings};
             }
 
-            eval(audioDimension.toLowerCase()+"Operator = []");
+            myOperator = [];
             var configParameter = getConfigParameter(audioDimension);
 
             for (i = 0; i <= dataNodes.length - 1; i++) {
                 if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
                     var string = '#'+audioDimension.toLowerCase()+'Operator-' + i;
-                    eval(audioDimension.toLowerCase()+"Operator.push(new Nexus.Select(string, {'size': [100, 40],'options': App.operators."+configParameter+"}))");
+                    myOperator.push(new Nexus.Select(string, {'size': [100, 40],'options': App.operators[configParameter]}));
                 }
-                eval(audioDimension.toLowerCase()+"Operator["+audioDimension.toLowerCase()+"Operator.length-1].value = App.config.sonification."+audioDimension+".OperatorID.value["+audioDimension.toLowerCase()+"Operator.length-1]");
-                instrumentOperator[instrumentOperator.length-1].on('change', function(v) {
-                    App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length-1] = v.value
+                myOperator[myOperator.length-1].value = App.config.sonification[audioDimension].OperatorID.value[myOperator.length-1];
+                myOperator[instrumentOperator.length-1].on('change', function(v) {
+                    App.config.sonification[audioDimension].OperatorID.value[myOperator.length-1] = v.value
                 });
                 if(audioDimension === "Instrument"){
                     loadInstrument(instrumentOperator, true);
@@ -309,23 +307,15 @@ function calculateMinMaxIndex(){
 
 function getChordTones(mode,j,isArray){
     if(isArray){
-        var basicTone = App.operators.chords[eval("App.config.sonification.Chord."+mode+".value[j]")].basic;
-        var firstTone = App.operators.chords[eval("App.config.sonification.Chord."+mode+".value[j]")].first;
-        var secondTone = App.operators.chords[eval("App.config.sonification.Chord."+mode+".value[j]")].second;
-        if (eval("App.config.sonification.Chord."+mode+".arpeggio[j]")) {
-            return [true, basicTone, firstTone, secondTone];
-        } else {
-            return [false, basicTone, firstTone, secondTone];
-        }
+        var basicTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].basic;
+        var firstTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].first;
+        var secondTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].second;
+            return [App.config.sonification.Chord[mode].arpeggio[j], basicTone, firstTone, secondTone];
     }else{
-        var basicTone = App.operators.chords[eval("App.config.sonification.Chord."+mode+".value")].basic;
-        var firstTone = App.operators.chords[eval("App.config.sonification.Chord."+mode+".value")].first;
-        var secondTone = App.operators.chords[eval("App.config.sonification.Chord."+mode+".value")].second;
-        if (eval("App.config.sonification.Chord."+mode+".arpeggio")) {
-            return [true, basicTone, firstTone, secondTone];
-        } else {
-            return [false, basicTone, firstTone, secondTone];
-        }
+        var basicTone = App.operators.chords[App.config.sonification.Chord[mode].value].basic;
+        var firstTone = App.operators.chords[App.config.sonification.Chord[mode].value].first;
+        var secondTone = App.operators.chords[App.config.sonification.Chord[mode].value].second;
+            return [App.config.sonification.Chord[mode].arpeggio, basicTone, firstTone, secondTone];
     }
 }
 

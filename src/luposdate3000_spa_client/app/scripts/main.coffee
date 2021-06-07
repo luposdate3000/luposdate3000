@@ -283,8 +283,7 @@ App.bindEvents = ->
                     #Result from the query
                     App.result = eev.getResult();
                     tmpResult = eev.getDataSteps();
-                    console.log tmpResult;
-                    addAnimationData(tmpResult);
+                    addAnimationData(tmpResult)
                     formatResultData();
                     App.additionalHiddenTabs = ["graph", "op-graph"]
                     App.initConfigComponentsHideTabs()
