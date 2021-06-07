@@ -8,102 +8,16 @@ var arpeggio = [];
 
 function chordSetup() {
     App.mappingFunctions.Chord = function(string) {
-        App.config.sonification.Chord.mode = string
         //If for one Operator is no chord set, use the default pitch settings
         switch (string) {
             case 'None':
-                $('#chordSettings').hide();
+                audioDimensionSetup(string, "Chord")
                 break;
             case 'Simple':
-                if (!App.config.sonification.Chord.hasOwnProperty("Simple")) {
-                    App.config.sonification.Chord.Simple = {
-                        value: Object.keys(App.operators.chords)[0],
-                        arpeggio: false
-                    }
-                }
-
-                $('#chordSettings').show();
-                $('#chordSettings').empty();
-
-                var html = "<fieldset>";
-                html += '<h7>Select a global setting.</h7><br><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-                html += '<div nexus-ui=select id=chordDataIndex style=float:left;margin-right:8px;></div>';
-                html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                html += '<input type=checkbox id=arpeggioIndex style=overflow:hidden;margin-top:12px;><br>';
-                html += '</div>';
-
-                html += '</fieldset>'
-                $('#chordSettings').html(html);
-
-                chordDataIndex = new Nexus.Select('#chordDataIndex', {
-                    'size': [100, 40],
-                    'options': Object.keys(App.operators.chords)
-                });
-                chordDataIndex.value = App.config.sonification.Chord.Simple.value;
-                $('#arpeggioIndex').prop('checked', App.config.sonification.Chord.Simple.arpeggio);
-                $('#arpeggioIndex').on('change', function() {
-                    App.config.sonification.Chord.Simple.arpeggio = $('#arpeggioIndex').is(':checked');
-                });
-                chordDataIndex.on('change', function(v) {
-                    App.config.sonification.Chord.Simple.value = v.value
-                });
+                audioDimensionSetup(string, "Chord")
                 break;
             case 'Operator-ID':
-                $('#chordSettings').show();
-                $('#chordSettings').empty();
-                var html = '<fieldset>';
-                var j;
-                arpeggio = [];
-                var configSettings = [];
-                var arpeggioSettings = [];
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
-                        html += '<div style=overflow:hidden;>';
-                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-                        html += '<div nexus-ui=select id=chordOperator-' + j + ' style=float:left;margin-right:8px;></div>';
-                        html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                        html += '<input type=checkbox id=arpeggio-' + j + ' style=overflow:hidden;margin-top:12px;><br>';
-                        html += '</div>';
-                        var tmp = '#arpeggio-' + j;
-                        arpeggio.push($(tmp));
-                        configSettings.push(Object.keys(App.operators.chords)[0]);
-                        arpeggioSettings.push(false);
-                    }
-                }
-
-                html += '</fieldset>';
-
-                chordOperator = [];
-                $('#chordSettings').html(html);
-
-                if (!App.config.sonification.Chord.hasOwnProperty("OperatorID")) {
-                    App.config.sonification.Chord.OperatorID = {
-                        value: configSettings,
-                        arpeggio: arpeggioSettings
-                    }
-                }
-
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        var string = '#chordOperator-' + j;
-                        chordOperator.push(new Nexus.Select(string, {
-                            'size': [100, 40],
-                            'options': Object.keys(App.operators.chords)
-
-                        }));
-                        chordOperator[chordOperator.length - 1].value = App.config.sonification.Chord.OperatorID.value[chordOperator.length - 1];
-                        arpeggio[chordOperator.length - 1].prop('checked', App.config.sonification.Chord.OperatorID.arpeggio[chordOperator.length - 1]);
-                        chordOperator[chordOperator.length - 1].on('change', function(v) {
-                            App.config.sonification.Chord.OperatorID.value[chordOperator.length - 1] = v.value
-                        });
-                        $(arpeggio[chordOperator.length - 1].selector).on('change', function(v) {
-                            App.config.sonification.Chord.OperatorID.arpeggio[chordOperator.length - 1] = $(arpeggio[chordOperator.length - 1].selector).is(':checked');
-                        });
-                    }
-                }
+                audioDimensionSetup(string, "Chord")
                 break;
             case 'Operator-Depth':
                 $('#chordSettings').show();
@@ -134,9 +48,12 @@ function chordSetup() {
                 $('#chordSettings').html(html);
 
                 if (!App.config.sonification.Chord.hasOwnProperty("OperatorDepth")) {
-                    App.config.sonification.Chord.OperatorDepth = {
-                        value: configSettings,
-                        arpeggio: arpeggioSettings
+                    App.config.sonification.Chord = {
+                        "mode": string,
+                        OperatorDepth: {
+                            value: configSettings,
+                            arpeggio: arpeggioSettings
+                        }
                     }
                 }
 
@@ -184,9 +101,12 @@ function chordSetup() {
                 $('#chordSettings').html(html);
 
                 if (!App.config.sonification.Chord.hasOwnProperty("OperatorType")) {
-                    App.config.sonification.Chord.OperatorType = {
-                        value: configSettings,
-                        arpeggio: arpeggioSettings
+                    App.config.sonification.Chord = {
+                        "mode": string,
+                        OperatorType: {
+                            value: configSettings,
+                            arpeggio: arpeggioSettings
+                        }
                     }
                 }
 
@@ -237,9 +157,12 @@ function chordSetup() {
                 $('#chordSettings').html(html);
 
                 if (!App.config.sonification.Chord.hasOwnProperty("OperatorVariable")) {
-                    App.config.sonification.Chord.OperatorVariable = {
-                        value: configSettings,
-                        arpeggio: arpeggioSettings
+                    App.config.sonification.Chord = {
+                        "mode": string,
+                        OperatorVariable: {
+                            value: configSettings,
+                            arpeggio: arpeggioSettings
+                        }
                     }
                 }
 
@@ -261,9 +184,12 @@ function chordSetup() {
                 break;
             case 'Data-Index':
                 if (!App.config.sonification.Chord.hasOwnProperty("DataIndex")) {
-                    App.config.sonification.Chord.DataIndex = {
-                        value: Object.keys(App.operators.chords)[0],
-                        arpeggio: false
+                    App.config.sonification.Chord = {
+                        "mode": string,
+                        DataIndex: {
+                            value: Object.keys(App.operators.chords)[0],
+                            arpeggio: false
+                        }
                     }
                 }
 
@@ -327,9 +253,12 @@ function chordSetup() {
                 $('#chordSettings').html(html);
 
                 if (!App.config.sonification.Chord.hasOwnProperty("DataVariable")) {
-                    App.config.sonification.Chord.DataVariable = {
-                        value: configSettings,
-                        arpeggio: arpeggioSettings
+                    App.config.sonification.Chord = {
+                        "mode": string,
+                        DataVariable: {
+                            value: configSettings,
+                            arpeggio: arpeggioSettings
+                        }
                     }
                 }
 
@@ -351,9 +280,12 @@ function chordSetup() {
                 break;
             case 'Query-Progress':
                 if (!App.config.sonification.Chord.hasOwnProperty("QueryProgress")) {
-                    App.config.sonification.Chord.QueryProgress = {
-                        value: Object.keys(App.operators.chords)[0],
-                        arpeggio: false
+                    App.config.sonification.Chord = {
+                        "mode": string,
+                        QueryProgress: {
+                            value: Object.keys(App.operators.chords)[0],
+                            arpeggio: false
+                        }
                     }
                 }
 
@@ -374,9 +306,12 @@ function chordSetup() {
                 $('#chordSettings').html(html);
 
 
-                if (!App.config.sonification.Octave.hasOwnProperty("DataVariable")) {
-                    App.config.sonification.Octave.DataVariable = {
-                        value: configSettings
+                if (!App.config.sonification.Chord.hasOwnProperty("DataVariable")) {
+                    App.config.sonification.Chord = {
+                        "mode": string,
+                        DataVariable: {
+                            value: configSettings
+                        }
                     }
                 }
 

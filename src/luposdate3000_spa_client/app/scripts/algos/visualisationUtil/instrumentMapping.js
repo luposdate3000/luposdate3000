@@ -9,76 +9,14 @@ function instrumentSetup() {
     App.mappingFunctions.Instrument = function(string) {
         App.config.sonification.Instrument.mode = string
         switch (string) {
+            case 'None':
+                audioDimensionSetup(string, "Instrument")
+                break;
             case 'Simple':
-                if (!App.config.sonification.Instrument.hasOwnProperty("Simple")) {
-                    App.config.sonification.Instrument.Simple = {
-                        value: Object.keys(App.samples)[0]
-                    }
-                }
-                $('#instrumentSettings').show();
-                $('#instrumentSettings').empty();
-                var html = "<fieldset>";
-
-                html += '<h7>Select a global setting.</h7><br><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-                html += '<div nexus-ui=select id=instrumentDataIndex style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-
-                html += '</fieldset>';
-                $('#instrumentSettings').html(html);
-
-                instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {
-                    'size': [100, 40],
-                    'options': App.operators.instruments
-                });
-                instrumentDataIndex.value = App.config.sonification.Instrument.Simple.value
-                loadInstrument(instrumentDataIndex, false);
-                instrumentDataIndex.on('change', function(v) {
-                    App.config.sonification.Instrument.Simple.value = v.value
-                });
+                audioDimensionSetup(string, "Instrument")
                 break;
             case 'Operator-ID':
-                $('#instrumentSettings').show();
-                $('#instrumentSettings').empty();
-                var html = '<fieldset>';
-
-                var j;
-                var configSettings = [];
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
-                        html += '<div style=overflow:hidden;>';
-                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-                        html += '<div nexus-ui=select id=instrumentOperator-' + j + ' style=float:left;margin-right:10px;></div>';
-                        html += '</div>';
-                        configSettings.push(Object.keys(App.samples)[0]);
-                    }
-                }
-                html += '</fieldset>';
-                $('#instrumentSettings').html(html);
-
-                if (!App.config.sonification.Instrument.hasOwnProperty("OperatorID")) {
-                    App.config.sonification.Instrument.OperatorID = {
-                        value: configSettings
-                    }
-                }
-
-                instrumentOperator = [];
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        var string = '#instrumentOperator-' + j;
-                        instrumentOperator.push(new Nexus.Select(string, {
-                            'size': [100, 40],
-                            'options': App.operators.instruments
-                        }));
-                        instrumentOperator[instrumentOperator.length - 1].value = App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length - 1];
-                        instrumentOperator[instrumentOperator.length - 1].on('change', function(v) {
-                            App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length - 1] = v.value
-                        });
-                        loadInstrument(instrumentOperator, true);
-                    }
-                }
+                audioDimensionSetup(string, "Instrument")
                 break;
             case 'Operator-Depth':
                 $('#instrumentSettings').show();

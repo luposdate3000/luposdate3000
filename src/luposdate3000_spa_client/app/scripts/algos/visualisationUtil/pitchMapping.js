@@ -10,82 +10,13 @@ function pitchSetup() {
         App.config.sonification.Pitch.mode = string
         switch (string) {
             case "None":
-                $('#pitchSettings').hide();
-                $('#pitchSettingsExplicit').hide();
-                $('#radioPitch').hide();
+                audioDimensionSetup(string, "Pitch")
                 break;
             case 'Simple':
-                if (!App.config.sonification.Pitch.hasOwnProperty("Simple")) {
-                    App.config.sonification.Pitch.Simple = {
-                        value: 'C'
-                    }
-                }
-
-                $('#radioPitch').hide();
-                $('#pitchSettings').show();
-                $('#pitchSettingsExplicit').show();
-                $('#pitchSettingsExplicit').empty();
-
-                var html = '';
-                html += '<h7>Select a global setting.</h7><br><br>';
-                html += '<div style=overflow:hidden;>'
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                html += '<div nexus-ui=select id=pitchSimple style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-
-                $('#pitchSettingsExplicit').html(html);
-
-                pitchSimple = new Nexus.Select('#pitchSimple', {
-                    'size': [100, 40],
-                    'options': App.operators.frequence
-                });
-
-                pitchSimple.value = App.config.sonification.Pitch.Simple.value
-                pitchSimple.on('change', function(v) {
-                    App.config.sonification.Pitch.Simple.value = v.value
-                });
-
+                audioDimensionSetup(string, "Pitch")
                 break;
             case 'Operator-ID':
-                $('#radioPitch').show();
-                $('#pitchSettings').show();
-                $('#pitchSettingsExplicit').empty();
-                var html = '<hr>';
-                var i;
-                var configSettings = [];
-                for (i = 0; i <= dataNodes.length - 1; i++) {
-                    if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                        html += '<h7>' + dataNodes[i].label.split("\n")[0] + '</h7><br>';
-                        html += '<div style=overflow:hidden;>';
-                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                        html += '<div nexus-ui=select id=pitchOperator-' + i + ' style=float:left;margin-right:10px;></div>';
-                        html += '</div>';
-                        configSettings.push('C');
-                    }
-                }
-                pitchOperator = [];
-                $('#pitchSettingsExplicit').html(html);
-
-                if (!App.config.sonification.Pitch.hasOwnProperty("OperatorID")) {
-                    App.config.sonification.Pitch.OperatorID = {
-                        value: configSettings
-                    }
-                }
-
-                for (i = 0; i <= dataNodes.length - 1; i++) {
-                    if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                        var string = '#pitchOperator-' + i;
-                        pitchOperator.push(new Nexus.Select(string, {
-                            'size': [100, 40],
-                            'options': App.operators.frequence
-
-                        }));
-                        pitchOperator[pitchOperator.length - 1].value = App.config.sonification.Pitch.OperatorID.value[pitchOperator.length - 1];
-                        pitchOperator[pitchOperator.length - 1].on('change', function(v) {
-                            App.config.sonification.Pitch.OperatorID.value[pitchOperator.length - 1] = v.value
-                        });
-                    }
-                }
+                audioDimensionSetup(string, "Pitch")
                 break;
             case 'Operator-Depth':
                 $('#radioPitch').show();

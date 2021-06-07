@@ -10,77 +10,13 @@ function octaveSetup() {
         App.config.sonification.Octave.mode = string
         switch (string) {
             case 'None':
-                $('#octaveSettings').hide();
+                audioDimensionSetup(string, "Octave")
                 break;
             case 'Simple':
-                if (!App.config.sonification.Octave.hasOwnProperty("Simple")) {
-                    App.config.sonification.Octave.Simple = {
-                        value: Object.keys(App.operators.octave)[0]
-                    }
-                }
-                $('#octaveSettings').show();
-                $('#octaveSettings').empty();
-
-                var html = '<fieldset>';
-
-                html += '<h7>Select a global setting.</h7><br><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Octave: </p>';
-                html += '<div nexus-ui=select id=octaveDataIndex style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-
-                html += '</fieldset>';
-                $('#octaveSettings').html(html);
-                octaveDataIndex = new Nexus.Select('#octaveDataIndex', {
-                    'size': [100, 40],
-                    'options': App.operators.octave
-                });
-                octaveDataIndex.value = App.config.sonification.Octave.Simple.value
-                octaveDataIndex.on('change', function(v) {
-                    App.config.sonification.Octave.Simple.value = v.value
-                });
+                audioDimensionSetup(string, "Octave")
                 break;
             case 'Operator-ID':
-                $('#octaveSettings').show();
-                $('#octaveSettings').empty();
-                var html = '<fieldset>';
-                var j;
-                var configSettings = [];
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
-                        html += '<div style=overflow:hidden;>';
-                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Octave: </p>';
-                        html += '<div nexus-ui=select id=octaveOperator-' + j + ' style=float:left;margin-right:10px;></div>';
-                        html += '</div>';
-                        configSettings.push(Object.keys(App.operators.octave)[0]);
-                    }
-                }
-                html += '</fieldset>';
-
-                octaveOperator = [];
-                $('#octaveSettings').html(html);
-
-                if (!App.config.sonification.Octave.hasOwnProperty("OperatorID")) {
-                    App.config.sonification.Octave.OperatorID = {
-                        value: configSettings
-                    }
-                }
-
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        var string = '#octaveOperator-' + j;
-                        octaveOperator.push(new Nexus.Select(string, {
-                            'size': [100, 40],
-                            'options': App.operators.octave
-
-                        }));
-                        octaveOperator[octaveOperator.length - 1].value = App.config.sonification.Octave.OperatorID.value[octaveOperator.length - 1];
-                        octaveOperator[octaveOperator.length - 1].on('change', function(v) {
-                            App.config.sonification.Octave.OperatorID.value[octaveOperator.length - 1] = v.value
-                        });
-                    }
-                }
+                audioDimensionSetup(string, "Octave")
                 break;
             case 'Operator-Depth':
                 $('#octaveSettings').show();

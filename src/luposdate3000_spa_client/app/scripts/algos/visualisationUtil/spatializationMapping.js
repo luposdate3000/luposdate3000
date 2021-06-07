@@ -10,84 +10,13 @@ function spatializationSetup() {
         App.config.sonification.Spatialization.mode = string
         switch (string) {
             case 'None':
-                $('#spatializationSettings').hide();
+                audioDimensionSetup(string, "Spatialization")
                 break;
             case 'Simple':
-                if (!App.config.sonification.Spatialization.hasOwnProperty("Simple")) {
-                    App.config.sonification.Spatialization.Simple = {
-                        value: 0
-                    }
-                }
-                $('#spatializationSettings').show();
-                $('#spatializationSettings').empty();
-                var html = '<fieldset>';
-
-                html += '<h7>Select a global setting.</h7><br><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Spatialization: </p>';
-                html += '<div nexus-ui=select id=spatDataIndex style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-
-                html += '</fieldset>';
-                $('#spatializationSettings').html(html);
-                spatDataIndex = new Nexus.Slider('#spatDataIndex', {
-                    'size': [120, 40],
-                    'mode': 'relative',
-                    'min': -1,
-                    'max': 1,
-                    'step': 0.05,
-                    'value': 0
-                });
-                spatDataIndex.value = App.config.sonification.Spatialization.Simple.value;
-                spatDataIndex.on('change', function(v) {
-                    App.config.sonification.Spatialization.Simple.value = spatDataIndex.value
-                });
+                audioDimensionSetup(string, "Spatialization")
                 break;
             case 'Operator-ID':
-                $('#spatializationSettings').show();
-                $('#spatializationSettings').empty();
-                var html = '<fieldset>';
-                var j;
-
-                var configSettings = [];
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
-                        html += '<div style=overflow:hidden;>';
-                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Spatialization: </p>';
-                        html += '<div nexus-ui=select id=spatOperator-' + j + ' style=float:left;margin-right:10px;></div>';
-                        html += '</div>';
-                        configSettings.push(0);
-                    }
-                }
-
-                html += '</fieldset';
-                $('#spatializationSettings').html(html);
-
-                if (!App.config.sonification.Spatialization.hasOwnProperty("OperatorID")) {
-                    App.config.sonification.Spatialization.OperatorID = {
-                        value: configSettings
-                    }
-                }
-
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        var string = '#spatOperator-' + j;
-                        spatOperator.push(new Nexus.Slider(string, {
-                            'size': [120, 40],
-                            'mode': 'relative',
-                            'min': -1,
-                            'max': 1,
-                            'step': 0.05,
-                            'value': 0
-
-                        }));
-                        spatOperator[spatOperator.length - 1].value = App.config.sonification.Spatialization.OperatorID.value[spatOperator.length - 1];
-                        spatOperator[spatOperator.length - 1].on('change', function(v) {
-                            App.config.sonification.Spatialization.OperatorID.value[spatOperator.length - 1] = spatOperator[spatOperator.length - 1].value
-                        });
-                    }
-                }
+                audioDimensionSetup(string, "Spatialization")
                 break;
             case 'Operator-Depth':
                 $('#spatializationSettings').show();

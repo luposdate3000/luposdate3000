@@ -10,80 +10,13 @@ function durationSetup() {
         App.config.sonification.Duration.mode = string
         switch (string) {
             case "None":
-                $('#durationSettings').hide();
+                audioDimensionSetup(string, "Duration")
                 break;
             case 'Simple':
-                if (!App.config.sonification.Duration.hasOwnProperty("Simple")) {
-                    App.config.sonification.Duration.Simple = {
-                        value: '4n'
-                    }
-                }
-
-                $('#durationSettings').show();
-                $('#durationSettings').empty();
-
-                var html = '<fieldset>';
-                html += '<h7>Select a global setting.</h7><br><br>';
-                html += '<div style=overflow:hidden;>'
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                html += '<div nexus-ui=select id=durationDataIndex style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-
-                html += '</fieldset>';
-                $('#durationSettings').html(html);
-
-                durationDataIndex = new Nexus.Select('#durationDataIndex', {
-                    'size': [100, 40],
-                    'options': App.operators.tones
-                });
-                durationDataIndex.value = App.config.sonification.Duration.Simple.value
-                durationDataIndex.on('change', function(v) {
-                    App.config.sonification.Duration.Simple.value = v.value
-                });
+                audioDimensionSetup(string, "Duration")
                 break;
             case 'Operator-ID':
-                $('#durationSettings').show();
-                $('#durationSettings').empty();
-                var html = '<fieldset>';
-
-                var j;
-                var configSettings = [];
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
-                        html += '<div style=overflow:hidden;>';
-                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
-                        html += '<div nexus-ui=select id=durationOperator-' + j + ' style=float:left;margin-right:10px;></div>';
-                        html += '</div>';
-                        configSettings.push('4n');
-                    }
-                }
-                html += '</fieldset>';
-
-                durationOperator = [];
-                $('#durationSettings').html(html);
-
-                if (!App.config.sonification.Duration.hasOwnProperty("OperatorID")) {
-                    App.config.sonification.Duration.OperatorID = {
-                        value: configSettings
-                    }
-                }
-
-                for (j = 0; j <= dataNodes.length - 1; j++) {
-                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                        var string = '#durationOperator-' + j;
-
-                        durationOperator.push(new Nexus.Select(string, {
-                            'size': [100, 40],
-                            'options': App.operators.tones
-
-                        }));
-                        durationOperator[durationOperator.length - 1].value = App.config.sonification.Duration.OperatorID.value[durationOperator.length - 1];
-                        durationOperator[durationOperator.length - 1].on('change', function(v) {
-                            App.config.sonification.Duration.OperatorID.value[durationOperator.length - 1] = v.value
-                        });
-                    }
-                }
+                audioDimensionSetup(string, "Duration")
                 break;
             case 'Operator-Depth':
                 $('#durationSettings').show();
