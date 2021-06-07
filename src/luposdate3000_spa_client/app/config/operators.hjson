@@ -1,26 +1,26 @@
 {
-    "octave":[
-        1
-        2
-        3
-        4
-        5
-        6
-        7
-    ]
+    "octave": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+    ],
 
-    "instruments":[
+    "Instrument": [
         piano
-        bass-electric
+        bass - electric
         bassoon
         cello
         clarinet
         contrabass
         flute
-        french-horn
-        guitar-acoustic
-        guitar-electric
-        guitar-nylon
+        french - horn
+        guitar - acoustic
+        guitar - electric
+        guitar - nylon
         harmonium
         harp
         organ
@@ -32,44 +32,135 @@
         xylophone
     ]
 
-    "frequence":[
+    "Pitch": [
         C
-        C#
+        C #
         Db
         D
-        D#
+        D #
         Eb
         E
         F
-        F#
+        F #
         Gb
         G
-        G#
+        G #
         Ab
         A
-        A#
+        A #
         Bb
         B
     ]
 
-    "modes":[
+    "modes": [
         Operator
         Binding
     ]
 
-    "information":[
-        None
-        Simple
-        Operator-ID
-        Operator-Depth
-        Operator-Type
-        Operator-Variable
-        Data-Index
-        Data-Variable
-        Query-Progress
-    ]
-
-    "audioDimension":[
+    information: {
+        "Pitch": {
+standard:None,
+            values: [
+                None
+                Simple
+                Operator-ID
+         Operator-Depth
+                Operator-Type
+                Operator-Variable
+                Data-Index
+                Data-Variable
+                Query-Progress
+            ]
+        }
+        "Instrument": {
+standard:None,
+            values: [
+                None
+                Simple
+                Operator-ID
+                Operator-Depth
+                Operator-Type
+                Operator-Variable
+                Query-Progress
+            ]
+        }
+        "Loudness": {
+standard:None,
+            values: [
+                None
+                Simple
+                Operator-ID
+                Operator-Depth
+                Operator-Type
+                Operator-Variable
+                Data-Index
+                Data-Variable
+                Query-Progress
+            ]
+        }
+        "Spatialization": {
+standard:None,
+            values: [
+                None
+                Simple
+                Operator-ID
+                Operator-Depth
+                Operator-Type
+                Operator-Variable
+                Data-Index
+                Data-Variable
+                Query-Progress
+            ]
+        }
+        "Duration": {
+standard:None,
+            values: [
+                None
+                Simple
+                Operator-ID
+                Operator-Depth
+                Operator-Type
+                Operator-Variable
+                Data-Index
+                Data-Variable
+                Query-Progress
+            ]
+        }
+        "Melody": {
+standard:No,
+            values: [
+                No
+                Yes
+            ]
+        }
+        "Chord": {
+standard:None,
+            values: [
+                None
+                Simple
+                Operator-ID
+                Operator-Depth
+                Operator-Type
+                Operator-Variable
+                Query-Progress
+            ]
+        }
+        "Octave": {
+standard:None,
+            values: [
+                None
+                Simple
+                Operator-ID
+                Operator-Depth
+                Operator-Type
+                Operator-Variable
+                Data-Index
+                Data-Variable
+                Query-Progress
+            ]
+        }
+    }
+    "audioDimension": [
         Pitch
         Instrument
         Loudness
@@ -79,16 +170,22 @@
         Chord
         Octave
     ]
-
-    "tones":[
-        1n
-        2n
-        4n
-        8n
-        16n
+    "defaultArpeggio": false,
+ "Spatialization": [
+        "0",
+    ],
+    "Loudness": [
+        "0.5",
+    ],
+    "Duration": [
+        "1n",
+        "2n",
+        "4n",
+        "8n",
+        "16n",
     ]
 
-    "octave":[
+    "Octave": [
         1
         2
         3
@@ -98,7 +195,7 @@
         7
     ]
 
-    "chords":{
+    "Chord": {
         "C": {
             "basic": "C"
             "first": "E"
@@ -110,14 +207,14 @@
             "second": "G#"
         }
         "D": {
-           "basic": "D"
-           "first": "F#"
-           "second": "A"
+            "basic": "D"
+            "first": "F#"
+            "second": "A"
         }
         "Db": {
-                    "basic": "Db"
-                    "first": "F"
-                    "second": "Ab"
+            "basic": "Db"
+            "first": "F"
+            "second": "Ab"
         }
         "D#": {
             "basic": "D#"
@@ -125,19 +222,19 @@
             "second": "A#"
         }
         "Eb": {
-                   "basic": "Eb"
-                   "first": "G"
-                   "second": "Bb"
+            "basic": "Eb"
+            "first": "G"
+            "second": "Bb"
         }
         "E": {
-           "basic": "D"
-           "first": "G#"
-           "second": "B"
+            "basic": "D"
+            "first": "G#"
+            "second": "B"
         }
         "F": {
-           "basic": "F"
-           "first": "A"
-           "second": "C"
+            "basic": "F"
+            "first": "A"
+            "second": "C"
         }
         "F#": {
             "basic": "F#"
@@ -145,14 +242,14 @@
             "second": "C#"
         }
         "G": {
-           "basic": "G"
-           "first": "B"
-           "second": "D"
+            "basic": "G"
+            "first": "B"
+            "second": "D"
         }
         "Gb": {
-                    "basic": "Gb"
-                    "first": "Bb"
-                    "second": "Db"
+            "basic": "Gb"
+            "first": "Bb"
+            "second": "Db"
         }
         "G#": {
             "basic": "G#"
@@ -160,29 +257,29 @@
             "second": "D#"
         }
         "A": {
-           "basic": "A"
-           "first": "C#"
-           "second": "E"
+            "basic": "A"
+            "first": "C#"
+            "second": "E"
         }
         "Ab": {
-           "basic": "Ab"
-           "first": "C"
-           "second": "Eb"
+            "basic": "Ab"
+            "first": "C"
+            "second": "Eb"
         }
         "A#": {
-           "basic": "A#"
+            "basic": "A#"
             "first": "D"
             "second": "F"
         }
         "B": {
-           "basic": "B"
-           "first": "D#"
-           "second": "F#"
+            "basic": "B"
+            "first": "D#"
+            "second": "F#"
         }
         "Bb": {
-           "basic": "Bb"
-           "first": "D"
-           "second": "F"
+            "basic": "Bb"
+            "first": "D"
+            "second": "F"
         }
         "Cm": {
             "basic": "C"
@@ -190,24 +287,24 @@
             "second": "G"
         }
         "C#m": {
-             "basic": "C#"
-             "first": "E"
-             "second": "G#"
-         }
+            "basic": "C#"
+            "first": "E"
+            "second": "G#"
+        }
         "Dm": {
             "basic": "D"
             "first": "F"
             "second": "A"
         }
         "D#m": {
-             "basic": "D#"
-             "first": "F#"
-             "second": "A#"
+            "basic": "D#"
+            "first": "F#"
+            "second": "A#"
         }
         "Dbm": {
-             "basic": "Db"
-             "first": "E"
-             "second": "Ab"
+            "basic": "Db"
+            "first": "E"
+            "second": "Ab"
         }
         "Em": {
             "basic": "E"
@@ -235,14 +332,14 @@
             "second": "D"
         }
         "G#m": {
-             "basic": "G#"
-             "first": "B"
-             "second": "D#"
+            "basic": "G#"
+            "first": "B"
+            "second": "D#"
         }
         "Gbm": {
-             "basic": "Gb"
-             "first": "A"
-             "second": "Db"
+            "basic": "Gb"
+            "first": "A"
+            "second": "Db"
         }
         "Am": {
             "basic": "A"
@@ -250,14 +347,14 @@
             "second": "E"
         }
         "A#m": {
-             "basic": "A#"
-             "first": "C#"
-             "second": "F"
+            "basic": "A#"
+            "first": "C#"
+            "second": "F"
         }
         "Abm": {
-             "basic": "Ab"
-             "first": "B"
-             "second": "Eb"
+            "basic": "Ab"
+            "first": "B"
+            "second": "Eb"
         }
         "Bm": {
             "basic": "B"

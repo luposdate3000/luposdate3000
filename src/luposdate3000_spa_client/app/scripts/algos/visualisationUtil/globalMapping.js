@@ -175,141 +175,278 @@ function createMyMenu(audioDimension, selector) {
     } else {
         return new Nexus.Select(selector, {
             'size': [100, 40],
-            'options': App.operators[configParameter]
+            'options': App.operators[audioDimension]
         });
     }
 }
 
 function createDefaultConfig(audioDimension, mode, value, arpeggio) {
     if (App.config.sonification[audioDimension].mode != mode) {
-        if (audioDimension === "Chord") {
-            App.config.sonification[audioDimension] = {
-                "mode": mode,
-                mode: {
-                    "value": getDefaultValue(audioDimension),
-                    "arpeggio": getDefaultValueArpeggio()
+        switch (mode) {
+            case "None":
+            case 'Data-Index':
+            case 'Query-Progress':
+                App.config.sonification[audioDimension] = {
+                    "mode": mode
                 }
-            };
-        } else {
-            App.config.sonification[audioDimension] = {
-                "mode": mode,
-                mode: {
-                    "value": getDefaultValue(audioDimension)
+                break
+            default:
+                if (audioDimension == "Chord") {
+                    App.config.sonification[audioDimension] = {
+                        "mode": mode,
+                        mode: {
+                            "value": App.operators[audioDimension][0],
+                            "arpeggio": App.operators.defaultArpeggio
+                        }
+                    };
+                } else {
+                    App.config.sonification[audioDimension] = {
+                        "mode": mode,
+                        mode: {
+                            "value": App.operators[audioDimension][0]
+                        }
+                    };
                 }
-            };
         }
+    }
+}
+
+function createArraySelector(audioDimension, labels) {
+    var html;
+    $("#" + audioDimension.toLowerCase() + "Settings").show();
+    if (audioDimension === "Pitch") {
+        $('#radioPitch').hide();
+        $('#pitchSettingsExplicit').show();
+        $('#pitchSettingsExplicit').empty();
+        html = '';
+    } else {
+        $("#" + audioDimension.toLowerCase() + "Settings").empty();
+        html = '<fieldset>';
+    }
+    var i;
+    var configSettings = [];
+    var arpeggioSettings = [];
+    for (i = 0; i <= labels.length - 1; i++) {
+        var selector = audioDimension.toLowerCase() + i
+        html += '<h7>' + labels[i] + '</h7><br>';
+        html += '<div style=overflow:hidden;>';
+        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+        html += '<div nexus-ui=select id=' + selector + ' style=float:left;margin-right:10px;></div>';
+        if (audioDimension === "Chord") {
+            html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
+            html += '<input type=checkbox id=arpeggio' + selector + ' style=overflow:hidden;margin-top:12px;><br>';
+            arpeggioSettings.push(App.operators.defaultArpeggio);
+        }
+        html += '</div>';
+        configSettings.push(App.operators[audioDimension][0]);
+    }
+    if (audioDimension === "Pitch") {
+        $('#pitchSettingsExplicit').html(html);
+    } else {
+        html += '</fieldset>';
+        $("#" + audioDimension.toLowerCase() + "Settings").html(html);
+    }
+    createDefaultConfig(audioDimension, mode, configSettings, arpeggioSettings)
+    for (i = 0; i <= labels.length - 1; i++) {
+        var selector = audioDimension.toLowerCase() + i
+        var myMenu = createMyMenu(audioDimension, "#" + selector)
+        myMenu.value = App.config.sonification[audioDimension][mode].value[i];
+        myMenu.myAudioDimension = audioDimension
+        myMenu.myMode = mode
+        myMenu.myI = i
+        myMenu.on('change', function(v) {
+            App.config.sonification[this.myAudioDimension][this.myMode].value[this.myI] = v.value
+        });
+        if (audioDimension === "Chord") {
+            var arpeggio = $("#arpeggio" + selector)
+            arpeggio.prop('checked', App.config.sonification[audioDimension][mode].arpeggio[i]);
+            arpeggio.on('change', function(v) {
+                App.config.sonification[audioDimension][mode].arpeggio[i] = arpeggio.is(':checked');
+            });
+        } else if (audioDimension === "Instrument") {
+            loadInstrument(myMenu.value, true);
+        }
+    }
+}
+
+function createSimpleSelector(audioDimension, label) {
+    var html;
+    $("#" + audioDimension.toLowerCase() + "Settings").show();
+    if (audioDimension === "Pitch") {
+        $('#radioPitch').hide();
+        $('#pitchSettingsExplicit').show();
+        $('#pitchSettingsExplicit').empty();
+        html = '';
+    } else {
+        $("#" + audioDimension.toLowerCase() + "Settings").empty();
+        html = '<fieldset>';
+    }
+    var selector = audioDimension.toLowerCase() + 'Simple'
+    html += '<h7>' + label + '</h7><br>';
+    html += '<div style=overflow:hidden;>';
+    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+    html += '<div nexus-ui=select id=' + selector + ' style=float:left;margin-right:10px;></div>';
+    if (audioDimension === "Chord") {
+        html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
+        html += '<input type=checkbox id=arpeggio' + selector + ' style=overflow:hidden;margin-top:12px;><br>';
+    }
+    html += '</div>';
+    if (audioDimension === "Pitch") {
+        $('#pitchSettingsExplicit').html(html);
+    } else {
+        html += '</fieldset>';
+        $("#" + audioDimension.toLowerCase() + "Settings").html(html);
+    }
+    createDefaultConfig(audioDimension, mode, App.operators[audioDimension][0], App.operators.defaultArpeggio)
+    var myMenu = createMyMenu(audioDimension, "#" + selector)
+    myMenu.value = App.config.sonification[audioDimension][mode].value;
+    myMenu.myAudioDimension = audioDimension
+    myMenu.myMode = mode
+    myMenu.on('change', function(v) {
+        App.config.sonification[this.myAudioDimension][this.myMode].value = v.value
+    });
+    if (audioDimension === "Chord") {
+        var arpeggio = $("#arpeggio" + selector)
+        arpeggio.prop('checked', App.config.sonification[audioDimension][mode].arpeggio);
+        arpeggio.on('change', function(v) {
+            App.config.sonification[audioDimension][mode].arpeggio = arpeggio.is(':checked');
+        });
+    } else if (audioDimension === "Instrument") {
+        loadInstrument(myMenu.value, false);
     }
 }
 
 function audioDimensionSetup(mode, audioDimension) {
     switch (mode) {
         case 'None':
+            createDefaultConfig(audioDimension, mode)
             $("#" + audioDimension.toLowerCase() + "Settings").hide();
             if (audioDimension === "Pitch") {
                 $('#pitchSettingsExplicit').hide();
                 $('#radioPitch').hide();
             }
             break;
-        case 'Simple':
-            createDefaultConfig(audioDimension, mode, getDefaultValue(audioDimension), getDefaultValueArpeggio())
-            var html;
-            $("#" + audioDimension.toLowerCase() + "Settings").show();
-            if (audioDimension === "Pitch") {
-                $('#radioPitch').hide();
-                $('#pitchSettingsExplicit').show();
-                $('#pitchSettingsExplicit').empty();
-                html = '';
-            } else {
-                $("#" + audioDimension.toLowerCase() + "Settings").empty();
-                html = '<fieldset>';
-            }
-            html += '<h7>Select a global setting.</h7><br><br>';
-            html += '<div style=overflow:hidden;>'
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-            html += '<div nexus-ui=select id=' + audioDimension.toLowerCase() + 'Simple style=float:left;margin-right:10px;></div>';
-            if (audioDimension === "Chord") {
-                html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                html += '<input type=checkbox id=arpeggioSimple style=overflow:hidden;margin-top:12px;><br>';
-            }
-            html += '</div>';
-            if (audioDimension === "Pitch") {
-                $('#pitchSettingsExplicit').html(html);
-            } else {
-                html += '</fieldset>';
-                $("#" + audioDimension.toLowerCase() + "Settings").html(html);
-            }
-            var configParameter = getConfigParameter(audioDimension);
-            var myMenu = createMyMenu(audioDimension, "#" + audioDimension.toLowerCase() + "Simple")
-            myMenu.value = App.config.sonification[audioDimension][mode].value;
-            if (audioDimension === "Instrument") {
-                loadInstrument(instrumentSimple, false);
-            }
-            myMenu.on('change', function(v) {
-                App.config.sonification[audioDimension][mode].value = myMenu.value
-            });
-            if (audioDimension === "Chord") {
-                $('#arpeggioSimple').prop('checked', App.config.sonification[audioDimension][mode].arpeggio);
-                $('#arpeggioSimple').on('change', function() {
-                    App.config.sonification[audioDimension][mode].arpeggio = $('#arpeggioSimple').is(':checked');
-                });
+        case 'Data-Index':
+            switch (audioDimension) {
+                case "Loudness":
+                    createSimpleSelector(audioDimension, "Please choose maximum loudness.")
+                    break
+                case "Duration":
+                case "Octave":
+                case "Spatialization":
+                    createDefaultConfig(audioDimension, mode)
+                    $("#" + audioDimension.toLowerCase() + "Settings").show();
+                    $("#" + audioDimension.toLowerCase() + "Settings").empty();
+                    var html = "<fieldset>";
+                    switch (audioDimension) {
+                        case "Duration":
+                            html += '<h7>Data-Index will be mapped to note duration.</h7>';
+                            break
+                        case "Octave":
+                            html += '<h7>Data index will be mapped to the octave.</h7>';
+                            break
+                        case "Spatialization":
+                            html += '<h7>Data index will be mapped to left and right speaker.</h7>';
+                            break
+                    }
+                    html += '</fieldset>';
+                    $("#" + audioDimension.toLowerCase() + "Settings").html(html);
+                    break
+                case "Pitch":
+                    createDefaultConfig(audioDimension, mode)
+                    $('#radioPitch').hide();
+                    $('#pitchSettings').show();
+                    $('#pitchExplicit').prop('checked', true);
+                    $('#pitchDynamic').prop('checked', false);
+                    $('#pitchSettingsExplicit').show();
+                    $('#pitchSettingsExplicit').empty();
+                    var html = '<h7>Data index will be mapped to the note.</h7>';
+                    $('#pitchSettingsExplicit').html(html);
+                    break
             }
             break;
+        case 'Query-Progress':
+            switch (audioDimension) {
+                case "Loudness":
+                    createSimpleSelector(audioDimension, "Please choose maximum loudness.")
+                    break
+                case "Duration":
+                case "Octave":
+                case "Spatialization":
+                    createDefaultConfig(audioDimension, mode)
+                    $("#" + audioDimension.toLowerCase() + "Settings").show();
+                    $("#" + audioDimension.toLowerCase() + "Settings").empty();
+                    var html = "<fieldset>";
+                    switch (audioDimension) {
+                        case "Duration":
+                            html += '<h7>Query progress will be mapped to note duration.</h7>';
+                            break
+                        case "Octave":
+                            html += '<h7>Query progress will be mapped to the octave.</h7>';
+                            break
+                        case "Spatialization":
+                            html += '<h7>Query progress will be mapped to left and right speaker.</h7>';
+                            break
+                    }
+                    html += '</fieldset>';
+                    $("#" + audioDimension.toLowerCase() + "Settings").html(html);
+                    break
+                case "Pitch":
+                    createDefaultConfig(audioDimension, mode)
+                    $('#radioPitch').hide();
+                    $('#pitchSettings').show();
+                    $('#pitchExplicit').prop('checked', true);
+                    $('#pitchDynamic').prop('checked', false);
+                    $('#pitchSettingsExplicit').show();
+                    $('#pitchSettingsExplicit').empty();
+                    var html = '<h7>Query progress will be mapped to the note.</h7>';
+                    $('#pitchSettingsExplicit').html(html);
+                    break
+            }
+            break;
+        case 'Simple':
+            createSimpleSelector(audioDimension, "Select a global setting")
+            break;
         case 'Operator-ID':
-            var html;
-            $("#" + audioDimension.toLowerCase() + "Settings").show();
-            if (audioDimension === "Pitch") {
-                $('#radioPitch').hide();
-                $('#pitchSettingsExplicit').show();
-                $('#pitchSettingsExplicit').empty();
-                html = '<hr>';
-            } else {
-                $("#" + audioDimension.toLowerCase() + "Settings").empty();
-                html = '<fieldset>';
-            }
-            var i;
-            var configSettings = [];
-            var arpeggioSettings = [];
+            var labels = []
             for (i = 0; i <= dataNodes.length - 1; i++) {
                 if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                    html += '<h7>' + dataNodes[i].label.split("\n")[0] + '</h7><br>';
-                    html += '<div style=overflow:hidden;>';
-                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                    html += '<div nexus-ui=select id=' + audioDimension.toLowerCase() + 'Operator-' + i + ' style=float:left;margin-right:10px;></div>';
-                    if (audioDimension === "Chord") {
-                        html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                        html += '<input type=checkbox id=arpeggio' + audioDimension.toLowerCase() + 'Operator-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
-                        arpeggioSettings.push(getDefaultValueArpeggio());
-                    }
-                    html += '</div>';
-                    configSettings.push(getDefaultValue(audioDimension));
+                    labels.push(dataNodes[i].label.split("\n")[0])
                 }
             }
-            if (audioDimension === "Pitch") {
-                $('#pitchSettingsExplicit').html(html);
-            } else {
-                html += '</fieldset>';
-                $("#" + audioDimension.toLowerCase() + "Settings").html(html);
+            createArraySelector(audioDimension, labels)
+            break;
+        case 'Operator-Depth':
+            calcDifferentPositions();
+            var labels = []
+            for (i = 0; i <= differentPositions.length - 1; i++) {
+                labels.push('Layer: ' + i)
             }
-            createDefaultConfig(audioDimension, mode, configSettings, arpeggioSettings)
-            var configParameter = getConfigParameter(audioDimension);
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                    var myMenu = createMyMenu(audioDimension, "#" + audioDimension.toLowerCase() + "Operator-" + i)
-                    myMenu.value = App.config.sonification[audioDimension][mode].value[myOperator.length - 1];
-                    myMenu.on('change', function(v) {
-                        App.config.sonification[audioDimension][mode].value[myOperator.length - 1] = myMenu.value
-                    });
-                    if (audioDimension === "Chord") {
-                        var arpeggio = $("#arpeggio" + audioDimension.toLowerCase() + "Operator-" + (chordOperator.length - 1))
-                        arpeggio.prop('checked', App.config.sonification[audioDimension][mode].arpeggio);
-                        arpeggio.on('change', function(v) {
-                            App.config.sonification[audioDimension][mode].arpeggio = arpeggio.is(':checked');
-                        });
-                    } else if (audioDimension === "Instrument") {
-                        loadInstrument(instrumentOperator, true);
-                    }
-                }
+            createArraySelector(audioDimension, labels)
+            break;
+        case 'Operator-Type':
+            calcDifferentTypes();
+            var labels = []
+            for (i = 0; i <= differentTypes.length - 1; i++) {
+                labels.push('Type: ' + differentTypes[i] + )
             }
+            createArraySelector(audioDimension, labels)
+            break;
+        case 'Operator-Variable':
+            calcDifferentOperatorVariables();
+            var labels = []
+            for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
+                labels.push('Variable: ' + differentOperatorVariables[i] + )
+            }
+            createArraySelector(audioDimension, labels)
+            break;
+        case 'Data-Variable':
+            calcDifferentDataVariables();
+            var labels = []
+            for (i = 0; i <= differentDataVariables.length - 1; i++) {
+                labels.push('Variable: ' + differentDataVariables[i] + )
+            }
+            createArraySelector(audioDimension, labels)
             break;
     }
 }
@@ -370,43 +507,5 @@ function getChordTones(mode, j, isArray) {
         var firstTone = App.operators.chords[App.config.sonification.Chord[mode].value].first;
         var secondTone = App.operators.chords[App.config.sonification.Chord[mode].value].second;
         return [App.config.sonification.Chord[mode].arpeggio, basicTone, firstTone, secondTone];
-    }
-}
-
-function getDefaultValueArpeggio() {
-    return false
-}
-
-function getConfigParameter(audioDimension) {
-    switch (audioDimension) {
-        case 'Pitch':
-            return "frequence";
-        case 'Instrument':
-            return "instruments";
-        case "Chord":
-            return "chords"
-        case "Duration":
-            return "tones"
-        case "Octave":
-            return "octave"
-    }
-}
-
-function getDefaultValue(audioDimension) {
-    switch (audioDimension) {
-        case 'Pitch':
-            return "C";
-        case 'Instrument':
-            return Object.keys(App.samples)[0];
-        case 'Loudness':
-            return 0.5
-        case "Chord":
-            return Object.keys(App.operators.chords)[0]
-        case "Duration":
-            return "4n"
-        case "Octave":
-            return Object.keys(App.operators.octave)[0]
-        case "Spatialization":
-            return 0
     }
 }

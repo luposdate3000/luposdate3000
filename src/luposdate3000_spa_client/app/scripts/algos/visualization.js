@@ -119,19 +119,13 @@ function createMapping() {
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         var i = App.operators.audioDimension[j]
         var selectAudioIdentifier = '#selectAudio-' + j;
-        var options = App.operators.information
-        var noValue = "None"
-        if (i == "Melody") { //If Melody
-            options = ["No", "Yes"]
-            noValue = "No"
-        }
         selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
             'size': [200, 40],
-            'options': options
+            'options': App.operators.information[i].values
         });
         selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
         selectAudio[i].myFunction = App.mappingFunctions[i]
-        selectAudio[i].myNoValue = noValue
+        selectAudio[i].myNoValue = App.operators.information[i].standard
         selectAudio[i].on('change', function(v) { //initialise listener
             if (v.value == this.myNoValue) {
                 $(this.myIdentifier).hide();
