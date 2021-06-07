@@ -145,7 +145,7 @@ class RoutingSimulationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["$prefix/upAndDownwardRouteForwarding.json"])
+    @ValueSource(strings = ["$prefix/sensorFromStarSendDataOverMesh.json"])
     fun sensorFromStarSendDataOverMesh(fileName: String) {
         //TODO zuerst star root
 //        //Send data from the leaf F to the leaf D
