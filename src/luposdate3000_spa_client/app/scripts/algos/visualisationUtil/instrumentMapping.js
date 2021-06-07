@@ -11,13 +11,7 @@ function instrumentSetup() {
     }
 }
 
-function loadInstrument(array, isArray) {
-    var object;
-    if (isArray) {
-        object = array[array.length - 1];
-    } else {
-        object = array;
-    }
+function loadInstrument(object) {
     object.on('change', function(v) {
         if (!usedInstruments.includes(v.value)) {
             usedInstruments.push(v.value);

@@ -37,7 +37,7 @@ const panner = new Tone.Panner(0).toDestination();
 // -> If evaluate Button is clicked
 function visualisationSetup() {
     //Loading all instruments and the "none" Option
-    var instrumentList = Object.keys(App.operators.instruments);
+    var instrumentList = Object.keys(App.operators.Instrument);
     instrumentList.push("None");
     //Load piano as default instrument
     App.samples = SampleLibrary.load({
@@ -452,7 +452,7 @@ $('#dataVariableDepth').click(function() {
     selectMapping()
     var i;
     for (i = 0; i <= differentDataVariables.length - 1; i++) {
-        pitchDataVariable[i].value = App.operators.frequence[i * 2];
+        pitchDataVariable[i].value = App.operators.Pitch[i * 2];
     }
     $('#pitchExplicit').prop('checked', true);
     for (i = 0; i <= differentPositions.length - 1; i++) {
@@ -596,42 +596,19 @@ function receiveAnimation(childUUID, parentUUID, string, index) {
 
 function playNoteMapping(id, label, index) {
     var pitchType = App.config.sonification.Pitch.mode;
-    var instrumentType = App.config.sonification.Instrument.mode;
-    var loudnessType = App.config.sonification.Loudness.mode;
-    var spatializationType = App.config.sonification.Spatialization.mode;
-    var durationType = App.config.sonification.Duration.mode;
     var melodyType = App.config.sonification.Melody.mode;
     var chordType = App.config.sonification.Chord.mode;
-    var octaveType = App.config.sonification.Octave.mode;
 
     var tone, velocity, duration, octave;
 
-    if (instrumentType != 'None') {
-        current = App.samples[getAudioData(instrumentType, id, label, index, "Instrument")];
-    } else {
-        current = App.samples['piano'];
-    }
+    var currentName = getAudioData(idMappings, id, label, index, "Instrument")
+    current = App.samples[currentName];
 
-    //Loudness of the Tone
-    if (loudnessType != 'None') {
-        velocity = getAudioData(loudnessType, id, label, index, "Loudness")
-    } else {
-        velocity = 1;
-    }
+    velocity = getAudioData(idMappings, id, label, index, "Loudness")
 
-    //Spatialization
-    if (spatializationType != 'None') {
-        panner.pan.value = getAudioData(spatializationType, id, label, index, "Spatialization");
-    } else {
-        panner.pan.value = 0;
-    }
+    panner.pan.value = getAudioData(idMappings, id, label, index, "Spatialization");
 
-    //Duration
-    if (durationType != 'None') {
-        duration = getAudioData(durationType, id, label, index, "Duration");
-    } else {
-        duration = '4n';
-    }
+    duration = getAudioData(idMappings, id, label, index, "Duration");
 
     //Octave
     var b1 = pitchType == 'Operator-ID' && $('#pitchDynamic').is(':checked');
@@ -642,20 +619,16 @@ function playNoteMapping(id, label, index) {
     if ((b1 || b2 || b3 || b4) && b5) {
         octave = '';
     } else {
-        if (octaveType != 'None') {
-            octave = getAudioData(octaveType, id, label, index, "Octave");
-        } else {
-            octave = '3';
-        }
+        octave = getAudioData(idMappings, id, label, index, "Octave");
     }
 
     //What Pitch, or maybe what Chord
     //If Chord is selected the pitch settings will be ignored/overwritten
     if (melodyType == 'No') {
         if (chordType != 'None') {
-            tone = getAudioData(chordType, id, label, index, "Chord");
+            tone = getAudioData(idMappings, id, label, index, "Chord");
         } else if (pitchType != 'None') {
-            tone = getAudioData(pitchType, id, label, index, "Pitch");
+            tone = getAudioData(idMappings, id, label, index, "Pitch");
             //current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
             triggerNote(tone + octave, duration, "+0", velocity)
         } else {

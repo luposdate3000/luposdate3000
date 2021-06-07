@@ -12,24 +12,24 @@ function getMelody(string, id, label, index) {
                     }
                     switch (iterator) {
                         case 0:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 1:
-                            var basicTone = App.operators.chords["F"].basic;
-                            var firstTone = App.operators.chords["F"].first;
-                            var secondTone = App.operators.chords["F"].second;
+                            var basicTone = App.operators.Chord.values["F"].basic;
+                            var firstTone = App.operators.Chord.values["F"].first;
+                            var secondTone = App.operators.Chord.values["F"].second;
                             break;
                         case 2:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                         case 3:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                     }
                     iterator++;
@@ -45,24 +45,24 @@ function getMelody(string, id, label, index) {
                     }
                     switch (iterator) {
                         case 0:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 1:
-                            var basicTone = App.operators.chords["Am"].basic;
-                            var firstTone = App.operators.chords["Am"].first;
-                            var secondTone = App.operators.chords["Am"].second;
+                            var basicTone = App.operators.Chord.values["Am"].basic;
+                            var firstTone = App.operators.Chord.values["Am"].first;
+                            var secondTone = App.operators.Chord.values["Am"].second;
                             break;
                         case 2:
-                            var basicTone = App.operators.chords["F"].basic;
-                            var firstTone = App.operators.chords["F"].first;
-                            var secondTone = App.operators.chords["F"].second;
+                            var basicTone = App.operators.Chord.values["F"].basic;
+                            var firstTone = App.operators.Chord.values["F"].first;
+                            var secondTone = App.operators.Chord.values["F"].second;
                             break;
                         case 3:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                     }
                     iterator++;
@@ -78,24 +78,24 @@ function getMelody(string, id, label, index) {
                     }
                     switch (iterator) {
                         case 0:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 1:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                         case 2:
-                            var basicTone = App.operators.chords["Am"].basic;
-                            var firstTone = App.operators.chords["Am"].first;
-                            var secondTone = App.operators.chords["Am"].second;
+                            var basicTone = App.operators.Chord.values["Am"].basic;
+                            var firstTone = App.operators.Chord.values["Am"].first;
+                            var secondTone = App.operators.Chord.values["Am"].second;
                             break;
                         case 3:
-                            var basicTone = App.operators.chords["F"].basic;
-                            var firstTone = App.operators.chords["F"].first;
-                            var secondTone = App.operators.chords["F"].second;
+                            var basicTone = App.operators.Chord.values["F"].basic;
+                            var firstTone = App.operators.Chord.values["F"].first;
+                            var secondTone = App.operators.Chord.values["F"].second;
                             break;
                     }
                     iterator++;
@@ -111,24 +111,24 @@ function getMelody(string, id, label, index) {
                     }
                     switch (iterator) {
                         case 0:
-                            var basicTone = App.operators.chords["Am"].basic;
-                            var firstTone = App.operators.chords["Am"].first;
-                            var secondTone = App.operators.chords["Am"].second;
+                            var basicTone = App.operators.Chord.values["Am"].basic;
+                            var firstTone = App.operators.Chord.values["Am"].first;
+                            var secondTone = App.operators.Chord.values["Am"].second;
                             break;
                         case 1:
-                            var basicTone = App.operators.chords["F"].basic;
-                            var firstTone = App.operators.chords["F"].first;
-                            var secondTone = App.operators.chords["F"].second;
+                            var basicTone = App.operators.Chord.values["F"].basic;
+                            var firstTone = App.operators.Chord.values["F"].first;
+                            var secondTone = App.operators.Chord.values["F"].second;
                             break;
                         case 2:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 3:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                     }
                     iterator++;
@@ -144,24 +144,24 @@ function getMelody(string, id, label, index) {
                     }
                     switch (iterator) {
                         case 0:
-                            var basicTone = App.operators.chords["Dm"].basic;
-                            var firstTone = App.operators.chords["Dm"].first;
-                            var secondTone = App.operators.chords["Dm"].second;
+                            var basicTone = App.operators.Chord.values["Dm"].basic;
+                            var firstTone = App.operators.Chord.values["Dm"].first;
+                            var secondTone = App.operators.Chord.values["Dm"].second;
                             break;
                         case 1:
-                            var basicTone = App.operators.chords["F"].basic;
-                            var firstTone = App.operators.chords["F"].first;
-                            var secondTone = App.operators.chords["F"].second;
+                            var basicTone = App.operators.Chord.values["F"].basic;
+                            var firstTone = App.operators.Chord.values["F"].first;
+                            var secondTone = App.operators.Chord.values["F"].second;
                             break;
                         case 2:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 3:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                     }
                     iterator++;
@@ -177,24 +177,24 @@ function getMelody(string, id, label, index) {
                     }
                     switch (iterator) {
                         case 0:
-                            var basicTone = App.operators.chords["Dm"].basic;
-                            var firstTone = App.operators.chords["Dm"].first;
-                            var secondTone = App.operators.chords["Dm"].second;
+                            var basicTone = App.operators.Chord.values["Dm"].basic;
+                            var firstTone = App.operators.Chord.values["Dm"].first;
+                            var secondTone = App.operators.Chord.values["Dm"].second;
                             break;
                         case 1:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                         case 2:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 3:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                     }
                     iterator++;
@@ -210,44 +210,44 @@ function getMelody(string, id, label, index) {
                     }
                     switch (iterator) {
                         case 0:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 1:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                         case 2:
-                            var basicTone = App.operators.chords["Am"].basic;
-                            var firstTone = App.operators.chords["Am"].first;
-                            var secondTone = App.operators.chords["Am"].second;
+                            var basicTone = App.operators.Chord.values["Am"].basic;
+                            var firstTone = App.operators.Chord.values["Am"].first;
+                            var secondTone = App.operators.Chord.values["Am"].second;
                             break;
                         case 3:
-                            var basicTone = App.operators.chords["Em"].basic;
-                            var firstTone = App.operators.chords["Em"].first;
-                            var secondTone = App.operators.chords["Em"].second;
+                            var basicTone = App.operators.Chord.values["Em"].basic;
+                            var firstTone = App.operators.Chord.values["Em"].first;
+                            var secondTone = App.operators.Chord.values["Em"].second;
                             break;
                         case 4:
-                            var basicTone = App.operators.chords["F"].basic;
-                            var firstTone = App.operators.chords["F"].first;
-                            var secondTone = App.operators.chords["F"].second;
+                            var basicTone = App.operators.Chord.values["F"].basic;
+                            var firstTone = App.operators.Chord.values["F"].first;
+                            var secondTone = App.operators.Chord.values["F"].second;
                             break;
                         case 5:
-                            var basicTone = App.operators.chords["C"].basic;
-                            var firstTone = App.operators.chords["C"].first;
-                            var secondTone = App.operators.chords["C"].second;
+                            var basicTone = App.operators.Chord.values["C"].basic;
+                            var firstTone = App.operators.Chord.values["C"].first;
+                            var secondTone = App.operators.Chord.values["C"].second;
                             break;
                         case 6:
-                            var basicTone = App.operators.chords["F"].basic;
-                            var firstTone = App.operators.chords["F"].first;
-                            var secondTone = App.operators.chords["F"].second;
+                            var basicTone = App.operators.Chord.values["F"].basic;
+                            var firstTone = App.operators.Chord.values["F"].first;
+                            var secondTone = App.operators.Chord.values["F"].second;
                             break;
                         case 7:
-                            var basicTone = App.operators.chords["G"].basic;
-                            var firstTone = App.operators.chords["G"].first;
-                            var secondTone = App.operators.chords["G"].second;
+                            var basicTone = App.operators.Chord.values["G"].basic;
+                            var firstTone = App.operators.Chord.values["G"].first;
+                            var secondTone = App.operators.Chord.values["G"].second;
                             break;
                     }
                     iterator++;

@@ -891,7 +891,6 @@ App.initConfigComponentsHideTabs = ->
         $("#sonificationsettings").hide()
     else
         $("#sonificationsettings").show()
-
 #end hide
 
 App.initConfigComponents = ->
@@ -904,8 +903,6 @@ App.initConfigComponents = ->
     App.initConfigComponentsEndpointSelector()
     App.initConfigComponentsEvaluatorSelector()
     App.initConfigComponentsHideWithGraph()
-    for tones in App.operators.tones
-        $("#tone_select").append('<option value)"' + tones + '">' + tones + '</option>');
     App.initConfigComponentsHideTabs()
     # delayy is due to foundation initialization
     # TODO: use promise instead
