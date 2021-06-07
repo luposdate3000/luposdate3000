@@ -3,262 +3,230 @@ var iterator = 0;
 function getMelody(string, id, label, index) {
     var radios = document.getElementsByName('melody');
     var i;
-    for (i = 0; i <= radios.length - 1; i++) {
-        if (radios[i].checked) {
-            switch (radios[i].value) {
-                case 'durCad':
-                    if (iterator >= 3) {
-                        iterator = 0;
-                    }
-                    switch (iterator) {
-                        case 0:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 1:
-                            var basicTone = App.operators.Chord.values["F"].basic;
-                            var firstTone = App.operators.Chord.values["F"].first;
-                            var secondTone = App.operators.Chord.values["F"].second;
-                            break;
-                        case 2:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                        case 3:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                    }
-                    iterator++;
-                    if ($('#arpeggioMelody').is(':checked')) {
-                        return [true, basicTone, firstTone, secondTone];
-                    } else {
-                        return [false, basicTone, firstTone, secondTone];
-                    }
+    switch (App.config.sonification.Melody.value) {
+        case 'durCad':
+            if (iterator >= 3) {
+                iterator = 0;
+            }
+            switch (iterator) {
+                case 0:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
                     break;
-                case '50s':
-                    if (iterator >= 3) {
-                        iterator = 0;
-                    }
-                    switch (iterator) {
-                        case 0:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 1:
-                            var basicTone = App.operators.Chord.values["Am"].basic;
-                            var firstTone = App.operators.Chord.values["Am"].first;
-                            var secondTone = App.operators.Chord.values["Am"].second;
-                            break;
-                        case 2:
-                            var basicTone = App.operators.Chord.values["F"].basic;
-                            var firstTone = App.operators.Chord.values["F"].first;
-                            var secondTone = App.operators.Chord.values["F"].second;
-                            break;
-                        case 3:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                    }
-                    iterator++;
-                    if ($('#arpeggioMelody').is(':checked')) {
-                        return [true, basicTone, firstTone, secondTone];
-                    } else {
-                        return [false, basicTone, firstTone, secondTone];
-                    }
+                case 1:
+                    var basicTone = App.operators.Chord.values["F"].basic;
+                    var firstTone = App.operators.Chord.values["F"].first;
+                    var secondTone = App.operators.Chord.values["F"].second;
                     break;
-                case 'hit':
-                    if (iterator >= 3) {
-                        iterator = 0;
-                    }
-                    switch (iterator) {
-                        case 0:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 1:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                        case 2:
-                            var basicTone = App.operators.Chord.values["Am"].basic;
-                            var firstTone = App.operators.Chord.values["Am"].first;
-                            var secondTone = App.operators.Chord.values["Am"].second;
-                            break;
-                        case 3:
-                            var basicTone = App.operators.Chord.values["F"].basic;
-                            var firstTone = App.operators.Chord.values["F"].first;
-                            var secondTone = App.operators.Chord.values["F"].second;
-                            break;
-                    }
-                    iterator++;
-                    if ($('#arpeggioMelody').is(':checked')) {
-                        return [true, basicTone, firstTone, secondTone];
-                    } else {
-                        return [false, basicTone, firstTone, secondTone];
-                    }
+                case 2:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
                     break;
-                case 'hitTurned':
-                    if (iterator >= 3) {
-                        iterator = 0;
-                    }
-                    switch (iterator) {
-                        case 0:
-                            var basicTone = App.operators.Chord.values["Am"].basic;
-                            var firstTone = App.operators.Chord.values["Am"].first;
-                            var secondTone = App.operators.Chord.values["Am"].second;
-                            break;
-                        case 1:
-                            var basicTone = App.operators.Chord.values["F"].basic;
-                            var firstTone = App.operators.Chord.values["F"].first;
-                            var secondTone = App.operators.Chord.values["F"].second;
-                            break;
-                        case 2:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 3:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                    }
-                    iterator++;
-                    if ($('#arpeggioMelody').is(':checked')) {
-                        return [true, basicTone, firstTone, secondTone];
-                    } else {
-                        return [false, basicTone, firstTone, secondTone];
-                    }
-                    break;
-                case 'mill':
-                    if (iterator >= 3) {
-                        iterator = 0;
-                    }
-                    switch (iterator) {
-                        case 0:
-                            var basicTone = App.operators.Chord.values["Dm"].basic;
-                            var firstTone = App.operators.Chord.values["Dm"].first;
-                            var secondTone = App.operators.Chord.values["Dm"].second;
-                            break;
-                        case 1:
-                            var basicTone = App.operators.Chord.values["F"].basic;
-                            var firstTone = App.operators.Chord.values["F"].first;
-                            var secondTone = App.operators.Chord.values["F"].second;
-                            break;
-                        case 2:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 3:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                    }
-                    iterator++;
-                    if ($('#arpeggioMelody').is(':checked')) {
-                        return [true, basicTone, firstTone, secondTone];
-                    } else {
-                        return [false, basicTone, firstTone, secondTone];
-                    }
-                    break;
-                case '251':
-                    if (iterator >= 3) {
-                        iterator = 0;
-                    }
-                    switch (iterator) {
-                        case 0:
-                            var basicTone = App.operators.Chord.values["Dm"].basic;
-                            var firstTone = App.operators.Chord.values["Dm"].first;
-                            var secondTone = App.operators.Chord.values["Dm"].second;
-                            break;
-                        case 1:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                        case 2:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 3:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                    }
-                    iterator++;
-                    if ($('#arpeggioMelody').is(':checked')) {
-                        return [true, basicTone, firstTone, secondTone];
-                    } else {
-                        return [false, basicTone, firstTone, secondTone];
-                    }
-                    break;
-                case 'pachebel':
-                    if (iterator >= 7) {
-                        iterator = 0;
-                    }
-                    switch (iterator) {
-                        case 0:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 1:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                        case 2:
-                            var basicTone = App.operators.Chord.values["Am"].basic;
-                            var firstTone = App.operators.Chord.values["Am"].first;
-                            var secondTone = App.operators.Chord.values["Am"].second;
-                            break;
-                        case 3:
-                            var basicTone = App.operators.Chord.values["Em"].basic;
-                            var firstTone = App.operators.Chord.values["Em"].first;
-                            var secondTone = App.operators.Chord.values["Em"].second;
-                            break;
-                        case 4:
-                            var basicTone = App.operators.Chord.values["F"].basic;
-                            var firstTone = App.operators.Chord.values["F"].first;
-                            var secondTone = App.operators.Chord.values["F"].second;
-                            break;
-                        case 5:
-                            var basicTone = App.operators.Chord.values["C"].basic;
-                            var firstTone = App.operators.Chord.values["C"].first;
-                            var secondTone = App.operators.Chord.values["C"].second;
-                            break;
-                        case 6:
-                            var basicTone = App.operators.Chord.values["F"].basic;
-                            var firstTone = App.operators.Chord.values["F"].first;
-                            var secondTone = App.operators.Chord.values["F"].second;
-                            break;
-                        case 7:
-                            var basicTone = App.operators.Chord.values["G"].basic;
-                            var firstTone = App.operators.Chord.values["G"].first;
-                            var secondTone = App.operators.Chord.values["G"].second;
-                            break;
-                    }
-                    iterator++;
-                    if ($('#arpeggioMelody').is(':checked')) {
-                        return [true, basicTone, firstTone, secondTone];
-                    } else {
-                        return [false, basicTone, firstTone, secondTone];
-                    }
+                case 3:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
                     break;
             }
-        }
+            iterator++;
+            return [App.config.sonification.Melody.arpeggio, basicTone, firstTone, secondTone];
+            break;
+        case '50s':
+            if (iterator >= 3) {
+                iterator = 0;
+            }
+            switch (iterator) {
+                case 0:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+                case 1:
+                    var basicTone = App.operators.Chord.values["Am"].basic;
+                    var firstTone = App.operators.Chord.values["Am"].first;
+                    var secondTone = App.operators.Chord.values["Am"].second;
+                    break;
+                case 2:
+                    var basicTone = App.operators.Chord.values["F"].basic;
+                    var firstTone = App.operators.Chord.values["F"].first;
+                    var secondTone = App.operators.Chord.values["F"].second;
+                    break;
+                case 3:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
+                    break;
+            }
+            iterator++;
+            return [App.config.sonification.Melody.arpeggio, basicTone, firstTone, secondTone];
+            break;
+        case 'hit':
+            if (iterator >= 3) {
+                iterator = 0;
+            }
+            switch (iterator) {
+                case 0:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+                case 1:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
+                    break;
+                case 2:
+                    var basicTone = App.operators.Chord.values["Am"].basic;
+                    var firstTone = App.operators.Chord.values["Am"].first;
+                    var secondTone = App.operators.Chord.values["Am"].second;
+                    break;
+                case 3:
+                    var basicTone = App.operators.Chord.values["F"].basic;
+                    var firstTone = App.operators.Chord.values["F"].first;
+                    var secondTone = App.operators.Chord.values["F"].second;
+                    break;
+            }
+            iterator++;
+            return [App.config.sonification.Melody.arpeggio, basicTone, firstTone, secondTone];
+            break;
+        case 'hitTurned':
+            if (iterator >= 3) {
+                iterator = 0;
+            }
+            switch (iterator) {
+                case 0:
+                    var basicTone = App.operators.Chord.values["Am"].basic;
+                    var firstTone = App.operators.Chord.values["Am"].first;
+                    var secondTone = App.operators.Chord.values["Am"].second;
+                    break;
+                case 1:
+                    var basicTone = App.operators.Chord.values["F"].basic;
+                    var firstTone = App.operators.Chord.values["F"].first;
+                    var secondTone = App.operators.Chord.values["F"].second;
+                    break;
+                case 2:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+                case 3:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
+                    break;
+            }
+            iterator++;
+            return [App.config.sonification.Melody.arpeggio, basicTone, firstTone, secondTone];
+            break;
+        case 'mill':
+            if (iterator >= 3) {
+                iterator = 0;
+            }
+            switch (iterator) {
+                case 0:
+                    var basicTone = App.operators.Chord.values["Dm"].basic;
+                    var firstTone = App.operators.Chord.values["Dm"].first;
+                    var secondTone = App.operators.Chord.values["Dm"].second;
+                    break;
+                case 1:
+                    var basicTone = App.operators.Chord.values["F"].basic;
+                    var firstTone = App.operators.Chord.values["F"].first;
+                    var secondTone = App.operators.Chord.values["F"].second;
+                    break;
+                case 2:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+                case 3:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
+                    break;
+            }
+            iterator++;
+            return [App.config.sonification.Melody.arpeggio, basicTone, firstTone, secondTone];
+            break;
+        case '251':
+            if (iterator >= 3) {
+                iterator = 0;
+            }
+            switch (iterator) {
+                case 0:
+                    var basicTone = App.operators.Chord.values["Dm"].basic;
+                    var firstTone = App.operators.Chord.values["Dm"].first;
+                    var secondTone = App.operators.Chord.values["Dm"].second;
+                    break;
+                case 1:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
+                    break;
+                case 2:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+                case 3:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+            }
+            iterator++;
+            return [App.config.sonification.Melody.arpeggio, basicTone, firstTone, secondTone];
+            break;
+        case 'pachebel':
+            if (iterator >= 7) {
+                iterator = 0;
+            }
+            switch (iterator) {
+                case 0:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+                case 1:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
+                    break;
+                case 2:
+                    var basicTone = App.operators.Chord.values["Am"].basic;
+                    var firstTone = App.operators.Chord.values["Am"].first;
+                    var secondTone = App.operators.Chord.values["Am"].second;
+                    break;
+                case 3:
+                    var basicTone = App.operators.Chord.values["Em"].basic;
+                    var firstTone = App.operators.Chord.values["Em"].first;
+                    var secondTone = App.operators.Chord.values["Em"].second;
+                    break;
+                case 4:
+                    var basicTone = App.operators.Chord.values["F"].basic;
+                    var firstTone = App.operators.Chord.values["F"].first;
+                    var secondTone = App.operators.Chord.values["F"].second;
+                    break;
+                case 5:
+                    var basicTone = App.operators.Chord.values["C"].basic;
+                    var firstTone = App.operators.Chord.values["C"].first;
+                    var secondTone = App.operators.Chord.values["C"].second;
+                    break;
+                case 6:
+                    var basicTone = App.operators.Chord.values["F"].basic;
+                    var firstTone = App.operators.Chord.values["F"].first;
+                    var secondTone = App.operators.Chord.values["F"].second;
+                    break;
+                case 7:
+                    var basicTone = App.operators.Chord.values["G"].basic;
+                    var firstTone = App.operators.Chord.values["G"].first;
+                    var secondTone = App.operators.Chord.values["G"].second;
+                    break;
+            }
+            iterator++;
+            return [App.config.sonification.Melody.arpeggio, basicTone, firstTone, secondTone];
+            break;
     }
 
 }
@@ -268,9 +236,21 @@ function melodySetup() {
         App.config.sonification.Melody.mode = string
         switch (string) {
             case "No":
+                if (App.config.sonification.Melody.mode != string) {
+                    App.config.sonification.Melody = {
+                        "mode": string
+                    }
+                }
                 $('#melodySettings').hide();
                 break;
             default:
+                if (App.config.sonification.Melody.mode != string) {
+                    App.config.sonification.Melody = {
+                        "mode": string,
+                        "value": "durCad",
+                        "arpeggio": false
+                    }
+                }
                 //Mapping of melody is a bit different
                 $('#melodySettings').show();
                 $('#melodySettings').empty();
@@ -292,7 +272,13 @@ function melodySetup() {
 
                 $('#melodySettings').html(html);
                 console.log("setup melody '" + string + "'")
-                $('#durCad').prop('checked', true);
+                $('#' + App.config.sonification.Melody.value).prop('checked', true);
+                $('input[type=radio][name=melody]').change(function(v) {
+                    App.config.sonification.Melody.value = v.target.id
+                })
+                $("#arpeggioMelody").change(function(v) {
+                    App.config.sonification.Melody.arpeggio = $('#arpeggioMelody').is(':checked')
+                })
                 break;
         }
     }
