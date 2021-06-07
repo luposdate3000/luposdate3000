@@ -87,7 +87,7 @@ function addAnimationData(tmpResult) {
         tmp = tmpResult[i].split("||");
         tmp[0] = parseInt(tmp[0], 10);
         tmp[1] = parseInt(tmp[1], 10);
-        tmp[3] = parseInt(tmp[2], 10);
+        tmp[3] = parseInt(tmp[3], 10);
         globalAnimationList.push(tmp);
     }
 }

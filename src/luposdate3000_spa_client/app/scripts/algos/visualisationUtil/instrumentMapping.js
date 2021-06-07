@@ -5,82 +5,6 @@ var instrumentOperatorVariable = [];
 var instrumentDataIndex;
 var instrumentDataVariable = [];
 
-function getInstrument(string, id, label, index) {
-    switch (string) {
-        case 'Simple':
-            return App.config.sonification.Instrument.Simple.value
-            break;
-        case 'Operator-ID':
-            var i;
-            var j = 0;
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                    if (dataNodes[i].id == id) {
-                        var t = instrumentOperator[j].value;
-                        return t;
-                    }
-                    j++;
-                }
-            }
-            break;
-        case 'Operator-Depth':
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (dataNodes[i].id == id) {
-                    for (j = 0; j <= differentPositions.length - 1; j++) {
-                        if (Object.values(networkSon.getPositions(id))[0].y == parseInt(differentPositions[j], 10)) {
-                            var t = instrumentOperatorDepth[j].value;
-                            return t;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Operator-Type':
-            var i, j;
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (dataNodes[i].id == id) {
-                    for (j = 0; j <= differentTypes.length; j++) {
-                        if (dataNodes[i].label.split(" ")[0] == differentTypes[j]) {
-                            return instrumentOperatorType[j].value;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Operator-Variable':
-            var i, j;
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (dataNodes[i].id == id) {
-                    for (j = 0; j <= differentOperatorVariables.length; j++) {
-                        if (dataNodes[i].label.split("\n")[1] == differentOperatorVariables[j]) {
-                            return instrumentOperatorVariable[j].value;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Data-Index':
-            return instrumentDataIndex.value;
-            break;
-        case 'Data-Variable':
-            var i, j;
-            for (i = 0; i <= globalAnimationList.length - 1; i++) {
-                if (globalAnimationList[i][3] == index) {
-                    for (j = 0; j <= differentDataVariables.length; j++) {
-                        if (globalAnimationList[i][2].split(" ")[0] == differentDataVariables[j]) {
-                            return instrumentDataVariable[j].value;
-                        }
-                    }
-                }
-            }
-            break;
-        case 'Query-Progress':
-            return instrumentDataIndex.value;
-            break;
-    }
-    return 'piano'
-}
-
 function instrumentSetup() {
     App.mappingFunctions.Instrument = function(string) {
         App.config.sonification.Instrument.mode = string
@@ -88,7 +12,7 @@ function instrumentSetup() {
             case 'Simple':
                 if (!App.config.sonification.Instrument.hasOwnProperty("Simple")) {
                     App.config.sonification.Instrument.Simple = {
-                        value: App.samples[0]
+                        value: Object.keys(App.samples)[0]
                     }
                 }
                 $('#instrumentSettings').show();
@@ -118,7 +42,9 @@ function instrumentSetup() {
                 $('#instrumentSettings').show();
                 $('#instrumentSettings').empty();
                 var html = '<fieldset>';
+
                 var j;
+                var configSettings = [];
                 for (j = 0; j <= dataNodes.length - 1; j++) {
                     if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
                         html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
@@ -126,10 +52,17 @@ function instrumentSetup() {
                         html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
                         html += '<div nexus-ui=select id=instrumentOperator-' + j + ' style=float:left;margin-right:10px;></div>';
                         html += '</div>';
+                        configSettings.push(Object.keys(App.samples)[0]);
                     }
                 }
                 html += '</fieldset>';
                 $('#instrumentSettings').html(html);
+
+                if (!App.config.sonification.Instrument.hasOwnProperty("OperatorID")) {
+                    App.config.sonification.Instrument.OperatorID = {
+                    value: configSettings
+                    }
+                }
 
                 instrumentOperator = [];
                 for (j = 0; j <= dataNodes.length - 1; j++) {
@@ -139,6 +72,10 @@ function instrumentSetup() {
                             'size': [100, 40],
                             'options': App.operators.instruments
                         }));
+                        instrumentOperator[instrumentOperator.length-1].value = App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length-1];
+                        instrumentOperator[instrumentOperator.length-1].on('change', function(v) {
+                            App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length-1] = v.value
+                        });
                         loadInstrument(instrumentOperator, true);
                     }
                 }
@@ -148,6 +85,7 @@ function instrumentSetup() {
                 $('#instrumentSettings').empty();
 
                 calcDifferentPositions();
+                var configSettings = [];
                 var html = "<fieldset>";
                 for (i = 0; i <= differentPositions.length - 1; i++) {
                     html += '<h7>Layer ' + i + '</h7><br>';
@@ -155,9 +93,16 @@ function instrumentSetup() {
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
                     html += '<div nexus-ui=select id=instrumentOperatorDepth-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(Object.keys(App.samples)[0]);
                 }
                 html += '</fieldset>';
                 $('#instrumentSettings').html(html);
+
+                if (!App.config.sonification.Instrument.hasOwnProperty("OperatorDepth")) {
+                    App.config.sonification.Instrument.OperatorDepth = {
+                        value: configSettings
+                    }
+                }
 
                 instrumentOperatorDepth = [];
                 for (i = 0; i <= differentPositions.length - 1; i++) {
@@ -167,6 +112,10 @@ function instrumentSetup() {
                         'options': App.operators.instruments
                     }));
                     loadInstrument(instrumentOperatorDepth, true);
+                    instrumentOperatorDepth[instrumentOperatorDepth.length-1].value = App.config.sonification.Instrument.OperatorDepth.value[instrumentOperatorDepth.length-1];
+                    instrumentOperatorDepth[instrumentOperatorDepth.length-1].on('change', function(v) {
+                        App.config.sonification.Instrument.OperatorDepth.value[instrumentOperatorDepth.length-1] = v.value
+                    });
                 }
                 break;
             case 'Operator-Type':
@@ -175,16 +124,24 @@ function instrumentSetup() {
                 var html = '<fieldset>';
                 calcDifferentTypes();
                 instrumentOperatorType = [];
+                var configSettings = [];
                 for (i = 0; i <= differentTypes.length - 1; i++) {
                     html += '<h7>Type: ' + differentTypes[i] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
                     html += '<div nexus-ui=select id=instrumentOperatorType-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(Object.keys(App.samples)[0]);
                 }
 
                 html += '</fieldset>';
                 $('#instrumentSettings').html(html);
+
+                if (!App.config.sonification.Instrument.hasOwnProperty("OperatorType")) {
+                    App.config.sonification.Instrument.OperatorType = {
+                        value: configSettings
+                    }
+                }
 
                 instrumentOperatorType = [];
                 for (i = 0; i <= differentTypes.length - 1; i++) {
@@ -193,6 +150,10 @@ function instrumentSetup() {
                         'size': [100, 40],
                         'options': App.operators.instruments
                     }));
+                    instrumentOperatorType[instrumentOperatorType.length-1].value = App.config.sonification.Instrument.OperatorType.value[instrumentOperatorType.length-1];
+                    instrumentOperatorType[instrumentOperatorType.length-1].on('change', function(v) {
+                        App.config.sonification.Instrument.OperatorType.value[instrumentOperatorType.length-1] = v.value
+                    });
                     loadInstrument(instrumentOperatorType, true);
                 }
                 break;
@@ -204,6 +165,7 @@ function instrumentSetup() {
                 calcDifferentOperatorVariables();
 
                 var i;
+                var configSettings = [];
 
                 for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
                     html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
@@ -211,10 +173,17 @@ function instrumentSetup() {
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
                     html += '<div nexus-ui=select id=instrumentOperatorVariable-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(Object.keys(App.samples)[0]);
                 }
 
                 html += '</fieldset>';
                 $('#instrumentSettings').html(html);
+
+                if (!App.config.sonification.Instrument.hasOwnProperty("OperatorVariable")) {
+                    App.config.sonification.Instrument.OperatorVariable = {
+                        value: configSettings
+                    }
+                }
 
                 instrumentOperatorVariable = [];
                 for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
@@ -223,10 +192,19 @@ function instrumentSetup() {
                         'size': [100, 40],
                         'options': App.operators.instruments
                     }));
+                    instrumentOperatorVariable[instrumentOperatorVariable.length-1].value = App.config.sonification.Instrument.OperatorVariable.value[instrumentOperatorVariable.length-1];
+                    instrumentOperatorVariable[instrumentOperatorVariable.length-1].on('change', function(v) {
+                        App.config.sonification.Instrument.OperatorVariable.value[instrumentOperatorVariable.length-1] = v.value
+                    });
                     loadInstrument(instrumentOperatorVariable, true);
                 }
                 break;
             case 'Data-Index':
+                if (!App.config.sonification.Instrument.hasOwnProperty("DataIndex")) {
+                    App.config.sonification.Instrument.DataIndex = {
+                        value: Object.keys(App.samples)[0]
+                    }
+                }
                 //This setting does not make much sense.
                 //Instead, simple selection will be used.
                 $('#instrumentSettings').show();
@@ -245,7 +223,11 @@ function instrumentSetup() {
                     'size': [100, 40],
                     'options': App.operators.instruments
                 });
+                instrumentDataIndex.value = App.config.sonification.Instrument.DataIndex.value
                 loadInstrument(instrumentDataIndex, false);
+                instrumentDataIndex.on('change', function(v) {
+                    App.config.sonification.Instrument.DataIndex.value = v.value
+                });
                 break;
             case 'Data-Variable':
                 $('#instrumentSettings').show();
@@ -255,16 +237,23 @@ function instrumentSetup() {
 
                 var i;
                 calcDifferentDataVariables();
-
+                var configSettings = [];
                 for (i = 0; i <= differentDataVariables.length - 1; i++) {
                     html += '<h7>Variable: ' + differentDataVariables[i] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
                     html += '<div nexus-ui=select id=instrumentDataVariable-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
+                    configSettings.push(Object.keys(App.samples)[0]);
                 }
 
                 html += '</fieldset>';
+
+                if (!App.config.sonification.Instrument.hasOwnProperty("DataVariable")) {
+                    App.config.sonification.Instrument.DataVariable = {
+                        value: configSettings
+                    }
+                }
 
                 instrumentDataVariable = [];
                 $('#instrumentSettings').html(html);
@@ -274,10 +263,19 @@ function instrumentSetup() {
                         'size': [100, 40],
                         'options': App.operators.instruments
                     }));
+                    instrumentDataVariable[instrumentDataVariable.length-1].value = App.config.sonification.Instrument.DataVariable.value[instrumentDataVariable.length-1];
+                    instrumentDataVariable[instrumentDataVariable.length-1].on('change', function(v) {
+                        App.config.sonification.Instrument.DataVariable.value[instrumentDataVariable.length-1] = v.value
+                    });
                     loadInstrument(instrumentDataVariable, true);
                 }
                 break;
             case 'Query-Progress':
+                if (!App.config.sonification.Instrument.hasOwnProperty("QueryProgress")) {
+                    App.config.sonification.Instrument.QueryProgress = {
+                        value: Object.keys(App.samples)[0]
+                    }
+                }
                 //This setting does not make much sense.
                 //Instead, simple selection will be used.
                 $('#instrumentSettings').show();
@@ -297,7 +295,11 @@ function instrumentSetup() {
                     'size': [100, 40],
                     'options': App.operators.instruments
                 });
+                instrumentDataIndex.value = App.config.sonification.Instrument.QueryProgress.value
                 loadInstrument(instrumentDataIndex, false);
+                instrumentDataIndex.on('change', function(v) {
+                    App.config.sonification.Instrument.QueryProgress.value = v.value
+                });
                 break;
             default:
                 $('#instrumentSettings').hide();
