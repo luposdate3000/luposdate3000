@@ -106,7 +106,7 @@ function visualisationStart() {
 }
 
 function createMapping() {
-    if (!initFlag){
+    if (!initFlag) {
         initFlag = true;
     }
     var html = '';
@@ -612,9 +612,9 @@ function playNoteMapping(id, label, index) {
 
     var tone, velocity, duration, octave;
 
-    if (instrumentType != 'None'){
+    if (instrumentType != 'None') {
         current = App.samples[getAudioData(instrumentType, id, label, index, "Instrument")];
-    }else{
+    } else {
         current = App.samples['piano'];
     }
 
@@ -685,10 +685,10 @@ function playNoteMapping(id, label, index) {
 }
 
 //Avoid buffer problem when instrument files are not yet loaded
-function triggerNote(chord, duration, delay, velocity){
-    if(current._buffers.loaded)
+function triggerNote(chord, duration, delay, velocity) {
+    if (current._buffers.loaded)
         current.connect(panner).triggerAttackRelease(chord, duration, delay, velocity);
-    else{
+    else {
         sleep(100).then(() => {
             triggerNote(chord, duration, delay, velocity);
         });
@@ -1070,7 +1070,7 @@ function draw(flag) {
         calculateMinMaxDepth();
         calculateMinMaxIndex();
         addCustomContextMenu(networkSon, flag);
-        if(!initFlag){
+        if (!initFlag) {
             createMapping();
         }
         //By default, the network is dynamic and is changing via a constant animation

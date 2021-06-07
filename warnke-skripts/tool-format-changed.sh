@@ -15,5 +15,4 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 git diff --diff-filter=ACMRT --name-only --cached --relative | grep -e "\.kt$" -e "\.kts$" -e "\.coffee$"| xargs /opt/idea-IU-211.7142.45/bin/format.sh
 ktlint -F
-git diff --diff-filter=ACMRT --name-only --cached --relative | grep -e "\.js$" -e "\.json$" -e "\.css$" -e "\.html$" | xargs js-beautify
-git add $(git diff --diff-filter=ACMRT --name-only --cached --relative)
+git diff --diff-filter=ACMRT --name-only --cached --relative | grep -e "\.js$" -e "\.json$" -e "\.css$" -e "\.html$" | xargs js-beautify -r

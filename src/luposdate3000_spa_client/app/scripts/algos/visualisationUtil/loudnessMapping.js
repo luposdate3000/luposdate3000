@@ -170,9 +170,9 @@ function loudnessSetup() {
                             'step': 0.05,
                             'value': 0.5
                         }));
-                        loudnessOperator[loudnessOperator.length-1].value = App.config.sonification.Loudness.OperatorID.value[loudnessOperator.length-1];
-                        loudnessOperator[loudnessOperator.length-1].on('change', function(v) {
-                            App.config.sonification.Loudness.OperatorID.value[loudnessOperator.length-1] = loudnessOperator[loudnessOperator.length-1].value
+                        loudnessOperator[loudnessOperator.length - 1].value = App.config.sonification.Loudness.OperatorID.value[loudnessOperator.length - 1];
+                        loudnessOperator[loudnessOperator.length - 1].on('change', function(v) {
+                            App.config.sonification.Loudness.OperatorID.value[loudnessOperator.length - 1] = loudnessOperator[loudnessOperator.length - 1].value
                         });
                     }
                 }
@@ -215,9 +215,9 @@ function loudnessSetup() {
                         'step': 0.05,
                         'value': 0.5
                     }));
-                    loudnessOperatorDepth[loudnessOperatorDepth.length-1].value = App.config.sonification.Loudness.OperatorDepth.value[loudnessOperatorDepth.length-1];
-                    loudnessOperatorDepth[loudnessOperatorDepth.length-1].on('change', function(v) {
-                        App.config.sonification.Loudness.OperatorDepth.value[loudnessOperatorDepth.length-1] = loudnessOperatorDepth[loudnessOperatorDepth.length-1].value
+                    loudnessOperatorDepth[loudnessOperatorDepth.length - 1].value = App.config.sonification.Loudness.OperatorDepth.value[loudnessOperatorDepth.length - 1];
+                    loudnessOperatorDepth[loudnessOperatorDepth.length - 1].on('change', function(v) {
+                        App.config.sonification.Loudness.OperatorDepth.value[loudnessOperatorDepth.length - 1] = loudnessOperatorDepth[loudnessOperatorDepth.length - 1].value
                     });
                 }
                 break;
@@ -258,9 +258,9 @@ function loudnessSetup() {
                         'step': 0.05,
                         'value': 0.5
                     }));
-                    loudnessOperatorType[loudnessOperatorType.length-1].value = App.config.sonification.Loudness.OperatorType.value[loudnessOperatorType.length-1];
-                    loudnessOperatorType[loudnessOperatorType.length-1].on('change', function(v) {
-                        App.config.sonification.Loudness.OperatorType.value[loudnessOperatorType.length-1] = loudnessOperatorType[loudnessOperatorType.length-1].value
+                    loudnessOperatorType[loudnessOperatorType.length - 1].value = App.config.sonification.Loudness.OperatorType.value[loudnessOperatorType.length - 1];
+                    loudnessOperatorType[loudnessOperatorType.length - 1].on('change', function(v) {
+                        App.config.sonification.Loudness.OperatorType.value[loudnessOperatorType.length - 1] = loudnessOperatorType[loudnessOperatorType.length - 1].value
                     });
                 }
                 break;
@@ -304,9 +304,9 @@ function loudnessSetup() {
                         'step': 0.05,
                         'value': 0.5
                     }));
-                    loudnessOperatorVariable[loudnessOperatorVariable.length-1].value = App.config.sonification.Loudness.OperatorVariable.value[loudnessOperatorVariable.length-1];
-                    loudnessOperatorVariable[loudnessOperatorVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Loudness.OperatorVariable.value[loudnessOperatorVariable.length-1] = loudnessOperatorVariable[loudnessOperatorVariable.length-1].value
+                    loudnessOperatorVariable[loudnessOperatorVariable.length - 1].value = App.config.sonification.Loudness.OperatorVariable.value[loudnessOperatorVariable.length - 1];
+                    loudnessOperatorVariable[loudnessOperatorVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Loudness.OperatorVariable.value[loudnessOperatorVariable.length - 1] = loudnessOperatorVariable[loudnessOperatorVariable.length - 1].value
                     });
                 }
                 break;
@@ -384,9 +384,9 @@ function loudnessSetup() {
                         'value': 0.5
                     }));
 
-                    loudnessDataVariable[loudnessDataVariable.length-1].value = App.config.sonification.Loudness.DataVariable.value[loudnessDataVariable.length-1];
-                    loudnessDataVariable[loudnessDataVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Loudness.DataVariable.value[loudnessDataVariable.length-1] = loudnessDataVariable[loudnessDataVariable.length-1].value
+                    loudnessDataVariable[loudnessDataVariable.length - 1].value = App.config.sonification.Loudness.DataVariable.value[loudnessDataVariable.length - 1];
+                    loudnessDataVariable[loudnessDataVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Loudness.DataVariable.value[loudnessDataVariable.length - 1] = loudnessDataVariable[loudnessDataVariable.length - 1].value
                     });
                 }
                 break;

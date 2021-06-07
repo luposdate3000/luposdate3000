@@ -43,7 +43,7 @@ function chordSetup() {
                 });
                 chordDataIndex.value = App.config.sonification.Chord.Simple.value;
                 $('#arpeggioIndex').prop('checked', App.config.sonification.Chord.Simple.arpeggio);
-                $('#arpeggioIndex').on('change', function(){
+                $('#arpeggioIndex').on('change', function() {
                     App.config.sonification.Chord.Simple.arpeggio = $('#arpeggioIndex').is(':checked');
                 });
                 chordDataIndex.on('change', function(v) {
@@ -94,13 +94,13 @@ function chordSetup() {
                             'options': Object.keys(App.operators.chords)
 
                         }));
-                        chordOperator[chordOperator.length-1].value = App.config.sonification.Chord.OperatorID.value[chordOperator.length-1];
-                        arpeggio[chordOperator.length-1].prop('checked', App.config.sonification.Chord.OperatorID.arpeggio[chordOperator.length-1]);
-                        chordOperator[chordOperator.length-1].on('change', function(v) {
-                            App.config.sonification.Chord.OperatorID.value[chordOperator.length-1] = v.value
+                        chordOperator[chordOperator.length - 1].value = App.config.sonification.Chord.OperatorID.value[chordOperator.length - 1];
+                        arpeggio[chordOperator.length - 1].prop('checked', App.config.sonification.Chord.OperatorID.arpeggio[chordOperator.length - 1]);
+                        chordOperator[chordOperator.length - 1].on('change', function(v) {
+                            App.config.sonification.Chord.OperatorID.value[chordOperator.length - 1] = v.value
                         });
-                        $(arpeggio[chordOperator.length-1].selector).on('change', function(v) {
-                            App.config.sonification.Chord.OperatorID.arpeggio[chordOperator.length-1] = $(arpeggio[chordOperator.length-1].selector).is(':checked');
+                        $(arpeggio[chordOperator.length - 1].selector).on('change', function(v) {
+                            App.config.sonification.Chord.OperatorID.arpeggio[chordOperator.length - 1] = $(arpeggio[chordOperator.length - 1].selector).is(':checked');
                         });
                     }
                 }
@@ -146,13 +146,13 @@ function chordSetup() {
                         'size': [100, 40],
                         'options': Object.keys(App.operators.chords)
                     }));
-                    chordOperatorDepth[chordOperatorDepth.length-1].value = App.config.sonification.Chord.OperatorDepth.value[chordOperatorDepth.length-1];
-                    arpeggio[chordOperatorDepth.length-1].prop('checked', App.config.sonification.Chord.OperatorDepth.arpeggio[chordOperatorDepth.length-1]);
-                    chordOperatorDepth[chordOperatorDepth.length-1].on('change', function(v) {
-                        App.config.sonification.Chord.OperatorDepth.value[chordOperatorDepth.length-1] = v.value
+                    chordOperatorDepth[chordOperatorDepth.length - 1].value = App.config.sonification.Chord.OperatorDepth.value[chordOperatorDepth.length - 1];
+                    arpeggio[chordOperatorDepth.length - 1].prop('checked', App.config.sonification.Chord.OperatorDepth.arpeggio[chordOperatorDepth.length - 1]);
+                    chordOperatorDepth[chordOperatorDepth.length - 1].on('change', function(v) {
+                        App.config.sonification.Chord.OperatorDepth.value[chordOperatorDepth.length - 1] = v.value
                     });
-                    $(arpeggio[chordOperatorDepth.length-1].selector).on('change', function(v) {
-                        App.config.sonification.Chord.OperatorDepth.arpeggio[chordOperatorDepth.length-1] = $(arpeggio[chordOperatorDepth.length-1].selector).is(':checked');
+                    $(arpeggio[chordOperatorDepth.length - 1].selector).on('change', function(v) {
+                        App.config.sonification.Chord.OperatorDepth.arpeggio[chordOperatorDepth.length - 1] = $(arpeggio[chordOperatorDepth.length - 1].selector).is(':checked');
                     });
                 }
                 break;
@@ -196,13 +196,13 @@ function chordSetup() {
                         'size': [100, 40],
                         'options': Object.keys(App.operators.chords)
                     }));
-                    chordOperatorType[chordOperatorType.length-1].value = App.config.sonification.Chord.OperatorType.value[chordOperatorType.length-1];
-                    arpeggio[chordOperatorType.length-1].prop('checked', App.config.sonification.Chord.OperatorType.arpeggio[chordOperatorType.length-1]);
-                    chordOperatorType[chordOperatorType.length-1].on('change', function(v) {
-                        App.config.sonification.Chord.OperatorType.value[chordOperatorType.length-1] = v.value
+                    chordOperatorType[chordOperatorType.length - 1].value = App.config.sonification.Chord.OperatorType.value[chordOperatorType.length - 1];
+                    arpeggio[chordOperatorType.length - 1].prop('checked', App.config.sonification.Chord.OperatorType.arpeggio[chordOperatorType.length - 1]);
+                    chordOperatorType[chordOperatorType.length - 1].on('change', function(v) {
+                        App.config.sonification.Chord.OperatorType.value[chordOperatorType.length - 1] = v.value
                     });
-                    $(arpeggio[chordOperatorType.length-1].selector).on('change', function(v) {
-                        App.config.sonification.Chord.OperatorType.arpeggio[chordOperatorType.length-1] = $(arpeggio[chordOperatorType.length-1].selector).is(':checked');
+                    $(arpeggio[chordOperatorType.length - 1].selector).on('change', function(v) {
+                        App.config.sonification.Chord.OperatorType.arpeggio[chordOperatorType.length - 1] = $(arpeggio[chordOperatorType.length - 1].selector).is(':checked');
                     });
                 }
                 break;
@@ -249,13 +249,13 @@ function chordSetup() {
                         'size': [100, 40],
                         'options': Object.keys(App.operators.chords)
                     }));
-                    chordOperatorVariable[chordOperatorVariable.length-1].value = App.config.sonification.Chord.OperatorVariable.value[chordOperatorVariable.length-1];
-                    arpeggio[chordOperatorVariable.length-1].prop('checked', App.config.sonification.Chord.OperatorVariable.arpeggio[chordOperatorVariable.length-1]);
-                    chordOperatorVariable[chordOperatorVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Chord.OperatorVariable.value[chordOperatorVariable.length-1] = v.value
+                    chordOperatorVariable[chordOperatorVariable.length - 1].value = App.config.sonification.Chord.OperatorVariable.value[chordOperatorVariable.length - 1];
+                    arpeggio[chordOperatorVariable.length - 1].prop('checked', App.config.sonification.Chord.OperatorVariable.arpeggio[chordOperatorVariable.length - 1]);
+                    chordOperatorVariable[chordOperatorVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Chord.OperatorVariable.value[chordOperatorVariable.length - 1] = v.value
                     });
-                    $(arpeggio[chordOperatorVariable.length-1].selector).on('change', function(v) {
-                        App.config.sonification.Chord.OperatorVariable.arpeggio[chordOperatorVariable.length-1] = $(arpeggio[chordOperatorVariable.length-1].selector).is(':checked');
+                    $(arpeggio[chordOperatorVariable.length - 1].selector).on('change', function(v) {
+                        App.config.sonification.Chord.OperatorVariable.arpeggio[chordOperatorVariable.length - 1] = $(arpeggio[chordOperatorVariable.length - 1].selector).is(':checked');
                     });
                 }
                 break;
@@ -289,7 +289,7 @@ function chordSetup() {
                 });
                 chordDataIndex.value = App.config.sonification.Chord.DataIndex.value;
                 $('#arpeggioIndex').prop('checked', App.config.sonification.Chord.DataIndex.arpeggio);
-                $('#arpeggioIndex').on('change', function(){
+                $('#arpeggioIndex').on('change', function() {
                     App.config.sonification.Chord.DataIndex.arpeggio = $('#arpeggioIndex').is(':checked');
                 });
                 chordDataIndex.on('change', function(v) {
@@ -339,13 +339,13 @@ function chordSetup() {
                         'size': [100, 40],
                         'options': Object.keys(App.operators.chords)
                     }));
-                    chordDataVariable[chordDataVariable.length-1].value = App.config.sonification.Chord.DataVariable.value[chordDataVariable.length-1];
-                    arpeggio[chordDataVariable.length-1].prop('checked', App.config.sonification.Chord.DataVariable.arpeggio[chordDataVariable.length-1]);
-                    chordDataVariable[chordDataVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Chord.DataVariable.value[chordDataVariable.length-1] = v.value
+                    chordDataVariable[chordDataVariable.length - 1].value = App.config.sonification.Chord.DataVariable.value[chordDataVariable.length - 1];
+                    arpeggio[chordDataVariable.length - 1].prop('checked', App.config.sonification.Chord.DataVariable.arpeggio[chordDataVariable.length - 1]);
+                    chordDataVariable[chordDataVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Chord.DataVariable.value[chordDataVariable.length - 1] = v.value
                     });
-                    $(arpeggio[chordDataVariable.length-1].selector).on('change', function(v) {
-                        App.config.sonification.Chord.DataVariable.arpeggio[chordDataVariable.length-1] = $(arpeggio[chordDataVariable.length-1].selector).is(':checked');
+                    $(arpeggio[chordDataVariable.length - 1].selector).on('change', function(v) {
+                        App.config.sonification.Chord.DataVariable.arpeggio[chordDataVariable.length - 1] = $(arpeggio[chordDataVariable.length - 1].selector).is(':checked');
                     });
                 }
                 break;
@@ -386,7 +386,7 @@ function chordSetup() {
                 });
                 chordDataIndex.value = App.config.sonification.Chord.QueryProgress.value;
                 $('#arpeggioIndex').prop('checked', App.config.sonification.Chord.QueryProgress.arpeggio);
-                $('#arpeggioIndex').on('change', function(){
+                $('#arpeggioIndex').on('change', function() {
                     App.config.sonification.Chord.QueryProgress.arpeggio = $('#arpeggioIndex').is(':checked');
                 });
                 chordDataIndex.on('change', function(v) {

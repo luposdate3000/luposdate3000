@@ -82,9 +82,9 @@ function spatializationSetup() {
                             'value': 0
 
                         }));
-                        spatOperator[spatOperator.length-1].value = App.config.sonification.Spatialization.OperatorID.value[spatOperator.length-1];
-                        spatOperator[spatOperator.length-1].on('change', function(v) {
-                            App.config.sonification.Spatialization.OperatorID.value[spatOperator.length-1] = spatOperator[spatOperator.length-1].value
+                        spatOperator[spatOperator.length - 1].value = App.config.sonification.Spatialization.OperatorID.value[spatOperator.length - 1];
+                        spatOperator[spatOperator.length - 1].on('change', function(v) {
+                            App.config.sonification.Spatialization.OperatorID.value[spatOperator.length - 1] = spatOperator[spatOperator.length - 1].value
                         });
                     }
                 }
@@ -126,9 +126,9 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
-                    spatOperatorDepth[spatOperatorDepth.length-1].value = App.config.sonification.Spatialization.OperatorDepth.value[spatOperatorDepth.length-1];
-                    spatOperatorDepth[spatOperatorDepth.length-1].on('change', function(v) {
-                        App.config.sonification.Spatialization.OperatorDepth.value[spatOperatorDepth.length-1] = spatOperatorDepth[spatOperatorDepth.length-1].value
+                    spatOperatorDepth[spatOperatorDepth.length - 1].value = App.config.sonification.Spatialization.OperatorDepth.value[spatOperatorDepth.length - 1];
+                    spatOperatorDepth[spatOperatorDepth.length - 1].on('change', function(v) {
+                        App.config.sonification.Spatialization.OperatorDepth.value[spatOperatorDepth.length - 1] = spatOperatorDepth[spatOperatorDepth.length - 1].value
                     });
                 }
                 break;
@@ -168,9 +168,9 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
-                    spatOperatorType[spatOperatorType.length-1].value = App.config.sonification.Spatialization.OperatorType.value[spatOperatorType.length-1];
-                    spatOperatorType[spatOperatorType.length-1].on('change', function(v) {
-                        App.config.sonification.Spatialization.OperatorType.value[spatOperatorType.length-1] = spatOperatorType[spatOperatorType.length-1].value
+                    spatOperatorType[spatOperatorType.length - 1].value = App.config.sonification.Spatialization.OperatorType.value[spatOperatorType.length - 1];
+                    spatOperatorType[spatOperatorType.length - 1].on('change', function(v) {
+                        App.config.sonification.Spatialization.OperatorType.value[spatOperatorType.length - 1] = spatOperatorType[spatOperatorType.length - 1].value
                     });
                 }
                 break;
@@ -213,9 +213,9 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
-                    spatOperatorVariable[spatOperatorVariable.length-1].value = App.config.sonification.Spatialization.OperatorVariable.value[spatOperatorVariable.length-1];
-                    spatOperatorVariable[spatOperatorVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Spatialization.OperatorVariable.value[spatOperatorVariable.length-1] = spatOperatorVariable[spatOperatorVariable.length-1].value
+                    spatOperatorVariable[spatOperatorVariable.length - 1].value = App.config.sonification.Spatialization.OperatorVariable.value[spatOperatorVariable.length - 1];
+                    spatOperatorVariable[spatOperatorVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Spatialization.OperatorVariable.value[spatOperatorVariable.length - 1] = spatOperatorVariable[spatOperatorVariable.length - 1].value
                     });
                 }
                 break;
@@ -268,9 +268,9 @@ function spatializationSetup() {
                         'value': 0
 
                     }));
-                    spatDataVariable[spatDataVariable.length-1].value = App.config.sonification.Spatialization.DataVariable.value[spatDataVariable.length-1];
-                    spatDataVariable[spatDataVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Spatialization.DataVariable.value[spatDataVariable.length-1] = spatDataVariable[spatDataVariable.length-1].value
+                    spatDataVariable[spatDataVariable.length - 1].value = App.config.sonification.Spatialization.DataVariable.value[spatDataVariable.length - 1];
+                    spatDataVariable[spatDataVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Spatialization.DataVariable.value[spatDataVariable.length - 1] = spatDataVariable[spatDataVariable.length - 1].value
                     });
                 }
                 break;

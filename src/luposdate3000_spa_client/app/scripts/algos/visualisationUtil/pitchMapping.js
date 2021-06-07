@@ -80,9 +80,9 @@ function pitchSetup() {
                             'options': App.operators.frequence
 
                         }));
-                        pitchOperator[pitchOperator.length-1].value = App.config.sonification.Pitch.OperatorID.value[pitchOperator.length-1];
-                        pitchOperator[pitchOperator.length-1].on('change', function(v) {
-                            App.config.sonification.Pitch.OperatorID.value[pitchOperator.length-1] = v.value
+                        pitchOperator[pitchOperator.length - 1].value = App.config.sonification.Pitch.OperatorID.value[pitchOperator.length - 1];
+                        pitchOperator[pitchOperator.length - 1].on('change', function(v) {
+                            App.config.sonification.Pitch.OperatorID.value[pitchOperator.length - 1] = v.value
                         });
                     }
                 }
@@ -119,9 +119,9 @@ function pitchSetup() {
                         'size': [100, 40],
                         'options': App.operators.frequence
                     }));
-                    pitchOperatorDepth[pitchOperatorDepth.length-1].value = App.config.sonification.Pitch.OperatorDepth.value[pitchOperatorDepth.length-1];
-                    pitchOperatorDepth[pitchOperatorDepth.length-1].on('change', function(v) {
-                        App.config.sonification.Pitch.OperatorDepth.value[pitchOperatorDepth.length-1] = v.value
+                    pitchOperatorDepth[pitchOperatorDepth.length - 1].value = App.config.sonification.Pitch.OperatorDepth.value[pitchOperatorDepth.length - 1];
+                    pitchOperatorDepth[pitchOperatorDepth.length - 1].on('change', function(v) {
+                        App.config.sonification.Pitch.OperatorDepth.value[pitchOperatorDepth.length - 1] = v.value
                     });
                 }
                 break;
@@ -162,9 +162,9 @@ function pitchSetup() {
                         'size': [100, 40],
                         'options': App.operators.frequence
                     }));
-                    pitchOperatorType[pitchOperatorType.length-1].value = App.config.sonification.Pitch.OperatorType.value[pitchOperatorType.length-1];
-                    pitchOperatorType[pitchOperatorType.length-1].on('change', function(v) {
-                        App.config.sonification.Pitch.OperatorType.value[pitchOperatorType.length-1] = v.value
+                    pitchOperatorType[pitchOperatorType.length - 1].value = App.config.sonification.Pitch.OperatorType.value[pitchOperatorType.length - 1];
+                    pitchOperatorType[pitchOperatorType.length - 1].on('change', function(v) {
+                        App.config.sonification.Pitch.OperatorType.value[pitchOperatorType.length - 1] = v.value
                     });
                 }
                 break;
@@ -204,9 +204,9 @@ function pitchSetup() {
                         'size': [100, 40],
                         'options': App.operators.frequence
                     }));
-                    pitchOperatorVariable[pitchOperatorVariable.length-1].value = App.config.sonification.Pitch.OperatorVariable.value[pitchOperatorVariable.length-1];
-                    pitchOperatorVariable[pitchOperatorVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Pitch.OperatorVariable.value[pitchOperatorVariable.length-1] = v.value
+                    pitchOperatorVariable[pitchOperatorVariable.length - 1].value = App.config.sonification.Pitch.OperatorVariable.value[pitchOperatorVariable.length - 1];
+                    pitchOperatorVariable[pitchOperatorVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Pitch.OperatorVariable.value[pitchOperatorVariable.length - 1] = v.value
                     });
                 }
                 break;
@@ -259,9 +259,9 @@ function pitchSetup() {
                         'size': [100, 40],
                         'options': App.operators.frequence
                     }));
-                    pitchDataVariable[pitchDataVariable.length-1].value = App.config.sonification.Pitch.DataVariable.value[pitchDataVariable.length-1];
-                    pitchDataVariable[pitchDataVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Pitch.DataVariable.value[pitchDataVariable.length-1] = v.value
+                    pitchDataVariable[pitchDataVariable.length - 1].value = App.config.sonification.Pitch.DataVariable.value[pitchDataVariable.length - 1];
+                    pitchDataVariable[pitchDataVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Pitch.DataVariable.value[pitchDataVariable.length - 1] = v.value
                     });
                 }
                 break;

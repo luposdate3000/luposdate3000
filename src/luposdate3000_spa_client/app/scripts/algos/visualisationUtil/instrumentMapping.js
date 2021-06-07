@@ -60,7 +60,7 @@ function instrumentSetup() {
 
                 if (!App.config.sonification.Instrument.hasOwnProperty("OperatorID")) {
                     App.config.sonification.Instrument.OperatorID = {
-                    value: configSettings
+                        value: configSettings
                     }
                 }
 
@@ -72,9 +72,9 @@ function instrumentSetup() {
                             'size': [100, 40],
                             'options': App.operators.instruments
                         }));
-                        instrumentOperator[instrumentOperator.length-1].value = App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length-1];
-                        instrumentOperator[instrumentOperator.length-1].on('change', function(v) {
-                            App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length-1] = v.value
+                        instrumentOperator[instrumentOperator.length - 1].value = App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length - 1];
+                        instrumentOperator[instrumentOperator.length - 1].on('change', function(v) {
+                            App.config.sonification.Instrument.OperatorID.value[instrumentOperator.length - 1] = v.value
                         });
                         loadInstrument(instrumentOperator, true);
                     }
@@ -112,9 +112,9 @@ function instrumentSetup() {
                         'options': App.operators.instruments
                     }));
                     loadInstrument(instrumentOperatorDepth, true);
-                    instrumentOperatorDepth[instrumentOperatorDepth.length-1].value = App.config.sonification.Instrument.OperatorDepth.value[instrumentOperatorDepth.length-1];
-                    instrumentOperatorDepth[instrumentOperatorDepth.length-1].on('change', function(v) {
-                        App.config.sonification.Instrument.OperatorDepth.value[instrumentOperatorDepth.length-1] = v.value
+                    instrumentOperatorDepth[instrumentOperatorDepth.length - 1].value = App.config.sonification.Instrument.OperatorDepth.value[instrumentOperatorDepth.length - 1];
+                    instrumentOperatorDepth[instrumentOperatorDepth.length - 1].on('change', function(v) {
+                        App.config.sonification.Instrument.OperatorDepth.value[instrumentOperatorDepth.length - 1] = v.value
                     });
                 }
                 break;
@@ -150,9 +150,9 @@ function instrumentSetup() {
                         'size': [100, 40],
                         'options': App.operators.instruments
                     }));
-                    instrumentOperatorType[instrumentOperatorType.length-1].value = App.config.sonification.Instrument.OperatorType.value[instrumentOperatorType.length-1];
-                    instrumentOperatorType[instrumentOperatorType.length-1].on('change', function(v) {
-                        App.config.sonification.Instrument.OperatorType.value[instrumentOperatorType.length-1] = v.value
+                    instrumentOperatorType[instrumentOperatorType.length - 1].value = App.config.sonification.Instrument.OperatorType.value[instrumentOperatorType.length - 1];
+                    instrumentOperatorType[instrumentOperatorType.length - 1].on('change', function(v) {
+                        App.config.sonification.Instrument.OperatorType.value[instrumentOperatorType.length - 1] = v.value
                     });
                     loadInstrument(instrumentOperatorType, true);
                 }
@@ -192,9 +192,9 @@ function instrumentSetup() {
                         'size': [100, 40],
                         'options': App.operators.instruments
                     }));
-                    instrumentOperatorVariable[instrumentOperatorVariable.length-1].value = App.config.sonification.Instrument.OperatorVariable.value[instrumentOperatorVariable.length-1];
-                    instrumentOperatorVariable[instrumentOperatorVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Instrument.OperatorVariable.value[instrumentOperatorVariable.length-1] = v.value
+                    instrumentOperatorVariable[instrumentOperatorVariable.length - 1].value = App.config.sonification.Instrument.OperatorVariable.value[instrumentOperatorVariable.length - 1];
+                    instrumentOperatorVariable[instrumentOperatorVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Instrument.OperatorVariable.value[instrumentOperatorVariable.length - 1] = v.value
                     });
                     loadInstrument(instrumentOperatorVariable, true);
                 }
@@ -263,9 +263,9 @@ function instrumentSetup() {
                         'size': [100, 40],
                         'options': App.operators.instruments
                     }));
-                    instrumentDataVariable[instrumentDataVariable.length-1].value = App.config.sonification.Instrument.DataVariable.value[instrumentDataVariable.length-1];
-                    instrumentDataVariable[instrumentDataVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Instrument.DataVariable.value[instrumentDataVariable.length-1] = v.value
+                    instrumentDataVariable[instrumentDataVariable.length - 1].value = App.config.sonification.Instrument.DataVariable.value[instrumentDataVariable.length - 1];
+                    instrumentDataVariable[instrumentDataVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Instrument.DataVariable.value[instrumentDataVariable.length - 1] = v.value
                     });
                     loadInstrument(instrumentDataVariable, true);
                 }

@@ -78,9 +78,9 @@ function durationSetup() {
                             'options': App.operators.tones
 
                         }));
-                        durationOperator[durationOperator.length-1].value = App.config.sonification.Duration.OperatorID.value[durationOperator.length-1];
-                        durationOperator[durationOperator.length-1].on('change', function(v) {
-                            App.config.sonification.Duration.OperatorID.value[durationOperator.length-1] = v.value
+                        durationOperator[durationOperator.length - 1].value = App.config.sonification.Duration.OperatorID.value[durationOperator.length - 1];
+                        durationOperator[durationOperator.length - 1].on('change', function(v) {
+                            App.config.sonification.Duration.OperatorID.value[durationOperator.length - 1] = v.value
                         });
                     }
                 }
@@ -119,9 +119,9 @@ function durationSetup() {
                         'size': [100, 40],
                         'options': App.operators.tones
                     }));
-                    durationOperatorDepth[durationOperatorDepth.length-1].value = App.config.sonification.Duration.OperatorDepth.value[durationOperatorDepth.length-1];
-                    durationOperatorDepth[durationOperatorDepth.length-1].on('change', function(v) {
-                        App.config.sonification.Duration.OperatorDepth.value[durationOperatorDepth.length-1] = v.value
+                    durationOperatorDepth[durationOperatorDepth.length - 1].value = App.config.sonification.Duration.OperatorDepth.value[durationOperatorDepth.length - 1];
+                    durationOperatorDepth[durationOperatorDepth.length - 1].on('change', function(v) {
+                        App.config.sonification.Duration.OperatorDepth.value[durationOperatorDepth.length - 1] = v.value
                     });
                 }
                 break;
@@ -158,9 +158,9 @@ function durationSetup() {
                         'size': [100, 40],
                         'options': App.operators.tones
                     }));
-                    durationOperatorType[durationOperatorType.length-1].value = App.config.sonification.Duration.OperatorType.value[durationOperatorType.length-1];
-                    durationOperatorType[durationOperatorType.length-1].on('change', function(v) {
-                        App.config.sonification.Duration.OperatorType.value[durationOperatorType.length-1] = v.value
+                    durationOperatorType[durationOperatorType.length - 1].value = App.config.sonification.Duration.OperatorType.value[durationOperatorType.length - 1];
+                    durationOperatorType[durationOperatorType.length - 1].on('change', function(v) {
+                        App.config.sonification.Duration.OperatorType.value[durationOperatorType.length - 1] = v.value
                     });
                 }
                 break;
@@ -199,9 +199,9 @@ function durationSetup() {
                         'size': [100, 40],
                         'options': App.operators.tones
                     }));
-                    durationOperatorVariable[durationOperatorVariable.length-1].value = App.config.sonification.Duration.OperatorVariable.value[durationOperatorVariable.length-1];
-                    durationOperatorVariable[durationOperatorVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Duration.OperatorVariable.value[durationOperatorVariable.length-1] = v.value
+                    durationOperatorVariable[durationOperatorVariable.length - 1].value = App.config.sonification.Duration.OperatorVariable.value[durationOperatorVariable.length - 1];
+                    durationOperatorVariable[durationOperatorVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Duration.OperatorVariable.value[durationOperatorVariable.length - 1] = v.value
                     });
                 }
                 break;
@@ -249,9 +249,9 @@ function durationSetup() {
                         'size': [100, 40],
                         'options': App.operators.tones
                     }));
-                    durationDataVariable[durationDataVariable.length-1].value = App.config.sonification.Duration.DataVariable.value[durationDataVariable.length-1];
-                    durationDataVariable[durationDataVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Duration.DataVariable.value[durationDataVariable.length-1] = v.value
+                    durationDataVariable[durationDataVariable.length - 1].value = App.config.sonification.Duration.DataVariable.value[durationDataVariable.length - 1];
+                    durationDataVariable[durationDataVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Duration.DataVariable.value[durationDataVariable.length - 1] = v.value
                     });
                 }
                 break;

@@ -75,9 +75,9 @@ function octaveSetup() {
                             'options': App.operators.octave
 
                         }));
-                        octaveOperator[octaveOperator.length-1].value = App.config.sonification.Octave.OperatorID.value[octaveOperator.length-1];
-                        octaveOperator[octaveOperator.length-1].on('change', function(v) {
-                            App.config.sonification.Octave.OperatorID.value[octaveOperator.length-1] = v.value
+                        octaveOperator[octaveOperator.length - 1].value = App.config.sonification.Octave.OperatorID.value[octaveOperator.length - 1];
+                        octaveOperator[octaveOperator.length - 1].on('change', function(v) {
+                            App.config.sonification.Octave.OperatorID.value[octaveOperator.length - 1] = v.value
                         });
                     }
                 }
@@ -114,9 +114,9 @@ function octaveSetup() {
                         'size': [100, 40],
                         'options': App.operators.octave
                     }));
-                    octaveOperatorDepth[octaveOperatorDepth.length-1].value = App.config.sonification.Octave.OperatorDepth.value[octaveOperatorDepth.length-1];
-                    octaveOperatorDepth[octaveOperatorDepth.length-1].on('change', function(v) {
-                        App.config.sonification.Octave.OperatorDepth.value[octaveOperatorDepth.length-1] = v.value
+                    octaveOperatorDepth[octaveOperatorDepth.length - 1].value = App.config.sonification.Octave.OperatorDepth.value[octaveOperatorDepth.length - 1];
+                    octaveOperatorDepth[octaveOperatorDepth.length - 1].on('change', function(v) {
+                        App.config.sonification.Octave.OperatorDepth.value[octaveOperatorDepth.length - 1] = v.value
                     });
                 }
                 break;
@@ -153,9 +153,9 @@ function octaveSetup() {
                         'size': [100, 40],
                         'options': App.operators.octave
                     }));
-                    octaveOperatorType[octaveOperatorType.length-1].value = App.config.sonification.Octave.OperatorType.value[octaveOperatorType.length-1];
-                    octaveOperatorType[octaveOperatorType.length-1].on('change', function(v) {
-                        App.config.sonification.Octave.OperatorType.value[octaveOperatorType.length-1] = v.value
+                    octaveOperatorType[octaveOperatorType.length - 1].value = App.config.sonification.Octave.OperatorType.value[octaveOperatorType.length - 1];
+                    octaveOperatorType[octaveOperatorType.length - 1].on('change', function(v) {
+                        App.config.sonification.Octave.OperatorType.value[octaveOperatorType.length - 1] = v.value
                     });
                 }
                 break;
@@ -195,9 +195,9 @@ function octaveSetup() {
                         'size': [100, 40],
                         'options': App.operators.octave
                     }));
-                    octaveOperatorVariable[octaveOperatorVariable.length-1].value = App.config.sonification.Octave.OperatorVariable.value[octaveOperatorVariable.length-1];
-                    octaveOperatorVariable[octaveOperatorVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Octave.OperatorVariable.value[octaveOperatorVariable.length-1] = v.value
+                    octaveOperatorVariable[octaveOperatorVariable.length - 1].value = App.config.sonification.Octave.OperatorVariable.value[octaveOperatorVariable.length - 1];
+                    octaveOperatorVariable[octaveOperatorVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Octave.OperatorVariable.value[octaveOperatorVariable.length - 1] = v.value
                     });
                 }
                 break;
@@ -244,9 +244,9 @@ function octaveSetup() {
                         'size': [100, 40],
                         'options': App.operators.octave
                     }));
-                    octaveDataVariable[octaveDataVariable.length-1].value = App.config.sonification.Octave.DataVariable.value[octaveDataVariable.length-1];
-                    octaveDataVariable[octaveDataVariable.length-1].on('change', function(v) {
-                        App.config.sonification.Octave.DataVariable.value[octaveDataVariable.length-1] = v.value
+                    octaveDataVariable[octaveDataVariable.length - 1].value = App.config.sonification.Octave.DataVariable.value[octaveDataVariable.length - 1];
+                    octaveDataVariable[octaveDataVariable.length - 1].on('change', function(v) {
+                        App.config.sonification.Octave.DataVariable.value[octaveDataVariable.length - 1] = v.value
                     });
                 }
                 break;
