@@ -137,8 +137,14 @@ function createDefaultConfig(audioDimension, mode, value, arpeggio) {
 
         switch (mode) {
             case "None":
+                break
             case 'Data-Index':
             case 'Query-Progress':
+                if (audioDimension == "Loudness") {
+                    App.config.sonification[audioDimension][mode] = {
+                        "value": value
+                    }
+                }
                 break
             default:
                 App.config.sonification[audioDimension][mode] = {

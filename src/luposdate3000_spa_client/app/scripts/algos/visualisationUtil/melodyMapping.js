@@ -233,7 +233,6 @@ function getMelody(string, id, label, index) {
 
 function melodySetup() {
     App.mappingFunctions.Melody = function(string) {
-        App.config.sonification.Melody.mode = string
         switch (string) {
             case "No":
                 if (App.config.sonification.Melody.mode != string) {
