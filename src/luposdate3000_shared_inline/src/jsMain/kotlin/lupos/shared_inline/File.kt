@@ -29,7 +29,7 @@ internal actual class File {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getAbsolutePath() = throw Exception("not implemented")
+    internal actual inline fun getAbsolutePath(): String = throw Exception("not implemented")
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun exists(): Boolean = ExternalModule_fs.exists(filename)

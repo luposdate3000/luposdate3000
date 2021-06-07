@@ -164,42 +164,43 @@ function audioDimensionSetup(mode, audioDimension) {
             break;
         case 'Simple':
 
-            if (!App.config.sonification[audioDimension].hasOwnProperty('Simple'))) {
-        App.config.sonification[audioDimension].Simple = {
-            value: getDefaultValue(audioDimension)
-        };
-    }
+            if (!App.config.sonification[audioDimension].hasOwnProperty('Simple')) {
+                App.config.sonification[audioDimension].Simple = {
+                    value: getDefaultValue(audioDimension)
+                };
+            }
 
-    var html;
-    $("#" + audioDimension.toLowerCase() + "Settings").hide();
-    if (audioDimension === "Pitch") {
-        hidePitchElements();
-        html = '';
-    } else {
-        $("#" + audioDimension.toLowerCase() + "Settings").empty();
-        html = '<fieldset>';
-    }
+            var html;
+            $("#" + audioDimension.toLowerCase() + "Settings").hide();
+            if (audioDimension === "Pitch") {
+                hidePitchElements();
+                html = '';
+            } else {
+                $("#" + audioDimension.toLowerCase() + "Settings").empty();
+                html = '<fieldset>';
+            }
 
-    html += '<h7>Select a global setting.</h7><br><br>';
-    html += '<div style=overflow:hidden;>'
-    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-    html += '<div nexus-ui=select id=' + audioDimension.toLowerCase() + 'Simple style=float:left;margin-right:10px;></div>';
-    html += '</div>';
+            html += '<h7>Select a global setting.</h7><br><br>';
+            html += '<div style=overflow:hidden;>'
+            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+            html += '<div nexus-ui=select id=' + audioDimension.toLowerCase() + 'Simple style=float:left;margin-right:10px;></div>';
+            html += '</div>';
 
-    if (audioDimension === "Pitch") {
-        $('#pitchSettingsExplicit').html(html);
-    } else {
-        html += '</fieldset>';
-        $("#" + audioDimension.toLowerCase() + "Settings").html(html);
-    }
-
-
-    var configParameter = getConfigParameter(audioDimension);
+            if (audioDimension === "Pitch") {
+                $('#pitchSettingsExplicit').html(html);
+            } else {
+                html += '</fieldset>';
+                $("#" + audioDimension.toLowerCase() + "Settings").html(html);
+            }
 
 
-    mySimple = new Nexus.Select("#" + audioDimension.toLowerCase() + "Simple", {
-            'size': [100, 40],
-            'options': "App.operators." + configParameter + "});
+            var configParameter = getConfigParameter(audioDimension);
+
+
+            mySimple = new Nexus.Select("#" + audioDimension.toLowerCase() + "Simple", {
+                'size': [100, 40],
+                'options': App.operators[configParameter]
+            });
             mySimple.value = App.config.sonification[audioDimension].Simple.value;
             if (audioDimension === "Instrument") {
                 loadInstrument(instrumentSimple, false);
@@ -208,7 +209,8 @@ function audioDimensionSetup(mode, audioDimension) {
                 App.config.sonification[audioDimension].Simple.value = v.value
             });
             break;
-            case 'Operator-ID': var html;
+        case 'Operator-ID':
+            var html;
             $("#" + audioDimension.toLowerCase() + "Settings").hide();
             if (audioDimension === "Pitch") {
                 hidePitchElements();
@@ -264,90 +266,90 @@ function audioDimensionSetup(mode, audioDimension) {
                 }
             }
             break;
-        }
-
     }
 
-    function calculateMinMaxID() {
-        maxId = 0;
-        minId = 9999999999;
-        var i;
-        for (i = 0; i <= dataNodes.length - 1; i++) {
-            var k = parseInt(dataNodes[i].label.split(" ")[1].split("\n")[0], 10);
-            if (k > maxId) {
-                maxId = k;
-            }
-            if (k < minId) {
-                minId = k;
-            }
+}
+
+function calculateMinMaxID() {
+    maxId = 0;
+    minId = 9999999999;
+    var i;
+    for (i = 0; i <= dataNodes.length - 1; i++) {
+        var k = parseInt(dataNodes[i].label.split(" ")[1].split("\n")[0], 10);
+        if (k > maxId) {
+            maxId = k;
+        }
+        if (k < minId) {
+            minId = k;
         }
     }
+}
 
-    function calculateMinMaxDepth() {
-        maxDepth = -999999999;
-        minDepth = 999999999;
-        var i;
-        var positions = Object.values(networkSon.getPositions());
-        for (i = 0; i <= positions.length - 1; i++) {
-            if (positions[i].y > maxDepth) {
-                maxDepth = positions[i].y;
-            }
-            if (positions[i].y < minDepth) {
-                minDepth = positions[i].y;
-            }
+function calculateMinMaxDepth() {
+    maxDepth = -999999999;
+    minDepth = 999999999;
+    var i;
+    var positions = Object.values(networkSon.getPositions());
+    for (i = 0; i <= positions.length - 1; i++) {
+        if (positions[i].y > maxDepth) {
+            maxDepth = positions[i].y;
+        }
+        if (positions[i].y < minDepth) {
+            minDepth = positions[i].y;
         }
     }
+}
 
-    function calculateMinMaxIndex() {
-        maxIndex = 0;
-        minIndex = 999999999999999;
-        var i;
-        for (i = 0; i <= globalAnimationList.length - 1; i++) {
-            var k = parseInt(globalAnimationList[i][3], 10);
-            if (k > maxIndex) {
-                maxIndex = k;
-            }
-            if (k < minIndex) {
-                minIndex = k;
-            }
+function calculateMinMaxIndex() {
+    maxIndex = 0;
+    minIndex = 999999999999999;
+    var i;
+    for (i = 0; i <= globalAnimationList.length - 1; i++) {
+        var k = parseInt(globalAnimationList[i][3], 10);
+        if (k > maxIndex) {
+            maxIndex = k;
         }
-
-    }
-
-    function getChordTones(mode, j, isArray) {
-        if (isArray) {
-            var basicTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].basic;
-            var firstTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].first;
-            var secondTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].second;
-            return [App.config.sonification.Chord[mode].arpeggio[j], basicTone, firstTone, secondTone];
-        } else {
-            var basicTone = App.operators.chords[App.config.sonification.Chord[mode].value].basic;
-            var firstTone = App.operators.chords[App.config.sonification.Chord[mode].value].first;
-            var secondTone = App.operators.chords[App.config.sonification.Chord[mode].value].second;
-            return [App.config.sonification.Chord[mode].arpeggio, basicTone, firstTone, secondTone];
+        if (k < minIndex) {
+            minIndex = k;
         }
     }
 
-    function hidePitchElements() {
-        $('#radioPitch').hide();
-        $('#pitchSettingsExplicit').show();
-        $('#pitchSettingsExplicit').empty();
-    }
+}
 
-    function getConfigParameter(audioDimension) {
-        switch (audioDimension) {
-            case 'Pitch':
-                return "frequence";
-            case 'Instrument':
-                return "instruments";
-        }
+function getChordTones(mode, j, isArray) {
+    if (isArray) {
+        var basicTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].basic;
+        var firstTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].first;
+        var secondTone = App.operators.chords[App.config.sonification.Chord[mode].value[j]].second;
+        return [App.config.sonification.Chord[mode].arpeggio[j], basicTone, firstTone, secondTone];
+    } else {
+        var basicTone = App.operators.chords[App.config.sonification.Chord[mode].value].basic;
+        var firstTone = App.operators.chords[App.config.sonification.Chord[mode].value].first;
+        var secondTone = App.operators.chords[App.config.sonification.Chord[mode].value].second;
+        return [App.config.sonification.Chord[mode].arpeggio, basicTone, firstTone, secondTone];
     }
+}
 
-    function getDefaultValue(audioDimension) {
-        switch (audioDimension) {
-            case 'Pitch':
-                return "C";
-            case 'Instrument':
-                return Object.keys(App.samples)[0];
-        }
+function hidePitchElements() {
+    $('#radioPitch').hide();
+    $('#pitchSettingsExplicit').show();
+    $('#pitchSettingsExplicit').empty();
+}
+
+function getConfigParameter(audioDimension) {
+    switch (audioDimension) {
+        case 'Pitch':
+            return "frequence";
+        case 'Instrument':
+            return "instruments";
     }
+}
+
+function getDefaultValue(audioDimension) {
+    switch (audioDimension) {
+        case 'Pitch':
+            return "C";
+        case 'Instrument':
+            return Object.keys(App.samples)[0];
+    }
+}
