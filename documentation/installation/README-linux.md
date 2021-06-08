@@ -37,8 +37,8 @@ dependencieshome=/opt
 #kotlin
 {
     cd $dependencieshome
-    wget https://github.com/JetBrains/kotlin/releases/download/v1.4.32/kotlin-compiler-1.4.32.zip
-    unzip kotlin-compiler-1.4.32.zip
+    wget https://github.com/JetBrains/kotlin/releases/download/v1.5.10/kotlin-compiler-1.5.10.zip
+    unzip kotlin-compiler-1.5.10.zip
     cd kotlinc/bin/
     echo "export PATH=$PATH:$(pwd)" >> ~/.bashrc
 }
@@ -48,6 +48,7 @@ dependencieshome=/opt
     # the default settings use an precompiled-compiler from maven-repository such that this is not necessary
 
     apt install openjdk-16-jdk
+    # not every commit in that repository is compileable. If the HEAD-commit does not work try another commit or another branch
     git clone https://github.com/JetBrains/kotlin.git --depth=1
     cd kotlin
     echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
