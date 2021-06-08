@@ -1,0 +1,2 @@
+jvmDependencies=org.jetbrains.kotlinx:kotlinx-datetime:0.2.1
+jvmDependencies=org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1
