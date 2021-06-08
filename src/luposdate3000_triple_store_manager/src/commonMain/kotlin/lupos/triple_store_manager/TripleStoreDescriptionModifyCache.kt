@@ -24,9 +24,9 @@ import lupos.shared.EModifyTypeExt
 import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.TripleStoreIndex
 import lupos.shared.communicationHandler
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
@@ -54,8 +54,11 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
     @JvmField
     internal val allStoreLocal: Array<Array<TripleStoreIndex>>
+    @JvmField
+    internal var instance: Luposdate3000Instance
 
-    public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern) {
+    public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {
+        this.instance = instance
         this.description = description
         this.type = type
         val usedIndices = mutableListOf<TripleStoreIndexDescription>()
@@ -69,23 +72,24 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         allBuf = Array(usedIndices.size) { index -> Array(usedIndices[index].getAllLocations().size) { MyBuf() } }
         allStore = Array(usedIndices.size) { usedIndices[it].getAllLocations() }
         allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
-        allStoreLocal = Array(allStore.size) { allStore[it].map { j -> (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }
+        allStoreLocal = Array(allStore.size) { allStore[it].map { j -> ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }
     }
 
-    public constructor(description: TripleStoreDescription, type: EModifyType) {
+    public constructor(description: TripleStoreDescription, type: EModifyType, instance: Luposdate3000Instance) {
+        this.instance = instance
         this.description = description
         this.type = type
         idx = Array(description.indices.size) { EIndexPatternHelper.tripleIndicees[description.indices[it].idx_set[0]] }
         allBuf = Array(description.indices.size) { index -> Array(description.indices[index].getAllLocations().size) { MyBuf() } }
         allStore = Array(description.indices.size) { description.indices[it].getAllLocations() }
         allStoreParams = Array(description.indices.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to idx[it].toString(), "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
-        allStoreLocal = Array(description.indices.size) { allStore[it].map { j -> (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }
+        allStoreLocal = Array(description.indices.size) { allStore[it].map { j -> ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }
     }
 
     internal fun mySendSorted(i: Int, j: Int, sortedBy: EIndexPattern) {
         val buf = allBuf[i][j]
         val store = allStore[i][j]
-        if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
+        if (store.first == ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
             if (type == EModifyTypeExt.INSERT) {
                 allStoreLocal[i][j].insertAsBulkSorted(buf.buf, idx[i], buf.offset)
             } else {
@@ -107,7 +111,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     internal fun mySend(i: Int, j: Int) {
         val buf = allBuf[i][j]
         val store = allStore[i][j]
-        if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
+        if (store.first == ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
             if (type == EModifyTypeExt.INSERT) {
                 allStoreLocal[i][j].insertAsBulk(buf.buf, idx[i], buf.offset)
             } else {

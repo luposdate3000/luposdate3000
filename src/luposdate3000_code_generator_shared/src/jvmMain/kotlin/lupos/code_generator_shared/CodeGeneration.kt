@@ -67,9 +67,10 @@ public object CodeGeneration {
         variableName: String,
         variableValue: String,
     ) {
+        val instance = LuposdateEndpoint.initialize()
         try {
             // Root of the operatorgraph
-            val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
+            val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, variableValue)
             // Buffer to store the separated operators
             val operatorsBuffer = MyPrintWriter(true)
             // Imports that will be used in the generated file
@@ -84,6 +85,7 @@ public object CodeGeneration {
                 "lupos.shared.minus",
                 "lupos.shared.times",
                 "lupos.shared.div",
+                "lupos.shared.Luposdate3000Instance",
                 "lupos.shared.operator.IOPBase",
                 "lupos.operator.physical.POPBase",
                 "lupos.shared.EOperatorIDExt",
@@ -117,11 +119,11 @@ public object CodeGeneration {
             imports.forEach { outFile.println("import $it") } // Create all the imports
             outFile.println()
             // This is the function that can be called to retrieve the result
-            outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
+            outFile.println("public fun $className.${variableName}_evaluate(instance:Luposdate3000Instance):IOPBase {")
             // New empty query object
-            outFile.println("    val query = Query()")
+            outFile.println("    val query = Query(instance)")
             // This will be used to get the TripleStoreIterator
-            outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
+            outFile.println("    val graph = instance.tripleStoreManager!!.getGraph(\"\")") //
             // Writing the operators to the generated file
             outFile.print(operatorsBuffer.toString())
             // Evaluate the operatorgraph with the operators from the generated files and store it in buf
@@ -170,6 +172,7 @@ public object CodeGeneration {
             outFile.println("}")
             outFile.close()
         }
+        instance.close()
     }
 }
 
@@ -252,7 +255,6 @@ private fun writeOperatorGraph(
                     "operator${operator.children[2].getUUID()})," +
                     "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
             )
-            imports.add("lupos.shared.tripleStoreManager")
             imports.add("lupos.shared.EIndexPatternExt")
             imports.add("lupos.shared.Partition")
         }

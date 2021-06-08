@@ -34,7 +34,7 @@ public class Luposdate3000Instance {
     public var tripleStoreManager: TripleStoreManager? = null
 
     @JvmField
-    public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = throw Exception("not initialized")
+    public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = { throw Exception("not initialized") }
 
     public fun close() {
         if (initialized) {

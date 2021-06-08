@@ -35,7 +35,6 @@ import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPModifyData public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val type: EModifyType, @JvmField public val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
@@ -95,7 +94,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {
-            val graphLocal = tripleStoreManager.getGraph(graph)
+            val graphLocal = query.getInstance().tripleStoreManager!!.getGraph(graph)
             val cache = graphLocal.modify_create_cache(EModifyTypeExt.INSERT)
             graphLocal.modify_cache(query, Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type, cache, true)
         }

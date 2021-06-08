@@ -249,7 +249,7 @@ internal class ValueKeyStoreWriter {
     internal val pageType: Int
 
     @JvmField
-    internal val bufferManager: BufferManager
+    internal val bufferManager: IBufferManager
 
     @JvmField
     internal var parentLayer: ValueKeyStoreWriter? = null

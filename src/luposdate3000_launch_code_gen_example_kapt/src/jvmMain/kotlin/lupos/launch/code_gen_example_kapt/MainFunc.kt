@@ -24,20 +24,21 @@ internal fun mainFunc(): Unit = Parallel.runBlocking {
        mainFunc()
        val example = ExampleAnnotation()
        println(example.exampleVar_evaluate())*/
-
-    LuposdateEndpoint.importTurtleFile("resources/code-generation/example.n3")
+    val instance = LuposdateEndpoint.initialize()
+    LuposdateEndpoint.importTurtleFile(instance, "resources/code-generation/example.n3")
     println("Init finished")
     // For counting of results set true
     if (false) {
         val exampleVar: String = "SELECT (count(?pages) as ?count) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
-        println(LuposdateEndpoint.evaluateSparqlToResultB(exampleVar))
+        println(LuposdateEndpoint.evaluateSparqlToResultB(instance, exampleVar))
     } else {
         for (i in 1..3) {
-            val benchmark = BenchmarkClass()
+            val benchmark = BenchmarkClass(instance)
             var (time, counter) = benchmark.startTimer()
             println("Elapsed time generated $time ms for $counter iterations")
             var (time2, counter2) = benchmark.startTimerEndpoint()
             println("Elapsed time non-generated $time2 ms for $counter2 iterations")
         }
     }
+    instance.close()
 }

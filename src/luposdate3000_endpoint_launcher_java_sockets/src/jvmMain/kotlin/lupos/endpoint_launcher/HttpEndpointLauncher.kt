@@ -25,9 +25,9 @@ import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.operator.physical.partition.POPDistributedSendSingleCount
 import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.communicationHandler
-import lupos.shared.tripleStoreManager
 import lupos.shared.xmlParser.XMLParser
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
@@ -59,9 +59,9 @@ public actual object HttpEndpointLauncher {
         }
     }
 
-    public actual /*suspend*/ fun start() {
+    public actual /*suspend*/ fun start(instance: Luposdate3000Instance) {
 
-        val hosturl = tripleStoreManager.getLocalhost().split(":")
+        val hosturl = instance.tripleStoreManager!!.getLocalhost().split(":")
         val hostname = hosturl[0]
         val port = if (hosturl.size > 1) {
             hosturl[1].toInt()
@@ -109,7 +109,7 @@ public actual object HttpEndpointLauncher {
                             }
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            RestEndpoint.initialize(paths, params, connectionInMy, connectionOutMy, hostname, port)
+                            RestEndpoint.initialize(instance, paths, params, connectionInMy, connectionOutMy, hostname, port)
 
                             paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
                                 LuposdateEndpoint.close()
@@ -162,8 +162,8 @@ public actual object HttpEndpointLauncher {
 // init dictionary
                                         val idx2 = dictionaryURL.indexOf("/")
                                         val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
-                                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
-                                        val query = Query(remoteDictionary)
+                                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance)
+                                        val query = Query(remoteDictionary, instance)
                                         query.setDictionaryUrl(dictionaryURL)
 // init node
                                         var node = queryContainer.instance

@@ -25,8 +25,9 @@ import lupos.shared_inline.DictionaryHelper
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
-    LuposdateEndpoint.importTurtleFile(inputFileName)
-    var node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB("SELECT ?s ?p ?o WHERE { ?s a <bibtex_entry> . ?s ?p ?o . }", false)
+    val instance = LuposdateEndpoint.initialize()
+    LuposdateEndpoint.importTurtleFile(instance, inputFileName)
+    var node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, "SELECT ?s ?p ?o WHERE { ?s a <bibtex_entry> . ?s ?p ?o . }", false)
     node = node.getChildren()[0]
     val query = node.getQuery()
     val child = node.evaluateRoot(Partition())

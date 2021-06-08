@@ -16,7 +16,6 @@
  */
 package lupos.triple_store_manager
 
-import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
 import lupos.shared.BUFFER_HOME
@@ -27,6 +26,7 @@ import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionMode
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IBufferManager
 import lupos.shared.IMyInputStream
 import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescriptionFactory
@@ -34,6 +34,7 @@ import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.LuposGraphName
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
@@ -55,10 +56,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal var localhost: LuposHostname
 
     @JvmField
+    internal var instance: Luposdate3000Instance
+
+    @JvmField
     internal val partitionMode: EPartitionMode
 
     @JvmField
-    internal var bufferManager: BufferManager = BufferManagerExt.getBuffermanager()
+    internal var bufferManager: IBufferManager
 
     @JvmField
     internal val localStores_ = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
@@ -144,7 +148,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             val buf = ByteArray(l2)
             buffer.copyInto(buf, 0, off, off + l2)
             off += l2
-            val store = TripleStoreIndexIDTriple(pageid, true)
+            val store = TripleStoreIndexIDTriple(pageid, true, instance)
             val key = buf.decodeToString()
             localStores_[key] = store
         }
@@ -159,7 +163,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             val name = buf.decodeToString()
             val l5 = ByteArrayHelper.readInt4(buffer, off)
             off += 4
-            val description = TripleStoreDescriptionFactory()
+            val description = TripleStoreDescriptionFactory(instance)
             for (j in 0 until l5) {
                 val l6 = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
@@ -168,7 +172,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 off += l6
                 description.addIndex { it.initFromByteArray(buf2) }
             }
-            metadata_[name] = description.build()
+            metadata_[name] = description.build(instance)
         }
     }
 
@@ -202,7 +206,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         metadata_.remove(name)
     }
 
-    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname) : super() {
+    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, instance: Luposdate3000Instance) : super() {
+        this.instance = instance
+        this.bufferManager = instance.bufferManager!!
         this.hostnames = hostnames
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
@@ -298,7 +304,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:297", pageid)
     }
 
-    public fun initialize(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+    public fun initialize(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         resetDefaultTripleStoreLayout()
@@ -341,7 +347,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
         for ((k, v) in localStores_) {
             File("${localhost.replace(":", "_")}_$k.store").withOutputStream { out ->
-                val query = Query()
+                val query = Query(instance)
                 val iter = v.getIterator(query, IntArray(0), listOf("s", "p", "o"))
                 val rowiter = iter.rows
                 var off = rowiter.next()
@@ -363,7 +369,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     public override fun resetDefaultTripleStoreLayout() {
         if (partitionMode == EPartitionModeExt.None) {
-            defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+            defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                 .addIndex { it.simple(EIndexPatternExt.SPO) } //
                 .addIndex { it.simple(EIndexPatternExt.SOP) } //
                 .addIndex { it.simple(EIndexPatternExt.PSO) } //
@@ -373,7 +379,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         } else {
             when (0) {
                 0 -> { // use partitions as default
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) } //
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) } //
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) } //
@@ -388,7 +394,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) } //
                 }
                 1 -> { // use hashing as default
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                         .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = 4) } //
                         .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = 4) } //
                         .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = 4) } //
@@ -402,7 +408,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
-        val factory = TripleStoreDescriptionFactory()
+        val factory = TripleStoreDescriptionFactory(instance)
         action(factory)
         defaultTripleStoreLayout = factory
     }
@@ -458,7 +464,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         if (origin) {
             createGraph(query, graphName)
         } else {
-            val graph = TripleStoreDescription(meta!!)
+            val graph = TripleStoreDescription(meta!!, instance)
             metadataAdd(graphName, graph)
             createGraphShared(graph)
         }
@@ -470,7 +476,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     val page = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:471")
-                    localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false))
+                    localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false, instance))
                 }
             }
         }
@@ -480,9 +486,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         if (metadata_[graphName] != null) {
             throw Exception("graph already exist")
         }
-        val factory = TripleStoreDescriptionFactory()
+        val factory = TripleStoreDescriptionFactory(instance)
         action(factory)
-        val graph = factory.build()
+        val graph = factory.build(instance)
         metadataAdd(graphName, graph)
         for (index in graph.indices) {
             index.assignHosts()
@@ -625,7 +631,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
         if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
-            val query = Query()
+            val query = Query(instance)
             createGraph(query, graphName)
         }
         return metadata_[graphName]!!

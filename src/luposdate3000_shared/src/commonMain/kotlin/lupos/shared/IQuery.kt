@@ -20,6 +20,7 @@ import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 
 public interface IQuery {
+    public fun getInstance(): Luposdate3000Instance
     public fun getDictionary(): IDictionary
     public fun checkVariableExistence(): Boolean
     public fun getWorkingDirectory(): String

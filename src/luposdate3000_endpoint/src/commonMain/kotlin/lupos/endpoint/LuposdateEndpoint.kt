@@ -16,6 +16,7 @@
  */
 package lupos.endpoint
 
+import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryFactory
 import lupos.operator.base.Query
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
@@ -54,13 +55,10 @@ import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.fileformat.DictionaryIntermediate
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.optimizer.distributedOptimizerQueryFactory
-import lupos.shared.tripleStoreManager
 import lupos.shared_inline.File
 import lupos.shared_inline.FileExt
 import lupos.shared_inline.MyPrintWriter
@@ -83,21 +81,21 @@ public object LuposdateEndpoint {
     internal val instances = mutableListOf<Luposdate3000Instance>()
 
     @JsName("import_turtle_string")
-    /*suspend*/ public fun importTurtleString(data: String): String {
+    /*suspend*/ public fun importTurtleString(instance: Luposdate3000Instance, data: String): String {
         val dir = FileExt.createTempDirectory()
         val fileName = dir + "data.n3"
         File(fileName).withOutputStream { out ->
             out.println(data)
         }
-        val res = importTurtleFile(fileName)
+        val res = importTurtleFile(instance, fileName)
         File(dir).deleteRecursively()
         return res
     }
 
-    public fun setEstimatedPartitionsFromFile(filename: String) {
+    public fun setEstimatedPartitionsFromFile(instance: Luposdate3000Instance, filename: String) {
         val filePartitions = File(filename)
         if (filePartitions.exists()) {
-            tripleStoreManager.updateDefaultTripleStoreLayout { layout ->
+            instance.tripleStoreManager!!.updateDefaultTripleStoreLayout { layout ->
                 try {
                     filePartitions.forEachLine { it2 ->
                         val t = it2.split(",")
@@ -118,34 +116,34 @@ public object LuposdateEndpoint {
     }
 
     @JsName("import_turtle_file")
-    /*suspend*/ public fun importTurtleFile(fileName: String): String {
+    /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String): String {
         if (!DictionaryIntermediate.fileExists(fileName)) {
             InputToIntermediate.process(fileName)
         }
-        return importIntermediateFile(fileName)
+        return importIntermediateFile(instance, fileName)
     }
 
-    /*suspend*/ private fun importIntermediateFile(fileName: String): String {
-        val query = Query()
+    /*suspend*/ private fun importIntermediateFile(instance: Luposdate3000Instance, fileName: String): String {
+        val query = Query(instance)
         val key = "${query.getTransactionID()}"
         try {
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
-                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
+                query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
             }
-            tripleStoreManager.resetDefaultTripleStoreLayout()
-            tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+            instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
+            instance.tripleStoreManager!!.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             var counter = 0L
-            val store = tripleStoreManager.getDefaultGraph()
+            val store = instance.tripleStoreManager!!.getDefaultGraph()
             val bufS = IntArray(LUPOS_BUFFER_SIZE)
             val bufP = IntArray(LUPOS_BUFFER_SIZE)
             val bufO = IntArray(LUPOS_BUFFER_SIZE)
             var bufPos = 0
             println("importing intermediate file '$fileName'")
             val startTime = DateHelperRelative.markNow()
-            setEstimatedPartitionsFromFile("$fileName.partitions")
-            tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
-            val (mapping, mappingLength) = nodeGlobalDictionary.importFromDictionaryFile(fileName)
+            setEstimatedPartitionsFromFile(instance, "$fileName.partitions")
+            instance.tripleStoreManager!!.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+            val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
             val dictTime = DateHelperRelative.elapsedSeconds(startTime)
             val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
             val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
@@ -244,15 +242,15 @@ public object LuposdateEndpoint {
             val totalTime = DateHelperRelative.elapsedSeconds(startTime)
             val storeTime = totalTime - dictTime
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
-            tripleStoreManager.commit(query)
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+            instance.tripleStoreManager!!.commit(query)
+            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             throw e
         }
@@ -260,35 +258,35 @@ public object LuposdateEndpoint {
     }
 
     @JsName("import_xml_data")
-    /*suspend*/ public fun importXmlData(data: String): String {
-        val query = Query()
+    /*suspend*/ public fun importXmlData(instance: Luposdate3000Instance, data: String): String {
+        val query = Query(instance)
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
         val key = "${query.getTransactionID()}"
-        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
+            query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val import = import2.evaluateRoot()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        val store = tripleStoreManager.getDefaultGraph()
+        val store = instance.tripleStoreManager!!.getDefaultGraph()
         val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
         store.modify_cache(query, dataLocal, EModifyTypeExt.INSERT, cache, true)
-        tripleStoreManager.commit(query)
+        instance.tripleStoreManager!!.commit(query)
         query.commited = true
-        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
         }
         return XMLElement("success").toString()
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_a")
-    /*suspend*/ public fun evaluateSparqlToOperatorgraphA(query: String): IOPBase {
-        return evaluateSparqlToOperatorgraphB(query, false)
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphA(instance: Luposdate3000Instance, query: String): IOPBase {
+        return evaluateSparqlToOperatorgraphB(instance, query, false)
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_b")
-    /*suspend*/ public fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
-        val q = Query()
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): IOPBase {
+        val q = Query(instance)
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
@@ -320,12 +318,12 @@ public object LuposdateEndpoint {
     }
 
     @JsName("evaluate_operatorgraph_to_result")
-    /*suspend*/ public fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyOutputStream) {
-        evaluateOperatorgraphToResultA(node, output, EQueryResultToStreamExt.DEFAULT_STREAM)
+    /*suspend*/ public fun evaluateOperatorgraphToResult(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream) {
+        evaluateOperatorgraphToResultA(instance, node, output, EQueryResultToStreamExt.DEFAULT_STREAM)
     }
 
     @JsName("evaluate_operatorgraph_to_result_a")
-    /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
+    /*suspend*/ public fun evaluateOperatorgraphToResultA(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
         val res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
             EQueryResultToStreamExt.XML_STREAM -> QueryResultToXMLStream(node, output)
@@ -336,43 +334,43 @@ public object LuposdateEndpoint {
             EQueryResultToStreamExt.XML_ELEMENT -> QueryResultToXMLElement.toXML(node)
             else -> throw UnreachableException()
         }
-        tripleStoreManager.commit(node.getQuery())
+        instance.tripleStoreManager!!.commit(node.getQuery())
         node.getQuery().setCommited()
         return res
     }
 
     @JsName("evaluate_sparql_to_result_b")
-    /*suspend*/ public fun evaluateSparqlToResultB(query: String): String {
-        return evaluateSparqlToResultC(query, false)
+    /*suspend*/ public fun evaluateSparqlToResultB(instance: Luposdate3000Instance, query: String): String {
+        return evaluateSparqlToResultC(instance, query, false)
     }
 
     @JsName("evaluate_sparql_to_result_c")
-    /*suspend*/ public fun evaluateSparqlToResultC(query: String, logOperatorGraph: Boolean): String {
-        val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
+    /*suspend*/ public fun evaluateSparqlToResultC(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): String {
+        val node = evaluateSparqlToOperatorgraphB(instance, query, logOperatorGraph)
         val buf = MyPrintWriter(true)
-        evaluateOperatorgraphToResult(node, buf)
+        evaluateOperatorgraphToResult(instance, node, buf)
         return buf.toString()
     }
 
     @JsName("evaluate_sparql_to_result_a")
-    /*suspend*/ public fun evaluateSparqlToResultA(query: String, output: IMyOutputStream) {
-        evaluateSparqlToResultD(query, output, false)
+    /*suspend*/ public fun evaluateSparqlToResultA(instance: Luposdate3000Instance, query: String, output: IMyOutputStream) {
+        evaluateSparqlToResultD(instance, query, output, false)
     }
 
     @JsName("evaluate_sparql_to_result_d")
-    /*suspend*/ public fun evaluateSparqlToResultD(query: String, output: IMyOutputStream, logOperatorGraph: Boolean) {
-        val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
-        evaluateOperatorgraphToResult(node, output)
+    /*suspend*/ public fun evaluateSparqlToResultD(instance: Luposdate3000Instance, query: String, output: IMyOutputStream, logOperatorGraph: Boolean) {
+        val node = evaluateSparqlToOperatorgraphB(instance, query, logOperatorGraph)
+        evaluateOperatorgraphToResult(instance, node, output)
     }
 
     @JsName("evaluate_operatorgraphXML_to_result_a")
-    /*suspend*/ public fun evaluateOperatorgraphxmlToResultA(query: String): String {
-        return evaluateOperatorgraphxmlToResultB(query, false)
+    /*suspend*/ public fun evaluateOperatorgraphxmlToResultA(instance: Luposdate3000Instance, query: String): String {
+        return evaluateOperatorgraphxmlToResultB(instance, query, false)
     }
 
     @JsName("evaluate_operatorgraphXML_to_result_b")
-    /*suspend*/ public fun evaluateOperatorgraphxmlToResultB(query: String, logOperatorGraph: Boolean): String {
-        val q = Query()
+    /*suspend*/ public fun evaluateOperatorgraphxmlToResultB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): String {
+        val q = Query(instance)
         val popNode = XMLElementToOPBase(q, XMLElementFromXML()(query)!!)
         SanityCheck.println { popNode }
         if (logOperatorGraph) {
@@ -388,7 +386,7 @@ public object LuposdateEndpoint {
             }
         }
         val buf = MyPrintWriter(true)
-        evaluateOperatorgraphToResult(popNode, buf)
+        evaluateOperatorgraphToResult(instance, popNode, buf)
         return buf.toString()
     }
 
@@ -404,15 +402,15 @@ public object LuposdateEndpoint {
 
     @JsName("initialize")
     public fun initialize(): Luposdate3000Instance {
+        var instance = Luposdate3000Instance()
         initializerLock.withLock {
-            var instance = Luposdate3000Instance()
             instances.add(instance)
             instance.bufferManager = BufferManager()
-            instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary()
+            instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
             val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
             val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
-            instance.tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
-            instance.tripleStoreManager.initialize()
+            instance.tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost, instance)
+            instance.tripleStoreManager!!.initialize()
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
             MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
             MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
@@ -424,9 +422,6 @@ public object LuposdateEndpoint {
             }
             instance.initialized = true
         }
-    }
-
-    init {
-        initialize()
+        return instance!!
     }
 }

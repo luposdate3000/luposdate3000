@@ -31,7 +31,6 @@ import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStoreExists public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreExistsID, "POPJoinWithStoreExists", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {
@@ -80,7 +79,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
             }
         }
         if (!done) {
-            val distributedStore = tripleStoreManager.getGraph(childB.graph)
+            val distributedStore = query.getInstance().tripleStoreManager!!.getGraph(childB.graph)
             var iteratorB = distributedStore.getIterator(query, params, index).evaluate(parent)
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {

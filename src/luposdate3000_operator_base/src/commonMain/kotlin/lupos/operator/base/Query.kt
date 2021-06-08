@@ -17,9 +17,9 @@
 package lupos.operator.base
 
 import lupos.dictionary.DictionaryFactory
-import lupos.instance.Luposdate3000Instance
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IQuery
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyLock
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
@@ -70,6 +70,9 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     @JvmField
     public var dictionaryUrl: String? = null
+
+    public override fun getInstance(): Luposdate3000Instance = instance
+
     public override fun setDictionaryUrl(url: String) {
         this.dictionaryUrl = url
     }

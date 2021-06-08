@@ -16,12 +16,12 @@
  */
 package lupos.optimizer.distributed.query
 
+import lupos.shared.IQuery
 import lupos.shared.XMLElement
-import lupos.shared.tripleStoreManager
 
 public class DistributedOptimizerAssignLocalhost() : DistributedOptimizerBase {
-    override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
-        keytoHostMapSet(key, tripleStoreManager.getLocalhost())
+    override fun optimize(query: IQuery, key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
+        keytoHostMapSet(key, (query.getInstance().tripleStoreManager!!).getLocalhost())
         onChange()
     }
 }
