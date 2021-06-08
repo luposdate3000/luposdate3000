@@ -18,6 +18,7 @@ package lupos.launch.test_triple_index
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.endpoint.Luposdate3000Endpoint
 import lupos.operator.base.Query
 import lupos.shared.AflCore
 import lupos.shared.Parallel
@@ -43,6 +44,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    val instance = Luposdate3000Endpoint.initialize()
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
@@ -335,7 +337,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (verbose) {
             println("testGetIterator_sxx_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "_")))
         when (filter.size) {
             0 -> {
@@ -486,4 +488,5 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         throw Exception("")
     }
     bufferManager.close()
+    instance.close()
 }

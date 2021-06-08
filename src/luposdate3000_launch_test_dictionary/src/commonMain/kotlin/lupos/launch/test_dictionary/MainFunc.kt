@@ -20,13 +20,13 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
+import lupos.endpoint.Luposdate3000Endpoint
 import lupos.shared.AflCore
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Parallel
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.DictionaryHelper
@@ -52,11 +52,12 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (isLocal && dictType == EDictionaryTypeExt.KV) {
                 continue
             }
+            var instance = Luposdate3000Endpoint.initialize()
             resetRandom()
             BufferManagerExt.allowInitFromDisk = false
             var bufferManager = BufferManager()
             if (isLocal) {
-                nodeGlobalDictionary = object : ADictionary() {
+                instance.nodeGlobalDictionary = object : ADictionary(instance) {
                     override fun close() {}
                     override fun delete() {}
                     override fun createNewBNode(): Int = throw Exception("not implemented")
@@ -320,6 +321,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 throw Exception("")
             }
             bufferManager.close()
+            instance.close()
         }
     }
 }

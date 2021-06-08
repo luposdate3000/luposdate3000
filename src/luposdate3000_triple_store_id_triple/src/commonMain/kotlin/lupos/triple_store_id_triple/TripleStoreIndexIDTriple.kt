@@ -18,7 +18,7 @@ package lupos.triple_store_id_triple
 
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.BufferManager
-import lupos.buffer_manager.BufferManagerExt
+import lupos.instance.Luposdate3000Instance
 import lupos.shared.ETripleIndexTypeExt
 import lupos.shared.IQuery
 import lupos.shared.MyReadWriteLock
@@ -53,7 +53,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     public override fun getRootPageID(): Int = rootPageID
 
-    public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager(), rootPageID, initFromRootPage)
+    public constructor(rootPageID: Int, initFromRootPage: Boolean, instance: Luposdate3000Instance) : this(instance.bufferManager!!, rootPageID, initFromRootPage)
 
     @ProguardTestAnnotation
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {

@@ -17,6 +17,7 @@
 package lupos.operator.base
 
 import lupos.dictionary.DictionaryFactory
+import lupos.instance.Luposdate3000Instance
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IQuery
 import lupos.shared.MyLock
@@ -25,13 +26,11 @@ import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
-import lupos.shared.optimizer.distributedOptimizerQueryFactory
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
-public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long) : IQuery {
-    public constructor(dictionary: IDictionary) : this(dictionary, UUID_Counter.getNextUUID())
-    public constructor() : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true), UUID_Counter.getNextUUID())
+public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long, @JvmField public val instance: Luposdate3000Instance) : IQuery {
+    public constructor(dictionary: IDictionary, instance: Luposdate3000Instance) : this(dictionary, UUID_Counter.getNextUUID(), instance)
+    public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
 
     @JvmField
     public var _workingDirectory: String = ""
@@ -86,8 +85,8 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         transactionID = UUID_Counter.getNextUUID()
         commited = false
         partitions.clear()
-        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            return distributedOptimizerQueryFactory().optimize(this)
+        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            return instance.distributedOptimizerQueryFactory().optimize(this)
         } else {
             return newroot
         }

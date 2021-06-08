@@ -17,6 +17,7 @@
 package lupos.dictionary
 
 import lupos.buffer_manager.BufferManager
+import lupos.instance.Luposdate3000Instance
 import lupos.kv.KeyValueStore
 import lupos.shared.BUFFER_HOME
 import lupos.shared.ETripleComponentTypeExt
@@ -36,8 +37,9 @@ public class DictionaryKV internal constructor(
     bufferManager: BufferManager,
     @JvmField
     internal val rootPageID: Int,
-    initFromRootPage: Boolean
-) : ADictionary() {
+    initFromRootPage: Boolean,
+    instance: Luposdate3000Instance
+) : ADictionary(instance) {
     @JvmField
     internal val bufferManager: BufferManager = bufferManager
 
