@@ -1,24 +1,27 @@
-import config.Configuration
-import geo.GeoLocation
-import routing.IRoutingAlgorithm
-import routing.RPLRouter
-import sensor.ISensor
-import sensor.ParkingSample
+package lupos.iot_sim
+import lupos.iot_sim.config.Configuration
+import lupos.iot_sim.geo.GeoLocation
+import lupos.iot_sim.routing.IRoutingAlgorithm
+import lupos.iot_sim.routing.RPLRouter
+import lupos.iot_sim.sensor.ISensor
+import lupos.iot_sim.sensor.ParkingSample
+import lupos.des_core.Entity
+import lupos.des_core.Event
 
-class Device(
-    val powerSupply: PowerSupply,
-    var location: GeoLocation,
-    val address: Int,
-    var database: DatabaseAdapter?,
-    var sensor: ISensor?,
-    val supportedLinkTypes: IntArray
+public class Device(
+    public val powerSupply: PowerSupply,
+    internal var location: GeoLocation,
+    public val address: Int,
+    public var database: DatabaseAdapter?,
+    public var sensor: ISensor?,
+    public val supportedLinkTypes: IntArray
     ) : Entity()
 {
-    val router: IRoutingAlgorithm = RPLRouter(this)
-    val linkManager = LinkManager(this)
-    var isStarNetworkChild = false
+    public val router: IRoutingAlgorithm = RPLRouter(this)
+    public val linkManager: LinkManager = LinkManager(this)
+    public var isStarNetworkChild: Boolean = false
 
-    var processedSensorDataPackages: Long = 0
+    public var processedSensorDataPackages: Long = 0
         private set
 
     private fun getNetworkDelay(destinationAddress: Int): Long {
@@ -70,22 +73,22 @@ class Device(
         scheduleEvent(Configuration.devices[nextHop], delay, pck)
     }
 
-    fun sendUnRoutedPackage(destinationNeighbour: Int, data: Any) {
+    public fun sendUnRoutedPackage(destinationNeighbour: Int, data: Any) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour)
         scheduleEvent(Configuration.devices[destinationNeighbour], delay, pck)
     }
 
-    fun sendRoutedPackage(src: Int, dest: Int, data: Any) {
+    public fun sendRoutedPackage(src: Int, dest: Int, data: Any) {
         val pck = NetworkPackage(src, dest, data)
         forwardPackage(pck)
     }
 
-    fun sendSensorSample(destinationAddress: Int, data: Any) {
+    public fun sendSensorSample(destinationAddress: Int, data: Any) {
         sendRoutedPackage(address, destinationAddress, data)
     }
 
-    fun hasDatabase() = database != null
+    public fun hasDatabase(): Boolean = database != null
 
     override fun equals(other: Any?): Boolean {
         if (other === this)
@@ -101,14 +104,14 @@ class Device(
         return address
     }
 
-    companion object {
-        var packageCounter = 0
+    public companion object {
+        public var packageCounter: Int = 0
             private set
 
-        var observationPackageCounter = 0
+        public var observationPackageCounter: Int = 0
             private set
 
-        fun resetCounter() {
+        public fun resetCounter() {
             packageCounter = 0
             observationPackageCounter = 0
         }

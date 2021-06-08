@@ -1,16 +1,16 @@
-package geo
+package lupos.iot_sim.geo
 
-import RandomGenerator
+import lupos.iot_sim.RandomGenerator
 import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
 import kotlin.math.sqrt
 
 //adapter class for LatLng
-class GeoLocation(var latitude: Double, var longitude: Double) {
+public class GeoLocation(internal var latitude: Double, internal var longitude: Double) {
 
 
-    companion object {
+    internal companion object {
 
         private fun travel(start: GeoLocation, distanceInMeters: Int, direction: Double): GeoLocation {
             val loc = LatLngTool.travel(
@@ -21,18 +21,18 @@ class GeoLocation(var latitude: Double, var longitude: Double) {
             return GeoLocation(loc.getLatitude(), loc.getLongitude())
         }
 
-        fun createNorthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
+        internal fun createNorthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
             = travel(start, distanceInMeters, LatLngTool.Bearing.NORTH)
 
-        fun createSouthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
+        internal fun createSouthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
                 = travel(start, distanceInMeters, LatLngTool.Bearing.SOUTH)
 
-        fun createEasternLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
+        internal fun createEasternLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
                 = travel(start, distanceInMeters, LatLngTool.Bearing.EAST)
 
 
         //Adapted From: https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
-        fun getRandomLocationInRadius(center: GeoLocation, radiusInMeters: Int): GeoLocation {
+        internal fun getRandomLocationInRadius(center: GeoLocation, radiusInMeters: Int): GeoLocation {
             val x0 = center.longitude
             val y0 = center.latitude
 
@@ -52,14 +52,14 @@ class GeoLocation(var latitude: Double, var longitude: Double) {
             return GeoLocation(foundLatitude, foundLongitude)
         }
 
-        fun getRandom(): GeoLocation {
+        internal fun getRandom(): GeoLocation {
             val loc = LatLng.random(RandomGenerator.random)
             return GeoLocation(loc.getLatitude(), loc.getLongitude())
         }
 
     }
 
-    fun getDistanceInMeters(other: GeoLocation): Int {
+    internal fun getDistanceInMeters(other: GeoLocation): Int {
         val distance = LatLngTool.distance(
                             LatLng(latitude, longitude),
                             LatLng(other.latitude, other.longitude), LengthUnit.METER)

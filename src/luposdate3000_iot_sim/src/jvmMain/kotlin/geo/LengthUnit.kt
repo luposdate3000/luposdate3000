@@ -1,4 +1,4 @@
-package geo
+package lupos.iot_sim.geo
 
 /*
  *    Copyright 2010 Tyler Coles
@@ -25,7 +25,7 @@ package geo
  *
  * @author Tyler Coles
  */
-enum class LengthUnit(
+internal enum class LengthUnit(
     /**
      * Retrieve the scale factor between this unit and the primary
      * length unit.
@@ -69,7 +69,7 @@ enum class LengthUnit(
      * @param value the value to convert.
      * @return the converted value.
      */
-    fun convertTo(toUnit: LengthUnit, value: Double): Double {
+    internal fun convertTo(toUnit: LengthUnit, value: Double): Double {
         if (this == toUnit) {
             return value
         }
@@ -83,13 +83,13 @@ enum class LengthUnit(
         return newValue
     }
 
-    companion object {
+    internal companion object {
         /**
          * The primary length unit. All scale factors are relative
          * to this unit. Any conversion not involving the primary
          * unit will first be converted to this unit, then to
          * the desired unit.
          */
-        val PRIMARY = KILOMETER
+        internal val PRIMARY = KILOMETER
     }
 }

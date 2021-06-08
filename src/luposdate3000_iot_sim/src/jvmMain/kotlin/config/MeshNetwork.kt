@@ -1,12 +1,12 @@
-package config
+package lupos.iot_sim.config
 
-import Device
+import lupos.iot_sim.Device
 
-class MeshNetwork {
-    var networkPrefix = ""
-    var mesh: MutableList<MutableList<Device>> = arrayListOf(arrayListOf())
+public class MeshNetwork {
+    public var networkPrefix: String = ""
+    public var mesh: MutableList<MutableList<Device>> = arrayListOf(arrayListOf())
 
-    fun numOfDevices(): Int {
+    public fun numOfDevices(): Int {
         var counter = 0
         for (list in mesh) {
             counter += list.size

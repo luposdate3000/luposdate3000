@@ -1,7 +1,7 @@
-package dummyImpl
+package lupos.iot_db_interface.dummyImpl
 
-class OperatorGraph {
-    fun getTransactionID(): Int {
+public class OperatorGraph {
+    public fun getTransactionID(): Int {
         return 0
     }
 }

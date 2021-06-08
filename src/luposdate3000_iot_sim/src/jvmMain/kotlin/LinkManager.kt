@@ -1,11 +1,12 @@
-import config.LinkType
+package lupos.iot_sim
+import lupos.iot_sim.config.LinkType
 
-class LinkManager(val device: Device) {
+public class LinkManager(public val device: Device) {
 
     private var links: MutableMap<Int, Link> = HashMap(5)
 
 
-    fun getDistanceInMeters(otherDevice: Device)
+    public fun getDistanceInMeters(otherDevice: Device): Int
             = device.location.getDistanceInMeters(otherDevice.location)
 
     private fun getBestLinkTypeIndex(otherDevice: Device) : Int {
@@ -24,7 +25,7 @@ class LinkManager(val device: Device) {
         return distance <= linkType.rangeInMeters
     }
 
-    fun getBestLink(otherDevice: Device): Link? {
+    public fun getBestLink(otherDevice: Device): Link? {
         val linkIndex = getBestLinkTypeIndex(otherDevice)
         if(linkIndex == -1)
             return null
@@ -34,7 +35,7 @@ class LinkManager(val device: Device) {
         return Link( distance, linkIndex, dataRate)
     }
 
-    fun setLink(otherDevice: Device, dataRate: Int) {
+    public fun setLink(otherDevice: Device, dataRate: Int) {
         val distance = getDistanceInMeters(otherDevice)
         val link = Link(distance, -1, dataRate)
         setLink(otherDevice, link)
@@ -46,7 +47,7 @@ class LinkManager(val device: Device) {
         linkCounter++
     }
 
-    fun setLinkIfPossible(otherDevice: Device) {
+    public fun setLinkIfPossible(otherDevice: Device) {
         if (otherDevice == device)
             return
 
@@ -57,43 +58,43 @@ class LinkManager(val device: Device) {
         setLink(otherDevice, link)
     }
 
-    fun getLink(otherDeviceAddress: Int)
+    public fun getLink(otherDeviceAddress: Int): Link?
         = links[otherDeviceAddress]
 
-    fun getLink(otherDevice: Device): Link?
+    public fun getLink(otherDevice: Device): Link?
             = getLink(otherDevice.address)
 
-    fun hasLink(otherDevice: Device)
+    public fun hasLink(otherDevice: Device): Boolean
             = null != getLink(otherDevice)
 
-    fun getNumberOfLinks()
+    public fun getNumberOfLinks():Int
             = links.size
 
-    fun getNeighbours()
+    public fun getNeighbours(): MutableSet<Int>
         = links.keys
 
-    companion object {
+    public companion object {
 
-        var linkCounter = 0
+        public var linkCounter: Int = 0
             private set
 
-        fun resetCounter() {
+        public fun resetCounter() {
             linkCounter = 0
         }
 
-        var sortedLinkTypes: Array<LinkType> = emptyArray()
+        public var sortedLinkTypes: Array<LinkType> = emptyArray()
             set(value) {
                 field = value
                 field.sortByDescending { it.dataRateInKbps }
             }
 
-        fun getLinkTypeByIndex(index: Int)
+        public fun getLinkTypeByIndex(index: Int): LinkType
                 = sortedLinkTypes[index]
 
         private fun getIndexByLinkType(linkType: LinkType)
                 = sortedLinkTypes.indexOfFirst { linkType.name == it.name}
 
-        fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
+        public fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
             val result = IntArray(list.size)
             for((index, linkType) in list.withIndex()) {
                 result[index] = getIndexByLinkType(linkType)

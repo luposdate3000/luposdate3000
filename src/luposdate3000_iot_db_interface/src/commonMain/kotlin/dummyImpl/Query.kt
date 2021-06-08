@@ -1,10 +1,10 @@
-package dummyImpl
+package lupos.iot_db_interface.dummyImpl
 
-class Query(
-    val operatorGraphParts: List<OperatorGraphPart>,
-    val nextHops: IntArray, // für #2
-    val parentAddress: Int,
+public class Query(
+    public val operatorGraphParts: List<OperatorGraphPart>,
+    public val nextHops: IntArray, // für #2
+    public val parentAddress: Int,
 ) {
-    val choosenOperators = mutableListOf<OperatorGraphPart>()
-    val answeredByNextHop = BooleanArray(nextHops.size) { false } // wenn der nächste hop schon geantwortet hat, was er berechnen kann siehe #2, erst wenn alle geantwortet haben, startet die berechnung.
+    public val choosenOperators: MutableList<OperatorGraphPart> = mutableListOf<OperatorGraphPart>()
+    public val answeredByNextHop: BooleanArray = BooleanArray(nextHops.size) { false } // wenn der nächste hop schon geantwortet hat, was er berechnen kann siehe #2, erst wenn alle geantwortet haben, startet die berechnung.
 }

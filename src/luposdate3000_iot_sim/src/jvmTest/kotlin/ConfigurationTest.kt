@@ -1,9 +1,10 @@
-import config.Configuration
-import geo.GeoLocation
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
-import sensor.ParkingSensor
+package lupos.iot_sim
+import lupos.iot_sim.config.Configuration
+import lupos.iot_sim.geo.GeoLocation
+
+import lupos.iot_sim.sensor.ParkingSensor
+import kotlin.test.*
+
 
 class ConfigurationTest {
 
@@ -11,88 +12,80 @@ class ConfigurationTest {
         private const val prefix = "ConfigurationTest"
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/parseEmptyConfigFile.json"])
-    fun parseEmptyConfigFile(fileName: String) {
-        Configuration.parse(fileName)
-        Assertions.assertTrue(Configuration.devices.isEmpty())
+    @Test
+    fun parseEmptyConfigFile() {
+        Configuration.parse("$prefix/parseEmptyConfigFile.json")
+        assertTrue(Configuration.devices.isEmpty())
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/oneFixedDevice.json"])
-    fun oneFixedDevice(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun oneFixedDevice() {
+        Configuration.parse("$prefix/oneFixedDevice.json")
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val lat = Configuration.jsonObjects.fixedDevice[0].latitude
         val lon = Configuration.jsonObjects.fixedDevice[0].longitude
         val location = GeoLocation(lat, lon)
         val device = Configuration.getNamedDevice(deviceName)
 
-        Assertions.assertEquals(Configuration.jsonObjects.fixedDevice.size, Configuration.devices.size)
-        Assertions.assertEquals(0, device.address)
-        Assertions.assertEquals(location, device.location)
-        Assertions.assertNull(device.database)
-        Assertions.assertNull(device.sensor)
-        Assertions.assertTrue(device.powerSupply.isInfinite)
+        assertEquals(Configuration.jsonObjects.fixedDevice.size, Configuration.devices.size)
+        assertEquals(0, device.address)
+        assertEquals(location, device.location)
+        assertNull(device.database)
+        assertNull(device.sensor)
+        assertTrue(device.powerSupply.isInfinite)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/oneDatabaseDeviceWithSensor.json"])
-    fun oneDatabaseDeviceWithSensor(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun oneDatabaseDeviceWithSensor() {
+        Configuration.parse("$prefix/oneDatabaseDeviceWithSensor.json")
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
-        Assertions.assertTrue(device.database is DatabaseAdapter)
-        Assertions.assertNotNull(device.sensor)
-        Assertions.assertEquals(70.0, device.powerSupply.actualCapacity)
-        Assertions.assertFalse(device.powerSupply.isInfinite)
+        assertTrue(device.database is DatabaseAdapter)
+        assertNotNull(device.sensor)
+        assertEquals(70.0, device.powerSupply.actualCapacity)
+        assertFalse(device.powerSupply.isInfinite)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/sensorsKnowTheirDevice.json"])
-    fun sensorsKnowTheirDevice(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun sensorsKnowTheirDevice() {
+        Configuration.parse("$prefix/sensorsKnowTheirDevice.json")
         val device = Configuration.getNamedDevice("Tower1")
         val parkingSensor = device.sensor!! as ParkingSensor
-        Assertions.assertTrue(device === parkingSensor.device)
+        assertTrue(device === parkingSensor.device)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/sensorsDataSinkIsItsOwnDevice.json"])
-    fun sensorsDataSinkIsItsOwnDevice(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun sensorsDataSinkIsItsOwnDevice() {
+        Configuration.parse("$prefix/sensorsDataSinkIsItsOwnDevice.json")
         val device = Configuration.getNamedDevice("Tower1")
         val parkingSensor = device.sensor!! as ParkingSensor
-        Assertions.assertEquals(device.address, parkingSensor.dataSinkAddress)
+        assertEquals(device.address, parkingSensor.dataSinkAddress)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/starRootIsDataSinkOfItsSensors.json"])
-    fun starRootIsDataSinkOfItsSensors(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun starRootIsDataSinkOfItsSensors() {
+        Configuration.parse("$prefix/starRootIsDataSinkOfItsSensors.json")
         val root = Configuration.getNamedDevice("Tower1")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parkingSensor = starNet.children[0].sensor as ParkingSensor
-        Assertions.assertEquals(root.address, parkingSensor.dataSinkAddress)
+        assertEquals(root.address, parkingSensor.dataSinkAddress)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/twoDevicesHaveOneConnection.json"])
-    fun twoDevicesHaveOneConnection(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun twoDevicesHaveOneConnection() {
+        Configuration.parse("$prefix/twoDevicesHaveOneConnection.json")
         val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
         val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
         val deviceA = Configuration.getNamedDevice(deviceAName)
         val deviceB = Configuration.getNamedDevice(deviceBName)
 
-        Assertions.assertNotNull(deviceA.linkManager.getLink(deviceB))
-        Assertions.assertNotNull(deviceB.linkManager.getLink(deviceA))
+        assertNotNull(deviceA.linkManager.getLink(deviceB))
+        assertNotNull(deviceB.linkManager.getLink(deviceA))
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/twoLinkedDevicesShareTheirLinkObject.json"])
-    fun twoLinkedDevicesShareTheirLinkObject(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun twoLinkedDevicesShareTheirLinkObject() {
+        Configuration.parse("$prefix/twoLinkedDevicesShareTheirLinkObject.json")
         val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
         val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
         val deviceA = Configuration.getNamedDevice(deviceAName)
@@ -100,62 +93,57 @@ class ConfigurationTest {
         val linkA = deviceA.linkManager.getLink(deviceB)
         val linkB = deviceB.linkManager.getLink(deviceA)
 
-        Assertions.assertTrue(linkA === linkB)
+        assertTrue(linkA === linkB)
         linkA!!.distanceInMeters = -1
-        Assertions.assertTrue(linkB!!.distanceInMeters == -1)
+        assertTrue(linkB!!.distanceInMeters == -1)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/countNumberOfDevicesInRandomNetwork.json"])
-    fun countNumberOfDevicesInRandomNetwork(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun countNumberOfDevicesInRandomNetwork() {
+        Configuration.parse("$prefix/countNumberOfDevicesInRandomNetwork.json")
         val devices = Configuration.devices
         val network = Configuration.jsonObjects.randomStarNetwork[0]
         val starNet = Configuration.randStarNetworks[network.networkPrefix]!!
-        Assertions.assertEquals(1 + network.number, devices.size)
-        Assertions.assertEquals(network.number, starNet.children.size)
+        assertEquals(1 + network.number, devices.size)
+        assertEquals(network.number, starNet.children.size)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/checkLinksInStarNetwork.json"])
-    fun checkLinksInStarNetwork(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun checkLinksInStarNetwork() {
+        Configuration.parse("$prefix/checkLinksInStarNetwork.json")
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
         for(child in starNet.children) {
-            Assertions.assertTrue(child.linkManager.hasLink(starNet.dataSink))
-            Assertions.assertTrue(starNet.dataSink.linkManager.hasLink(child))
+            assertTrue(child.linkManager.hasLink(starNet.dataSink))
+            assertTrue(starNet.dataSink.linkManager.hasLink(child))
         }
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/inStarNetworkChildrenDoNotKnowEachOther.json"])
-    fun inStarNetworkChildrenDoNotKnowEachOther(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun inStarNetworkChildrenDoNotKnowEachOther() {
+        Configuration.parse("$prefix/inStarNetworkChildrenDoNotKnowEachOther.json")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         for(childA in starNet.children)
             for (childB in starNet.children)
-                Assertions.assertFalse(childA.linkManager.hasLink(childB))
+                assertFalse(childA.linkManager.hasLink(childB))
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/severalStarNetworksDifferInTheNetworkPrefix.json"])
-    fun severalStarNetworksDifferInTheNetworkPrefix(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun severalStarNetworksDifferInTheNetworkPrefix() {
+        Configuration.parse("$prefix/severalStarNetworksDifferInTheNetworkPrefix.json")
         val starNetA = Configuration.randStarNetworks["garageA"]!!
         val starNetB = Configuration.randStarNetworks["garageB"]!!
         val starNetC = Configuration.randStarNetworks["garageC"]!!
 
-        Assertions.assertEquals(10, starNetA.children.size)
-        Assertions.assertEquals(11, starNetB.children.size)
-        Assertions.assertEquals(12, starNetC.children.size)
+        assertEquals(10, starNetA.children.size)
+        assertEquals(11, starNetB.children.size)
+        assertEquals(12, starNetC.children.size)
     }
 
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/checkLinkData.json"])
-    fun checkLinkData(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun checkLinkData() {
+        Configuration.parse("$prefix/checkLinkData.json")
         val device1Address = Configuration.jsonObjects.fixedDevice[0].name
         val device2Address = Configuration.jsonObjects.fixedDevice[1].name
         val device1 = Configuration.getNamedDevice(device1Address)
@@ -163,68 +151,63 @@ class ConfigurationTest {
         val link1 = device1.linkManager.getLink(device2)
         val link2 = device2.linkManager.getLink(device1)
 
-        Assertions.assertTrue(device1.linkManager.hasLink(device2))
-        Assertions.assertTrue(device2.linkManager.hasLink(device1))
-        Assertions.assertEquals(1, device1.linkManager.getNumberOfLinks())
-        Assertions.assertEquals(1, device2.linkManager.getNumberOfLinks())
-        Assertions.assertEquals(link1!!.distanceInMeters, link2!!.distanceInMeters)
+        assertTrue(device1.linkManager.hasLink(device2))
+        assertTrue(device2.linkManager.hasLink(device1))
+        assertEquals(1, device1.linkManager.getNumberOfLinks())
+        assertEquals(1, device2.linkManager.getNumberOfLinks())
+        assertEquals(link1!!.distanceInMeters, link2!!.distanceInMeters)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/onlyOneMeshDevice.json"])
-    fun onlyOneMeshDevice(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun onlyOneMeshDevice() {
+        Configuration.parse("$prefix/onlyOneMeshDevice.json")
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
         val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
-        Assertions.assertEquals(1, meshNet.numOfDevices())
-        Assertions.assertEquals(1, Configuration.devices.size)
+        assertEquals(1, meshNet.numOfDevices())
+        assertEquals(1, Configuration.devices.size)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/onlySouthernMeshDevices.json"])
-    fun onlySouthernMeshDevices(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun onlySouthernMeshDevices() {
+        Configuration.parse("$prefix/onlySouthernMeshDevices.json")
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
         val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
-        Assertions.assertEquals(1, meshNet.mesh.size)
-        Assertions.assertTrue(Configuration.devices.size > 1)
-        Assertions.assertTrue(meshNet.mesh[0].size > 1)
-        Assertions.assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        assertEquals(1, meshNet.mesh.size)
+        assertTrue(Configuration.devices.size > 1)
+        assertTrue(meshNet.mesh[0].size > 1)
+        assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/onlyEasternMeshDevices.json"])
-    fun onlyEasternMeshDevices(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun onlyEasternMeshDevices() {
+        Configuration.parse("$prefix/onlyEasternMeshDevices.json")
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
         val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
-        Assertions.assertTrue(Configuration.devices.size > 1)
-        Assertions.assertTrue(meshNet.mesh.size > 1)
-        Assertions.assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        assertTrue(Configuration.devices.size > 1)
+        assertTrue(meshNet.mesh.size > 1)
+        assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
         for(col in meshNet.mesh) {
-            Assertions.assertEquals(1, col.size)
+            assertEquals(1, col.size)
         }
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/moreSouthernThanEasternMeshDevices.json"])
-    fun moreSouthernThanEasternMeshDevices(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun moreSouthernThanEasternMeshDevices() {
+        Configuration.parse("$prefix/moreSouthernThanEasternMeshDevices.json")
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
         val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
-        Assertions.assertTrue(Configuration.devices.size > 1)
-        Assertions.assertTrue(meshNet.mesh.size > 1)
-        Assertions.assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        assertTrue(Configuration.devices.size > 1)
+        assertTrue(meshNet.mesh.size > 1)
+        assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
         val rowSize = meshNet.mesh.size
         for(col in meshNet.mesh) {
-            Assertions.assertTrue(col.size > rowSize)
+            assertTrue(col.size > rowSize)
         }
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/edgeMeshDevicesCannotReachEachOther.json"])
-    fun edgeMeshDevicesCannotReachEachOther(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun edgeMeshDevicesCannotReachEachOther() {
+        Configuration.parse("$prefix/edgeMeshDevicesCannotReachEachOther.json")
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
         val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
         val northWest = mesh[0][0]
@@ -232,18 +215,17 @@ class ConfigurationTest {
         val northEast = mesh[mesh.size-1][0]
         val southEast = mesh[mesh.size-1][mesh[mesh.size-1].size-1]
 
-        Assertions.assertFalse(northWest.linkManager.hasLink(northEast))
-        Assertions.assertFalse(northWest.linkManager.hasLink(southEast))
-        Assertions.assertFalse(northWest.linkManager.hasLink(southWest))
-        Assertions.assertFalse(northEast.linkManager.hasLink(southWest))
-        Assertions.assertFalse(northEast.linkManager.hasLink(southEast))
-        Assertions.assertFalse(southEast.linkManager.hasLink(southWest))
+        assertFalse(northWest.linkManager.hasLink(northEast))
+        assertFalse(northWest.linkManager.hasLink(southEast))
+        assertFalse(northWest.linkManager.hasLink(southWest))
+        assertFalse(northEast.linkManager.hasLink(southWest))
+        assertFalse(northEast.linkManager.hasLink(southEast))
+        assertFalse(southEast.linkManager.hasLink(southWest))
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/distanceToNeighboringDevicesIsSmaller.json"])
-    fun distanceToNeighboringDevicesIsSmaller(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun distanceToNeighboringDevicesIsSmaller() {
+        Configuration.parse("$prefix/distanceToNeighboringDevicesIsSmaller.json")
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
         val maxLinkRange = Configuration.jsonObjects.linkType[0].rangeInMeters
         val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
@@ -254,14 +236,13 @@ class ConfigurationTest {
         val distanceToNeighbour = device.linkManager.getDistanceInMeters(neighbour)
         val distanceToNeighbourNeighbour = device.linkManager.getDistanceInMeters(neighbourNeighbour)
 
-        Assertions.assertTrue(distanceToNeighbour <= maxLinkRange)
-        Assertions.assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
+        assertTrue(distanceToNeighbour <= maxLinkRange)
+        assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/fixedAndMeshedDevicesAreLinkable.json"])
-    fun fixedAndMeshedDevicesAreLinkable(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun fixedAndMeshedDevicesAreLinkable() {
+        Configuration.parse("$prefix/fixedAndMeshedDevicesAreLinkable.json")
         val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
         val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
 
@@ -269,15 +250,14 @@ class ConfigurationTest {
         val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
         val meshOrigin = mesh[0][0]
 
-        Assertions.assertTrue(fixedDevice.linkManager.hasLink(meshOrigin))
-        Assertions.assertEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
+        assertTrue(fixedDevice.linkManager.hasLink(meshOrigin))
+        assertEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
     }
 
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/fixedAndMeshedDevicesAreNotLinkable.json"])
-    fun fixedAndMeshedDevicesAreNotLinkable(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun fixedAndMeshedDevicesAreNotLinkable() {
+        Configuration.parse("$prefix/fixedAndMeshedDevicesAreNotLinkable.json")
         val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
         val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
 
@@ -285,8 +265,8 @@ class ConfigurationTest {
         val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
         val meshOrigin = mesh[0][0]
 
-        Assertions.assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
-        Assertions.assertNotEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
+        assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
+        assertNotEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
     }
 
 

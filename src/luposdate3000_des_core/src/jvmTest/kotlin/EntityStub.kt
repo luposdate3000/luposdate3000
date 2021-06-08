@@ -1,4 +1,6 @@
-class EntityStub : Entity() {
+package lupos.des_core
+
+public class EntityStub : Entity() {
 
     override fun onStartUp() {
     }

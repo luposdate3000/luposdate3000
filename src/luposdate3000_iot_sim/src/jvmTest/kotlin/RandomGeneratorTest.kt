@@ -1,9 +1,7 @@
+package lupos.iot_sim
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.ValueSource
+
+import kotlin.test.*
 import kotlin.random.Random
 
 class RandomGeneratorTest {
@@ -13,27 +11,34 @@ class RandomGeneratorTest {
         val firstSeed = 1
         RandomGenerator.seed = firstSeed
         val actualSeed = RandomGenerator.seed
-        Assertions.assertEquals(firstSeed, actualSeed)
+        assertEquals(firstSeed, actualSeed)
     }
 
-    @ParameterizedTest
-    @CsvSource(
-        "0.0, 0.0",
-        "1.0, 1.0",
-        "4.43, 699.01",
-    )
-    fun `random double is between min and max`(min: Double, max: Double) {
+    @Test
+    fun `random double is between min and max`() {
+        `random double is between min and max`(0.0, 0.0)
+        `random double is between min and max`(1.0, 1.0)
+        `random double is between min and max`(4.43, 699.01)
+    }
+
+    private fun `random double is between min and max`(min: Double, max: Double) {
         RandomGenerator.seed = Random.nextInt()
         for(i in 1..30) {
             val actual = RandomGenerator.getDouble(min, max)
-            Assertions.assertTrue(actual >= min, "actual is $actual")
-            Assertions.assertTrue(actual <= max, "actual is $actual")
+            assertTrue(actual >= min, "actual is $actual")
+            assertTrue(actual <= max, "actual is $actual")
         }
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = [1, 2, 53, 8])
-    fun `same seed results in same random sequence`(seed: Int) {
+    @Test
+    fun `same seed results in same random sequence`() {
+        `same seed results in same random sequence`(1)
+        `same seed results in same random sequence`(2)
+        `same seed results in same random sequence`(53)
+        `same seed results in same random sequence`(8)
+    }
+
+    private fun `same seed results in same random sequence`(seed: Int) {
         val sequenceSize = 1000
         val firstSequence = DoubleArray(sequenceSize)
         val secondSequence = DoubleArray(sequenceSize)
@@ -41,18 +46,15 @@ class RandomGeneratorTest {
         val minRandom = sequenceSize.toDouble()
 
         RandomGenerator.seed = seed
-        for(i in 0 until sequenceSize) {
+        for(i in 0 until sequenceSize)
             firstSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
-        }
 
         RandomGenerator.seed = seed
-        for(i in 0 until sequenceSize) {
+        for(i in 0 until sequenceSize)
             secondSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
-        }
 
-        for(i in 0 until sequenceSize) {
-            Assertions.assertEquals(firstSequence[i], secondSequence[i])
-        }
+        for(i in 0 until sequenceSize)
+            assertEquals(firstSequence[i], secondSequence[i])
     }
 
 
@@ -60,13 +62,13 @@ class RandomGeneratorTest {
     @Test
     fun `get true`() {
         RandomGenerator.seed = Random.nextInt()
-        Assertions.assertTrue(RandomGenerator.getBoolean(1.0F))
+        assertTrue(RandomGenerator.getBoolean(1.0F))
     }
 
     @Test
     fun `get false`() {
         RandomGenerator.seed = Random.nextInt()
-        Assertions.assertFalse(RandomGenerator.getBoolean(0.0F))
+        assertFalse(RandomGenerator.getBoolean(0.0F))
     }
 
 }

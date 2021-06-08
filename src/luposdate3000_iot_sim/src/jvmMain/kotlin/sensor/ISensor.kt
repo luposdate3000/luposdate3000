@@ -1,7 +1,7 @@
-package sensor
+package lupos.iot_sim.sensor
 
-interface ISensor {
-    fun setDataSink(sinkAddress: Int)
-    fun startSampling()
-    fun stopSampling()
+public interface ISensor {
+    public fun setDataSink(sinkAddress: Int)
+    public fun startSampling()
+    public fun stopSampling()
 }

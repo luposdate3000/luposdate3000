@@ -1,7 +1,8 @@
-import config.LinkType
-import geo.GeoLocation
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+package lupos.iot_sim
+
+import lupos.iot_sim.config.LinkType
+import lupos.iot_sim.geo.GeoLocation
+import kotlin.test.*
 
 class LinkManagerTest {
 
@@ -11,8 +12,8 @@ class LinkManagerTest {
         LinkManager.sortedLinkTypes = arrayOf(linkTypeX)
         val device: Device = Stubs.createEmptyDevice(0, intArrayOf(0))
         device.linkManager.setLinkIfPossible(device)
-        Assertions.assertNull(device.linkManager.getLink(device))
-        Assertions.assertFalse(device.linkManager.hasLink(device))
+        assertNull(device.linkManager.getLink(device))
+        assertFalse(device.linkManager.hasLink(device))
     }
 
 
@@ -23,8 +24,8 @@ class LinkManagerTest {
         val linkType = LinkType("X")
         LinkManager.sortedLinkTypes = arrayOf(linkType)
         val deviceTwo: Device = Stubs.createEmptyDevice(2, intArrayOf(0))
-        Assertions.assertNull(deviceOne.linkManager.getBestLink(deviceTwo))
-        Assertions.assertNull(deviceTwo.linkManager.getBestLink(deviceOne))
+        assertNull(deviceOne.linkManager.getBestLink(deviceTwo))
+        assertNull(deviceTwo.linkManager.getBestLink(deviceOne))
     }
 
     @Test
@@ -36,8 +37,8 @@ class LinkManagerTest {
         val deviceTwo: Device = Stubs.createEmptyDevice(2, intArrayOf(0))
         val distance = 51
         deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
-        Assertions.assertNull(deviceOne.linkManager.getBestLink(deviceTwo))
-        Assertions.assertNull(deviceTwo.linkManager.getBestLink(deviceOne))
+        assertNull(deviceOne.linkManager.getBestLink(deviceTwo))
+        assertNull(deviceTwo.linkManager.getBestLink(deviceOne))
     }
 
     @Test
@@ -52,11 +53,11 @@ class LinkManagerTest {
 
         val actualLink1 = deviceOne.linkManager.getBestLink(deviceTwo)
         val actualLink2 = deviceTwo.linkManager.getBestLink(deviceOne)
-        Assertions.assertNotNull(actualLink1)
-        Assertions.assertNotNull(actualLink2)
-        Assertions.assertEquals(actualLink1, actualLink2)
-        Assertions.assertEquals(1, actualLink1!!.linkTypeIndex)
-        Assertions.assertEquals("Y", LinkManager.getLinkTypeByIndex(actualLink1.linkTypeIndex).name)
+        assertNotNull(actualLink1)
+        assertNotNull(actualLink2)
+        assertEquals(actualLink1, actualLink2)
+        assertEquals(1, actualLink1!!.linkTypeIndex)
+        assertEquals("Y", LinkManager.getLinkTypeByIndex(actualLink1.linkTypeIndex).name)
     }
 
     @Test
@@ -72,8 +73,8 @@ class LinkManagerTest {
         val expected2 = intArrayOf(0, 3)
         val actual2 = LinkManager.getSortedLinkTypeIndices(arrayListOf(linkTypeW, linkTypeX))
 
-        Assertions.assertTrue(expected1.contentEquals(actual1))
-        Assertions.assertTrue(expected2.contentEquals(actual2))
+        assertTrue(expected1.contentEquals(actual1))
+        assertTrue(expected2.contentEquals(actual2))
     }
 
 }

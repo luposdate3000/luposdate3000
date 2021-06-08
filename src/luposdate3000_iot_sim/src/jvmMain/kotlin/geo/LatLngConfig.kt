@@ -1,4 +1,4 @@
-package geo
+package lupos.iot_sim.geo
 
 
 /* Copyright 2010 Tyler Coles
@@ -23,7 +23,7 @@ package geo
  *
  * @author Tyler Coles
  */
-object LatLngConfig {
+internal object LatLngConfig {
     /**
      * The tolerance (in degrees) by which two angles can differ and still be
      * considered the same. A tolerance of 1e-6 yields a precision of nearly 1
@@ -55,7 +55,7 @@ object LatLngConfig {
      * @param unit the desired unit for the result.
      * @return the Earth's radius in the desired unit.
      */
-    fun getEarthRadius(unit: LengthUnit): Double {
+    internal fun getEarthRadius(unit: LengthUnit): Double {
         return EARTH_RADIUS[unit.ordinal]
     }
 
@@ -68,7 +68,7 @@ object LatLngConfig {
      * @param unit the unit the radius is given in.
      */
     @Synchronized
-    fun setEarthRadius(radius: Double, unit: LengthUnit) {
+    internal fun setEarthRadius(radius: Double, unit: LengthUnit) {
         EARTH_RADIUS = DoubleArray(LengthUnit.values().size)
         for (toUnit in LengthUnit.values()) {
             EARTH_RADIUS[toUnit.ordinal] = unit.convertTo(toUnit, radius)
@@ -82,7 +82,7 @@ object LatLngConfig {
      * @param value the value to convert.
      * @return the long value.
      */
-    fun doubleToLong(value: Double): Long {
+    internal fun doubleToLong(value: Double): Long {
         return (value / DEGREE_TOLERANCE).toLong()
     }
 
@@ -93,7 +93,7 @@ object LatLngConfig {
      * @param value the value to convert.
      * @return the double value.
      */
-    fun longToDouble(value: Long): Double {
+    internal fun longToDouble(value: Long): Double {
         return value.toDouble() * DEGREE_TOLERANCE
     }
 

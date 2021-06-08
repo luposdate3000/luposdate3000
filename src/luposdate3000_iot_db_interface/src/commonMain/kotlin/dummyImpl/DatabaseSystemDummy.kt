@@ -1,37 +1,37 @@
-package dummyImpl
+package lupos.iot_db_interface.dummyImpl
 
-import ChoosenOperatorPackage
-import IDatabasePackage
-import IDatabase
-import IDatabaseState
-import PreprocessingPackage
-import ResultPackage
-import java.io.File
+import lupos.iot_db_interface.ChoosenOperatorPackage
+import lupos.iot_db_interface.IDatabasePackage
+import lupos.iot_db_interface.IDatabase
+import lupos.iot_db_interface.IDatabaseState
+import lupos.iot_db_interface.PreprocessingPackage
+import lupos.iot_db_interface.ResultPackage
+import lupos.shared_inline.File
 
-class DatabaseSystemDummy : IDatabase {
+public class DatabaseSystemDummy : IDatabase {
 
-    lateinit var state: DatabaseState
+    public lateinit var state: DatabaseState
 
 
-    override fun start(initialState: IDatabaseState) {
+    public override fun start(initialState: IDatabaseState) {
         state = DatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
-        state.dataFile = File("${initialState.absolutePathToDataDirectory}\\file.txt")
-        state.dataFile.createNewFile()
+        state.dataFile = "${initialState.absolutePathToDataDirectory}\\file.txt"
+        File(state.dataFile).withOutputStream {  }
     }
 
-    override fun activate(state: IDatabaseState) {
+    public override fun activate(state: IDatabaseState) {
         this.state = state as DatabaseState
     }
 
-    override fun deactivate(): IDatabaseState {
+    public override fun deactivate(): IDatabaseState {
         return state
     }
 
-    override fun end() {
-        state.dataFile.delete()
+    public override fun end() {
+        File(state.dataFile).deleteRecursively()
     }
 
-    override fun receive(pck: IDatabasePackage) {
+    public override fun receive(pck: IDatabasePackage) {
         when(pck) {
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
@@ -39,7 +39,7 @@ class DatabaseSystemDummy : IDatabase {
         }
     }
 
-    override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
+    public override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
         state.addressForQueryEndResult = sourceAddress
         val queryString = query.decodeToString()
         if(queryString.contains("INSERT DATA")) {
@@ -57,7 +57,9 @@ class DatabaseSystemDummy : IDatabase {
     }
 
     private fun saveData(data: String) {
-        state.dataFile.appendText(data)
+        val stream = File(state.dataFile).openOutputStream(true)
+        stream.println(data)
+        stream.close()
     }
 
     private fun receive(pck: PreprocessingPackage) {

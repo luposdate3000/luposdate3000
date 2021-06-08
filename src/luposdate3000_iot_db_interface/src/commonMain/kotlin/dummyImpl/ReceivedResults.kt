@@ -1,3 +1,3 @@
-package dummyImpl
+package lupos.iot_db_interface.dummyImpl
 
-class ReceivedResults(address: Int, operatorID: Int) : OperatorGraphPart()
+public class ReceivedResults(address: Int, operatorID: Int) : OperatorGraphPart()

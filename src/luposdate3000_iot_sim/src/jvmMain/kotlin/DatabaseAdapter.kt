@@ -1,21 +1,26 @@
-import config.Configuration
-import dummyImpl.DatabaseSystemDummy
-import sensor.ParkingSample
+package lupos.iot_sim
+
+import lupos.iot_sim.config.Configuration
+import lupos.iot_db_interface.dummyImpl.DatabaseSystemDummy
+import lupos.iot_db_interface.IRouter
+import lupos.iot_sim.sensor.ParkingSample
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import lupos.iot_db_interface.IDatabase
+import lupos.iot_db_interface.IDatabaseState
+import lupos.iot_db_interface.IDatabasePackage
 
-
-class DatabaseAdapter(val device: Device): IRouter {
+public class DatabaseAdapter(public val device: Device): IRouter {
 
     private var path: Path = Paths.get("src","db", "device${device.address}")
     private var absolutePath = ""
     private val db: IDatabase = DatabaseSystemDummy()
     private lateinit var currentState: IDatabaseState
 
-    fun startUp() {
+    public fun startUp() {
         path = Files.createDirectories(path)
         absolutePath = path.toFile().absolutePath
         currentState = buildInitialStateObject()
@@ -38,20 +43,20 @@ class DatabaseAdapter(val device: Device): IRouter {
     }
 
 
-    fun shutDown() {
+    public fun shutDown() {
         db.activate(currentState)
         db.end()
         deleteDirectory(path.toFile())
         currentState = buildInitialStateObject()
     }
 
-    fun receive(pck: IDatabasePackage) {
+    public fun receive(pck: IDatabasePackage) {
         db.activate(currentState)
         db.receive(pck)
         currentState = db.deactivate()
     }
 
-    fun saveParkingSample(sample: ParkingSample) {
+    public fun saveParkingSample(sample: ParkingSample) {
         val query = buildInsertQuery(sample)
         val bytes = toBytes(query)
         saveData(bytes)
@@ -89,7 +94,7 @@ class DatabaseAdapter(val device: Device): IRouter {
 
     private fun toBytes(s: String) = s.toByteArray(StandardCharsets.UTF_8)
 
-    fun isDatabasePackage(pck: Any) = pck is IDatabasePackage
+    public fun isDatabasePackage(pck: Any): Boolean = pck is IDatabasePackage
 
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
@@ -102,7 +107,7 @@ class DatabaseAdapter(val device: Device): IRouter {
 
 
 
-    override fun getNextDatabaseHops(destinationAddresses: IntArray)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
         = device.router.getNextDatabaseHops(destinationAddresses)
 
 

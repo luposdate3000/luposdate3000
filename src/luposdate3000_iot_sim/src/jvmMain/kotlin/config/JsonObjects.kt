@@ -1,9 +1,9 @@
-package config
+package lupos.iot_sim.config
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class JsonObjects(
+public data class JsonObjects(
     val linkType: List<LinkType> = arrayListOf(),
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevice: List<FixedDevice> = arrayListOf(),
@@ -14,14 +14,14 @@ data class JsonObjects(
 )
 
 @Serializable
-data class LinkType(
+public data class LinkType(
     val name: String = "",
     val rangeInMeters: Int = 0,
     val dataRateInKbps: Int = 0,
 )
 
 @Serializable
-data class DeviceType(
+public data class DeviceType(
     val name: String = "",
     val database: Boolean = false,
     val parkingSensor: Boolean = false,
@@ -31,7 +31,7 @@ data class DeviceType(
 
 
 @Serializable
-data class FixedDevice(
+public data class FixedDevice(
     val name: String = "",
     val deviceType: String = "",
     val latitude: Double = 0.0,
@@ -39,14 +39,14 @@ data class FixedDevice(
 )
 
 @Serializable
-data class FixedLink(
+public data class FixedLink(
     val fixedDeviceA: String = "",
     val fixedDeviceB: String = "",
     val dataRateInKbps: Int = 0,
 )
 
 @Serializable
-data class RandomStarNetwork(
+public data class RandomStarNetwork(
     val networkPrefix: String = "",
     val starRoot: String = "",
     val dataSink: String = "",
@@ -56,7 +56,7 @@ data class RandomStarNetwork(
 )
 
 @Serializable
-data class RandomMeshNetwork(
+public data class RandomMeshNetwork(
     val networkPrefix: String = "",
     val originLatitude: Double = 0.0,
     val originLongitude: Double = 0.0,

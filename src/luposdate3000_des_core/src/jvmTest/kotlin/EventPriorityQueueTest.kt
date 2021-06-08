@@ -1,7 +1,12 @@
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+package lupos.des_core
 
-class EventPriorityQueueTest {
+
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.assertFalse
+
+public class EventPriorityQueueTest {
 
 
 
@@ -14,23 +19,23 @@ class EventPriorityQueueTest {
         val e5 = Event(1,5, EntityStub(), EntityStub(), null)
         queue.enqueue(e5)
         var head: Event = queue.peek()
-        Assertions.assertEquals(e5, head)
+        assertEquals(e5, head)
         queue.enqueue(e4)
         head = queue.peek()
-        Assertions.assertEquals(e4, head)
+        assertEquals(e4, head)
         queue.enqueue(e1)
         head = queue.peek()
-        Assertions.assertEquals(e1, head)
+        assertEquals(e1, head)
         queue.enqueue(e2)
         head = queue.peek()
-        Assertions.assertEquals(e1, head)
+        assertEquals(e1, head)
     }
 
     @Test
     fun `hasNext() is false`() {
         val queue = EventPriorityQueue()
         val isEmpty = ! queue.hasNext()
-        Assertions.assertTrue(isEmpty)
+        assertTrue(isEmpty)
     }
 
     @Test
@@ -39,7 +44,7 @@ class EventPriorityQueueTest {
         val e1 = Event(1,1, EntityStub(), EntityStub(), null)
         queue.enqueue(e1)
         val isNotEmpty = queue.hasNext()
-        Assertions.assertTrue(isNotEmpty)
+        assertTrue(isNotEmpty)
     }
 
     @Test
@@ -56,16 +61,16 @@ class EventPriorityQueueTest {
         queue.enqueue(e1)
         queue.enqueue(e2)
         var head: Event = queue.dequeue()
-        Assertions.assertEquals(e1, head)
+        assertEquals(e1, head)
         head = queue.dequeue()
-        Assertions.assertEquals(e2, head)
+        assertEquals(e2, head)
         head = queue.dequeue()
-        Assertions.assertEquals(e3, head)
+        assertEquals(e3, head)
         head = queue.dequeue()
-        Assertions.assertEquals(e4, head)
+        assertEquals(e4, head)
         head = queue.dequeue()
-        Assertions.assertEquals(e5, head)
-        Assertions.assertFalse(queue.hasNext())
+        assertEquals(e5, head)
+        assertFalse(queue.hasNext())
     }
 
     @Test
@@ -81,12 +86,12 @@ class EventPriorityQueueTest {
         queue.enqueue(e4)
         queue.enqueue(e1)
         queue.enqueue(e2)
-        Assertions.assertEquals(e1, queue.dequeue())
-        Assertions.assertEquals(e2, queue.dequeue())
-        Assertions.assertEquals(e3, queue.dequeue())
-        Assertions.assertEquals(e5, queue.dequeue())
-        Assertions.assertEquals(e4, queue.dequeue())
-        Assertions.assertFalse(queue.hasNext())
+        assertEquals(e1, queue.dequeue())
+        assertEquals(e2, queue.dequeue())
+        assertEquals(e3, queue.dequeue())
+        assertEquals(e5, queue.dequeue())
+        assertEquals(e4, queue.dequeue())
+        assertFalse(queue.hasNext())
     }
 
 }

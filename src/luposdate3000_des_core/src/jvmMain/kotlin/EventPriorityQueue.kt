@@ -1,3 +1,4 @@
+package lupos.des_core
 
 internal class EventPriorityQueue {
 

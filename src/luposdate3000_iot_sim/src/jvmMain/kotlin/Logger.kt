@@ -1,10 +1,13 @@
-import config.Configuration
-import routing.RPLRouter
-import sensor.ParkingSensor
+package lupos.iot_sim
+import lupos.iot_sim.config.Configuration
+import lupos.iot_sim.routing.RPLRouter
+import lupos.iot_sim.sensor.ParkingSensor
+import lupos.des_core.Simulation
+import lupos.des_core.ISimulationLifeCycle
 
-class Logger(val sim: Simulation): ISimulationLifeCycle {
+public class Logger(public val sim: Simulation): ISimulationLifeCycle {
 
-    override fun onStartUp() {
+    public override fun onStartUp() {
         log("")
         log("")
         log("================================================")

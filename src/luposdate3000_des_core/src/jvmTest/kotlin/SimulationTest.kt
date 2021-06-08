@@ -1,5 +1,9 @@
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+
+package lupos.des_core
+
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class SimulationTest {
 
@@ -8,7 +12,7 @@ class SimulationTest {
         val startClock: Long = 0
         val sim = Simulation(emptyList())
         sim.start()
-        Assertions.assertEquals(startClock, sim.currentClock)
+        assertEquals(startClock, sim.currentClock)
     }
 
     @Test
@@ -16,8 +20,8 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(EntityStub(), EntityStub()))
         val startClock = sim.currentClock
         sim.start()
-        Assertions.assertEquals(0, startClock)
-        Assertions.assertEquals(startClock, sim.currentClock)
+        assertEquals(0, startClock)
+        assertEquals(startClock, sim.currentClock)
     }
 
     @Test
@@ -52,11 +56,11 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
         sim.start()
 
-        Assertions.assertEquals(delay, sim.currentClock)
-        Assertions.assertEquals(data, actualData)
-        Assertions.assertEquals(receivingEntity, actualDestEntity)
-        Assertions.assertEquals(sendingEntity, actualSrcEntity)
-        Assertions.assertEquals(delay, actualEventTime)
+        assertEquals(delay, sim.currentClock)
+        assertEquals(data, actualData)
+        assertEquals(receivingEntity, actualDestEntity)
+        assertEquals(sendingEntity, actualSrcEntity)
+        assertEquals(delay, actualEventTime)
     }
 
     @Test
@@ -101,9 +105,9 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
         sim.start()
 
-        Assertions.assertEquals(firstDelay, actualFirstClock)
-        Assertions.assertEquals(secondDelay, actualSecondClock)
-        Assertions.assertEquals(thirdDelay, actualThirdClock)
+        assertEquals(firstDelay, actualFirstClock)
+        assertEquals(secondDelay, actualSecondClock)
+        assertEquals(thirdDelay, actualThirdClock)
     }
 
     @Test
@@ -139,9 +143,9 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(entityA, entityB, entityC))
         sim.start()
 
-        Assertions.assertEquals(true, entityAIsCalled)
-        Assertions.assertEquals(true, entityBIsCalled)
-        Assertions.assertEquals(true, entityCIsCalled)
+        assertEquals(true, entityAIsCalled)
+        assertEquals(true, entityBIsCalled)
+        assertEquals(true, entityCIsCalled)
     }
 
     @Test
@@ -156,7 +160,7 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(entityA))
         sim.start()
 
-        Assertions.assertEquals(false, entityAIsCalled)
+        assertEquals(false, entityAIsCalled)
     }
 
     @Test
@@ -192,9 +196,9 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(entityA, entityB, entityC))
         sim.start()
 
-        Assertions.assertEquals(true, entityAIsCalled)
-        Assertions.assertEquals(true, entityBIsCalled)
-        Assertions.assertEquals(true, entityCIsCalled)
+        assertEquals(true, entityAIsCalled)
+        assertEquals(true, entityBIsCalled)
+        assertEquals(true, entityCIsCalled)
     }
 
     @Test
@@ -227,8 +231,8 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
         sim.start()
 
-        Assertions.assertEquals(firstDelay + responseDelay, sim.currentClock)
-        Assertions.assertTrue(isResponseReceived)
+        assertEquals(firstDelay + responseDelay, sim.currentClock)
+        assertTrue(isResponseReceived)
     }
 
     @Test
@@ -263,8 +267,8 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
         sim.start()
 
-        Assertions.assertEquals(delay * 3, sim.currentClock)
-        Assertions.assertEquals(expectedProcessCounter, processCounter)
+        assertEquals(delay * 3, sim.currentClock)
+        assertEquals(expectedProcessCounter, processCounter)
     }
 
 
@@ -292,13 +296,13 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(busyEntity))
         sim.start()
 
-        Assertions.assertEquals(delay, eventProcessedAt)
+        assertEquals(delay, eventProcessedAt)
     }
 
     @Test
     fun `check default end time`() {
         val sim = Simulation(arrayListOf())
-        Assertions.assertEquals(Long.MAX_VALUE, sim.maxClock)
+        assertEquals(Long.MAX_VALUE, sim.maxClock)
     }
 
     @Test
@@ -324,7 +328,7 @@ class SimulationTest {
         sim.setMaximalTime(maxClock)
         sim.start()
 
-        Assertions.assertEquals(maxClock, sim.currentClock)
+        assertEquals(maxClock, sim.currentClock)
     }
 
     @Test
@@ -356,7 +360,7 @@ class SimulationTest {
         sim.setMaximalTime(maxClock)
         sim.start()
 
-        Assertions.assertEquals(maxClock, sim.currentClock)
+        assertEquals(maxClock, sim.currentClock)
     }
 
     @Test
@@ -393,7 +397,7 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
         sim.start()
 
-        Assertions.assertEquals(currentProcessedEventCounter, sim.processedEventCounter)
+        assertEquals(currentProcessedEventCounter, sim.processedEventCounter)
     }
 
     @Test
@@ -434,9 +438,9 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(entity))
         sim.start()
 
-        Assertions.assertEquals(timerDelay1, timer1Result)
-        Assertions.assertEquals(timerDelay2, timer2Result)
-        Assertions.assertEquals(timerDelay3, timer3Result)
+        assertEquals(timerDelay1, timer1Result)
+        assertEquals(timerDelay2, timer2Result)
+        assertEquals(timerDelay3, timer3Result)
     }
 
 
@@ -470,9 +474,9 @@ class SimulationTest {
         sim.steadyStateReachedAt(steadyStateAt)
         sim.start()
 
-        Assertions.assertEquals(delay, sim.currentClock)
-        Assertions.assertEquals(steadyStateAt, entityAIsCalledAt)
-        Assertions.assertEquals(steadyStateAt, entityBIsCalledAt)
+        assertEquals(delay, sim.currentClock)
+        assertEquals(steadyStateAt, entityAIsCalledAt)
+        assertEquals(steadyStateAt, entityBIsCalledAt)
 
     }
 

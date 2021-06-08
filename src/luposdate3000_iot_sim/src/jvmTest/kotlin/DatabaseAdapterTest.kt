@@ -1,5 +1,6 @@
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+package lupos.iot_sim
+
+import kotlin.test.*
 
 class DatabaseAdapterTest {
     @Test

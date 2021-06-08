@@ -1,8 +1,8 @@
-package config
+package lupos.iot_sim.config
 
-import Device
+import lupos.iot_sim.Device
 
-class StarNetwork(val root: Device, val dataSink: Device) {
-    var networkPrefix = ""
-    var children: MutableList<Device> = arrayListOf()
+public class StarNetwork(public val root: Device, public val dataSink: Device) {
+    public var networkPrefix: String = ""
+    public var children: MutableList<Device> = arrayListOf()
 }

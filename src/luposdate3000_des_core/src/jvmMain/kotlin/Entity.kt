@@ -1,10 +1,12 @@
-abstract class Entity : ISimulationLifeCycle {
+package lupos.des_core
+
+public abstract class Entity : ISimulationLifeCycle {
 
     internal lateinit var simulation: Simulation
 
     private var isTerminated = false
 
-    abstract fun onEvent(event: Event)
+    public abstract fun onEvent(event: Event)
 
     private fun isTimerExpiredEvent(event: Event)
         = event.data != null && event.data is ITimerExpired
@@ -24,12 +26,12 @@ abstract class Entity : ISimulationLifeCycle {
         simulation.addEvent(delay, this, destination, data)
     }
 
-    fun setTimer(time: Long, callback: ITimerExpired) {
+    public fun setTimer(time: Long, callback: ITimerExpired) {
         scheduleEvent(this, time, callback)
     }
 
-    interface ITimerExpired {
-        fun onExpire()
+    public interface ITimerExpired {
+        public fun onExpire()
     }
 
     protected fun terminate() {
@@ -37,6 +39,6 @@ abstract class Entity : ISimulationLifeCycle {
         isTerminated = true
     }
 
-    fun getCurrentSimulationTime() = simulation.currentClock
+    public fun getCurrentSimulationTime(): Long = simulation.currentClock
 
 }

@@ -1,11 +1,14 @@
-import config.Configuration
+package lupos.iot_sim
+import lupos.iot_sim.config.Configuration
 import kotlinx.datetime.*
+import lupos.des_core.Simulation
 
-fun main() {
+
+public fun main() {
 
 }
 
-class IoTSimulation {
+public class IoTSimulation {
 
 
 
@@ -20,7 +23,7 @@ class IoTSimulation {
  *
  *
  * */
-    fun run() {
+    public fun run() {
      val configFileName = ""
      Configuration.parse(configFileName)
      val sim = Simulation(Configuration.devices)
@@ -28,7 +31,7 @@ class IoTSimulation {
      sim.start()
     }
 
-    fun getDateTimeString(simClock: Long) {
+    public fun getDateTimeString(simClock: Long) {
         val now: Instant = Clock.System.now()
         val timeZone = TimeZone.currentSystemDefault()
         val simTime = now.plus(2, DateTimeUnit.MILLISECOND, timeZone)

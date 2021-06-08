@@ -1,6 +1,7 @@
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-import routing.RoutingTable
+package lupos.iot_sim
+
+import kotlin.test.*
+import lupos.iot_sim.routing.RoutingTable
 
 class RoutingTableTest {
 
@@ -9,8 +10,8 @@ class RoutingTableTest {
         val default = 0
         val size = 0
         val table = RoutingTable(default, size)
-        Assertions.assertEquals(default, table.getNextHop(0))
-        Assertions.assertEquals(default, table.getNextHop(1))
+        assertEquals(default, table.getNextHop(0))
+        assertEquals(default, table.getNextHop(1))
     }
 
     @Test
@@ -18,7 +19,7 @@ class RoutingTableTest {
         val table = RoutingTable(0, 20)
         val hop = 3
         table.setDestinationsByDatabaseHop(hop, intArrayOf())
-        Assertions.assertEquals(hop, table.getNextHop(hop))
+        assertEquals(hop, table.getNextHop(hop))
     }
 
     @Test
@@ -28,10 +29,10 @@ class RoutingTableTest {
         val hop = 4
         val dest = intArrayOf(1,2,3,4,5,6,7)
         table.setDestinationsByDatabaseHop(hop, dest)
-        Assertions.assertEquals(default, table.getNextHop(0))
-        Assertions.assertEquals(default, table.getNextHop(8))
-        Assertions.assertEquals(hop, table.getNextHop(1))
-        Assertions.assertEquals(hop, table.getNextHop(7))
+        assertEquals(default, table.getNextHop(0))
+        assertEquals(default, table.getNextHop(8))
+        assertEquals(hop, table.getNextHop(1))
+        assertEquals(hop, table.getNextHop(7))
     }
 
     @Test
@@ -43,10 +44,10 @@ class RoutingTableTest {
         table.setDestinationsByDatabaseHop(hop, dest1)
         val dest2 = intArrayOf(1,2,3,4,5,6,7)
         table.setDestinationsByDatabaseHop(hop, dest2)
-        Assertions.assertEquals(default, table.getNextHop(0))
-        Assertions.assertEquals(default, table.getNextHop(9))
-        Assertions.assertEquals(hop, table.getNextHop(1))
-        Assertions.assertEquals(hop, table.getNextHop(8))
+        assertEquals(default, table.getNextHop(0))
+        assertEquals(default, table.getNextHop(9))
+        assertEquals(hop, table.getNextHop(1))
+        assertEquals(hop, table.getNextHop(8))
     }
 
     @Test
@@ -57,8 +58,8 @@ class RoutingTableTest {
         val dest = intArrayOf(1,2,3,4,5,6,7)
         table.setDestinationsByDatabaseHop(hop, dest)
         table.removeDestinationsByHop(hop)
-        Assertions.assertEquals(default, table.getNextHop(1))
-        Assertions.assertEquals(default, table.getNextHop(7))
+        assertEquals(default, table.getNextHop(1))
+        assertEquals(default, table.getNextHop(7))
     }
 
     @Test
@@ -67,8 +68,8 @@ class RoutingTableTest {
         val hop = 4
         table.setDestinationsByDatabaseHop(hop, intArrayOf(1,2))
         table.setDestinationsByDatabaseHop(hop, intArrayOf(99))
-        Assertions.assertEquals(1, table.getHops().size)
-        Assertions.assertTrue(table.getHops().contains(hop))
+        assertEquals(1, table.getHops().size)
+        assertTrue(table.getHops().contains(hop))
     }
 
     @Test
@@ -79,9 +80,9 @@ class RoutingTableTest {
         table.setDestinationsByDatabaseHop(hop1, intArrayOf(99))
         val hop2 = 3
         table.setDestinationsByDatabaseHop(hop2, intArrayOf(3))
-        Assertions.assertEquals(2, table.getHops().size)
-        Assertions.assertTrue(table.getHops().contains(hop1))
-        Assertions.assertTrue(table.getHops().contains(hop2))
+        assertEquals(2, table.getHops().size)
+        assertTrue(table.getHops().contains(hop1))
+        assertTrue(table.getHops().contains(hop2))
     }
 
     @Test
@@ -92,17 +93,17 @@ class RoutingTableTest {
         val numberOfDestinations = 1 + dest.size
         table.setDestinationsByDatabaseHop(hop, dest)
         val actual = table.getDestinations()
-        Assertions.assertEquals(numberOfDestinations, actual.size)
-        Assertions.assertEquals(1, actual[0])
-        Assertions.assertEquals(4, actual[1])
-        Assertions.assertEquals(19, actual[2])
+        assertEquals(numberOfDestinations, actual.size)
+        assertEquals(1, actual[0])
+        assertEquals(4, actual[1])
+        assertEquals(19, actual[2])
     }
 
     @Test
     fun theFirstInsertUpdatesAlways() {
         val table = RoutingTable(0, 20)
         val isUpdated = table.setDestinationsByDatabaseHop(3, intArrayOf())
-        Assertions.assertTrue(isUpdated)
+        assertTrue(isUpdated)
     }
 
     @Test
@@ -111,7 +112,7 @@ class RoutingTableTest {
         val hop = 7
         table.setDestinationsByDatabaseHop(hop, intArrayOf(1,2))
         val isUpdated = table.setDestinationsByDatabaseHop(hop, intArrayOf(1,2,3))
-        Assertions.assertTrue(isUpdated)
+        assertTrue(isUpdated)
     }
 
     @Test
@@ -120,7 +121,7 @@ class RoutingTableTest {
         val hop = 9
         table.setDestinationsByDatabaseHop(hop, intArrayOf(1,2))
         val isUpdated = table.setDestinationsByDatabaseHop(hop, intArrayOf(1,2))
-        Assertions.assertFalse(isUpdated)
+        assertFalse(isUpdated)
     }
 
     @Test
@@ -128,7 +129,7 @@ class RoutingTableTest {
         val table = RoutingTable(0, 20)
         table.setDestinationsByDatabaseHop(3, intArrayOf())
         val isUpdated = table.removeDestinationsByHop(3)
-        Assertions.assertTrue(isUpdated)
+        assertTrue(isUpdated)
     }
 
     @Test
@@ -136,7 +137,7 @@ class RoutingTableTest {
         val table = RoutingTable(0, 20)
         table.setDestinationsByDatabaseHop(3, intArrayOf())
         val isUpdated = table.removeDestinationsByHop(9)
-        Assertions.assertFalse(isUpdated)
+        assertFalse(isUpdated)
     }
 
     @Test
@@ -145,7 +146,7 @@ class RoutingTableTest {
         val hop = 3
         val dest = 8
         table.setDestinationsByDatabaseHop(hop, intArrayOf(1,2,dest))
-        Assertions.assertEquals(hop, table.getNextDatabaseHop(dest))
+        assertEquals(hop, table.getNextDatabaseHop(dest))
     }
 
     @Test
@@ -153,7 +154,7 @@ class RoutingTableTest {
         val table = RoutingTable(0, 20)
         val hop = 8
         table.setDestinationsByHop(hop, intArrayOf(), intArrayOf())
-        Assertions.assertEquals(RoutingTable.notInitialized, table.getNextDatabaseHop(hop))
+        assertEquals(RoutingTable.notInitialized, table.getNextDatabaseHop(hop))
     }
 
     @Test
@@ -163,7 +164,7 @@ class RoutingTableTest {
         val dest = 4
         val dbHop = 9
         table.setDestinationsByHop(hop, intArrayOf(1,2,3, dest), intArrayOf(2, 6, 7, dbHop))
-        Assertions.assertEquals(dbHop, table.getNextDatabaseHop(dest))
+        assertEquals(dbHop, table.getNextDatabaseHop(dest))
     }
 
     @Test
@@ -173,7 +174,7 @@ class RoutingTableTest {
         val dest = 4
         table.setDestinationsByHop(hop, intArrayOf(1,2,3,dest), intArrayOf(2,6,7,9))
         table.removeDestinationsByHop(hop)
-        Assertions.assertEquals(RoutingTable.notInitialized, table.getNextDatabaseHop(dest))
+        assertEquals(RoutingTable.notInitialized, table.getNextDatabaseHop(dest))
     }
 
     @Test
@@ -182,9 +183,9 @@ class RoutingTableTest {
         table.setDestinationsByDatabaseHop(0, intArrayOf(1,2))
         table.setDestinationsByHop(5, intArrayOf(6,7), intArrayOf(6,7))
         table.setDestinationsByHop(5, intArrayOf(11,12), intArrayOf(9, 10))
-        Assertions.assertEquals(0, table.getNextDatabaseHop(0))
-        Assertions.assertEquals(6, table.getNextDatabaseHop(6))
-        Assertions.assertEquals(9, table.getNextDatabaseHop(11))
+        assertEquals(0, table.getNextDatabaseHop(0))
+        assertEquals(6, table.getNextDatabaseHop(6))
+        assertEquals(9, table.getNextDatabaseHop(11))
     }
 
     @Test
@@ -194,10 +195,10 @@ class RoutingTableTest {
         table.setDestinationsByHop(5, intArrayOf(6,7), intArrayOf(6,7))
         table.setDestinationsByHop(5, intArrayOf(11,12), intArrayOf(9, 10))
         val result = table.getNextDatabaseHops(intArrayOf(1, 6, 11))
-        Assertions.assertEquals(3, result.size)
-        Assertions.assertEquals(0, result[0])
-        Assertions.assertEquals(6, result[1])
-        Assertions.assertEquals(9, result[2])
+        assertEquals(3, result.size)
+        assertEquals(0, result[0])
+        assertEquals(6, result[1])
+        assertEquals(9, result[2])
     }
 
 

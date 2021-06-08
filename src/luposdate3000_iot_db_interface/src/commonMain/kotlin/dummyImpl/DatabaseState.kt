@@ -1,16 +1,14 @@
-package dummyImpl
+package lupos.iot_db_interface.dummyImpl
+import lupos.iot_db_interface.IDatabaseState
+import lupos.iot_db_interface.IRouter
 
-import IDatabaseState
-import IRouter
-import java.io.File
-
-class DatabaseState(
+public class DatabaseState(
     override val ownAddress: Int,
     override var allAddresses: IntArray,
     override val sender: IRouter,
     override val absolutePathToDataDirectory: String): IDatabaseState
 {
-    val queriesInProgress = mutableMapOf<Int, Query>()
-    var addressForQueryEndResult = -1
-    lateinit var dataFile: File
+    public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
+    public var addressForQueryEndResult: Int = -1
+    public lateinit var dataFile: String
 }

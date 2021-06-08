@@ -1,14 +1,14 @@
-package routing
+package lupos.iot_sim.routing
 
-import config.Configuration
-import Device
-import Entity
-import NetworkPackage
+import lupos.iot_sim.config.Configuration
+import lupos.iot_sim.Device
+import lupos.des_core.Entity
+import lupos.iot_sim.NetworkPackage
 
 
-class RPLRouter(val device: Device): IRoutingAlgorithm {
+public class RPLRouter(public val device: Device): IRoutingAlgorithm {
 
-    lateinit var routingTable: RoutingTable
+    public lateinit var routingTable: RoutingTable
 
     private val notInitializedRank = Int.MAX_VALUE
 
@@ -16,27 +16,27 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
 
     override var isRoot: Boolean = false
 
-    var rank = notInitializedRank
+    public var rank: Int = notInitializedRank
         private set
 
-    var preferredParent = Parent()
+    public var preferredParent: Parent = Parent()
         private set
 
     private var isDelayDAOTimerRunning = false
 
-    var dioSentCounter = 0
+    public var dioSentCounter: Int = 0
         private set
 
-    var dioReceivedCounter = 0
+    public var dioReceivedCounter: Int = 0
         private set
 
-    var daoSentCounter = 0
+    public var daoSentCounter: Int = 0
         private set
 
-    var daoReceivedCounter = 0
+    public var daoReceivedCounter: Int = 0
         private set
 
-    inner class Parent(var address: Int = notInitializedAddress, var rank: Int = notInitializedRank)
+    public inner class Parent(public var address: Int = notInitializedAddress, public var rank: Int = notInitializedRank)
 
 
     private fun broadcastDIO() {
@@ -124,7 +124,7 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
 
 
 
-    fun hasParent()
+    public fun hasParent(): Boolean
             = preferredParent.address != notInitializedAddress
 
 
@@ -136,15 +136,15 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
         }
     }
 
-    class DIO(val rank: Int)
+    public class DIO(public val rank: Int)
 
-    class DAO(
-        val isPath: Boolean,
-        val destinations: IntArray,
-        val hopHasDatabase: Boolean,
-        val existingDatabaseHops: IntArray)
+    public class DAO(
+        public val isPath: Boolean,
+        public val destinations: IntArray,
+        public val hopHasDatabase: Boolean,
+        public val existingDatabaseHops: IntArray)
 
-    override fun isControlPackage(pck: NetworkPackage)
+    override fun isControlPackage(pck: NetworkPackage): Boolean
         = pck.payload is DAO || pck.payload is DIO
 
 
@@ -153,7 +153,7 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
         forwardedDaoCounter++
     }
 
-    inner class DelayDAOTimerExpired: Entity.ITimerExpired {
+    public inner class DelayDAOTimerExpired: Entity.ITimerExpired {
         override fun onExpire() {
             isDelayDAOTimerRunning = false
             forwardDAO()
@@ -173,13 +173,13 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
         }
     }
 
-    override fun getNextHop(destinationAddress: Int)
+    override fun getNextHop(destinationAddress: Int): Int
         = routingTable.getNextHop(destinationAddress)
 
-    override fun getNextDatabaseHops(destinationAddresses: IntArray)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
         = routingTable.getNextDatabaseHops(destinationAddresses)
 
-    override fun getNextDatabaseHop(destinationAddress: Int)
+    override fun getNextDatabaseHop(destinationAddress: Int): Int
             = routingTable.getNextDatabaseHop(destinationAddress)
 
     override fun toString(): String {
@@ -215,29 +215,29 @@ class RPLRouter(val device: Device): IRoutingAlgorithm {
         return strBuilder
     }
 
-    companion object {
+    public companion object {
 
         //RPL Constants and Variables (see RFC 6550)
-        const val DEFAULT_DAO_DELAY = 1 //seconds
+        public const val DEFAULT_DAO_DELAY: Int = 1 //seconds
 
 
-        val daoDelay = 2//DEFAULT_DAO_DELAY * 3
+        public val daoDelay: Int = 2//DEFAULT_DAO_DELAY * 3
 
-        const val ROOT_RANK = 0
+        public const val ROOT_RANK: Int = 0
 
-        var daoCounter = 0
+        public var daoCounter: Int = 0
             private set
 
-        var dioCounter = 0
+        public var dioCounter: Int = 0
             private set
 
-        var forwardedDaoCounter = 0
+        public var forwardedDaoCounter: Int = 0
             private set
 
-        var forwardedDioCounter = 0
+        public var forwardedDioCounter: Int = 0
             private set
 
-        fun resetCounter() {
+        public fun resetCounter() {
             daoCounter = 0
             dioCounter = 0
             forwardedDaoCounter = 0

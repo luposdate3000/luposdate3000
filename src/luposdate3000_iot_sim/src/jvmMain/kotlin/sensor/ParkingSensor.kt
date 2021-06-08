@@ -1,17 +1,17 @@
-package sensor
+package lupos.iot_sim.sensor
 
-import Device
-import Entity
-import RandomGenerator
+import lupos.iot_sim.Device
+import lupos.des_core.Entity
+import lupos.iot_sim.RandomGenerator
 
-class ParkingSensor(var device: Device): ISensor {
+public class ParkingSensor(public var device: Device): ISensor {
 
-    var dataSinkAddress = device.address
+    public var dataSinkAddress: Int = device.address
         private set
 
-    private var isStopped = false
+    private var isStopped: Boolean = false
 
-    var sampleCounter = 0
+    public var sampleCounter: Int = 0
         private set
 
 
@@ -19,22 +19,22 @@ class ParkingSensor(var device: Device): ISensor {
         sensorCounter++
     }
 
-    companion object {
-        var dataRateInSeconds: Int = 30
+    public companion object {
+        public var dataRateInSeconds: Int = 30
 
-        var sensorCounter = 0
+        public var sensorCounter: Int = 0
             private set
 
-        var totalSampleCounter = 0
+        public var totalSampleCounter: Int = 0
             private set
 
-        fun resetCounter() {
+        public fun resetCounter() {
             totalSampleCounter = 0
             sensorCounter = 0
         }
     }
 
-    inner class SamplingProcessFinished: Entity.ITimerExpired {
+    public inner class SamplingProcessFinished: Entity.ITimerExpired {
         override fun onExpire() {
             onSampleTaken()
         }

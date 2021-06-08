@@ -1,9 +1,10 @@
-import config.Configuration
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
-import routing.RPLRouter
-import sensor.ParkingSensor
+package lupos.iot_sim
+
+import lupos.des_core.Simulation
+import lupos.iot_sim.config.Configuration
+import kotlin.test.*
+import lupos.iot_sim.routing.RPLRouter
+import lupos.iot_sim.sensor.ParkingSensor
 
 class RoutingSimulationTest {
 
@@ -11,20 +12,18 @@ class RoutingSimulationTest {
         private const val prefix = "RoutingSimulationTest"
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/runSimulationWithoutEntities.json"])
+    @Test
     fun runSimulationWithoutEntities(fileName: String) {
-        Configuration.parse(fileName)
+        Configuration.parse("$prefix/runSimulationWithoutEntities.json")
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
-        Assertions.assertEquals(0, sim.currentClock)
+        assertEquals(0, sim.currentClock)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/selfMessagesDoNotDelay.json"])
+    @Test
     fun selfMessagesDoNotDelay(fileName: String) {
-        Configuration.parse(fileName)
+        Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
 
         val sim = Simulation(Configuration.devices)
@@ -32,13 +31,12 @@ class RoutingSimulationTest {
         sim.setMaximalTime(maxClock)
         sim.start()
 
-        Assertions.assertEquals(maxClock, sim.currentClock)
+        assertEquals(maxClock, sim.currentClock)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/starNetworkIsASimpleDODAG.json"])
+    @Test
     fun starNetworkIsASimpleDODAG(fileName: String) {
-        Configuration.parse(fileName)
+        Configuration.parse("$prefix/starNetworkIsASimpleDODAG.json")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parent = starNet.dataSink
         val parentRouter = parent.router as RPLRouter
@@ -47,44 +45,42 @@ class RoutingSimulationTest {
         val child1Router = child1.router as RPLRouter
         val child2 = starNet.children[1]
         val child2Router = child2.router as RPLRouter
-        Assertions.assertFalse(child1Router.hasParent())
-        Assertions.assertFalse(child2Router.hasParent())
+        assertFalse(child1Router.hasParent())
+        assertFalse(child2Router.hasParent())
 
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.setMaximalTime(200)
         sim.start()
 
-        Assertions.assertTrue(child1Router.hasParent())
-        Assertions.assertTrue(child2Router.hasParent())
-        Assertions.assertFalse(parentRouter.hasParent())
-        Assertions.assertEquals(RPLRouter.ROOT_RANK, parentRouter.rank)
-        Assertions.assertTrue(child1Router.rank >= RPLRouter.ROOT_RANK)
-        Assertions.assertTrue(child2Router.rank >= RPLRouter.ROOT_RANK)
-        Assertions.assertEquals(parent.address, child1Router.preferredParent.address)
-        Assertions.assertEquals(parent.address, child2Router.preferredParent.address)
-        Assertions.assertEquals(parentRouter.rank, child1Router.preferredParent.rank)
-        Assertions.assertEquals(parentRouter.rank, child2Router.preferredParent.rank)
+        assertTrue(child1Router.hasParent())
+        assertTrue(child2Router.hasParent())
+        assertFalse(parentRouter.hasParent())
+        assertEquals(RPLRouter.ROOT_RANK, parentRouter.rank)
+        assertTrue(child1Router.rank >= RPLRouter.ROOT_RANK)
+        assertTrue(child2Router.rank >= RPLRouter.ROOT_RANK)
+        assertEquals(parent.address, child1Router.preferredParent.address)
+        assertEquals(parent.address, child2Router.preferredParent.address)
+        assertEquals(parentRouter.rank, child1Router.preferredParent.rank)
+        assertEquals(parentRouter.rank, child2Router.preferredParent.rank)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/meshToDODAG.json"])
+    @Test
     fun meshToDODAG(fileName: String) {
-        Configuration.parse(fileName)
+        Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
         val rootRouter = root.router as RPLRouter
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
 
-        Assertions.assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.destinationCounter)
+        assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.destinationCounter)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/upwardRouteForwarding.json"])
+    @Test
     fun upwardRouteForwarding(fileName: String) {
         //Send data from the leaf F to the root A
-        Configuration.parse(fileName)
+        Configuration.parse("$prefix/upwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
 
         val f = Configuration.getNamedDevice("F")
@@ -99,14 +95,13 @@ class RoutingSimulationTest {
         sim.setMaximalTime(maxClock)
         sim.start()
 
-        Assertions.assertEquals(numberOfSamples, a.processedSensorDataPackages)
+        assertEquals(numberOfSamples, a.processedSensorDataPackages)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/downwardRouteForwarding.json"])
+    @Test
     fun downwardRouteForwarding(fileName: String) {
         //Send data from the root A to the leaf F
-        Configuration.parse(fileName)
+        Configuration.parse("$prefix/downwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
         val f = Configuration.getNamedDevice("F")
 
@@ -120,14 +115,13 @@ class RoutingSimulationTest {
         sim.setMaximalTime(maxClock)
         sim.start()
 
-        Assertions.assertEquals(numberOfSamples, f.processedSensorDataPackages)
+        assertEquals(numberOfSamples, f.processedSensorDataPackages)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/upAndDownwardRouteForwarding.json"])
+    @Test
     fun upAndDownwardRouteForwarding(fileName: String) {
         //Send data from the leaf F to the leaf D
-        Configuration.parse(fileName)
+        Configuration.parse("$prefix/upAndDownwardRouteForwarding.json")
         val d = Configuration.getNamedDevice("D")
         val f = Configuration.getNamedDevice("F")
 
@@ -141,15 +135,14 @@ class RoutingSimulationTest {
         sim.setMaximalTime(maxClock)
         sim.start()
 
-        Assertions.assertEquals(numberOfSamples, d.processedSensorDataPackages)
+        assertEquals(numberOfSamples, d.processedSensorDataPackages)
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/sensorFromStarSendDataOverMesh.json"])
-    fun sensorFromStarSendDataOverMesh(fileName: String) {
+    @Test
+    fun sensorFromStarSendDataOverMesh() {
         //TODO zuerst star root
 //        //Send data from the leaf F to the leaf D
-//        Configuration.parse(fileName)
+//        Configuration.parse("$prefix/sensorFromStarSendDataOverMesh.json")
 //        val d = Configuration.getNamedDevice("D")
 //        val f = Configuration.getNamedDevice("F")
 //
@@ -163,7 +156,7 @@ class RoutingSimulationTest {
 //        sim.setMaximalTime(maxClock)
 //        sim.start()
 //
-//        Assertions.assertEquals(numberOfSamples, d.processedSensorDataPackages)
+//        assertEquals(numberOfSamples, d.processedSensorDataPackages)
     }
 
 

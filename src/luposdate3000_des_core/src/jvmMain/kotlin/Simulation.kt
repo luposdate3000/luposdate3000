@@ -1,45 +1,45 @@
+package lupos.des_core
 
-
-class Simulation (private val entities: List<Entity>) {
+public class Simulation (private val entities: List<Entity>) {
 
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
     private var steadyClock: Long = Long.MAX_VALUE
 
-    var maxClock: Long = Long.MAX_VALUE
+    public var maxClock: Long = Long.MAX_VALUE
         private set
 
     private var callback: ISimulationLifeCycle? = null
 
-    var currentClock: Long = 0
+    public var currentClock: Long = 0
         private set
 
-    var addedEventCounter = 0
+    public var addedEventCounter: Int = 0
         private set
 
-    var processedEventCounter = 0
+    public var processedEventCounter: Int = 0
         private set
 
 
-    fun start() {
+    public fun start() {
         startUp()
         run()
         shutDown()
     }
 
-    fun stop() {
+    public fun stop() {
         maxClock = currentClock
     }
 
-    fun steadyStateReachedAt(time: Long) {
+    public fun steadyStateReachedAt(time: Long) {
         steadyClock = time
     }
 
-    fun setMaximalTime(time: Long) {
+    public fun setMaximalTime(time: Long) {
         maxClock = time
     }
 
-    fun setLifeCycleCallback(callback: ISimulationLifeCycle) {
+    public fun setLifeCycleCallback(callback: ISimulationLifeCycle) {
         this. callback = callback
     }
 
@@ -122,6 +122,6 @@ class Simulation (private val entities: List<Entity>) {
     }
 
 
-    fun numberOfEntities() = entities.size
+    public fun numberOfEntities(): Int = entities.size
 
 }

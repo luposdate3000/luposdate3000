@@ -1,4 +1,6 @@
-import geo.GeoLocation
+package lupos.iot_sim
+
+import lupos.iot_sim.geo.GeoLocation
 
 object Stubs {
 

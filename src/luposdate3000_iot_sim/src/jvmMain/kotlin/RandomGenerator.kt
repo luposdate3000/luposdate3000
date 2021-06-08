@@ -1,16 +1,16 @@
-
+package lupos.iot_sim
 import kotlin.random.Random
 
-object RandomGenerator {
-    var seed: Int = 1
+public object RandomGenerator {
+    public var seed: Int = 1
         set(value) {
             field = value
             random = Random(value)
         }
-    var random: Random = Random(seed)
+    public var random: Random = Random(seed)
         private set
 
-    fun getDouble(minInclusive: Double, maxInclusive: Double): Double {
+    public fun getDouble(minInclusive: Double, maxInclusive: Double): Double {
         if(minInclusive == maxInclusive)
             return minInclusive
         require(maxInclusive < Double.MAX_VALUE)
@@ -18,10 +18,10 @@ object RandomGenerator {
         return random.nextDouble(minInclusive, maxExclusive)
     }
 
-    fun getInt(minInclusive: Int, maxInclusive: Int)
+    public fun getInt(minInclusive: Int, maxInclusive: Int): Int
         = getDouble(minInclusive.toDouble(), maxInclusive.toDouble()).toInt()
 
-    fun getBoolean(probabilityOfTrue: Float)
+    public fun getBoolean(probabilityOfTrue: Float): Boolean
         = random.nextFloat() < probabilityOfTrue
 
 }

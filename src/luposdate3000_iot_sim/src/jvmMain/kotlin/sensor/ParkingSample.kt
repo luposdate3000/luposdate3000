@@ -1,6 +1,6 @@
-package sensor
+package lupos.iot_sim.sensor
 
-data class ParkingSample(
+public data class ParkingSample(
     val sampleID: Int,
     val sensorID: Int,
     val sampleTime: Long,

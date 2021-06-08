@@ -1,17 +1,18 @@
-class PowerSupply(capacity: Double) {
+package lupos.iot_sim
+public class PowerSupply(capacity: Double) {
 
-    var consumed = 0.0
+    public var consumed: Double = 0.0
         private set;
 
-    val isInfinite: Boolean = capacity < 0
-    var actualCapacity: Double = if(isInfinite) Double.MAX_VALUE else capacity
+    public val isInfinite: Boolean = capacity < 0
+    public var actualCapacity: Double = if(isInfinite) Double.MAX_VALUE else capacity
 
-    var drainageRate = 1.0
+    public var drainageRate: Double = 1.0
 
 
-    fun hasPowerLeft() = isInfinite || actualCapacity >= 0.0
+    public fun hasPowerLeft(): Boolean = isInfinite || actualCapacity >= 0.0
 
-    fun decrease(){
+    public fun decrease(){
         consumed += drainageRate
         if (isInfinite)
             actualCapacity -= drainageRate

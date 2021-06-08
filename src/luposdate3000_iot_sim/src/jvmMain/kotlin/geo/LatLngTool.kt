@@ -1,4 +1,4 @@
-package geo
+package lupos.iot_sim.geo
 
 import kotlin.math.*
 
@@ -42,7 +42,7 @@ import kotlin.math.*
  *
  * @author Tyler Coles
  */
-object LatLngTool {
+internal object LatLngTool {
     /**
      * Distance between two points.
      *
@@ -54,7 +54,7 @@ object LatLngTool {
      * the unit of measure in which to receive the result.
      * @return the distance in the chosen unit of measure.
      */
-    fun distance(point1: LatLng, point2: LatLng, unit: LengthUnit): Double {
+    internal fun distance(point1: LatLng, point2: LatLng, unit: LengthUnit): Double {
         return distanceInRadians(point1, point2) * LatLngConfig.getEarthRadius(unit)
     }
 
@@ -137,7 +137,7 @@ object LatLngTool {
      * the unit in which distance is measured.
      * @return the end point.
      */
-    fun travel(
+    internal fun travel(
         start: LatLng, initialBearing: Double, distance: Double,
         unit: LengthUnit
     ): LatLng {
@@ -159,7 +159,7 @@ object LatLngTool {
      * in degrees.
      * @return the normalized latitude.
      */
-    fun normalizeLatitude(latitude: Double): Double {
+    internal fun normalizeLatitude(latitude: Double): Double {
 
         return if (latitude > 0) {
             latitude.coerceAtMost(90.0)
@@ -176,7 +176,7 @@ object LatLngTool {
      * @return the normalized longitude.
      * Returns positive infinity, or negative infinity.
      */
-    fun normalizeLongitude(longitude: Double): Double {
+    internal fun normalizeLongitude(longitude: Double): Double {
         var longitudeResult = longitude % 360
         if (longitudeResult > 180) {
             val diff = longitudeResult - 180
@@ -190,7 +190,7 @@ object LatLngTool {
 
 
     /** Convenient static values for bearings.  */
-    object Bearing {
+    internal object Bearing {
         const val NORTH = 0.0
         const val EAST = 90.0
         const val SOUTH = 180.0

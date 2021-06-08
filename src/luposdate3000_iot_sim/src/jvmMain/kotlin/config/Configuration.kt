@@ -1,39 +1,40 @@
-package config
-import DatabaseAdapter
-import Device
-import geo.GeoLocation
-import LinkManager
-import PowerSupply
-import RandomGenerator
+package lupos.iot_sim.config
+
+import lupos.iot_sim.DatabaseAdapter
+import lupos.iot_sim.Device
+import lupos.iot_sim.geo.GeoLocation
+import lupos.iot_sim.LinkManager
+import lupos.iot_sim.PowerSupply
+import lupos.iot_sim.RandomGenerator
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
-import sensor.ParkingSensor
+import lupos.iot_sim.sensor.ParkingSensor
 import kotlin.math.round
 
-object Configuration {
+public object Configuration {
 
-    var devices: MutableList<Device> = ArrayList()
+    public var devices: MutableList<Device> = ArrayList()
         private set
 
     private var namedAddresses: MutableMap<String, Int> = HashMap()
 
-    var jsonObjects: JsonObjects = JsonObjects()
+    public var jsonObjects: JsonObjects = JsonObjects()
         private set
 
-    var randStarNetworks: MutableMap<String, StarNetwork> = HashMap()
+    public var randStarNetworks: MutableMap<String, StarNetwork> = HashMap()
         private set
 
-    var randMeshNetworks: MutableMap<String, MeshNetwork> = HashMap()
+    public var randMeshNetworks: MutableMap<String, MeshNetwork> = HashMap()
         private set
 
-    var dbDeviceAddresses: IntArray = intArrayOf()
+    public var dbDeviceAddresses: IntArray = intArrayOf()
 
-    var rootRouterAddress  = -1
+    public var rootRouterAddress: Int  = -1
 
     private var dbDeviceCounter = 0
 
 
-    fun parse(fileName: String) {
+    public fun parse(fileName: String) {
         resetVariables()
         readJsonFile(fileName)
         createSortedLinkTypes()
@@ -130,12 +131,12 @@ object Configuration {
         return createDevice(deviceType, location)
     }
 
-    fun getNamedDevice(name: String): Device {
+    public fun getNamedDevice(name: String): Device {
         val index = namedAddresses.getValue(name)
         return devices[index]
     }
 
-    fun getRootDevice() = devices[rootRouterAddress]
+    public fun getRootDevice():Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.starRoot)

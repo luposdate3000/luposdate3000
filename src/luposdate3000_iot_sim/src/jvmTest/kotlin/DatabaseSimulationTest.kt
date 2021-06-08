@@ -1,10 +1,12 @@
-import config.Configuration
+package lupos.iot_sim
+
+import lupos.des_core.Simulation
+import lupos.iot_sim.config.Configuration
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
-import routing.RPLRouter
-import routing.RoutingTable
-import sensor.ParkingSensor
+
+import lupos.iot_sim.sensor.ParkingSensor
+import kotlin.test.*
+
 
 class DatabaseSimulationTest {
 
@@ -18,10 +20,9 @@ class DatabaseSimulationTest {
      *
      * Send Data from root A to the leaf G and save it there.
      */
-    @ParameterizedTest
-    @ValueSource(strings = ["$prefix/saveParkingSamplesInDummyTripleStore.json"])
-    fun saveParkingSamplesInDummyTripleStore(fileName: String) {
-        Configuration.parse(fileName)
+    @Test
+    fun saveParkingSamplesInDummyTripleStore() {
+        Configuration.parse("$prefix/saveParkingSamplesInDummyTripleStore.json")
         val a = Configuration.getNamedDevice("A")
         val g = Configuration.getNamedDevice("G")
         a.sensor!!.setDataSink(g.address)

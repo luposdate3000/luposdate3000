@@ -1,23 +1,25 @@
-interface IDatabase {
-    fun start(initialState: IDatabaseState)
-    fun activate(state: IDatabaseState)
-    fun deactivate(): IDatabaseState
-    fun end()
-    fun receiveQuery(sourceAddress: Int, query: ByteArray)
-    fun receive(pck: IDatabasePackage)
+package lupos.iot_db_interface
+
+public interface IDatabase {
+    public fun start(initialState: IDatabaseState)
+    public fun activate(state: IDatabaseState)
+    public fun deactivate(): IDatabaseState
+    public fun end()
+    public fun receiveQuery(sourceAddress: Int, query: ByteArray)
+    public fun receive(pck: IDatabasePackage)
 }
 
-interface IRouter {
-    fun send(destinationAddress: Int, pck: IDatabasePackage)
-    fun sendQueryResult(destinationAddress: Int, result: ByteArray)
-    fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
+public interface IRouter {
+    public fun send(destinationAddress: Int, pck: IDatabasePackage)
+    public fun sendQueryResult(destinationAddress: Int, result: ByteArray)
+    public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
 }
 
-interface IDatabasePackage
+public interface IDatabasePackage
 
-interface IDatabaseState {
-    val ownAddress: Int
-    var allAddresses: IntArray
-    val sender: IRouter
-    val absolutePathToDataDirectory: String
+public interface IDatabaseState {
+    public val ownAddress: Int
+    public var allAddresses: IntArray
+    public val sender: IRouter
+    public val absolutePathToDataDirectory: String
 }

@@ -1,4 +1,6 @@
-class LoggerStub(val sim: Simulation): ISimulationLifeCycle {
+package lupos.des_core
+
+public class LoggerStub(val sim: Simulation): ISimulationLifeCycle {
     override fun onStartUp() {
         logSimulationStart()
     }
