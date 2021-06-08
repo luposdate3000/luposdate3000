@@ -57,6 +57,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             BufferManagerExt.allowInitFromDisk = false
             var bufferManager = BufferManager()
             if (isLocal) {
+                instance.nodeGlobalDictionary?.close()
                 instance.nodeGlobalDictionary = object : ADictionary(instance) {
                     override fun close() {}
                     override fun delete() {}
