@@ -18,8 +18,9 @@ package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
 import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 
-public expect class BufferManager public constructor() : IBufferManager {
+public expect class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
 
     public override fun releasePage(call_location: String, pageid: Int)
     public override fun getPage(call_location: String, pageid: Int): ByteArray

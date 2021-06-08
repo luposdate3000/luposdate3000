@@ -18,6 +18,7 @@ package lupos.launch.test_kv
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.endpoint.LuposdateEndpoint
 import lupos.kv.KeyValueStore
 import lupos.shared.AflCore
 import lupos.shared.Parallel
@@ -37,10 +38,11 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    val instance = LuposdateEndpoint.initialize()
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
+    var bufferManager = BufferManager(instance)
     val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:42")
-    var kv = KeyValueStore(bufferManager, rootPage, false)
+    var kv = KeyValueStore(bufferManager, rootPage, false, instance)
 
     val values = mutableListOf<ByteArray>()
     val mapping = mutableMapOf<Int, Int>() // kv.id -> values.idx
@@ -157,7 +159,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (bufferManager.getNumberOfReferencedPages() != 0) {
             throw Exception("")
         }
-        kv = KeyValueStore(bufferManager, rootPage, true)
+        kv = KeyValueStore(bufferManager, rootPage, true, instance)
     }
     for ((k, v) in mapping) {
         testGetValueOk(values[v], k)
@@ -170,4 +172,5 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         throw Exception("")
     }
     bufferManager.close()
+    LuposdateEndpoint.close()
 }

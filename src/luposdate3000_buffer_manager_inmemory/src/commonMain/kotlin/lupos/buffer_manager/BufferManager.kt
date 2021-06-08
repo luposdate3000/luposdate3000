@@ -18,12 +18,13 @@ package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
 import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
-public class BufferManager public constructor() : IBufferManager {
+public class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
 
     /*
      * each type safe page-manager safes to its own store

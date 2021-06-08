@@ -54,6 +54,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
     @JvmField
     internal val allStoreLocal: Array<Array<TripleStoreIndex>>
+
     @JvmField
     internal var instance: Luposdate3000Instance
 
@@ -69,7 +70,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
         }
         idx = Array(usedIndices.size) { EIndexPatternHelper.tripleIndicees[usedIndices[it].idx_set[0]] }
-        allBuf = Array(usedIndices.size) { index -> Array(usedIndices[index].getAllLocations().size) { MyBuf() } }
+        allBuf = Array(usedIndices.size) { index -> Array(usedIndices[index].getAllLocations().size) { MyBuf(instance) } }
         allStore = Array(usedIndices.size) { usedIndices[it].getAllLocations() }
         allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(allStore.size) { allStore[it].map { j -> ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }
@@ -80,7 +81,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         this.description = description
         this.type = type
         idx = Array(description.indices.size) { EIndexPatternHelper.tripleIndicees[description.indices[it].idx_set[0]] }
-        allBuf = Array(description.indices.size) { index -> Array(description.indices[index].getAllLocations().size) { MyBuf() } }
+        allBuf = Array(description.indices.size) { index -> Array(description.indices[index].getAllLocations().size) { MyBuf(instance) } }
         allStore = Array(description.indices.size) { description.indices[it].getAllLocations() }
         allStoreParams = Array(description.indices.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to idx[it].toString(), "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(description.indices.size) { allStore[it].map { j -> ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }

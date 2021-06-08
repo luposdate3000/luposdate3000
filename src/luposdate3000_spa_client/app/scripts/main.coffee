@@ -4,7 +4,7 @@
 
 App.init = ->
     initLuposdate3000()
-    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
+    App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
         Instrument: '#instrumentSettings'
@@ -268,16 +268,16 @@ App.bindEvents = ->
         url = endpoint.url + locator
         if endpoint.name == "Browser Luposdate3000" || endpoint.name == "localhost Luposdate3000"
             if App.config.sendRDF
-                luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
-                luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
+                App.luposdate3000Instance.close();
+                App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
             if withGraph
                 visualisationSetup()
             if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
-                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(data.rdf);
+                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
                 #Receive optimized steps for logical and physical operator graph
                 if withGraph
-                    eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
+                    eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
                     App.logGraph = eev.getOptimizedStepsLogical();
                     App.physGraph = eev.getOptimizedStepsPhysical();
                     #Result from the query
@@ -288,7 +288,7 @@ App.bindEvents = ->
                     App.additionalHiddenTabs = ["graph", "op-graph"]
                     App.initConfigComponentsHideTabs()
                 else
-                    res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(data.query)
+                    res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query)
                     App.processResults(res, "sparql")
                     App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph",
                         "luposdate3000-sonification"]

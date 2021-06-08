@@ -55,7 +55,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             var instance = LuposdateEndpoint.initialize()
             resetRandom()
             BufferManagerExt.allowInitFromDisk = false
-            var bufferManager = BufferManager()
+            var bufferManager = BufferManager(instance)
             if (isLocal) {
                 instance.nodeGlobalDictionary?.close()
                 instance.nodeGlobalDictionary = object : ADictionary(instance) {
@@ -322,7 +322,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 throw Exception("")
             }
             bufferManager.close()
-            instance.close()
+            LuposdateEndpoint.close(instance)
         }
     }
 }

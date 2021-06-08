@@ -723,7 +723,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("}")
                 }
                 out.println("tasks.withType<Test> {")
-                out.println("    maxHeapSize = \"32g\"")
+                out.println("    maxHeapSize = \"1g\"")
                 out.println("    testLogging {")
                 out.println("        exceptionFormat = TestExceptionFormat.FULL")
                 out.println("    }")

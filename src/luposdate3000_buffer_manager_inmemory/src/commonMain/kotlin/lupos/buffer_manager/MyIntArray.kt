@@ -18,6 +18,7 @@ package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
 import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
@@ -31,7 +32,7 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
     @JvmField
     internal var bufferManagerPage: Int? = null
 
-    public constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean) : this("", initialize) {
+    public constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean, instance: Luposdate3000Instance) : this("", initialize) {
         this.bufferManager = bufferManager
         this.bufferManagerPage = id
     }

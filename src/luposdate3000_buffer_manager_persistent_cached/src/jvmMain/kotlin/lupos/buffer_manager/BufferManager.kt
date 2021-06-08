@@ -17,8 +17,8 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
-import lupos.shared.BUFFER_HOME
 import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
@@ -27,7 +27,7 @@ import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public actual class BufferManager public actual constructor() : IBufferManager {
+public actual class BufferManager public actual constructor(instance: Luposdate3000Instance) : IBufferManager {
 
     private companion object {
         private const val freelistfileOffsetCounter = 0L
@@ -301,10 +301,10 @@ public actual class BufferManager public actual constructor() : IBufferManager {
     public actual fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
 
     init {
-        File(BUFFER_HOME).mkdirs()
-        val flag = BufferManagerExt.allowInitFromDisk && File(BUFFER_HOME + BufferManagerExt.fileEnding).exists()
-        datafile = RandomAccessFile(BUFFER_HOME + BufferManagerExt.fileEnding, "rw")
-        freelistfile = RandomAccessFile(BUFFER_HOME + BufferManagerExt.fileEndingFree, "rw")
+        File(instance.BUFFER_HOME).mkdirs()
+        val flag = BufferManagerExt.allowInitFromDisk && File(instance.BUFFER_HOME + BufferManagerExt.fileEnding).exists()
+        datafile = RandomAccessFile(instance.BUFFER_HOME + BufferManagerExt.fileEnding, "rw")
+        freelistfile = RandomAccessFile(instance.BUFFER_HOME + BufferManagerExt.fileEndingFree, "rw")
         if (flag) {
             datafilelength = datafile.length()
             freelistfile.seek(freelistfileOffsetFreeLen)

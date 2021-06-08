@@ -47,7 +47,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     val instance = LuposdateEndpoint.initialize()
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
+    var bufferManager = BufferManager(instance)
     val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
@@ -488,5 +488,5 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         throw Exception("")
     }
     bufferManager.close()
-    instance.close()
+    LuposdateEndpoint.close(instance)
 }

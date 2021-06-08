@@ -18,6 +18,7 @@ package lupos.shared
 
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.optimizer.IDistributedOptimizer
+import lupos.shared_inline.Platform
 import kotlin.jvm.JvmField
 
 public class Luposdate3000Instance {
@@ -36,13 +37,15 @@ public class Luposdate3000Instance {
     @JvmField
     public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = { throw Exception("not initialized") }
 
-    public fun close() {
-        if (initialized) {
-            println("LuposdateEndpoint.close")
-            initialized = false
-            nodeGlobalDictionary!!.close()
-            tripleStoreManager!!.close()
-            bufferManager!!.close()
-        }
-    }
+    @JvmField
+    public var LUPOS_BUFFER_SIZE: Int = Platform.getEnv("LUPOS_BUFFER_SIZE", "134217728")!!.toInt() // set this to at most 5% of your available RAM
+
+    @JvmField
+    public var LUPOS_REAL_WORLD_DATA_ROOT: String = Platform.getEnv("LUPOS_REAL_WORLD_DATA_ROOT", "/mnt/luposdate-testdata/")!! // set this to a huge storage device, to store your benchmark data
+
+    @JvmField
+    public var LUPOS_HOME: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!! // the root path, where the database stores its data
+
+    @JvmField
+    public var BUFFER_HOME: String = LUPOS_HOME + "/" + Platform.getEnv("LUPOS_PROCESS_ID", "0")!! + "/" // the root path, where the buffermanager stores its data
 }

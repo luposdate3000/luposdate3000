@@ -40,5 +40,5 @@ internal fun mainFunc(): Unit = Parallel.runBlocking {
             println("Elapsed time non-generated $time2 ms for $counter2 iterations")
         }
     }
-    instance.close()
+    LuposdateEndpoint.close(instance)
 }

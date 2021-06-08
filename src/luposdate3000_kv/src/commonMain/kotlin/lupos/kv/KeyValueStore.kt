@@ -19,6 +19,7 @@ package lupos.kv
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.MyIntArray
 import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.BufferManagerPage
@@ -29,7 +30,8 @@ public class KeyValueStore public constructor(
     bufferManager: IBufferManager,
     @JvmField
     internal val rootPageID: Int,
-    initFromRootPage: Boolean
+    initFromRootPage: Boolean,
+    instance: Luposdate3000Instance,
 ) {
 
     @JvmField
@@ -80,8 +82,8 @@ public class KeyValueStore public constructor(
             BufferManagerPage.writeInt4(rootPage, 12, id1)
             BufferManagerPage.writeInt4(rootPage, 16, id2)
         }
-        mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
-        mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
+        mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage, instance)
+        mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage, instance)
     }
 
     @ProguardTestAnnotation

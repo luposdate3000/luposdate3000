@@ -172,7 +172,7 @@ public object CodeGeneration {
             outFile.println("}")
             outFile.close()
         }
-        instance.close()
+        LuposdateEndpoint.close(instance)
     }
 }
 

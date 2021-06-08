@@ -295,10 +295,12 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("            val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
                     out.println("            val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance,op2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
                 }
-                out.println("            if (!target.equalsVerbose(result, ${!queryResultIsOrdered}, true)) {")
+                out.println("            val buf_err=MyPrintWriter()")
+                out.println("            if (!target.equalsVerbose(result, ${!queryResultIsOrdered}, true,buf_err)) {")
                 if (configIsBuildTime(configuration.second)) {
-                    out.println("                fail()")
+                    out.println("                fail(buf_err.toString())")
                 } else {
+                    out.println("                 println(buf_err.toString())")
                     out.println("                success = false")
                 }
                 out.println("            }")
@@ -308,7 +310,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("                success = false")
                     out.println("        }")
                 }
-                out.println("            instance.close()") // for inmemory db this results in complete wipe of ALL data
+                out.println("            LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 if (configIsRunTime(configuration.second)) {
                     out.println("        if (success) {")
                     out.println("            println(\"Result: '$testName' success\")")
@@ -333,7 +335,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         out.println("                val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
                         out.println("                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance2,op2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
                     }
-                    out.println("                if (!target.equalsVerbose(result, ${!queryResultIsOrdered}, true)) {")
+                    out.println("            val buf_err2=MyPrintWriter()")
+                    out.println("                if (!target.equalsVerbose(result, ${!queryResultIsOrdered}, true,buf_err2)) {")
+                    out.println("                 println(buf_err2.toString())")
                     out.println("                success2 = false")
                     out.println("                }")
                     out.println("            } catch (e:Throwable) {")

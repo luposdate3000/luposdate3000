@@ -53,6 +53,7 @@ import lupos.shared.UnknownManifestException
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared_inline.File
+import lupos.shared_inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {
@@ -440,7 +441,7 @@ public open class SparqlTestSuite {
             if (toParse.contains("service", true)) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(Service)")
-                instance.close()
+                LuposdateEndpoint.close(instance)
                 return false
             }
             val resultData = readFileOrNull(resultDataFileName)
@@ -460,7 +461,7 @@ public open class SparqlTestSuite {
                     if (MAX_TRIPLES_DURING_TEST in 1 until lastTripleCount) {
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Success(Skipped)")
-                        instance.close()
+                        LuposdateEndpoint.close(instance)
                         return true
                     }
                     println("InputData Graph[] Original")
@@ -476,7 +477,7 @@ public open class SparqlTestSuite {
                         if (xmlGraphBulk.first() != xmlQueryInput) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(BulkImport)")
-                            instance.close()
+                            LuposdateEndpoint.close(instance)
                             return false
                         }
                     } else {
@@ -561,7 +562,7 @@ public open class SparqlTestSuite {
                 if (MAX_TRIPLES_DURING_TEST in 1 until lastTripleCount) {
                     println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                     println("----------Success(Skipped)")
-                    instance.close()
+                    LuposdateEndpoint.close(instance)
                     return true
                 }
             }
@@ -629,7 +630,7 @@ public open class SparqlTestSuite {
 
                     println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                     println("----------Failed(PersistentStore Graph)")
-                    instance.close()
+                    LuposdateEndpoint.close(instance)
                     return false
                 } else {
                     SanityCheck.println { "OutputData Graph[${it["name"]}] Original" }
@@ -647,13 +648,15 @@ public open class SparqlTestSuite {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = MemoryTableFromXML()(jenaResult, xmlQueryResult!!.query!!)
-                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true)) {
+                        val buf = MyPrintWriter(true)
+                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true, buf)) {
+                            println(buf.toString())
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")
 
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(Jena)")
-                            instance.close()
+                            LuposdateEndpoint.close(instance)
                             return false
                         }
                     } catch (e: JenaBugException) {
@@ -664,7 +667,8 @@ public open class SparqlTestSuite {
                         ignoreJena = true
                     }
                 }
-                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.toLowerCase().contains("order", true), true)
+                val buf2 = MyPrintWriter(true)
+                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.toLowerCase().contains("order", true), true, buf2)
                 if (res) {
                     val xmlPOP = popNode.toXMLElementRoot(false)
                     val query4 = Query(instance)
@@ -678,12 +682,13 @@ public open class SparqlTestSuite {
                     val xmlQueryResultRecovered = QueryResultToMemoryTable(popNodeRecovered)
                     instance.tripleStoreManager!!.commit(query4)
                     query4.commited = true
-
-                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult!!, false, true)) {
+                    val buf3 = MyPrintWriter(true)
+                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult!!, false, true, buf3)) {
                         if (expectedResult) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Success")
                         } else {
+                            println(buf3.toString())
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(expectFalse)")
                         }
@@ -697,12 +702,13 @@ public open class SparqlTestSuite {
 
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Failed(Incorrect)")
+                        println(buf2.toString())
                     } else {
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Success(ExpectFalse)")
                     }
                 }
-                instance.close()
+                LuposdateEndpoint.close(instance)
                 return res
             } else {
                 if (verifiedOutput) {
@@ -722,7 +728,7 @@ public open class SparqlTestSuite {
                         println("----------Failed(ExpectFalse,Syntax)")
                     }
                 }
-                instance.close()
+                LuposdateEndpoint.close(instance)
                 return expectedResult
             }
         } catch (e: ParseError) {
@@ -737,13 +743,13 @@ public open class SparqlTestSuite {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,ParseError)")
             }
-            instance.close()
+            LuposdateEndpoint.close(instance)
             return false
         } catch (e: NotImplementedException) {
             e.printStackTrace()
             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
             println("----------Failed(NotImplemented)")
-            instance.close()
+            LuposdateEndpoint.close(instance)
             return false
         } catch (e: Luposdate3000Exception) {
             e.printStackTrace()
@@ -754,7 +760,7 @@ public open class SparqlTestSuite {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,${e.classname})")
             }
-            instance.close()
+            LuposdateEndpoint.close(instance)
             return false
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -768,7 +774,7 @@ public open class SparqlTestSuite {
                 println("----------Success(ExpectFalse,Throwable)")
                 e.printStackTrace()
             }
-            instance.close()
+            LuposdateEndpoint.close(instance)
             return false
         }
     }

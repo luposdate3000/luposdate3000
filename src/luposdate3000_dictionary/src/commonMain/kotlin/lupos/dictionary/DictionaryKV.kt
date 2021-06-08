@@ -17,7 +17,6 @@
 package lupos.dictionary
 
 import lupos.kv.KeyValueStore
-import lupos.shared.BUFFER_HOME
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
@@ -64,7 +63,7 @@ public class DictionaryKV internal constructor(
         kv.delete()
         vk.delete()
         bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:61", rootPageID)
-        File(BUFFER_HOME + "dict.page").deleteRecursively()
+        File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
     public override fun isInmemoryOnly(): Boolean = false
@@ -85,7 +84,7 @@ public class DictionaryKV internal constructor(
             BufferManagerPage.writeInt4(rootPage, 4, kvPage)
             BufferManagerPage.writeInt4(rootPage, 8, vkPage)
         }
-        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
+        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage, instance)
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
     }
 

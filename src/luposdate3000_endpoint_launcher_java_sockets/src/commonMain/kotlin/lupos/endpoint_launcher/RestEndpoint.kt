@@ -26,7 +26,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.LUPOS_REAL_WORLD_DATA_ROOT
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.EDictionaryTypeExt
@@ -85,7 +84,7 @@ internal object RestEndpoint {
             connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
             /*Coverage Unreachable*/
         }
-        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
+        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) {
             JenaWrapper.loadFromFile(params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("success")
@@ -208,7 +207,7 @@ internal object RestEndpoint {
             removeDictionary(key)
             /*Coverage Unreachable*/
         }
-        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
+        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(LuposdateEndpoint.importTurtleFile(instance, params["file"]!!))
             /*Coverage Unreachable*/
@@ -218,7 +217,7 @@ internal object RestEndpoint {
             connectionOutMy.print(LuposdateEndpoint.importTurtleString(instance, params["data"]!!))
             /*Coverage Unreachable*/
         }
-        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
+        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
             LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
             printHeaderSuccess(connectionOutMy)
         }

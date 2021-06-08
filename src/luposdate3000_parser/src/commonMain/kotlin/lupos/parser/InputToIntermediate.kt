@@ -21,7 +21,7 @@ import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
 import lupos.shared.DateHelperRelative
-import lupos.shared.LUPOS_BUFFER_SIZE
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -159,12 +159,12 @@ public object InputToIntermediate {
         }
     }
 
-    public fun process(inputFileName: String): Unit = Parallel.runBlocking {
-        process(inputFileName, false)
+    public fun process(inputFileName: String, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
+        process(inputFileName, false, instance)
     }
 
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    private fun process(inputFileName: String, backupmode: Boolean): Unit = Parallel.runBlocking {
+    private fun process(inputFileName: String, backupmode: Boolean, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
         var shouldReturn = false
         val inference_enabled = true
         var inferredTriples = 0
@@ -176,7 +176,7 @@ public object InputToIntermediate {
         } else {
             "triples"
         }
-        val dictSizeLimit = LUPOS_BUFFER_SIZE.toLong()
+        val dictSizeLimit = instance.LUPOS_BUFFER_SIZE.toLong()
         var dictSizeEstimated = 0L
         var chunc = 0
 // create chunced dictionaries
@@ -288,7 +288,7 @@ public object InputToIntermediate {
                     }
                     x.parse()
                 } catch (e: Throwable) {
-                    process(inputFileName, true)
+                    process(inputFileName, true, instance)
                     shouldReturn = true
                 }
             }
@@ -387,8 +387,8 @@ public object InputToIntermediate {
                 orders[5]
             )
             val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
-            val tripleBufA = IntArray(LUPOS_BUFFER_SIZE / 12 * 3)
-            val tripleBufB = IntArray(LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufA = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufB = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
             fun sortBlockMain() {
                 for (o in 0 until 6) {
                     val order = orders[o]

@@ -44,7 +44,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.LUPOS_BUFFER_SIZE
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
@@ -118,7 +117,7 @@ public object LuposdateEndpoint {
     @JsName("import_turtle_file")
     /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String): String {
         if (!DictionaryIntermediate.fileExists(fileName)) {
-            InputToIntermediate.process(fileName)
+            InputToIntermediate.process(fileName, instance)
         }
         return importIntermediateFile(instance, fileName)
     }
@@ -135,9 +134,9 @@ public object LuposdateEndpoint {
             instance.tripleStoreManager!!.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             var counter = 0L
             val store = instance.tripleStoreManager!!.getDefaultGraph()
-            val bufS = IntArray(LUPOS_BUFFER_SIZE)
-            val bufP = IntArray(LUPOS_BUFFER_SIZE)
-            val bufO = IntArray(LUPOS_BUFFER_SIZE)
+            val bufS = IntArray(instance.LUPOS_BUFFER_SIZE)
+            val bufP = IntArray(instance.LUPOS_BUFFER_SIZE)
+            val bufO = IntArray(instance.LUPOS_BUFFER_SIZE)
             var bufPos = 0
             println("importing intermediate file '$fileName'")
             val startTime = DateHelperRelative.markNow()
@@ -390,13 +389,30 @@ public object LuposdateEndpoint {
         return buf.toString()
     }
 
+    public fun close(instance: Luposdate3000Instance) {
+        try {
+            if (instance.initialized) {
+                println("LuposdateEndpoint.close")
+                instance.initialized = false
+                instance.nodeGlobalDictionary!!.close()
+                instance.tripleStoreManager!!.close()
+                instance.bufferManager!!.close()
+            }
+        } finally {
+            initializerLock.withLock {
+                instances.remove(instance)
+            }
+        }
+    }
+
     @JsName("close")
     public fun close() {
+        var l = mutableListOf<Luposdate3000Instance>()
         initializerLock.withLock {
-            for (instance in instances) {
-                instance.close()
-            }
-            instances.clear()
+            l.addAll(instances)
+        }
+        for (i in l) {
+            close(i)
         }
     }
 
@@ -405,7 +421,7 @@ public object LuposdateEndpoint {
         var instance = Luposdate3000Instance()
         initializerLock.withLock {
             instances.add(instance)
-            instance.bufferManager = BufferManager()
+            instance.bufferManager = BufferManager(instance)
             instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
             val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
             val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
