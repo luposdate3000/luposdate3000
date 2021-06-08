@@ -18,8 +18,8 @@ package lupos.dictionary
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.instance.Luposdate3000Instance
 import lupos.shared.BUFFER_HOME
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary

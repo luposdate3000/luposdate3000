@@ -16,11 +16,11 @@
  */
 package lupos.dictionary
 
-import lupos.buffer_manager.BufferManager
-import lupos.instance.Luposdate3000Instance
 import lupos.kv.KeyValueStore
 import lupos.shared.BUFFER_HOME
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -34,14 +34,14 @@ import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 
 public class DictionaryKV internal constructor(
-    bufferManager: BufferManager,
+    bufferManager: IBufferManager,
     @JvmField
     internal val rootPageID: Int,
     initFromRootPage: Boolean,
     instance: Luposdate3000Instance
 ) : ADictionary(instance) {
     @JvmField
-    internal val bufferManager: BufferManager = bufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal val kv: KeyValueStore

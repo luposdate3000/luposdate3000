@@ -14,10 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.instance
+package lupos.shared
 
-import lupos.buffer_manager.BufferManager
-import lupos.shared.TripleStoreManager
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.optimizer.IDistributedOptimizer
 import kotlin.jvm.JvmField
@@ -27,7 +25,7 @@ public class Luposdate3000Instance {
     public var initialized: Boolean = false
 
     @JvmField
-    public var bufferManager: BufferManager? = null
+    public var bufferManager: IBufferManager? = null
 
     @JvmField
     public var nodeGlobalDictionary: IDictionary? = null

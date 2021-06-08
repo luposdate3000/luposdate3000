@@ -17,7 +17,7 @@
 package lupos.vk
 
 import lupos.ProguardTestAnnotation
-import lupos.buffer_manager.BufferManager
+import lupos.shared.IBufferManager
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.BufferManagerPage
@@ -39,7 +39,7 @@ public class ValueKeyStore {
     internal val rootPageID: Int
 
     @JvmField
-    internal val bufferManager: BufferManager
+    internal val bufferManager: IBufferManager
 
     @JvmField
     internal var firstInnerID = ValueKeyStore.PAGEID_NULL_PTR
@@ -47,7 +47,7 @@ public class ValueKeyStore {
     @JvmField
     internal var firstLeafID = ValueKeyStore.PAGEID_NULL_PTR
 
-    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+    public constructor(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:52", rootPageID)
@@ -260,7 +260,7 @@ internal class ValueKeyStoreWriter {
     @JvmField
     internal var lastChildPageID = ValueKeyStore.PAGEID_NULL_PTR
 
-    internal constructor(bufferManager: BufferManager, pageType: Int) : this(bufferManager, pageType, ValueKeyStore.PAGEID_NULL_PTR)
+    internal constructor(bufferManager: IBufferManager, pageType: Int) : this(bufferManager, pageType, ValueKeyStore.PAGEID_NULL_PTR)
 
     private fun writeHeader() {
         BufferManagerPage.writeInt4(page, 0, pageType)
@@ -274,7 +274,7 @@ internal class ValueKeyStoreWriter {
         BufferManagerPage.writeInt4(page, 8, offset)
     }
 
-    internal constructor(bufferManager: BufferManager, pageType: Int, childPageID: Int) {
+    internal constructor(bufferManager: IBufferManager, pageType: Int, childPageID: Int) {
         this.bufferManager = bufferManager
         this.pageType = pageType
         pageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:282")
@@ -353,7 +353,7 @@ internal class ValueKeyStoreWriter {
     }
 }
 
-public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
+public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal val bufferManager: IBufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
     @JvmField
     internal var pageid = startPageID
 
@@ -415,7 +415,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
 internal class ValueKeyStoreIteratorSearch {
 
     @Suppress("NOTHING_TO_INLNE")
-    internal inline fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: BufferManager, buffer: ByteArrayWrapper): Int {
+    internal inline fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: IBufferManager, buffer: ByteArrayWrapper): Int {
         var pageid = startpageid
         while (true) {
             var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:428", pageid)

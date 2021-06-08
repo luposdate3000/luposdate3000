@@ -17,17 +17,18 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.IBufferManager
 
-public expect class BufferManager public constructor() {
+public expect class BufferManager public constructor() : IBufferManager {
 
-    public fun releasePage(call_location: String, pageid: Int)
-    public fun getPage(call_location: String, pageid: Int): ByteArray
-    /*suspend*/ public fun allocPage(call_location: String): Int
-    /*suspend*/ public fun deletePage(call_location: String, pageid: Int)
-    public fun flushPage(call_location: String, pageid: Int)
+    public override fun releasePage(call_location: String, pageid: Int)
+    public override fun getPage(call_location: String, pageid: Int): ByteArray
+    /*suspend*/ public override fun allocPage(call_location: String): Int
+    /*suspend*/ public override fun deletePage(call_location: String, pageid: Int)
+    public override fun flushPage(call_location: String, pageid: Int)
 
     @ProguardTestAnnotation
-    public fun close()
+    public override fun close()
 
     @ProguardTestAnnotation
     public fun getNumberOfAllocatedPages(): Int

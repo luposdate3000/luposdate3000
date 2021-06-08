@@ -14,25 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.buffer_manager
+package lupos.shared
 
-import lupos.ProguardTestAnnotation
-import lupos.shared.IBufferManager
-
-public expect class BufferManager public constructor() : IBufferManager {
-
-    public override fun releasePage(call_location: String, pageid: Int)
-    public override fun getPage(call_location: String, pageid: Int): ByteArray
-    /*suspend*/ public override fun allocPage(call_location: String): Int
-    /*suspend*/ public override fun deletePage(call_location: String, pageid: Int)
-    public override fun flushPage(call_location: String, pageid: Int)
-
-    @ProguardTestAnnotation
-    public override fun close()
-
-    @ProguardTestAnnotation
-    public fun getNumberOfAllocatedPages(): Int
-
-    @ProguardTestAnnotation
-    public fun getNumberOfReferencedPages(): Int
+public interface IBufferManager {
+    public fun close()
+    public fun flushPage(call_location: String, pageid: Int)
+    public fun releasePage(call_location: String, pageid: Int)
+    public fun getPage(call_location: String, pageid: Int): ByteArray
+    public /*suspend*/ fun allocPage(call_location: String): Int
+    public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit
 }

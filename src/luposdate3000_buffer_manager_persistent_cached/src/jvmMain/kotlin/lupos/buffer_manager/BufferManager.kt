@@ -18,6 +18,7 @@ package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
 import lupos.shared.BUFFER_HOME
+import lupos.shared.IBufferManager
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
@@ -26,7 +27,7 @@ import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public actual class BufferManager public actual constructor() {
+public actual class BufferManager public actual constructor() : IBufferManager {
 
     private companion object {
         private const val freelistfileOffsetCounter = 0L
@@ -91,7 +92,7 @@ public actual class BufferManager public actual constructor() {
         onNotFound()
     }
 
-    public actual fun flushPage(call_location: String, pageid: Int) {
+    public actual override fun flushPage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
         SanityCheck.check { !closed }
         lock.withWriteLock {
@@ -123,7 +124,7 @@ public actual class BufferManager public actual constructor() {
         }
     }
 
-    public actual fun releasePage(call_location: String, pageid: Int) {
+    public actual override fun releasePage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
         SanityCheck.check { !closed }
         lock.withWriteLock {
@@ -164,7 +165,7 @@ public actual class BufferManager public actual constructor() {
         }
     }
 
-    public actual fun getPage(call_location: String, pageid: Int): ByteArray {
+    public actual override fun getPage(call_location: String, pageid: Int): ByteArray {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         SanityCheck.check { !closed }
         var openId2 = -1
@@ -215,7 +216,7 @@ public actual class BufferManager public actual constructor() {
         return openPages[openId2]
     }
 
-    public actual /*suspend*/ fun allocPage(call_location: String): Int {
+    public actual /*suspend*/ override fun allocPage(call_location: String): Int {
         SanityCheck.check { !closed }
         var pageid: Int = -1
         lock.withWriteLock {
@@ -245,7 +246,7 @@ public actual class BufferManager public actual constructor() {
         return pageid
     }
 
-    public actual /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
+    public actual /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck {
             SanityCheck.check { !closed }
@@ -281,7 +282,7 @@ public actual class BufferManager public actual constructor() {
     }
 
     @ProguardTestAnnotation
-    public actual fun close() {
+    public actual override fun close() {
         SanityCheck.check { !closed }
         closed = true
         SanityCheck {

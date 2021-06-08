@@ -16,11 +16,13 @@
  */
 package lupos.buffer_manager
 
+import lupos.shared.IBufferManager
+
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public expect class MyIntArray {
     public fun getSize(): Int
 
-    public constructor(bufferManager: BufferManager, id: Int, initialize: Boolean)
+    public constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean)
     internal constructor(filename: String, initialize: Boolean)
 
     public operator fun get(idx: Int): Int

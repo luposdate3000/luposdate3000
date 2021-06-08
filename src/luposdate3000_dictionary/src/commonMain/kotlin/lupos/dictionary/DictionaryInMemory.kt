@@ -16,8 +16,8 @@
  */
 package lupos.dictionary
 
-import lupos.instance.Luposdate3000Instance
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.DictionaryExt
