@@ -279,6 +279,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("            val instance = LuposdateEndpoint.initialize()")
                     out.println("        try {")
                 }
+                out.println("            instance.LUPOS_BUFFER_SIZE=128")
                 out.println("            LuposdateEndpoint.importTurtleString(instance,inputData)")
                 if (configIsBuildTimeCodeGen(configuration.second)) {
                     out.println("                val op = query_evaluate()")
@@ -322,6 +323,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("        if(success){")
                     out.println("            var success2 = true")
                     out.println("               val instance2= LuposdateEndpoint.initialize()")
+                    out.println("            instance2.LUPOS_BUFFER_SIZE=128")
                     out.println("            try {")
                     out.println("                LuposdateEndpoint.importTurtleString(instance2,inputData)")
                     out.println("                val op = query_evaluate()")
