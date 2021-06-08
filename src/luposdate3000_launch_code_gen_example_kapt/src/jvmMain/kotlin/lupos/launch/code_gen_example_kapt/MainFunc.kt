@@ -26,7 +26,6 @@ internal fun mainFunc(): Unit = Parallel.runBlocking {
        println(example.exampleVar_evaluate())*/
 
     LuposdateEndpoint.importTurtleFile("resources/code-generation/example.n3")
-//    LuposdateEndpoint.importIntermediateFile("${LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1048576/complete.n3")
     println("Init finished")
     // For counting of results set true
     if (false) {

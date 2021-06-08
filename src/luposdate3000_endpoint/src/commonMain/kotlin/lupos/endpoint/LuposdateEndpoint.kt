@@ -82,14 +82,6 @@ public object LuposdateEndpoint {
     @JvmField
     internal val initializerLock = MyLock()
 
-    @JsName("import_turtle_file")
-    /*suspend*/ public fun importTurtleFile(fileName: String): String {
-        if (!DictionaryIntermediate.fileExists(fileName)) {
-            InputToIntermediate.process(fileName)
-        }
-        return importIntermediateFile(fileName)
-    }
-
     @JsName("import_turtle_string")
     /*suspend*/ public fun importTurtleString(data: String): String {
         val dir = FileExt.createTempDirectory()
@@ -125,8 +117,15 @@ public object LuposdateEndpoint {
         }
     }
 
-    @JsName("import_intermediate_file")
-    /*suspend*/ public fun importIntermediateFile(fileName: String): String {
+    @JsName("import_turtle_file")
+    /*suspend*/ public fun importTurtleFile(fileName: String): String {
+        if (!DictionaryIntermediate.fileExists(fileName)) {
+            InputToIntermediate.process(fileName)
+        }
+        return importIntermediateFile(fileName)
+    }
+
+    /*suspend*/ private fun importIntermediateFile(fileName: String): String {
         val query = Query()
         val key = "${query.getTransactionID()}"
         try {
