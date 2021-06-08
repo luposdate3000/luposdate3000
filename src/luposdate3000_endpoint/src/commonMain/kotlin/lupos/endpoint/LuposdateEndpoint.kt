@@ -16,7 +16,6 @@
  */
 package lupos.endpoint
 
-import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.operator.base.Query
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
@@ -45,6 +44,7 @@ import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.LUPOS_BUFFER_SIZE
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
 import lupos.shared.OperatorGraphToLatex
@@ -77,10 +77,10 @@ import kotlin.jvm.JvmField
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 public object LuposdateEndpoint {
     @JvmField
-    internal var initialized = false
+    internal val initializerLock = MyLock()
 
     @JvmField
-    internal val initializerLock = MyLock()
+    internal val instances = mutableListOf<Luposdate3000Instance>()
 
     @JsName("import_turtle_string")
     /*suspend*/ public fun importTurtleString(data: String): String {
@@ -395,38 +395,34 @@ public object LuposdateEndpoint {
     @JsName("close")
     public fun close() {
         initializerLock.withLock {
-            if (initialized) {
-                println("LuposdateEndpoint.close")
-                initialized = false
-                nodeGlobalDictionary.close()
-                tripleStoreManager.close()
-                BufferManagerExt.close()
+            for (instance in instances) {
+                instance.close()
             }
+            instances.clear()
         }
     }
 
     @JsName("initialize")
-    public fun initialize() {
+    public fun initialize(): Luposdate3000Instance {
         initializerLock.withLock {
-            if (!initialized) {
-                println("LuposdateEndpoint.initialize")
-                initialized = true
-                BufferManagerExt.initialize()
-                nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary()
-                val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
-                val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
-                tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
-                tripleStoreManager.initialize()
-                distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
-                MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
-                MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
-                MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
-                MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
-                MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
-                Platform.setShutdownHock {
-                    close()
-                }
+            var instance = Luposdate3000Instance()
+            instances.add(instance)
+            instance.bufferManager = BufferManager()
+            instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary()
+            val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
+            val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
+            instance.tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
+            instance.tripleStoreManager.initialize()
+            instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
+            MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
+            MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
+            MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
+            MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
+            MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
+            Platform.setShutdownHock {
+                close()
             }
+            instance.initialized = true
         }
     }
 

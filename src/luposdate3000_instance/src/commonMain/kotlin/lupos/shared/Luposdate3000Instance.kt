@@ -14,14 +14,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.buffer_manager
+package lupos.shared
 
+import lupos.buffer_manager.BufferManager
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.optimizer.IDistributedOptimizer
 import kotlin.jvm.JvmField
 
-public object BufferManagerExt {
+public class Luposdate3000Instance {
     @JvmField
-    public val isInMemoryOnly: Boolean = true
+    public var initialized: Boolean = false
 
     @JvmField
-    public var allowInitFromDisk: Boolean = false
+    public var bufferManager: BufferManager? = null
+
+    @JvmField
+    public var nodeGlobalDictionary: IDictionary? = null
+
+    @JvmField
+    public var tripleStoreManager: TripleStoreManager? = null
+
+    @JvmField
+    public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = throw Exception("not initialized")
+
+    public fun close() {
+        if (initialized) {
+            println("LuposdateEndpoint.close")
+            initialized = false
+            nodeGlobalDictionary!!.close()
+            tripleStoreManager!!.close()
+            bufferManager.close()
+        }
+    }
 }

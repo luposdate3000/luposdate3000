@@ -14,21 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.dictionary
+package lupos
 
-import lupos.shared.dynamicArray.ByteArrayWrapper
+@Target(
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.CLASS,
+    AnnotationTarget.CONSTRUCTOR,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.FILE,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.LOCAL_VARIABLE,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.TYPE,
+    AnnotationTarget.TYPEALIAS,
+    AnnotationTarget.TYPE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
+)
 
-public interface IDictionary {
-    public fun importFromDictionaryFile(filename: String): Pair<IntArray, Int>
-    public fun createNewBNode(): Int
-    public fun createNewBNode(s: String): Int
-    public fun getValue(buffer: ByteArrayWrapper, value: Int)
-    public fun hasValue(buffer: ByteArrayWrapper): Int?
-    public fun createValue(buffer: ByteArrayWrapper): Int
-    public fun valueToGlobal(value: Int): Int
-    public fun isBnode(value: Int): Boolean
-    public fun close()
-    public fun delete()
-    public fun isInmemoryOnly(): Boolean
-    public fun isLocalValue(value: Int): Boolean
-}
+/*
+ * this indicates that the target is only public because of testing
+ * if the testing functionality is not wanted, change the target to private
+ */
+@Retention(AnnotationRetention.BINARY)
+public annotation class ProguardTestAnnotation

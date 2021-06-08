@@ -14,13 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.optimizer
+package lupos
 
-import lupos.shared.IQuery
-import lupos.shared.operator.IOPBase
-
-public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = {
-    object : IDistributedOptimizer {
-        override fun optimize(query: IQuery): IOPBase = throw Exception("not implemented")
-    }
-}
+@Target(
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.CLASS,
+    AnnotationTarget.CONSTRUCTOR,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.FILE,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.LOCAL_VARIABLE,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.TYPE,
+    AnnotationTarget.TYPEALIAS,
+    AnnotationTarget.TYPE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
+)
+/*
+ * this indicates that the target should remain in the shrinked binary
+ */
+@Retention(AnnotationRetention.BINARY)
+public annotation class ProguardKeepAnnotation

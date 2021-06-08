@@ -14,21 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.dictionary
+package lupos
 
-import lupos.shared.dynamicArray.ByteArrayWrapper
-
-public interface IDictionary {
-    public fun importFromDictionaryFile(filename: String): Pair<IntArray, Int>
-    public fun createNewBNode(): Int
-    public fun createNewBNode(s: String): Int
-    public fun getValue(buffer: ByteArrayWrapper, value: Int)
-    public fun hasValue(buffer: ByteArrayWrapper): Int?
-    public fun createValue(buffer: ByteArrayWrapper): Int
-    public fun valueToGlobal(value: Int): Int
-    public fun isBnode(value: Int): Boolean
-    public fun close()
-    public fun delete()
-    public fun isInmemoryOnly(): Boolean
-    public fun isLocalValue(value: Int): Boolean
-}
+public const val SOURCE_FILE: String = "src/luposdate3000_shared/src/commonMain/kotlin/lupos/SOURCE_FILE.kt"
