@@ -7,6 +7,28 @@ var differentPositions = [];
 var differentTypes = [];
 var differentOperatorVariables = [];
 var differentDataVariables = [];
+var idMappings = {}
+
+function resetIdMappings() {
+    idMappings = {
+        "Operator-ID": {},
+        "Operator-Depth": {},
+        "Operator-Type": {},
+        "Operator-Variable": {},
+        "Data-Variable": {},
+    }
+    var counter = 0
+    for (i = 0; i <= dataNodes.length - 1; i++) {
+        if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
+            idMappings["Operator-ID"][dataNodes[i].id] = counter
+            counter++
+        }
+    }
+    calcDifferentPositions()
+    calcDifferentTypes()
+    calcDifferentOperatorVariables()
+    calcDifferentDataVariables()
+}
 
 function calcDifferentPositions() {
     var positions = Object.values(networkSon.getPositions());
@@ -14,25 +36,36 @@ function calcDifferentPositions() {
     differentPositions = [];
     var i, j;
     for (i = 0; i <= positions.length - 1; i++) {
-        if (!differentPositions.includes(positions[i].y)) {
-            for (j = 0; j <= dataNodes.length - 1; j++) {
-                if (dataNodes[j].id == parseInt(positionsIds[i], 10) && !dataNodes[j].label.includes('AOP') && !dataNodes[j].label.includes('OPBaseCompound')) {
+        for (j = 0; j <= dataNodes.length - 1; j++) {
+            if (dataNodes[j].id == parseInt(positionsIds[i], 10) && !dataNodes[j].label.includes('AOP') && !dataNodes[j].label.includes('OPBaseCompound')) {
+                if (!differentPositions.includes(positions[i].y)) {
                     differentPositions.push(positions[i].y);
                 }
+                idMappings["Operator-Depth"][dataNodes[i].id] = "A" + positions[i].y
             }
         }
     }
-
     differentPositions.sort((a, b) => a - b);
+    for (i = 0; i < differentPositions.length; i++) {
+        for (j in idMappings["Operator-Depth"]) {
+            if (idMappings["Operator-Depth"][j] == "A" + differentPositions[i]) {
+                idMappings["Operator-Depth"][j] = i
+            }
+        }
+    }
 }
 
 function calcDifferentTypes() {
     var i;
     differentTypes = [];
     for (i = 0; i <= dataNodes.length - 1; i++) {
-        if (!differentTypes.includes(dataNodes[i].label.split(" ")[0])) {
-            if (!dataNodes[i].label.includes('AOP') && !dataNodes[i].label.includes('OPBaseCompound')) {
-                differentTypes.push(dataNodes[i].label.split(" ")[0]);
+        var tmp = dataNodes[i].label.split(" ")[0]
+        if (!dataNodes[i].label.includes('AOP') && !dataNodes[i].label.includes('OPBaseCompound')) {
+            if (!differentTypes.includes(tmp)) {
+                idMappings["Operator-Type"][dataNodes[i].id] = differentTypes.length
+                differentTypes.push(tmp);
+            } else {
+                idMappings["Operator-Type"][dataNodes[i].id] = differentTypes.indexOf(tmp)
             }
         }
     }
@@ -42,9 +75,13 @@ function calcDifferentOperatorVariables() {
     var i;
     differentOperatorVariables = [];
     for (i = 0; i <= dataNodes.length - 1; i++) {
-        if (!differentOperatorVariables.includes(dataNodes[i].label.split("\n")[1])) {
-            if (!dataNodes[i].label.includes('AOP') && !dataNodes[i].label.includes('OPBaseCompound')) {
-                differentOperatorVariables.push(dataNodes[i].label.split("\n")[1]);
+        var tmp = dataNodes[i].label.split("\n")[1]
+        if (!dataNodes[i].label.includes('AOP') && !dataNodes[i].label.includes('OPBaseCompound')) {
+            if (!differentOperatorVariables.includes(tmp)) {
+                idMappings["Operator-Variable"][dataNodes[i].id] = differentOperatorVariables.length
+                differentOperatorVariables.push(tmp);
+            } else {
+                idMappings["Operator-Variable"][dataNodes[i].id] = differentOperatorVariables.indexOf(tmp)
             }
         }
     }
@@ -54,8 +91,12 @@ function calcDifferentDataVariables() {
     var i;
     differentDataVariables = [];
     for (i = 0; i <= globalAnimationList.length - 1; i++) {
-        if (!differentDataVariables.includes(globalAnimationList[i][2].split(" ")[0])) {
-            differentDataVariables.push(globalAnimationList[i][2].split(" ")[0]);
+        var tmp = globalAnimationList[i][2].split(" ")[0]
+        if (!differentDataVariables.includes(tmp)) {
+            idMappings["Data-Variable"][globalAnimationList[i][3]] = differentDataVariables.length
+            differentDataVariables.push(tmp);
+        } else {
+            idMappings["Data-Variable"][globalAnimationList[i][3]] = differentDataVariables.indexOf(tmp)
         }
     }
 }
@@ -87,7 +128,7 @@ function addAnimationData(tmpResult) {
         tmp = tmpResult[i].split("||");
         tmp[0] = parseInt(tmp[0], 10);
         tmp[1] = parseInt(tmp[1], 10);
-        tmp[3] = parseInt(tmp[2], 10);
+        tmp[3] = parseInt(tmp[3], 10);
         globalAnimationList.push(tmp);
     }
 }
@@ -112,4 +153,6 @@ function formatResultData() {
     loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), false);
     loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
     replacePrefix();
+
+    resetIdMappings()
 }

@@ -22,6 +22,7 @@ var selectArray = [];
 var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
+var initFlag = false;
 
 
 function initLuposdate3000() {
@@ -36,7 +37,7 @@ const panner = new Tone.Panner(0).toDestination();
 // -> If evaluate Button is clicked
 function visualisationSetup() {
     //Loading all instruments and the "none" Option
-    var instrumentList = Object.keys(App.operators.instruments);
+    var instrumentList = Object.keys(App.operators.Instrument);
     instrumentList.push("None");
     //Load piano as default instrument
     App.samples = SampleLibrary.load({
@@ -62,7 +63,6 @@ function visualisationSetup() {
         $('.result-tab a').click()
         //First time initialization
     } else {
-
         //Slider for the Animation Speed
         slider = new Nexus.Slider('#sonification-animation-speed', {
             'size': [130, 30],
@@ -85,8 +85,6 @@ function visualisationSetup() {
             'size': [40, 30],
             'state': false
         });
-
-        createMapping();
     }
 
     //Show necessary elements, hide pause animation Button
@@ -108,6 +106,9 @@ function visualisationStart() {
 }
 
 function createMapping() {
+    if (!initFlag) {
+        initFlag = true;
+    }
     var html = '';
     var i;
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
@@ -118,19 +119,13 @@ function createMapping() {
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         var i = App.operators.audioDimension[j]
         var selectAudioIdentifier = '#selectAudio-' + j;
-        var options = App.operators.information
-        var noValue = "None"
-        if (i == "Melody") { //If Melody
-            options = ["No", "Yes"]
-            noValue = "No"
-        }
         selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
-            'size': [100, 40],
-            'options': options
+            'size': [200, 40],
+            'options': App.operators.information[i].values
         });
         selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
         selectAudio[i].myFunction = App.mappingFunctions[i]
-        selectAudio[i].myNoValue = noValue
+        selectAudio[i].myNoValue = App.operators.information[i].standard
         selectAudio[i].on('change', function(v) { //initialise listener
             if (v.value == this.myNoValue) {
                 $(this.myIdentifier).hide();
@@ -457,7 +452,7 @@ $('#dataVariableDepth').click(function() {
     selectMapping()
     var i;
     for (i = 0; i <= differentDataVariables.length - 1; i++) {
-        pitchDataVariable[i].value = App.operators.frequence[i * 2];
+        pitchDataVariable[i].value = App.operators.Pitch[i * 2];
     }
     $('#pitchExplicit').prop('checked', true);
     for (i = 0; i <= differentPositions.length - 1; i++) {
@@ -543,7 +538,8 @@ $('#luposdate3000_backward').click(function() {
 
 //Creates a table on the result Tab and show the results from the query
 function calculateResult() {
-    App.processResults(App.result, "sparql")
+    App.processResults(App.result, "sparql");
+
 }
 
 //Function to pause the thread.
@@ -600,38 +596,19 @@ function receiveAnimation(childUUID, parentUUID, string, index) {
 
 function playNoteMapping(id, label, index) {
     var pitchType = App.config.sonification.Pitch.mode;
-    var instrumentType = App.config.sonification.Instrument.mode;
-    var loudnessType = App.config.sonification.Loudness.mode;
-    var spatializationType = App.config.sonification.Spatialization.mode;
-    var durationType = App.config.sonification.Duration.mode;
     var melodyType = App.config.sonification.Melody.mode;
     var chordType = App.config.sonification.Chord.mode;
-    var octaveType = App.config.sonification.Octave.mode;
 
     var tone, velocity, duration, octave;
 
-    current = App.samples[getInstrument(instrumentType, id, label, index)];
+    var currentName = getAudioData(idMappings, id, label, index, "Instrument")
+    current = App.samples[currentName];
 
-    //Loudness of the Tone
-    if (loudnessType != 'None') {
-        velocity = getLoudness(loudnessType, id, label, index)
-    } else {
-        velocity = 1;
-    }
+    velocity = getAudioData(idMappings, id, label, index, "Loudness")
 
-    //Spatialization
-    if (spatializationType != 'None') {
-        panner.pan.value = getSpatialization(spatializationType, id, label, index);
-    } else {
-        panner.pan.value = 0;
-    }
+    panner.pan.value = getAudioData(idMappings, id, label, index, "Spatialization");
 
-    //Duration
-    if (durationType != 'None') {
-        duration = getDuration(durationType, id, label, index);
-    } else {
-        duration = '4n';
-    }
+    duration = getAudioData(idMappings, id, label, index, "Duration");
 
     //Octave
     var b1 = pitchType == 'Operator-ID' && $('#pitchDynamic').is(':checked');
@@ -642,23 +619,21 @@ function playNoteMapping(id, label, index) {
     if ((b1 || b2 || b3 || b4) && b5) {
         octave = '';
     } else {
-        if (octaveType != 'None') {
-            octave = getOctave(octaveType, id, label, index);
-        } else {
-            octave = '3';
-        }
+        octave = getAudioData(idMappings, id, label, index, "Octave");
     }
 
     //What Pitch, or maybe what Chord
     //If Chord is selected the pitch settings will be ignored/overwritten
     if (melodyType == 'No') {
         if (chordType != 'None') {
-            tone = getChord(chordType, id, label, index);
+            tone = getAudioData(idMappings, id, label, index, "Chord");
         } else if (pitchType != 'None') {
-            tone = getPitch(pitchType, id, label, index);
-            current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
+            tone = getAudioData(idMappings, id, label, index, "Pitch");
+            //current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
+            triggerNote(tone + octave, duration, "+0", velocity)
         } else {
-            current.connect(panner).triggerAttackRelease('C' + octave, duration, "+0", velocity);
+            //current.connect(panner).triggerAttackRelease('C' + octave, duration, "+0", velocity);
+            triggerNote('C' + octave, duration, "+0", velocity)
         }
     } else {
         tone = getMelody(melodyType, id, label, index);
@@ -666,13 +641,24 @@ function playNoteMapping(id, label, index) {
 
     if (melodyType != 'No' || chordType != 'None') {
         if (tone[0]) {
-            current.connect(panner).triggerAttackRelease(tone[1] + octave, duration, "+0", velocity);
-            current.connect(panner).triggerAttackRelease(tone[2] + octave, duration, "+0.15", velocity);
-            current.connect(panner).triggerAttackRelease(tone[3] + octave, duration, "+0.3", velocity);
+            triggerNote(tone[1] + octave, duration, "+0", velocity);
+            triggerNote(tone[2] + octave, duration, "+0.15", velocity);
+            triggerNote(tone[3] + octave, duration, "+0.3", velocity);
         } else {
             var chord = [tone[1] + octave, tone[2] + octave, tone[3] + octave];
-            current.connect(panner).triggerAttackRelease(chord, duration, "+0", velocity);
+            triggerNote(chord, duration, "+0", velocity);
         }
+    }
+}
+
+//Avoid buffer problem when instrument files are not yet loaded
+function triggerNote(chord, duration, delay, velocity) {
+    if (current._buffers.loaded)
+        current.connect(panner).triggerAttackRelease(chord, duration, delay, velocity);
+    else {
+        sleep(100).then(() => {
+            triggerNote(chord, duration, delay, velocity);
+        });
     }
 }
 
@@ -873,25 +859,6 @@ function loadData(dataParameter, flag) {
     draw(flag);
 }
 
-function testAjax() {
-    var inputValue = App.cm['sparql'].getValue();
-
-    var formData = {
-        'query': inputValue,
-        'evaluator': "XML_STREAM",
-    };
-    $.ajax({
-            type: 'POST',
-            url: '/sparql/query',
-            data: formData
-        })
-        .done(function(data) {
-            App.resultValue = data;
-        });
-    return App.resultValue;
-}
-
-
 function addCustomContextMenu(networkObject, contextFlag) {
     var string;
     if (contextFlag) {
@@ -1066,8 +1033,13 @@ function draw(flag) {
     //Draw network
     if (flag) {
         networkSon = new vis.Network(container, data, options);
+        calculateMinMaxID();
+        calculateMinMaxDepth();
+        calculateMinMaxIndex();
         addCustomContextMenu(networkSon, flag);
-
+        if (!initFlag) {
+            createMapping();
+        }
         //By default, the network is dynamic and is changing via a constant animation
         //For the hierarchical layout it is essential that is is turned off after the build-up
         //process.

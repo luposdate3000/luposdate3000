@@ -29,6 +29,7 @@ internal actual class File {
         this.filename = filename
     }
 
+    internal actual inline fun getAbsolutePath() = throw Exception("not implemented")
     internal actual inline fun exists(): Boolean = throw NotImplementedException("File", "exists not implemented")
     internal actual inline fun mkdirs(): Boolean = throw NotImplementedException("File", "mkdirs not implemented")
     internal actual inline fun deleteRecursively(): Boolean = throw NotImplementedException("File", "deleteRecursively not implemented")

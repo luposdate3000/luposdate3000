@@ -37,7 +37,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("vk.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     if (verbose) {
         println("start")
     }

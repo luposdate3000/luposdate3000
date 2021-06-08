@@ -48,7 +48,7 @@ export LUPOS_REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 {
 #syntetic data
     cd $dependencieshome
-    wget https://ayera.dl.sourceforge.net/project/bsbmtools/bsbmtools/bsbmtools-0.2/bsbmtools-v0.2.zip
+    wget https://phoenixnap.dl.sourceforge.net/project/bsbmtools/bsbmtools/bsbmtools-0.2/bsbmtools-v0.2.zip
     unzip bsbmtools-v0.2.zip
     rm bsbmtools-v0.2.zip
     cd bsbmtools-0.2

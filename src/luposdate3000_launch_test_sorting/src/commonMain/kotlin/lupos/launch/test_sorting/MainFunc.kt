@@ -193,7 +193,7 @@ private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int,
     }
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     val step = 2
     var thesize = hasNextRandom()
     thesize = thesize - (thesize % step)

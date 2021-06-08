@@ -46,7 +46,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("dictionary.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     for (isLocal in listOf(true, false)) {
         for (dictType in 0 until EDictionaryTypeExt.values_size) {
             if (isLocal && dictType == EDictionaryTypeExt.KV) {

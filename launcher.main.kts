@@ -205,7 +205,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
             pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
-                currentArgs = currentArgs.ssetEnabledRunFunc { mainClass == currentArgs.moduleName }
+                currentArgs = currentArgs.ssetEnabledRunFunc {
+                    mainClass == currentArgs.moduleName
+                }
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
             modules[currentArgs.moduleName] = currentArgs
@@ -588,14 +590,6 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
-        "--setupJS",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.SETUP_JS
-            target = TargetMode2.JS
-        }
-    ),
-    ParamClass(
         "--setupSPAClient",
         {
             enableParams(compileParams)
@@ -692,7 +686,6 @@ when (execMode) {
     ExecMode.GENERATE_LAUNCHER -> onGenerateLauncherMain()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_GRADLE -> onSetupGradle()
-    ExecMode.SETUP_JS -> onSetupJS()
     ExecMode.SETUP_SPACLIENT -> onSetupSPAClient()
     else -> {
         throw Exception("unknown execMode $execMode")
@@ -779,8 +772,11 @@ fun onRun() {
                 if (module.enabledRunFunc()) {
                     jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
                     jars.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
-                    File("${module.moduleFolder}/build/external_jvm_dependencies").forEachLine {
-                        jars.add(it)
+                    val f = File("${module.moduleFolder}/build/external_jvm_dependencies")
+                    if (f.exists()) {
+                        f.forEachLine {
+                            jars.add(it)
+                        }
                     }
                 }
             }
@@ -1320,29 +1316,6 @@ fun getJSScriptFiles(): List<String> {
         }
     }
     return scripts
-}
-
-fun onSetupJS() {
-    jsBrowserMode = true
-    File("dist-js/index.html").printWriter().use { out ->
-        out.println("<!DOCTYPE html>")
-        out.println("<html lang=\"en\">")
-        out.println("<head>")
-        out.println("    <meta charset=\"utf-8\">")
-        out.println("    <title>Luposdate3000</title>")
-        for (s in getJSScriptFiles()) {
-            out.println("    <script src=\"$s\"></script>")
-        }
-        out.println("</head>")
-        out.println("<body>")
-        out.println("<script>")
-        out.println("Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.initialize()")
-        out.println("console.log(Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(\"INSERT DATA { <s> <p> <o> } \"))")
-        out.println("console.log(Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(\"SELECT (5 as ?x) ?s {?s ?p ?o .}\"))")
-        out.println("</script>")
-        out.println("</body>")
-        out.println("</html>")
-    }
 }
 
 fun myProcessBuilder(cmd: List<String>): ProcessBuilder {

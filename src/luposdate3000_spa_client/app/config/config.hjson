@@ -99,7 +99,7 @@
             "resources/RIF/rule_fibonacci.rif",
         ],
     },
-    sendRDF: true, // Default behaviour    for RDF tab 
+    sendRDF: true, // Default behaviour    for RDF tab
     hide: {
         //        for hiding the check box at the RDF tab: # "sendRDF": true
         //        for hiding the inference radio buttons(except the checked one in            case it is not "NONE"): # "inference": true
@@ -113,7 +113,7 @@
     readOnlyTabs: [],
 
     // Query Parameters are placed directly in the nonstandard request body
-    // see github.com / Be-ngt-oH / luposdate-nonstandard-endpoint    for reference 
+    // see github.com / Be-ngt-oH / luposdate-nonstandard-endpoint    for reference
     queryParameters: {
         inference: "NONE",
         inferenceGeneration: "GENERATEDOPT",

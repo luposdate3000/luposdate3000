@@ -15,6 +15,7 @@ gulp.task('hjson', function() {
     return gulp.src([
             "app/config/config.hjson",
             "app/config/operators.hjson",
+            "app/config/configWithSonification.hjson",
         ])
         .pipe(hjson({
             to: 'json'
@@ -75,6 +76,7 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/visualisationUtil/durationMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/chordMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/octaveMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/globalMapping.js", // used by sonification
                 "bower_components/spectrum/spectrum.js", // used by sonification
                 "app/scripts/algos/createGraph.js",
                 "app/scripts/algos/createOPGraph.js",
@@ -107,6 +109,7 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Code_Generator_Shared.js",
                 //LUPOSDATE3000 GENERATED CODE END
             ]),
             gulp.src([
@@ -178,6 +181,7 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Code_Generator_Shared.js",
             //LUPOSDATE3000 GENERATED CODE END
             "app/scripts/algos/createGraph.js",
             "app/scripts/algos/createOPGraph.js",

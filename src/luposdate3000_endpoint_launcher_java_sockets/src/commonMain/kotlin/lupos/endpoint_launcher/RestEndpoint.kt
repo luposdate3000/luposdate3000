@@ -222,11 +222,6 @@ internal object RestEndpoint {
             LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
             printHeaderSuccess(connectionOutMy)
         }
-        paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
-            printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importIntermediateFile(params["file"]!!))
-            /*Coverage Unreachable*/
-        }
         paths["/import/xml"] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
