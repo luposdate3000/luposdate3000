@@ -15,6 +15,7 @@ gulp.task('hjson', function() {
     return gulp.src([
             "app/config/config.hjson",
             "app/config/operators.hjson",
+            "app/config/configWithSonification.hjson",
         ])
         .pipe(hjson({
             to: 'json'

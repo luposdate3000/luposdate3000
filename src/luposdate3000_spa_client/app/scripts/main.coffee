@@ -817,7 +817,7 @@ App.initConfigComponentsHideTabs = ->
         tabsToHide.push(tab)
     for tab in App.additionalHiddenTabs
         tabsToHide.push(tab)
-    if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame")
+    if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame" || App.selectedEvaluatorName == "Luposdate3000")
         tabsToHide.push("rif")
     allTabs = []
 
