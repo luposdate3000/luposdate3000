@@ -9,28 +9,8 @@ var differentOperatorVariables = [];
 var differentDataVariables = [];
 var idMappings = {}
 
-function resetIdMappings() {
-    idMappings = {
-        "Operator-ID": {},
-        "Operator-Depth": {},
-        "Operator-Type": {},
-        "Operator-Variable": {},
-        "Data-Variable": {},
-    }
-    var counter = 0
-    for (i = 0; i <= dataNodes.length - 1; i++) {
-        if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-            idMappings["Operator-ID"][dataNodes[i].id] = counter
-            counter++
-        }
-    }
-    calcDifferentPositions()
-    calcDifferentTypes()
-    calcDifferentOperatorVariables()
-    calcDifferentDataVariables()
-}
 
-function calcDifferentPositions() {
+function calcDifferentPositions() { //called by formatResultData
     if (typeof networkSon !== "undefined" && networkSon != null) {
         var positions = Object.values(networkSon.getPositions());
         var positionsIds = Object.keys(networkSon.getPositions());
@@ -57,7 +37,7 @@ function calcDifferentPositions() {
     }
 }
 
-function calcDifferentTypes() {
+function calcDifferentTypes() { //called by formatResultData
     var i;
     differentTypes = [];
     for (i = 0; i <= dataNodes.length - 1; i++) {
@@ -73,7 +53,7 @@ function calcDifferentTypes() {
     }
 }
 
-function calcDifferentOperatorVariables() {
+function calcDifferentOperatorVariables() { //called by formatResultData
     var i;
     differentOperatorVariables = [];
     for (i = 0; i <= dataNodes.length - 1; i++) {
@@ -89,7 +69,7 @@ function calcDifferentOperatorVariables() {
     }
 }
 
-function calcDifferentDataVariables() {
+function calcDifferentDataVariables() { //called by formatResultData
     var i;
     differentDataVariables = [];
     for (i = 0; i <= globalAnimationList.length - 1; i++) {
@@ -103,28 +83,31 @@ function calcDifferentDataVariables() {
     }
 }
 
-function addLocicalSteps(data) {
+function addLocicalSteps(data) { //called after query execution  - called by main.coffee
     var tmp = data.split("NEWTREE")
     var i;
+    App.logGraph = []
     for (i = 0; i < tmp.length - 1; i++) {
         App.logGraph.push(tmp[i]);
     }
 }
 
-function addPhysicalSteps(data) {
+function addPhysicalSteps(data) { //called after query execution  - called by main.coffee
     var tmp = data.split("NEWTREE")
     var i;
+    App.physGraph = []
     for (i = 0; i < tmp.length - 1; i++) {
         App.physGraph.push(tmp[i]);
     }
 }
 
 
-function addAnimationDataSplit(visData) {
+function addAnimationDataSplit(visData) { //called after query execution  - called by main.coffee
     addAnimationData(visData.split("NEWDATA"));
 }
 
-function addAnimationData(tmpResult) {
+function addAnimationData(tmpResult) { //called after query execution  - called by main.coffee
+    globalAnimationList = [];
     for (i = 0; i <= tmpResult.length - 2; i++) {
         var tmp;
         tmp = tmpResult[i].split("||");
@@ -144,7 +127,6 @@ function formatResultData() { //called after query execution  - called by main.c
             networkSon.destroy();
             networkSon = null
         }
-        globalAnimationList = [];
     }
     var c = 0;
     for (var i in App.physGraph) {
@@ -161,9 +143,28 @@ function formatResultData() { //called after query execution  - called by main.c
 
 
     //Load final optimized step of the physical operator graph by default
-    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), false);
-    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
     replacePrefix();
+    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
+    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), false);
+    //draw the network
 
-    resetIdMappings()
+    idMappings = {
+        "Operator-ID": {},
+        "Operator-Depth": {},
+        "Operator-Type": {},
+        "Operator-Variable": {},
+        "Data-Variable": {},
+    }
+    var counter = 0
+    for (i = 0; i <= dataNodes.length - 1; i++) {
+        if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
+            idMappings["Operator-ID"][dataNodes[i].id] = counter
+            counter++
+        }
+    }
+    calcDifferentPositions()
+    calcDifferentTypes()
+    calcDifferentOperatorVariables()
+    calcDifferentDataVariables()
+    resetAnimationQueue()
 }

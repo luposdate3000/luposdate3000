@@ -28,8 +28,37 @@ function initLuposdate3000() { //first time initialization - called by main.coff
     if (typeof luposdate3000_endpoint === "undefined") {
         luposdate3000_endpoint = Luposdate3000_Endpoint
     }
-    pauseFlag = false
-    stopFlag = true
+}
+
+function setAnimationFlags(stopF, pauseF) {
+    stopFlag = stopF
+    pauseFlag = pauseF
+    if (stopFlag) {
+        $('#luposdate3000_stop').hide();
+        $('#luposdate3000_play').show();
+        $('#luposdate3000_pause').hide();
+        $('#luposdate3000_forward').hide();
+        $('#luposdate3000_backward').hide();
+        $('#luposdate3000_forward').prop('disabled', true);
+        $('#luposdate3000_backward').prop('disabled', true);
+        currentIndex = 0
+    } else if (pauseFlag) {
+        $('#luposdate3000_stop').show();
+        $('#luposdate3000_play').show();
+        $('#luposdate3000_pause').hide();
+        $('#luposdate3000_forward').show();
+        $('#luposdate3000_backward').show();
+        $('#luposdate3000_forward').prop('disabled', currentIndex >= queue.length);
+        $('#luposdate3000_backward').prop('disabled', currentIndex <= 0);
+    } else {
+        $('#luposdate3000_stop').show();
+        $('#luposdate3000_play').hide();
+        $('#luposdate3000_pause').show();
+        $('#luposdate3000_forward').show();
+        $('#luposdate3000_backward').show();
+        $('#luposdate3000_forward').prop('disabled', true);
+        $('#luposdate3000_backward').prop('disabled', true);
+    }
 }
 
 function initVisualization() { //first time initialization - called by main.coffee, after configuration is loaded
@@ -74,11 +103,7 @@ function initVisualization() { //first time initialization - called by main.coff
         });
         $(selectAudioIdentifier).after($(App.mappingIdentifiers[i]));
     }
-    $('#luposdate3000_play').show();
-    $('#luposdate3000_pause').hide();
-    $('#luposdate3000_stop').hide();
-    $('#luposdate3000_forward').hide();
-    $('#luposdate3000_backward').hide();
+    setAnimationFlags(true, false)
 }
 
 
@@ -180,38 +205,6 @@ $('#luposdate3000-op-graph-up').click(function() {
         value++;
     $('#luposdate3000_graph-select').val(value)
     $('#luposdate3000_graph-select').trigger('change')
-});
-
-//Event Listener
-// Trigger animation method when play button is pressed.
-$('#luposdate3000_play').click(function() {
-    if (!pauseFlag) {
-        queue = globalAnimationList.map(function(arr) {
-            return arr.slice();
-        });
-        currentIndex = 0;
-    }
-    if (stopFlag) {
-        var i;
-        for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
-            var edgeId = dataSetEdges.getIds()[i];
-            var newWidth = 1;
-            dataSetEdges.update([{
-                id: edgeId,
-                width: newWidth
-            }]);
-        }
-    }
-    $('#luposdate3000_stop').show();
-    $('#luposdate3000_play').hide();
-    $('#luposdate3000_pause').show();
-    $('#luposdate3000_forward').show();
-    $('#luposdate3000_backward').show();
-    animation(queue);
-    $('#luposdate3000_forward').prop('disabled', true);
-    $('#luposdate3000_backward').prop('disabled', true);
-    stopFlag = false;
-    pauseFlag = false;
 });
 
 $('#dataSorting').click(function() {
@@ -344,16 +337,18 @@ $('#dataVariableDepth').click(function() {
 });
 
 //Event Listener
-// Set stopFlag to stop Animation when stop button is pressed
-$('#luposdate3000_stop').click(function() {
-    $('#luposdate3000_stop').hide();
-    $('#luposdate3000_play').show();
-    $('#luposdate3000_pause').hide();
-    $('#luposdate3000_forward').hide();
-    $('#luposdate3000_backward').hide();
+// Trigger animation method when play button is pressed.
+$('#luposdate3000_play').click(function() {
+    setAnimationFlags(false, false)
+    animation(true);
+});
+
+function resetAnimationQueue() {
     $('.meter').css("width", 0 + "%");
-    pauseFlag = false;
-    stopFlag = true;
+    queue = globalAnimationList.map(function(arr) {
+        return arr.slice();
+    });
+    currentIndex = 0;
     var i;
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
         var edgeId = dataSetEdges.getIds()[i];
@@ -363,43 +358,30 @@ $('#luposdate3000_stop').click(function() {
             width: newWidth
         }]);
     }
-    if (dataSet.getIds().includes(999)) {
-        dataSet.remove(999);
-    }
-    $('#luposdate3000_forward').prop('disabled', true);
-    $('#luposdate3000_backward').prop('disabled', true);
+}
+
+//Event Listener
+// Set stopFlag to stop Animation when stop button is pressed
+$('#luposdate3000_stop').click(function() {
+    resetAnimationQueue()
+    setAnimationFlags(true, false)
 });
 
 $('#luposdate3000_pause').click(function() {
-    $('#luposdate3000_stop').show();
-    $('#luposdate3000_play').show();
-    $('#luposdate3000_pause').hide();
-    $('#luposdate3000_forward').show();
-    $('#luposdate3000_backward').show();
-    pauseFlag = true;
-    $('#luposdate3000_forward').prop('disabled', false);
-    $('#luposdate3000_backward').prop('disabled', false);
+    setAnimationFlags(false, true)
 });
 
 $('#luposdate3000_forward').click(function() {
-    dataSet.remove(999);
-    queue.shift();
-    currentIndex++;
-    var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-    $('.meter').css("width", tmp + "%");
-    addNewNode();
+    currentIndex++
+    animation(false)
 });
 
 $('#luposdate3000_backward').click(function() {
-    dataSet.remove(999);
-    queue = globalAnimationList.map(function(arr) {
-        return arr.slice();
+    currentIndex -= 1;
+    animation(false)
+    sleep(30).then(() => {
+        setAnimationFlags(false, true)
     });
-    currentIndex--;
-    queue = queue.slice(currentIndex);
-    var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-    $('.meter').css("width", tmp + "%");
-    addNewNode();
 });
 
 //Function to pause the thread.
@@ -447,11 +429,61 @@ function replacePrefix() { //
     }
     selectMapping()
     App.processResults(App.result, "sparql");
-
 }
 
+//Avoid buffer problem when instrument files are not yet loaded
+function triggerNote(chord, duration, delay, velocity, currentname) {
+    if (typeof App.samples[currentname] === "undefined") {
+        App.samples[currentname] = new Tone.Sampler(
+            SampleLibrary[currentname], {
+                baseUrl: "./resources/samples/" + currentname + "/",
+                onload: null
+            })
+        App.samples[currentname].release = .5;
+        App.samples[currentname].toDestination();
+    }
+    var current = App.samples[currentname];
+    if (current._buffers.loaded)
+        try {
+            current.connect(panner).triggerAttackRelease(chord, duration, delay, velocity);
+        } catch (error) {}
+    else {
+        sleep(100).then(() => {
+            triggerNote(chord, duration, delay, velocity, currentname);
+        });
+    }
+}
 
-function playNoteMapping(id, label, index) {
+function addNewNode() {
+    var queueHead = queue[currentIndex]
+    var positions = networkSon.getPositions();
+    var x_start = positions[queueHead[0]].x,
+        y_start = positions[queueHead[0]].y - 32;
+    try {
+        dataSet.add([{
+            id: 999,
+            label: queueHead[2],
+            group: 1
+        }]);
+    } catch (error) {
+        //this may happen if you click "next" to fast
+    }
+    networkSon.moveNode(999, x_start, y_start);
+    if (toggle.state) {
+        networkSon.focus("999", {
+            scale: 1,
+            offset: {
+                x: 0,
+                y: 0
+            },
+            locked: true,
+        });
+    } else {
+        networkSon.fit();
+    }
+    var id = dataNodes.find(element => element.id == queueHead[0]).id
+    var label = dataNodes.find(element => element.id == queueHead[0]).label
+    var index = queueHead[3]
     var pitchType = App.config.sonification.Pitch.mode;
     var melodyType = App.config.sonification.Melody.mode;
     var chordType = App.config.sonification.Chord.mode;
@@ -505,133 +537,86 @@ function playNoteMapping(id, label, index) {
     }
 }
 
-//Avoid buffer problem when instrument files are not yet loaded
-function triggerNote(chord, duration, delay, velocity, currentname) {
-    if (typeof App.samples[currentname] === "undefined") {
-        App.samples[currentname] = new Tone.Sampler(
-            SampleLibrary[currentname], {
-                baseUrl: "./resources/samples/" + currentname + "/",
-                onload: null
-            })
-        App.samples[currentname].release = .5;
-        App.samples[currentname].toDestination();
-    }
-    var current = App.samples[currentname];
-    if (current._buffers.loaded)
-        current.connect(panner).triggerAttackRelease(chord, duration, delay, velocity);
-    else {
-        sleep(100).then(() => {
-            triggerNote(chord, duration, delay, velocity, currentname);
-        });
-    }
-}
+//Function that handles the animation for one data triple from one operator to the other
+async function animation(loop) {
+    if (queue.length > currentIndex && currentIndex >= 0) {
+        if ((!pauseFlag && !stopFlag) || !loop) {
+            if (!loop) {
+                $('#luposdate3000_forward').prop('disabled', true);
+                $('#luposdate3000_backward').prop('disabled', true);
+            }
+            var queueHead = queue[currentIndex]
+            var positions = networkSon.getPositions();
+            var k = 0;
+            var lambda = 0;
+            var tick = 10;
+            var x_start = positions[queueHead[0]].x;
+            var y_start = positions[queueHead[0]].y - 32;
+            var inverseSpeed = 1000 - App.config.animationSpeed
+            var nrOfSteps = Math.floor(inverseSpeed / tick);
 
-function addNewNode() {
-    var positions = networkSon.getPositions();
-    var x_start = positions[queue[0][0]].x,
-        y_start = positions[queue[0][0]].y - 32;
-    dataSet.add([{
-        id: 999,
-        label: queue[0][2],
-        group: 1
-    }]);
-    networkSon.moveNode(999, x_start, y_start);
-    if (toggle.state) {
-        networkSon.focus("999", {
-            scale: 1,
-            offset: {
-                x: 0,
-                y: 0
-            },
-            locked: true,
-        });
+            addNewNode();
+
+            //Wait a few miliseconds and then move the node a bit
+            sleep(tick).then(() => {
+                timer = setInterval(function() {
+
+                    this.pause
+
+                    k++;
+                    var l = k / nrOfSteps;
+
+                    // get target positions
+                    var x_target = positions[queueHead[1]].x;
+                    var y_target = positions[queueHead[1]].y + 32;
+
+                    // compute the convex combination of x_start and x_target to find intermediate x and move node to it, same for y
+                    var xt = x_start * (1 - l) + x_target * l;
+                    var yt = y_start * (1 - l) + y_target * l;
+
+                    // move node
+                    try {
+                        networkSon.moveNode(999, xt, yt);
+                    } catch (error) {
+                        //if there is a new query executed, this may happen
+                    }
+
+                    if (k == nrOfSteps) {
+                        clearInterval(timer)
+                        sleep(tick).then(() => {
+                            //Delete node, delete data triple in the queue and change the progress meter
+                            networkSon.releaseNode();
+                            try {
+                                dataSet.remove(999);
+                            } catch (error) {
+                                //if there is a new query executed, this may happen
+                            }
+                            updateEdgeSize(queueHead[0], queueHead[1]);
+                            if (loop) {
+                                currentIndex++;
+                                animation(true);
+                            } else {
+                                setAnimationFlags(false, true)
+                            }
+                            var tmp = (currentIndex / globalAnimationList.length) * 100;
+                            if (!stopFlag) {
+                                $('.meter').css("width", tmp + "%");
+                            } else {
+                                $('.meter').css("width", 0 + "%");
+                            }
+                        })
+                    }
+
+                }, tick);
+            })
+        }
     } else {
         networkSon.fit();
+        setAnimationFlags(true, false)
     }
-    playNoteMapping(dataNodes.find(element => element.id == queue[0][0]).id, dataNodes.find(element => element.id == queue[0][0]).label, queue[0][3]);
 }
 
-//Function that handles the animation for one data triple from one operator to the other
-async function animation(queue) {
-
-    //Set focus to new node if Follow-Mode is active
-
-
-    // Parameters for the animation
-    var positions = networkSon.getPositions();
-    var k = 0;
-    var lambda = 0;
-    var tick = 10;
-    var x_start = positions[queue[0][0]].x;
-    var y_start = positions[queue[0][0]].y - 32;
-    var inverseSpeed = 1000 - App.config.animationSpeed
-    var nrOfSteps = Math.floor(inverseSpeed / tick);
-
-    if (!pauseFlag) {
-        addNewNode();
-    }
-
-    //Wait a few miliseconds and then move the node a bit
-    sleep(1000 / nrOfSteps).then(() => {
-        timer = setInterval(function() {
-
-            this.pause
-
-            k++;
-            var l = k / nrOfSteps;
-
-            // get target positions
-            var x_target = positions[queue[0][1]].x;
-            var y_target = positions[queue[0][1]].y + 32;
-
-            // compute the convex combination of x_start and x_target to find intermediate x and move node to it, same for y
-            var xt = x_start * (1 - l) + x_target * l;
-            var yt = y_start * (1 - l) + y_target * l;
-
-            // move node
-            networkSon.moveNode(999, xt, yt);
-
-            // stop if we have reached nr of steps
-            if (k == nrOfSteps) {
-                clearInterval(timer)
-            }
-
-            //If node reached the end point
-            if (k == nrOfSteps && !pauseFlag) {
-                sleep(inverseSpeed / 2).then(() => {
-                    //Delete node, delete data triple in the queue and change the progress meter
-                    networkSon.releaseNode();
-                    dataSet.remove(999);
-                    updateEdgeSize(queue[0][0], queue[0][1]);
-                    queue.shift();
-                    currentIndex++;
-                    var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                    if (!stopFlag) {
-                        $('.meter').css("width", tmp + "%");
-                    } else {
-                        $('.meter').css("width", 0 + "%");
-                        queue = [];
-                    }
-
-                    //call animation method again if queue is not empty
-                    //otherwise set stopFlag to stop animation
-                    if (queue.length != 0) {
-                        animation(queue);
-                    } else {
-                        networkSon.fit();
-                        $('#luposdate3000_play').show();
-                        $('#luposdate3000_stop').hide();
-                        $('#luposdate3000_pause').hide();
-                        stopFlag = true;
-                    }
-                })
-            }
-
-        }, tick);
-    })
-}
-
-function updateEdgeSize(startID, endID) {
+function updateEdgeSize(startID, endID) { //only called by animation
     var i;
     var edgeId;
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
@@ -652,7 +637,7 @@ function updateEdgeSize(startID, endID) {
 
 //This function removes the POPRico Operator and is recalculating the edges that are going out
 //and in to this operator.
-function deleteDebugOperator() {
+function deleteDebugOperator() { //only called by loadData
     var i;
     var tmp = [];
 
@@ -679,6 +664,7 @@ function deleteDebugOperator() {
 
     var tmpFlag = true;
     while (tmpFlag) {
+        tmpFlag = false;
         for (i = 0; i <= dataEdges.length - 1; i++) {
             if (tmp.includes(dataEdges[i].from)) {
                 dataEdges.splice(i, 1);
@@ -689,19 +675,18 @@ function deleteDebugOperator() {
                 tmpFlag = true;
                 break;
             }
-            tmpFlag = false;
         }
     }
 
     tmpFlag = true;
     while (tmpFlag) {
+        tmpFlag = false;
         for (i = 0; i <= dataNodes.length - 1; i++) {
             if (dataNodes[i].label.includes('POPVisualisation')) {
                 dataNodes.splice(i, 1);
                 tmpFlag = true;
                 break;
             }
-            tmpFlag = false;
         }
     }
 
@@ -717,8 +702,6 @@ function loadData(dataParameter, flag) {
         nodes: dataNodes,
         edges: dataEdges,
     };
-    replacePrefix();
-    //draw the network
     draw(flag);
 }
 
@@ -734,7 +717,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
         var x, y;
         //If right click is made within the canvas, open custom context menu
         if (typeof params.nodes[0] != 'undefined') {
-            $(string).contextmenu(function(e) {
+            document.getElementById(string).addEventListener('contextmenu', function(e) {
                 // Alternative
                 e.preventDefault();
                 x = e.clientX;
@@ -742,14 +725,14 @@ function addCustomContextMenu(networkObject, contextFlag) {
                 $("#rkm").css("left", x + "px");
                 $("#rkm").css("top", y + "px");
                 $("#rkm").show();
-            });
+            }, false);
 
             //Event Listener, if mouse is pressed outside the custom context menu
-            $(string).mousedown(function(e) {
+            document.getElementById(string).addEventListener('mousedown', function(e) {
                 if (!(e.clientX >= x && e.clientX <= (x + $("#rkm").width()) && e.clientY >= y && e.clientY <= (y + $("#rkm").height()))) {
                     $('#rkm').hide();
                 }
-            });
+            }, false);
 
             //Event Listener that closes the custom context menu if page is scrolled
             $(window).scroll(function() {
@@ -764,14 +747,10 @@ function addCustomContextMenu(networkObject, contextFlag) {
 
             document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
-                for (i = 1; i <= queue.length - 1; i++) {
-                    if (queue[i][0] == params.nodes[0]) {
-                        dataSet.remove(999);
-                        queue = queue.slice(i);
-                        currentIndex += i;
-                        var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                        $('.meter').css("width", tmp + "%");
-                        addNewNode();
+                for (i = currentIndex + 1; i <= queue.length - 1; i++) {
+                    if (queue[i][0] == queue[currentIndex][0]) {
+                        currentIndex = i;
+                        animation(false)
                         break;
                     }
                 }
@@ -780,17 +759,10 @@ function addCustomContextMenu(networkObject, contextFlag) {
 
             document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
-                queue = globalAnimationList.map(function(arr) {
-                    return arr.slice();
-                });
                 for (i = currentIndex - 1; i >= 0; i--) {
-                    if (queue[i][0] == params.nodes[0]) {
-                        dataSet.remove(999);
-                        queue = queue.slice(i);
+                    if (queue[i][0] == queue[currentIndex][0]) {
                         currentIndex = i;
-                        var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                        $('.meter').css("width", tmp + "%");
-                        addNewNode();
+                        animation(false)
                         break;
                     }
                 }

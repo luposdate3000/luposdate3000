@@ -68,7 +68,7 @@ function getAudioData(idMappings, id, label, index, audioDimension) {
             }
             break;
         case 'Query-Progress':
-            var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
+            var tmp = ((globalAnimationList.length - currentIndex) / globalAnimationList.length) * 100;
             if (audioDimension == "Pitch") {
                 return scale(tmp, 0, 100, 30, 800);
             } else if (audioDimension == "Duration") {
@@ -247,7 +247,6 @@ function createSimpleSelector(audioDimension, label, mode) {
 }
 
 function audioDimensionSetup(mode, audioDimension) {
-    resetIdMappings()
     switch (mode) {
         case 'Dynamic':
         case 'None':
