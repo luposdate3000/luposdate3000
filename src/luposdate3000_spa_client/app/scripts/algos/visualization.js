@@ -99,7 +99,6 @@ function visualisationSetup() {
 function visualisationStart() {
     //Default: Simple Instrument Mode
     $('#instrumentAdvanced-select').show();
-    //$('#instrumentSimple').prop("checked", true);
     $('#pitchDynamic').prop("checked", true);
     $('#dataSorting').prop('checked', false);
 
@@ -150,7 +149,7 @@ function selectMapping() {
 // Event Listener
 // Re-fit the canvas if the "Sonification" tab is clicked
 $("a[href=#luposdate3000-graph-tab]").click(function() {
-    if ($('#eval-graph-sparql').prop('checked')) {
+    if (App.config.evalGraphSparql) {
         sleep(50).then(() => {
             network.redraw();
             network.fit();

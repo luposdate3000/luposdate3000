@@ -219,7 +219,6 @@ App.bindEvents = ->
             graphSelect.trigger('change')
             if (value == 0)
                 $(this).addClass('disabled')
-    #           $(this).prop('disabled', true);
 
 
     $('#op-graph-up').click ->
@@ -237,7 +236,6 @@ App.bindEvents = ->
             graphSelect.trigger('change')
             if (value == max)
                 $(this).addClass('disabled')
-    #           $(this).prop('disabled', true);
 
 
     # Send query to endpoint
@@ -248,9 +246,9 @@ App.bindEvents = ->
 
         target = $(this).data 'target'
         if target == 'sparql'
-            withGraph = $('#eval-graph-sparql').prop('checked')
+            withGraph = App.config.evalGraphSparql
         else
-            withGraph = $('#eval-graph-rif').prop('checked')
+            withGraph = App.config.evalGraphRif
         endpoint = App.config.endpoints[App.config.selectedEndpoint]
         data =
             query: App.cm['sparql'].getValue();
@@ -320,11 +318,9 @@ App.bindEvents = ->
                     data['rif'] = $('#codemirror_rif').val()
                 data['evaluator'] = App.selectedEvaluatorName
             # Nonstandard endpoints expect JSON-string as request body
-            # data = JSON.stringify(data)
 
 
             if withGraph
-#            $('.query .get-graph').trigger("click");
                 App.getGraphData(data, url, method, target)
             else
                 $('.result-tab a').click()
@@ -351,9 +347,6 @@ App.bindEvents = ->
             localhtml += "</div>"
             $('#result-tab').html localhtml
 
-            # /sparql/query
-            # data query= select * ..
-            # data evaluator -> EQueryResultToStreamExt.kt
             $.ajax
                 url: url
                 method: method
@@ -437,16 +430,11 @@ App.preprocessResults = (data, namespaces, colors) ->
             xml = $.parseXML(data)
         catch error
             console.log(error)
-    # Like we care
 
 
     if $.isXMLDoc(xml)
         sparql = App.x2js.xml2json(xml)
         resultSets.push App.processSparql(sparql, namespaces, colors)
-
-    # # Save plain response just in case
-    # if 'Plain' of data
-    #     doc.plain = data.Plain
 
     return resultSets
 
@@ -744,20 +732,6 @@ App.baseName = (str) ->
     base = base.substring(0, base.lastIndexOf('.'))  unless base.lastIndexOf('.') is -1
     base
 
-App.configComponents =
-    Radio: (watchedElementsSelector, defaultVal, callback) ->
-        $(watchedElementsSelector).change ->
-            callback($(watchedElementsSelector).filter(':checked').val())
-            return true
-        if defaultVal
-            $(watchedElementsSelector).filter("[value=#{defaultVal}]").click()
-    Check: (watchedElementSelector, defaultVal, callback) ->
-        $(watchedElementSelector).click ->
-            callback($(watchedElementSelector).is(':checked'))
-            return true
-        if defaultVal
-            $(watchedElementSelector).click()
-
 App.initConfigComponentsEndpointSelector = ->
     localhtml = ""
     i = 0
@@ -797,8 +771,9 @@ App.initConfigComponentsEvaluatorSelector = ->
             endpoint.selectedEvaluator = $(this).val()
             App.selectedEvaluatorName = endpoint.evaluators[endpoint.selectedEvaluator]
             if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame")
-                $('#eval-graph-sparql').prop('checked', false)
-                $('#eval-graph-rif').prop('checked', false)
+                App.config.evalGraphSparql = false
+                App.config.evalGraphRif = false
+                App.updateConfigComponentsEvalGraph()
             App.initConfigComponentsHideTabs()
             App.initConfigComponentsHideWithGraph()
             App.additionalHiddenTabs = App.rightTabs
@@ -811,7 +786,6 @@ App.initConfigComponentsHideWithGraph = ->
     else
         $('.label-with-graph').show()
 App.initConfigComponentsHideTabs = ->
-#xxxx
     tabsToHide = []
     for tab in App.config.hide.tabs
         tabsToHide.push(tab)
@@ -891,7 +865,30 @@ App.initConfigComponentsHideTabs = ->
         $("#sonificationsettings").hide()
     else
         $("#sonificationsettings").show()
-#end hide
+
+App.updateConfigComponentsEvalGraph = ->
+    $("#eval-graph-sparql").prop('checked', App.config.evalGraphSparql)
+    $("#eval-graph-rif").prop('checked', App.config.evalGraphRif)
+App.initConfigComponentsEvalGraph = ->
+    $("#eval-graph-sparql").change ->
+        App.config.evalGraphSparql = $("#eval-graph-sparql").is(':checked')
+    $("#eval-graph-rif").change ->
+        App.config.evalGraphRif = $("#eval-graph-rif").is(':checked')
+    App.updateConfigComponentsEvalGraph()
+App.initConfigComponentsSendRdf = ->
+    $('#send_rdf').change ->
+        App.config.sendRDF = $('#send_rdf').is(':checked')
+    if App.config.sendRDF
+        $('#send_rdf').click()
+    if App.config.hide.sendRDF
+        $('#send_rdf').hide()
+App.initConfigComponentsInference = ->
+    $('#rule_radios input').change ->
+        App.config.queryParameters.inference = $("input[name='rule']:checked").val()
+    selector = "[value="
+    selector += App.config.queryParameters.inference
+    selector += "]"
+    $(selector).click()
 
 App.initConfigComponents = ->
     $('.my-tabs .my-tab-links a').click (e)->
@@ -904,14 +901,9 @@ App.initConfigComponents = ->
     App.initConfigComponentsEvaluatorSelector()
     App.initConfigComponentsHideWithGraph()
     App.initConfigComponentsHideTabs()
-    # delayy is due to foundation initialization
-    # TODO: use promise instead
-    delay 1000, ->
-        $('.tabs').each ->
-            $(this).find('dd:visible a').first().click()
-
-    if App.config.hide.sendRDF
-        $('#send_rdf').hide()
+    App.initConfigComponentsEvalGraph()
+    App.initConfigComponentsSendRdf()
+    App.initConfigComponentsInference()
 
     if App.config.hide.inference
         for radio in ["rdfs", "owl", "rif", "without"]
@@ -923,10 +915,7 @@ App.initConfigComponents = ->
 
     for tab in App.config.readOnlyTabs
         App.cm[tab].setOption("readOnly", true)
-    App.configComponents.Radio '#rule_radios input', App.config['queryParameters']['inference'], (val) ->
-        App.config['queryParameters']['inference'] = val
-    App.configComponents.Check '#send_rdf', App.config.sendRDF, (send) ->
-        App.config.sendRDF = send
+
 
 delay = (ms, func) -> setTimeout func, ms
 
