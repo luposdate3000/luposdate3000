@@ -6,7 +6,7 @@ public abstract class Entity : ISimulationLifeCycle {
 
     private var isTerminated = false
 
-    public abstract fun onEvent(event: Event)
+    public abstract fun onEvent(source: Entity, data: Any)
 
     internal fun processIncomingEvent(event: Event) {
         if (isTerminated)
@@ -15,7 +15,7 @@ public abstract class Entity : ISimulationLifeCycle {
         if (event.data is ITimer)
             event.data.onExpire()
         else
-            onEvent(event)
+            onEvent(event.source, event.data)
     }
 
     protected fun scheduleEvent(destination: Entity, delay: Long, data: Any) {

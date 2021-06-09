@@ -1,7 +1,6 @@
 package lupos.simulator_iot
 
 import lupos.simulator_core.Entity
-import lupos.simulator_core.Event
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.routing.IRoutingAlgorithm
@@ -41,8 +40,8 @@ public class Device(
     override fun onSteadyState() {
     }
 
-    override fun onEvent(event: Event) {
-        val pck = event.data as NetworkPackage
+    override fun onEvent(source: Entity, data: Any) {
+        val pck = data as NetworkPackage
         packageCounter++
         if (pck.destinationAddress == address)
             processPackage(pck)
