@@ -69,8 +69,8 @@ public class DatabaseAdapter(public val device: Device): IRouter {
                 "\n" +
                 "INSERT DATA {\n" +
                 "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-                "  sosa:hasFeatureOfInterest <parkingSpaceOccupancy/space/${s.area}>;\n" +
-                "  sosa:observedProperty <parkingSpot/${s.parkingSpotID}>;\n" +
+                "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
+                "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
                 "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
                 "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
                 "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
