@@ -10,18 +10,3 @@ function instrumentSetup() {
         audioDimensionSetup(string, "Instrument")
     }
 }
-
-function loadInstrument(object) {
-    object.on('change', function(v) {
-        if (!usedInstruments.includes(v.value)) {
-            usedInstruments.push(v.value);
-            App.samples = SampleLibrary.load({
-                instruments: usedInstruments,
-                baseUrl: "./resources/samples/"
-            });
-            // loop through instruments and set release, connect to master output
-            App.samples[v.value].release = .5;
-            App.samples[v.value].toDestination();
-        }
-    });
-}

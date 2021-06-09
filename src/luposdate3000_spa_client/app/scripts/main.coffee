@@ -4,6 +4,7 @@
 
 App.init = ->
     initLuposdate3000()
+    App.samples = {}
     App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
@@ -55,7 +56,7 @@ App.play = ->
     # App.initConfigComponents after loading App.config
     App.initConfigComponents()
     App.insertQueryPicker()
-
+    initVisualization()
     pleaseWait.finish false, () ->
         App.cm['sparql'].refresh()
         App.cm['rif'].refresh()
@@ -268,8 +269,6 @@ App.bindEvents = ->
             if App.config.sendRDF
                 luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
                 App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
-            if withGraph
-                visualisationSetup()
             if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
@@ -305,7 +304,6 @@ App.bindEvents = ->
                             App.logError error
                 else
                     App.loadluposdate3000 data, url, withGraph
-            visualisationStart()
         else
             if endpoint.nonstandard
                 data['formats'] = ['xml', 'plain']
@@ -891,7 +889,6 @@ App.initConfigComponentsInference = ->
     selector += App.config.queryParameters.inference
     selector += "]"
     $(selector).click()
-
 App.initConfigComponents = ->
     $('.my-tabs .my-tab-links a').click (e)->
         currentAttrValue = $(this).attr('href')
@@ -906,7 +903,6 @@ App.initConfigComponents = ->
     App.initConfigComponentsEvalGraph()
     App.initConfigComponentsSendRdf()
     App.initConfigComponentsInference()
-
     if App.config.hide.inference
         for radio in ["rdfs", "owl", "rif", "without"]
             actual = App.config['queryParameters']['inference']
@@ -917,7 +913,6 @@ App.initConfigComponents = ->
 
     for tab in App.config.readOnlyTabs
         App.cm[tab].setOption("readOnly", true)
-
 
 delay = (ms, func) -> setTimeout func, ms
 

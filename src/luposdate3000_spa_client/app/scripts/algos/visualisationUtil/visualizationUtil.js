@@ -136,7 +136,16 @@ function addAnimationData(tmpResult) {
 }
 
 
-function formatResultData() {
+function formatResultData() { //called after query execution  - called by main.coffee
+    if (network != null) {
+        network.destroy();
+        network = null
+        if (networkSon != null) {
+            networkSon.destroy();
+            networkSon = null
+        }
+        globalAnimationList = [];
+    }
     var c = 0;
     for (var i in App.physGraph) {
         c++;

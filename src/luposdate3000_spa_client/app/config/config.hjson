@@ -1,4 +1,5 @@
 {
+animationSpeed:80,
 evalGraphSparql:true,
 evalGraphRif:true,
     sonification: {
