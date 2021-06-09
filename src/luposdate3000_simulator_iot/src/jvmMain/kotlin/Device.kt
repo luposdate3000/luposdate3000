@@ -23,7 +23,7 @@ public class Device(
     public var processedSensorDataPackages: Long = 0
         private set
 
-    private fun getNetworkDelay(destinationAddress: Int): Long {
+    private fun getNetworkDelay(destinationAddress: Int): Int {
         return if (destinationAddress == address) {
             0
         } else {
@@ -66,13 +66,13 @@ public class Device(
     private fun forwardPackage(pck: NetworkPackage) {
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop)
-        scheduleEvent(Configuration.devices[nextHop], delay, pck)
+        scheduleEvent(Configuration.devices[nextHop], pck, delay)
     }
 
     public fun sendUnRoutedPackage(destinationNeighbour: Int, data: Any) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour)
-        scheduleEvent(Configuration.devices[destinationNeighbour], delay, pck)
+        scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
     public fun sendRoutedPackage(src: Int, dest: Int, data: Any) {

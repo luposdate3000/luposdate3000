@@ -18,13 +18,13 @@ public abstract class Entity : ISimulationLifeCycle {
             onEvent(event.source, event.data)
     }
 
-    protected fun scheduleEvent(destination: Entity, delay: Long, data: Any) {
+    protected fun scheduleEvent(destination: Entity, data: Any, delay: Int) {
         require(!isTerminated)
-        simulation.addEvent(delay, this, destination, data)
+        simulation.addEvent(delay.toLong(), this, destination, data)
     }
 
-    public fun setTimer(time: Long, callback: ITimer) {
-        scheduleEvent(this, time, callback)
+    public fun setTimer(time: Int, callback: ITimer) {
+        scheduleEvent(this, callback, time)
     }
 
     public interface ITimer {

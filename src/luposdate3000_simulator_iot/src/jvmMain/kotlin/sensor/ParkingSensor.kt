@@ -45,7 +45,7 @@ public class ParkingSensor(public var device: Device) : ISensor {
 
     override fun startSampling() {
         isStopped = false
-        device.setTimer(dataRateInSeconds.toLong(), SamplingProcessFinished())
+        device.setTimer(dataRateInSeconds, SamplingProcessFinished())
     }
 
     private fun onSampleTaken() {

@@ -26,14 +26,14 @@ class SimulationTest {
     @Test
     fun `sent data equals the received data`() {
         val data = 5
-        val delay: Long = 18
+        val delay: Int = 18
         var receivingEntity: Entity? = null
         var actualData: Int? = null
         var actualSrcEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(receivingEntity!!, delay, data)
+                this.scheduleEvent(receivingEntity!!, data, delay)
             }
 
             override fun onSteadyState() {}
@@ -53,16 +53,16 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
         sim.start()
 
-        assertEquals(delay, sim.currentClock)
+        assertEquals(delay.toLong(), sim.currentClock)
         assertEquals(data, actualData)
         assertEquals(sendingEntity, actualSrcEntity)
     }
 
     @Test
     fun `clock equals to the time of occurrence of the last event`() {
-        val firstDelay: Long = 4
-        val secondDelay: Long = 5
-        val thirdDelay: Long = 499
+        val firstDelay: Int = 4
+        val secondDelay: Int = 5
+        val thirdDelay: Int = 499
         var receivingEntity: Entity? = null
         var actualFirstClock: Long? = null
         var actualSecondClock: Long? = null
@@ -70,9 +70,9 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(receivingEntity!!, firstDelay, 1)
-                this.scheduleEvent(receivingEntity!!, secondDelay, 2)
-                this.scheduleEvent(receivingEntity!!, thirdDelay, 3)
+                this.scheduleEvent(receivingEntity!!, 1, firstDelay)
+                this.scheduleEvent(receivingEntity!!, 2, secondDelay)
+                this.scheduleEvent(receivingEntity!!, 3, thirdDelay)
             }
 
             override fun onSteadyState() {}
@@ -102,9 +102,9 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
         sim.start()
 
-        assertEquals(firstDelay, actualFirstClock)
-        assertEquals(secondDelay, actualSecondClock)
-        assertEquals(thirdDelay, actualThirdClock)
+        assertEquals(firstDelay.toLong(), actualFirstClock)
+        assertEquals(secondDelay.toLong(), actualSecondClock)
+        assertEquals(thirdDelay.toLong(), actualThirdClock)
     }
 
     @Test
@@ -206,14 +206,14 @@ class SimulationTest {
 
     @Test
     fun `An entity responds to an event with an event`() {
-        val firstDelay: Long = 4
-        val responseDelay: Long = 5
+        val firstDelay: Int = 4
+        val responseDelay: Int = 5
         var isResponseReceived = false
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(respondingEntity!!, firstDelay, "dummy data")
+                this.scheduleEvent(respondingEntity!!, "dummy data", firstDelay)
             }
 
             override fun onEvent(source: Entity, data: Any) {
@@ -227,7 +227,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(source: Entity, data: Any) {
-                this.scheduleEvent(source, responseDelay, 2)
+                this.scheduleEvent(source, 2, responseDelay)
             }
 
             override fun onSteadyState() {}
@@ -237,24 +237,25 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
         sim.start()
 
-        assertEquals(firstDelay + responseDelay, sim.currentClock)
+        val expected: Int =  firstDelay + responseDelay
+        assertEquals(expected.toLong(), sim.currentClock)
         assertTrue(isResponseReceived)
     }
 
     @Test
     fun `Terminated entity does not receive a message`() {
-        val delay: Long = 4
+        val delay: Int = 4
         var processCounter = 0
         val expectedProcessCounter = 1
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(respondingEntity!!, delay, "dummy data")
+                this.scheduleEvent(respondingEntity!!, "dummy data", delay)
             }
 
             override fun onEvent(source: Entity, data: Any) {
-                this.scheduleEvent(source, delay, "dummy data")
+                this.scheduleEvent(source, "dummy data", delay)
             }
 
             override fun onSteadyState() {}
@@ -264,7 +265,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(source: Entity, data: Any) {
-                this.scheduleEvent(source, delay, "dummy data")
+                this.scheduleEvent(source, "dummy data", delay)
                 this.terminate()
                 processCounter++
             }
@@ -276,21 +277,21 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
         sim.start()
 
-        assertEquals(delay * 3, sim.currentClock)
+        assertEquals((delay * 3).toLong(), sim.currentClock)
         assertEquals(expectedProcessCounter, processCounter)
     }
 
     @Test
     fun `event is processed when delay equals clock`() {
-        val delay: Long = 58
+        val delay: Int = 58
         val eventType = 3
         var eventProcessedAt: Long = 0
 
         val busyEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(this, delay, eventType)
-                this.scheduleEvent(this, delay - 1, 0)
-                this.scheduleEvent(this, delay + 1, 0)
+                this.scheduleEvent(this, eventType, delay)
+                this.scheduleEvent(this, 0, delay - 1)
+                this.scheduleEvent(this, 0, delay + 1)
             }
 
             override fun onEvent(source: Entity, data: Any) {
@@ -306,7 +307,7 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(busyEntity))
         sim.start()
 
-        assertEquals(delay, eventProcessedAt)
+        assertEquals(delay.toLong(), eventProcessedAt)
     }
 
     @Test
@@ -322,7 +323,7 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(receivingEntity!!, 4, 1)
+                this.scheduleEvent(receivingEntity!!, 1, 4)
             }
 
             override fun onEvent(source: Entity, data: Any) {}
@@ -344,17 +345,17 @@ class SimulationTest {
 
     @Test
     fun `recursive sending events until maxClock is reached`() {
-        val delay: Long = 1
+        val delay: Int = 1
         val maxClock: Long = 100
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(respondingEntity!!, delay, "dummy data")
+                this.scheduleEvent(respondingEntity!!, "dummy data", delay)
             }
 
             override fun onEvent(source: Entity, data: Any) {
-                this.scheduleEvent(source, delay, "dummy data")
+                this.scheduleEvent(source, "dummy data", delay)
             }
 
             override fun onSteadyState() {}
@@ -364,7 +365,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(source: Entity, data: Any) {
-                this.scheduleEvent(source, delay, "dummy data")
+                this.scheduleEvent(source, "dummy data", delay)
             }
 
             override fun onSteadyState() {}
@@ -379,18 +380,18 @@ class SimulationTest {
 
     @Test
     fun `recursive sending events until stop is called`() {
-        val delay: Long = 1
+        val delay: Int = 1
         val maxEventNumber = 100
         var currentProcessedEventCounter = 0
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(respondingEntity!!, delay, "dummy data")
+                this.scheduleEvent(respondingEntity!!, "dummy data", delay)
             }
 
             override fun onEvent(source: Entity, data: Any) {
-                this.scheduleEvent(source, delay, "dummy data")
+                this.scheduleEvent(source, "dummy data", delay)
             }
 
             override fun onSteadyState() {}
@@ -404,7 +405,7 @@ class SimulationTest {
                     currentProcessedEventCounter = simulation.processedEventCounter
                     simulation.stop()
                 }
-                this.scheduleEvent(source, delay, "dummy data")
+                this.scheduleEvent(source, "dummy data", delay)
             }
 
             override fun onSteadyState() {}
@@ -419,9 +420,9 @@ class SimulationTest {
 
     @Test
     fun `set multiple timer`() {
-        val timerDelay1: Long = 14
-        val timerDelay2: Long = 22
-        val timerDelay3: Long = 37
+        val timerDelay1: Int = 14
+        val timerDelay2: Int = 22
+        val timerDelay3: Int = 37
 
         var timer1Result: Long = 0
         var timer2Result: Long = 0
@@ -457,9 +458,9 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(entity))
         sim.start()
 
-        assertEquals(timerDelay1, timer1Result)
-        assertEquals(timerDelay2, timer2Result)
-        assertEquals(timerDelay3, timer3Result)
+        assertEquals(timerDelay1.toLong(), timer1Result)
+        assertEquals(timerDelay2.toLong(), timer2Result)
+        assertEquals(timerDelay3.toLong(), timer3Result)
     }
 
     @Test
@@ -468,13 +469,13 @@ class SimulationTest {
         lateinit var entityA: Entity
         lateinit var entityB: Entity
         val steadyStateAt: Long = 5
-        val delay: Long = 15
+        val delay: Int = 15
         var entityAIsCalledAt: Long = 0
         var entityBIsCalledAt: Long = 0
 
         entityA = object : Entity() {
             override fun onStartUp() {
-                this.scheduleEvent(entityB, delay, "dummy data")
+                this.scheduleEvent(entityB, "dummy data", delay)
             }
 
             override fun onEvent(source: Entity, data: Any) {}
@@ -499,7 +500,7 @@ class SimulationTest {
         sim.steadyStateReachedAt(steadyStateAt)
         sim.start()
 
-        assertEquals(delay, sim.currentClock)
+        assertEquals(delay.toLong(), sim.currentClock)
         assertEquals(steadyStateAt, entityAIsCalledAt)
         assertEquals(steadyStateAt, entityBIsCalledAt)
     }

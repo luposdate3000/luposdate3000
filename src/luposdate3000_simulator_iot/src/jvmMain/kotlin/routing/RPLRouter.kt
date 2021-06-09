@@ -154,7 +154,7 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
     }
 
     private fun startDelayDAOTimer() {
-        device.setTimer(daoDelay.toLong(), DelayDAOTimerExpired())
+        device.setTimer(daoDelay, DelayDAOTimerExpired())
         isDelayDAOTimerRunning = true
     }
 
