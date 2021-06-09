@@ -21,6 +21,6 @@ import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.shared.Parallel
 
 internal fun mainFunc(): Unit = Parallel.runBlocking {
-    LuposdateEndpoint.initialize()
-    HttpEndpointLauncher.start()
+    val instance = LuposdateEndpoint.initialize()
+    HttpEndpointLauncher.start(instance)
 }

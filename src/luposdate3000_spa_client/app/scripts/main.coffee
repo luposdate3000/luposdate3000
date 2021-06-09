@@ -4,7 +4,8 @@
 
 App.init = ->
     initLuposdate3000()
-    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
+    App.samples = {}
+    App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
         Instrument: '#instrumentSettings'
@@ -55,7 +56,7 @@ App.play = ->
     # App.initConfigComponents after loading App.config
     App.initConfigComponents()
     App.insertQueryPicker()
-
+    initVisualization()
     pleaseWait.finish false, () ->
         App.cm['sparql'].refresh()
         App.cm['rif'].refresh()
@@ -219,7 +220,6 @@ App.bindEvents = ->
             graphSelect.trigger('change')
             if (value == 0)
                 $(this).addClass('disabled')
-    #           $(this).prop('disabled', true);
 
 
     $('#op-graph-up').click ->
@@ -237,7 +237,6 @@ App.bindEvents = ->
             graphSelect.trigger('change')
             if (value == max)
                 $(this).addClass('disabled')
-    #           $(this).prop('disabled', true);
 
 
     # Send query to endpoint
@@ -248,9 +247,9 @@ App.bindEvents = ->
 
         target = $(this).data 'target'
         if target == 'sparql'
-            withGraph = $('#eval-graph-sparql').prop('checked')
+            withGraph = App.config.evalGraphSparql
         else
-            withGraph = $('#eval-graph-rif').prop('checked')
+            withGraph = App.config.evalGraphRif
         endpoint = App.config.endpoints[App.config.selectedEndpoint]
         data =
             query: App.cm['sparql'].getValue();
@@ -269,15 +268,13 @@ App.bindEvents = ->
         if endpoint.name == "Browser Luposdate3000" || endpoint.name == "localhost Luposdate3000"
             if App.config.sendRDF
                 luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
-                luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
-            if withGraph
-                visualisationSetup()
+                App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
             if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
-                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(data.rdf);
+                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
                 #Receive optimized steps for logical and physical operator graph
                 if withGraph
-                    eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
+                    eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
                     App.logGraph = eev.getOptimizedStepsLogical();
                     App.physGraph = eev.getOptimizedStepsPhysical();
                     #Result from the query
@@ -288,7 +285,7 @@ App.bindEvents = ->
                     App.additionalHiddenTabs = ["graph", "op-graph"]
                     App.initConfigComponentsHideTabs()
                 else
-                    res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(data.query)
+                    res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query)
                     App.processResults(res, "sparql")
                     App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph",
                         "luposdate3000-sonification"]
@@ -307,7 +304,6 @@ App.bindEvents = ->
                             App.logError error
                 else
                     App.loadluposdate3000 data, url, withGraph
-            visualisationStart()
         else
             if endpoint.nonstandard
                 data['formats'] = ['xml', 'plain']
@@ -320,11 +316,9 @@ App.bindEvents = ->
                     data['rif'] = $('#codemirror_rif').val()
                 data['evaluator'] = App.selectedEvaluatorName
             # Nonstandard endpoints expect JSON-string as request body
-            # data = JSON.stringify(data)
 
 
             if withGraph
-#            $('.query .get-graph').trigger("click");
                 App.getGraphData(data, url, method, target)
             else
                 $('.result-tab a').click()
@@ -334,8 +328,6 @@ App.bindEvents = ->
 
 
             # Switch to results tab if needed
-            if App.isMergeView
-                $('.result-tab a').click()
             localhtml = ""
             localhtml += "<h4>Waiting for Server..</h4>"
             localhtml += "<div class='sk-spinner sk-spinner-cube-grid dark'>"
@@ -351,9 +343,6 @@ App.bindEvents = ->
             localhtml += "</div>"
             $('#result-tab').html localhtml
 
-            # /sparql/query
-            # data query= select * ..
-            # data evaluator -> EQueryResultToStreamExt.kt
             $.ajax
                 url: url
                 method: method
@@ -391,13 +380,18 @@ App.bindEvents = ->
     # Merge/split tabs
     $('.right-side-toggle').click ->
         if App.isMergeView
-            $("#result").show()
+            $(".my-tab-rightside").detach().appendTo('.my-tab-content-rightside')
+            $(".my-tab-links-rightside").detach().appendTo('.my-tab-links-content-rightside')
             $("#query").css "width", "50%"
+            $("#result-tab").click()
+            $("#sparql-tab").click()
         else
-            $("#result").hide()
+            $(".my-tab-rightside").detach().appendTo('.my-tab-content-leftside')
+            $(".my-tab-links-rightside").detach().appendTo('.my-tab-links-content-leftside')
             $("#query").css "width", "100%"
         $(this).toggleClass 'active'
         App.isMergeView = not App.isMergeView
+        App.initConfigComponentsHideTabs()
 
 
 App.insertQueryPicker = ->
@@ -437,16 +431,11 @@ App.preprocessResults = (data, namespaces, colors) ->
             xml = $.parseXML(data)
         catch error
             console.log(error)
-    # Like we care
 
 
     if $.isXMLDoc(xml)
         sparql = App.x2js.xml2json(xml)
         resultSets.push App.processSparql(sparql, namespaces, colors)
-
-    # # Save plain response just in case
-    # if 'Plain' of data
-    #     doc.plain = data.Plain
 
     return resultSets
 
@@ -744,20 +733,6 @@ App.baseName = (str) ->
     base = base.substring(0, base.lastIndexOf('.'))  unless base.lastIndexOf('.') is -1
     base
 
-App.configComponents =
-    Radio: (watchedElementsSelector, defaultVal, callback) ->
-        $(watchedElementsSelector).change ->
-            callback($(watchedElementsSelector).filter(':checked').val())
-            return true
-        if defaultVal
-            $(watchedElementsSelector).filter("[value=#{defaultVal}]").click()
-    Check: (watchedElementSelector, defaultVal, callback) ->
-        $(watchedElementSelector).click ->
-            callback($(watchedElementSelector).is(':checked'))
-            return true
-        if defaultVal
-            $(watchedElementSelector).click()
-
 App.initConfigComponentsEndpointSelector = ->
     localhtml = ""
     i = 0
@@ -797,8 +772,9 @@ App.initConfigComponentsEvaluatorSelector = ->
             endpoint.selectedEvaluator = $(this).val()
             App.selectedEvaluatorName = endpoint.evaluators[endpoint.selectedEvaluator]
             if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame")
-                $('#eval-graph-sparql').prop('checked', false)
-                $('#eval-graph-rif').prop('checked', false)
+                App.config.evalGraphSparql = false
+                App.config.evalGraphRif = false
+                App.updateConfigComponentsEvalGraph()
             App.initConfigComponentsHideTabs()
             App.initConfigComponentsHideWithGraph()
             App.additionalHiddenTabs = App.rightTabs
@@ -811,7 +787,6 @@ App.initConfigComponentsHideWithGraph = ->
     else
         $('.label-with-graph').show()
 App.initConfigComponentsHideTabs = ->
-#xxxx
     tabsToHide = []
     for tab in App.config.hide.tabs
         tabsToHide.push(tab)
@@ -820,7 +795,6 @@ App.initConfigComponentsHideTabs = ->
     if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame" || App.selectedEvaluatorName == "Luposdate3000")
         tabsToHide.push("rif")
     allTabs = []
-
     # tabs on the left
     leftAvailableTab = ""
     for tab in App.leftTabs
@@ -891,8 +865,30 @@ App.initConfigComponentsHideTabs = ->
         $("#sonificationsettings").hide()
     else
         $("#sonificationsettings").show()
-#end hide
 
+App.updateConfigComponentsEvalGraph = ->
+    $("#eval-graph-sparql").prop('checked', App.config.evalGraphSparql)
+    $("#eval-graph-rif").prop('checked', App.config.evalGraphRif)
+App.initConfigComponentsEvalGraph = ->
+    $("#eval-graph-sparql").change ->
+        App.config.evalGraphSparql = $("#eval-graph-sparql").is(':checked')
+    $("#eval-graph-rif").change ->
+        App.config.evalGraphRif = $("#eval-graph-rif").is(':checked')
+    App.updateConfigComponentsEvalGraph()
+App.initConfigComponentsSendRdf = ->
+    $('#send_rdf').change ->
+        App.config.sendRDF = $('#send_rdf').is(':checked')
+    if App.config.sendRDF
+        $('#send_rdf').click()
+    if App.config.hide.sendRDF
+        $('#send_rdf').hide()
+App.initConfigComponentsInference = ->
+    $('#rule_radios input').change ->
+        App.config.queryParameters.inference = $("input[name='rule']:checked").val()
+    selector = "[value="
+    selector += App.config.queryParameters.inference
+    selector += "]"
+    $(selector).click()
 App.initConfigComponents = ->
     $('.my-tabs .my-tab-links a').click (e)->
         currentAttrValue = $(this).attr('href')
@@ -904,15 +900,9 @@ App.initConfigComponents = ->
     App.initConfigComponentsEvaluatorSelector()
     App.initConfigComponentsHideWithGraph()
     App.initConfigComponentsHideTabs()
-    # delayy is due to foundation initialization
-    # TODO: use promise instead
-    delay 1000, ->
-        $('.tabs').each ->
-            $(this).find('dd:visible a').first().click()
-
-    if App.config.hide.sendRDF
-        $('#send_rdf').hide()
-
+    App.initConfigComponentsEvalGraph()
+    App.initConfigComponentsSendRdf()
+    App.initConfigComponentsInference()
     if App.config.hide.inference
         for radio in ["rdfs", "owl", "rif", "without"]
             actual = App.config['queryParameters']['inference']
@@ -923,10 +913,6 @@ App.initConfigComponents = ->
 
     for tab in App.config.readOnlyTabs
         App.cm[tab].setOption("readOnly", true)
-    App.configComponents.Radio '#rule_radios input', App.config['queryParameters']['inference'], (val) ->
-        App.config['queryParameters']['inference'] = val
-    App.configComponents.Check '#send_rdf', App.config.sendRDF, (send) ->
-        App.config.sendRDF = send
 
 delay = (ms, func) -> setTimeout func, ms
 

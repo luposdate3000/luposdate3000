@@ -18,6 +18,7 @@ package lupos.launch.test_vk
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.AflCore
 import lupos.shared.Parallel
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -38,11 +39,12 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    val instance = LuposdateEndpoint.initialize()
     if (verbose) {
         println("start")
     }
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
+    var bufferManager = BufferManager(instance)
     val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_vk/src/commonMain/kotlin/lupos/launch/test_vk/MainFunc.kt:46")
     var vk = ValueKeyStore(bufferManager, rootPage, false)
 
@@ -225,4 +227,5 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         throw Exception("")
     }
     bufferManager.close()
+    LuposdateEndpoint.close()
 }

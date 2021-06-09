@@ -1,29 +1,20 @@
 {
-  "linkType": [
-  ],
-  "deviceType": [
-    {
-      "name": "RadioTower",
-      "database": false,
-      "parkingSensor": true,
-      "powerCapacity": "70.0",
-      "supportedLinkTypes": []
-    }
-  ],
-  "fixedDevice": [
-    {
-      "name": "Tower1",
-      "deviceType": "RadioTower",
-      "latitude": 3.0,
-      "longitude": 3.0
-    }
-  ],
-  "fixedLink": [
-  ],
-  "rootRouter": "Tower1",
-  "randomMeshNetwork": [
-  ],
-  "randomStarNetwork": [
-  ]
+    "linkType": [],
+    "deviceType": [{
+        "name": "RadioTower",
+        "database": false,
+        "parkingSensor": true,
+        "powerCapacity": "70.0",
+        "supportedLinkTypes": []
+    }],
+    "fixedDevice": [{
+        "name": "Tower1",
+        "deviceType": "RadioTower",
+        "latitude": 3.0,
+        "longitude": 3.0
+    }],
+    "fixedLink": [],
+    "rootRouter": "Tower1",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": []
 }
-

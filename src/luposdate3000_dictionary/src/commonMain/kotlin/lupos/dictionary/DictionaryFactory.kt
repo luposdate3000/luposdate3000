@@ -18,32 +18,31 @@ package lupos.dictionary
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.shared.BUFFER_HOME
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared_inline.File
-import lupos.shared_inline.Platform
 
 public object DictionaryFactory {
-    public fun createGlobalDictionary(): IDictionary {
-        return createDictionary(EDictionaryTypeExt.names.indexOf(Platform.getEnv("LUPOS_DICTIONARY_MODE", EDictionaryTypeExt.names[EDictionaryTypeExt.KV])), false)
+    public fun createGlobalDictionary(instance: Luposdate3000Instance): IDictionary {
+        return createDictionary(instance.LUPOS_DICTIONARY_MODE, false, instance)
     }
 
-    public fun createDictionary(type: EDictionaryType, isLocal: Boolean): IDictionary {
+    public fun createDictionary(type: EDictionaryType, isLocal: Boolean, instance: Luposdate3000Instance): IDictionary {
         return if (isLocal) {
             when (type) {
-                EDictionaryTypeExt.InMemory -> DictionaryInMemory(true)
+                EDictionaryTypeExt.InMemory -> DictionaryInMemory(true, instance)
                 else -> throw Exception("unreachable")
             }
         } else {
             when (type) {
-                EDictionaryTypeExt.InMemory -> DictionaryInMemory(false)
+                EDictionaryTypeExt.InMemory -> DictionaryInMemory(false, instance)
                 EDictionaryTypeExt.KV -> {
-                    val bufferManager = BufferManagerExt.getBuffermanager()
+                    val bufferManager = instance.bufferManager!!
                     var pageId: Int = -1
                     val fileName = "global_dictionary.page"
-                    val file = File(BUFFER_HOME + fileName)
+                    val file = File(instance.BUFFER_HOME + fileName)
                     val initFromDisk = BufferManagerExt.allowInitFromDisk && file.exists()
                     if (initFromDisk) {
                         file.withInputStream {
@@ -52,28 +51,28 @@ public object DictionaryFactory {
                     } else {
                         pageId = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryFactory.kt:52")
                         if (BufferManagerExt.allowInitFromDisk) {
-                            File(BUFFER_HOME + fileName).withOutputStream {
+                            File(instance.BUFFER_HOME + fileName).withOutputStream {
                                 it.writeInt(pageId)
                             }
                         }
                     }
-                    DictionaryKV(bufferManager, pageId, initFromDisk)
+                    DictionaryKV(bufferManager, pageId, initFromDisk, instance)
                 }
                 else -> throw Exception("unreachable")
             }
         }
     }
 
-    public fun createDictionary(type: EDictionaryType, isLocal: Boolean, bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean): IDictionary {
+    public fun createDictionary(type: EDictionaryType, isLocal: Boolean, bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean, instance: Luposdate3000Instance): IDictionary {
         return if (isLocal) {
             when (type) {
-                EDictionaryTypeExt.InMemory -> DictionaryInMemory(true)
+                EDictionaryTypeExt.InMemory -> DictionaryInMemory(true, instance)
                 else -> throw Exception("unreachable")
             }
         } else {
             when (type) {
-                EDictionaryTypeExt.InMemory -> DictionaryInMemory(false)
-                EDictionaryTypeExt.KV -> DictionaryKV(bufferManager, rootPageID, initFromRootPage)
+                EDictionaryTypeExt.InMemory -> DictionaryInMemory(false, instance)
+                EDictionaryTypeExt.KV -> DictionaryKV(bufferManager, rootPageID, initFromRootPage, instance)
                 else -> throw Exception("unreachable")
             }
         }

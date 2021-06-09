@@ -8,15 +8,13 @@ class LinkManagerTest {
 
     @Test
     fun cannotLinkWithItself() {
-        val linkTypeX = LinkType("X", 50, 7 )
+        val linkTypeX = LinkType("X", 50, 7)
         LinkManager.sortedLinkTypes = arrayOf(linkTypeX)
         val device: Device = Stubs.createEmptyDevice(0, intArrayOf(0))
         device.linkManager.setLinkIfPossible(device)
         assertNull(device.linkManager.getLink(device))
         assertFalse(device.linkManager.hasLink(device))
     }
-
-
 
     @Test
     fun `two devices with different linkTypes cannot link`() {
@@ -30,7 +28,7 @@ class LinkManagerTest {
 
     @Test
     fun `two devices are too far away to link`() {
-        val linkTypeX = LinkType("X", 50, 7 )
+        val linkTypeX = LinkType("X", 50, 7)
         LinkManager.sortedLinkTypes = arrayOf(linkTypeX)
 
         val deviceOne: Device = Stubs.createEmptyDevice(1, intArrayOf(0))
@@ -43,9 +41,9 @@ class LinkManagerTest {
 
     @Test
     fun `two devices link with most suitable linkType`() {
-        val linkTypeX = LinkType("X", 50, 7 )
-        val linkTypeY = LinkType("Y", 50, 8 )
-        val linkTypeZ = LinkType("Z", 48, 9 )
+        val linkTypeX = LinkType("X", 50, 7)
+        val linkTypeY = LinkType("Y", 50, 8)
+        val linkTypeZ = LinkType("Z", 48, 9)
         LinkManager.sortedLinkTypes = arrayOf(linkTypeX, linkTypeY, linkTypeZ)
         val deviceOne: Device = Stubs.createEmptyDevice(1, intArrayOf(0, 1, 2))
         val deviceTwo: Device = Stubs.createEmptyDevice(2, intArrayOf(0, 1, 2))
@@ -62,10 +60,10 @@ class LinkManagerTest {
 
     @Test
     fun `get sorted LinkType Indices`() {
-        val linkTypeW = LinkType("W", 51, 13 )
-        val linkTypeX = LinkType("X", 50, 7 )
-        val linkTypeY = LinkType("Y", 50, 8 )
-        val linkTypeZ = LinkType("Z", 48, 9 )
+        val linkTypeW = LinkType("W", 51, 13)
+        val linkTypeX = LinkType("X", 50, 7)
+        val linkTypeY = LinkType("Y", 50, 8)
+        val linkTypeZ = LinkType("Z", 48, 9)
         LinkManager.sortedLinkTypes = arrayOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ)
 
         val expected1 = intArrayOf(1, 2)
@@ -76,5 +74,4 @@ class LinkManagerTest {
         assertTrue(expected1.contentEquals(actual1))
         assertTrue(expected2.contentEquals(actual2))
     }
-
 }

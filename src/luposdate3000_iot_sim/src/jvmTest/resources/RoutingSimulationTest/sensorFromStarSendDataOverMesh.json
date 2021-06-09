@@ -1,71 +1,61 @@
 {
-  "linkType": [
-    {
-      "name": "WPAN",
-      "rangeInMeters": 15,
-      "dataRateInKbps": 250
-    }
-  ],
-  "deviceType": [
-    {
-      "name": "DataSinkDevice",
-      "database": true,
-      "parkingSensor": false,
-      "powerCapacity": -1.0,
-      "supportedLinkTypes": ["WPAN"]
-    },
-    {
-      "name": "MeshDevice",
-      "database": false,
-      "parkingSensor": false,
-      "powerCapacity": -1.0,
-      "supportedLinkTypes": ["WPAN"]
-    },
-    {
-      "name": "StarRootDevice",
-      "database": false,
-      "parkingSensor": true,
-      "powerCapacity": -1.0,
-      "supportedLinkTypes": ["WPAN"]
-    }
-  ],
-  "fixedDevice": [
-    {
-      "name": "DataSinkDevice",
-      "deviceType": "DataSinkDevice",
-      "latitude": 53.83305499403516,
-      "longitude": 10.69245881461053
-    },
-    {
-      "name": "StarRootDevice",
-      "deviceType": "StarRootDevice",
-      "latitude": 53.833081570216024,
-      "longitude": 10.69428422115027
-    }
-  ],
-  "fixedLink": [
-  ],
-  "rootRouter": "DataSinkDevice",
-  "randomMeshNetwork": [
-    {
-      "networkPrefix": "meshA",
-      "originLatitude": 53.833343483351236,
-      "originLongitude": 10.691905860485644,
-      "deviceType": "MeshDevice",
-      "linkType": "WPAN",
-      "signalCoverageEast": 170,
-      "signalCoverageSouth": 120
-    }
-  ],
-  "randomStarNetwork": [
-    {
-      "networkPrefix": "WSN",
-      "starRoot": "StarRootDevice",
-      "dataSink": "DataSinkDevice",
-      "linkType": "WPAN",
-      "deviceType": "ParkingSensorDevice",
-      "number": 2
-    }
-  ]
+    "linkType": [{
+        "name": "WPAN",
+        "rangeInMeters": 15,
+        "dataRateInKbps": 250
+    }],
+    "deviceType": [{
+            "name": "DataSinkDevice",
+            "database": true,
+            "parkingSensor": false,
+            "powerCapacity": -1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "MeshDevice",
+            "database": false,
+            "parkingSensor": false,
+            "powerCapacity": -1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "StarRootDevice",
+            "database": false,
+            "parkingSensor": true,
+            "powerCapacity": -1.0,
+            "supportedLinkTypes": ["WPAN"]
+        }
+    ],
+    "fixedDevice": [{
+            "name": "DataSinkDevice",
+            "deviceType": "DataSinkDevice",
+            "latitude": 53.83305499403516,
+            "longitude": 10.69245881461053
+        },
+        {
+            "name": "StarRootDevice",
+            "deviceType": "StarRootDevice",
+            "latitude": 53.833081570216024,
+            "longitude": 10.69428422115027
+        }
+    ],
+    "fixedLink": [],
+    "rootRouter": "DataSinkDevice",
+    "randomMeshNetwork": [{
+        "networkPrefix": "meshA",
+        "originLatitude": 53.833343483351236,
+        "originLongitude": 10.691905860485644,
+        "deviceType": "MeshDevice",
+        "linkType": "WPAN",
+        "signalCoverageEast": 170,
+        "signalCoverageSouth": 120
+    }],
+    "randomStarNetwork": [{
+        "networkPrefix": "WSN",
+        "starRoot": "StarRootDevice",
+        "dataSink": "DataSinkDevice",
+        "linkType": "WPAN",
+        "deviceType": "ParkingSensorDevice",
+        "number": 2
+    }]
 }
-

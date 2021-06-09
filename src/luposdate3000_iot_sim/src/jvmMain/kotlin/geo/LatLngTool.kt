@@ -2,7 +2,6 @@ package lupos.iot_sim.geo
 
 import kotlin.math.*
 
-
 /*
  *    Copyright 2010 Tyler Coles
  *
@@ -21,7 +20,6 @@ import kotlin.math.*
 /*
 * Modified on June 3rd, 2021 by Johann Mantler
 * */
-
 
 /**
  *
@@ -86,24 +84,24 @@ internal object LatLngTool {
         val lat2R = toRadians(point2.getLatitude())
         val dLatR = abs(lat2R - lat1R)
         val dLngR = abs(toRadians(point2.getLongitude() - point1.getLongitude()))
-        val a = sin(dLatR / 2) * sin(dLatR / 2) + (cos(lat1R) * cos(lat2R)
-                * sin(dLngR / 2) * sin(dLngR / 2))
+        val a = sin(dLatR / 2) * sin(dLatR / 2) + (
+            cos(lat1R) * cos(lat2R) *
+                sin(dLngR / 2) * sin(dLngR / 2)
+            )
         return 2 * atan2(sqrt(a), sqrt(1 - a))
     }
-
 
     /**
      * Converts an angle measured in degrees to an approximately
      * equivalent angle measured in radians.  The conversion from
      * degrees to radians is generally inexact.
      *
-     * @return  the measurement of the angle `angleInDegrees`
+     * @return the measurement of the angle `angleInDegrees`
      * in radians.
      */
     private fun toRadians(angleInDegrees: Double): Double {
         return angleInDegrees / 180.0 * PI
     }
-
 
     /**
      * Converts an angle measured in radians to an approximately
@@ -112,13 +110,12 @@ internal object LatLngTool {
      * *not* expect `cos(toRadians(90.0))` to exactly
      * equal `0.0`.
      *
-     * @return  the measurement of the angle `angleInRadians`
+     * @return the measurement of the angle `angleInRadians`
      * in degrees.
      */
     private fun toDegrees(angleInRadians: Double): Double {
         return angleInRadians * 180.0 / PI
     }
-
 
     /**
      *
@@ -138,7 +135,9 @@ internal object LatLngTool {
      * @return the end point.
      */
     internal fun travel(
-        start: LatLng, initialBearing: Double, distance: Double,
+        start: LatLng,
+        initialBearing: Double,
+        distance: Double,
         unit: LengthUnit
     ): LatLng {
         val bR = toRadians(initialBearing)
@@ -147,8 +146,10 @@ internal object LatLngTool {
         val dR = distance / LatLngConfig.getEarthRadius(unit)
         val a = sin(dR) * cos(lat1R)
         val lat2 = asin(sin(lat1R) * cos(dR) + a * cos(bR))
-        val lon2 = (lon1R
-                + atan2(sin(bR) * a, cos(dR) - sin(lat1R) * sin(lat2)))
+        val lon2 = (
+            lon1R +
+                atan2(sin(bR) * a, cos(dR) - sin(lat1R) * sin(lat2))
+            )
         return LatLng(toDegrees(lat2), toDegrees(lon2))
     }
 
@@ -187,7 +188,6 @@ internal object LatLngTool {
         }
         return longitudeResult
     }
-
 
     /** Convenient static values for bearings.  */
     internal object Bearing {

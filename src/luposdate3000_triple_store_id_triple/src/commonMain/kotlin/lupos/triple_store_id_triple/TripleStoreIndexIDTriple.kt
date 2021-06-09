@@ -17,10 +17,10 @@
 package lupos.triple_store_id_triple
 
 import lupos.ProguardTestAnnotation
-import lupos.buffer_manager.BufferManager
-import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.ETripleIndexTypeExt
+import lupos.shared.IBufferManager
 import lupos.shared.IQuery
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
@@ -46,17 +46,17 @@ import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
-    internal val bufferManager: BufferManager
+    internal val bufferManager: IBufferManager
 
     @JvmField
     internal val rootPageID: Int
 
     public override fun getRootPageID(): Int = rootPageID
 
-    public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager(), rootPageID, initFromRootPage)
+    public constructor(rootPageID: Int, initFromRootPage: Boolean, instance: Luposdate3000Instance) : this(instance.bufferManager!!, rootPageID, initFromRootPage)
 
     @ProguardTestAnnotation
-    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+    public constructor(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         nodeManager = NodeManager(bufferManager)

@@ -1,4 +1,7 @@
 {
+animationSpeed:80,
+evalGraphSparql:true,
+evalGraphRif:true,
     sonification: {
         Pitch: {
             mode: "None",
@@ -31,7 +34,7 @@
             evaluators: [
                 "Luposdate3000"
             ],
-            selectedEvaluator: 0,
+            "selectedEvaluator": 0,
         },
         {
             name: "localhost Luposdate3000",
@@ -41,7 +44,7 @@
             evaluators: [
                 "Luposdate3000"
             ],
-            selectedEvaluator: 0,
+            "selectedEvaluator": 0,
         },
         {
             url: "https://www.ifis.uni-luebeck.de/sparql-endpoint/",
@@ -56,7 +59,7 @@
                 "Jena",
                 "Sesame",
             ],
-            selectedEvaluator: 0,
+            "selectedEvaluator": 0,
         },
         {
             url: "http://localhost:8080/",
@@ -72,7 +75,7 @@
                 "Jena",
                 "Sesame",
             ],
-            selectedEvaluator: 0,
+            "selectedEvaluator": 0,
         },
     ],
     selectedEndpoint: 0,
@@ -99,23 +102,22 @@
             "resources/RIF/rule_fibonacci.rif",
         ],
     },
-    sendRDF: true, // Default behaviour    for RDF tab
-    hide: {
+    "sendRDF": true, // Default behaviour    for RDF tab
+    "hide": {
         //        for hiding the check box at the RDF tab: # "sendRDF": true
         //        for hiding the inference radio buttons(except the checked one in            case it is not "NONE"): # "inference": true
         //        for hiding the withGraph checkbox        # "withGraph": true
         // Hidden tabs are still functional but not visible to the user
         // Tabs are: ["sparql", "rdf", "rif", "results", "graph"]
-        tabs: [
-            "",
+        "tabs": [
         ],
     },
-    readOnlyTabs: [],
+    "readOnlyTabs": [],
 
     // Query Parameters are placed directly in the nonstandard request body
     // see github.com / Be-ngt-oH / luposdate-nonstandard-endpoint    for reference
-    queryParameters: {
-        inference: "NONE",
-        inferenceGeneration: "GENERATEDOPT",
+    "queryParameters": {
+        "inference": "NONE",
+        "inferenceGeneration": "GENERATEDOPT",
     },
 }

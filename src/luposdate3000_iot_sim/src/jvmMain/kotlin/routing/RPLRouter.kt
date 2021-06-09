@@ -1,12 +1,11 @@
 package lupos.iot_sim.routing
 
-import lupos.iot_sim.config.Configuration
-import lupos.iot_sim.Device
 import lupos.des_core.Entity
+import lupos.iot_sim.Device
 import lupos.iot_sim.NetworkPackage
+import lupos.iot_sim.config.Configuration
 
-
-public class RPLRouter(public val device: Device): IRoutingAlgorithm {
+public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
 
     public lateinit var routingTable: RoutingTable
 
@@ -38,10 +37,9 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
 
     public inner class Parent(public var address: Int = notInitializedAddress, public var rank: Int = notInitializedRank)
 
-
     private fun broadcastDIO() {
         for (potentialChild in device.linkManager.getNeighbours())
-            if(potentialChild != preferredParent.address)
+            if (potentialChild != preferredParent.address)
                 sendDIO(potentialChild)
     }
 
@@ -65,7 +63,6 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
         device.sendUnRoutedPackage(destinationAddress, dao)
         daoSentCounter++
     }
-
 
     private fun processDIO(pck: NetworkPackage) {
         val dio = pck.payload as DIO
@@ -93,7 +90,6 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
         routingTable.defaultAddress = preferredParent.address
     }
 
-
     private fun processDAO(pck: NetworkPackage) {
         val dao = pck.payload as DAO
         daoReceivedCounter++
@@ -101,14 +97,14 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
 
         val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, dao)
 
-        if(hasParent() && hasRoutingTableChanged)
+        if (hasParent() && hasRoutingTableChanged)
             if (!isDelayDAOTimerRunning)
                 startDelayDAOTimer()
     }
 
     private fun updateRoutingTable(hopAddress: Int, dao: DAO): Boolean {
         return if (dao.isPath) {
-            if(dao.hopHasDatabase)
+            if (dao.hopHasDatabase)
                 routingTable.setDestinationsByDatabaseHop(hopAddress, dao.destinations)
             else
                 routingTable.setDestinationsByHop(hopAddress, dao.destinations, dao.existingDatabaseHops)
@@ -122,15 +118,12 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
         return otherRank + link.distanceInMeters
     }
 
-
-
-    public fun hasParent(): Boolean
-            = preferredParent.address != notInitializedAddress
-
+    public fun hasParent(): Boolean =
+        preferredParent.address != notInitializedAddress
 
     override fun startRouting() {
         routingTable = RoutingTable(device.address, Configuration.devices.size)
-        if(isRoot) {
+        if (isRoot) {
             rank = ROOT_RANK
             broadcastDIO()
         }
@@ -142,18 +135,18 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
         public val isPath: Boolean,
         public val destinations: IntArray,
         public val hopHasDatabase: Boolean,
-        public val existingDatabaseHops: IntArray)
+        public val existingDatabaseHops: IntArray
+    )
 
-    override fun isControlPackage(pck: NetworkPackage): Boolean
-        = pck.payload is DAO || pck.payload is DIO
-
+    override fun isControlPackage(pck: NetworkPackage): Boolean =
+        pck.payload is DAO || pck.payload is DIO
 
     private fun forwardDAO() {
         sendDAO(preferredParent.address)
         forwardedDaoCounter++
     }
 
-    public inner class DelayDAOTimerExpired: Entity.ITimerExpired {
+    public inner class DelayDAOTimerExpired : Entity.ITimerExpired {
         override fun onExpire() {
             isDelayDAOTimerRunning = false
             forwardDAO()
@@ -165,22 +158,21 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
         isDelayDAOTimerRunning = true
     }
 
-
     override fun processControlPackage(pck: NetworkPackage) {
-        when(pck.payload) {
+        when (pck.payload) {
             is DIO -> processDIO(pck)
             is DAO -> processDAO(pck)
         }
     }
 
-    override fun getNextHop(destinationAddress: Int): Int
-        = routingTable.getNextHop(destinationAddress)
+    override fun getNextHop(destinationAddress: Int): Int =
+        routingTable.getNextHop(destinationAddress)
 
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
-        = routingTable.getNextDatabaseHops(destinationAddresses)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
+        routingTable.getNextDatabaseHops(destinationAddresses)
 
-    override fun getNextDatabaseHop(destinationAddress: Int): Int
-            = routingTable.getNextDatabaseHop(destinationAddress)
+    override fun getNextDatabaseHop(destinationAddress: Int): Int =
+        routingTable.getNextDatabaseHop(destinationAddress)
 
     override fun toString(): String {
         val strBuilder = StringBuilder()
@@ -199,9 +191,8 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
         return strBuilder.toString()
     }
 
-    private fun getParentString()
-        = if (hasParent()) "parent ${preferredParent.address}" else "root"
-
+    private fun getParentString() =
+        if (hasParent()) "parent ${preferredParent.address}" else "root"
 
     private fun getChildrenString(): StringBuilder {
         val strBuilder = StringBuilder()
@@ -210,18 +201,17 @@ public class RPLRouter(public val device: Device): IRoutingAlgorithm {
             val link = device.linkManager.getLink(children)!!
             strBuilder.append("$link to $children").append(separator)
         }
-        if(strBuilder.length >= separator.length)
+        if (strBuilder.length >= separator.length)
             strBuilder.deleteRange(strBuilder.length - separator.length, strBuilder.length)
         return strBuilder
     }
 
     public companion object {
 
-        //RPL Constants and Variables (see RFC 6550)
-        public const val DEFAULT_DAO_DELAY: Int = 1 //seconds
+        // RPL Constants and Variables (see RFC 6550)
+        public const val DEFAULT_DAO_DELAY: Int = 1 // seconds
 
-
-        public val daoDelay: Int = 2//DEFAULT_DAO_DELAY * 3
+        public val daoDelay: Int = 2 // DEFAULT_DAO_DELAY * 3
 
         public const val ROOT_RANK: Int = 0
 

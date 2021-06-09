@@ -17,12 +17,14 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
-public class BufferManager public constructor() {
+public class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
 
     /*
      * each type safe page-manager safes to its own store
@@ -69,17 +71,17 @@ public class BufferManager public constructor() {
         return res
     }
 
-    public fun flushPage(call_location: String, pageid: Int) {
+    public override fun flushPage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
     }
 
-    public fun releasePage(call_location: String, pageid: Int) {
+    public override fun releasePage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
         allPagesRefcounters[pageid]--
     }
 
-    public fun getPage(call_location: String, pageid: Int): ByteArray {
+    public override fun getPage(call_location: String, pageid: Int): ByteArray {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
@@ -94,7 +96,7 @@ public class BufferManager public constructor() {
         return allPages[pageid]
     }
 
-    public /*suspend*/ fun allocPage(call_location: String): Int {
+    public /*suspend*/ override fun allocPage(call_location: String): Int {
         var pageid: Int = 0
         lock.withWriteLock {
             if (freeListSize > 0) {
@@ -127,7 +129,7 @@ public class BufferManager public constructor() {
         return pageid
     }
 
-    public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
+    public /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck {
             for (i in 0 until freeListSize) {
@@ -150,7 +152,7 @@ public class BufferManager public constructor() {
     }
 
     @ProguardTestAnnotation
-    public fun close() {
+    public override fun close() {
         SanityCheck {
             val allErrors = mutableMapOf<Int, Int>()
             for (i in 0 until counter) {

@@ -29,9 +29,9 @@ internal enum class OptimizerMode {
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = Parallel.runBlocking {
-    LuposdateEndpoint.initialize()
+    val instance = LuposdateEndpoint.initialize()
     Parallel.launch {
-        HttpEndpointLauncher.start()
+        HttpEndpointLauncher.start(instance)
     }
     val queryFiles2 = queryFiles.split(";")
     val minimumTime2 = minimumTime.toDouble()
@@ -45,7 +45,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         optimizerMode2 = OptimizerMode.All
     }
     val timer = DateHelperRelative.markNow()
-    LuposdateEndpoint.importTurtleFile(datasourceFiles)
+    LuposdateEndpoint.importTurtleFile(instance, datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples2,0,1,${numberOfTriples2 * 1000.0},${1.0 / time}")
     val groupSize = IntArray(queryFiles2.size) { 1 }
@@ -54,7 +54,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             val queryFile = queryFiles2[queryFileIdx]
             val query = File(queryFile).readAsString()
             val timerFirst = DateHelperRelative.markNow()
-            LuposdateEndpoint.evaluateSparqlToResultC(query, true)
+            LuposdateEndpoint.evaluateSparqlToResultC(instance, query, true)
             val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
             groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
             val timer = DateHelperRelative.markNow()
@@ -63,7 +63,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             while (true) {
                 counter += groupSize[queryFileIdx]
                 for (i in 0 until groupSize[queryFileIdx]) {
-                    LuposdateEndpoint.evaluateSparqlToResultB(query)
+                    LuposdateEndpoint.evaluateSparqlToResultB(instance, query)
                 }
                 time = DateHelperRelative.elapsedSeconds(timer)
                 if (time > minimumTime2) {
@@ -77,11 +77,11 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         for (queryFileIdx in queryFiles2.indices) {
             val queryFile = queryFiles2[queryFileIdx]
             val query = File(queryFile).readAsString()
-            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(query, true)
+            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, true)
             val writer = MyPrintWriter(false)
-            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+            LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
             val timerFirst = DateHelperRelative.markNow()
-            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+            LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
             val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
             groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
             val timer = DateHelperRelative.markNow()
@@ -90,7 +90,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             while (true) {
                 counter += groupSize[queryFileIdx]
                 for (i in 0 until groupSize[queryFileIdx]) {
-                    LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                    LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
                 }
                 time = DateHelperRelative.elapsedSeconds(timer)
                 if (time > minimumTime2) {

@@ -1,4 +1,5 @@
 package lupos.iot_sim
+
 public data class Link(
     var distanceInMeters: Int,
     val linkTypeIndex: Int,
@@ -8,4 +9,3 @@ public data class Link(
         return "(${distanceInMeters}m, ${dataRateInKbps}kbps)"
     }
 }
-

@@ -1,12 +1,13 @@
 package lupos.iot_sim
+
+import lupos.des_core.Entity
+import lupos.des_core.Event
 import lupos.iot_sim.config.Configuration
 import lupos.iot_sim.geo.GeoLocation
 import lupos.iot_sim.routing.IRoutingAlgorithm
 import lupos.iot_sim.routing.RPLRouter
 import lupos.iot_sim.sensor.ISensor
 import lupos.iot_sim.sensor.ParkingSample
-import lupos.des_core.Entity
-import lupos.des_core.Event
 
 public class Device(
     public val powerSupply: PowerSupply,
@@ -15,8 +16,7 @@ public class Device(
     public var database: DatabaseAdapter?,
     public var sensor: ISensor?,
     public val supportedLinkTypes: IntArray
-    ) : Entity()
-{
+) : Entity() {
     public val router: IRoutingAlgorithm = RPLRouter(this)
     public val linkManager: LinkManager = LinkManager(this)
     public var isStarNetworkChild: Boolean = false
@@ -39,28 +39,25 @@ public class Device(
     }
 
     override fun onSteadyState() {
-
     }
 
     override fun onEvent(event: Event) {
         val pck = event.data as NetworkPackage
         packageCounter++
-        if(pck.destinationAddress == address)
+        if (pck.destinationAddress == address)
             processPackage(pck)
         else
             forwardPackage(pck)
     }
 
     private fun processPackage(pck: NetworkPackage) {
-        if(router.isControlPackage(pck)) {
+        if (router.isControlPackage(pck)) {
             router.processControlPackage(pck)
-        }
-        else if(pck.payload is ParkingSample) {
+        } else if (pck.payload is ParkingSample) {
             processedSensorDataPackages++
             database?.saveParkingSample(pck.payload)
         }
     }
-
 
     override fun onShutDown() {
         sensor?.stopSampling()
@@ -116,9 +113,4 @@ public class Device(
             observationPackageCounter = 0
         }
     }
-
-
-
-
-
 }

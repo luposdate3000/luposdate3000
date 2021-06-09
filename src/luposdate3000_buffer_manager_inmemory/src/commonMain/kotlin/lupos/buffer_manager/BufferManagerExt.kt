@@ -24,20 +24,4 @@ public object BufferManagerExt {
 
     @JvmField
     public var allowInitFromDisk: Boolean = false
-
-    @JvmField
-    internal var bufferManager: BufferManager? = null
-
-    public fun initialize() {
-        bufferManager = BufferManager()
-    }
-
-    public fun getBuffermanager(): BufferManager {
-        return bufferManager!!
-    }
-
-    public fun close() {
-        bufferManager?.close()
-        bufferManager = null
-    }
 }

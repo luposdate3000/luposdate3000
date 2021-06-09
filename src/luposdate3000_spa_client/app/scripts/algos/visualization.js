@@ -5,8 +5,7 @@
 // Set of global variables needed for the visualization and sonification
 var sessionId;
 // Variables for the vis network
-var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon,
-    dataSetEdges;
+var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon, dataSetEdges;
 // Variables for the animation
 var stopFlag, pauseFlag; // Flag top stop the current animation process
 var timer;
@@ -16,101 +15,69 @@ var globalAnimationList = []; //Array that stores all data that is needed to be 
 var queue = [];
 var prefixes = []; //Stores all prefixes from the SPARQL and RDF editor
 var currentIndex;
-//NexusUI Variables (graphical elements i.e. slider, etc)
-var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
+//NexusUI Variables (graphical elements i.e.  etc)
+var toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
 var selectArray = [];
 var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
-var initFlag = false;
+const panner = new Tone.Panner(0).toDestination();
 
 
-function initLuposdate3000() {
+function initLuposdate3000() { //first time initialization - called by main.coffee, before anything else is loaded
     if (typeof luposdate3000_endpoint === "undefined") {
         luposdate3000_endpoint = Luposdate3000_Endpoint
     }
 }
 
-
-const panner = new Tone.Panner(0).toDestination();
-//Initialize all interactive elements and Luposdate3000
-// -> If evaluate Button is clicked
-function visualisationSetup() {
-    //Loading all instruments and the "none" Option
-    var instrumentList = Object.keys(App.operators.Instrument);
-    instrumentList.push("None");
-    //Load piano as default instrument
-    App.samples = SampleLibrary.load({
-        instruments: ['piano'],
-        baseUrl: "./resources/samples/"
-    });
-    usedInstruments.push('piano');
-    // loop through instruments and set release, connect to master output
-    App.samples['piano'].release = .5;
-    App.samples['piano'].toDestination();
-
-    current = App.samples['piano'];
-    current.connect(panner);
-
-    //If network was already build up:
-    //Delete current Animation List and Netowrk
-    if (network != null) {
-        network.destroy();
-        if (networkSon != null) {
-            networkSon.destroy();
-        }
-        globalAnimationList = [];
-        $('.result-tab a').click()
-        //First time initialization
+function setAnimationFlags(stopF, pauseF) {
+    stopFlag = stopF
+    pauseFlag = pauseF
+    if (stopFlag) {
+        $('#luposdate3000_stop').hide();
+        $('#luposdate3000_play').show();
+        $('#luposdate3000_pause').hide();
+        $('#luposdate3000_forward').hide();
+        $('#luposdate3000_backward').hide();
+        $('#luposdate3000_forward').prop('disabled', true);
+        $('#luposdate3000_backward').prop('disabled', true);
+        currentIndex = 0
+    } else if (pauseFlag) {
+        $('#luposdate3000_stop').show();
+        $('#luposdate3000_play').show();
+        $('#luposdate3000_pause').hide();
+        $('#luposdate3000_forward').show();
+        $('#luposdate3000_backward').show();
+        $('#luposdate3000_forward').prop('disabled', currentIndex >= queue.length);
+        $('#luposdate3000_backward').prop('disabled', currentIndex <= 0);
     } else {
-        //Slider for the Animation Speed
-        slider = new Nexus.Slider('#sonification-animation-speed', {
-            'size': [130, 30],
-            'mode': 'relative', // 'relative' or 'absolute'
-            'min': 40,
-            'max': 1000,
-            'step': 10,
-            'value': 80
-        });
-
-        // Textfield for Animation Speed Slider
-        // And Event Listener
-        $('#sonification-animation-speed-number').val(80);
-        slider.on('change', function(v) {
-            $('#sonification-animation-speed-number').val(v);
-        });
-
-        //Toogle-Button for the Follow Mode
-        toggle = new Nexus.Toggle('#sonification-follow', {
-            'size': [40, 30],
-            'state': false
-        });
+        $('#luposdate3000_stop').show();
+        $('#luposdate3000_play').hide();
+        $('#luposdate3000_pause').show();
+        $('#luposdate3000_forward').show();
+        $('#luposdate3000_backward').show();
+        $('#luposdate3000_forward').prop('disabled', true);
+        $('#luposdate3000_backward').prop('disabled', true);
     }
-
-    //Show necessary elements, hide pause animation Button
-    $('#luposdate3000-graph-tab').show();
-    $('#luposdate3000_play').show();
-    $('#luposdate3000_pause').hide();
-    $('#luposdate3000_stop').hide();
-    $('#luposdate3000_forward').hide();
-    $('#luposdate3000_backward').hide();
 }
 
-function visualisationStart() {
-    //Default: Simple Instrument Mode
-    $('#instrumentAdvanced-select').show();
-    //$('#instrumentSimple').prop("checked", true);
-    $('#pitchDynamic').prop("checked", true);
-    $('#dataSorting').prop('checked', false);
-
-}
-
-function createMapping() {
-    if (!initFlag) {
-        initFlag = true;
-    }
+function initVisualization() { //first time initialization - called by main.coffee, after configuration is loaded
+    var slider = new Nexus.Slider('#sonification-animation-speed', {
+        'size': [130, 30],
+        'mode': 'absolute', // 'relative' or 'absolute'
+        'min': 40,
+        'max': 990,
+        'step': 10,
+        'value': App.config.animationSpeed
+    });
+    slider.on('change', function(v) {
+        App.config.animationSpeed = v
+    });
+    toggle = new Nexus.Toggle('#sonification-follow', { //TODO config file
+        'size': [40, 30],
+        'state': false
+    });
     var html = '';
-    var i;
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         html += '<h7>' + App.operators.audioDimension[j] + ' Settings</h7><br><br>';
         html += '<div nexus-ui=select id=selectAudio-' + j + '></div><br>';
@@ -126,7 +93,7 @@ function createMapping() {
         selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
         selectAudio[i].myFunction = App.mappingFunctions[i]
         selectAudio[i].myNoValue = App.operators.information[i].standard
-        selectAudio[i].on('change', function(v) { //initialise listener
+        selectAudio[i].on('change', function(v) {
             if (v.value == this.myNoValue) {
                 $(this.myIdentifier).hide();
             } else {
@@ -134,23 +101,20 @@ function createMapping() {
             }
             this.myFunction(v.value);
         });
-        $(selectAudioIdentifier).after($(App.mappingIdentifiers[i])); //positioning of the html
+        $(selectAudioIdentifier).after($(App.mappingIdentifiers[i]));
     }
-    selectMapping()
+    setAnimationFlags(true, false)
 }
 
-function selectMapping() {
+
+function selectMapping() { //applies the current settings to the settings-menu-items
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         var i = App.operators.audioDimension[j]
         selectAudio[i].value = App.config.sonification[i].mode
     }
 }
-
-
-// Event Listener
-// Re-fit the canvas if the "Sonification" tab is clicked
 $("a[href=#luposdate3000-graph-tab]").click(function() {
-    if ($('#eval-graph-sparql').prop('checked')) {
+    if (App.config.evalGraphSparql) {
         sleep(50).then(() => {
             network.redraw();
             network.fit();
@@ -158,35 +122,6 @@ $("a[href=#luposdate3000-graph-tab]").click(function() {
     }
 });
 
-//Event Listener
-//Change the Slider value of the Animation Speed if the matching
-//Textfield has changed
-$('#sonification-animation-speed-number').change(function() {
-    var tmp = $('#sonification-animation-speed-number');
-    if (tmp.val() >= 40 && tmp.val() <= 1000) {
-        slider.value = tmp.val();
-    } else if (tmp.val < 40) {
-        $('#sonification-animation-speed-number').mouseleave
-        $('#sonification-animation-speed-number').val("40");
-        slider.value = 40;
-    } else if (tmp.val > 1000) {
-        $('#sonification-animation-speed-number').blur();
-        $('#sonification-animation-speed-number').val("1000");
-        slider.value = 1000;
-    }
-});
-
-$('#pitchDynamic').click(function() {
-    $('#pitchDynamic').prop('checked', true);
-    $('#pitchExplicit').prop('checked', false);
-    $('#pitchSettingsExplicit').hide();
-});
-
-$('#pitchExplicit').click(function() {
-    $('#pitchDynamic').prop('checked', false);
-    $('#pitchExplicit').prop('checked', true);
-    $('#pitchSettingsExplicit').show();
-});
 
 //Event Listener
 //Check when the Graph Step Selector is changed if its at the minimum or maximum
@@ -196,13 +131,9 @@ $("#luposdate3000_graph-select").change(function() {
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
         loadData(App.logGraph[value - 1].split("SPLITHERE"), false);
-    } else if (index == 1) {
-        loadData(App.physGraph[value - 1].split("SPLITHERE"), false);
-    }
-
-    if (index == 0) {
         var max = App.logGraph.length;
     } else if (index == 1) {
+        loadData(App.physGraph[value - 1].split("SPLITHERE"), false);
         var max = App.physGraph.length;
     }
 
@@ -243,13 +174,6 @@ $('input[type=radio][name=L3Graph]').change(function() {
 
 });
 
-$("a[href=#luposdate3000-graph-tab]").click(function() {
-    sleep(50).then(() => {
-        network.redraw();
-        network.fit();
-    })
-});
-
 
 $("a[href=#luposdate3000-sonification-tab]").click(function() {
     sleep(50).then(() => {
@@ -281,38 +205,6 @@ $('#luposdate3000-op-graph-up').click(function() {
         value++;
     $('#luposdate3000_graph-select').val(value)
     $('#luposdate3000_graph-select').trigger('change')
-});
-
-//Event Listener
-// Trigger animation method when play button is pressed.
-$('#luposdate3000_play').click(function() {
-    if (!pauseFlag) {
-        queue = globalAnimationList.map(function(arr) {
-            return arr.slice();
-        });
-        currentIndex = 0;
-    }
-    if (stopFlag) {
-        var i;
-        for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
-            var edgeId = dataSetEdges.getIds()[i];
-            var newWidth = 1;
-            dataSetEdges.update([{
-                id: edgeId,
-                width: newWidth
-            }]);
-        }
-    }
-    $('#luposdate3000_stop').show();
-    $('#luposdate3000_play').hide();
-    $('#luposdate3000_pause').show();
-    $('#luposdate3000_forward').show();
-    $('#luposdate3000_backward').show();
-    animation(queue);
-    $('#luposdate3000_forward').prop('disabled', true);
-    $('#luposdate3000_backward').prop('disabled', true);
-    stopFlag = false;
-    pauseFlag = false;
 });
 
 $('#dataSorting').click(function() {
@@ -352,6 +244,9 @@ $('#joinHighlight').click(function() {
         },
         "Instrument": {
             "mode": "Operator-Type",
+            "Operator-Type": {
+                value: ['guitar-acoustic', 'xylophone', 'piano']
+            }
         },
         "Loudness": {
             "mode": "None",
@@ -373,23 +268,9 @@ $('#joinHighlight').click(function() {
         },
     }
     selectMapping()
-    var i;
-    for (i = 0; i <= instrumentOperatorType.length - 1; i++) {
-        if (differentTypes[i].includes("TripleStore")) {
-            instrumentOperatorType[i].value = 'guitar-acoustic';
-        } else if (differentTypes[i].includes("Join")) {
-            instrumentOperatorType[i].value = 'xylophone';
-        } else {
-            instrumentOperatorType[i].value = 'piano';
-        }
-    }
 })
 
 $('#reset').click(function() {
-    resetAllSonificationSettings()
-})
-
-function resetAllSonificationSettings() {
     App.config.sonification = {
         "Pitch": {
             "mode": "None",
@@ -417,15 +298,15 @@ function resetAllSonificationSettings() {
         },
     }
     selectMapping()
-    $('#dataSorting').prop('checked', false);
-    $('#joinHighlight').prop('checked', false);
-    $('#dataVariableDepth').prop('checked', false);
-}
+})
 
 $('#dataVariableDepth').click(function() {
     App.config.sonification = {
         "Pitch": {
             "mode": "Data-Variable",
+            "Data-Variable": {
+                value: App.operators.Pitch.values
+            }
         },
         "Instrument": {
             "mode": "None",
@@ -438,6 +319,9 @@ $('#dataVariableDepth').click(function() {
         },
         "Duration": {
             "mode": "Operator-Depth",
+            "Operator-Depth": {
+                value: ["16n", "8n", "4n", "2n", "1n"]
+            }
         },
         "Melody": {
             "mode": "No",
@@ -450,43 +334,21 @@ $('#dataVariableDepth').click(function() {
         },
     }
     selectMapping()
-    var i;
-    for (i = 0; i <= differentDataVariables.length - 1; i++) {
-        pitchDataVariable[i].value = App.operators.Pitch[i * 2];
-    }
-    $('#pitchExplicit').prop('checked', true);
-    for (i = 0; i <= differentPositions.length - 1; i++) {
-        switch (i) {
-            case 0:
-                durationOperatorDepth[i].value = '16n';
-                break;
-            case 1:
-                durationOperatorDepth[i].value = '8n';
-                break;
-            case 2:
-                durationOperatorDepth[i].value = '4n';
-                break;
-            case 3:
-                durationOperatorDepth[i].value = '2n';
-                break;
-            default:
-                durationOperatorDepth[i].value = '1n';
-                break;
-        }
-    }
 });
 
 //Event Listener
-// Set stopFlag to stop Animation when stop button is pressed
-$('#luposdate3000_stop').click(function() {
-    $('#luposdate3000_stop').hide();
-    $('#luposdate3000_play').show();
-    $('#luposdate3000_pause').hide();
-    $('#luposdate3000_forward').hide();
-    $('#luposdate3000_backward').hide();
+// Trigger animation method when play button is pressed.
+$('#luposdate3000_play').click(function() {
+    setAnimationFlags(false, false)
+    animation(true);
+});
+
+function resetAnimationQueue() {
     $('.meter').css("width", 0 + "%");
-    pauseFlag = false;
-    stopFlag = true;
+    queue = globalAnimationList.map(function(arr) {
+        return arr.slice();
+    });
+    currentIndex = 0;
     var i;
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
         var edgeId = dataSetEdges.getIds()[i];
@@ -496,51 +358,31 @@ $('#luposdate3000_stop').click(function() {
             width: newWidth
         }]);
     }
-    if (dataSet.getIds().includes(999)) {
-        dataSet.remove(999);
-    }
-    $('#luposdate3000_forward').prop('disabled', true);
-    $('#luposdate3000_backward').prop('disabled', true);
+}
+
+//Event Listener
+// Set stopFlag to stop Animation when stop button is pressed
+$('#luposdate3000_stop').click(function() {
+    resetAnimationQueue()
+    setAnimationFlags(true, false)
 });
 
 $('#luposdate3000_pause').click(function() {
-    $('#luposdate3000_stop').show();
-    $('#luposdate3000_play').show();
-    $('#luposdate3000_pause').hide();
-    $('#luposdate3000_forward').show();
-    $('#luposdate3000_backward').show();
-    pauseFlag = true;
-    $('#luposdate3000_forward').prop('disabled', false);
-    $('#luposdate3000_backward').prop('disabled', false);
-
+    setAnimationFlags(false, true)
 });
 
 $('#luposdate3000_forward').click(function() {
-    dataSet.remove(999);
-    queue.shift();
-    currentIndex++;
-    var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-    $('.meter').css("width", tmp + "%");
-    addNewNode();
+    currentIndex++
+    animation(false)
 });
 
 $('#luposdate3000_backward').click(function() {
-    dataSet.remove(999);
-    queue = globalAnimationList.map(function(arr) {
-        return arr.slice();
+    currentIndex -= 1;
+    animation(false)
+    sleep(30).then(() => {
+        setAnimationFlags(false, true)
     });
-    currentIndex--;
-    queue = queue.slice(currentIndex);
-    var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-    $('.meter').css("width", tmp + "%");
-    addNewNode();
 });
-
-//Creates a table on the result Tab and show the results from the query
-function calculateResult() {
-    App.processResults(App.result, "sparql");
-
-}
 
 //Function to pause the thread.
 //Needed as javascript is asynchronous
@@ -550,7 +392,7 @@ function sleep(ms) {
 
 //Goes through all prefixes from the SPARQL and RDF editor and replaces the data within
 //the current saved data.
-function replacePrefix() {
+function replacePrefix() { //
     prefixes = [];
     var i;
     var rdfPrefix = App.parseRDFPrefixes(App.cm['rdf'].getValue());
@@ -585,24 +427,70 @@ function replacePrefix() {
             }
         }
     }
-    calculateResult();
+    selectMapping()
+    App.processResults(App.result, "sparql");
 }
 
-//Function that is getting called by the Luposdate3000 Library and pushing the data
-//to animate
-function receiveAnimation(childUUID, parentUUID, string, index) {
-    //globalAnimationList.push([childUUID, parentUUID, string, index]);
+//Avoid buffer problem when instrument files are not yet loaded
+function triggerNote(chord, duration, delay, velocity, currentname) {
+    if (typeof App.samples[currentname] === "undefined") {
+        App.samples[currentname] = new Tone.Sampler(
+            SampleLibrary[currentname], {
+                baseUrl: "./resources/samples/" + currentname + "/",
+                onload: null
+            })
+        App.samples[currentname].release = .5;
+        App.samples[currentname].toDestination();
+    }
+    var current = App.samples[currentname];
+    if (current._buffers.loaded)
+        try {
+            current.connect(panner).triggerAttackRelease(chord, duration, delay, velocity);
+        } catch (error) {}
+    else {
+        sleep(100).then(() => {
+            triggerNote(chord, duration, delay, velocity, currentname);
+        });
+    }
 }
 
-function playNoteMapping(id, label, index) {
+function addNewNode() {
+    var queueHead = queue[currentIndex]
+    var positions = networkSon.getPositions();
+    var x_start = positions[queueHead[0]].x,
+        y_start = positions[queueHead[0]].y - 32;
+    try {
+        dataSet.add([{
+            id: 999,
+            label: queueHead[2],
+            group: 1
+        }]);
+    } catch (error) {
+        //this may happen if you click "next" to fast
+    }
+    networkSon.moveNode(999, x_start, y_start);
+    if (toggle.state) {
+        networkSon.focus("999", {
+            scale: 1,
+            offset: {
+                x: 0,
+                y: 0
+            },
+            locked: true,
+        });
+    } else {
+        networkSon.fit();
+    }
+    var id = dataNodes.find(element => element.id == queueHead[0]).id
+    var label = dataNodes.find(element => element.id == queueHead[0]).label
+    var index = queueHead[3]
     var pitchType = App.config.sonification.Pitch.mode;
     var melodyType = App.config.sonification.Melody.mode;
     var chordType = App.config.sonification.Chord.mode;
 
     var tone, velocity, duration, octave;
 
-    var currentName = getAudioData(idMappings, id, label, index, "Instrument")
-    current = App.samples[currentName];
+    var currentname = getAudioData(idMappings, id, label, index, "Instrument");
 
     velocity = getAudioData(idMappings, id, label, index, "Loudness")
 
@@ -611,8 +499,8 @@ function playNoteMapping(id, label, index) {
     duration = getAudioData(idMappings, id, label, index, "Duration");
 
     //Octave
-    var b1 = pitchType == 'Operator-ID' && $('#pitchDynamic').is(':checked');
-    var b2 = pitchType == 'Operator-Depth' && $('#pitchDynamic').is(':checked');
+    var b1 = pitchType == 'Operator-ID' && pitchType == "Dynamic";
+    var b2 = pitchType == 'Operator-Depth' && pitchType == "Dynamic";
     var b3 = pitchType == 'Data-Index';
     var b4 = pitchType == 'Query-Progress';
     var b5 = chordType == 'None' && melodyType == 'No';
@@ -629,11 +517,9 @@ function playNoteMapping(id, label, index) {
             tone = getAudioData(idMappings, id, label, index, "Chord");
         } else if (pitchType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Pitch");
-            //current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
-            triggerNote(tone + octave, duration, "+0", velocity)
+            triggerNote(tone + octave, duration, "+0", velocity, currentname)
         } else {
-            //current.connect(panner).triggerAttackRelease('C' + octave, duration, "+0", velocity);
-            triggerNote('C' + octave, duration, "+0", velocity)
+            triggerNote('C' + octave, duration, "+0", velocity, currentname)
         }
     } else {
         tone = getMelody(melodyType, id, label, index);
@@ -641,134 +527,96 @@ function playNoteMapping(id, label, index) {
 
     if (melodyType != 'No' || chordType != 'None') {
         if (tone[0]) {
-            triggerNote(tone[1] + octave, duration, "+0", velocity);
-            triggerNote(tone[2] + octave, duration, "+0.15", velocity);
-            triggerNote(tone[3] + octave, duration, "+0.3", velocity);
+            triggerNote(tone[1] + octave, duration, "+0", velocity, currentname);
+            triggerNote(tone[2] + octave, duration, "+0.15", velocity, currentname);
+            triggerNote(tone[3] + octave, duration, "+0.3", velocity, currentname);
         } else {
             var chord = [tone[1] + octave, tone[2] + octave, tone[3] + octave];
-            triggerNote(chord, duration, "+0", velocity);
+            triggerNote(chord, duration, "+0", velocity, currentname);
         }
     }
 }
 
-//Avoid buffer problem when instrument files are not yet loaded
-function triggerNote(chord, duration, delay, velocity) {
-    if (current._buffers.loaded)
-        current.connect(panner).triggerAttackRelease(chord, duration, delay, velocity);
-    else {
-        sleep(100).then(() => {
-            triggerNote(chord, duration, delay, velocity);
-        });
-    }
-}
+//Function that handles the animation for one data triple from one operator to the other
+async function animation(loop) {
+    if (queue.length > currentIndex && currentIndex >= 0) {
+        if ((!pauseFlag && !stopFlag) || !loop) {
+            if (!loop) {
+                $('#luposdate3000_forward').prop('disabled', true);
+                $('#luposdate3000_backward').prop('disabled', true);
+            }
+            var queueHead = queue[currentIndex]
+            var positions = networkSon.getPositions();
+            var k = 0;
+            var lambda = 0;
+            var tick = 10;
+            var x_start = positions[queueHead[0]].x;
+            var y_start = positions[queueHead[0]].y - 32;
+            var inverseSpeed = 1000 - App.config.animationSpeed
+            var nrOfSteps = Math.floor(inverseSpeed / tick);
 
-function addNewNode() {
-    var positions = networkSon.getPositions();
-    var x_start = positions[queue[0][0]].x,
-        y_start = positions[queue[0][0]].y - 32;
-    dataSet.add([{
-        id: 999,
-        label: queue[0][2],
-        group: 1
-    }]);
-    networkSon.moveNode(999, x_start, y_start);
-    if (toggle.state) {
-        networkSon.focus("999", {
-            scale: 1,
-            offset: {
-                x: 0,
-                y: 0
-            },
-            locked: true,
-        });
+            addNewNode();
+
+            //Wait a few miliseconds and then move the node a bit
+            sleep(tick).then(() => {
+                timer = setInterval(function() {
+
+                    this.pause
+
+                    k++;
+                    var l = k / nrOfSteps;
+
+                    // get target positions
+                    var x_target = positions[queueHead[1]].x;
+                    var y_target = positions[queueHead[1]].y + 32;
+
+                    // compute the convex combination of x_start and x_target to find intermediate x and move node to it, same for y
+                    var xt = x_start * (1 - l) + x_target * l;
+                    var yt = y_start * (1 - l) + y_target * l;
+
+                    // move node
+                    try {
+                        networkSon.moveNode(999, xt, yt);
+                    } catch (error) {
+                        //if there is a new query executed, this may happen
+                    }
+
+                    if (k == nrOfSteps) {
+                        clearInterval(timer)
+                        sleep(tick).then(() => {
+                            //Delete node, delete data triple in the queue and change the progress meter
+                            networkSon.releaseNode();
+                            try {
+                                dataSet.remove(999);
+                            } catch (error) {
+                                //if there is a new query executed, this may happen
+                            }
+                            updateEdgeSize(queueHead[0], queueHead[1]);
+                            if (loop) {
+                                currentIndex++;
+                                animation(true);
+                            } else {
+                                setAnimationFlags(false, true)
+                            }
+                            var tmp = (currentIndex / globalAnimationList.length) * 100;
+                            if (!stopFlag) {
+                                $('.meter').css("width", tmp + "%");
+                            } else {
+                                $('.meter').css("width", 0 + "%");
+                            }
+                        })
+                    }
+
+                }, tick);
+            })
+        }
     } else {
         networkSon.fit();
+        setAnimationFlags(true, false)
     }
-    playNoteMapping(dataNodes.find(element => element.id == queue[0][0]).id, dataNodes.find(element => element.id == queue[0][0]).label, queue[0][3]);
 }
 
-//Function that handles the animation for one data triple from one operator to the other
-async function animation(queue) {
-
-    //Set focus to new node if Follow-Mode is active
-
-
-    // Parameters for the animation
-    var positions = networkSon.getPositions();
-    var val = slider.max + slider.min - slider.value;
-    var k = 0,
-        lambda = 0,
-        tick = 10,
-        totalTime = val;
-    var x_start = positions[queue[0][0]].x,
-        y_start = positions[queue[0][0]].y - 32;
-    var nrOfSteps = Math.floor(totalTime / tick);
-
-    if (!pauseFlag) {
-        addNewNode();
-    }
-
-    //Wait a few miliseconds and then move the node a bit
-    sleep(val / 10).then(() => {
-        timer = setInterval(function() {
-
-            this.pause
-
-            k++;
-            var l = k / nrOfSteps;
-
-            // get target positions
-            var x_target = positions[queue[0][1]].x;
-            var y_target = positions[queue[0][1]].y + 32;
-
-            // compute the convex combination of x_start and x_target to find intermediate x and move node to it, same for y
-            var xt = x_start * (1 - l) + x_target * l;
-            var yt = y_start * (1 - l) + y_target * l;
-
-            // move node
-            networkSon.moveNode(999, xt, yt);
-
-            // stop if we have reached nr of steps
-            if (k == nrOfSteps) {
-                clearInterval(timer)
-            }
-
-            //If node reached the end point
-            if (k == totalTime / tick && !pauseFlag) {
-                sleep(val / 2).then(() => {
-                    //Delete node, delete data triple in the queue and change the progress meter
-                    networkSon.releaseNode();
-                    dataSet.remove(999);
-                    updateEdgeSize(queue[0][0], queue[0][1]);
-                    queue.shift();
-                    currentIndex++;
-                    var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                    if (!stopFlag) {
-                        $('.meter').css("width", tmp + "%");
-                    } else {
-                        $('.meter').css("width", 0 + "%");
-                        queue = [];
-                    }
-
-                    //call animation method again if queue is not empty
-                    //otherwise set stopFlag to stop animation
-                    if (queue.length != 0) {
-                        animation(queue);
-                    } else {
-                        networkSon.fit();
-                        $('#luposdate3000_play').show();
-                        $('#luposdate3000_stop').hide();
-                        $('#luposdate3000_pause').hide();
-                        stopFlag = true;
-                    }
-                })
-            }
-
-        }, tick);
-    })
-}
-
-function updateEdgeSize(startID, endID) {
+function updateEdgeSize(startID, endID) { //only called by animation
     var i;
     var edgeId;
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
@@ -789,7 +637,7 @@ function updateEdgeSize(startID, endID) {
 
 //This function removes the POPRico Operator and is recalculating the edges that are going out
 //and in to this operator.
-function deleteDebugOperator() {
+function deleteDebugOperator() { //only called by loadData
     var i;
     var tmp = [];
 
@@ -816,6 +664,7 @@ function deleteDebugOperator() {
 
     var tmpFlag = true;
     while (tmpFlag) {
+        tmpFlag = false;
         for (i = 0; i <= dataEdges.length - 1; i++) {
             if (tmp.includes(dataEdges[i].from)) {
                 dataEdges.splice(i, 1);
@@ -826,19 +675,18 @@ function deleteDebugOperator() {
                 tmpFlag = true;
                 break;
             }
-            tmpFlag = false;
         }
     }
 
     tmpFlag = true;
     while (tmpFlag) {
+        tmpFlag = false;
         for (i = 0; i <= dataNodes.length - 1; i++) {
             if (dataNodes[i].label.includes('POPVisualisation')) {
                 dataNodes.splice(i, 1);
                 tmpFlag = true;
                 break;
             }
-            tmpFlag = false;
         }
     }
 
@@ -854,8 +702,6 @@ function loadData(dataParameter, flag) {
         nodes: dataNodes,
         edges: dataEdges,
     };
-    replacePrefix();
-    //draw the network
     draw(flag);
 }
 
@@ -901,14 +747,10 @@ function addCustomContextMenu(networkObject, contextFlag) {
 
             document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
-                for (i = 1; i <= queue.length - 1; i++) {
-                    if (queue[i][0] == params.nodes[0]) {
-                        dataSet.remove(999);
-                        queue = queue.slice(i);
-                        currentIndex += i;
-                        var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                        $('.meter').css("width", tmp + "%");
-                        addNewNode();
+                for (i = currentIndex + 1; i <= queue.length - 1; i++) {
+                    if (queue[i][0] == queue[currentIndex][0]) {
+                        currentIndex = i;
+                        animation(false)
                         break;
                     }
                 }
@@ -917,17 +759,10 @@ function addCustomContextMenu(networkObject, contextFlag) {
 
             document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
-                queue = globalAnimationList.map(function(arr) {
-                    return arr.slice();
-                });
                 for (i = currentIndex - 1; i >= 0; i--) {
-                    if (queue[i][0] == params.nodes[0]) {
-                        dataSet.remove(999);
-                        queue = queue.slice(i);
+                    if (queue[i][0] == queue[currentIndex][0]) {
                         currentIndex = i;
-                        var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                        $('.meter').css("width", tmp + "%");
-                        addNewNode();
+                        animation(false)
                         break;
                     }
                 }
@@ -1037,9 +872,7 @@ function draw(flag) {
         calculateMinMaxDepth();
         calculateMinMaxIndex();
         addCustomContextMenu(networkSon, flag);
-        if (!initFlag) {
-            createMapping();
-        }
+        selectMapping();
         //By default, the network is dynamic and is changing via a constant animation
         //For the hierarchical layout it is essential that is is turned off after the build-up
         //process.

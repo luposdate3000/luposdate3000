@@ -16,10 +16,10 @@
  */
 package lupos.dictionary
 
-import lupos.buffer_manager.BufferManager
 import lupos.kv.KeyValueStore
-import lupos.shared.BUFFER_HOME
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -33,13 +33,14 @@ import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 
 public class DictionaryKV internal constructor(
-    bufferManager: BufferManager,
+    bufferManager: IBufferManager,
     @JvmField
     internal val rootPageID: Int,
-    initFromRootPage: Boolean
-) : ADictionary() {
+    initFromRootPage: Boolean,
+    instance: Luposdate3000Instance
+) : ADictionary(instance) {
     @JvmField
-    internal val bufferManager: BufferManager = bufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal val kv: KeyValueStore
@@ -62,7 +63,7 @@ public class DictionaryKV internal constructor(
         kv.delete()
         vk.delete()
         bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:61", rootPageID)
-        File(BUFFER_HOME + "dict.page").deleteRecursively()
+        File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
     public override fun isInmemoryOnly(): Boolean = false
@@ -83,7 +84,7 @@ public class DictionaryKV internal constructor(
             BufferManagerPage.writeInt4(rootPage, 4, kvPage)
             BufferManagerPage.writeInt4(rootPage, 8, vkPage)
         }
-        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
+        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage, instance)
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
     }
 

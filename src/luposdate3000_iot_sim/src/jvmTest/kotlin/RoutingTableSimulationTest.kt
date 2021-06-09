@@ -2,7 +2,6 @@ package lupos.iot_sim
 
 import lupos.des_core.Simulation
 import lupos.iot_sim.config.Configuration
-
 import lupos.iot_sim.routing.RPLRouter
 import lupos.iot_sim.routing.RoutingTable
 import kotlin.test.*
@@ -33,30 +32,30 @@ class RoutingTableSimulationTest {
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
 
-        //routing table from A
+        // routing table from A
         assertEquals(5, aRouter.routingTable.destinationCounter)
         assertEquals(b.address, aRouter.routingTable.getNextHop(b.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(c.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(d.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(e.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(f.address))
-        //routing table from B
+        // routing table from B
         assertEquals(0, bRouter.routingTable.destinationCounter)
         assertEquals(a.address, bRouter.routingTable.defaultAddress)
-        //routing table from C
+        // routing table from C
         assertEquals(3, cRouter.routingTable.destinationCounter)
         assertEquals(a.address, cRouter.routingTable.defaultAddress)
         assertEquals(d.address, cRouter.routingTable.getNextHop(d.address))
         assertEquals(e.address, cRouter.routingTable.getNextHop(e.address))
         assertEquals(e.address, cRouter.routingTable.getNextHop(f.address))
-        //routing table from D
+        // routing table from D
         assertEquals(0, bRouter.routingTable.destinationCounter)
         assertEquals(c.address, dRouter.routingTable.defaultAddress)
-        //routing table from E
+        // routing table from E
         assertEquals(1, eRouter.routingTable.destinationCounter)
         assertEquals(c.address, eRouter.routingTable.defaultAddress)
         assertEquals(f.address, eRouter.routingTable.getNextHop(f.address))
-        //routing table from F
+        // routing table from F
         assertEquals(0, fRouter.routingTable.destinationCounter)
         assertEquals(e.address, fRouter.routingTable.defaultAddress)
     }
@@ -79,10 +78,9 @@ class RoutingTableSimulationTest {
         assertEquals(0, child1Router.routingTable.destinationCounter)
         assertEquals(root.address, rootRouter.routingTable.defaultAddress)
         assertEquals(root.address, child1Router.routingTable.defaultAddress)
-        for(child in starNet.children)
+        for (child in starNet.children)
             assertEquals(child.address, rootRouter.routingTable.getNextHop(child.address))
     }
-
 
     /**
      * DB(A) -> B -> DB(C)
@@ -100,14 +98,13 @@ class RoutingTableSimulationTest {
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
 
-        //routing table from A
+        // routing table from A
         assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(a.address))
         assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(b.address))
         assertEquals(c.address, aRouter.getNextDatabaseHop(c.address))
-        //routing table from B
+        // routing table from B
         assertEquals(c.address, bRouter.getNextDatabaseHop(c.address))
     }
-
 
     /**
      * DB(A) -> B -> DB(C)
@@ -127,12 +124,12 @@ class RoutingTableSimulationTest {
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
 
-        //routing table from A
+        // routing table from A
         assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(a.address))
         assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(b.address))
         assertEquals(c.address, aRouter.getNextDatabaseHop(c.address))
         assertEquals(d.address, aRouter.getNextDatabaseHop(d.address))
-        //routing table from B
+        // routing table from B
         assertEquals(c.address, bRouter.getNextDatabaseHop(c.address))
         assertEquals(d.address, bRouter.getNextDatabaseHop(d.address))
     }
@@ -159,7 +156,7 @@ class RoutingTableSimulationTest {
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
 
-        //routing table from A
+        // routing table from A
         assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(a.address))
         assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(b.address))
         assertEquals(c.address, aRouter.getNextDatabaseHop(c.address))
@@ -167,18 +164,15 @@ class RoutingTableSimulationTest {
         assertEquals(c.address, aRouter.getNextDatabaseHop(e.address))
         assertEquals(c.address, aRouter.getNextDatabaseHop(f.address))
         assertEquals(c.address, aRouter.getNextDatabaseHop(g.address))
-        //routing table from B
+        // routing table from B
         assertEquals(c.address, bRouter.getNextDatabaseHop(c.address))
         assertEquals(c.address, bRouter.getNextDatabaseHop(d.address))
         assertEquals(c.address, bRouter.getNextDatabaseHop(e.address))
         assertEquals(c.address, bRouter.getNextDatabaseHop(f.address))
         assertEquals(c.address, bRouter.getNextDatabaseHop(g.address))
-        //routing table from D
+        // routing table from D
         assertEquals(RoutingTable.notInitialized, dRouter.getNextDatabaseHop(e.address))
         assertEquals(f.address, dRouter.getNextDatabaseHop(f.address))
         assertEquals(g.address, dRouter.getNextDatabaseHop(g.address))
     }
-
-
-
 }

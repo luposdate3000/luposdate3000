@@ -17,7 +17,8 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
-import lupos.shared.BUFFER_HOME
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.File
@@ -27,12 +28,12 @@ import kotlin.jvm.JvmField
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public actual class MyIntArray internal actual constructor(@JvmField internal val filename: String, initialize: Boolean) {
     @JvmField
-    internal var bufferManager: BufferManager? = null
+    internal var bufferManager: IBufferManager? = null
 
     @JvmField
     internal var bufferManagerPage: Int? = null
 
-    public actual constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this(BUFFER_HOME + id + BufferManagerExt.fileEndingIntArray, initialize) {
+    public actual constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean, instance: Luposdate3000Instance) : this(instance.BUFFER_HOME + id + BufferManagerExt.fileEndingIntArray, initialize) {
         this.bufferManager = bufferManager
         this.bufferManagerPage = id
     }

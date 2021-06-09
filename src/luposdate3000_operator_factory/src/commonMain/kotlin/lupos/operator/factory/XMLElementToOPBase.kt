@@ -150,7 +150,6 @@ import lupos.shared.XMLElement
 import lupos.shared.XMLNotParseableException
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.triple_store_manager.TripleStoreIndexDescription
 
@@ -790,7 +789,7 @@ public object XMLElementToOPBase {
                 val s = XMLElementToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
                 val p = XMLElementToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
                 val o = XMLElementToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
-                val tripleStoreIndexDescription = tripleStoreManager.getIndexFromXML(node["idx"]!!) as TripleStoreIndexDescription
+                val tripleStoreIndexDescription = query.getInstance().tripleStoreManager!!.getIndexFromXML(node["idx"]!!) as TripleStoreIndexDescription
                 res = POPTripleStoreIterator(query, createProjectedVariables(query, node, mapping), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
             }
             "LOPTriple" -> {

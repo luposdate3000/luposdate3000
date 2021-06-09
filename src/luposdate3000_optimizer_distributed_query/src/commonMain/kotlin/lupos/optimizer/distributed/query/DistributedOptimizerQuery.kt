@@ -37,7 +37,6 @@ import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 import kotlin.jvm.JvmField
 
@@ -233,11 +232,11 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     public override fun optimize(query: IQuery): IOPBase {
         this.query = query as Query
         val root = query.root!!
-        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+        if ((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process) {
             operatorgraphParts.clear()
 // assign host to root node
             operatorgraphParts[""] = root.toXMLElement(true)
-            operatorgraphPartsToHostMap[""] = tripleStoreManager.getLocalhost()
+            operatorgraphPartsToHostMap[""] = (query.getInstance().tripleStoreManager!!).getLocalhost()
 // split query into parts, and automatically assign hosts to triple store access parts
             splitPartitions(root, mutableMapOf(), true)
 // calculate dependencies
@@ -255,7 +254,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                     for (opt in childOptimizer2) {
                         for ((k, v) in operatorgraphParts) {
                             if (!operatorgraphPartsToHostMap.contains(k)) {
-                                opt.optimize(k, v, dependenciesMapTopDown[k]!!, dependenciesMapBottomUp[k]!!, { it -> getHostForKey(it) }, { key, value -> operatorgraphPartsToHostMap[key] = value }) {
+                                opt.optimize(query, k, v, dependenciesMapTopDown[k]!!, dependenciesMapBottomUp[k]!!, { it -> getHostForKey(it) }, { key, value -> operatorgraphPartsToHostMap[key] = value }) {
                                     changed = true
                                 }
                                 if (changed) {

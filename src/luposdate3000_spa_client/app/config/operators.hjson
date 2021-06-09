@@ -15,7 +15,7 @@ values: ["C", "C #", "Db", "D", "D #", "Eb", "E", "F", "F #", "Gb", "G", "G #", 
     "information": {
         "Pitch": {
             "standard": "None,",
-            "values": ["None", "Simple", "Operator-ID", "Operator-Depth", "Operator-Type", "Operator-Variable", "Data-Index", "Data-Variable", "Query-Progress"]
+            "values": ["None", "Simple", "Operator-ID", "Operator-Depth", "Operator-Type", "Operator-Variable", "Data-Index", "Data-Variable", "Query-Progress","Dynamic"]
         },
         "Instrument": {
             "standard": "None,",

@@ -1,13 +1,13 @@
 package lupos.iot_sim.config
 
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 import lupos.iot_sim.DatabaseAdapter
 import lupos.iot_sim.Device
-import lupos.iot_sim.geo.GeoLocation
 import lupos.iot_sim.LinkManager
 import lupos.iot_sim.PowerSupply
 import lupos.iot_sim.RandomGenerator
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
+import lupos.iot_sim.geo.GeoLocation
 import lupos.iot_sim.sensor.ParkingSensor
 import kotlin.math.round
 
@@ -29,10 +29,9 @@ public object Configuration {
 
     public var dbDeviceAddresses: IntArray = intArrayOf()
 
-    public var rootRouterAddress: Int  = -1
+    public var rootRouterAddress: Int = -1
 
     private var dbDeviceCounter = 0
-
 
     public fun parse(fileName: String) {
         resetVariables()
@@ -55,15 +54,13 @@ public object Configuration {
         namedAddresses = HashMap()
     }
 
-
     private fun readJsonFile(fileName: String) {
         val fileStr = readFileDirectlyAsText(fileName)
         jsonObjects = Json.decodeFromString(fileStr)
     }
 
-    private fun readFileDirectlyAsText(fileName: String)
-        = javaClass.classLoader!!.getResource(fileName)!!.readText()
-
+    private fun readFileDirectlyAsText(fileName: String) =
+        javaClass.classLoader!!.getResource(fileName)!!.readText()
 
     private fun createSortedLinkTypes() {
         LinkManager.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
@@ -90,7 +87,7 @@ public object Configuration {
         meshNetwork.mesh[0] = column
         var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
         var predecessor = origin
-        while(restCoverageEast > 0) {
+        while (restCoverageEast > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createEasternLocation(predecessor.location, distance)
             predecessor = createDevice(deviceType, location)
@@ -108,7 +105,7 @@ public object Configuration {
         var restCoverageSouth = network.signalCoverageSouth - linkType.rangeInMeters
         column.add(origin)
         var predecessor = origin
-        while(restCoverageSouth > 0) {
+        while (restCoverageSouth > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createSouthernLocation(predecessor.location, distance)
             predecessor = createDevice(deviceType, location)
@@ -119,13 +116,13 @@ public object Configuration {
         return column
     }
 
-    private fun getRandomDistance( maxDistance: Int):Int {
+    private fun getRandomDistance(maxDistance: Int): Int {
         val density = 0.7
         val percentage = round(maxDistance * density).toInt()
         return RandomGenerator.getInt(percentage, maxDistance)
     }
 
-    private fun createMeshOriginDevice(network: RandomMeshNetwork) : Device {
+    private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
         val deviceType = getDeviceTypeByName(network.deviceType)
         val location = GeoLocation(network.originLatitude, network.originLongitude)
         return createDevice(deviceType, location)
@@ -136,7 +133,7 @@ public object Configuration {
         return devices[index]
     }
 
-    public fun getRootDevice():Device = devices[rootRouterAddress]
+    public fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.starRoot)
@@ -164,7 +161,6 @@ public object Configuration {
             rootRouterAddress = device.address
         }
     }
-
 
     private fun createFixedDevices() {
         for (fixedDevice in jsonObjects.fixedDevice)
@@ -201,12 +197,11 @@ public object Configuration {
 
     private fun getLinkTypeIndices(deviceType: DeviceType): IntArray {
         val list = ArrayList<LinkType>(deviceType.supportedLinkTypes.size)
-        for(name in deviceType.supportedLinkTypes)
+        for (name in deviceType.supportedLinkTypes)
             list.add(getLinkTypeByName(name))
 
         return LinkManager.getSortedLinkTypeIndices(list)
     }
-
 
     private fun getDeviceTypeByName(typeName: String): DeviceType {
         val deviceType = jsonObjects.deviceType.find { typeName == it.name }
@@ -220,9 +215,7 @@ public object Configuration {
         return element
     }
 
-
-
-    private fun getDatabase(deviceType: DeviceType, device: Device) : DatabaseAdapter? {
+    private fun getDatabase(deviceType: DeviceType, device: Device): DatabaseAdapter? {
         if (deviceType.database) {
             dbDeviceCounter++
             return DatabaseAdapter(device)
@@ -231,17 +224,16 @@ public object Configuration {
     }
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
-        if(deviceType.parkingSensor)
+        if (deviceType.parkingSensor)
             return ParkingSensor(device)
         return null
     }
 
     private fun createAvailableLinks() {
         for (one in devices)
-            for(two in devices)
-                if(!one.isStarNetworkChild && !two.isStarNetworkChild)
+            for (two in devices)
+                if (!one.isStarNetworkChild && !two.isStarNetworkChild)
                     one.linkManager.setLinkIfPossible(two)
-
     }
 
     private fun createDbDeviceAddresses() {

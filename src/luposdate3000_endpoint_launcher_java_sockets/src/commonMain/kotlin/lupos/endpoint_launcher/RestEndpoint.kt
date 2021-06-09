@@ -26,11 +26,10 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.LUPOS_REAL_WORLD_DATA_ROOT
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
-import lupos.shared.tripleStoreManager
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 import kotlin.jvm.JvmField
@@ -41,15 +40,15 @@ internal object RestEndpoint {
     private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
 
     @Suppress("NOTHING_TO_INLNE")
-    private inline fun registerDictionary(key: String): RemoteDictionaryServer {
-        val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
+    private inline fun registerDictionary(instance: Luposdate3000Instance, key: String): RemoteDictionaryServer {
+        val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
         dictionaryMapping[key] = dict
         return dict
     }
 
     @Suppress("NOTHING_TO_INLNE")
-    private inline fun registerDictionary(key: String, dict: IDictionary): RemoteDictionaryServer {
-        val dict = RemoteDictionaryServer(dict)
+    private inline fun registerDictionary(instance: Luposdate3000Instance, key: String, dict: IDictionary): RemoteDictionaryServer {
+        val dict = RemoteDictionaryServer(dict, instance)
         dictionaryMapping[key] = dict
         return dict
     }
@@ -79,13 +78,13 @@ internal object RestEndpoint {
         return res
     }
 
-    internal fun initialize(paths: MutableMap<String, PathMappingHelper>, params: Map<String, String>, connectionInMy: MyInputStream, connectionOutMy: MyOutputStream, hostname: String, port: Int) {
+    internal fun initialize(instance: Luposdate3000Instance, paths: MutableMap<String, PathMappingHelper>, params: Map<String, String>, connectionInMy: MyInputStream, connectionOutMy: MyOutputStream, hostname: String, port: Int) {
         paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
             /*Coverage Unreachable*/
         }
-        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
+        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) {
             JenaWrapper.loadFromFile(params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("success")
@@ -102,7 +101,7 @@ internal object RestEndpoint {
                     EQueryResultToStreamExt.DEFAULT_STREAM
                 }
             }
-            val eev = EndpointExtendedVisualize(params["query"].toString())
+            val eev = EndpointExtendedVisualize(params["query"].toString(), instance)
             val key = sessionMap.size + 1
             sessionMap[key] = eev
             printHeaderSuccess(connectionOutMy)
@@ -174,14 +173,14 @@ internal object RestEndpoint {
                     EQueryResultToStreamExt.DEFAULT_STREAM
                 }
             }
-            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
+            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
             val query = node.getQuery()
             val key = "${query.getTransactionID()}"
-            val dict = registerDictionary(key, query.getDictionary())
+            val dict = registerDictionary(instance, key, query.getDictionary())
             query.setDictionaryServer(dict)
             query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
             printHeaderSuccess(connectionOutMy)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
             removeDictionary(key)
             /*Coverage Unreachable*/
         }
@@ -197,34 +196,34 @@ internal object RestEndpoint {
                     EQueryResultToStreamExt.DEFAULT_STREAM
                 }
             }
-            val query = Query()
+            val query = Query(instance)
             val node = XMLElementToOPBase(query, XMLElementFromXML()(params["query"]!!)!!)
             val key = "${query.getTransactionID()}"
-            val dict = registerDictionary(key, query.getDictionary())
+            val dict = registerDictionary(instance, key, query.getDictionary())
             query.setDictionaryServer(dict)
             query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
             printHeaderSuccess(connectionOutMy)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
             removeDictionary(key)
             /*Coverage Unreachable*/
         }
-        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
+        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importTurtleFile(params["file"]!!))
+            connectionOutMy.print(LuposdateEndpoint.importTurtleFile(instance, params["file"]!!))
             /*Coverage Unreachable*/
         }
         paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importTurtleString(params["data"]!!))
+            connectionOutMy.print(LuposdateEndpoint.importTurtleString(instance, params["data"]!!))
             /*Coverage Unreachable*/
         }
-        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
-            LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
+        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
+            LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/import/xml"] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
+            connectionOutMy.print(LuposdateEndpoint.importXmlData(instance, params["xml"]!!))
             /*Coverage Unreachable*/
         }
         paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
@@ -232,7 +231,7 @@ internal object RestEndpoint {
             dict.connect(connectionInMy, connectionOutMy)
         }
         paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) {
-            registerDictionary(params["key"]!!)
+            registerDictionary(instance, params["key"]!!)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) {
@@ -241,44 +240,44 @@ internal object RestEndpoint {
         }
         paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
             val name = params["name"]!!
-            val query = Query()
-            tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
+            val query = Query(instance)
+            instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) {
-            val query = Query()
+            val query = Query(instance)
             val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-            tripleStoreManager.remoteCommit(query, origin)
+            instance.tripleStoreManager!!.remoteCommit(query, origin)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
-            val query = Query()
+            val query = Query(instance)
             val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-            tripleStoreManager.remoteDropGraph(query, params["name"]!!, origin)
+            instance.tripleStoreManager!!.remoteDropGraph(query, params["name"]!!, origin)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
-            val query = Query()
+            val query = Query(instance)
             val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-            tripleStoreManager.remoteClearGraph(query, params["name"]!!, origin)
+            instance.tripleStoreManager!!.remoteClearGraph(query, params["name"]!!, origin)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) {
-            val query = Query()
+            val query = Query(instance)
             val key = params["key"]!!
             val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
             val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-            tripleStoreManager.remoteModify(query, key, mode, idx2, connectionInMy)
+            instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy)
         }
         paths["/distributed/graph/modifysorted"] = PathMappingHelper(false, mapOf()) {
-            val query = Query()
+            val query = Query(instance)
             val key = params["key"]!!
             val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
             val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-            tripleStoreManager.remoteModifySorted(query, key, mode, idx2, connectionInMy)
+            instance.tripleStoreManager!!.remoteModifySorted(query, key, mode, idx2, connectionInMy)
         }
         paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {
-            tripleStoreManager.debugAllLocalStoreContent()
+            instance.tripleStoreManager!!.debugAllLocalStoreContent()
             printHeaderSuccess(connectionOutMy)
         }
     }

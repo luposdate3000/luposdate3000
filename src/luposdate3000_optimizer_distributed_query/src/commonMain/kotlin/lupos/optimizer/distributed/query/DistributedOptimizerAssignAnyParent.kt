@@ -16,10 +16,11 @@
  */
 package lupos.optimizer.distributed.query
 
+import lupos.shared.IQuery
 import lupos.shared.XMLElement
 
 public class DistributedOptimizerAssignAnyParent() : DistributedOptimizerBase {
-    override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
+    override fun optimize(query: IQuery, key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
         for (s in dependenciesBottomUp) {
             val tmp = keytoHostMapGet(s)
             if (tmp != null) {

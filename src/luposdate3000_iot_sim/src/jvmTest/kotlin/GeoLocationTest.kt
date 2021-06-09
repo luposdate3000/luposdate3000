@@ -1,8 +1,8 @@
 package lupos.iot_sim
 
 import lupos.iot_sim.geo.GeoLocation
-import kotlin.test.*
 import kotlin.random.Random
+import kotlin.test.*
 
 class GeoLocationTest {
 
@@ -14,7 +14,6 @@ class GeoLocationTest {
         `create random location within radius`(53.83396283919661, 10.693484850649323, 1000)
         `create random location within radius`(0.0, 0.0, 0)
     }
-
 
     private fun `create random location within radius`(lat: Double, lng: Double, radius: Int) {
         RandomGenerator.seed = Random.nextInt()

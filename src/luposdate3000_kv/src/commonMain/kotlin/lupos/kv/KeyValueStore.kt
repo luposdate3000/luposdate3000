@@ -17,8 +17,9 @@
 package lupos.kv
 
 import lupos.ProguardTestAnnotation
-import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.MyIntArray
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.BufferManagerPage
@@ -26,17 +27,18 @@ import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class KeyValueStore public constructor(
-    bufferManager: BufferManager,
+    bufferManager: IBufferManager,
     @JvmField
     internal val rootPageID: Int,
-    initFromRootPage: Boolean
+    initFromRootPage: Boolean,
+    instance: Luposdate3000Instance,
 ) {
 
     @JvmField
     internal val rootPage: ByteArray
 
     @JvmField
-    internal val bufferManager: BufferManager = bufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal var lastPage: Int
@@ -80,8 +82,8 @@ public class KeyValueStore public constructor(
             BufferManagerPage.writeInt4(rootPage, 12, id1)
             BufferManagerPage.writeInt4(rootPage, 16, id2)
         }
-        mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
-        mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
+        mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage, instance)
+        mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage, instance)
     }
 
     @ProguardTestAnnotation

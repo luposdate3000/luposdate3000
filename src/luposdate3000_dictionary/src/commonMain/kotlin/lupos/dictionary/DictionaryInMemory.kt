@@ -17,16 +17,16 @@
 package lupos.dictionary
 
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.DictionaryExt
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-public class DictionaryInMemory internal constructor(isLocal: Boolean) : ADictionary() {
+public class DictionaryInMemory internal constructor(isLocal: Boolean, instance: Luposdate3000Instance) : ADictionary(instance) {
     init {
         this.isLocal = isLocal
     }
@@ -77,7 +77,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean) : ADictio
                         DictionaryHelper.bnodeToByteArray(buffer, value and maskValue)
                     }
                 } else {
-                    nodeGlobalDictionary.getValue(buffer, value)
+                    instance.nodeGlobalDictionary!!.getValue(buffer, value)
                 }
             }
         }
@@ -109,7 +109,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean) : ADictio
             }
             else -> {
                 if (isLocal) {
-                    val tmp = nodeGlobalDictionary.hasValue(buffer)
+                    val tmp = instance.nodeGlobalDictionary!!.hasValue(buffer)
                     if (tmp != null) {
                         return tmp
                     }

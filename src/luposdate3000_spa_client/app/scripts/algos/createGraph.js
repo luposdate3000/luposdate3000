@@ -33,7 +33,7 @@ $("a[href=#graph-tab]").click(function() {
 
 $('input[type=radio][name=ASTGraph]').change(function() {
     index = parseInt($(this).val(), 10);
-    draw(index);
+    draw2(index);
 });
 
 
@@ -54,7 +54,7 @@ $('#lupo-setting-levelseparation, #lupo-setting-treespacing,#lupo-setting-nodesp
             graphSettings.direction = $this.val();
             break;
     }
-    draw(index);
+    draw2(index);
 });
 
 
@@ -129,7 +129,7 @@ function createGraph(data, target) {
             edges: edges[1]
         };
     }
-    draw(index);
+    draw2(index);
 }
 
 function createQueryNode(coreSparql) {
@@ -206,7 +206,7 @@ function getOptions() {
     return options;
 }
 
-function draw(index) {
+function draw2(index) {
     if (index === 1 && astType == "sparql") {
         $("#coreSparqlQuery").show();
     } else {

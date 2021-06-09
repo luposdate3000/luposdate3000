@@ -1,10 +1,10 @@
 package lupos.iot_sim.sensor
 
-import lupos.iot_sim.Device
 import lupos.des_core.Entity
+import lupos.iot_sim.Device
 import lupos.iot_sim.RandomGenerator
 
-public class ParkingSensor(public var device: Device): ISensor {
+public class ParkingSensor(public var device: Device) : ISensor {
 
     public var dataSinkAddress: Int = device.address
         private set
@@ -13,7 +13,6 @@ public class ParkingSensor(public var device: Device): ISensor {
 
     public var sampleCounter: Int = 0
         private set
-
 
     init {
         sensorCounter++
@@ -34,7 +33,7 @@ public class ParkingSensor(public var device: Device): ISensor {
         }
     }
 
-    public inner class SamplingProcessFinished: Entity.ITimerExpired {
+    public inner class SamplingProcessFinished : Entity.ITimerExpired {
         override fun onExpire() {
             onSampleTaken()
         }
@@ -59,8 +58,7 @@ public class ParkingSensor(public var device: Device): ISensor {
         startSampling()
     }
 
-
-    //TODO setze die richtigen Daten
+    // TODO setze die richtigen Daten
     private fun getSample(): ParkingSample {
         return ParkingSample(
             sampleID = sampleCounter,
@@ -68,9 +66,9 @@ public class ParkingSensor(public var device: Device): ISensor {
             sampleTime = device.getCurrentSimulationTime(),
             isOccupied = RandomGenerator.random.nextBoolean(),
             parkingSpotID = device.address,
-            area = device.address.toString())
+            area = device.address.toString()
+        )
     }
-
 
     override fun stopSampling() {
         isStopped = true

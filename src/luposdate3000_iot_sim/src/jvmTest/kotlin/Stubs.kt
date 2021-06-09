@@ -15,5 +15,4 @@ object Stubs {
         val powerSupply = PowerSupply(-1.0)
         return Device(powerSupply, loc, address, null, null, linkTypes)
     }
-
 }

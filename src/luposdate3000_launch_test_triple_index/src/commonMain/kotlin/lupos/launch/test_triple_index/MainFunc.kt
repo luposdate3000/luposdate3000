@@ -18,6 +18,7 @@ package lupos.launch.test_triple_index
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.Query
 import lupos.shared.AflCore
 import lupos.shared.Parallel
@@ -43,9 +44,10 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    val instance = LuposdateEndpoint.initialize()
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
+    var bufferManager = BufferManager(instance)
     val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
@@ -335,7 +337,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (verbose) {
             println("testGetIterator_sxx_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "_")))
         when (filter.size) {
             0 -> {
@@ -352,7 +354,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (verbose) {
             println("testGetIterator_spx_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "_")))
         when (filter.size) {
             0 -> {
@@ -376,7 +378,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (verbose) {
             println("testGetIterator_spo_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "o")))
         when (filter.size) {
             0 -> {
@@ -408,7 +410,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (verbose) {
             println("testGetIterator_xxx_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "_", "_")))
         verifyCount(bundle, filter)
     }
@@ -486,4 +488,5 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         throw Exception("")
     }
     bufferManager.close()
+    LuposdateEndpoint.close(instance)
 }

@@ -16,13 +16,13 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
-import lupos.buffer_manager.BufferManager
+import lupos.shared.IBufferManager
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
-internal class NodeManager(bufferManager: BufferManager) {
+internal class NodeManager(bufferManager: IBufferManager) {
     @JvmField
-    internal val bufferManager: BufferManager = bufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     internal companion object {
         internal const val nodeTypeLeaf = 1

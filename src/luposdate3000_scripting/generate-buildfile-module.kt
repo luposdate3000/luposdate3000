@@ -411,6 +411,16 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         return // currently there is no 1.5 plugin from jetbrains
                     }
                 }
+                var serializationPluginNeeded = false
+                for (d in allDep) {
+                    if (d.contains("kotlinx-serialization")) {
+                        serializationPluginNeeded = true
+                        break
+                    }
+                }
+                if (serializationPluginNeeded) {
+                    out.println("    id(\"org.jetbrains.kotlin.plugin.serialization\") version \"${moduleArgs.compilerVersion}\"")
+                }
                 if (!buildLibrary) {
                     out.println("    application")
                 }
@@ -723,7 +733,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("}")
                 }
                 out.println("tasks.withType<Test> {")
-                out.println("    maxHeapSize = \"32g\"")
+                out.println("    maxHeapSize = \"1g\"")
                 out.println("    testLogging {")
                 out.println("        exceptionFormat = TestExceptionFormat.FULL")
                 out.println("    }")

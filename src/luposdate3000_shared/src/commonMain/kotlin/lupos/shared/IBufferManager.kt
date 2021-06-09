@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.optimizer
+package lupos.shared
 
-import lupos.shared.IQuery
-import lupos.shared.operator.IOPBase
-
-public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = {
-    object : IDistributedOptimizer {
-        override fun optimize(query: IQuery): IOPBase = throw Exception("not implemented")
-    }
+public interface IBufferManager {
+    public fun close()
+    public fun flushPage(call_location: String, pageid: Int)
+    public fun releasePage(call_location: String, pageid: Int)
+    public fun getPage(call_location: String, pageid: Int): ByteArray
+    public /*suspend*/ fun allocPage(call_location: String): Int
+    public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit
 }

@@ -8,14 +8,14 @@ public abstract class Entity : ISimulationLifeCycle {
 
     public abstract fun onEvent(event: Event)
 
-    private fun isTimerExpiredEvent(event: Event)
-        = event.data != null && event.data is ITimerExpired
+    private fun isTimerExpiredEvent(event: Event) =
+        event.data != null && event.data is ITimerExpired
 
     internal fun processIncomingEvent(event: Event) {
-        if(isTerminated)
+        if (isTerminated)
             return
 
-        if(isTimerExpiredEvent(event))
+        if (isTimerExpiredEvent(event))
             (event.data as ITimerExpired).onExpire()
         else
             onEvent(event)
@@ -40,5 +40,4 @@ public abstract class Entity : ISimulationLifeCycle {
     }
 
     public fun getCurrentSimulationTime(): Long = simulation.currentClock
-
 }

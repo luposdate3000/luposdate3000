@@ -18,6 +18,7 @@ package lupos.launch.test_buffermanager
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.AflCore
 import lupos.shared.Parallel
 import lupos.shared_inline.BufferManagerPage
@@ -33,9 +34,10 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    val instance = LuposdateEndpoint.initialize()
     val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
+    var bufferManager = BufferManager(instance)
     val pageIds = mutableListOf<Int>()
     val mappedPages = mutableMapOf<Int, ByteArray>()
     val mappedPagesCtr = mutableMapOf<Int, Int>()
@@ -272,7 +274,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     if (!BufferManagerExt.isInMemoryOnly) {
         BufferManagerExt.allowInitFromDisk = true
         bufferManager.close()
-        bufferManager = BufferManager()
+        bufferManager = BufferManager(instance)
     }
     if (bufferManager.getNumberOfReferencedPages() != 0) {
         throw Exception("")
@@ -301,4 +303,5 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         throw Exception("")
     }
     bufferManager.close()
+    LuposdateEndpoint.close()
 }

@@ -17,15 +17,18 @@
 package lupos.dictionary
 
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.IDictionary
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
-public abstract class ADictionary : IDictionary {
+public abstract class ADictionary(
+    @JvmField
+    public val instance: Luposdate3000Instance
+) : IDictionary {
     @JvmField
     internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
 
@@ -64,11 +67,11 @@ public abstract class ADictionary : IDictionary {
             if ((value and flagNoBNode) == flagNoBNode) {
                 val buffer = ByteArrayWrapper()
                 getValue(buffer, value)
-                res = nodeGlobalDictionary.createValue(buffer)
+                res = instance.nodeGlobalDictionary!!.createValue(buffer)
             } else {
                 val tmp = bnodeMapToGlobal[value]
                 if (tmp == null) {
-                    res = nodeGlobalDictionary.createNewBNode()
+                    res = instance.nodeGlobalDictionary!!.createNewBNode()
                     bnodeMapToGlobal[value] = res
                 } else {
                     res = tmp

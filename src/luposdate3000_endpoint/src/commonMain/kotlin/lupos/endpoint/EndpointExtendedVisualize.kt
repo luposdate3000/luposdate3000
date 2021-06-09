@@ -30,11 +30,12 @@ import lupos.parser.sparql1_1.ASTNode
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.shared.IVisualisation
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.operator.IOPBase
 import lupos.shared_inline.MyPrintWriter
 import kotlin.js.JsName
 
-public class EndpointExtendedVisualize(input: String) : IVisualisation {
+public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) : IVisualisation {
     private var resultLog: Array<String>
     private var resultPhys: Array<String>
     private var result: String
@@ -42,7 +43,7 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
 
     init {
         val query: String = input
-        val q: Query = Query()
+        val q: Query = Query(instance)
         val lcit: LexerCharIterator = LexerCharIterator(query)
         val tit: TokenIteratorSPARQLParser = TokenIteratorSPARQLParser(lcit)
         val ltit: LookAheadTokenIterator = LookAheadTokenIterator(tit, 3)
@@ -73,7 +74,7 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
 
         val buf = MyPrintWriter(true)
         recursive(optPhys)
-        LuposdateEndpoint.evaluateOperatorgraphToResult(optPhys, buf)
+        LuposdateEndpoint.evaluateOperatorgraphToResult(instance, optPhys, buf)
         result = buf.toString()
     }
 

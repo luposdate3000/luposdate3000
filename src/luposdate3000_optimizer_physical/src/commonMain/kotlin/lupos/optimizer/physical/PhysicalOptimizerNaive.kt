@@ -61,7 +61,6 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EIndexPatternExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 
 public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerNaiveID, "PhysicalOptimizerNaive") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -220,7 +219,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = tripleStoreManager.getGraph(node.graph).getIterator(query, Array<IAOPBase>(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
+                    res = (query.getInstance().tripleStoreManager!!).getGraph(node.graph).getIterator(query, Array<IAOPBase>(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

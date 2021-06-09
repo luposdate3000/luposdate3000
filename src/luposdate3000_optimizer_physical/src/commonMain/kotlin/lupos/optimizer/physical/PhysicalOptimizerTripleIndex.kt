@@ -29,7 +29,6 @@ import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerTripleIndexID, "PhysicalOptimizerTripleIndex") {
@@ -51,7 +50,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                 }
             }
             onChange()
-            val store = tripleStoreManager.getGraph(node.graph)
+            val store = (query.getInstance().tripleStoreManager!!).getGraph(node.graph)
             val params = Array<IAOPBase>(3) {
                 val res2 = node.children[it] as AOPBase
                 SanityCheck {
