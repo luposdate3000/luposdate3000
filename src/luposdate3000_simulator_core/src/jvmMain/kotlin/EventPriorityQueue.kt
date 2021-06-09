@@ -2,7 +2,7 @@ package lupos.simulator_core
 
 internal class EventPriorityQueue {
 
-    private val comparator = compareBy<Event> { it.occurrenceTime }.thenBy { it.sequenceNumber }
+    private val comparator = compareBy<Event> { it.occurrenceTime }.thenBy { it.eventNumber }
 
     private val queue = mutableListOf<Event>()
 
