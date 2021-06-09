@@ -16,6 +16,8 @@
  */
 package lupos.endpoint_launcher
 
+import lupos.shared.Luposdate3000Instance
+
 public object HttpEndpointLauncher {
-    public fun start() {}
+    public fun start(instance: Luposdate3000Instance) {}
 }

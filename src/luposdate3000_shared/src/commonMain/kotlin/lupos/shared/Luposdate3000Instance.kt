@@ -16,6 +16,8 @@
  */
 package lupos.shared
 
+import lupos.shared.dictionary.EDictionaryType
+import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.shared_inline.Platform
@@ -48,4 +50,16 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var BUFFER_HOME: String = LUPOS_HOME + "/" + Platform.getEnv("LUPOS_PROCESS_ID", "0")!! + "/" // the root path, where the buffermanager stores its data
+
+    @JvmField
+    public var LUPOS_DICTIONARY_MODE: EDictionaryType = EDictionaryTypeExt.names.indexOf(Platform.getEnv("LUPOS_DICTIONARY_MODE", EDictionaryTypeExt.names[EDictionaryTypeExt.KV]))
+
+    @JvmField
+    public var LUPOS_PROCESS_URLS: Array<String> = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
+
+    @JvmField
+    public var LUPOS_PROCESS_ID: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()
+
+    @JvmField
+    public var LUPOS_PARTITION_MODE: EPartitionMode = EPartitionModeExt.names.indexOf(Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!)
 }

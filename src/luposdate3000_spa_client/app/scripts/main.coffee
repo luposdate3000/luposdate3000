@@ -268,7 +268,7 @@ App.bindEvents = ->
         url = endpoint.url + locator
         if endpoint.name == "Browser Luposdate3000" || endpoint.name == "localhost Luposdate3000"
             if App.config.sendRDF
-                App.luposdate3000Instance.close();
+                luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
                 App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
             if withGraph
                 visualisationSetup()

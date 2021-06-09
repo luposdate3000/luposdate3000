@@ -23,11 +23,10 @@ import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared_inline.File
-import lupos.shared_inline.Platform
 
 public object DictionaryFactory {
     public fun createGlobalDictionary(instance: Luposdate3000Instance): IDictionary {
-        return createDictionary(EDictionaryTypeExt.names.indexOf(Platform.getEnv("LUPOS_DICTIONARY_MODE", EDictionaryTypeExt.names[EDictionaryTypeExt.KV])), false, instance)
+        return createDictionary(instance.LUPOS_DICTIONARY_MODE, false, instance)
     }
 
     public fun createDictionary(type: EDictionaryType, isLocal: Boolean, instance: Luposdate3000Instance): IDictionary {

@@ -42,7 +42,6 @@ import lupos.shared.communicationHandler
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File
-import lupos.shared_inline.Platform
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.min
@@ -211,12 +210,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         this.hostnames = hostnames
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
-        val t = Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!
-        val tmp = EPartitionModeExt.names.indexOf(t)
-        if (tmp < 0) {
-            throw Exception("invalid parameter '$t' for 'LUPOS_PARTITION_MODE'. Choose one of ${EPartitionModeExt.names.map { it }}")
-        }
-        partitionMode = tmp
+        partitionMode = instance.LUPOS_PARTITION_MODE
     }
 
     public override fun initialize() {

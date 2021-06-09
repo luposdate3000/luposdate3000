@@ -31,7 +31,7 @@ internal enum class OptimizerMode {
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = Parallel.runBlocking {
     val instance = LuposdateEndpoint.initialize()
     Parallel.launch {
-        HttpEndpointLauncher.start()
+        HttpEndpointLauncher.start(instance)
     }
     val queryFiles2 = queryFiles.split(";")
     val minimumTime2 = minimumTime.toDouble()

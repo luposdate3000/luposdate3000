@@ -418,13 +418,17 @@ public object LuposdateEndpoint {
 
     @JsName("initialize")
     public fun initialize(): Luposdate3000Instance {
-        var instance = Luposdate3000Instance()
+        return initializeB(Luposdate3000Instance())
+    }
+
+    @JsName("initializeB")
+    public fun initializeB(instance: Luposdate3000Instance): Luposdate3000Instance {
         initializerLock.withLock {
             instances.add(instance)
             instance.bufferManager = BufferManager(instance)
             instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
-            val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
-            val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
+            val hostnames = instance.LUPOS_PROCESS_URLS
+            val localhost = hostnames[instance.LUPOS_PROCESS_ID]
             instance.tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost, instance)
             instance.tripleStoreManager!!.initialize()
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }

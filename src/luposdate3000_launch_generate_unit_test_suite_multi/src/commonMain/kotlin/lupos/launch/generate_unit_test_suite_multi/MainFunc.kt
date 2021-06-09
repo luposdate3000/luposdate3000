@@ -23,9 +23,9 @@ import lupos.test.SparqlTestSuite
 import lupos.test.SparqlTestSuiteConverterToUnitTest
 
 internal fun mainFunc() {
-    LuposdateEndpoint.initialize()
+    val instance = LuposdateEndpoint.initialize()
     Parallel.launch {
-        HttpEndpointLauncher.start()
+        HttpEndpointLauncher.start(instance)
     }
     SparqlTestSuite.prefixDirectory = ""
     val converter = SparqlTestSuiteConverterToUnitTest(".")
