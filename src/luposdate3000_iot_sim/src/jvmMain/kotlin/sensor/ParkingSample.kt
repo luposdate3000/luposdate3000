@@ -6,5 +6,5 @@ public data class ParkingSample(
     val sampleTime: Long,
     val isOccupied: Boolean,
     val parkingSpotID: Int,
-    val area: String)
-
+    val area: String
+)

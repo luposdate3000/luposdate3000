@@ -29,7 +29,6 @@ public data class DeviceType(
     val supportedLinkTypes: List<String> = arrayListOf(),
 )
 
-
 @Serializable
 public data class FixedDevice(
     val name: String = "",

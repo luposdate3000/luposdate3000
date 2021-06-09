@@ -2,9 +2,9 @@ package lupos.iot_sim
 
 import lupos.des_core.Simulation
 import lupos.iot_sim.config.Configuration
-import kotlin.test.*
 import lupos.iot_sim.routing.RPLRouter
 import lupos.iot_sim.sensor.ParkingSensor
+import kotlin.test.*
 
 class RoutingSimulationTest {
 
@@ -79,7 +79,7 @@ class RoutingSimulationTest {
 
     @Test
     fun upwardRouteForwarding(fileName: String) {
-        //Send data from the leaf F to the root A
+        // Send data from the leaf F to the root A
         Configuration.parse("$prefix/upwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
 
@@ -100,7 +100,7 @@ class RoutingSimulationTest {
 
     @Test
     fun downwardRouteForwarding(fileName: String) {
-        //Send data from the root A to the leaf F
+        // Send data from the root A to the leaf F
         Configuration.parse("$prefix/downwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
         val f = Configuration.getNamedDevice("F")
@@ -120,7 +120,7 @@ class RoutingSimulationTest {
 
     @Test
     fun upAndDownwardRouteForwarding(fileName: String) {
-        //Send data from the leaf F to the leaf D
+        // Send data from the leaf F to the leaf D
         Configuration.parse("$prefix/upAndDownwardRouteForwarding.json")
         val d = Configuration.getNamedDevice("D")
         val f = Configuration.getNamedDevice("F")
@@ -140,7 +140,7 @@ class RoutingSimulationTest {
 
     @Test
     fun sensorFromStarSendDataOverMesh() {
-        //TODO zuerst star root
+        // TODO zuerst star root
 //        //Send data from the leaf F to the leaf D
 //        Configuration.parse("$prefix/sensorFromStarSendDataOverMesh.json")
 //        val d = Configuration.getNamedDevice("D")
@@ -158,6 +158,4 @@ class RoutingSimulationTest {
 //
 //        assertEquals(numberOfSamples, d.processedSensorDataPackages)
     }
-
-
 }

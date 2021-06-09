@@ -10,7 +10,4 @@ class DatabaseAdapterTest {
         db.startUp()
         db.shutDown()
     }
-
-
-
 }

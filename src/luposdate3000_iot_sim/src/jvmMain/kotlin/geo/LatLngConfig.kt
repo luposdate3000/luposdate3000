@@ -1,6 +1,5 @@
 package lupos.iot_sim.geo
 
-
 /* Copyright 2010 Tyler Coles
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -31,10 +30,6 @@ internal object LatLngConfig {
      * calculations can claim to be.
      */
     private const val DEGREE_TOLERANCE = 0.000001
-
-
-
-
 
     /**
      * The Earth's mean radius in kilometers. Used as the default radius for
@@ -96,7 +91,6 @@ internal object LatLngConfig {
     internal fun longToDouble(value: Long): Double {
         return value.toDouble() * DEGREE_TOLERANCE
     }
-
 
     init {
         // Initialize earth radius using the mean radius.

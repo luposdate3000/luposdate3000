@@ -1,8 +1,8 @@
 package lupos.iot_db_interface.dummyImpl
 
 import lupos.iot_db_interface.ChoosenOperatorPackage
-import lupos.iot_db_interface.IDatabasePackage
 import lupos.iot_db_interface.IDatabase
+import lupos.iot_db_interface.IDatabasePackage
 import lupos.iot_db_interface.IDatabaseState
 import lupos.iot_db_interface.PreprocessingPackage
 import lupos.iot_db_interface.ResultPackage
@@ -12,11 +12,10 @@ public class DatabaseSystemDummy : IDatabase {
 
     public lateinit var state: DatabaseState
 
-
     public override fun start(initialState: IDatabaseState) {
         state = DatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
         state.dataFile = "${initialState.absolutePathToDataDirectory}\\file.txt"
-        File(state.dataFile).withOutputStream {  }
+        File(state.dataFile).withOutputStream { }
     }
 
     public override fun activate(state: IDatabaseState) {
@@ -32,7 +31,7 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
     public override fun receive(pck: IDatabasePackage) {
-        when(pck) {
+        when (pck) {
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)
@@ -42,7 +41,7 @@ public class DatabaseSystemDummy : IDatabase {
     public override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
         state.addressForQueryEndResult = sourceAddress
         val queryString = query.decodeToString()
-        if(queryString.contains("INSERT DATA")) {
+        if (queryString.contains("INSERT DATA")) {
             saveData(queryString)
             return
         }
@@ -53,7 +52,6 @@ public class DatabaseSystemDummy : IDatabase {
         val queryID = operatorGraph.getTransactionID()
         val destinationAddresses = Optimizer.extractTripleStoreAddresses(operatorGraphParts).distinct().toIntArray()
         setupOperatorGraph(destinationAddresses, operatorGraphParts, state.ownAddress, queryID)
-
     }
 
     private fun saveData(data: String) {
@@ -69,7 +67,7 @@ public class DatabaseSystemDummy : IDatabase {
 
     private fun receive(pck: ResultPackage) {
         // TODO use this in the related „ReceivedResultsDummyImpl"
-        //wenn dies nicht lokal benutzt wird, einfach weiter im operatorgraphen hochsenden
+        // wenn dies nicht lokal benutzt wird, einfach weiter im operatorgraphen hochsenden
     }
 
     private fun receive(pck: ChoosenOperatorPackage) {
@@ -79,7 +77,7 @@ public class DatabaseSystemDummy : IDatabase {
         for (operatorID in pck.operators)
             choosenOperators.add(ReceivedResults(pck.senderAddress, operatorID))
 
-        if(allReplied(query.answeredByNextHop))
+        if (allReplied(query.answeredByNextHop))
             startEvaluation(query.parentAddress, pck.queryID)
     }
 
@@ -90,21 +88,19 @@ public class DatabaseSystemDummy : IDatabase {
         return true
     }
 
-
     private fun startEvaluation(senderAddress: Int, queryID: Int) {
 
         val query = state.queriesInProgress[queryID]!!
         val operatorGraphParts = query.operatorGraphParts
         val choosenOperators = query.choosenOperators
 
-        //Bei zb. Join Von Tripplestorezugriffen auf den selben knoten
+        // Bei zb. Join Von Tripplestorezugriffen auf den selben knoten
         for (part in operatorGraphParts) {
             if (part.canBeEvaluatedWithTheseDependencies(choosenOperators)) {
                 val dep = part.mergeAndGetDependencies(choosenOperators)
                 choosenOperators.removeAll(dep)
                 choosenOperators.add(part) // alle unnötigen netzwerk-möglichkeiten eliminieren, wenn mehrere query-parts auf der gleichen node berechnet werden
             }
-
         }
         state.sender.send(
             senderAddress,
@@ -117,16 +113,17 @@ public class DatabaseSystemDummy : IDatabase {
             )
         )
 
-        //Es kann passieren, dass mehrere Teilbäume auf dem gleichen Knoten landen,
-        //Aber in übergeordneten Operatoren von anderen Knoten berechnet werden,
-        //sodass zwar mehrere Operatoren auf dem selben Blattknoten berechnet werden können,
-        //jedoch diese Operatoren nichts miteinander zu tun haben.
-        //Bei kleinen Bäumen kommt der Fall nicht vor.
-        //z.B wenn das selbe trippelmuster mehrfach auftaucht, aber noch etwas dazwischen liegt,
-        //kann der Optimizer nicht immer diese Operanden fusionieren.
+        // Es kann passieren, dass mehrere Teilbäume auf dem gleichen Knoten landen,
+        // Aber in übergeordneten Operatoren von anderen Knoten berechnet werden,
+        // sodass zwar mehrere Operatoren auf dem selben Blattknoten berechnet werden können,
+        // jedoch diese Operatoren nichts miteinander zu tun haben.
+        // Bei kleinen Bäumen kommt der Fall nicht vor.
+        // z.B wenn das selbe trippelmuster mehrfach auftaucht, aber noch etwas dazwischen liegt,
+        // kann der Optimizer nicht immer diese Operanden fusionieren.
         for (op in choosenOperators) {
 // ergebnisse senden
-            state.sender.send(senderAddress,
+            state.sender.send(
+                senderAddress,
                 ResultPackage(
                     destinationAddress = senderAddress,
                     senderAddress = state.ownAddress,
@@ -148,7 +145,6 @@ public class DatabaseSystemDummy : IDatabase {
         }
         return map
     }
-
 
     private fun setupOperatorGraph(
         destinationAddresses: IntArray,
@@ -177,7 +173,8 @@ public class DatabaseSystemDummy : IDatabase {
                 }
             } else {
 // weitersenden Richtung triple store
-                state.sender.send(hop,
+                state.sender.send(
+                    hop,
                     PreprocessingPackage(
                         destinationAddresses = dest.toIntArray(),
                         operatorGraphParts = OperatorGraphPart.encodeToByteArray(parts), // DB can filter here to reduce network-amount
@@ -188,6 +185,4 @@ public class DatabaseSystemDummy : IDatabase {
             }
         }
     }
-
 }
-

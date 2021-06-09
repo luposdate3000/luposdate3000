@@ -1,21 +1,21 @@
 package lupos.iot_sim
 
-import lupos.iot_sim.config.Configuration
-import lupos.iot_db_interface.dummyImpl.DatabaseSystemDummy
+import lupos.iot_db_interface.IDatabase
+import lupos.iot_db_interface.IDatabasePackage
+import lupos.iot_db_interface.IDatabaseState
 import lupos.iot_db_interface.IRouter
+import lupos.iot_db_interface.dummyImpl.DatabaseSystemDummy
+import lupos.iot_sim.config.Configuration
 import lupos.iot_sim.sensor.ParkingSample
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import lupos.iot_db_interface.IDatabase
-import lupos.iot_db_interface.IDatabaseState
-import lupos.iot_db_interface.IDatabasePackage
 
-public class DatabaseAdapter(public val device: Device): IRouter {
+public class DatabaseAdapter(public val device: Device) : IRouter {
 
-    private var path: Path = Paths.get("src","db", "device${device.address}")
+    private var path: Path = Paths.get("src", "db", "device${device.address}")
     private var absolutePath = ""
     private val db: IDatabase = DatabaseSystemDummy()
     private lateinit var currentState: IDatabaseState
@@ -28,7 +28,7 @@ public class DatabaseAdapter(public val device: Device): IRouter {
         currentState = db.deactivate()
     }
 
-    private fun buildInitialStateObject() : IDatabaseState {
+    private fun buildInitialStateObject(): IDatabaseState {
         return object : IDatabaseState {
             override val ownAddress: Int
                 get() = device.address
@@ -41,7 +41,6 @@ public class DatabaseAdapter(public val device: Device): IRouter {
                 get() = absolutePath
         }
     }
-
 
     public fun shutDown() {
         db.activate(currentState)
@@ -64,17 +63,17 @@ public class DatabaseAdapter(public val device: Device): IRouter {
 
     private fun buildInsertQuery(s: ParkingSample): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-                "\n" +
-                "INSERT DATA {\n" +
-                "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-                "  sosa:hasFeatureOfInterest <parkingSpaceOccupancy/space/${s.area}>;\n" +
-                "  sosa:observedProperty <parkingSpot/${s.parkingSpotID}>;\n" +
-                "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
-                "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
-                "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
-                "}\n"
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "\n" +
+            "INSERT DATA {\n" +
+            "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
+            "  sosa:hasFeatureOfInterest <parkingSpaceOccupancy/space/${s.area}>;\n" +
+            "  sosa:observedProperty <parkingSpot/${s.parkingSpotID}>;\n" +
+            "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
+            "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
+            "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
+            "}\n"
     }
 
     private fun saveData(data: ByteArray) {
@@ -96,19 +95,14 @@ public class DatabaseAdapter(public val device: Device): IRouter {
 
     public fun isDatabasePackage(pck: Any): Boolean = pck is IDatabasePackage
 
-
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
         device.sendRoutedPackage(device.address, destinationAddress, pck)
     }
 
     override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
-        device.sendRoutedPackage(device.address, destinationAddress, result) //TODO
+        device.sendRoutedPackage(device.address, destinationAddress, result) // TODO
     }
 
-
-
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
-        = device.router.getNextDatabaseHops(destinationAddresses)
-
-
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
+        device.router.getNextDatabaseHops(destinationAddresses)
 }

@@ -6,9 +6,8 @@ import kotlin.math.round
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-//adapter class for LatLng
+// adapter class for LatLng
 public class GeoLocation(internal var latitude: Double, internal var longitude: Double) {
-
 
     internal companion object {
 
@@ -17,21 +16,21 @@ public class GeoLocation(internal var latitude: Double, internal var longitude: 
                 LatLng(start.latitude, start.longitude),
                 direction,
                 distanceInMeters.toDouble(),
-                LengthUnit.METER)
+                LengthUnit.METER
+            )
             return GeoLocation(loc.getLatitude(), loc.getLongitude())
         }
 
-        internal fun createNorthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
-            = travel(start, distanceInMeters, LatLngTool.Bearing.NORTH)
+        internal fun createNorthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation =
+            travel(start, distanceInMeters, LatLngTool.Bearing.NORTH)
 
-        internal fun createSouthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
-                = travel(start, distanceInMeters, LatLngTool.Bearing.SOUTH)
+        internal fun createSouthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation =
+            travel(start, distanceInMeters, LatLngTool.Bearing.SOUTH)
 
-        internal fun createEasternLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
-                = travel(start, distanceInMeters, LatLngTool.Bearing.EAST)
+        internal fun createEasternLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation =
+            travel(start, distanceInMeters, LatLngTool.Bearing.EAST)
 
-
-        //Adapted From: https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
+        // Adapted From: https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
         internal fun getRandomLocationInRadius(center: GeoLocation, radiusInMeters: Int): GeoLocation {
             val x0 = center.longitude
             val y0 = center.latitude
@@ -56,16 +55,15 @@ public class GeoLocation(internal var latitude: Double, internal var longitude: 
             val loc = LatLng.random(RandomGenerator.random)
             return GeoLocation(loc.getLatitude(), loc.getLongitude())
         }
-
     }
 
     internal fun getDistanceInMeters(other: GeoLocation): Int {
         val distance = LatLngTool.distance(
-                            LatLng(latitude, longitude),
-                            LatLng(other.latitude, other.longitude), LengthUnit.METER)
+            LatLng(latitude, longitude),
+            LatLng(other.latitude, other.longitude), LengthUnit.METER
+        )
         return round(distance).toInt()
     }
-
 
     override fun equals(other: Any?): Boolean {
         if (other === this)
@@ -82,5 +80,4 @@ public class GeoLocation(internal var latitude: Double, internal var longitude: 
         result = 31 * result + longitude.hashCode()
         return result
     }
-
 }

@@ -1,10 +1,9 @@
 package lupos.iot_sim
+
 import lupos.iot_sim.config.Configuration
 import lupos.iot_sim.geo.GeoLocation
-
 import lupos.iot_sim.sensor.ParkingSensor
 import kotlin.test.*
-
 
 class ConfigurationTest {
 
@@ -113,7 +112,7 @@ class ConfigurationTest {
         Configuration.parse("$prefix/checkLinksInStarNetwork.json")
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
-        for(child in starNet.children) {
+        for (child in starNet.children) {
             assertTrue(child.linkManager.hasLink(starNet.dataSink))
             assertTrue(starNet.dataSink.linkManager.hasLink(child))
         }
@@ -123,7 +122,7 @@ class ConfigurationTest {
     fun inStarNetworkChildrenDoNotKnowEachOther() {
         Configuration.parse("$prefix/inStarNetworkChildrenDoNotKnowEachOther.json")
         val starNet = Configuration.randStarNetworks["garageA"]!!
-        for(childA in starNet.children)
+        for (childA in starNet.children)
             for (childB in starNet.children)
                 assertFalse(childA.linkManager.hasLink(childB))
     }
@@ -139,7 +138,6 @@ class ConfigurationTest {
         assertEquals(11, starNetB.children.size)
         assertEquals(12, starNetC.children.size)
     }
-
 
     @Test
     fun checkLinkData() {
@@ -186,7 +184,7 @@ class ConfigurationTest {
         assertTrue(Configuration.devices.size > 1)
         assertTrue(meshNet.mesh.size > 1)
         assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
-        for(col in meshNet.mesh) {
+        for (col in meshNet.mesh) {
             assertEquals(1, col.size)
         }
     }
@@ -200,7 +198,7 @@ class ConfigurationTest {
         assertTrue(meshNet.mesh.size > 1)
         assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
         val rowSize = meshNet.mesh.size
-        for(col in meshNet.mesh) {
+        for (col in meshNet.mesh) {
             assertTrue(col.size > rowSize)
         }
     }
@@ -211,9 +209,9 @@ class ConfigurationTest {
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
         val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
         val northWest = mesh[0][0]
-        val southWest = mesh[0][mesh[0].size-1]
-        val northEast = mesh[mesh.size-1][0]
-        val southEast = mesh[mesh.size-1][mesh[mesh.size-1].size-1]
+        val southWest = mesh[0][mesh[0].size - 1]
+        val northEast = mesh[mesh.size - 1][0]
+        val southEast = mesh[mesh.size - 1][mesh[mesh.size - 1].size - 1]
 
         assertFalse(northWest.linkManager.hasLink(northEast))
         assertFalse(northWest.linkManager.hasLink(southEast))
@@ -251,9 +249,8 @@ class ConfigurationTest {
         val meshOrigin = mesh[0][0]
 
         assertTrue(fixedDevice.linkManager.hasLink(meshOrigin))
-        assertEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
+        assertEquals(meshOrigin.linkManager.getNumberOfLinks(), fixedDevice.linkManager.getNumberOfLinks())
     }
-
 
     @Test
     fun fixedAndMeshedDevicesAreNotLinkable() {
@@ -266,8 +263,6 @@ class ConfigurationTest {
         val meshOrigin = mesh[0][0]
 
         assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
-        assertNotEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
+        assertNotEquals(meshOrigin.linkManager.getNumberOfLinks(), fixedDevice.linkManager.getNumberOfLinks())
     }
-
-
 }

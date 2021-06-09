@@ -1,11 +1,8 @@
 package lupos.iot_sim.geo
 
-
-
 import kotlin.Long
 import kotlin.math.abs
 import kotlin.random.Random
-
 
 /*
  *    Copyright 2010 Tyler Coles
@@ -106,8 +103,6 @@ internal class LatLng(latitude: Double, longitude: Double) {
         this.longitude = LatLngConfig.doubleToLong(lng)
     }
 
-
-
     internal companion object {
         /**
          * Creates a random latitude and longitude. (Not inclusive of (-90, 0))
@@ -121,7 +116,6 @@ internal class LatLng(latitude: Double, longitude: Double) {
                 r.nextDouble() * -360.0 + 180.0
             )
         }
-
     }
 
     init {

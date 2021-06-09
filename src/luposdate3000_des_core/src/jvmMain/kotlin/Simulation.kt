@@ -1,6 +1,6 @@
 package lupos.des_core
 
-public class Simulation (private val entities: List<Entity>) {
+public class Simulation(private val entities: List<Entity>) {
 
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
@@ -19,7 +19,6 @@ public class Simulation (private val entities: List<Entity>) {
 
     public var processedEventCounter: Int = 0
         private set
-
 
     public fun start() {
         startUp()
@@ -40,9 +39,8 @@ public class Simulation (private val entities: List<Entity>) {
     }
 
     public fun setLifeCycleCallback(callback: ISimulationLifeCycle) {
-        this. callback = callback
+        this.callback = callback
     }
-
 
     private fun startUpAllEntities() {
         for (entity: Entity in entities) {
@@ -51,22 +49,20 @@ public class Simulation (private val entities: List<Entity>) {
         }
     }
 
-
     private fun run() {
         var isFinished = false
         while (!isFinished)
             isFinished = runNextTimeStep()
     }
 
-
     private fun runNextTimeStep(): Boolean {
-        if(!futureEvents.hasNext())
+        if (!futureEvents.hasNext())
             return true
 
         if (isSteadyStateReached())
             transferToSteadyState()
 
-        if(isMaxClockReached())
+        if (isMaxClockReached())
             return true
 
         processEvent()
@@ -88,7 +84,7 @@ public class Simulation (private val entities: List<Entity>) {
 
     private fun getTimeOfNextTimeStep() = futureEvents.peek().occurrenceTime
 
-    private fun isSteadyStateReached() =  getTimeOfNextTimeStep() > steadyClock
+    private fun isSteadyStateReached() = getTimeOfNextTimeStep() > steadyClock
 
     private fun isMaxClockReached() = getTimeOfNextTimeStep() > maxClock
 
@@ -97,7 +93,6 @@ public class Simulation (private val entities: List<Entity>) {
             entity.onSteadyState()
         callback?.onSteadyState()
     }
-
 
     internal fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any) {
         addedEventCounter++
@@ -121,7 +116,5 @@ public class Simulation (private val entities: List<Entity>) {
             ent.onShutDown()
     }
 
-
     public fun numberOfEntities(): Int = entities.size
-
 }

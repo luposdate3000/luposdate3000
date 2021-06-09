@@ -13,13 +13,11 @@ internal class EventPriorityQueue {
         queue.add(insertionIndex, newEvent)
     }
 
-    fun dequeue(): Event
-        =  queue.removeAt(0)
+    fun dequeue(): Event =
+        queue.removeAt(0)
 
-
-    fun peek(): Event
-        = queue[0]
+    fun peek(): Event =
+        queue[0]
 
     fun hasNext() = queue.isNotEmpty()
-
 }

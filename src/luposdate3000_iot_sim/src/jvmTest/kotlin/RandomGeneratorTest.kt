@@ -1,8 +1,7 @@
 package lupos.iot_sim
 
-
-import kotlin.test.*
 import kotlin.random.Random
+import kotlin.test.*
 
 class RandomGeneratorTest {
 
@@ -23,7 +22,7 @@ class RandomGeneratorTest {
 
     private fun `random double is between min and max`(min: Double, max: Double) {
         RandomGenerator.seed = Random.nextInt()
-        for(i in 1..30) {
+        for (i in 1..30) {
             val actual = RandomGenerator.getDouble(min, max)
             assertTrue(actual >= min, "actual is $actual")
             assertTrue(actual <= max, "actual is $actual")
@@ -46,18 +45,16 @@ class RandomGeneratorTest {
         val minRandom = sequenceSize.toDouble()
 
         RandomGenerator.seed = seed
-        for(i in 0 until sequenceSize)
+        for (i in 0 until sequenceSize)
             firstSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
 
         RandomGenerator.seed = seed
-        for(i in 0 until sequenceSize)
+        for (i in 0 until sequenceSize)
             secondSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
 
-        for(i in 0 until sequenceSize)
+        for (i in 0 until sequenceSize)
             assertEquals(firstSequence[i], secondSequence[i])
     }
-
-
 
     @Test
     fun `get true`() {
@@ -70,5 +67,4 @@ class RandomGeneratorTest {
         RandomGenerator.seed = Random.nextInt()
         assertFalse(RandomGenerator.getBoolean(0.0F))
     }
-
 }
