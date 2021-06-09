@@ -146,7 +146,7 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         forwardedDaoCounter++
     }
 
-    public inner class DelayDAOTimerExpired : Entity.ITimerExpired {
+    public inner class DelayDAOTimerExpired : Entity.ITimer {
         override fun onExpire() {
             isDelayDAOTimerRunning = false
             forwardDAO()

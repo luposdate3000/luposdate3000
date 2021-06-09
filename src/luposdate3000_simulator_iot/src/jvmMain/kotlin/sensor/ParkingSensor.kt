@@ -33,7 +33,7 @@ public class ParkingSensor(public var device: Device) : ISensor {
         }
     }
 
-    public inner class SamplingProcessFinished : Entity.ITimerExpired {
+    public inner class SamplingProcessFinished : Entity.ITimer {
         override fun onExpire() {
             onSampleTaken()
         }

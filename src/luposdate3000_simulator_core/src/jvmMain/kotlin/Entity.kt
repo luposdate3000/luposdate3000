@@ -8,15 +8,12 @@ public abstract class Entity : ISimulationLifeCycle {
 
     public abstract fun onEvent(event: Event)
 
-    private fun isTimerExpiredEvent(event: Event) =
-        event.data != null && event.data is ITimerExpired
-
     internal fun processIncomingEvent(event: Event) {
         if (isTerminated)
             return
 
-        if (isTimerExpiredEvent(event))
-            (event.data as ITimerExpired).onExpire()
+        if (event.data is ITimer)
+            event.data.onExpire()
         else
             onEvent(event)
     }
@@ -26,11 +23,11 @@ public abstract class Entity : ISimulationLifeCycle {
         simulation.addEvent(delay, this, destination, data)
     }
 
-    public fun setTimer(time: Long, callback: ITimerExpired) {
+    public fun setTimer(time: Long, callback: ITimer) {
         scheduleEvent(this, time, callback)
     }
 
-    public interface ITimerExpired {
+    public interface ITimer {
         public fun onExpire()
     }
 

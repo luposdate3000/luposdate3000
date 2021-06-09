@@ -434,17 +434,17 @@ class SimulationTest {
         var timer3Result: Long = 0
 
         val entity = object : Entity() {
-            val timer1 = object : ITimerExpired {
+            val timer1 = object : ITimer {
                 override fun onExpire() {
                     timer1Result = simulation.currentClock
                 }
             }
-            val timer2 = object : ITimerExpired {
+            val timer2 = object : ITimer {
                 override fun onExpire() {
                     timer2Result = simulation.currentClock
                 }
             }
-            val timer3 = object : ITimerExpired {
+            val timer3 = object : ITimer {
                 override fun onExpire() {
                     timer3Result = simulation.currentClock
                 }
