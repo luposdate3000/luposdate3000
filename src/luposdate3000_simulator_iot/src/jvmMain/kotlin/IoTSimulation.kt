@@ -20,9 +20,9 @@ public class IoTSimulation {
     public fun run() {
         val configFileName = ""
         Configuration.parse(configFileName)
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.start()
+        val sim = Simulation(Configuration.devices, callback = Logger())
+
+        sim.startSimulation()
     }
 
     public fun getDateTimeString(simClock: Long) {

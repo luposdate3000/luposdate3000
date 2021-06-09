@@ -63,7 +63,7 @@ public class ParkingSensor(public var device: Device) : ISensor {
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
-            sampleTime = device.getCurrentSimulationTime(),
+            sampleTime = device.simulation.getCurrentClock(),
             isOccupied = RandomGenerator.random.nextBoolean(),
             parkingSpotID = device.address,
             area = device.address.toString()

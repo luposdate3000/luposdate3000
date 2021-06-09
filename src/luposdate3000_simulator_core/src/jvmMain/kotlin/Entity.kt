@@ -2,7 +2,7 @@ package lupos.simulator_core
 
 public abstract class Entity : ISimulationLifeCycle {
 
-    internal lateinit var simulation: Simulation
+    override lateinit var simulation: ISimulation
 
     private var isTerminated = false
 
@@ -20,7 +20,8 @@ public abstract class Entity : ISimulationLifeCycle {
 
     protected fun scheduleEvent(destination: Entity, data: Any, delay: Int) {
         require(!isTerminated)
-        simulation.addEvent(delay.toLong(), this, destination, data)
+        val sim = simulation as Simulation
+        sim.addEvent(delay.toLong(), this, destination, data)
     }
 
     public fun setTimer(time: Int, callback: ITimer) {
@@ -35,6 +36,4 @@ public abstract class Entity : ISimulationLifeCycle {
         onShutDown()
         isTerminated = true
     }
-
-    public fun getCurrentSimulationTime(): Long = simulation.currentClock
 }

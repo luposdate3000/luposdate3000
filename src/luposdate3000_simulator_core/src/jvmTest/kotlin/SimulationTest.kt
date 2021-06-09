@@ -9,18 +9,18 @@ class SimulationTest {
     @Test
     fun `run without entities has no effect on clock`() {
         val startClock: Long = 0
-        val sim = Simulation(emptyList())
-        sim.start()
-        assertEquals(startClock, sim.currentClock)
+        val sim = Simulation(emptyList(), callback = LoggerStub())
+        sim.startSimulation()
+        assertEquals(startClock, sim.getCurrentClock())
     }
 
     @Test
     fun `run without sending events has no effect on clock`() {
-        val sim = Simulation(arrayListOf(EntityStub(), EntityStub()))
-        val startClock = sim.currentClock
-        sim.start()
+        val sim = Simulation(arrayListOf(EntityStub(), EntityStub()), callback = LoggerStub())
+        val startClock = sim.getCurrentClock()
+        sim.startSimulation()
         assertEquals(0, startClock)
-        assertEquals(startClock, sim.currentClock)
+        assertEquals(startClock, sim.getCurrentClock())
     }
 
     @Test
@@ -50,10 +50,10 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
-        sim.start()
+        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity),callback = LoggerStub())
+        sim.startSimulation()
 
-        assertEquals(delay.toLong(), sim.currentClock)
+        assertEquals(delay.toLong(), sim.getCurrentClock())
         assertEquals(data, actualData)
         assertEquals(sendingEntity, actualSrcEntity)
     }
@@ -85,13 +85,13 @@ class SimulationTest {
             override fun onEvent(source: Entity, data: Any) {
                 when (data) {
                     1 -> {
-                        actualFirstClock = simulation.currentClock
+                        actualFirstClock = simulation.getCurrentClock()
                     }
                     2 -> {
-                        actualSecondClock = simulation.currentClock
+                        actualSecondClock = simulation.getCurrentClock()
                     }
                     3 -> {
-                        actualThirdClock = simulation.currentClock
+                        actualThirdClock = simulation.getCurrentClock()
                     }
                 }
             }
@@ -99,8 +99,8 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
-        sim.start()
+        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity),callback = LoggerStub())
+        sim.startSimulation()
 
         assertEquals(firstDelay.toLong(), actualFirstClock)
         assertEquals(secondDelay.toLong(), actualSecondClock)
@@ -140,8 +140,8 @@ class SimulationTest {
             override fun onEvent(source: Entity, data: Any) {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(entityA, entityB, entityC))
-        sim.start()
+        val sim = Simulation(arrayListOf(entityA, entityB, entityC),callback = LoggerStub())
+        sim.startSimulation()
 
         assertEquals(true, entityAIsCalled)
         assertEquals(true, entityBIsCalled)
@@ -160,8 +160,8 @@ class SimulationTest {
 
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(entityA))
-        sim.start()
+        val sim = Simulation(arrayListOf(entityA),callback = LoggerStub())
+        sim.startSimulation()
 
         assertEquals(false, entityAIsCalled)
     }
@@ -196,8 +196,8 @@ class SimulationTest {
                 entityCIsCalled = true
             }
         }
-        val sim = Simulation(arrayListOf(entityA, entityB, entityC))
-        sim.start()
+        val sim = Simulation(arrayListOf(entityA, entityB, entityC),callback = LoggerStub())
+        sim.startSimulation()
 
         assertEquals(true, entityAIsCalled)
         assertEquals(true, entityBIsCalled)
@@ -234,11 +234,11 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
-        sim.start()
+        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity),callback = LoggerStub())
+        sim.startSimulation()
 
         val expected: Int =  firstDelay + responseDelay
-        assertEquals(expected.toLong(), sim.currentClock)
+        assertEquals(expected.toLong(), sim.getCurrentClock())
         assertTrue(isResponseReceived)
     }
 
@@ -274,10 +274,10 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
-        sim.start()
+        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity),callback = LoggerStub())
+        sim.startSimulation()
 
-        assertEquals((delay * 3).toLong(), sim.currentClock)
+        assertEquals((delay * 3).toLong(), sim.getCurrentClock())
         assertEquals(expectedProcessCounter, processCounter)
     }
 
@@ -296,7 +296,7 @@ class SimulationTest {
 
             override fun onEvent(source: Entity, data: Any) {
                 if (data == eventType) {
-                    eventProcessedAt = simulation.currentClock
+                    eventProcessedAt = simulation.getCurrentClock()
                 }
             }
 
@@ -304,15 +304,15 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(busyEntity))
-        sim.start()
+        val sim = Simulation(arrayListOf(busyEntity),callback = LoggerStub())
+        sim.startSimulation()
 
         assertEquals(delay.toLong(), eventProcessedAt)
     }
 
     @Test
     fun `check default end time`() {
-        val sim = Simulation(arrayListOf())
+        val sim = Simulation(arrayListOf(),callback = LoggerStub())
         assertEquals(Long.MAX_VALUE, sim.maxClock)
     }
 
@@ -336,11 +336,10 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
-        sim.setMaximalTime(maxClock)
-        sim.start()
+        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity),maxClock = maxClock,callback = LoggerStub())
+        sim.startSimulation()
 
-        assertEquals(maxClock, sim.currentClock)
+        assertEquals(maxClock, sim.getCurrentClock())
     }
 
     @Test
@@ -371,11 +370,10 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
-        sim.setMaximalTime(maxClock)
-        sim.start()
+        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity),maxClock = maxClock,callback = LoggerStub())
+        sim.startSimulation()
 
-        assertEquals(maxClock, sim.currentClock)
+        assertEquals(maxClock, sim.getCurrentClock())
     }
 
     @Test
@@ -401,9 +399,10 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(source: Entity, data: Any) {
-                if (simulation.processedEventCounter >= maxEventNumber) {
-                    currentProcessedEventCounter = simulation.processedEventCounter
-                    simulation.stop()
+                val sim = simulation as Simulation
+                if (sim.addedEventCounter >= maxEventNumber) {
+                    currentProcessedEventCounter = sim.addedEventCounter
+                    simulation.endSimulation()
                 }
                 this.scheduleEvent(source, "dummy data", delay)
             }
@@ -412,10 +411,10 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
-        sim.start()
+        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity),callback = LoggerStub())
+        sim.startSimulation()
 
-        assertEquals(currentProcessedEventCounter, sim.processedEventCounter)
+        assertEquals(currentProcessedEventCounter, sim.addedEventCounter-1)
     }
 
     @Test
@@ -431,17 +430,17 @@ class SimulationTest {
         val entity = object : Entity() {
             val timer1 = object : ITimer {
                 override fun onExpire() {
-                    timer1Result = simulation.currentClock
+                    timer1Result = simulation.getCurrentClock()
                 }
             }
             val timer2 = object : ITimer {
                 override fun onExpire() {
-                    timer2Result = simulation.currentClock
+                    timer2Result = simulation.getCurrentClock()
                 }
             }
             val timer3 = object : ITimer {
                 override fun onExpire() {
-                    timer3Result = simulation.currentClock
+                    timer3Result = simulation.getCurrentClock()
                 }
             }
 
@@ -455,8 +454,8 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(entity))
-        sim.start()
+        val sim = Simulation(arrayListOf(entity),callback = LoggerStub())
+        sim.startSimulation()
 
         assertEquals(timerDelay1.toLong(), timer1Result)
         assertEquals(timerDelay2.toLong(), timer2Result)
@@ -480,7 +479,7 @@ class SimulationTest {
 
             override fun onEvent(source: Entity, data: Any) {}
             override fun onSteadyState() {
-                entityAIsCalledAt = simulation.currentClock
+                entityAIsCalledAt = simulation.getCurrentClock()
             }
 
             override fun onShutDown() {}
@@ -490,17 +489,16 @@ class SimulationTest {
             override fun onStartUp() {}
             override fun onEvent(source: Entity, data: Any) {}
             override fun onSteadyState() {
-                entityBIsCalledAt = simulation.currentClock
+                entityBIsCalledAt = simulation.getCurrentClock()
             }
 
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(entityA, entityB))
-        sim.steadyStateReachedAt(steadyStateAt)
-        sim.start()
+        val sim = Simulation(arrayListOf(entityA, entityB), steadyClock = steadyStateAt, callback = LoggerStub())
+        sim.startSimulation()
 
-        assertEquals(delay.toLong(), sim.currentClock)
+        assertEquals(delay.toLong(), sim.getCurrentClock())
         assertEquals(steadyStateAt, entityAIsCalledAt)
         assertEquals(steadyStateAt, entityBIsCalledAt)
     }

@@ -1,45 +1,35 @@
 package lupos.simulator_core
 
-public class Simulation(private val entities: List<Entity>) {
+public class Simulation(
+    private val entities: List<Entity>,
+    internal var maxClock: Long = Long.MAX_VALUE,
+    private var steadyClock: Long = Long.MAX_VALUE,
+    private var callback: ISimulationLifeCycle
+    ): ISimulation {
 
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
-    private var steadyClock: Long = Long.MAX_VALUE
 
-    public var maxClock: Long = Long.MAX_VALUE
+    init {
+        callback.simulation = this
+    }
+
+    private var clock: Long = 0
+
+    internal var addedEventCounter: Int = 0
         private set
 
-    private var callback: ISimulationLifeCycle? = null
+    override fun getCurrentClock(): Long = clock
 
-    public var currentClock: Long = 0
-        private set
 
-    public var addedEventCounter: Int = 0
-        private set
-
-    public var processedEventCounter: Int = 0
-        private set
-
-    public fun start() {
+    public override fun startSimulation() {
         startUp()
         run()
         shutDown()
     }
 
-    public fun stop() {
-        maxClock = currentClock
-    }
-
-    public fun steadyStateReachedAt(time: Long) {
-        steadyClock = time
-    }
-
-    public fun setMaximalTime(time: Long) {
-        maxClock = time
-    }
-
-    public fun setLifeCycleCallback(callback: ISimulationLifeCycle) {
-        this.callback = callback
+    public override fun endSimulation() {
+        maxClock = clock
     }
 
     private fun startUpAllEntities() {
@@ -70,15 +60,14 @@ public class Simulation(private val entities: List<Entity>) {
     }
 
     private fun processEvent() {
-        processedEventCounter++
         val nextEvent = futureEvents.dequeue()
-        currentClock = nextEvent.occurrenceTime
+        clock = nextEvent.occurrenceTime
         val entity = nextEvent.destination
         entity.processIncomingEvent(nextEvent)
     }
 
     private fun transferToSteadyState() {
-        currentClock = steadyClock
+        clock = steadyClock
         notifyAboutSteadyState()
     }
 
@@ -91,24 +80,24 @@ public class Simulation(private val entities: List<Entity>) {
     private fun notifyAboutSteadyState() {
         for (entity in entities)
             entity.onSteadyState()
-        callback?.onSteadyState()
+        callback.onSteadyState()
     }
 
     internal fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any) {
         addedEventCounter++
-        val updatedOccurringTime = currentClock + occurrenceTime
+        val updatedOccurringTime = clock + occurrenceTime
         val ev = Event(addedEventCounter, updatedOccurringTime, src, dest, data)
         futureEvents.enqueue(ev)
     }
 
     private fun startUp() {
-        callback?.onStartUp()
+        callback.onStartUp()
         startUpAllEntities()
     }
 
     private fun shutDown() {
         shutDownAllEntities()
-        callback?.onShutDown()
+        callback.onShutDown()
     }
 
     private fun shutDownAllEntities() {
@@ -116,5 +105,5 @@ public class Simulation(private val entities: List<Entity>) {
             ent.onShutDown()
     }
 
-    public fun numberOfEntities(): Int = entities.size
+    internal fun numberOfEntities(): Int = entities.size
 }

@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import lupos.simulator_core.ISimulation
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
@@ -15,10 +16,10 @@ class RoutingSimulationTest {
     @Test
     fun runSimulationWithoutEntities() {
         Configuration.parse("$prefix/runSimulationWithoutEntities.json")
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.start()
-        assertEquals(0, sim.currentClock)
+        val sim: ISimulation = Simulation(Configuration.devices, callback = Logger())
+
+        sim.startSimulation()
+        assertEquals(0, sim.getCurrentClock())
     }
 
     @Test
@@ -26,12 +27,10 @@ class RoutingSimulationTest {
         Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
 
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.setMaximalTime(maxClock)
-        sim.start()
+        val sim = Simulation(Configuration.devices,maxClock = maxClock,callback = Logger())
 
-        assertEquals(maxClock, sim.currentClock)
+        sim.startSimulation()
+        assertEquals(maxClock, sim.getCurrentClock())
     }
 
     @Test
@@ -48,10 +47,8 @@ class RoutingSimulationTest {
         assertFalse(child1Router.hasParent())
         assertFalse(child2Router.hasParent())
 
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.setMaximalTime(200)
-        sim.start()
+        val sim = Simulation(Configuration.devices, maxClock = 200, callback = Logger())
+        sim.startSimulation()
 
         assertTrue(child1Router.hasParent())
         assertTrue(child2Router.hasParent())
@@ -70,9 +67,8 @@ class RoutingSimulationTest {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
         val rootRouter = root.router as RPLRouter
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.start()
+        val sim = Simulation(Configuration.devices, callback = Logger())
+        sim.startSimulation()
 
         assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.destinationCounter)
     }
@@ -90,10 +86,8 @@ class RoutingSimulationTest {
         val maxClock: Long = 100
         val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.setMaximalTime(maxClock)
-        sim.start()
+        val sim = Simulation(Configuration.devices, maxClock = maxClock,callback = Logger())
+        sim.startSimulation()
 
         assertEquals(numberOfSamples, a.processedSensorDataPackages)
     }
@@ -110,10 +104,8 @@ class RoutingSimulationTest {
         val maxClock: Long = 100
         val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.setMaximalTime(maxClock)
-        sim.start()
+        val sim = Simulation(Configuration.devices, maxClock = maxClock,callback = Logger())
+        sim.startSimulation()
 
         assertEquals(numberOfSamples, f.processedSensorDataPackages)
     }
@@ -130,10 +122,8 @@ class RoutingSimulationTest {
         val maxClock: Long = 100
         val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 
-        val sim = Simulation(Configuration.devices)
-        sim.setLifeCycleCallback(Logger(sim))
-        sim.setMaximalTime(maxClock)
-        sim.start()
+        val sim = Simulation(Configuration.devices, maxClock = maxClock,callback = Logger())
+        sim.startSimulation()
 
         assertEquals(numberOfSamples, d.processedSensorDataPackages)
     }

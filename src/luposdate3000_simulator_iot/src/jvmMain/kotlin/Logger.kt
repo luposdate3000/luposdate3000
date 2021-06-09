@@ -1,12 +1,14 @@
 package lupos.simulator_iot
 
+import lupos.simulator_core.ISimulation
 import lupos.simulator_core.ISimulationLifeCycle
-import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
 
-public class Logger(public val sim: Simulation) : ISimulationLifeCycle {
+public class Logger : ISimulationLifeCycle {
+
+    override lateinit var simulation: ISimulation
 
     public override fun onStartUp() {
         log("")
@@ -31,7 +33,7 @@ public class Logger(public val sim: Simulation) : ISimulationLifeCycle {
         log("Number of data packages: ${Device.observationPackageCounter}")
         log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
         log("")
-        log("Simulation clock: ${sim.currentClock}")
+        log("Simulation clock: ${simulation.getCurrentClock()}")
         log("Simulation completed")
         log("================================================")
         log("")
