@@ -31,25 +31,27 @@ function resetIdMappings() {
 }
 
 function calcDifferentPositions() {
-    var positions = Object.values(networkSon.getPositions());
-    var positionsIds = Object.keys(networkSon.getPositions());
-    differentPositions = [];
-    var i, j;
-    for (i = 0; i <= positions.length - 1; i++) {
-        for (j = 0; j <= dataNodes.length - 1; j++) {
-            if (dataNodes[j].id == parseInt(positionsIds[i], 10) && !dataNodes[j].label.includes('AOP') && !dataNodes[j].label.includes('OPBaseCompound')) {
-                if (!differentPositions.includes(positions[i].y)) {
-                    differentPositions.push(positions[i].y);
+    if (typeof networkSon !== "undefined" && networkSon != null) {
+        var positions = Object.values(networkSon.getPositions());
+        var positionsIds = Object.keys(networkSon.getPositions());
+        differentPositions = [];
+        var i, j;
+        for (i = 0; i <= positions.length - 1; i++) {
+            for (j = 0; j <= dataNodes.length - 1; j++) {
+                if (dataNodes[j].id == parseInt(positionsIds[i], 10) && !dataNodes[j].label.includes('AOP') && !dataNodes[j].label.includes('OPBaseCompound')) {
+                    if (!differentPositions.includes(positions[i].y)) {
+                        differentPositions.push(positions[i].y);
+                    }
+                    idMappings["Operator-Depth"][dataNodes[i].id] = "A" + positions[i].y
                 }
-                idMappings["Operator-Depth"][dataNodes[i].id] = "A" + positions[i].y
             }
         }
-    }
-    differentPositions.sort((a, b) => a - b);
-    for (i = 0; i < differentPositions.length; i++) {
-        for (j in idMappings["Operator-Depth"]) {
-            if (idMappings["Operator-Depth"][j] == "A" + differentPositions[i]) {
-                idMappings["Operator-Depth"][j] = i
+        differentPositions.sort((a, b) => a - b);
+        for (i = 0; i < differentPositions.length; i++) {
+            for (j in idMappings["Operator-Depth"]) {
+                if (idMappings["Operator-Depth"][j] == "A" + differentPositions[i]) {
+                    idMappings["Operator-Depth"][j] = i
+                }
             }
         }
     }

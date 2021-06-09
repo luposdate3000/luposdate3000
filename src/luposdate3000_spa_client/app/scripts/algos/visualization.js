@@ -5,8 +5,7 @@
 // Set of global variables needed for the visualization and sonification
 var sessionId;
 // Variables for the vis network
-var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon,
-    dataSetEdges;
+var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon, dataSetEdges;
 // Variables for the animation
 var stopFlag, pauseFlag; // Flag top stop the current animation process
 var timer;
@@ -22,10 +21,11 @@ var selectArray = [];
 var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
-var initFlag = false;
+
 
 
 function initLuposdate3000() {
+    App.selectMappingInitFlag = false;
     if (typeof luposdate3000_endpoint === "undefined") {
         luposdate3000_endpoint = Luposdate3000_Endpoint
     }
@@ -56,8 +56,10 @@ function visualisationSetup() {
     //Delete current Animation List and Netowrk
     if (network != null) {
         network.destroy();
+        network = null
         if (networkSon != null) {
             networkSon.destroy();
+            networkSon = null
         }
         globalAnimationList = [];
         $('.result-tab a').click()
@@ -104,41 +106,37 @@ function visualisationStart() {
 
 }
 
-function createMapping() {
-    if (!initFlag) {
-        initFlag = true;
-    }
-    var html = '';
-    var i;
-    for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
-        html += '<h7>' + App.operators.audioDimension[j] + ' Settings</h7><br><br>';
-        html += '<div nexus-ui=select id=selectAudio-' + j + '></div><br>';
-    }
-    $('#instrumentAdvanced-select').html(html);
-    for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
-        var i = App.operators.audioDimension[j]
-        var selectAudioIdentifier = '#selectAudio-' + j;
-        selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
-            'size': [200, 40],
-            'options': App.operators.information[i].values
-        });
-        selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
-        selectAudio[i].myFunction = App.mappingFunctions[i]
-        selectAudio[i].myNoValue = App.operators.information[i].standard
-        selectAudio[i].on('change', function(v) { //initialise listener
-            if (v.value == this.myNoValue) {
-                $(this.myIdentifier).hide();
-            } else {
-                $(this.myIdentifier).show();
-            }
-            this.myFunction(v.value);
-        });
-        $(selectAudioIdentifier).after($(App.mappingIdentifiers[i])); //positioning of the html
-    }
-    selectMapping()
-}
-
 function selectMapping() {
+    if (!App.selectMappingInitFlag) {
+        App.selectMappingInitFlag = true;
+        var html = '';
+        var i;
+        for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
+            html += '<h7>' + App.operators.audioDimension[j] + ' Settings</h7><br><br>';
+            html += '<div nexus-ui=select id=selectAudio-' + j + '></div><br>';
+        }
+        $('#instrumentAdvanced-select').html(html);
+        for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
+            var i = App.operators.audioDimension[j]
+            var selectAudioIdentifier = '#selectAudio-' + j;
+            selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
+                'size': [200, 40],
+                'options': App.operators.information[i].values
+            });
+            selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
+            selectAudio[i].myFunction = App.mappingFunctions[i]
+            selectAudio[i].myNoValue = App.operators.information[i].standard
+            selectAudio[i].on('change', function(v) { //initialise listener
+                if (v.value == this.myNoValue) {
+                    $(this.myIdentifier).hide();
+                } else {
+                    $(this.myIdentifier).show();
+                }
+                this.myFunction(v.value);
+            });
+            $(selectAudioIdentifier).after($(App.mappingIdentifiers[i])); //positioning of the html
+        }
+    }
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         var i = App.operators.audioDimension[j]
         selectAudio[i].value = App.config.sonification[i].mode
@@ -535,12 +533,6 @@ $('#luposdate3000_backward').click(function() {
     addNewNode();
 });
 
-//Creates a table on the result Tab and show the results from the query
-function calculateResult() {
-    App.processResults(App.result, "sparql");
-
-}
-
 //Function to pause the thread.
 //Needed as javascript is asynchronous
 function sleep(ms) {
@@ -584,14 +576,11 @@ function replacePrefix() {
             }
         }
     }
-    calculateResult();
+    selectMapping()
+    App.processResults(App.result, "sparql");
+
 }
 
-//Function that is getting called by the Luposdate3000 Library and pushing the data
-//to animate
-function receiveAnimation(childUUID, parentUUID, string, index) {
-    //globalAnimationList.push([childUUID, parentUUID, string, index]);
-}
 
 function playNoteMapping(id, label, index) {
     var pitchType = App.config.sonification.Pitch.mode;
@@ -870,7 +859,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
         var x, y;
         //If right click is made within the canvas, open custom context menu
         if (typeof params.nodes[0] != 'undefined') {
-            document.getElementById(string).addEventListener('contextmenu', function(e) {
+            $(string).contextmenu(function(e) {
                 // Alternative
                 e.preventDefault();
                 x = e.clientX;
@@ -878,14 +867,14 @@ function addCustomContextMenu(networkObject, contextFlag) {
                 $("#rkm").css("left", x + "px");
                 $("#rkm").css("top", y + "px");
                 $("#rkm").show();
-            }, false);
+            });
 
             //Event Listener, if mouse is pressed outside the custom context menu
-            document.getElementById(string).addEventListener('mousedown', function(e) {
+            $(string).mousedown(function(e) {
                 if (!(e.clientX >= x && e.clientX <= (x + $("#rkm").width()) && e.clientY >= y && e.clientY <= (y + $("#rkm").height()))) {
                     $('#rkm').hide();
                 }
-            }, false);
+            });
 
             //Event Listener that closes the custom context menu if page is scrolled
             $(window).scroll(function() {
@@ -1036,9 +1025,7 @@ function draw(flag) {
         calculateMinMaxDepth();
         calculateMinMaxIndex();
         addCustomContextMenu(networkSon, flag);
-        if (!initFlag) {
-            createMapping();
-        }
+        selectMapping();
         //By default, the network is dynamic and is changing via a constant animation
         //For the hierarchical layout it is essential that is is turned off after the build-up
         //process.

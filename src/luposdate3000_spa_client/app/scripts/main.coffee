@@ -330,8 +330,6 @@ App.bindEvents = ->
 
 
             # Switch to results tab if needed
-            if App.isMergeView
-                $('.result-tab a').click()
             localhtml = ""
             localhtml += "<h4>Waiting for Server..</h4>"
             localhtml += "<div class='sk-spinner sk-spinner-cube-grid dark'>"
@@ -384,13 +382,18 @@ App.bindEvents = ->
     # Merge/split tabs
     $('.right-side-toggle').click ->
         if App.isMergeView
-            $("#result").show()
+            $(".my-tab-rightside").detach().appendTo('.my-tab-content-rightside')
+            $(".my-tab-links-rightside").detach().appendTo('.my-tab-links-content-rightside')
             $("#query").css "width", "50%"
+            $("#result-tab").click()
+            $("#sparql-tab").click()
         else
-            $("#result").hide()
+            $(".my-tab-rightside").detach().appendTo('.my-tab-content-leftside')
+            $(".my-tab-links-rightside").detach().appendTo('.my-tab-links-content-leftside')
             $("#query").css "width", "100%"
         $(this).toggleClass 'active'
         App.isMergeView = not App.isMergeView
+        App.initConfigComponentsHideTabs()
 
 
 App.insertQueryPicker = ->
@@ -794,7 +797,6 @@ App.initConfigComponentsHideTabs = ->
     if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame" || App.selectedEvaluatorName == "Luposdate3000")
         tabsToHide.push("rif")
     allTabs = []
-
     # tabs on the left
     leftAvailableTab = ""
     for tab in App.leftTabs
