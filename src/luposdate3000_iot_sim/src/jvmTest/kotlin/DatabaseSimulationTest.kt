@@ -3,8 +3,8 @@ package lupos.iot_sim
 import lupos.des_core.Simulation
 import lupos.iot_sim.config.Configuration
 import lupos.iot_sim.sensor.ParkingSensor
-import org.junit.jupiter.api.Assertions
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class DatabaseSimulationTest {
 
@@ -33,7 +33,7 @@ class DatabaseSimulationTest {
         sim.setLifeCycleCallback(Logger(sim))
         sim.start()
 
-        Assertions.assertEquals(numberOfSamples, g.processedSensorDataPackages)
+        assertEquals(numberOfSamples, g.processedSensorDataPackages)
     }
 
 //    /**
@@ -59,6 +59,6 @@ class DatabaseSimulationTest {
 //        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 //
 //        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
-//        Assertions.assertEquals(numberOfSamples, g.processedSensorDataPackages)
+//        assertEquals(numberOfSamples, g.processedSensorDataPackages)
 //    }
 }

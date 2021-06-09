@@ -411,6 +411,16 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         return // currently there is no 1.5 plugin from jetbrains
                     }
                 }
+                var serializationPluginNeeded = false
+                for (d in allDep) {
+                    if (d.contains("kotlinx-serialization")) {
+                        serializationPluginNeeded = true
+                        break
+                    }
+                }
+                if (serializationPluginNeeded) {
+                    out.println("    id(\"org.jetbrains.kotlin.plugin.serialization\") version \"${moduleArgs.compilerVersion}\"")
+                }
                 if (!buildLibrary) {
                     out.println("    application")
                 }

@@ -13,7 +13,7 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun runSimulationWithoutEntities(fileName: String) {
+    fun runSimulationWithoutEntities() {
         Configuration.parse("$prefix/runSimulationWithoutEntities.json")
         val sim = Simulation(Configuration.devices)
         sim.setLifeCycleCallback(Logger(sim))
@@ -22,7 +22,7 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun selfMessagesDoNotDelay(fileName: String) {
+    fun selfMessagesDoNotDelay() {
         Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
 
@@ -35,7 +35,7 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun starNetworkIsASimpleDODAG(fileName: String) {
+    fun starNetworkIsASimpleDODAG() {
         Configuration.parse("$prefix/starNetworkIsASimpleDODAG.json")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parent = starNet.dataSink
@@ -66,7 +66,7 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun meshToDODAG(fileName: String) {
+    fun meshToDODAG() {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
         val rootRouter = root.router as RPLRouter
@@ -78,7 +78,7 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun upwardRouteForwarding(fileName: String) {
+    fun upwardRouteForwarding() {
         // Send data from the leaf F to the root A
         Configuration.parse("$prefix/upwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
@@ -99,7 +99,7 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun downwardRouteForwarding(fileName: String) {
+    fun downwardRouteForwarding() {
         // Send data from the root A to the leaf F
         Configuration.parse("$prefix/downwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
@@ -119,7 +119,7 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun upAndDownwardRouteForwarding(fileName: String) {
+    fun upAndDownwardRouteForwarding() {
         // Send data from the leaf F to the leaf D
         Configuration.parse("$prefix/upAndDownwardRouteForwarding.json")
         val d = Configuration.getNamedDevice("D")
