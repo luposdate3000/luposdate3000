@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_core.ISimulation
+import lupos.simulator_core.Simulation
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
@@ -8,7 +8,7 @@ import lupos.simulator_iot.sensor.ParkingSensor
 
 public class Logger : ISimulationLifeCycle {
 
-    override lateinit var simulation: ISimulation
+    override lateinit var simulation: Simulation
 
     public override fun onStartUp() {
         log("")
