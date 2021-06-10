@@ -18,7 +18,8 @@ import kotlin.math.*
  * limitations under the License.
  */
 /*
-* Modified on June 3rd, 2021 by Johann Mantler
+* Modified on June 3rd, 2021 by Johann Mantler.
+* The code was translated into Kotlin and cut to the required parts.
 * */
 
 /**
