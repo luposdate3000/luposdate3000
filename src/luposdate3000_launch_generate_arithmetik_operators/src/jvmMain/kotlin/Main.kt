@@ -16,7 +16,6 @@
  */
 import lupos.launch.generate_arithmetik_operators.mainFunc
 
-public fun main(args: Array<String>) {
-    var flag = false
+public fun main() {
     mainFunc()
 }

@@ -16,7 +16,6 @@
  */
 import lupos.launch.sparql_test_suite.mainFunc
 
-public fun main(args: Array<String>) {
-    var flag = false
+public fun main() {
     mainFunc()
 }

@@ -202,7 +202,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println(it)
             }
         }
-        val targetType = outputFile!!.substring(outputFile!!.lastIndexOf("."))
+        val targetType = outputFile!!.substring(outputFile.lastIndexOf("."))
 
         val configurations = mutableListOf<Pair<File, Config>>()
         if ((enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) && enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN)) || enabledConfigurations.contains(Config.RUNTIME)) {

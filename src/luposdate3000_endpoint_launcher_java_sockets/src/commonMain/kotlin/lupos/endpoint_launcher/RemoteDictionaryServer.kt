@@ -38,11 +38,11 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
     @JvmField
     internal val lock = MyReadWriteLock()
     override fun valueToGlobal(value: Int): Int {
-        var res: Int? = 0
+        var res: Int = 0
         lock.withWriteLock {
             res = dictionary.valueToGlobal(value)
         }
-        return res!!
+        return res
     }
 
     override fun createValue(buffer: ByteArrayWrapper): Int {

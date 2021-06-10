@@ -261,7 +261,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.println("   </body>")
                                 connectionOutMy.println("</html>")
                             }
-                            WebRootEndpoint.initialize(paths, params, connectionInMy, connectionOutMy)
+                            WebRootEndpoint.initialize(paths, connectionOutMy)
                             val tmpRoot = paths["/index.html"]
                             if (tmpRoot != null) {
                                 paths[""] = tmpRoot

@@ -1122,8 +1122,12 @@ fun onGenerateLauncherMain() {
                         } else {
                             out.println("")
                         }
-                        out.println("public fun main(args: Array<String>) {")
-                        out.println("    var flag = false")
+                        if (options.size > 0) {
+                            out.println("public fun main(args: Array<String>) {")
+                            out.println("    var flag = false")
+                        } else {
+                            out.println("public fun main() {")
+                        }
                         var first = true
                         for (o in options) {
                             if (!first) {

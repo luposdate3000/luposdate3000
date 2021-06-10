@@ -18,18 +18,38 @@ package lupos.simulator_db.luposdate3000
 
 import lupos.buffer_manager.BufferManagerExt
 import lupos.endpoint.LuposdateEndpoint
+import lupos.shared.ICommunicationHandler
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
+import lupos.simulator_db.IRouter
 
 public class DatabaseHandle : IDatabase {
+    private class CommunicationHandler(val router: IRouter) : ICommunicationHandler {
+        override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
+            TODO()
+        }
+
+        override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
+            TODO()
+        }
+
+        override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> {
+            TODO()
+        }
+    }
+
     private var instance = Luposdate3000Instance()
     private var dest: Int = 0
     override fun start(initialState: IDatabaseState) {
         instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
+        instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
+        instance.communicationHandler = CommunicationHandler(initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
     }
 
@@ -54,10 +74,11 @@ public class DatabaseHandle : IDatabase {
         val queryString = query.decodeToString()
         dest = sourceAddress
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
-// TODO evaluation
+        TODO("evaluation")
     }
 
     override fun receive(pck: IDatabasePackage) {
+        TODO()
     }
 }
 

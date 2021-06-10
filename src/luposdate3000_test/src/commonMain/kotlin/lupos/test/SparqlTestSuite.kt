@@ -682,7 +682,7 @@ public open class SparqlTestSuite {
                     instance.tripleStoreManager!!.commit(query4)
                     query4.commited = true
                     val buf3 = MyPrintWriter(true)
-                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult!!, false, true, buf3)) {
+                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult, false, true, buf3)) {
                         if (expectedResult) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Success")

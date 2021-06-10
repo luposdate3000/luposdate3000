@@ -36,7 +36,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("int_array.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
     val instance = LuposdateEndpoint.initialize()
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager(instance)
