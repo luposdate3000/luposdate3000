@@ -32,8 +32,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
             val nodes = mutableListOf<IOPBase>()
             nodes.addAll(allChilds)
             loop2@ while (nodes.size > 1) {
-                var besta1 = 0
-                var bestb1 = 1
+
                 var h1: HistogramResult? = null
                 var r1 = 1.0
                 var besta2 = 0
@@ -65,8 +64,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                                 r2 *= 0.1 // prefer values clause as much as possible, because the result size is very likely to be small
                             }
                             if (h1 == null || r2 < r1) {
-                                besta1 = i
-                                bestb1 = j
+
                                 h1 = h2
                                 r1 = r2
                             }

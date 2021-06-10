@@ -19,6 +19,7 @@ package lupos.shared_inline
 import kotlin.io.path.createTempDirectory as kotlinCreateTempDirectory
 
 internal actual object FileExt {
+    @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun createTempDirectory(): String {
         val tmp = kotlinCreateTempDirectory()
         return "$tmp/"

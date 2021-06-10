@@ -311,8 +311,8 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             while (i < dataA.size) {
                 if (dataA[i] != dataB[i]) {
                     var res = "" + dataA[0]
-                    for (i in 1 until dataA.size) {
-                        res += ", ${dataA[i]}(${dataA[i] > dataA[i - 1]})"
+                    for (j in 1 until dataA.size) {
+                        res += ", ${dataA[j]}(${dataA[j] > dataA[j - 1]})"
                     }
                     throw Exception(res)
                 }

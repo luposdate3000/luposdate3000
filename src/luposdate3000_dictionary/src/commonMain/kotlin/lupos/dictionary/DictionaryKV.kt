@@ -71,8 +71,8 @@ public class DictionaryKV internal constructor(
     init {
         isLocal = false
         rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:70", rootPageID)
-        var kvPage = 0
-        var vkPage = 0
+        var kvPage: Int
+        var vkPage: Int
         if (initFromRootPage) {
             bNodeCounter = BufferManagerPage.readInt4(rootPage, 0)
             kvPage = BufferManagerPage.readInt4(rootPage, 4)

@@ -34,18 +34,18 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 
 public object QueryResultToEmptyWithDictionaryStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary) {
         dictionary.getValue(buffer, valueID)
     }
 
     private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
         for (variableIndex in variables.indices) {
-            writeValue(buffer, rowBuf[variableIndex], variables[variableIndex], dictionary, output)
+            writeValue(buffer, rowBuf[variableIndex], dictionary)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, output: IMyOutputStream) {
         val rowBuf = IntArray(variables.size)
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
@@ -83,7 +83,7 @@ public object QueryResultToEmptyWithDictionaryStream {
                         val child2 = node.getChildren()[0]
                         val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
+                        writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
                     } catch (e: Throwable) {
                         e.printStackTrace()
                         errors[p] = e
@@ -101,7 +101,7 @@ public object QueryResultToEmptyWithDictionaryStream {
         } else {
             val child = node.evaluateRoot(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
+            writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
         }
     }
 

@@ -399,7 +399,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun onStartUp() {}
             override fun onEvent(source: Entity, data: Any) {
-                val sim = simulation as Simulation
+                val sim = simulation
                 if (sim.addedEventCounter >= maxEventNumber) {
                     currentProcessedEventCounter = sim.addedEventCounter
                     simulation.endSimulation()

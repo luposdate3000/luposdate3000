@@ -102,9 +102,8 @@ public object QueryResultToXMLElement {
                                 if (valueID != DictionaryExt.undefValue && valueID != DictionaryExt.errorValue) {
                                     query.getDictionary().getValue(buffer, valueID)
                                     val value = DictionaryHelper.byteArrayToSparql(buffer)
-                                    SanityCheck.check { value != null }
                                     val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
-                                    if (value!!.length > 1) {
+                                    if (value.length > 1) {
                                         if (value.startsWith("\"") && !value.endsWith("\"")) {
                                             val idx = value.lastIndexOf("\"^^<")
                                             if (idx >= 0) {

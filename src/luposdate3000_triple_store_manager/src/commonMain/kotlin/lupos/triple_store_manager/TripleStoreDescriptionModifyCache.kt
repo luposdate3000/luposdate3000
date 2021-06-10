@@ -86,7 +86,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         allStoreLocal = Array(description.indices.size) { allStore[it].map { j -> ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }
     }
 
-    internal fun mySendSorted(i: Int, j: Int, sortedBy: EIndexPattern) {
+    internal fun mySendSorted(i: Int, j: Int) {
         val buf = allBuf[i][j]
         val store = allStore[i][j]
         if (store.first == ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {

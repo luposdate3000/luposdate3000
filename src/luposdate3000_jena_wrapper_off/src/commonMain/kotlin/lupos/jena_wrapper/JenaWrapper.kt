@@ -20,13 +20,13 @@ public object JenaWrapper {
     public fun dropAll() {
     }
 
-    public fun execQuery(queryString: String): String {
+    public fun execQuery(@Suppress("UNUSED_PARAMETER") queryString: String): String {
         return ""
     }
 
-    public fun loadFromFile(fileName: String) {
+    public fun loadFromFile(@Suppress("UNUSED_PARAMETER") fileName: String) {
     }
 
-    public fun loadFromFile(fileName: String, graph: String) {
+    public fun loadFromFile(@Suppress("UNUSED_PARAMETER") fileName: String, @Suppress("UNUSED_PARAMETER") graph: String) {
     }
 }

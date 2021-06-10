@@ -82,8 +82,8 @@ internal class MyStringStream(str: String) : IMyInputStream {
         var buf = mutableListOf<Byte>()
         try {
             var b = readByte()
-            while (b != '\n'.toByte()) {
-                if (b != '\r'.toByte()) {
+            while (b != '\n'.code.toByte()) {
+                if (b != '\r'.code.toByte()) {
                     buf.add(b)
                 }
                 b = readByte()

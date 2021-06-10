@@ -123,13 +123,13 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
         }
 
         fun addChars(c: Char): CharGroup {
-            ranges.add(MyPair(c.toInt(), c.toInt()))
+            ranges.add(MyPair(c.code.toInt(), c.code.toInt()))
             return this
         }
 
         fun addChars(str: String): CharGroup {
             for (c in str) {
-                ranges.add(MyPair(c.toInt(), c.toInt()))
+                ranges.add(MyPair(c.code.toInt(), c.code.toInt()))
             }
             return this
         }
@@ -193,7 +193,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
 
         constructor(c: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
             modifier = _modifier
-            addChars(c.toInt())
+            addChars(c.code.toInt())
         }
 
         constructor(cFrom: Int, cTo: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
@@ -1035,7 +1035,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                 }
                                 tmp[tmp.size - 1].second = t.toInt(16)
                             } else {
-                                tmp[tmp.size - 1].second = str[idx].toInt()
+                                tmp[tmp.size - 1].second = str[idx].code.toInt()
                                 idx++
                             }
                         } else {
@@ -1049,7 +1049,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                 val c = t.toInt(16)
                                 tmp.add(MyPair(c, c))
                             } else {
-                                tmp.add(MyPair(str[idx].toInt(), str[idx].toInt()))
+                                tmp.add(MyPair(str[idx].code.toInt(), str[idx].code.toInt()))
                                 idx++
                             }
                         }
@@ -1320,7 +1320,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             out.println("        if ((t and 0x80) == 0) {")
             out.println("            // 1byte")
             out.println("            c = t")
-            out.println("            if ((c == '\\r'.toInt()) || (c == '\\n'.toInt())) {")
+            out.println("            if ((c == '\\r'.code) || (c == '\\n'.code)) {")
             out.println("                if (!flagrN) {")
             out.println("                    flagrN = true")
             out.println("                    line++")

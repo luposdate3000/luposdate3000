@@ -492,8 +492,8 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             val minutes: Int = abs(nextRandom() % 100)
             val timezoneHours: Int = nextRandom() % 24
             val timezoneMinutes: Int = abs(nextRandom() % 100)
-            var year: String = "0"
-            var seconds: String = "0.0"
+            var year: String
+            var seconds: String
             if (hasNextRandom() < 3) {
                 year = generateIntegerNumber(1)
                 seconds = generateDecimalNumber(1)

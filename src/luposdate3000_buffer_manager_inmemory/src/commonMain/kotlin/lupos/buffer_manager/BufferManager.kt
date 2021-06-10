@@ -24,7 +24,7 @@ import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
-public class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
+public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") instance: Luposdate3000Instance) : IBufferManager {
 
     /*
      * each type safe page-manager safes to its own store

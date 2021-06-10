@@ -25,14 +25,14 @@ import kotlin.jvm.JvmField
 import kotlin.math.max
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public class MyIntArray internal constructor(@JvmField internal val filename: String, initialize: Boolean) {
+public class MyIntArray internal constructor(@JvmField internal val filename: String, @Suppress("UNUSED_PARAMETER") initialize: Boolean) {
     @JvmField
     internal var bufferManager: IBufferManager? = null
 
     @JvmField
     internal var bufferManagerPage: Int? = null
 
-    public constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean, instance: Luposdate3000Instance) : this("", initialize) {
+    public constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean, @Suppress("UNUSED_PARAMETER") instance: Luposdate3000Instance) : this("", initialize) {
         this.bufferManager = bufferManager
         this.bufferManagerPage = id
     }

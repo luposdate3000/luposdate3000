@@ -204,11 +204,7 @@ public open class POPValues : POPBase {
                 for (variableIndex in variables.indices) {
                     query.getDictionary().getValue(buffer, columns[variableIndex]!![i])
                     val value = DictionaryHelper.byteArrayToSparql(buffer)
-                    if (value != null) {
-                        b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
-                    } else {
-                        b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]))
-                    }
+                    b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
                 }
             }
         }

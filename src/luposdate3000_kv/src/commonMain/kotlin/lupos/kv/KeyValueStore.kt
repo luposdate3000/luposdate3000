@@ -60,8 +60,8 @@ public class KeyValueStore public constructor(
 
     init {
         rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:58", rootPageID)
-        var id1 = 0
-        var id2 = 0
+        var id1: Int
+        var id2: Int
         if (initFromRootPage) {
             lastPage = BufferManagerPage.readInt4(rootPage, 0)
             lastPageBuf = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:63", lastPage)
@@ -89,7 +89,7 @@ public class KeyValueStore public constructor(
     @ProguardTestAnnotation
     public fun delete() {
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:87", lastPage)
-        var pageid = -1
+        var pageid: Int
         if (nextID == 0) {
             pageid = lastPage
         } else {
@@ -195,8 +195,7 @@ public class KeyValueStore public constructor(
     }
 
     public fun createValue(data: ByteArrayWrapper): Int {
-        var res = 0
-        res = nextID++
+        var res = nextID++
         BufferManagerPage.writeInt4(rootPage, 8, nextID)
         writeData(data) { page, off ->
             if (res >= mappingID2Page.getSize()) {

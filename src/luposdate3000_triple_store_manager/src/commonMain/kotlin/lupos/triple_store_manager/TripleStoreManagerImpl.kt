@@ -179,7 +179,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun localStoresAdd(key: LuposStoreKey, pageid: Int, tripleStore: TripleStoreIndex) {
+    private inline fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
         SanityCheck.check { localStores_[key] == null }
         localStores_[key] = tripleStore
     }
@@ -468,7 +468,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     val page = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:471")
-                    localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false, instance))
+                    localStoresAdd(store.second, TripleStoreIndexIDTriple(page, false, instance))
                 }
             }
         }

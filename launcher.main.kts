@@ -84,7 +84,7 @@ fun makeUppercaseStart(s: String): String {
     var flag = true
     for (c in s) {
         if (flag) {
-            res.append(c.toUpperCase())
+            res.append(c.uppercase())
         } else {
             res.append(c)
         }
@@ -212,7 +212,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
             modules[currentArgs.moduleName] = currentArgs
             dependencyMap[currentArgs.moduleName] = dep
-            allpackages.add(currentArgs.modulePrefix.toLowerCase())
+            allpackages.add(currentArgs.modulePrefix.lowercase())
         }
     }
     for ((k, v) in modules) {
@@ -236,7 +236,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             if (allpackages.contains(s)) {
                                 var found = false
                                 for (y in modules.values) {
-                                    if (y.modulePrefix.toLowerCase() == s && y.enabledRunFunc()) {
+                                    if (y.modulePrefix.lowercase() == s && y.enabledRunFunc()) {
                                         found = true
                                         dep.add(y.moduleName)
                                         break
@@ -244,7 +244,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                                 }
                                 if (!found) {
                                     for (y in modules.values) {
-                                        if (y.modulePrefix.toLowerCase() == s) {
+                                        if (y.modulePrefix.lowercase() == s) {
                                             found = true
                                             dep.add(y.moduleName)
                                             break
@@ -770,8 +770,8 @@ fun onRun() {
             val jars = mutableSetOf<String>()
             for (module in getAllModuleConfigurations()) {
                 if (module.enabledRunFunc()) {
-                    jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
-                    jars.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
+                    jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
+                    jars.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
                     val f = File("${module.moduleFolder}/build/external_jvm_dependencies")
                     if (f.exists()) {
                         f.forEachLine {
@@ -1290,9 +1290,9 @@ fun getJSScriptFiles(): List<String> {
                 }
                 var s: String
                 if (releaseMode == ReleaseMode.Enable) {
-                    s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
+                    s = "${module.moduleFolder}/build/distributions/${module.moduleName.lowercase()}.js"
                 } else {
-                    s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
+                    s = "${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-js-0.0.1.jar"
                 }
                 if (!dependencies.contains(s)) {
                     dependencies.add(s)

@@ -172,10 +172,10 @@ public class XMLElement(tag: String) {
 // <<-- avoid bugs in JENA
 // avoid inconsistencies in W3C -->>
             if (attributes["xml:lang"] != null) {
-                attributes["xml:lang"] = attributes["xml:lang"]!!.toLowerCase()
+                attributes["xml:lang"] = attributes["xml:lang"]!!.lowercase()
             }
             if (other.attributes["xml:lang"] != null) {
-                other.attributes["xml:lang"] = other.attributes["xml:lang"]!!.toLowerCase()
+                other.attributes["xml:lang"] = other.attributes["xml:lang"]!!.lowercase()
             }
 // <<-- avoid inconsistencies in W3C
             if (attributes != other.attributes) {

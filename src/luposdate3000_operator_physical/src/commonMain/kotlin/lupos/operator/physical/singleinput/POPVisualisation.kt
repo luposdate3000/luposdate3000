@@ -49,12 +49,10 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
     override fun evaluate(parent: Partition): IteratorBundle {
-        var outputString: String = ""
-        var result = IteratorBundle(RowIterator())
+
         val child = getChildren()[0].evaluate(parent)
         var rowMode = child.rows.columns.toMutableList()
         val target = getChildren()[0].getProvidedVariableNames()
-        rowMode = child.rows.columns.toMutableList()
         rowMode.containsAll(target)
         target.containsAll(rowMode)
         // Map Column Iterator
@@ -74,7 +72,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
                     var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
-                    outputString = getChildren()[0].getVisualUUUID().toString() + "||"
+                    var outputString = getChildren()[0].getVisualUUUID().toString() + "||"
                     outputString += getParent().getVisualUUUID().toString() + "||"
                     outputString += string + "||"
                     outputString += iterator.buf[res + j].toString() + "NEWDATA"

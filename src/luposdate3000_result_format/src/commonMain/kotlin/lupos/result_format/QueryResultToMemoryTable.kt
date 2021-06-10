@@ -35,7 +35,7 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared_inline.DictionaryHelper
 
 public object QueryResultToMemoryTable {
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: MemoryTable) {
+    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, output: MemoryTable) {
         output.data.add(IntArray(variables.size) { rowBuf[it] })
     }
 
@@ -51,7 +51,7 @@ public object QueryResultToMemoryTable {
                 rowBuf[variableIndex] = valueID
             }
             lock?.lock()
-            writeRow(variables, rowBuf, dictionary, output)
+            writeRow(variables, rowBuf, output)
             lock?.unlock()
         }
         for (element in columns) {

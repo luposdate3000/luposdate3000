@@ -127,7 +127,6 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                     }
                     dataI2V[res] = bufferCopy
                 }
-                var oldres = res
                 if (isLocal) {
                     res = res or flagLocal
                 }

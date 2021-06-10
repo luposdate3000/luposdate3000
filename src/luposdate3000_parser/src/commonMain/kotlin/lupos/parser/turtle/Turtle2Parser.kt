@@ -238,7 +238,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
             onBOOLEAN = {
-                DictionaryHelper.booleanToByteArray(triple[2], context.getValue().toLowerCase() == "true")
+                DictionaryHelper.booleanToByteArray(triple[2], context.getValue().lowercase() == "true")
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.TRIPLE_END
             }

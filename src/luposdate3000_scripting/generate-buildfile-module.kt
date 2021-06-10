@@ -29,7 +29,7 @@ val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "min
 private fun printDependencies(dependencies: Set<String>, out: PrintWriter) {
     for (d in dependencies) {
         if (d.startsWith("luposdate3000")) {
-            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
             if (t.contains("#")) {
                 t = t.substring(0, t.indexOf("#"))
             }
@@ -68,11 +68,11 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
         s = s.replace("${'$'}lupos.SOURCE_FILE", "${fixPathNames(src.absolutePath)}:$line")
         s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${fixPathNames(src.absolutePath)}:$line")
         s = s.replace("lupos.SOURCE_FILE", "\"${fixPathNames(src.absolutePath)}:$line\"")
-        out?.println(s)
+        out.println(s)
         line++
     }
 
-    out?.close()
+    out.close()
 }
 
 private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>) {
@@ -201,9 +201,9 @@ class CreateModuleArgs() {
 
     fun ssetModuleName(moduleName: String): CreateModuleArgs {
         val res = clone()
-        val onWindows = System.getProperty("os.name").contains("Windows")
+
         res.moduleName = moduleName
-        res.moduleFolder = "src/${moduleName.toLowerCase()}"
+        res.moduleFolder = "src/${moduleName.lowercase()}"
         return res
     }
 
@@ -221,19 +221,19 @@ class CreateModuleArgs() {
 
     fun ssetDisableJS(disableJs: Boolean): CreateModuleArgs {
         val res = clone()
-        res.disableJS = disableJS
+        res.disableJS = disableJs
         return res
     }
 
     fun ssetDisableJSNode(disableJsNode: Boolean): CreateModuleArgs {
         val res = clone()
-        res.disableJSNode = disableJSNode
+        res.disableJSNode = disableJsNode
         return res
     }
 
     fun ssetDisableJSBrowser(disableJsBrowser: Boolean): CreateModuleArgs {
         val res = clone()
-        res.disableJSBrowser = disableJSBrowser
+        res.disableJSBrowser = disableJsBrowser
         return res
     }
 
@@ -330,7 +330,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             appendix += "_Debug"
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
-        val onLinux = !onWindows // TODO this is not correct ...
+
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
             if (moduleArgs.compilerVersion.contains("SNAPSHOT")) {
@@ -358,7 +358,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         nativeDependencies.addAll(moduleArgs.dependenciesNative)
         nativeDependencies.removeAll(commonDependencies)
         var shared_inline_base_folder = fixPathNames("${File(".").absolutePath}/src/")
-        var shared_config_base_folder = ""
+        var shared_config_base_folder: String
         if (moduleArgs.intellijMode == IntellijMode.Enable) {
             shared_inline_base_folder += "xxx_generated_xxx/${moduleArgs.moduleFolder}"
             shared_config_base_folder = shared_inline_base_folder
@@ -392,7 +392,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 allDep.addAll(moduleArgs.dependenciesJvmRecoursive)
                 for (d in allDep) {
                     if (d.startsWith("luposdate3000")) {
-                        var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+                        var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
                         if (t.contains("#")) {
                             t = t.substring(0, t.indexOf("#"))
                         }
@@ -557,7 +557,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
                         for (dep in moduleArgs.dependenciesJvmRecoursive) {
                             if (dep.startsWith("luposdate")) {
-                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
+                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.lowercase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
                             } else {
                                 out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
                             }

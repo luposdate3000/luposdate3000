@@ -91,7 +91,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         if ((t and 0x80) == 0) {
             // 1byte
             c = t
-            if ((c == '\r'.toInt()) || (c == '\n'.toInt())) {
+            if ((c == '\r'.code) || (c == '\n'.code)) {
                 if (!flagrN) {
                     flagrN = true
                     line++
@@ -197,7 +197,6 @@ internal inline fun parse_ws(
         onSKIP_WS()
         return
     }
-    throw ParserExceptionUnexpectedChar(context)
 }
 
 internal inline fun parse_ws_forced(
@@ -610,7 +609,6 @@ internal inline fun parse_content_or_child(
             }
         }
     }
-    throw ParserExceptionUnexpectedChar(context)
 }
 
 @Suppress("NOTHING_TO_INLINE")

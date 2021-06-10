@@ -667,7 +667,7 @@ public open class SparqlTestSuite {
                     }
                 }
                 val buf2 = MyPrintWriter(true)
-                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.toLowerCase().contains("order", true), true, buf2)
+                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.lowercase().contains("order", true), true, buf2)
                 if (res) {
                     val xmlPOP = popNode.toXMLElementRoot(false)
                     val query4 = Query(instance)

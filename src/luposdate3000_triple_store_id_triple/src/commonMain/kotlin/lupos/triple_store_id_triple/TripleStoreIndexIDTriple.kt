@@ -95,7 +95,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
     internal var firstLeaf_: Int = NodeManager.nodeNullPointer
 
-    @Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun setFirstLeaf(value: Int) {
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:103", rootPageID)
         BufferManagerPage.writeInt4(rootPage, 16, value)
@@ -107,7 +107,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
     internal var root_: Int = NodeManager.nodeNullPointer
 
-    @Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun setRoot(value: Int) {
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:115", rootPageID)
         BufferManagerPage.writeInt4(rootPage, 4, value)
@@ -119,7 +119,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
     internal var countPrimary_: Int = 0
 
-    @Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun setCountPrimary(value: Int) {
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:127", rootPageID)
         BufferManagerPage.writeInt4(rootPage, 8, value)
@@ -131,7 +131,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
     internal var distinctPrimary_: Int = 0
 
-    @Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun setDistinctPrimary(value: Int) {
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:139", rootPageID)
         BufferManagerPage.writeInt4(rootPage, 12, value)
@@ -401,7 +401,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         }
         var nodeid = res
         var node = node2!!
-        NodeLeaf.initializeWith(node, nodeid, iterator)
+        NodeLeaf.initializeWith(node, iterator)
         while (iterator.hasNext()) {
             nodeManager.allocateNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:409") { n, i ->
                 NodeShared.setNextNode(node, i)
@@ -410,7 +410,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 nodeid = i
                 node = n
             }
-            NodeLeaf.initializeWith(node, nodeid, iterator)
+            NodeLeaf.initializeWith(node, iterator)
         }
         nodeManager.flushNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:418", nodeid)
         nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:419", nodeid)
@@ -509,7 +509,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             var node = node2!!
             var nodeid = firstLeaf_
-            NodeLeaf.initializeWith(node, nodeid, iterator)
+            NodeLeaf.initializeWith(node, iterator)
             while (iterator.hasNext()) {
                 nodeManager.allocateNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:517") { n, i ->
                     NodeShared.setNextNode(node, i)
@@ -519,7 +519,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     node = n
                     currentLayer.add(i)
                 }
-                NodeLeaf.initializeWith(node, nodeid, iterator)
+                NodeLeaf.initializeWith(node, iterator)
             }
             SanityCheck.check { currentLayer.size > 0 }
             val codeSection1 = {
@@ -532,7 +532,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:535", nodeid)
                         nodeid = i
                         tmp.add(i)
-                        NodeInner.initializeWith(n, i, currentLayer, nodeManager)
+                        NodeInner.initializeWith(n, currentLayer, nodeManager)
                         prev2 = n
                     }
                     var prev = prev2!!
@@ -542,7 +542,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                             nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:545", nodeid)
                             nodeid = i
                             tmp.add(i)
-                            NodeInner.initializeWith(n, i, currentLayer, nodeManager)
+                            NodeInner.initializeWith(n, currentLayer, nodeManager)
                             NodeShared.setNextNode(prev, i)
                             prev = n
                         }
@@ -571,7 +571,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     nodeManager.flushNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:574", nodeid)
                     nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:575", nodeid)
                     nodeManager.allocateNodeInner("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:576") { n, i ->
-                        NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]), nodeManager)
+                        NodeInner.initializeWith(n, mutableListOf(currentLayer[0]), nodeManager)
                         rootNode = n
                         setRoot(i)
                         nodeManager.flushNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:580", root_)

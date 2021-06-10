@@ -18,6 +18,7 @@ package lupos.shared_inline
 
 import kotlin.jvm.JvmField
 
+@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 internal actual class ParallelThreadCondition {
 
     @JvmField
