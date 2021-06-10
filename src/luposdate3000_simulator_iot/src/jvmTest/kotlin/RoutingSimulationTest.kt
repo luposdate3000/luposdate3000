@@ -1,6 +1,5 @@
 package lupos.simulator_iot
 
-import lupos.simulator_core.ISimulation
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
@@ -16,7 +15,7 @@ class RoutingSimulationTest {
     @Test
     fun runSimulationWithoutEntities() {
         Configuration.parse("$prefix/runSimulationWithoutEntities.json")
-        val sim: ISimulation = Simulation(Configuration.devices, callback = Logger())
+        val sim: Simulation = Simulation(Configuration.devices, callback = Logger())
 
         sim.startSimulation()
         assertEquals(0, sim.getCurrentClock())
