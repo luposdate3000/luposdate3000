@@ -18,12 +18,10 @@ public class DatabaseSystemDummy : IDatabase {
         File(state.dataFile).withOutputStream { }
     }
 
-    public override fun activate(state: IDatabaseState) {
-        this.state = state as DatabaseState
+    public override fun activate() {
     }
 
-    public override fun deactivate(): IDatabaseState {
-        return state
+    public override fun deactivate() {
     }
 
     public override fun end() {

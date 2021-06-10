@@ -25,7 +25,7 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
         absolutePath = path.toFile().absolutePath
         currentState = buildInitialStateObject()
         db.start(currentState)
-        currentState = db.deactivate()
+        db.deactivate()
     }
 
     private fun buildInitialStateObject(): IDatabaseState {
@@ -43,16 +43,16 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
     }
 
     public fun shutDown() {
-        db.activate(currentState)
+        db.activate()
         db.end()
         deleteDirectory(path.toFile())
         currentState = buildInitialStateObject()
     }
 
     public fun receive(pck: IDatabasePackage) {
-        db.activate(currentState)
+        db.activate()
         db.receive(pck)
-        currentState = db.deactivate()
+        db.deactivate()
     }
 
     public fun saveParkingSample(sample: ParkingSample) {
@@ -77,9 +77,9 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
     }
 
     private fun saveData(data: ByteArray) {
-        db.activate(currentState)
+        db.activate()
         db.receiveQuery(device.address, data)
-        currentState = db.deactivate()
+        db.deactivate()
     }
 
     private fun deleteDirectory(directoryToBeDeleted: File): Boolean {

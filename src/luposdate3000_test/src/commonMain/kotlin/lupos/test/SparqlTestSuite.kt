@@ -51,7 +51,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownManifestException
 import lupos.shared.XMLElementFromXML
-import lupos.shared.communicationHandler
 import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
 import kotlin.jvm.JvmField
@@ -487,7 +486,7 @@ public open class SparqlTestSuite {
                         val tmp2 = POPValues2(query, xmlQueryInput)
                         val key = "${query.getTransactionID()}"
                         if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-                            communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
                             query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
                         }
                         val tmp = tmp2.evaluateRoot()
@@ -497,7 +496,7 @@ public open class SparqlTestSuite {
                         instance.tripleStoreManager!!.commit(query)
                         query.commited = true
                         if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-                            communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                         }
                     }
                     try {
@@ -523,7 +522,7 @@ public open class SparqlTestSuite {
                     val tmp2 = POPValues2(query, xmlQueryInput)
                     val key = "${query.getTransactionID()}"
                     if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-                        communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                        instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
                         query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp = tmp2.evaluateRoot()
@@ -532,7 +531,7 @@ public open class SparqlTestSuite {
                     sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
                     instance.tripleStoreManager!!.commit(query)
                     if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-                        communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                        instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     query.commited = true
 

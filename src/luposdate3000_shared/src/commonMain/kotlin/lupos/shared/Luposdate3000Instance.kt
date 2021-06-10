@@ -62,4 +62,7 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var LUPOS_PARTITION_MODE: EPartitionMode = EPartitionModeExt.names.indexOf(Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!)
+
+    @JvmField
+    public var communicationHandler: ICommunicationHandler? = null
 }

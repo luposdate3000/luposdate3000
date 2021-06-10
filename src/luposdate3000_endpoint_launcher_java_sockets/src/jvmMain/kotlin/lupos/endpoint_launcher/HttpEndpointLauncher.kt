@@ -27,7 +27,6 @@ import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
-import lupos.shared.communicationHandler
 import lupos.shared.xmlParser.XMLParser
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
@@ -69,7 +68,7 @@ public actual object HttpEndpointLauncher {
             80
         }
         try {
-            communicationHandler = CommunicationHandler()
+            instance.communicationHandler = CommunicationHandler()
             val server = ServerSocket()
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
@@ -134,7 +133,7 @@ public actual object HttpEndpointLauncher {
                                 val queryContainer = queryMappings[key]!!
                                 val queryXML = queryContainer.xml
                                 val dictionaryURL = params["dictionaryURL"]!!
-                                val comm = communicationHandler
+                                val comm = instance.communicationHandler!!
 // calculate current partition
                                 var partitionNumber: Int = 0
                                 if (queryContainer.inputStreams.size > 1) {

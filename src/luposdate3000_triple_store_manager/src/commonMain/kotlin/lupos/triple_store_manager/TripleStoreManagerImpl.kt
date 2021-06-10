@@ -38,7 +38,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
-import lupos.shared.communicationHandler
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File
@@ -490,7 +489,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         val metadataStr = graph.toMetaString()
         for (hostname in hostnames) {
             if (hostname != localhost) {
-                communicationHandler.sendData(
+                query.getInstance().communicationHandler!!.sendData(
                     hostname, "/distributed/graph/create",
                     mapOf(
                         "name" to graphName,
@@ -523,7 +522,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                             localStores_[store.second]!!.clear()
                         } else {
                             if (origin) {
-                                communicationHandler.sendData(
+                                query.getInstance().communicationHandler!!.sendData(
                                     store.first, "/distributed/graph/clear",
                                     mapOf(
                                         "origin" to "false",
@@ -551,7 +550,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         localStoresRemove(store.second)
                     } else {
                         if (origin) {
-                            communicationHandler.sendData(
+                            query.getInstance().communicationHandler!!.sendData(
                                 store.first, "/distributed/graph/drop",
                                 mapOf(
                                     "origin" to "false",
@@ -643,7 +642,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         if (origin) {
             for (hostname in hostnames) {
                 if (hostname != localhost) {
-                    communicationHandler.sendData(
+                    query.getInstance().communicationHandler!!.sendData(
                         hostname, "/distributed/graph/commit",
                         mapOf(
                             "origin" to "false",

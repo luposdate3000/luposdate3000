@@ -34,7 +34,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.communicationHandler
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.triple_store_manager.POPTripleStoreIterator
@@ -272,7 +271,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 if (k == "") {
                     res = v
                 } else {
-                    communicationHandler.sendData(operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+                    query.getInstance().communicationHandler!!.sendData(operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
                 }
             }
             return XMLElementToOPBase(query, res!!)

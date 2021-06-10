@@ -16,35 +16,45 @@
  */
 package lupos.simulator_db.luposdate3000
 
+import lupos.buffer_manager.BufferManagerExt
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.simulator_db.IDatabase
+import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IDatabaseState
 
 public class DatabaseHandle : IDatabase {
-    var instance = Luposdate3000Instance()
+    private var instance = Luposdate3000Instance()
+    private var dest: Int = 0
     override fun start(initialState: IDatabaseState) {
         instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
-        instance = LuposdateEndpoint.initialize(instance)
+        instance = LuposdateEndpoint.initializeB(instance)
     }
 
-    override fun activate(state: IDatabaseState) {
+    override fun activate() {
         if (!instance.initialized) {
-            instance = LuposdateEndpoint.initialize(instance)
+            instance = LuposdateEndpoint.initializeB(instance)
         }
     }
 
-    override fun deactivate(state: IDatabaseState): IDatabaseState {
+    override fun deactivate() {
         if ((!BufferManagerExt.isInMemoryOnly) && (instance.LUPOS_DICTIONARY_MODE != EDictionaryTypeExt.InMemory)) {
             // do not disable inmemory databases, because they would loose all data
             LuposdateEndpoint.close(instance)
         }
     }
 
-    override fun end(state: IDatabaseState) {
+    override fun end() {
         LuposdateEndpoint.close(instance)
     }
 
     override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
+        val queryString = query.decodeToString()
+        dest = sourceAddress
+        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
+// TODO evaluation
     }
 
     override fun receive(pck: IDatabasePackage) {

@@ -26,7 +26,6 @@ import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.TripleStoreIndex
-import lupos.shared.communicationHandler
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
@@ -97,7 +96,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 allStoreLocal[i][j].removeAsBulkSorted(buf.buf, idx[i], buf.offset)
             }
         } else {
-            val conn = communicationHandler.openConnection(store.first, "/distributed/graph/modifysorted", allStoreParams[i][j])
+            val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/graph/modifysorted", allStoreParams[i][j])
             conn.second.writeInt(buf.offset)
             for (k in 0 until buf.offset) {
                 conn.second.writeInt(buf.buf[k])
@@ -119,7 +118,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 allStoreLocal[i][j].removeAsBulk(buf.buf, idx[i], buf.offset)
             }
         } else {
-            val conn = communicationHandler.openConnection(store.first, "/distributed/graph/modify", allStoreParams[i][j])
+            val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/graph/modify", allStoreParams[i][j])
             conn.second.writeInt(buf.offset)
             for (k in 0 until buf.offset) {
                 conn.second.writeInt(buf.buf[k])
