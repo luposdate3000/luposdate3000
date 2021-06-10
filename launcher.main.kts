@@ -1277,23 +1277,26 @@ fun getJSScriptFiles(): List<String> {
     val scripts = mutableListOf<String>()
     for (module in getAllModuleConfigurations()) {
         if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
-            File("${module.moduleFolder}/build/external_js_dependencies").forEachLine {
-                if (!dependencies.contains(it)) {
-                    if (it.contains("kotlin-stdlib")) {
-                        dependencies.add(0, it)
-                    } else {
-                        dependencies.add(it)
+            val f = File("${module.moduleFolder}/build/external_js_dependencies")
+            if (f.exists()) {
+                f.forEachLine {
+                    if (!dependencies.contains(it)) {
+                        if (it.contains("kotlin-stdlib")) {
+                            dependencies.add(0, it)
+                        } else {
+                            dependencies.add(it)
+                        }
                     }
                 }
-            }
-            var s: String
-            if (releaseMode == ReleaseMode.Enable) {
-                s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
-            } else {
-                s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
-            }
-            if (!dependencies.contains(s)) {
-                dependencies.add(s)
+                var s: String
+                if (releaseMode == ReleaseMode.Enable) {
+                    s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
+                } else {
+                    s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
+                }
+                if (!dependencies.contains(s)) {
+                    dependencies.add(s)
+                }
             }
         }
     }
