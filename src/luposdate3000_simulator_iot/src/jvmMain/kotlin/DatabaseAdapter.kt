@@ -18,8 +18,12 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
 
     private var path: Path = Paths.get("src", "db", "device${device.address}")
     private var absolutePath = ""
-    private val dbother: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
-    private val db: IDatabase = DatabaseSystemDummy()
+
+    // //
+    private val db: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
+    private val dbother: IDatabase = DatabaseSystemDummy() // just to keep the imports on formatting code ... rename variables as needed
+// //
+
     private lateinit var currentState: IDatabaseState
 
     public fun startUp() {
