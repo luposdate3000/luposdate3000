@@ -19,8 +19,8 @@ package lupos.launch.test_int_array
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.buffer_manager.MyIntArray
-import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.AflCore
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import kotlin.jvm.JvmField
 import kotlin.math.abs
@@ -37,13 +37,14 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
-    val instance = LuposdateEndpoint.initialize()
+    var instance = Luposdate3000Instance()
+    instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager(instance)
+    instance.bufferManager = BufferManager(instance)
     var dataSize = 0
     val data = IntArray(maxSize)
-    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:42")
-    var arr = MyIntArray(bufferManager, rootPage, false, instance)
+    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:42")
+    var arr = MyIntArray(instance.bufferManager!!, rootPage, false, instance)
 
     fun testSetSizeOk(size: Int) {
         var oldSize = dataSize
@@ -141,21 +142,20 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
     if (!BufferManagerExt.isInMemoryOnly) {
         arr.close()
-        if (bufferManager.getNumberOfReferencedPages() != 0) {
+        if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
             throw Exception("")
         }
-        arr = MyIntArray(bufferManager, rootPage, true, instance)
+        arr = MyIntArray(instance.bufferManager!!, rootPage, true, instance)
     }
     for (i in 0 until dataSize) {
         testGetOk(i)
     }
     arr.delete()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != 0) {
-        throw Exception("${bufferManager.getNumberOfAllocatedPages()}")
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
+        throw Exception("${instance.bufferManager!!.getNumberOfAllocatedPages()}")
     }
-    bufferManager.close()
-    LuposdateEndpoint.close()
+    instance.bufferManager!!.close()
 }

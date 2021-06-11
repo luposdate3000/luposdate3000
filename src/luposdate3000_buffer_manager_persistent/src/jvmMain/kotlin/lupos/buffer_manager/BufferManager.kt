@@ -162,10 +162,10 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         var openId2 = -1
         lock.withWriteLock {
             SanityCheck {
-                SanityCheck.check { pageid < counter }
-                SanityCheck.check { pageid >= 0 }
+                SanityCheck.check({ pageid < counter }, { "pageid < counter :: $pageid < $counter" })
+                SanityCheck.check({ pageid >= 0 }, { "pageid >= 0 :: $pageid >= 0" })
                 for (i in 0 until freeArrayLength) {
-                    SanityCheck.check { freeArray[i] != pageid }
+                    SanityCheck.check({ freeArray[i] != pageid }, { "freeArray[$i] != pageid :: ${freeArray[i]} != $pageid" })
                 }
             }
             findOpenID(
@@ -187,7 +187,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.readFully(openPages[openId2], 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     openPagesMapping[openId2] = pageid
-                    SanityCheck.check { BufferManagerPage.getPageID(openPages[openId2]) == -1 }
+                    SanityCheck.check({ BufferManagerPage.getPageID(openPages[openId2]) == -1 }, { "BufferManagerPage.getPageID(openPages[openId2]) :: ${BufferManagerPage.getPageID(openPages[openId2])}" })
                     BufferManagerPage.setPageID(openPages[openId2], pageid)
                 }
             )
@@ -213,8 +213,9 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                 freelistfile.writeInt(counter)
                 val minlen = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * (pageid + 1)
                 if (datafilelength < minlen) {
+                    datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
+                    datafile.write(openPages[0], 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     datafilelength = minlen
-                    datafile.setLength(datafilelength)
                 }
             }
             SanityCheck {
@@ -280,10 +281,10 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     }
 
     @ProguardTestAnnotation
-    public actual fun getNumberOfAllocatedPages(): Int = counter - freeArrayLength
+    public actual override fun getNumberOfAllocatedPages(): Int = counter - freeArrayLength
 
     @ProguardTestAnnotation
-    public actual fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
+    public actual override fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
 
     init {
         File(instance.BUFFER_HOME).mkdirs()

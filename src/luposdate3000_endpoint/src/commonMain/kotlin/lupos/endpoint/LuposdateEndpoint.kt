@@ -391,7 +391,6 @@ public object LuposdateEndpoint {
     public fun close(instance: Luposdate3000Instance) {
         try {
             if (instance.initialized) {
-                println("LuposdateEndpoint.close")
                 instance.initialized = false
                 instance.nodeGlobalDictionary!!.close()
                 instance.tripleStoreManager!!.close()

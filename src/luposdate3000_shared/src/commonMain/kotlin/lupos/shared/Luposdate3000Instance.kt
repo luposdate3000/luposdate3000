@@ -67,4 +67,7 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var communicationHandler: ICommunicationHandler? = null
+
+    @JvmField
+    public var allowInitFromDisk: Boolean = true
 }

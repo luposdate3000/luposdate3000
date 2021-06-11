@@ -4,6 +4,7 @@ import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
 import lupos.simulator_db.IRouter
+import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.sensor.ParkingSample
@@ -17,7 +18,8 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
 
     private var path: Path = Paths.get("src", "db", "device${device.address}")
     private var absolutePath = ""
-    private val db: IDatabase = DatabaseHandle()
+    private val dbother: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
+    private val db: IDatabase = DatabaseSystemDummy()
     private lateinit var currentState: IDatabaseState
 
     public fun startUp() {

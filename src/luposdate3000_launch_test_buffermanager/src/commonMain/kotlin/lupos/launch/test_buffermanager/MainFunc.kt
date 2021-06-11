@@ -18,8 +18,8 @@ package lupos.launch.test_buffermanager
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.AflCore
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
@@ -34,10 +34,11 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
-    val instance = LuposdateEndpoint.initialize()
-    val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager(instance)
+    var instance = Luposdate3000Instance()
+    instance.allowInitFromDisk = false
+    val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+    instance.bufferManager = BufferManager(instance)
     val pageIds = mutableListOf<Int>()
     val mappedPages = mutableMapOf<Int, ByteArray>()
     val mappedPagesCtr = mutableMapOf<Int, Int>()
@@ -46,7 +47,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         if (verbose) {
             println("testReleasePageOk $pageid")
         }
-        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:46", pageid)
+        instance.bufferManager!!.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:46", pageid)
         val cnt = mappedPagesCtr[pageid]
         if (cnt == null) {
             throw Exception("")
@@ -65,7 +66,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         }
         var flag = true
         try {
-            bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:65", pageid)
+            instance.bufferManager!!.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:65", pageid)
         } catch (e: Throwable) {
             // e.printStackTrace() this is handled correctly
             flag = false
@@ -79,7 +80,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         if (verbose) {
             println("testGetPageOk $pageid")
         }
-        val page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:79", pageid)
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:79", pageid)
         val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
@@ -103,7 +104,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         }
         var flag = true
         try {
-            bufferManager.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:103", pageid)
+            instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:103", pageid)
         } catch (e: Throwable) {
             // e.printStackTrace() this is handled correctly
             flag = false
@@ -114,8 +115,8 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
 
     fun testCreateNewPageOk() {
-        val pageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:114")
-        val page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:115", pageid)
+        val pageid = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:114")
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:115", pageid)
         BufferManagerPage.copyFrom(page, zeroBytes, 0, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
         if (verbose) {
             println("testCreateNewPageOk $pageid")
@@ -139,7 +140,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         if (verbose) {
             println("testDeletePageOk $pageid")
         }
-        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:139", pageid)
+        instance.bufferManager!!.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:139", pageid)
         mappedPagesCtr.remove(pageid)
         mappedPages.remove(pageid)
         pageIds.remove(pageid)
@@ -151,7 +152,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         }
         var flag = true
         try {
-            bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:151", pageid)
+            instance.bufferManager!!.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:151", pageid)
         } catch (e: Throwable) {
             // e.printStackTrace() this is handled correctly
             flag = false
@@ -240,7 +241,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             8 -> getPageID_Existing_MultiMapped(rng) { testDeletePageFail(it) }
             9 -> getPageID_NotExisting(rng) { testDeletePageFail(it) }
         }
-        if (bufferManager.getNumberOfAllocatedPages() != pageIds.size) {
+        if (instance.bufferManager!!.getNumberOfAllocatedPages() != pageIds.size) {
             throw Exception("")
         }
         for ((k, v) in mappedPages) {
@@ -257,43 +258,43 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             testReleasePageOk(k)
         }
     }
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
     for (pageid in pageIds) {
-        val page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:261", pageid)
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:261", pageid)
         val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
-        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:266", pageid)
+        instance.bufferManager!!.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:266", pageid)
     }
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
     if (!BufferManagerExt.isInMemoryOnly) {
         BufferManagerExt.allowInitFromDisk = true
-        bufferManager.close()
-        bufferManager = BufferManager(instance)
+        instance.bufferManager!!.close()
+        instance.bufferManager = BufferManager(instance)
     }
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != pageIds.size) {
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != pageIds.size) {
         throw Exception("")
     }
     for (pageid in pageIds) {
-        val page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:283", pageid)
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:283", pageid)
         val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
-        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:288", pageid)
+        instance.bufferManager!!.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:288", pageid)
     }
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }
     if (mappedPages.size != 0) {
@@ -302,6 +303,5 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     if (mappedPagesCtr.size != 0) {
         throw Exception("")
     }
-    bufferManager.close()
-    LuposdateEndpoint.close()
+    instance.bufferManager!!.close()
 }

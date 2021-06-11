@@ -18,9 +18,9 @@ package lupos.launch.test_triple_index
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.Query
 import lupos.shared.AflCore
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.TripleStoreIndex
 import lupos.shared.dictionary.DictionaryExt
@@ -44,13 +44,14 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
-    val instance = LuposdateEndpoint.initialize()
+    var instance = Luposdate3000Instance()
+    instance.allowInitFromDisk = false
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager(instance)
-    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
+    instance.bufferManager = BufferManager(instance)
+    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
     val order = intArrayOf(0, 1, 2)
-    var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
+    var index: TripleStoreIndex = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, false)
     val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
     val insertBuffer = IntArray(3000)
     var insertBufferSize = 0
@@ -475,18 +476,17 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     testInsertOk()
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.close()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    index = TripleStoreIndexIDTriple(bufferManager, rootPage, true)
+    index = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, true)
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.delete()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }
-    bufferManager.close()
-    LuposdateEndpoint.close(instance)
+    instance.bufferManager!!.close()
 }

@@ -54,10 +54,10 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     internal var freeListSize = 0
 
     @ProguardTestAnnotation
-    public fun getNumberOfAllocatedPages(): Int = counter - freeListSize
+    override fun getNumberOfAllocatedPages(): Int = counter - freeListSize
 
     @ProguardTestAnnotation
-    public fun getNumberOfReferencedPages(): Int {
+    override fun getNumberOfReferencedPages(): Int {
         val res = allPagesRefcounters.sum()
         SanityCheck {
             val tmp = mutableMapOf<Int, Int>()

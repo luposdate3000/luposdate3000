@@ -23,4 +23,6 @@ public interface IBufferManager {
     public fun getPage(call_location: String, pageid: Int): ByteArray
     public /*suspend*/ fun allocPage(call_location: String): Int
     public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit
+    public fun getNumberOfAllocatedPages(): Int
+    public fun getNumberOfReferencedPages(): Int
 }

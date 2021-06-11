@@ -18,9 +18,9 @@ package lupos.launch.test_kv
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.endpoint.LuposdateEndpoint
 import lupos.kv.KeyValueStore
 import lupos.shared.AflCore
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
@@ -38,11 +38,12 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
-    val instance = LuposdateEndpoint.initialize()
+    var instance = Luposdate3000Instance()
+    instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager(instance)
-    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:42")
-    var kv = KeyValueStore(bufferManager, rootPage, false, instance)
+    instance.bufferManager = BufferManager(instance)
+    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:42")
+    var kv = KeyValueStore(instance.bufferManager!!, rootPage, false, instance)
 
     val values = mutableListOf<ByteArray>()
     val mapping = mutableMapOf<Int, Int>() // kv.id -> values.idx
@@ -156,21 +157,20 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
     if (!BufferManagerExt.isInMemoryOnly) {
         kv.close()
-        if (bufferManager.getNumberOfReferencedPages() != 0) {
+        if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
             throw Exception("")
         }
-        kv = KeyValueStore(bufferManager, rootPage, true, instance)
+        kv = KeyValueStore(instance.bufferManager!!, rootPage, true, instance)
     }
     for ((k, v) in mapping) {
         testGetValueOk(values[v], k)
     }
     kv.delete()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }
-    bufferManager.close()
-    LuposdateEndpoint.close()
+    instance.bufferManager!!.close()
 }
