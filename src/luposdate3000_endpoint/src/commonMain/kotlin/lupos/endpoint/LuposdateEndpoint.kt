@@ -393,8 +393,11 @@ public object LuposdateEndpoint {
             if (instance.initialized) {
                 instance.initialized = false
                 instance.nodeGlobalDictionary!!.close()
+                instance.nodeGlobalDictionary = null
                 instance.tripleStoreManager!!.close()
+                instance.tripleStoreManager = null
                 instance.bufferManager!!.close()
+                instance.bufferManager = null
             }
         } finally {
             initializerLock.withLock {

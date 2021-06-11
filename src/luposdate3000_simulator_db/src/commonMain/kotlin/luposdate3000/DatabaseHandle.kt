@@ -39,6 +39,8 @@ import lupos.simulator_db.IRouter
 import lupos.simulator_db.PreprocessingPackage
 import lupos.simulator_db.ResultPackage
 
+internal class MyAbstractPackage(val path: String, val params: Map<String, String>) : IDatabasePackage
+
 internal class CommunicationHandler(val instance: Luposdate3000Instance, val router: IRouter) : ICommunicationHandler {
     /*
     public interface IRouter {
@@ -69,19 +71,7 @@ internal class CommunicationHandler(val instance: Luposdate3000Instance, val rou
     ) : IDatabasePackage
     */
     override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
-        when (path) {
-            "/distributed/query/dictionary/register" -> {
-// dont use dictionaries right now -> register dictionary must proceed
-            }
-            "/distributed/graph/create" -> {
-                val name = params["name"]!!
-                val query = Query(instance)
-                instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
-            }
-            else -> {
-                TODO("$targetHost - $path $params")
-            }
-        }
+        router.send(targetHost.toInt(), MyAbstractPackage(path, params))
     }
 
     override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
@@ -115,6 +105,7 @@ public class DatabaseHandle : IDatabase {
         instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
         instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
         instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
+        instance.LUPOS_BUFFER_SIZE = 8192
         instance.communicationHandler = CommunicationHandler(instance, initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
         instance.distributedOptimizerQueryFactory = {
@@ -169,8 +160,25 @@ public class DatabaseHandle : IDatabase {
         TODO()
     }
 
+    private fun receive(pck: MyAbstractPackage) {
+        when (pck.path) {
+            "/distributed/query/dictionary/register" -> {
+// dont use dictionaries right now -> register dictionary must proceed
+            }
+            "/distributed/graph/create" -> {
+                val name = pck.params["name"]!!
+                val query = Query(instance)
+                instance.tripleStoreManager!!.remoteCreateGraph(query, name, (pck.params["origin"] == null || pck.params["origin"].toBoolean()), pck.params["metadata"])
+            }
+            else -> {
+                TODO("${pck.path} ${pck.params}")
+            }
+        }
+    }
+
     override fun receive(pck: IDatabasePackage) {
         when (pck) {
+            is MyAbstractPackage -> receive(pck)
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)
