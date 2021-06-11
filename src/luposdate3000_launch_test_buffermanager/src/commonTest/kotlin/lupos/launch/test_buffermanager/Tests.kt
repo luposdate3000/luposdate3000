@@ -16,6 +16,8 @@
  */
 package lupos.launch.test_buffermanager
 
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
 import lupos.test_buffermanager.executeBufferManagerTest
 import kotlin.test.Test
 
@@ -37,7 +39,14 @@ import kotlin.test.Test
 class Tests {
     fun helper(data: IntArray) {
         var dataoff = 0
-        executeBufferManagerTest({ data[dataoff++] }, { data.size - dataoff }, { dataoff = 0 }, { it -> BufferManager(it) }, BufferManagerExt.isInMemoryOnly, { it -> BufferManagerExt.allowInitFromDisk = it })
+        executeBufferManagerTest(
+            { data[dataoff++] },
+            { data.size - dataoff },
+            { dataoff = 0 },
+            { it -> BufferManager(it) },
+            BufferManagerExt.isInMemoryOnly,
+            { it -> BufferManagerExt.allowInitFromDisk = it },
+        )
     }
 
     @Test
