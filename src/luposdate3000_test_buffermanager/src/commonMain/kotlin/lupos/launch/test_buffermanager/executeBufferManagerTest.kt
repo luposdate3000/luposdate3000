@@ -21,10 +21,13 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared_inline.BufferManagerPage
 import kotlin.math.abs
 
-public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit, BufferManager: (Luposdate3000Instance) -> IBufferManager, isInMemoryOnly: Boolean, allowInitFromDisk: (Boolean) -> Unit) {
+public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit, BufferManager: (Luposdate3000Instance) -> IBufferManager, isInMemoryOnly: Boolean, allowInitFromDisk: (Boolean) -> Unit, isUnitTest: Boolean) {
     val verbose = false
     allowInitFromDisk(false)
     var instance = Luposdate3000Instance()
+    if (isUnitTest) {
+        instance.BUFFER_HOME = "build/tmp/executeBufferManagerTest"
+    }
     instance.allowInitFromDisk = false
     val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     instance.bufferManager = BufferManager(instance)

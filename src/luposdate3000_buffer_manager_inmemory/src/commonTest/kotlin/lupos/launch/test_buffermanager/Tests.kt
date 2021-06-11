@@ -46,6 +46,7 @@ class Tests {
             { it -> BufferManager(it) },
             BufferManagerExt.isInMemoryOnly,
             { it -> BufferManagerExt.allowInitFromDisk = it },
+            true,
         )
     }
 

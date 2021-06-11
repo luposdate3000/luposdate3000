@@ -28,5 +28,13 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
-    executeBufferManagerTest(nextRandom, hasNextRandom, resetRandom, { it -> BufferManager(it) }, BufferManagerExt.isInMemoryOnly, { it -> BufferManagerExt.allowInitFromDisk = it })
+    executeBufferManagerTest(
+        nextRandom,
+        hasNextRandom,
+        resetRandom,
+        { it -> BufferManager(it) },
+        BufferManagerExt.isInMemoryOnly,
+        { it -> BufferManagerExt.allowInitFromDisk = it },
+        false,
+    )
 }
