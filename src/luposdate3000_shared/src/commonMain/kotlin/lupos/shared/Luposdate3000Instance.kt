@@ -23,7 +23,7 @@ import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.shared_inline.Platform
 import kotlin.jvm.JvmField
 
-typealias FuncIDistributedOptimizer = () -> IDistributedOptimizer
+public typealias FuncIDistributedOptimizer = () -> IDistributedOptimizer
 
 public class Luposdate3000Instance {
     @JvmField

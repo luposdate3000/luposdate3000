@@ -88,8 +88,9 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         transactionID = UUID_Counter.getNextUUID()
         commited = false
         partitions.clear()
-        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-            return instance.distributedOptimizerQueryFactory().optimize(this)
+        val factory = instance.distributedOptimizerQueryFactory
+        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process && factory != null) {
+            return factory().optimize(this)
         } else {
             return newroot
         }

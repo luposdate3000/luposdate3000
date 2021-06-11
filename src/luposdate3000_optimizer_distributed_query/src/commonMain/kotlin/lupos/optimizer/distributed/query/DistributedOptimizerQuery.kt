@@ -49,13 +49,13 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
-    public var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
+    public var dependenciesMapTopDown: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
 
     @JvmField
-    public var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+    public var dependenciesMapBottomUp: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
 
     @JvmField
-    public var keyRepresentative = mutableMapOf<String, String>()
+    public var keyRepresentative: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
     internal val childOptimizer = arrayOf(
@@ -252,7 +252,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
         this.query = query as Query
         val root = query.root!!
         if ((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process) {
-            splitQuery()
+            splitQuery(query)
 // assign hosts to other parts
             for (childOptimizer2 in childOptimizer) {
                 var changed = true

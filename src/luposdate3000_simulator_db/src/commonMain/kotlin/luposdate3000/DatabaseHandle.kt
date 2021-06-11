@@ -19,6 +19,7 @@ package lupos.simulator_db.luposdate3000
 import lupos.buffer_manager.BufferManagerExt
 import lupos.endpoint.LuposdateEndpoint
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
+import lupos.shared.EPartitionModeExt
 import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
@@ -27,11 +28,13 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
+import lupos.simulator_db.ChoosenOperatorPackage
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
 import lupos.simulator_db.IRouter
-import kotlin.jvm.JvmField
+import lupos.simulator_db.PreprocessingPackage
+import lupos.simulator_db.ResultPackage
 
 public class DatabaseHandle : IDatabase {
     private class DistributedOptimizer : IDistributedOptimizer {
@@ -39,7 +42,7 @@ public class DatabaseHandle : IDatabase {
         override fun optimize(query: IQuery): IOPBase {
             originalOptimizer.splitQuery(query)
 
-            throw Exception(originalOptimizer.operatorgraphPartsToHostMap)
+            throw Exception(originalOptimizer.operatorgraphPartsToHostMap.toString() + " - " + originalOptimizer.operatorgraphParts.toString())
             for ((k, v) in originalOptimizer.operatorgraphParts) { // <String, XMLElement>
                 TODO()
             }
@@ -88,19 +91,18 @@ public class DatabaseHandle : IDatabase {
         }
     }
 
-    @JvmField
     private var instance = Luposdate3000Instance()
 
-    @JvmField
     private var dest: Int = 0
 
-    @JvmField
     private var sender: IRouter? = null
     override fun start(initialState: IDatabaseState) {
         sender = initialState.sender
         instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
         instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
+        instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
         instance.communicationHandler = CommunicationHandler(initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
         instance.distributedOptimizerQueryFactory = {
@@ -129,7 +131,7 @@ public class DatabaseHandle : IDatabase {
         val queryString = query.decodeToString()
         dest = sourceAddress
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
-        og.getQuery().initialize()
+        op.getQuery().initialize(op)
     }
 
     private fun receive(pck: PreprocessingPackage) {
