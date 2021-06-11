@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.test_dictionary_encoding
+package lupos.test_dictionary_encoding
 
 import kotlin.test.Test
 
@@ -36,7 +36,7 @@ import kotlin.test.Test
 class Tests {
     fun helper(data: IntArray) {
         var dataoff = 0
-        executeTest({ data[dataoff++] }, { data.size - dataoff }, { dataoff = 0 })
+        executeDictionaryEncodingTest({ data[dataoff++] }, { data.size - dataoff }, { dataoff = 0 })
     }
 
     @Test
