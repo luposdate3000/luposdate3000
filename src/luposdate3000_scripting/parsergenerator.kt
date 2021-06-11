@@ -123,13 +123,13 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
         }
 
         fun addChars(c: Char): CharGroup {
-            ranges.add(MyPair(c.code.toInt(), c.code.toInt()))
+            ranges.add(MyPair(c.toInt(), c.toInt()))
             return this
         }
 
         fun addChars(str: String): CharGroup {
             for (c in str) {
-                ranges.add(MyPair(c.code.toInt(), c.code.toInt()))
+                ranges.add(MyPair(c.toInt(), c.toInt()))
             }
             return this
         }
@@ -193,7 +193,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
 
         constructor(c: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
             modifier = _modifier
-            addChars(c.code.toInt())
+            addChars(c.toInt())
         }
 
         constructor(cFrom: Int, cTo: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
@@ -1035,7 +1035,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                 }
                                 tmp[tmp.size - 1].second = t.toInt(16)
                             } else {
-                                tmp[tmp.size - 1].second = str[idx].code.toInt()
+                                tmp[tmp.size - 1].second = str[idx].toInt()
                                 idx++
                             }
                         } else {
@@ -1049,7 +1049,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                 val c = t.toInt(16)
                                 tmp.add(MyPair(c, c))
                             } else {
-                                tmp.add(MyPair(str[idx].code.toInt(), str[idx].code.toInt()))
+                                tmp.add(MyPair(str[idx].toInt(), str[idx].toInt()))
                                 idx++
                             }
                         }

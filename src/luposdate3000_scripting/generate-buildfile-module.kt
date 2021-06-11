@@ -29,7 +29,7 @@ val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "min
 private fun printDependencies(dependencies: Set<String>, out: PrintWriter) {
     for (d in dependencies) {
         if (d.startsWith("luposdate3000")) {
-            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
+            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
             if (t.contains("#")) {
                 t = t.substring(0, t.indexOf("#"))
             }
@@ -203,7 +203,7 @@ class CreateModuleArgs() {
         val res = clone()
 
         res.moduleName = moduleName
-        res.moduleFolder = "src/${moduleName.lowercase()}"
+        res.moduleFolder = "src/${moduleName.toLowerCase()}"
         return res
     }
 
@@ -392,7 +392,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 allDep.addAll(moduleArgs.dependenciesJvmRecoursive)
                 for (d in allDep) {
                     if (d.startsWith("luposdate3000")) {
-                        var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
+                        var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
                         if (t.contains("#")) {
                             t = t.substring(0, t.indexOf("#"))
                         }
@@ -557,7 +557,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
                         for (dep in moduleArgs.dependenciesJvmRecoursive) {
                             if (dep.startsWith("luposdate")) {
-                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.lowercase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
+                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
                             } else {
                                 out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
                             }
