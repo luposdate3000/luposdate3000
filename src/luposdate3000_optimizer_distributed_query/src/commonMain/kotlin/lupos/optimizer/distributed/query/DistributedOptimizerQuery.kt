@@ -43,19 +43,19 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     internal var query: Query? = null
 
     @JvmField
-    internal var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
+    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
 
     @JvmField
-    internal var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
-    internal var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
+    public var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
 
     @JvmField
-    internal var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+    public var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
 
     @JvmField
-    internal var keyRepresentative = mutableMapOf<String, String>()
+    public var keyRepresentative = mutableMapOf<String, String>()
 
     @JvmField
     internal val childOptimizer = arrayOf(
@@ -228,7 +228,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
         }
     }
 
-    public override fun optimize(query: IQuery): IOPBase {
+    public fun splitQuery(query: IQuery) {
         this.query = query as Query
         val root = query.root!!
         if ((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process) {
@@ -245,6 +245,14 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
             for ((k, v) in operatorgraphParts) {
                 dependenciesMapBottomUp[k] = calculateDependenciesBottomUp(v)
             }
+        }
+    }
+
+    public override fun optimize(query: IQuery): IOPBase {
+        this.query = query as Query
+        val root = query.root!!
+        if ((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process) {
+            splitQuery()
 // assign hosts to other parts
             for (childOptimizer2 in childOptimizer) {
                 var changed = true
