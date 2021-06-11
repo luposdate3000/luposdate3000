@@ -78,13 +78,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun localStoresGet() = localStores_
+    internal fun localStoresGet() = localStores_
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun metadataGet() = metadata_
+    internal fun metadataGet() = metadata_
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun toByteArray(): ByteArray {
+    private fun toByteArray(): ByteArray {
         var size = 8
         for (k in localStores_.keys) {
             val buf = k.encodeToByteArray()
@@ -133,7 +133,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun initFromByteArray(buffer: ByteArray) {
+    private fun initFromByteArray(buffer: ByteArray) {
         var off = 0
         val l1 = ByteArrayHelper.readInt4(buffer, off)
         off += 4
@@ -174,31 +174,31 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun keysOnHostnameAdd(hostidx: Int, key: LuposStoreKey) {
+    private fun keysOnHostnameAdd(hostidx: Int, key: LuposStoreKey) {
         keysOnHostname_[hostidx].add(key)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
+    private fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
         SanityCheck.check { localStores_[key] == null }
         localStores_[key] = tripleStore
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun localStoresRemove(key: LuposStoreKey) {
+    private fun localStoresRemove(key: LuposStoreKey) {
         val tripleStore = localStores_[key]!!
         tripleStore.delete()
         localStores_.remove(key)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
+    private fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
         SanityCheck.check { metadata_[name] == null }
         metadata_[name] = tripleStore
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun metadataRemove(name: LuposGraphName) {
+    private fun metadataRemove(name: LuposGraphName) {
         SanityCheck.check({ metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
         metadata_.remove(name)
     }
@@ -463,7 +463,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun createGraphShared(graph: TripleStoreDescription) {
+    private fun createGraphShared(graph: TripleStoreDescription) {
         for (index in graph.indices) {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
