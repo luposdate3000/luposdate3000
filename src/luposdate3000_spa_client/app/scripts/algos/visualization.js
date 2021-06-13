@@ -341,8 +341,19 @@ $('#dataVariableDepth').click(function() {
 // Trigger animation method when play button is pressed.
 $('#luposdate3000_play').click(function() {
     setAnimationFlags(false, false)
+    resetEdges();
     animation(true);
 });
+
+function resetEdges(){
+    for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
+        edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
+        dataSetEdges.update([{
+            id: edgeId,
+            width: 1
+        }]);
+    }
+}
 
 function resetAnimationQueue() {
     $('.meter').css("width", 0 + "%");
