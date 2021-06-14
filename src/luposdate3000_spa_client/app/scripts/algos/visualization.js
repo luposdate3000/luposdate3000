@@ -768,11 +768,11 @@ function addCustomContextMenu(networkObject, contextFlag) {
                 $('#rkm').hide();
             });
 
-            var elem = document.getElementById('luposdate3000_lastOp');
-            elem.replaceWith(elem.cloneNode(true));
+            //            var elem = document.getElementById('luposdate3000_lastOp');
+            //            elem.replaceWith(elem.cloneNode(true));
 
-            elem = document.getElementById('luposdate3000_nextOp');
-            elem.replaceWith(elem.cloneNode(true));
+            //            elem = document.getElementById('luposdate3000_nextOp');
+            //            elem.replaceWith(elem.cloneNode(true));
 
             document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
@@ -818,14 +818,12 @@ function addCustomContextMenu(networkObject, contextFlag) {
                     ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                 ],
                 change: function(color) {
-                    if (dataSet.getIds().includes(hoverNodeId)) {
-                        var theChoosenColor = "rgb(" + color._r + "," + color._g + "," + color._b + ")"
-                        dataSet.update({
-                            id: hoverNodeId,
-                            color: theChoosenColor
-                        });
-                        saveColorChoice(contextFlag, hoverNodeId, theChoosenColor)
-                    }
+                    var theChoosenColor = "rgb(" + color._r + "," + color._g + "," + color._b + ")"
+                    dataSet.update({
+                        id: hoverNodeId,
+                        color: theChoosenColor
+                    });
+                    saveColorChoice(contextFlag, hoverNodeId, theChoosenColor)
                 }
             });
         } else {
@@ -835,6 +833,24 @@ function addCustomContextMenu(networkObject, contextFlag) {
             }, false);
         }
     });
+}
+
+function updateColors(contextFlag) {
+    var localcolors = App.config.colors
+    if (typeof localcolors !== "undefined") {
+        console.log("a")
+        var localcolors2 = localcolors[contextFlag]
+        if (typeof localcolors2 !== "undefined") {
+            console.log("b")
+            for (id in localcolors2) {
+                console.log("d")
+                dataSet.update({
+                    id: id,
+                    color: localcolors2[id]
+                });
+            }
+        }
+    }
 }
 
 function saveColorChoice(key, id, color) {
@@ -915,43 +931,27 @@ function draw(flag) {
     };
 
     //Draw network
+    var net = new vis.Network(container, data, options);
     if (flag) {
-        networkSon = new vis.Network(container, data, options);
+        networkSon = net
         calculateMinMaxID();
         calculateMinMaxDepth();
         calculateMinMaxIndex();
-        addCustomContextMenu(networkSon, flag);
         selectMapping();
-        //By default, the network is dynamic and is changing via a constant animation
-        //For the hierarchical layout it is essential that is is turned off after the build-up
-        //process.
-        setTimeout(() => {
-            networkSon.setOptions({
-                layout: {
-                    hierarchical: false
-                },
-            });
-
-            container.style.display = "inline-block";
-            networkSon.fit();
-        }, 10);
     } else {
-        network = new vis.Network(container, data, options);
-        //Apply Event Listener for the right click menus
-        addCustomContextMenu(network, flag);
-
-        //By default, the network is dynamic and is changing via a constant animation
-        //For the hierarchical layout it is essential that is is turned off after the build-up
-        //process.
-        setTimeout(() => {
-            network.setOptions({
-                layout: {
-                    hierarchical: false
-                },
-            });
-
-            container.style.display = "inline-block";
-            network.fit();
-        }, 10);
+        network = net
     }
+    addCustomContextMenu(net, flag);
+    setTimeout(() => {
+        network.setOptions({
+            layout: {
+                hierarchical: false
+            },
+        });
+        container.style.display = "inline-block";
+        network.fit();
+        setTimeout(() => {
+            //   updateColors(flag)
+        }, 10);
+    }, 10);
 }
