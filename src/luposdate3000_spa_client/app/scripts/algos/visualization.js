@@ -23,6 +23,7 @@ var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
 const panner = new Tone.Panner(0).toDestination();
+var hoverNodeId;
 
 
 function initLuposdate3000() { //first time initialization - called by main.coffee, before anything else is loaded
@@ -345,7 +346,7 @@ $('#luposdate3000_play').click(function() {
     animation(true);
 });
 
-function resetEdges(){
+function resetEdges() {
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
         edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
         dataSetEdges.update([{
@@ -527,10 +528,10 @@ function addNewNode() {
     if (melodyType == 'No') {
         if (chordType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Chord");
-        } else if (pitchType == 'Dynamic') {
+        } else if (pitchType == 'Dynamic Operator-ID' || pitchType == 'Dynamic Operator-Depth') {
             tone = getAudioData(idMappings, id, label, index, "Pitch");
             triggerNote(tone, duration, "+0", velocity, currentname)
-        }else if (pitchType != 'None'){
+        } else if (pitchType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Pitch");
             triggerNote(tone + octave, duration, "+0", velocity, currentname)
         } else {
@@ -608,10 +609,10 @@ async function animation(loop) {
                             }
                             updateEdgeSize(queueHead[0], queueHead[1]);
                             if (loop) {
-                                if(contextMenuFlag){
+                                if (contextMenuFlag) {
                                     contextMenuFlag = false;
                                     animation(true);
-                                }else{
+                                } else {
                                     currentIndex++;
                                     animation(true);
                                 }
@@ -732,11 +733,19 @@ function addCustomContextMenu(networkObject, contextFlag) {
     } else {
         string = "luposdate3000OP";
     }
+    var i;
+
+    networkObject.on("hoverNode", function(params) {
+        if ($('#rkm').is(":hidden")) {
+            hoverNodeId = params.node;
+        }
+    });
+
     //Apply Event Listener for the right click menus
     networkObject.on("oncontext", function(params) {
         var x, y;
         //If right click is made within the canvas, open custom context menu
-        if (typeof params.nodes[0] != 'undefined') {
+        if (typeof hoverNodeId != 'undefined') {
             document.getElementById(string).addEventListener('contextmenu', function(e) {
                 // Alternative
                 e.preventDefault();
@@ -759,16 +768,16 @@ function addCustomContextMenu(networkObject, contextFlag) {
                 $('#rkm').hide();
             });
 
-            var elem = document.getElementById('luposdate3000_lastOp');
-            elem.replaceWith(elem.cloneNode(true));
+            //            var elem = document.getElementById('luposdate3000_lastOp');
+            //            elem.replaceWith(elem.cloneNode(true));
 
-            elem = document.getElementById('luposdate3000_nextOp');
-            elem.replaceWith(elem.cloneNode(true));
+            //            elem = document.getElementById('luposdate3000_nextOp');
+            //            elem.replaceWith(elem.cloneNode(true));
 
             document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex + 1; i <= queue.length - 1; i++) {
-                    if (queue[i][0] == queue[params.nodes[0]][0]) {
+                    if (queue[i][0] == hoverNodeId) {
                         currentIndex = i;
                         contextMenuFlag = true;
                         //animation(false)
@@ -781,7 +790,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
             document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex - 1; i >= 0; i--) {
-                    if (queue[i][0] == queue[params.nodes[0]][0]) {
+                    if (queue[i][0] == hoverNodeId) {
                         currentIndex = i;
                         contextMenuFlag = true;
                         //animation(false)
@@ -809,17 +818,51 @@ function addCustomContextMenu(networkObject, contextFlag) {
                     ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                 ],
                 change: function(color) {
-                    if (dataSet.getIds().includes(params.nodes[0])) {
-                        dataSet.update({
-                            id: params.nodes[0],
-                            color: "rgb(" + color._r + "," + color._g + "," + color._b + ")"
-                        });
-                    }
+                    var theChoosenColor = "rgb(" + color._r + "," + color._g + "," + color._b + ")"
+                    dataSet.update({
+                        id: hoverNodeId,
+                        color: theChoosenColor
+                    });
+                    saveColorChoice(contextFlag, hoverNodeId, theChoosenColor)
                 }
             });
+        } else {
+            document.getElementById(string).addEventListener('contextmenu', function(e) {
+                // Alternative
+                e.preventDefault();
+            }, false);
         }
     });
 }
+
+function updateColors(contextFlag) {
+    var localcolors = App.config.colors
+    if (typeof localcolors !== "undefined") {
+        console.log("a")
+        var localcolors2 = localcolors[contextFlag]
+        if (typeof localcolors2 !== "undefined") {
+            console.log("b")
+            for (id in localcolors2) {
+                console.log("d")
+                dataSet.update({
+                    id: id,
+                    color: localcolors2[id]
+                });
+            }
+        }
+    }
+}
+
+function saveColorChoice(key, id, color) {
+    if (typeof App.config.colors === "undefined") {
+        App.config.colors = {}
+    }
+    if (typeof App.config.colors[key] === "undefined") {
+        App.config.colors[key] = {}
+    }
+    App.config.colors[key][id] = color
+}
+
 
 //Draws the graph using the vis.js framework
 function draw(flag) {
@@ -888,43 +931,27 @@ function draw(flag) {
     };
 
     //Draw network
+    var net = new vis.Network(container, data, options);
     if (flag) {
-        networkSon = new vis.Network(container, data, options);
+        networkSon = net
         calculateMinMaxID();
         calculateMinMaxDepth();
         calculateMinMaxIndex();
-        addCustomContextMenu(networkSon, flag);
         selectMapping();
-        //By default, the network is dynamic and is changing via a constant animation
-        //For the hierarchical layout it is essential that is is turned off after the build-up
-        //process.
-        setTimeout(() => {
-            networkSon.setOptions({
-                layout: {
-                    hierarchical: false
-                },
-            });
-
-            container.style.display = "inline-block";
-            networkSon.fit();
-        }, 10);
     } else {
-        network = new vis.Network(container, data, options);
-        //Apply Event Listener for the right click menus
-        addCustomContextMenu(network, flag);
-
-        //By default, the network is dynamic and is changing via a constant animation
-        //For the hierarchical layout it is essential that is is turned off after the build-up
-        //process.
-        setTimeout(() => {
-            network.setOptions({
-                layout: {
-                    hierarchical: false
-                },
-            });
-
-            container.style.display = "inline-block";
-            network.fit();
-        }, 10);
+        network = net
     }
+    addCustomContextMenu(net, flag);
+    setTimeout(() => {
+        network.setOptions({
+            layout: {
+                hierarchical: false
+            },
+        });
+        container.style.display = "inline-block";
+        network.fit();
+        setTimeout(() => {
+            //   updateColors(flag)
+        }, 10);
+    }, 10);
 }
