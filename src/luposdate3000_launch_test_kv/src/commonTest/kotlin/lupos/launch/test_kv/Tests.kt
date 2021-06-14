@@ -34,6 +34,10 @@ import kotlin.test.Test
 // echo
 // done
 class Tests {
+    init {
+        lupos.JSHelper.initialize()
+    }
+
     fun helper(data: IntArray) {
         var dataoff = 0
         executeTest({ data[dataoff++] }, { data.size - dataoff }, { dataoff = 0 })

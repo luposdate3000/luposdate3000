@@ -264,6 +264,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("   internal val targetData=File(\"src/luposdate3000_launch_code_gen_test/src/commonTest/resources/$testCaseName.output\").readAsString()")
                     out.println("   internal val targetType=\"$targetType\"")
                 }
+                out.println("   init{ ")
+                out.println("   lupos.JSHelper.initialize()")
+                out.println("   }")
                 if (configIsCodeGen(configuration.second)) {
                     out.println("    @CodeGenerationAnnotation")
                 }
