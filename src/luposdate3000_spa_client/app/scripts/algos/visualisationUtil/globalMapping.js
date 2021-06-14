@@ -14,9 +14,14 @@ function getAudioData(idMappings, id, label, index, audioDimension) {
                 return App.config.sonification[audioDimension][mode].value;
             }
             break;
-        case "Dynamic":
+        case "Dynamic Operator-ID":
             if (audioDimension == "Pitch") {
                 return scale(label.split(" ")[1].split("\n")[0] | 0, minId, maxId, 30, 800);
+            }
+            break
+        case "Dynamic Operator-Depth":
+            if (audioDimension == "Pitch") {
+                return scale(networkSon.nodesHandler.getPosition(id) | 0, minDepth, maxDepth, 30, 800);
             }
             break
         case "Operator-ID":
@@ -140,6 +145,8 @@ function createDefaultConfig(audioDimension, mode, value, arpeggio) {
         switch (mode) {
             case "None":
                 break
+            case 'Dynamic Operator-ID':
+            case 'Dynamic Operator-Depth':
             case 'Data-Index':
             case 'Query-Progress':
                 if (audioDimension == "Loudness") {
@@ -248,7 +255,8 @@ function createSimpleSelector(audioDimension, label, mode) {
 
 function audioDimensionSetup(mode, audioDimension) {
     switch (mode) {
-        case 'Dynamic':
+        case 'Dynamic Operator-ID':
+        case 'Dynamic OperatorDepth':
         case 'None':
             createDefaultConfig(audioDimension, mode)
             $("#" + audioDimension.toLowerCase() + "Settings").hide();

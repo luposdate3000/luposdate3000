@@ -23,6 +23,7 @@ var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
 const panner = new Tone.Panner(0).toDestination();
+var hoverNodeId;
 
 
 function initLuposdate3000() { //first time initialization - called by main.coffee, before anything else is loaded
@@ -524,10 +525,12 @@ function addNewNode() {
 
     //What Pitch, or maybe what Chord
     //If Chord is selected the pitch settings will be ignored/overwritten
+    console.log(pitchType);
     if (melodyType == 'No') {
         if (chordType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Chord");
-        } else if (pitchType == 'Dynamic') {
+        } else if (pitchType == 'Dynamic Operator-ID' || pitchType == 'Dynamic Operator-Depth') {
+            console.log("correct")
             tone = getAudioData(idMappings, id, label, index, "Pitch");
             triggerNote(tone, duration, "+0", velocity, currentname)
         }else if (pitchType != 'None'){
@@ -732,11 +735,19 @@ function addCustomContextMenu(networkObject, contextFlag) {
     } else {
         string = "luposdate3000OP";
     }
+    var i;
+
+    networkObject.on("hoverNode", function(params){
+        if ($('#rkm').is(":hidden")){
+            hoverNodeId = params.node;
+        }
+    });
+
     //Apply Event Listener for the right click menus
     networkObject.on("oncontext", function(params) {
         var x, y;
         //If right click is made within the canvas, open custom context menu
-        if (typeof params.nodes[0] != 'undefined') {
+        if (typeof hoverNodeId != 'undefined') {
             document.getElementById(string).addEventListener('contextmenu', function(e) {
                 // Alternative
                 e.preventDefault();
@@ -768,7 +779,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
             document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex + 1; i <= queue.length - 1; i++) {
-                    if (queue[i][0] == queue[params.nodes[0]][0]) {
+                    if (queue[i][0] == hoverNodeId) {
                         currentIndex = i;
                         contextMenuFlag = true;
                         //animation(false)
@@ -781,7 +792,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
             document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex - 1; i >= 0; i--) {
-                    if (queue[i][0] == queue[params.nodes[0]][0]) {
+                    if (queue[i][0] == hoverNodeId) {
                         currentIndex = i;
                         contextMenuFlag = true;
                         //animation(false)
@@ -809,14 +820,19 @@ function addCustomContextMenu(networkObject, contextFlag) {
                     ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                 ],
                 change: function(color) {
-                    if (dataSet.getIds().includes(params.nodes[0])) {
+                    if (dataSet.getIds().includes(hoverNodeId)) {
                         dataSet.update({
-                            id: params.nodes[0],
+                            id: hoverNodeId,
                             color: "rgb(" + color._r + "," + color._g + "," + color._b + ")"
                         });
                     }
                 }
             });
+        }else{
+            document.getElementById(string).addEventListener('contextmenu', function(e) {
+                // Alternative
+                e.preventDefault();
+            }, false);
         }
     });
 }
