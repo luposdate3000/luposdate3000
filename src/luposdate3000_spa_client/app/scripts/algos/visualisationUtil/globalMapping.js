@@ -73,7 +73,7 @@ function getAudioData(idMappings, id, label, index, audioDimension) {
             }
             break;
         case 'Query-Progress':
-            var tmp = ((globalAnimationList.length - currentIndex) / globalAnimationList.length) * 100;
+            var tmp = ((App.globalAnimationList.length - currentIndex) / App.globalAnimationList.length) * 100;
             if (audioDimension == "Pitch") {
                 return scale(tmp, 0, 100, 30, 800);
             } else if (audioDimension == "Duration") {
@@ -401,8 +401,8 @@ function calculateMinMaxIndex() {
     maxIndex = 0;
     minIndex = 999999999999999;
     var i;
-    for (i = 0; i <= globalAnimationList.length - 1; i++) {
-        var k = parseInt(globalAnimationList[i][3], 10);
+    for (i = 0; i <= App.globalAnimationList.length - 1; i++) {
+        var k = parseInt(App.globalAnimationList[i][3], 10);
         if (k > maxIndex) {
             maxIndex = k;
         }

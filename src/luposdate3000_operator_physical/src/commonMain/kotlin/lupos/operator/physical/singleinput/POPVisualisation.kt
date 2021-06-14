@@ -72,10 +72,10 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
                     var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
-                    var outputString = getChildren()[0].getVisualUUUID().toString() + "||"
-                    outputString += getParent().getVisualUUUID().toString() + "||"
-                    outputString += string + "||"
-                    outputString += iterator.buf[res + j].toString() + "NEWDATA"
+                    var outputString = "[" + getChildren()[0].getVisualUUUID().toString() + ","
+                    outputString += getParent().getVisualUUUID().toString() + ","
+                    outputString += "\"" + string + "\","
+                    outputString += iterator.buf[res + j].toString() + "]"
                     visualTest!!.sendData(outputString)
                 }
             }

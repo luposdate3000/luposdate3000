@@ -5,6 +5,7 @@
 App.init = ->
     initLuposdate3000()
     App.samples = {}
+    App.globalAnimationList = []
     App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
@@ -144,19 +145,19 @@ App.loadluposdate3000 = (data, url, withGraph) ->
                     method: "POST"
                     data: sessionData
                     success: (logSteps) ->
-                        addLocicalSteps(logSteps)
+                        App.logGraph = JSON.parse(logSteps)
                         $.ajax
                             url: url + 'sparql/getPhysicalVisual'
                             method: "POST"
                             data: sessionData
                             success: (phySteps) ->
-                                addPhysicalSteps(phySteps)
+                                App.physGraph = JSON.parse(phySteps)
                                 $.ajax
                                     url: url + 'sparql/getVisualisationData'
                                     method: "POST"
                                     data: sessionData
                                     success: (visData) ->
-                                        addAnimationDataSplit(visData)
+                                        App.globalAnimationList = JSON.parse(visData)
                                         $.ajax
                                             url: url + 'sparql/getResult'
                                             method: "POST"
@@ -275,12 +276,20 @@ App.bindEvents = ->
                 #Receive optimized steps for logical and physical operator graph
                 if withGraph
                     eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
-                    App.logGraph = eev.getOptimizedStepsLogical();
-                    App.physGraph = eev.getOptimizedStepsPhysical();
+                    tmp = eev.getOptimizedStepsLogical();
+                    for v,k in tmp
+                        tmp[k] = JSON.parse(v)
+                    App.logGraph = tmp
+                    tmp = eev.getOptimizedStepsPhysical();
+                    for v,k in tmp
+                        tmp[k] = JSON.parse(v)
+                    App.physGraph = tmp
                     #Result from the query
                     App.result = eev.getResult();
-                    tmpResult = eev.getDataSteps();
-                    addAnimationData(tmpResult)
+                    tmp = eev.getDataSteps()
+                    for v,k in tmp
+                        tmp[k] = JSON.parse(v)
+                    App.globalAnimationList = tmp
                     formatResultData();
                     App.additionalHiddenTabs = ["graph", "op-graph"]
                     App.initConfigComponentsHideTabs()

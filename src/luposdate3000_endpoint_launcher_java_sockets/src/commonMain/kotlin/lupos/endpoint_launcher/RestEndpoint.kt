@@ -112,10 +112,17 @@ internal object RestEndpoint {
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
-                for (step in eev.getOptimizedStepsLogical()) {
+                connectionOutMy.print("[")
+                val steps = eev.getOptimizedStepsLogical()
+                for (i in 0 until steps.size - 1) {
+                    val step = steps[i]
                     connectionOutMy.print(step)
-                    connectionOutMy.print("NEWTREE")
+                    connectionOutMy.print(",")
                 }
+                if (steps.size > 0) {
+                    connectionOutMy.print(steps[steps.size - 1])
+                }
+                connectionOutMy.print("]")
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
@@ -124,10 +131,17 @@ internal object RestEndpoint {
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
-                for (step in eev.getOptimizedStepsPhysical()) {
+                connectionOutMy.print("[")
+                val steps = eev.getOptimizedStepsPhysical()
+                for (i in 0 until steps.size - 1) {
+                    val step = steps[i]
                     connectionOutMy.print(step)
-                    connectionOutMy.print("NEWTREE")
+                    connectionOutMy.print(",")
                 }
+                if (steps.size > 0) {
+                    connectionOutMy.print(steps[steps.size - 1])
+                }
+                connectionOutMy.print("]")
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
@@ -147,9 +161,16 @@ internal object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 val tmp = eev.getDataSteps()
-                for (i in tmp) {
-                    connectionOutMy.print(i)
+                connectionOutMy.print("[")
+                for (i in 0 until tmp.size - 1) {
+                    val j = tmp[i]
+                    connectionOutMy.print(j)
+                    connectionOutMy.print(",")
                 }
+                if (tmp.size > 0) {
+                    connectionOutMy.print(tmp[tmp.size - 1])
+                }
+                connectionOutMy.print("]")
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }

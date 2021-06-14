@@ -12,7 +12,6 @@ var contextMenuFlag = false;
 var timer;
 var current; //Stores the current instrument
 // Variables for general data storage
-var globalAnimationList = []; //Array that stores all data that is needed to be animated
 var queue = [];
 var prefixes = []; //Stores all prefixes from the SPARQL and RDF editor
 var currentIndex;
@@ -132,10 +131,10 @@ $("#luposdate3000_graph-select").change(function() {
     var value = $(this).val();
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
-        loadData(App.logGraph[value - 1].split("SPLITHERE"), false);
+        loadData(App.logGraph[value - 1], false);
         var max = App.logGraph.length;
     } else if (index == 1) {
-        loadData(App.physGraph[value - 1].split("SPLITHERE"), false);
+        loadData(App.physGraph[value - 1], false);
         var max = App.physGraph.length;
     }
 
@@ -159,10 +158,10 @@ $('input[type=radio][name=L3Graph]').change(function() {
     $("#luposdate3000_graph-select").val(1);
     if (index == 0) {
         var graph = App.logGraph;
-        loadData(App.logGraph[1].split("SPLITHERE"), false);
+        loadData(App.logGraph[1], false);
     } else {
         var graph = App.physGraph;
-        loadData(App.physGraph[1].split("SPLITHERE"), false);
+        loadData(App.physGraph[1], false);
     }
     $('#luposdate3000_graph-select').empty();
     var c = 0;
@@ -179,7 +178,7 @@ $('input[type=radio][name=L3Graph]').change(function() {
 
 $("a[href=#luposdate3000-sonification-tab]").click(function() {
     sleep(50).then(() => {
-        loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
+        loadData(App.physGraph[App.physGraph.length - 1], true);
     })
 });
 
@@ -358,9 +357,10 @@ function resetEdges() {
 
 function resetAnimationQueue() {
     $('.meter').css("width", 0 + "%");
-    queue = globalAnimationList.map(function(arr) {
+    queue = App.globalAnimationList.map(function(arr) {
         return arr.slice();
     });
+
     currentIndex = 0;
     var i;
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
@@ -420,13 +420,13 @@ function replacePrefix() { //
     }
 
     var j;
-    for (j = 0; j <= globalAnimationList.length - 1; j++) {
+    for (j = 0; j <= App.globalAnimationList.length - 1; j++) {
         for (i = 0; i <= prefixes.length - 1; i++) {
-            if (globalAnimationList[j][2].includes(prefixes[i][1])) {
-                var string = globalAnimationList[j][2].replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
+            if (App.globalAnimationList[j][2].includes(prefixes[i][1])) {
+                var string = App.globalAnimationList[j][2].replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
                 string = string.replaceAll("<", "");
                 string = string.replaceAll(">", "");
-                globalAnimationList[j][2] = string;
+                App.globalAnimationList[j][2] = string;
             }
         }
     }
@@ -619,7 +619,7 @@ async function animation(loop) {
                             } else {
                                 setAnimationFlags(false, true)
                             }
-                            var tmp = (currentIndex / globalAnimationList.length) * 100;
+                            var tmp = (currentIndex / App.globalAnimationList.length) * 100;
                             if (!stopFlag) {
                                 $('.meter').css("width", tmp + "%");
                             } else {
@@ -643,7 +643,7 @@ function updateEdgeSize(startID, endID) { //only called by animation
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
         if (dataSetEdges.get(dataSetEdges.getIds()[i]).from == startID && dataSetEdges.get(dataSetEdges.getIds()[i]).to == endID) {
             edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
-            var updateStep = 15 / globalAnimationList.length;
+            var updateStep = 15 / App.globalAnimationList.length;
             var newWidth = dataSetEdges.get(dataSetEdges.getIds()[i]).width + updateStep;
             if (newWidth > 15) {
                 newWidth = 15;
@@ -715,8 +715,8 @@ function deleteDebugOperator() { //only called by loadData
 
 //Loads the Nodes and Edges from the data provided
 function loadData(dataParameter, flag) {
-    dataNodes = JSON.parse(dataParameter[0]);
-    dataEdges = JSON.parse(dataParameter[1]);
+    dataNodes = dataParameter[0];
+    dataEdges = dataParameter[1];
     //remove the POPRico operator
     deleteDebugOperator();
     data = {
