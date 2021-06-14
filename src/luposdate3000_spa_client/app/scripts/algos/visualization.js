@@ -836,13 +836,13 @@ function addCustomContextMenu(networkObject, contextFlag) {
 }
 
 function saveColorChoice(key, id, color) {
-    if (typeof App.config.colors === "undefined") {
-        App.config.colors = {}
+    if (typeof App.config.colorsByID === "undefined") {
+        App.config.colorsByID = {}
     }
-    if (typeof App.config.colors[key] === "undefined") {
-        App.config.colors[key] = {}
+    if (typeof App.config.colorsByID[key] === "undefined") {
+        App.config.colorsByID[key] = {}
     }
-    App.config.colors[key][id] = color
+    App.config.colorsByID[key][id] = color
 }
 
 
@@ -861,7 +861,17 @@ function draw(flag) {
         nodes: dataSet,
         edges: dataSetEdges,
     };
-    var localcolors = App.config.colors
+    var colorByType = App.config.colorsByType
+    if (typeof colorByType !== "undefined") {
+        for (nodeIdx in dataNodes) {
+            var node = dataNodes[nodeIdx]
+            var nodeType = node.label.split(' ')[0];
+            if (typeof colorByType[nodeType] !== "undefined") {
+                node.color = colorByType[nodeType]
+            }
+        }
+    }
+    var localcolors = App.config.colorsByID
     if (typeof localcolors !== "undefined") {
         var localcolors2 = localcolors[flag]
         if (typeof localcolors2 !== "undefined") {

@@ -1,4 +1,9 @@
 {
+colorsByType:{
+POPJoinMergeSingleColumn:"rgb(255,0,0)",
+AOPConstant:"rgb(0,255,0)",
+AOPVariable:"rgb(0,0,255)"
+}
 animationSpeed:80,
 evalGraphSparql:true,
 evalGraphRif:true,
