@@ -482,7 +482,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         //                  out.println("                dceOptions.devMode = true")//this disables dce - which than breaks spa-client
                         out.println("            }")
                         out.println("            testTask {")
-                        out.println("                enabled = false")
+                        out.println("                useKarma {")
+                        out.println("                    useFirefox()")
+//                        out.println("                    useChrome()")
+//                        out.println("                    useSafari()")
+                        out.println("                }")
                         out.println("            }")
                         out.println("        }")
                     }
@@ -577,6 +581,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("        val jsMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jsDependencies, out)
+                    out.println("            }")
+                    out.println("        }")
+                    out.println("        val jsTest by getting {")
+                    out.println("            dependencies {")
+                    out.println("                implementation(kotlin(\"test-js\"))")
                     out.println("            }")
                     out.println("        }")
                 }
