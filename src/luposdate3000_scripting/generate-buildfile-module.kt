@@ -581,13 +581,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 if (enableJS) {
                     out.println("        val jsMain by getting {")
                     out.println("            dependencies {")
-                    out.println("                implementation(\"src/luposdate3000_shared_js/helper.js\")")
                     printDependencies(jsDependencies, out)
-                    out.println("            }")
-                    out.println("        }")
-                    out.println("        val jsTest by getting {")
-                    out.println("            dependencies {")
-                    out.println("                implementation(kotlin(\"test-js\"))")
                     out.println("            }")
                     out.println("        }")
                 }

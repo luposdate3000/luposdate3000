@@ -68,13 +68,13 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     internal val outputFolderSrcJvm = "src/luposdate3000_launch_$folderPathCoponent/src/jvmMain/kotlin/lupos/launch/$folderPathCoponent/"
 
     @JvmField
-    internal val outputFolderTestCommon = "src/luposdate3000_launch_$folderPathCoponent/src/commonTest/kotlin/lupos/launch/$folderPathCoponent/"
+    internal val outputFolderTestCommon = "src/luposdate3000_launch_$folderPathCoponent/src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/common/"
 
     @JvmField
-    internal val outputFolderTestJvm = "src/luposdate3000_launch_$folderPathCoponent/src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/"
+    internal val outputFolderTestJvm = "src/luposdate3000_launch_$folderPathCoponent/src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/jvm/"
 
     @JvmField
-    internal val outputFolderTestResourcesCommon = "src/luposdate3000_launch_$folderPathCoponent/src/commonTest/resources/"
+    internal val outputFolderTestResourcesCommon = "src/luposdate3000_launch_$folderPathCoponent/src/jvmTest/resources/"
 
     @JvmField
     internal val allTests = mutableListOf<String>()
@@ -255,27 +255,24 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("")
                 if (configIsBuildTime(configuration.second)) {
                     out.println("public class $testCaseName {")
-                    out.println("   val inputData=File(\"src/commonTest/resources/$testCaseName.input\").readAsString()")
-                    out.println("   val targetData=File(\"src/commonTest/resources/$testCaseName.output\").readAsString()")
+                    out.println("   val inputData=File(\"src/jvmTest/resources/$testCaseName.input\").readAsString()")
+                    out.println("   val targetData=File(\"src/jvmTest/resources/$testCaseName.output\").readAsString()")
                     out.println("   val targetType=\"$targetType\"")
                 } else {
                     out.println("public object $testCaseName {")
-                    out.println("   internal val inputData=File(\"src/luposdate3000_launch_code_gen_test/src/commonTest/resources/$testCaseName.input\").readAsString()")
-                    out.println("   internal val targetData=File(\"src/luposdate3000_launch_code_gen_test/src/commonTest/resources/$testCaseName.output\").readAsString()")
+                    out.println("   internal val inputData=File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.input\").readAsString()")
+                    out.println("   internal val targetData=File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.output\").readAsString()")
                     out.println("   internal val targetType=\"$targetType\"")
                 }
-                out.println("   init{ ")
-                out.println("   lupos.JSHelper.initialize()")
-                out.println("   }")
                 if (configIsCodeGen(configuration.second)) {
                     out.println("    @CodeGenerationAnnotation")
                 }
                 if (configIsBuildTime(configuration.second)) {
-                    out.println("    val query = File(\"src/commonTest/resources/$testCaseName.query\").readAsString()")
+                    out.println("    val query = File(\"src/jvmTest/resources/$testCaseName.query\").readAsString()")
                     out.println("    @Test fun `${testName.filter { it.isLetterOrDigit() || it == ' ' }}`(){")
                     out.println("            val instance = LuposdateEndpoint.initialize()")
                 } else {
-                    out.println("    internal val query = File(\"src/luposdate3000_launch_code_gen_test/src/commonTest/resources/$testCaseName.query\").readAsString()")
+                    out.println("    internal val query = File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.query\").readAsString()")
                     out.println("    internal operator fun invoke(){")
                     out.println("        println(\"Test #$counter: '$testName'\")")
                     out.println("        var success = true")
