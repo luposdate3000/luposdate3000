@@ -346,7 +346,7 @@ $('#luposdate3000_play').click(function() {
     animation(true);
 });
 
-function resetEdges(){
+function resetEdges() {
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
         edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
         dataSetEdges.update([{
@@ -525,15 +525,13 @@ function addNewNode() {
 
     //What Pitch, or maybe what Chord
     //If Chord is selected the pitch settings will be ignored/overwritten
-    console.log(pitchType);
     if (melodyType == 'No') {
         if (chordType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Chord");
         } else if (pitchType == 'Dynamic Operator-ID' || pitchType == 'Dynamic Operator-Depth') {
-            console.log("correct")
             tone = getAudioData(idMappings, id, label, index, "Pitch");
             triggerNote(tone, duration, "+0", velocity, currentname)
-        }else if (pitchType != 'None'){
+        } else if (pitchType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Pitch");
             triggerNote(tone + octave, duration, "+0", velocity, currentname)
         } else {
@@ -611,10 +609,10 @@ async function animation(loop) {
                             }
                             updateEdgeSize(queueHead[0], queueHead[1]);
                             if (loop) {
-                                if(contextMenuFlag){
+                                if (contextMenuFlag) {
                                     contextMenuFlag = false;
                                     animation(true);
-                                }else{
+                                } else {
                                     currentIndex++;
                                     animation(true);
                                 }
@@ -737,8 +735,8 @@ function addCustomContextMenu(networkObject, contextFlag) {
     }
     var i;
 
-    networkObject.on("hoverNode", function(params){
-        if ($('#rkm').is(":hidden")){
+    networkObject.on("hoverNode", function(params) {
+        if ($('#rkm').is(":hidden")) {
             hoverNodeId = params.node;
         }
     });
@@ -821,14 +819,16 @@ function addCustomContextMenu(networkObject, contextFlag) {
                 ],
                 change: function(color) {
                     if (dataSet.getIds().includes(hoverNodeId)) {
+                        var theChoosenColor = "rgb(" + color._r + "," + color._g + "," + color._b + ")"
                         dataSet.update({
                             id: hoverNodeId,
-                            color: "rgb(" + color._r + "," + color._g + "," + color._b + ")"
+                            color: theChoosenColor
                         });
+                        saveColorChoice(contextFlag, hoverNodeId, theChoosenColor)
                     }
                 }
             });
-        }else{
+        } else {
             document.getElementById(string).addEventListener('contextmenu', function(e) {
                 // Alternative
                 e.preventDefault();
@@ -836,6 +836,17 @@ function addCustomContextMenu(networkObject, contextFlag) {
         }
     });
 }
+
+function saveColorChoice(key, id, color) {
+    if (typeof App.config.colors === "undefined") {
+        App.config.colors = {}
+    }
+    if (typeof App.config.colors[key] === "undefined") {
+        App.config.colors[key] = {}
+    }
+    App.config.colors[key][id] = color
+}
+
 
 //Draws the graph using the vis.js framework
 function draw(flag) {
