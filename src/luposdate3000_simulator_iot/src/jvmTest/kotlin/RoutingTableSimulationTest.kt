@@ -28,7 +28,7 @@ class RoutingTableSimulationTest {
         val f = Configuration.getNamedDevice("F")
         val fRouter = f.router as RPLRouter
 
-        val sim = Simulation(Configuration.devices, callback = Logger())
+        val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
         // routing table from A
@@ -68,7 +68,7 @@ class RoutingTableSimulationTest {
         val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
 
-        val sim = Simulation(Configuration.devices, maxClock = 100 ,callback = Logger())
+        val sim = Simulation(Configuration.devices, maxClock = 100 ,callback = Logger)
         sim.startSimulation()
 
         assertEquals(20, rootRouter.routingTable.destinationCounter)
@@ -91,7 +91,7 @@ class RoutingTableSimulationTest {
         val bRouter = b.router as RPLRouter
         val c = Configuration.getNamedDevice("C")
 
-        val sim = Simulation(Configuration.devices, callback = Logger())
+        val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
         // routing table from A
@@ -116,7 +116,7 @@ class RoutingTableSimulationTest {
         val c = Configuration.getNamedDevice("C")
         val d = Configuration.getNamedDevice("D")
 
-        val sim = Simulation(Configuration.devices, callback = Logger())
+        val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
         // routing table from A
@@ -147,7 +147,7 @@ class RoutingTableSimulationTest {
         val f = Configuration.getNamedDevice("F")
         val g = Configuration.getNamedDevice("G")
 
-        val sim = Simulation(Configuration.devices, callback = Logger())
+        val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
         // routing table from A

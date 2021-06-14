@@ -8,7 +8,7 @@ import lupos.simulator_iot.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
 
 
-public class Logger : ISimulationLifeCycle {
+public object Logger : ISimulationLifeCycle {
 
     override lateinit var simulation: Simulation
     private lateinit var startTimeStamp: Instant
@@ -51,6 +51,8 @@ public class Logger : ISimulationLifeCycle {
     private fun getSimulationTime(): Instant
         = TimeUtils.addMillis(startTimeStamp, simulation.getCurrentClock())
 
+    internal fun getSimulationTimeString(): String
+        = TimeUtils.toISOString(getSimulationTime())
 
     private fun log(content: String) {
         println(content)

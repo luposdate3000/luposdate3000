@@ -23,7 +23,7 @@ public class Device(
     public var processedSensorDataPackages: Long = 0
         private set
 
-    private fun getNetworkDelay(destinationAddress: Int): Int {
+    private fun getNetworkDelay(destinationAddress: Int): Long {
         return if (destinationAddress == address) {
             0
         } else {
