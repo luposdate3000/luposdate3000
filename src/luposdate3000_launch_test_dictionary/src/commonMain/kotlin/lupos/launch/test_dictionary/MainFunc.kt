@@ -60,6 +60,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (isLocal) {
                 instance.nodeGlobalDictionary?.close()
                 instance.nodeGlobalDictionary = object : ADictionary(instance) {
+                    override fun createNewUUID(): Int = throw Exception("not implemented")
                     override fun close() {}
                     override fun delete() {}
                     override fun createNewBNode(): Int = throw Exception("not implemented")

@@ -52,6 +52,9 @@ public class DictionaryKV internal constructor(
     internal var bNodeCounter = 5
 
     @JvmField
+    internal var uuidCounter = 0
+
+    @JvmField
     internal val rootPage: ByteArray
     public override fun close() {
         kv.close()
@@ -77,12 +80,14 @@ public class DictionaryKV internal constructor(
             bNodeCounter = BufferManagerPage.readInt4(rootPage, 0)
             kvPage = BufferManagerPage.readInt4(rootPage, 4)
             vkPage = BufferManagerPage.readInt4(rootPage, 8)
+            uuidCounter = BufferManagerPage.readInt4(rootPage, 12)
         } else {
             kvPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:79")
             vkPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:80")
             BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
             BufferManagerPage.writeInt4(rootPage, 4, kvPage)
             BufferManagerPage.writeInt4(rootPage, 8, vkPage)
+            BufferManagerPage.writeInt4(rootPage, 12, uuidCounter)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage, instance)
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
@@ -91,6 +96,12 @@ public class DictionaryKV internal constructor(
     public override fun createNewBNode(): Int {
         val res: Int = bNodeCounter++
         BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
+        return res
+    }
+
+    public override fun createNewUUID(): Int {
+        val res: Int = uuidCounter++
+        BufferManagerPage.writeInt4(rootPage, 12, uuidCounter)
         return res
     }
 

@@ -57,6 +57,10 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
         return dictionary.createNewBNode()
     }
 
+    override fun createNewUUID(): Int {
+        return dictionary.createNewUUID()
+    }
+
     override fun hasValue(buffer: ByteArrayWrapper): Int? {
         return dictionary.hasValue(buffer)
     }
@@ -99,6 +103,10 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                     getValue(buffer, value)
                     output.writeInt(buffer.size)
                     output.write(buffer.buf, buffer.size)
+                }
+                7 -> {
+                    val res = createNewUUID()
+                    output.writeInt(res)
                 }
             }
             output.flush()

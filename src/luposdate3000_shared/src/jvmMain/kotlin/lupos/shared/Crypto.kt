@@ -30,10 +30,6 @@ public actual object Crypto {
         return toHexString(value.encodeToByteArray()._sha1())
     }
 
-    public actual fun uuid(): String {
-        return com.benasher44.uuid.uuid4().toString()
-    }
-
     private fun toHexString(data: ByteArray): String {
         val sb = StringBuilder()
         for (b in data) {
