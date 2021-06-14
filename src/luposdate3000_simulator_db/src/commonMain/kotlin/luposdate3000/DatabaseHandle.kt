@@ -16,7 +16,6 @@
  */
 package lupos.simulator_db.luposdate3000
 
-import lupos.buffer_manager.BufferManagerExt
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.Query
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
@@ -114,16 +113,20 @@ public class DatabaseHandle : IDatabase {
     }
 
     override fun activate() {
+/*
         if (!instance.initialized) {
             instance = LuposdateEndpoint.initializeB(instance)
         }
+*/
     }
 
     override fun deactivate() {
+/*
         if ((!BufferManagerExt.isInMemoryOnly) && (instance.LUPOS_DICTIONARY_MODE != EDictionaryTypeExt.InMemory)) {
             // do not disable inmemory databases, because they would loose all data
             LuposdateEndpoint.close(instance)
         }
+*/
     }
 
     override fun end() {
