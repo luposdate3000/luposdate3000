@@ -8,6 +8,7 @@ var sessionId;
 var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon, dataSetEdges;
 // Variables for the animation
 var stopFlag, pauseFlag; // Flag top stop the current animation process
+var contextMenuFlag = false;
 var timer;
 var current; //Stores the current instrument
 // Variables for general data storage
@@ -340,8 +341,19 @@ $('#dataVariableDepth').click(function() {
 // Trigger animation method when play button is pressed.
 $('#luposdate3000_play').click(function() {
     setAnimationFlags(false, false)
+    resetEdges();
     animation(true);
 });
+
+function resetEdges(){
+    for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
+        edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
+        dataSetEdges.update([{
+            id: edgeId,
+            width: 1
+        }]);
+    }
+}
 
 function resetAnimationQueue() {
     $('.meter').css("width", 0 + "%");
@@ -515,7 +527,10 @@ function addNewNode() {
     if (melodyType == 'No') {
         if (chordType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Chord");
-        } else if (pitchType != 'None') {
+        } else if (pitchType == 'Dynamic') {
+            tone = getAudioData(idMappings, id, label, index, "Pitch");
+            triggerNote(tone, duration, "+0", velocity, currentname)
+        }else if (pitchType != 'None'){
             tone = getAudioData(idMappings, id, label, index, "Pitch");
             triggerNote(tone + octave, duration, "+0", velocity, currentname)
         } else {
@@ -593,8 +608,13 @@ async function animation(loop) {
                             }
                             updateEdgeSize(queueHead[0], queueHead[1]);
                             if (loop) {
-                                currentIndex++;
-                                animation(true);
+                                if(contextMenuFlag){
+                                    contextMenuFlag = false;
+                                    animation(true);
+                                }else{
+                                    currentIndex++;
+                                    animation(true);
+                                }
                             } else {
                                 setAnimationFlags(false, true)
                             }
@@ -748,9 +768,10 @@ function addCustomContextMenu(networkObject, contextFlag) {
             document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex + 1; i <= queue.length - 1; i++) {
-                    if (queue[i][0] == queue[currentIndex][0]) {
+                    if (queue[i][0] == queue[params.nodes[0]][0]) {
                         currentIndex = i;
-                        animation(false)
+                        contextMenuFlag = true;
+                        //animation(false)
                         break;
                     }
                 }
@@ -760,9 +781,10 @@ function addCustomContextMenu(networkObject, contextFlag) {
             document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex - 1; i >= 0; i--) {
-                    if (queue[i][0] == queue[currentIndex][0]) {
+                    if (queue[i][0] == queue[params.nodes[0]][0]) {
                         currentIndex = i;
-                        animation(false)
+                        contextMenuFlag = true;
+                        //animation(false)
                         break;
                     }
                 }
