@@ -210,6 +210,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
         partitionMode = instance.LUPOS_PARTITION_MODE
+        println("allocation TripleStoreManagerImpl on $localhost")
     }
 
     public override fun initialize() {
@@ -231,7 +232,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
-    private fun initFromPageID() {
+    private inline fun initFromPageID() {
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:237", pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -254,7 +255,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         initFromByteArray(buffer)
     }
 
-    private fun deleteAllPagesExceptRootID() {
+    private inline fun deleteAllPagesExceptRootID() {
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:260", pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -273,7 +274,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
-    private fun writeToPageID() {
+    private inline fun writeToPageID() {
         val buffer = toByteArray()
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:280", pageid)
@@ -405,7 +406,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         defaultTripleStoreLayout = factory
     }
 
-    internal fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
+    internal inline fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
         var hostidx = 0
         for (i in 1 until hostnames.size) {
             if (keysOnHostname_[i].size < keysOnHostname_[hostidx].size) {
@@ -489,6 +490,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         val metadataStr = graph.toMetaString()
         for (hostname in hostnames) {
             if (hostname != localhost) {
+                println("sending it ... $hostname $localhost")
                 query.getInstance().communicationHandler!!.sendData(
                     hostname, "/distributed/graph/create",
                     mapOf(

@@ -393,8 +393,11 @@ public object LuposdateEndpoint {
             if (instance.initialized) {
                 instance.initialized = false
                 instance.nodeGlobalDictionary!!.close()
+                instance.nodeGlobalDictionary = null
                 instance.tripleStoreManager!!.close()
+                instance.tripleStoreManager = null
                 instance.bufferManager!!.close()
+                instance.bufferManager = null
             }
         } finally {
             initializerLock.withLock {
@@ -425,21 +428,22 @@ public object LuposdateEndpoint {
             instances.add(instance)
             instance.bufferManager = BufferManager(instance)
             instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
-            val hostnames = instance.LUPOS_PROCESS_URLS
-            val localhost = hostnames[instance.LUPOS_PROCESS_ID]
-            instance.tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost, instance)
+            instance.tripleStoreManager = TripleStoreManagerImpl(instance.LUPOS_PROCESS_URLS, instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID], instance)
             instance.tripleStoreManager!!.initialize()
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
-            MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
-            MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
-            MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
-            MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
-            MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
-            Platform.setShutdownHock {
-                close()
-            }
             instance.initialized = true
         }
         return instance!!
+    }
+
+    init {
+        MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
+        MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
+        MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
+        MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
+        MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
+        Platform.setShutdownHock {
+            close()
+        }
     }
 }

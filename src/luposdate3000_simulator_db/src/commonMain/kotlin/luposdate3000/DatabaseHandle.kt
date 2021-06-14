@@ -16,9 +16,10 @@
  */
 package lupos.simulator_db.luposdate3000
 
-import lupos.buffer_manager.BufferManagerExt
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.base.Query
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
+import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
 import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
@@ -28,6 +29,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
+import lupos.shared_inline.MyPrintWriter
 import lupos.simulator_db.ChoosenOperatorPackage
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
@@ -36,91 +38,95 @@ import lupos.simulator_db.IRouter
 import lupos.simulator_db.PreprocessingPackage
 import lupos.simulator_db.ResultPackage
 
+internal class MyAbstractPackage(val path: String, val params: Map<String, String>) : IDatabasePackage
+
+internal class CommunicationHandler(val instance: Luposdate3000Instance, val router: IRouter) : ICommunicationHandler {
+    /*
+    public interface IRouter {
+        public fun send(destinationAddress: Int, pck: IDatabasePackage)
+        public fun sendQueryResult(destinationAddress: Int, result: ByteArray)
+        public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
+    }
+    public class PreprocessingPackage(
+        public val destinationAddresses: IntArray, // Richtung triple store
+        public val operatorGraphParts: ByteArray,
+        public val senderAddress: Int, // dies MUSS ein DB-node sein ... von wo kommt das paket
+        public val queryID: Int, // die ist immer gleich für alles was zu einem "QueryPackage" gehört
+    ) : IDatabasePackage
+
+    public class ChoosenOperatorPackage(
+        public val destinationAddress: Int, // Richtung root-node
+        public val senderAddress: Int,
+        public val operators: IntArray, // zeigt an welche "operatorGraphParts" teile berechnet werden - dadurch ist schnell klar, welcher node was berechnet
+        public val queryID: Int,
+    ) : IDatabasePackage
+
+    public class ResultPackage(
+        public val result: ByteArray, // die Nutzdaten ... zurzeit alles als ein Block, später besser bidirektionales streaming, wobei primär Richtung root-node gesendet wird.
+        public val destinationAddress: Int, // Richtung root-node
+        public val senderAddress: Int,
+        public val queryID: Int,
+        public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
+    ) : IDatabasePackage
+    */
+    override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
+        router.send(targetHost.toInt(), MyAbstractPackage(path, params))
+    }
+
+    override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
+        TODO()
+    }
+
+    override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> {
+        TODO()
+    }
+}
+
+internal class DistributedOptimizer(val router: IRouter, val dest: () -> Int) : IDistributedOptimizer {
+    private var originalOptimizer = DistributedOptimizerQuery()
+    override fun optimize(query: IQuery): IOPBase {
+        originalOptimizer.splitQuery(query)
+        return query.getRoot()
+    }
+}
+
 public class DatabaseHandle : IDatabase {
-    private class DistributedOptimizer : IDistributedOptimizer {
-        private var originalOptimizer = DistributedOptimizerQuery()
-        override fun optimize(query: IQuery): IOPBase {
-            originalOptimizer.splitQuery(query)
-
-            throw Exception(originalOptimizer.operatorgraphPartsToHostMap.toString() + " - " + originalOptimizer.operatorgraphParts.toString())
-            for ((k, v) in originalOptimizer.operatorgraphParts) { // <String, XMLElement>
-                TODO()
-            }
-        }
-    }
-
-    private class CommunicationHandler(val router: IRouter) : ICommunicationHandler {
-        /*
-        public interface IRouter {
-            public fun send(destinationAddress: Int, pck: IDatabasePackage)
-            public fun sendQueryResult(destinationAddress: Int, result: ByteArray)
-            public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
-        }
-        public class PreprocessingPackage(
-            public val destinationAddresses: IntArray, // Richtung triple store
-            public val operatorGraphParts: ByteArray,
-            public val senderAddress: Int, // dies MUSS ein DB-node sein ... von wo kommt das paket
-            public val queryID: Int, // die ist immer gleich für alles was zu einem "QueryPackage" gehört
-        ) : IDatabasePackage
-
-        public class ChoosenOperatorPackage(
-            public val destinationAddress: Int, // Richtung root-node
-            public val senderAddress: Int,
-            public val operators: IntArray, // zeigt an welche "operatorGraphParts" teile berechnet werden - dadurch ist schnell klar, welcher node was berechnet
-            public val queryID: Int,
-        ) : IDatabasePackage
-
-        public class ResultPackage(
-            public val result: ByteArray, // die Nutzdaten ... zurzeit alles als ein Block, später besser bidirektionales streaming, wobei primär Richtung root-node gesendet wird.
-            public val destinationAddress: Int, // Richtung root-node
-            public val senderAddress: Int,
-            public val queryID: Int,
-            public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
-        ) : IDatabasePackage
-        */
-        override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
-            TODO()
-        }
-
-        override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
-            TODO()
-        }
-
-        override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> {
-            TODO()
-        }
-    }
 
     private var instance = Luposdate3000Instance()
 
-    private var dest: Int = 0
+    private var targetForQueryResponse: Int = -1
+    private var router: IRouter? = null
 
-    private var sender: IRouter? = null
     override fun start(initialState: IDatabaseState) {
-        sender = initialState.sender
+        router = initialState.sender
         instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
         instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
         instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
         instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
-        instance.communicationHandler = CommunicationHandler(initialState.sender)
+        instance.LUPOS_BUFFER_SIZE = 8192
+        instance.communicationHandler = CommunicationHandler(instance, initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
         instance.distributedOptimizerQueryFactory = {
-            DistributedOptimizer()
+            DistributedOptimizer(initialState.sender, { targetForQueryResponse })
         }
     }
 
     override fun activate() {
+/*
         if (!instance.initialized) {
             instance = LuposdateEndpoint.initializeB(instance)
         }
+*/
     }
 
     override fun deactivate() {
+/*
         if ((!BufferManagerExt.isInMemoryOnly) && (instance.LUPOS_DICTIONARY_MODE != EDictionaryTypeExt.InMemory)) {
             // do not disable inmemory databases, because they would loose all data
             LuposdateEndpoint.close(instance)
         }
+*/
     }
 
     override fun end() {
@@ -129,9 +135,20 @@ public class DatabaseHandle : IDatabase {
 
     override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
         val queryString = query.decodeToString()
-        dest = sourceAddress
+        targetForQueryResponse = sourceAddress
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         op.getQuery().initialize(op)
+
+        val parts = op.getQuery().getOperatorgraphParts()
+        if (parts.size == 1) {
+
+            val out = MyPrintWriter(true)
+            QueryResultToXMLStream(op.getQuery().getRoot(), out)
+            val res = out.toString().encodeToByteArray()
+            router!!.sendQueryResult(targetForQueryResponse, res)
+        } else {
+            TODO()
+        }
     }
 
     private fun receive(pck: PreprocessingPackage) {
@@ -146,8 +163,25 @@ public class DatabaseHandle : IDatabase {
         TODO()
     }
 
+    private fun receive(pck: MyAbstractPackage) {
+        when (pck.path) {
+            "/distributed/query/dictionary/register" -> {
+// dont use dictionaries right now -> register dictionary must proceed
+            }
+            "/distributed/graph/create" -> {
+                val name = pck.params["name"]!!
+                val query = Query(instance)
+                instance.tripleStoreManager!!.remoteCreateGraph(query, name, (pck.params["origin"] == null || pck.params["origin"].toBoolean()), pck.params["metadata"])
+            }
+            else -> {
+                TODO("${pck.path} ${pck.params}")
+            }
+        }
+    }
+
     override fun receive(pck: IDatabasePackage) {
         when (pck) {
+            is MyAbstractPackage -> receive(pck)
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)

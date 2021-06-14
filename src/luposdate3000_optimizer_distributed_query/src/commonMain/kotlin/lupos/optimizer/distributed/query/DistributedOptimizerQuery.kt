@@ -40,22 +40,6 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 import kotlin.jvm.JvmField
 
 public class DistributedOptimizerQuery() : IDistributedOptimizer {
-    internal var query: Query? = null
-
-    @JvmField
-    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
-
-    @JvmField
-    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
-
-    @JvmField
-    public var dependenciesMapTopDown: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
-
-    @JvmField
-    public var dependenciesMapBottomUp: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
-
-    @JvmField
-    public var keyRepresentative: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
     internal val childOptimizer = arrayOf(
@@ -68,7 +52,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
         arrayOf(DistributedOptimizerAssignLocalhost())
     )
 
-    private fun splitPartitionsVariations(node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
+    private fun splitPartitionsVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
             for (i in 0 until allNames.size) {
                 query!!.allVariationsKey[allNames[i]] = allIdx[i]
@@ -83,7 +67,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
             val key = keys.first()
             if (keys.size > 1) {
                 for (k in keys) {
-                    keyRepresentative[k] = key
+                    query.keyRepresentative[k] = key
                 }
             }
             if (node is POPSplitPartitionFromStore) {
@@ -97,8 +81,8 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                     partition = Partition(partition, allNames[i], allIdx[i], allSize[i])
                 }
                 val target = n.getDesiredHostnameFor(partition)
-                SanityCheck.check { !operatorgraphPartsToHostMap.contains(key) || operatorgraphPartsToHostMap[key] == target }
-                operatorgraphPartsToHostMap[key] = target
+                SanityCheck.check { !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target }
+                query.operatorgraphPartsToHostMap[key] = target
             }
             if (node is POPSplitPartitionFromStoreCount) {
                 SanityCheck.check { allIdx.size == 1 }
@@ -111,20 +95,20 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                     partition = Partition(partition, allNames[i], allIdx[i], allSize[i])
                 }
                 val target = n.getDesiredHostnameFor(partition)
-                SanityCheck.check { !operatorgraphPartsToHostMap.contains(key) || operatorgraphPartsToHostMap[key] == target }
-                operatorgraphPartsToHostMap[key] = target
+                SanityCheck.check { !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target }
+                query.operatorgraphPartsToHostMap[key] = target
             }
-            operatorgraphParts[key] = xml
+            query.operatorgraphParts[key] = xml
             query!!.allVariationsKey.clear()
         } else {
             for (i in 0 until allSize[offset]) {
                 allIdx[offset] = i
-                splitPartitionsVariations(node, allNames, allSize, allIdx, offset + 1)
+                splitPartitionsVariations(query, node, allNames, allSize, allIdx, offset + 1)
             }
         }
     }
 
-    private fun splitPartitions(node: IOPBase, currentPartitions: Map<String, Int>, root: Boolean) {
+    private fun splitPartitions(query: Query, node: IOPBase, currentPartitions: Map<String, Int>, root: Boolean) {
         if ((node is POPBase) || (node is OPBaseCompound)) {
             val currentPartitionsCopy = mutableMapOf<String, Int>()
             currentPartitionsCopy.putAll(currentPartitions)
@@ -161,7 +145,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
             }
             for (ci in 0 until (node as OPBase).childrenToVerifyCount()) {
                 val c = node.getChildren()[ci]
-                splitPartitions(c, currentPartitionsCopy, false)
+                splitPartitions(query, c, currentPartitionsCopy, false)
             }
             when (node) {
                 is POPMergePartition,
@@ -181,7 +165,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                         allSize[i] = v
                         i++
                     }
-                    splitPartitionsVariations(node, allNames, allSize, IntArray(currentPartitionsCopy.size), 0)
+                    splitPartitionsVariations(query, node, allNames, allSize, IntArray(currentPartitionsCopy.size), 0)
                 }
             }
         } else {
@@ -211,45 +195,45 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
         return res
     }
 
-    private fun getHostForKey(key: String): String? {
-        var res = operatorgraphPartsToHostMap[key]
+    private fun getHostForKey(query: Query, key: String): String? {
+        var res = query.operatorgraphPartsToHostMap[key]
         if (res != null) {
             return res
         }
-        return operatorgraphPartsToHostMap[keyRepresentative[key]]
+        return query.operatorgraphPartsToHostMap[query.keyRepresentative[key]]
     }
 
-    private fun assignHosts(node: XMLElement) {
+    private fun assignHosts(query: Query, node: XMLElement) {
         for (c in node.childs) {
-            assignHosts(c)
+            assignHosts(query, c)
         }
         if (node.tag == "partitionDistributionReceiveKey") {
-            node.addAttribute("host", getHostForKey(node.attributes["key"]!!)!!)
+            node.addAttribute("host", getHostForKey(query, node.attributes["key"]!!)!!)
         }
     }
 
-    public fun splitQuery(query: IQuery) {
-        this.query = query as Query
+    public fun splitQuery(query2: IQuery) {
+        val query = query2 as Query
         val root = query.root!!
         if ((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process) {
-            operatorgraphParts.clear()
+            query.operatorgraphParts.clear()
 // assign host to root node
-            operatorgraphParts[""] = root.toXMLElement(true)
-            operatorgraphPartsToHostMap[""] = (query.getInstance().tripleStoreManager!!).getLocalhost()
+            query.operatorgraphParts[""] = root.toXMLElement(true)
+            query.operatorgraphPartsToHostMap[""] = (query.getInstance().tripleStoreManager!!).getLocalhost()
 // split query into parts, and automatically assign hosts to triple store access parts
-            splitPartitions(root, mutableMapOf(), true)
+            splitPartitions(query, root, mutableMapOf(), true)
 // calculate dependencies
-            for ((k, v) in operatorgraphParts) {
-                dependenciesMapTopDown[k] = calculateDependenciesTopDown(v)
+            for ((k, v) in query.operatorgraphParts) {
+                query.dependenciesMapTopDown[k] = calculateDependenciesTopDown(v)
             }
-            for ((k, v) in operatorgraphParts) {
-                dependenciesMapBottomUp[k] = calculateDependenciesBottomUp(v)
+            for ((k, v) in query.operatorgraphParts) {
+                query.dependenciesMapBottomUp[k] = calculateDependenciesBottomUp(v)
             }
         }
     }
 
-    public override fun optimize(query: IQuery): IOPBase {
-        this.query = query as Query
+    public override fun optimize(query2: IQuery): IOPBase {
+        val query = query2 as Query
         val root = query.root!!
         if ((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process) {
             splitQuery(query)
@@ -259,9 +243,9 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 loop@ while (changed) {
                     changed = false
                     for (opt in childOptimizer2) {
-                        for ((k, v) in operatorgraphParts) {
-                            if (!operatorgraphPartsToHostMap.contains(k)) {
-                                opt.optimize(query, k, v, dependenciesMapTopDown[k]!!, dependenciesMapBottomUp[k]!!, { it -> getHostForKey(it) }, { key, value -> operatorgraphPartsToHostMap[key] = value }) {
+                        for ((k, v) in query.operatorgraphParts) {
+                            if (!query.operatorgraphPartsToHostMap.contains(k)) {
+                                opt.optimize(query, k, v, query.dependenciesMapTopDown[k]!!, query.dependenciesMapBottomUp[k]!!, { it -> getHostForKey(query, it) }, { key, value -> query.operatorgraphPartsToHostMap[key] = value }) {
                                     changed = true
                                 }
                                 if (changed) {
@@ -274,12 +258,12 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
             }
 // publish the query to the other database instances
             var res: XMLElement? = null
-            for ((k, v) in operatorgraphParts) {
-                assignHosts(v)
+            for ((k, v) in query.operatorgraphParts) {
+                assignHosts(query, v)
                 if (k == "") {
                     res = v
                 } else {
-                    query.getInstance().communicationHandler!!.sendData(operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+                    query.getInstance().communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
                 }
             }
             return XMLElementToOPBase(query, res!!)
