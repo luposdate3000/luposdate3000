@@ -835,24 +835,6 @@ function addCustomContextMenu(networkObject, contextFlag) {
     });
 }
 
-function updateColors(contextFlag) {
-    var localcolors = App.config.colors
-    if (typeof localcolors !== "undefined") {
-        console.log("a")
-        var localcolors2 = localcolors[contextFlag]
-        if (typeof localcolors2 !== "undefined") {
-            console.log("b")
-            for (id in localcolors2) {
-                console.log("d")
-                dataSet.update({
-                    id: id,
-                    color: localcolors2[id]
-                });
-            }
-        }
-    }
-}
-
 function saveColorChoice(key, id, color) {
     if (typeof App.config.colors === "undefined") {
         App.config.colors = {}
@@ -879,6 +861,20 @@ function draw(flag) {
         nodes: dataSet,
         edges: dataSetEdges,
     };
+    var localcolors = App.config.colors
+    if (typeof localcolors !== "undefined") {
+        var localcolors2 = localcolors[flag]
+        if (typeof localcolors2 !== "undefined") {
+            for (id in localcolors2) {
+                for (nodeIdx in dataNodes) {
+                    var node = dataNodes[nodeIdx]
+                    if (node.id == id) {
+                        node.color = localcolors2[id]
+                    }
+                }
+            }
+        }
+    }
 
     //Options that apply for the network
     options = {
@@ -950,8 +946,5 @@ function draw(flag) {
         });
         container.style.display = "inline-block";
         network.fit();
-        setTimeout(() => {
-            //   updateColors(flag)
-        }, 10);
     }, 10);
 }
