@@ -98,6 +98,10 @@ public class DatabaseHandle : IDatabase {
     private var router: IRouter? = null
 
     override fun start(initialState: IDatabaseState) {
+        if (initialState.allAddresses.size == 0) {
+            throw Exception("invalid input")
+        }
+        println("${initialState.allAddresses.map { it }} ... ${initialState.ownAddress}")
         router = initialState.sender
         instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
@@ -135,6 +139,7 @@ public class DatabaseHandle : IDatabase {
 
     override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
         val queryString = query.decodeToString()
+        println(queryString)
         targetForQueryResponse = sourceAddress
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         op.getQuery().initialize(op)

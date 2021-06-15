@@ -371,6 +371,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
                 out.println("import org.gradle.api.tasks.testing.logging.TestExceptionFormat")
+                out.println("import org.gradle.api.tasks.testing.logging.TestLogEvent")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        mavenLocal()")
@@ -741,6 +742,13 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    maxHeapSize = \"1g\"")
                 out.println("    testLogging {")
                 out.println("        exceptionFormat = TestExceptionFormat.FULL")
+                out.println("        showStandardStreams = true")
+                out.println("        events.add(TestLogEvent.FAILED)")
+                out.println("        events.add(TestLogEvent.STARTED)")
+                out.println("        events.add(TestLogEvent.PASSED)")
+                out.println("        events.add(TestLogEvent.SKIPPED)")
+                out.println("        events.add(TestLogEvent.STANDARD_OUT)")
+                out.println("        events.add(TestLogEvent.STANDARD_ERROR)")
                 out.println("    }")
                 out.println("}")
             }

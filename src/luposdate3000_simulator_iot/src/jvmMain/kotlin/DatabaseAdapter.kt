@@ -20,8 +20,8 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
     private var absolutePath = ""
 
     // //
-    private val dbother: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
-    private val db: IDatabase = DatabaseSystemDummy() // just to keep the imports on formatting code ... rename variables as needed
+    private val db: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
+    private val dbother: IDatabase = DatabaseSystemDummy() // just to keep the imports on formatting code ... rename variables as needed
 // //
 
     private lateinit var currentState: IDatabaseState
