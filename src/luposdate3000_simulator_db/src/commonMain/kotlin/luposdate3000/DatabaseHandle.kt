@@ -27,9 +27,12 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
+import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.MyPrintWriter
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.ChoosenOperatorPackage
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
@@ -38,43 +41,88 @@ import lupos.simulator_db.IRouter
 import lupos.simulator_db.PreprocessingPackage
 import lupos.simulator_db.ResultPackage
 
-internal class MyAbstractPackage(val path: String, val params: Map<String, String>) : IDatabasePackage
+internal class MyAbstractPackage(val path: String, val params: Map<String, String>, val data: ByteArrayWrapper = ByteArrayWrapper()) : IDatabasePackage
+
+internal class MySimulatorInputStream(val target: Int, val path: String, val params: Map<String, String>) : IMyInputStream {
+    override fun close() {}
+    override fun read(buf: ByteArray): Int {
+        TODO()
+    }
+
+    override fun read(buf: ByteArray, len: Int): Int {
+        TODO()
+    }
+
+    override fun read(buf: ByteArray, off: Int, len: Int): Int {
+        TODO()
+    }
+
+    override fun readByte(): Byte {
+        TODO()
+    }
+
+    override fun readInt(): Int {
+        TODO()
+    }
+
+    override fun readLine(): String? {
+        TODO()
+    }
+}
+
+internal class MySimulatorOutputStream(val target: Int, val path: String, val params: Map<String, String>, val router: IRouter) : IMyOutputStream {
+    val buffer = ByteArrayWrapper()
+    override fun flush() {}
+    override fun close() {
+        router.send(target, MyAbstractPackage(path, params, buffer))
+    }
+
+    override fun print(x: Boolean) {
+        TODO()
+    }
+
+    override fun print(x: Double) {
+        TODO()
+    }
+
+    override fun print(x: Int) {
+        TODO()
+    }
+
+    override fun print(x: String) {
+        TODO()
+    }
+
+    override fun println() {
+        TODO()
+    }
+
+    override fun println(x: String) {
+        TODO()
+    }
+
+    override fun write(buf: ByteArray) {
+        TODO()
+    }
+
+    override fun write(buf: ByteArray, len: Int) {
+        TODO()
+    }
+
+    override fun writeInt(value: Int) {
+        val offset = buffer.size
+        ByteArrayWrapperExt.setSizeCopy(buffer, offset + 4)
+        ByteArrayHelper.writeInt4(buffer.buf, offset, value)
+    }
+}
 
 internal class CommunicationHandler(val instance: Luposdate3000Instance, val router: IRouter) : ICommunicationHandler {
-    /*
-    public interface IRouter {
-        public fun send(destinationAddress: Int, pck: IDatabasePackage)
-        public fun sendQueryResult(destinationAddress: Int, result: ByteArray)
-        public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
-    }
-    public class PreprocessingPackage(
-        public val destinationAddresses: IntArray, // Richtung triple store
-        public val operatorGraphParts: ByteArray,
-        public val senderAddress: Int, // dies MUSS ein DB-node sein ... von wo kommt das paket
-        public val queryID: Int, // die ist immer gleich für alles was zu einem "QueryPackage" gehört
-    ) : IDatabasePackage
-
-    public class ChoosenOperatorPackage(
-        public val destinationAddress: Int, // Richtung root-node
-        public val senderAddress: Int,
-        public val operators: IntArray, // zeigt an welche "operatorGraphParts" teile berechnet werden - dadurch ist schnell klar, welcher node was berechnet
-        public val queryID: Int,
-    ) : IDatabasePackage
-
-    public class ResultPackage(
-        public val result: ByteArray, // die Nutzdaten ... zurzeit alles als ein Block, später besser bidirektionales streaming, wobei primär Richtung root-node gesendet wird.
-        public val destinationAddress: Int, // Richtung root-node
-        public val senderAddress: Int,
-        public val queryID: Int,
-        public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
-    ) : IDatabasePackage
-    */
     override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
         router.send(targetHost.toInt(), MyAbstractPackage(path, params))
     }
 
     override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
-        TODO()
+        return Pair(MySimulatorInputStream(targetHost.toInt(), path, params), MySimulatorOutputStream(targetHost.toInt(), path, params, router))
     }
 
     override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> {
@@ -169,6 +217,7 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MyAbstractPackage) {
+        println("receive MyAbstractPackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
         when (pck.path) {
             "/distributed/query/dictionary/register" -> {
 // dont use dictionaries right now -> register dictionary must proceed
@@ -185,6 +234,7 @@ public class DatabaseHandle : IDatabase {
     }
 
     override fun receive(pck: IDatabasePackage) {
+        println("receive IDatabasePackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
         when (pck) {
             is MyAbstractPackage -> receive(pck)
             is PreprocessingPackage -> receive(pck)
