@@ -4,7 +4,8 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
 import lupos.simulator_iot.routing.RoutingTable
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class RoutingTableSimulationTest {
 

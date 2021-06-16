@@ -2,7 +2,10 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.config.LinkType
 import lupos.simulator_iot.geo.GeoLocation
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class LinkManagerTest {
 

@@ -2,7 +2,8 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.geo.GeoLocation
 import kotlin.random.Random
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class GeoLocationTest {
 

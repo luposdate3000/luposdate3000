@@ -1,7 +1,5 @@
 package lupos.simulator_iot.geo
 
-import kotlin.math.*
-
 /*
  *    Copyright 2010 Tyler Coles
  *
