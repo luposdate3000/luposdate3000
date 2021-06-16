@@ -38,7 +38,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
-import lupos.shared.communicationHandler
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File
@@ -79,7 +78,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun localStoresGet() = localStores_
+    internal inline fun localStoresGet(): MutableMap<LuposStoreKey, TripleStoreIndex> {
+        return localStores_
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun metadataGet() = metadata_
@@ -180,7 +181,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun localStoresAdd(key: LuposStoreKey, pageid: Int, tripleStore: TripleStoreIndex) {
+    private inline fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
         SanityCheck.check { localStores_[key] == null }
         localStores_[key] = tripleStore
     }
@@ -211,12 +212,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
         partitionMode = instance.LUPOS_PARTITION_MODE
+        println("allocation TripleStoreManagerImpl on $localhost")
     }
 
     public override fun initialize() {
         val file = File(instance.BUFFER_HOME + globalManagerRootFileName)
         var pageid = -1
-        if (BufferManagerExt.allowInitFromDisk && file.exists()) {
+        if (BufferManagerExt.allowInitFromDisk && instance.allowInitFromDisk && file.exists()) {
             file.withInputStream {
                 pageid = it.readInt()
             }
@@ -232,7 +234,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
-    private fun initFromPageID() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun initFromPageID() {
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:237", pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -255,7 +258,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         initFromByteArray(buffer)
     }
 
-    private fun deleteAllPagesExceptRootID() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun deleteAllPagesExceptRootID() {
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:260", pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -274,7 +278,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
-    private fun writeToPageID() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun writeToPageID() {
         val buffer = toByteArray()
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:280", pageid)
@@ -406,7 +411,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         defaultTripleStoreLayout = factory
     }
 
-    internal fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
         var hostidx = 0
         for (i in 1 until hostnames.size) {
             if (keysOnHostname_[i].size < keysOnHostname_[hostidx].size) {
@@ -469,7 +475,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     val page = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:471")
-                    localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false, instance))
+                    localStoresAdd(store.second, TripleStoreIndexIDTriple(page, false, instance))
                 }
             }
         }
@@ -490,7 +496,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         val metadataStr = graph.toMetaString()
         for (hostname in hostnames) {
             if (hostname != localhost) {
-                communicationHandler.sendData(
+                query.getInstance().communicationHandler!!.sendData(
                     hostname, "/distributed/graph/create",
                     mapOf(
                         "name" to graphName,
@@ -523,7 +529,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                             localStores_[store.second]!!.clear()
                         } else {
                             if (origin) {
-                                communicationHandler.sendData(
+                                query.getInstance().communicationHandler!!.sendData(
                                     store.first, "/distributed/graph/clear",
                                     mapOf(
                                         "origin" to "false",
@@ -551,7 +557,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         localStoresRemove(store.second)
                     } else {
                         if (origin) {
-                            communicationHandler.sendData(
+                            query.getInstance().communicationHandler!!.sendData(
                                 store.first, "/distributed/graph/drop",
                                 mapOf(
                                     "origin" to "false",
@@ -643,7 +649,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         if (origin) {
             for (hostname in hostnames) {
                 if (hostname != localhost) {
-                    communicationHandler.sendData(
+                    query.getInstance().communicationHandler!!.sendData(
                         hostname, "/distributed/graph/commit",
                         mapOf(
                             "origin" to "false",

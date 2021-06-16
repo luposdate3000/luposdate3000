@@ -5,10 +5,9 @@ public class Simulation(
     internal var maxClock: Long = Long.MAX_VALUE,
     private var steadyClock: Long = Long.MAX_VALUE,
     private var callback: ISimulationLifeCycle
-    ) {
+) {
 
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
-
 
     init {
         callback.simulation = this
@@ -20,7 +19,6 @@ public class Simulation(
         private set
 
     public fun getCurrentClock(): Long = clock
-
 
     public fun startSimulation() {
         startUp()

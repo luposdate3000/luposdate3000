@@ -5,6 +5,7 @@ import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
 import lupos.simulator_db.IRouter
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
+import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.sensor.ParkingSample
 import java.io.File
@@ -17,7 +18,12 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
 
     private var path: Path = Paths.get("src", "db", "device${device.address}")
     private var absolutePath = ""
-    private val db: IDatabase = DatabaseSystemDummy()
+
+    // //
+    private val db: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
+    private val dbother: IDatabase = DatabaseSystemDummy() // just to keep the imports on formatting code ... rename variables as needed
+// //
+
     private lateinit var currentState: IDatabaseState
 
     public fun startUp() {
@@ -25,7 +31,7 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
         absolutePath = path.toFile().absolutePath
         currentState = buildInitialStateObject()
         db.start(currentState)
-        currentState = db.deactivate()
+        db.deactivate()
     }
 
     private fun buildInitialStateObject(): IDatabaseState {
@@ -43,16 +49,16 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
     }
 
     public fun shutDown() {
-        db.activate(currentState)
+        db.activate()
         db.end()
         deleteDirectory(path.toFile())
         currentState = buildInitialStateObject()
     }
 
     public fun receive(pck: IDatabasePackage) {
-        db.activate(currentState)
+        db.activate()
         db.receive(pck)
-        currentState = db.deactivate()
+        db.deactivate()
     }
 
     public fun saveParkingSample(sample: ParkingSample) {
@@ -63,23 +69,23 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
 
     private fun buildInsertQuery(s: ParkingSample): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-                "\n" +
-                "INSERT DATA {\n" +
-                "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-                "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
-                "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
-                "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
-                "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
-                "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
-                "}\n"
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "\n" +
+            "INSERT DATA {\n" +
+            "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
+            "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
+            "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
+            "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
+            "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
+            "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
+            "}\n"
     }
 
     private fun saveData(data: ByteArray) {
-        db.activate(currentState)
+        db.activate()
         db.receiveQuery(device.address, data)
-        currentState = db.deactivate()
+        db.deactivate()
     }
 
     private fun deleteDirectory(directoryToBeDeleted: File): Boolean {

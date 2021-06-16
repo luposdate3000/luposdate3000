@@ -158,7 +158,7 @@ public object CodeGeneration {
             val outFile = PrintWriter(out)
             outFile.println("package $packageName")
             outFile.println("import lupos.shared.operator.IOPBase")
-            outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
+            outFile.println("public fun $className.${variableName}_evaluate(instance:Luposdate3000Instance):IOPBase {")
             val txt = (
                 "    println(\"${e.stackTraceToString().replace("\"", "\\\"")}\")"
                     .replace("\n", "\")\n    println(\"")

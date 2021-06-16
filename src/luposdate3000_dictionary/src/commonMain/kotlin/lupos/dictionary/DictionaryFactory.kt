@@ -16,8 +16,8 @@
  */
 package lupos.dictionary
 
-import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
@@ -43,7 +43,7 @@ public object DictionaryFactory {
                     var pageId: Int = -1
                     val fileName = "global_dictionary.page"
                     val file = File(instance.BUFFER_HOME + fileName)
-                    val initFromDisk = BufferManagerExt.allowInitFromDisk && file.exists()
+                    val initFromDisk = BufferManagerExt.allowInitFromDisk && instance.allowInitFromDisk && file.exists()
                     if (initFromDisk) {
                         file.withInputStream {
                             pageId = it.readInt()
@@ -63,7 +63,7 @@ public object DictionaryFactory {
         }
     }
 
-    public fun createDictionary(type: EDictionaryType, isLocal: Boolean, bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean, instance: Luposdate3000Instance): IDictionary {
+    public fun createDictionary(type: EDictionaryType, isLocal: Boolean, bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean, instance: Luposdate3000Instance): IDictionary {
         return if (isLocal) {
             when (type) {
                 EDictionaryTypeExt.InMemory -> DictionaryInMemory(true, instance)

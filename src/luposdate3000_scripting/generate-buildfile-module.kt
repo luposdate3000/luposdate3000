@@ -68,11 +68,11 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
         s = s.replace("${'$'}lupos.SOURCE_FILE", "${fixPathNames(src.absolutePath)}:$line")
         s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${fixPathNames(src.absolutePath)}:$line")
         s = s.replace("lupos.SOURCE_FILE", "\"${fixPathNames(src.absolutePath)}:$line\"")
-        out?.println(s)
+        out.println(s)
         line++
     }
 
-    out?.close()
+    out.close()
 }
 
 private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>) {
@@ -201,7 +201,7 @@ class CreateModuleArgs() {
 
     fun ssetModuleName(moduleName: String): CreateModuleArgs {
         val res = clone()
-        val onWindows = System.getProperty("os.name").contains("Windows")
+
         res.moduleName = moduleName
         res.moduleFolder = "src/${moduleName.toLowerCase()}"
         return res
@@ -221,19 +221,19 @@ class CreateModuleArgs() {
 
     fun ssetDisableJS(disableJs: Boolean): CreateModuleArgs {
         val res = clone()
-        res.disableJS = disableJS
+        res.disableJS = disableJs
         return res
     }
 
     fun ssetDisableJSNode(disableJsNode: Boolean): CreateModuleArgs {
         val res = clone()
-        res.disableJSNode = disableJSNode
+        res.disableJSNode = disableJsNode
         return res
     }
 
     fun ssetDisableJSBrowser(disableJsBrowser: Boolean): CreateModuleArgs {
         val res = clone()
-        res.disableJSBrowser = disableJSBrowser
+        res.disableJSBrowser = disableJsBrowser
         return res
     }
 
@@ -300,10 +300,11 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
+    moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
     try {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
         val enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM) && !moduleArgs.disableJVM
-        val enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS) && !moduleArgs.disableJS
+        val enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS) && !moduleArgs.disableJS && (!moduleArgs.disableJSNode || !moduleArgs.disableJSBrowser)
         val enableNative = targetModeCompatible(moduleArgs.target, TargetMode2.Native) && !moduleArgs.disableNative
         if (!(enableJVM || enableJS || enableNative)) {
             return
@@ -330,7 +331,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             appendix += "_Debug"
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
-        val onLinux = !onWindows // TODO this is not correct ...
+
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
             if (moduleArgs.compilerVersion.contains("SNAPSHOT")) {
@@ -358,7 +359,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         nativeDependencies.addAll(moduleArgs.dependenciesNative)
         nativeDependencies.removeAll(commonDependencies)
         var shared_inline_base_folder = fixPathNames("${File(".").absolutePath}/src/")
-        var shared_config_base_folder = ""
+        var shared_config_base_folder: String
         if (moduleArgs.intellijMode == IntellijMode.Enable) {
             shared_inline_base_folder += "xxx_generated_xxx/${moduleArgs.moduleFolder}"
             shared_config_base_folder = shared_inline_base_folder
@@ -370,6 +371,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
                 out.println("import org.gradle.api.tasks.testing.logging.TestExceptionFormat")
+                out.println("import org.gradle.api.tasks.testing.logging.TestLogEvent")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        mavenLocal()")
@@ -482,7 +484,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         //                  out.println("                dceOptions.devMode = true")//this disables dce - which than breaks spa-client
                         out.println("            }")
                         out.println("            testTask {")
-                        out.println("                enabled = false")
+                        out.println("                useKarma {")
+                        out.println("                    useFirefox()")
+//                        out.println("                    useChrome()")
+//                        out.println("                    useSafari()")
+                        out.println("                }")
                         out.println("            }")
                         out.println("        }")
                     }
@@ -736,6 +742,13 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    maxHeapSize = \"1g\"")
                 out.println("    testLogging {")
                 out.println("        exceptionFormat = TestExceptionFormat.FULL")
+                out.println("        showStandardStreams = true")
+                out.println("        events.add(TestLogEvent.FAILED)")
+                out.println("        events.add(TestLogEvent.STARTED)")
+                out.println("        events.add(TestLogEvent.PASSED)")
+                out.println("        events.add(TestLogEvent.SKIPPED)")
+                out.println("        events.add(TestLogEvent.STANDARD_OUT)")
+                out.println("        events.add(TestLogEvent.STANDARD_ERROR)")
                 out.println("    }")
                 out.println("}")
             }

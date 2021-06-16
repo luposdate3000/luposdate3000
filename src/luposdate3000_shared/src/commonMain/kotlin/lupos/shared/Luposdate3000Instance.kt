@@ -23,6 +23,8 @@ import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.shared_inline.Platform
 import kotlin.jvm.JvmField
 
+public typealias FuncIDistributedOptimizer = () -> IDistributedOptimizer
+
 public class Luposdate3000Instance {
     @JvmField
     public var initialized: Boolean = false
@@ -37,7 +39,7 @@ public class Luposdate3000Instance {
     public var tripleStoreManager: TripleStoreManager? = null
 
     @JvmField
-    public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = { throw Exception("not initialized") }
+    public var distributedOptimizerQueryFactory: FuncIDistributedOptimizer? = null
 
     @JvmField
     public var LUPOS_BUFFER_SIZE: Int = Platform.getEnv("LUPOS_BUFFER_SIZE", "134217728")!!.toInt() // set this to at most 5% of your available RAM
@@ -62,4 +64,10 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var LUPOS_PARTITION_MODE: EPartitionMode = EPartitionModeExt.names.indexOf(Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!)
+
+    @JvmField
+    public var communicationHandler: ICommunicationHandler? = null
+
+    @JvmField
+    public var allowInitFromDisk: Boolean = true
 }

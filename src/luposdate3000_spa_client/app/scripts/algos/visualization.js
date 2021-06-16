@@ -8,10 +8,10 @@ var sessionId;
 var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon, dataSetEdges;
 // Variables for the animation
 var stopFlag, pauseFlag; // Flag top stop the current animation process
+var contextMenuFlag = false;
 var timer;
 var current; //Stores the current instrument
 // Variables for general data storage
-var globalAnimationList = []; //Array that stores all data that is needed to be animated
 var queue = [];
 var prefixes = []; //Stores all prefixes from the SPARQL and RDF editor
 var currentIndex;
@@ -22,6 +22,7 @@ var selectToneArray = [];
 var selectAudio = {}
 var usedInstruments = [];
 const panner = new Tone.Panner(0).toDestination();
+var hoverNodeId;
 
 
 function initLuposdate3000() { //first time initialization - called by main.coffee, before anything else is loaded
@@ -130,10 +131,10 @@ $("#luposdate3000_graph-select").change(function() {
     var value = $(this).val();
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
-        loadData(App.logGraph[value - 1].split("SPLITHERE"), false);
+        loadData(App.logGraph[value - 1], false);
         var max = App.logGraph.length;
     } else if (index == 1) {
-        loadData(App.physGraph[value - 1].split("SPLITHERE"), false);
+        loadData(App.physGraph[value - 1], false);
         var max = App.physGraph.length;
     }
 
@@ -157,10 +158,10 @@ $('input[type=radio][name=L3Graph]').change(function() {
     $("#luposdate3000_graph-select").val(1);
     if (index == 0) {
         var graph = App.logGraph;
-        loadData(App.logGraph[1].split("SPLITHERE"), false);
+        loadData(App.logGraph[1], false);
     } else {
         var graph = App.physGraph;
-        loadData(App.physGraph[1].split("SPLITHERE"), false);
+        loadData(App.physGraph[1], false);
     }
     $('#luposdate3000_graph-select').empty();
     var c = 0;
@@ -177,7 +178,7 @@ $('input[type=radio][name=L3Graph]').change(function() {
 
 $("a[href=#luposdate3000-sonification-tab]").click(function() {
     sleep(50).then(() => {
-        loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
+        loadData(App.physGraph[App.physGraph.length - 1], true);
     })
 });
 
@@ -340,14 +341,26 @@ $('#dataVariableDepth').click(function() {
 // Trigger animation method when play button is pressed.
 $('#luposdate3000_play').click(function() {
     setAnimationFlags(false, false)
+    resetEdges();
     animation(true);
 });
 
+function resetEdges() {
+    for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
+        edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
+        dataSetEdges.update([{
+            id: edgeId,
+            width: 1
+        }]);
+    }
+}
+
 function resetAnimationQueue() {
     $('.meter').css("width", 0 + "%");
-    queue = globalAnimationList.map(function(arr) {
+    queue = App.globalAnimationList.map(function(arr) {
         return arr.slice();
     });
+
     currentIndex = 0;
     var i;
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
@@ -407,13 +420,13 @@ function replacePrefix() { //
     }
 
     var j;
-    for (j = 0; j <= globalAnimationList.length - 1; j++) {
+    for (j = 0; j <= App.globalAnimationList.length - 1; j++) {
         for (i = 0; i <= prefixes.length - 1; i++) {
-            if (globalAnimationList[j][2].includes(prefixes[i][1])) {
-                var string = globalAnimationList[j][2].replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
+            if (App.globalAnimationList[j][2].includes(prefixes[i][1])) {
+                var string = App.globalAnimationList[j][2].replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
                 string = string.replaceAll("<", "");
                 string = string.replaceAll(">", "");
-                globalAnimationList[j][2] = string;
+                App.globalAnimationList[j][2] = string;
             }
         }
     }
@@ -515,6 +528,9 @@ function addNewNode() {
     if (melodyType == 'No') {
         if (chordType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Chord");
+        } else if (pitchType == 'Dynamic Operator-ID' || pitchType == 'Dynamic Operator-Depth') {
+            tone = getAudioData(idMappings, id, label, index, "Pitch");
+            triggerNote(tone, duration, "+0", velocity, currentname)
         } else if (pitchType != 'None') {
             tone = getAudioData(idMappings, id, label, index, "Pitch");
             triggerNote(tone + octave, duration, "+0", velocity, currentname)
@@ -593,12 +609,17 @@ async function animation(loop) {
                             }
                             updateEdgeSize(queueHead[0], queueHead[1]);
                             if (loop) {
-                                currentIndex++;
-                                animation(true);
+                                if (contextMenuFlag) {
+                                    contextMenuFlag = false;
+                                    animation(true);
+                                } else {
+                                    currentIndex++;
+                                    animation(true);
+                                }
                             } else {
                                 setAnimationFlags(false, true)
                             }
-                            var tmp = (currentIndex / globalAnimationList.length) * 100;
+                            var tmp = (currentIndex / App.globalAnimationList.length) * 100;
                             if (!stopFlag) {
                                 $('.meter').css("width", tmp + "%");
                             } else {
@@ -622,7 +643,7 @@ function updateEdgeSize(startID, endID) { //only called by animation
     for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
         if (dataSetEdges.get(dataSetEdges.getIds()[i]).from == startID && dataSetEdges.get(dataSetEdges.getIds()[i]).to == endID) {
             edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
-            var updateStep = 15 / globalAnimationList.length;
+            var updateStep = 15 / App.globalAnimationList.length;
             var newWidth = dataSetEdges.get(dataSetEdges.getIds()[i]).width + updateStep;
             if (newWidth > 15) {
                 newWidth = 15;
@@ -694,8 +715,8 @@ function deleteDebugOperator() { //only called by loadData
 
 //Loads the Nodes and Edges from the data provided
 function loadData(dataParameter, flag) {
-    dataNodes = JSON.parse(dataParameter[0]);
-    dataEdges = JSON.parse(dataParameter[1]);
+    dataNodes = dataParameter[0];
+    dataEdges = dataParameter[1];
     //remove the POPRico operator
     deleteDebugOperator();
     data = {
@@ -712,11 +733,19 @@ function addCustomContextMenu(networkObject, contextFlag) {
     } else {
         string = "luposdate3000OP";
     }
+    var i;
+
+    networkObject.on("hoverNode", function(params) {
+        if ($('#rkm').is(":hidden")) {
+            hoverNodeId = params.node;
+        }
+    });
+
     //Apply Event Listener for the right click menus
     networkObject.on("oncontext", function(params) {
         var x, y;
         //If right click is made within the canvas, open custom context menu
-        if (typeof params.nodes[0] != 'undefined') {
+        if (typeof hoverNodeId != 'undefined') {
             document.getElementById(string).addEventListener('contextmenu', function(e) {
                 // Alternative
                 e.preventDefault();
@@ -739,18 +768,19 @@ function addCustomContextMenu(networkObject, contextFlag) {
                 $('#rkm').hide();
             });
 
-            var elem = document.getElementById('luposdate3000_lastOp');
-            elem.replaceWith(elem.cloneNode(true));
+            //            var elem = document.getElementById('luposdate3000_lastOp');
+            //            elem.replaceWith(elem.cloneNode(true));
 
-            elem = document.getElementById('luposdate3000_nextOp');
-            elem.replaceWith(elem.cloneNode(true));
+            //            elem = document.getElementById('luposdate3000_nextOp');
+            //            elem.replaceWith(elem.cloneNode(true));
 
             document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex + 1; i <= queue.length - 1; i++) {
-                    if (queue[i][0] == queue[currentIndex][0]) {
+                    if (queue[i][0] == hoverNodeId) {
                         currentIndex = i;
-                        animation(false)
+                        contextMenuFlag = true;
+                        //animation(false)
                         break;
                     }
                 }
@@ -760,9 +790,10 @@ function addCustomContextMenu(networkObject, contextFlag) {
             document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
                 for (i = currentIndex - 1; i >= 0; i--) {
-                    if (queue[i][0] == queue[currentIndex][0]) {
+                    if (queue[i][0] == hoverNodeId) {
                         currentIndex = i;
-                        animation(false)
+                        contextMenuFlag = true;
+                        //animation(false)
                         break;
                     }
                 }
@@ -787,17 +818,33 @@ function addCustomContextMenu(networkObject, contextFlag) {
                     ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                 ],
                 change: function(color) {
-                    if (dataSet.getIds().includes(params.nodes[0])) {
-                        dataSet.update({
-                            id: params.nodes[0],
-                            color: "rgb(" + color._r + "," + color._g + "," + color._b + ")"
-                        });
-                    }
+                    var theChoosenColor = "rgb(" + color._r + "," + color._g + "," + color._b + ")"
+                    dataSet.update({
+                        id: hoverNodeId,
+                        color: theChoosenColor
+                    });
+                    saveColorChoice(contextFlag, hoverNodeId, theChoosenColor)
                 }
             });
+        } else {
+            document.getElementById(string).addEventListener('contextmenu', function(e) {
+                // Alternative
+                e.preventDefault();
+            }, false);
         }
     });
 }
+
+function saveColorChoice(key, id, color) {
+    if (typeof App.config.colorsByID === "undefined") {
+        App.config.colorsByID = {}
+    }
+    if (typeof App.config.colorsByID[key] === "undefined") {
+        App.config.colorsByID[key] = {}
+    }
+    App.config.colorsByID[key][id] = color
+}
+
 
 //Draws the graph using the vis.js framework
 function draw(flag) {
@@ -814,6 +861,30 @@ function draw(flag) {
         nodes: dataSet,
         edges: dataSetEdges,
     };
+    var colorByType = App.config.colorsByType
+    if (typeof colorByType !== "undefined") {
+        for (nodeIdx in dataNodes) {
+            var node = dataNodes[nodeIdx]
+            var nodeType = node.label.split(' ')[0];
+            if (typeof colorByType[nodeType] !== "undefined") {
+                node.color = colorByType[nodeType]
+            }
+        }
+    }
+    var localcolors = App.config.colorsByID
+    if (typeof localcolors !== "undefined") {
+        var localcolors2 = localcolors[flag]
+        if (typeof localcolors2 !== "undefined") {
+            for (id in localcolors2) {
+                for (nodeIdx in dataNodes) {
+                    var node = dataNodes[nodeIdx]
+                    if (node.id == id) {
+                        node.color = localcolors2[id]
+                    }
+                }
+            }
+        }
+    }
 
     //Options that apply for the network
     options = {
@@ -866,43 +937,24 @@ function draw(flag) {
     };
 
     //Draw network
+    var net = new vis.Network(container, data, options);
     if (flag) {
-        networkSon = new vis.Network(container, data, options);
+        networkSon = net
         calculateMinMaxID();
         calculateMinMaxDepth();
         calculateMinMaxIndex();
-        addCustomContextMenu(networkSon, flag);
         selectMapping();
-        //By default, the network is dynamic and is changing via a constant animation
-        //For the hierarchical layout it is essential that is is turned off after the build-up
-        //process.
-        setTimeout(() => {
-            networkSon.setOptions({
-                layout: {
-                    hierarchical: false
-                },
-            });
-
-            container.style.display = "inline-block";
-            networkSon.fit();
-        }, 10);
     } else {
-        network = new vis.Network(container, data, options);
-        //Apply Event Listener for the right click menus
-        addCustomContextMenu(network, flag);
-
-        //By default, the network is dynamic and is changing via a constant animation
-        //For the hierarchical layout it is essential that is is turned off after the build-up
-        //process.
-        setTimeout(() => {
-            network.setOptions({
-                layout: {
-                    hierarchical: false
-                },
-            });
-
-            container.style.display = "inline-block";
-            network.fit();
-        }, 10);
+        network = net
     }
+    addCustomContextMenu(net, flag);
+    setTimeout(() => {
+        network.setOptions({
+            layout: {
+                hierarchical: false
+            },
+        });
+        container.style.display = "inline-block";
+        network.fit();
+    }, 10);
 }

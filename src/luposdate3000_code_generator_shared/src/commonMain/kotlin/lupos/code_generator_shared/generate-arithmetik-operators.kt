@@ -306,7 +306,7 @@ public object OperatorBuilder {
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toLowerCase()")
+                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.lowercase()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -315,7 +315,7 @@ public object OperatorBuilder {
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
+                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.lowercase()")
                                 target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
@@ -325,7 +325,7 @@ public object OperatorBuilder {
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
+                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.lowercase()")
                                 target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },

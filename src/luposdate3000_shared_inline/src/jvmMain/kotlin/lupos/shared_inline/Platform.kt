@@ -89,18 +89,14 @@ internal actual object Platform {
     internal var shutdownhock: () -> Unit = {}
 
     init {
-        println("init shutdown hook")
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
-                println("calling shutdown-hock")
                 shutdownhock()
-                println("called shutdown-hock")
             }
         })
     }
 
     internal actual inline fun setShutdownHock(crossinline action: () -> Unit) {
-        println("registering shutdown hook")
         shutdownhock = {
             action()
         }

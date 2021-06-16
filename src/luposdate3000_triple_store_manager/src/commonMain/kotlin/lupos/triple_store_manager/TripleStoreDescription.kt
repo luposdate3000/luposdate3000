@@ -164,7 +164,7 @@ public class TripleStoreDescription(
                 val j = indices[i].findPartitionFor(query, localcache.row)
                 val buf = localcache.allBuf[i][j]
                 if (buf.offset >= buf.size) {
-                    localcache.mySendSorted(i, j, sortedBy)
+                    localcache.mySendSorted(i, j)
                 }
                 buf.buf[buf.offset++] = localcache.row[0]
                 buf.buf[buf.offset++] = localcache.row[1]
@@ -174,7 +174,7 @@ public class TripleStoreDescription(
         if (flush) {
             for (i in 0 until localcache.allBuf.size) {
                 for (j in 0 until localcache.allBuf[i].size) {
-                    localcache.mySendSorted(i, j, sortedBy)
+                    localcache.mySendSorted(i, j)
                 }
             }
         }

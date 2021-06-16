@@ -674,7 +674,7 @@ internal object DictionaryHelper {
                 "http://www.w3.org/2001/XMLSchema#decimal" -> decimalToByteArray(buffer, content)
                 "http://www.w3.org/2001/XMLSchema#double" -> doubleToByteArray(buffer, content.toDouble())
                 "http://www.w3.org/2001/XMLSchema#float" -> floatToByteArray(buffer, content.toDouble())
-                "http://www.w3.org/2001/XMLSchema#boolean" -> booleanToByteArray(buffer, content.toLowerCase() == "true")
+                "http://www.w3.org/2001/XMLSchema#boolean" -> booleanToByteArray(buffer, content.lowercase() == "true")
                 "http://www.w3.org/2001/XMLSchema#dateTime" -> dateTimeToByteArray(buffer, content)
                 else -> {
                     val buf1 = type.encodeToByteArray()
@@ -794,19 +794,19 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun sparqlToByteArray(buffer: ByteArrayWrapper, value: String?) {
-        if (value == null || value.isEmpty() || value.toLowerCase() == "undef") {
+        if (value == null || value.isEmpty() || value.lowercase() == "undef") {
             undefToByteArray(buffer)
             return
         }
-        if (value.toLowerCase() == "error") {
+        if (value.lowercase() == "error") {
             errorToByteArray(buffer)
             return
         }
-        if (value.toLowerCase() == "true") {
+        if (value.lowercase() == "true") {
             booleanToByteArray(buffer, true)
             return
         }
-        if (value.toLowerCase() == "false") {
+        if (value.lowercase() == "false") {
             booleanToByteArray(buffer, false)
             return
         }

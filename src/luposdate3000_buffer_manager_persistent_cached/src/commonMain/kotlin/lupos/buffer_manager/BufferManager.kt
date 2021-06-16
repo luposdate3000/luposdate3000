@@ -32,8 +32,8 @@ public expect class BufferManager public constructor(instance: Luposdate3000Inst
     public override fun close()
 
     @ProguardTestAnnotation
-    public fun getNumberOfAllocatedPages(): Int
+    public override fun getNumberOfAllocatedPages(): Int
 
     @ProguardTestAnnotation
-    public fun getNumberOfReferencedPages(): Int
+    public override fun getNumberOfReferencedPages(): Int
 }

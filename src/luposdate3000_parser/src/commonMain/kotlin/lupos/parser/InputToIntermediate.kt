@@ -57,10 +57,9 @@ public object InputToIntermediate {
         return res
     }
 
-    @Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun cmp(a: IntArray, b: IntArray): Int {
-        var res = 0
-        res = a[0] - b[0]
+        var res = a[0] - b[0]
         if (res != 0) {
             return res
         }
@@ -378,14 +377,6 @@ public object InputToIntermediate {
                 intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos"
                 intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
             )
-            val ordersReverse = arrayOf(
-                orders[0],
-                orders[1],
-                orders[2],
-                orders[4], // !! intentionally !! different index here
-                orders[3],
-                orders[5]
-            )
             val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
             val tripleBufA = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
             val tripleBufB = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
@@ -426,13 +417,13 @@ public object InputToIntermediate {
                         },
                         step = 3,
                     )
-                    val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
+                    val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
                     var i = 0
                     while (i < offset) {
-                        outTriples.write(tripleBufA[i + order[0]], tripleBufA[i + order[1]], tripleBufA[i + order[2]])
+                        outTriples2.write(tripleBufA[i + order[0]], tripleBufA[i + order[1]], tripleBufA[i + order[2]])
                         i += 3
                     }
-                    outTriples.close()
+                    outTriples2.close()
                 }
                 tripleBlock++
                 offset = 0
@@ -444,14 +435,14 @@ public object InputToIntermediate {
             if (true) { // apply dictionary mapping
                 val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
 
-                val outTriples = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
                 val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type")
                 val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf")
                 inTriples.readAll { it ->
                     val t_s = mapping[it[0]]
                     val t_p = mapping[it[1]]
                     val t_o = mapping[it[2]]
-                    outTriples.write(t_s, t_p, t_o)
+                    outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {
                         when (t_p) {
                             inference_Type_ID -> outTriplesType.write(t_s, t_p, t_o)
@@ -459,7 +450,7 @@ public object InputToIntermediate {
                         }
                     }
                 }
-                outTriples.close()
+                outTriples2.close()
                 outTriplesType.close()
                 outTriplesSubClassOf.close()
                 inTriples.close()
@@ -484,10 +475,10 @@ public object InputToIntermediate {
                     }
                 }
                 inTriples.close()
-                val outTriples = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
                 inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
                 inTriples.readAll { it ->
-                    outTriples.write(it[0], it[1], it[2])
+                    outTriples2.write(it[0], it[1], it[2])
                 }
                 inTriples.close()
                 inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.type")
@@ -498,19 +489,19 @@ public object InputToIntermediate {
                         }
                         -2 -> {
                             for (i in subclassMappingMulti[it[2]]!!) {
-                                outTriples.write(it[0], inference_Type_ID, i)
+                                outTriples2.write(it[0], inference_Type_ID, i)
                                 inferredTriples++
                             }
                         }
                         else -> {
-                            outTriples.write(it[0], inference_Type_ID, tmp)
+                            outTriples2.write(it[0], inference_Type_ID, tmp)
                             inferredTriples++
                         }
                     }
                 }
                 inTriples.close()
                 TriplesIntermediate.delete("$inputFileName.$triplePrefix")
-                outTriples.close()
+                outTriples2.close()
                 triplePrefix++
             }
             TriplesIntermediate.delete("$inputFileName.1.type")
@@ -535,9 +526,8 @@ public object InputToIntermediate {
             val tripleInitialSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - inferenceTime
             var myCount = -1L
             for (o in 0 until 6) {
-                val order = orders[o]
-                val orderReverse = ordersReverse[o]
-                val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
+
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
                 val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
                 val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }
                 val smallest = IntArray(3)
@@ -554,7 +544,7 @@ public object InputToIntermediate {
                         }
                     }
                     if (valid) {
-                        outTriples.write(smallest[0], smallest[1], smallest[2])
+                        outTriples2.write(smallest[0], smallest[1], smallest[2])
                         for (i in 0 until tripleBlock) {
                             val head = tripleInputHeads[i]
                             if (head != null && cmp(head, smallest) == 0) {
@@ -563,8 +553,8 @@ public object InputToIntermediate {
                         }
                     }
                 }
-                myCount = outTriples.getCount()
-                outTriples.close()
+                myCount = outTriples2.getCount()
+                outTriples2.close()
                 for (i in 0 until tripleBlock) {
                     TriplesIntermediate.delete("$inputFileName.${orderNames[o]}.$i")
                 }

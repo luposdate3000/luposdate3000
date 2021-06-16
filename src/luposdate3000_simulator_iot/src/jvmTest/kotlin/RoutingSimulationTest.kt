@@ -21,12 +21,13 @@ class RoutingSimulationTest {
         assertEquals(0, sim.getCurrentClock())
     }
 
+    @Ignore
     @Test
     fun selfMessagesDoNotDelay() {
         Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2 * 1000
 
-        val sim = Simulation(Configuration.devices,maxClock = maxClock,callback = Logger)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
 
         sim.startSimulation()
         assertEquals(maxClock, sim.getCurrentClock())
@@ -62,6 +63,7 @@ class RoutingSimulationTest {
     }
 
     @Test
+    @Ignore
     fun meshToDODAG() {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
@@ -83,9 +85,9 @@ class RoutingSimulationTest {
         f.sensor!!.setDataSink(a.address)
 
         val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples+1) *  ParkingSensor.dataRateInSeconds.toLong() * 1000
+        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
-        val sim = Simulation(Configuration.devices, maxClock = maxClock,callback = Logger)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(numberOfSamples, a.processedSensorDataPackages)
@@ -101,9 +103,9 @@ class RoutingSimulationTest {
         a.sensor!!.setDataSink(f.address)
 
         val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples+1) *  ParkingSensor.dataRateInSeconds.toLong() * 1000
+        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
-        val sim = Simulation(Configuration.devices, maxClock = maxClock,callback = Logger)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(numberOfSamples, f.processedSensorDataPackages)
@@ -119,9 +121,9 @@ class RoutingSimulationTest {
         f.sensor!!.setDataSink(d.address)
 
         val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples+1) *  ParkingSensor.dataRateInSeconds.toLong() * 1000
+        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
-        val sim = Simulation(Configuration.devices, maxClock = maxClock,callback = Logger)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(numberOfSamples, d.processedSensorDataPackages)

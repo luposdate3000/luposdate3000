@@ -13,6 +13,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
+(
 git ls-files | grep -e "\.kt$" -e "\.kts$" -e "\.coffee$"| xargs /opt/idea-IU-211.7142.45/bin/format.sh
 ktlint -F
-git ls-files | grep -e "\.js$" -e "\.json$" -e "\.css$" -e "\.html$" | xargs js-beautify -r
+)&
+git ls-files | grep -e "\.js$" -e "\.json$" -e "\.css$" -e "\.html$" | xargs js-beautify -r &
+wait

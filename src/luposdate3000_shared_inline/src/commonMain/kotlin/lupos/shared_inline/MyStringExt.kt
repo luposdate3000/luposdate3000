@@ -17,6 +17,7 @@
 package lupos.shared_inline
 
 internal object MyStringExt {
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun replaceEscapes(s: String, strictMode: Boolean): String {
         val res = StringBuilder()
         var i = 0

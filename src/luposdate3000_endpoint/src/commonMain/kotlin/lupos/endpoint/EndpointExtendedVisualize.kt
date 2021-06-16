@@ -133,9 +133,7 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
         edge = edge.substring(0, edge.length - 1)
         edge += "]"
 
-        // "SPLITHERE" will be the marker to split the node data from the edge data
-        // in the visualization code
-        return node + "SPLITHERE" + edge
+        return "[" + node + "," + edge + "]"
     }
 
     // Input: (Sub)-Tree as IOPBase, MutableMap

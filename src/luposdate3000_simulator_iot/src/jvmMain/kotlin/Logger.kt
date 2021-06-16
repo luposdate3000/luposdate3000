@@ -1,12 +1,11 @@
 package lupos.simulator_iot
 
 import kotlinx.datetime.*
-import lupos.simulator_core.Simulation
 import lupos.simulator_core.ISimulationLifeCycle
+import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
-
 
 public object Logger : ISimulationLifeCycle {
 
@@ -26,7 +25,6 @@ public object Logger : ISimulationLifeCycle {
     }
 
     override fun onSteadyState() {
-
     }
 
     override fun onShutDown() {
@@ -48,11 +46,9 @@ public object Logger : ISimulationLifeCycle {
         resetCounters()
     }
 
-    private fun getSimulationTime(): Instant
-        = TimeUtils.addMillis(startTimeStamp, simulation.getCurrentClock())
+    private fun getSimulationTime(): Instant = TimeUtils.addMillis(startTimeStamp, simulation.getCurrentClock())
 
-    internal fun getSimulationTimeString(): String
-        = TimeUtils.toISOString(getSimulationTime())
+    internal fun getSimulationTimeString(): String = TimeUtils.toISOString(getSimulationTime())
 
     private fun log(content: String) {
         println(content)

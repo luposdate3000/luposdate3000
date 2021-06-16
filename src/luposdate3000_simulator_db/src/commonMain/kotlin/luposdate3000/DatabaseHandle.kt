@@ -1,0 +1,132 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package lupos.simulator_db.luposdate3000
+
+import lupos.endpoint.LuposdateEndpoint
+import lupos.endpoint_launcher.RestEndpoint
+import lupos.result_format.QueryResultToXMLStream
+import lupos.shared.EPartitionModeExt
+import lupos.shared.Luposdate3000Instance
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared_inline.MyPrintWriter
+import lupos.simulator_db.ChoosenOperatorPackage
+import lupos.simulator_db.IDatabase
+import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IDatabaseState
+import lupos.simulator_db.IRouter
+import lupos.simulator_db.PreprocessingPackage
+import lupos.simulator_db.ResultPackage
+
+public class DatabaseHandle : IDatabase {
+
+    private var instance = Luposdate3000Instance()
+
+    private var targetForQueryResponse: Int = -1
+    private var router: IRouter? = null
+
+    override fun start(initialState: IDatabaseState) {
+        if (initialState.allAddresses.size == 0) {
+            throw Exception("invalid input")
+        }
+        router = initialState.sender
+        instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
+        instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
+        instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
+        instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
+        instance.LUPOS_BUFFER_SIZE = 8192
+        instance.communicationHandler = MySimulatorCommunicationHandler(instance, initialState.sender)
+        instance = LuposdateEndpoint.initializeB(instance)
+        instance.distributedOptimizerQueryFactory = {
+            MySimulatorDistributedOptimizer(initialState.sender, { targetForQueryResponse })
+        }
+    }
+
+    override fun activate() {
+/*
+        if (!instance.initialized) {
+            instance = LuposdateEndpoint.initializeB(instance)
+        }
+*/
+    }
+
+    override fun deactivate() {
+/*
+        if ((!BufferManagerExt.isInMemoryOnly) && (instance.LUPOS_DICTIONARY_MODE != EDictionaryTypeExt.InMemory)) {
+            // do not disable inmemory databases, because they would loose all data
+            LuposdateEndpoint.close(instance)
+        }
+*/
+    }
+
+    override fun end() {
+        LuposdateEndpoint.close(instance)
+    }
+
+    override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
+        val queryString = query.decodeToString()
+        println("receive receiveQuery $queryString")
+        targetForQueryResponse = sourceAddress
+        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
+        op.getQuery().initialize(op)
+
+        val parts = op.getQuery().getOperatorgraphParts()
+        if (parts.size == 1) {
+
+            val out = MyPrintWriter(true)
+            QueryResultToXMLStream(op.getQuery().getRoot(), out)
+            val res = out.toString().encodeToByteArray()
+            router!!.sendQueryResult(targetForQueryResponse, res)
+        } else {
+            TODO()
+        }
+    }
+
+    private fun receive(pck: PreprocessingPackage) {
+        TODO()
+    }
+
+    private fun receive(pck: ResultPackage) {
+        TODO()
+    }
+
+    private fun receive(pck: ChoosenOperatorPackage) {
+        TODO()
+    }
+
+    private fun receive(pck: MySimulatorAbstractPackage) {
+        println("receive MySimulatorAbstractPackage ${pck.path}")
+        when (pck.path) {
+            "/distributed/query/dictionary/register",
+            "/distributed/query/dictionary/remove" -> {
+                // dont use dictionaries right now
+            }
+            "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
+            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MySimulatorInputStreamFromPackage(pck.data!!))
+            else -> TODO("${pck.path} ${pck.params}")
+        }
+    }
+
+    override fun receive(pck: IDatabasePackage) {
+        when (pck) {
+            is MySimulatorAbstractPackage -> receive(pck)
+            is PreprocessingPackage -> receive(pck)
+            is ResultPackage -> receive(pck)
+            is ChoosenOperatorPackage -> receive(pck)
+        }
+    }
+}

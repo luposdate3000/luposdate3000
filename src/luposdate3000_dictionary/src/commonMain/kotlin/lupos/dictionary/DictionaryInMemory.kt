@@ -43,6 +43,9 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     @JvmField
     internal var bNodeCounter = 5
 
+    @JvmField
+    internal var uuidCounter = 0
+
     public override fun isInmemoryOnly(): Boolean = true
     public override fun close() {
     }
@@ -56,6 +59,11 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         if (isLocal) {
             res = res or flagLocal
         }
+        return res
+    }
+
+    public override fun createNewUUID(): Int {
+        var res: Int = uuidCounter++
         return res
     }
 
@@ -127,7 +135,6 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                     }
                     dataI2V[res] = bufferCopy
                 }
-                var oldres = res
                 if (isLocal) {
                     res = res or flagLocal
                 }

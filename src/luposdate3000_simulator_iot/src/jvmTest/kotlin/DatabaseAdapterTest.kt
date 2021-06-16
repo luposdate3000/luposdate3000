@@ -3,6 +3,7 @@ package lupos.simulator_iot
 import kotlin.test.*
 
 class DatabaseAdapterTest {
+    @Ignore
     @Test
     fun createAndDeleteFiles() {
         val device = Stubs.createEmptyDevice(1)

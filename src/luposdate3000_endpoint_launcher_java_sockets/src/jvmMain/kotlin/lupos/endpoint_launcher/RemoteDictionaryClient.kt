@@ -43,6 +43,12 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         return input.readInt()
     }
 
+    override fun createNewUUID(): Int {
+        output.writeInt(7)
+        output.flush()
+        return input.readInt()
+    }
+
     override fun hasValue(buffer: ByteArrayWrapper): Int? {
         output.writeInt(2)
         output.writeInt(buffer.size)

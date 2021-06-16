@@ -82,7 +82,7 @@ internal actual object ByteArrayHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeChar(data: ByteArray, offset: Int, value: Char) {
-        val v = value.toInt()
+        val v = value.code.toInt()
         data[offset] = ((v shr 8) and 0xFF).toByte()
         data[offset + 1] = (v and 0xFF).toByte()
     }

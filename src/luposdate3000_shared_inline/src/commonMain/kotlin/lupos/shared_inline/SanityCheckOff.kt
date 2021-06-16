@@ -34,7 +34,7 @@ internal object SanityCheckOff {
         contract { callsInPlace(s, AT_MOST_ONCE) }
     }
 
-    internal inline operator fun invoke(crossinline action: () -> Unit) {
+    internal inline operator fun invoke(@Suppress("UNUSED_PARAMETER") crossinline action: () -> Unit) {
     }
 
     /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
@@ -46,7 +46,7 @@ internal object SanityCheckOff {
         return null
     }
 
-    internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
+    internal inline fun check(crossinline value: () -> Boolean, @Suppress("UNUSED_PARAMETER") crossinline msg: () -> String) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
     }
 

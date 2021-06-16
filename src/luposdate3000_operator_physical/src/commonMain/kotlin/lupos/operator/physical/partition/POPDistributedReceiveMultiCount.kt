@@ -25,7 +25,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.communicationHandler
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -111,7 +110,7 @@ public class POPDistributedReceiveMultiCount public constructor(
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { hosts.size == partitionCount }
-        val handler = communicationHandler
+        val handler = query.getInstance().communicationHandler!!
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {
             allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))

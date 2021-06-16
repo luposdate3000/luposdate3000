@@ -27,7 +27,6 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -36,7 +35,7 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared_inline.DictionaryHelper
 
 public object QueryResultToMemoryTable {
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: MemoryTable) {
+    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, output: MemoryTable) {
         output.data.add(IntArray(variables.size) { rowBuf[it] })
     }
 
@@ -52,7 +51,7 @@ public object QueryResultToMemoryTable {
                 rowBuf[variableIndex] = valueID
             }
             lock?.lock()
-            writeRow(variables, rowBuf, dictionary, output)
+            writeRow(variables, rowBuf, output)
             lock?.unlock()
         }
         for (element in columns) {
@@ -107,7 +106,7 @@ public object QueryResultToMemoryTable {
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
         if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
             query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val nodes: Array<IOPBase>
@@ -166,7 +165,7 @@ public object QueryResultToMemoryTable {
             }
         }
         if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return resultList
     }

@@ -25,7 +25,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -126,7 +125,7 @@ public class POPDistributedReceiveMulti public constructor(
         var connections = Array<MyConnection?>(partitionCount) { null }
         var openConnections = 0
         SanityCheck.check { hosts.size == partitionCount }
-        val handler = communicationHandler
+        val handler = query.getInstance().communicationHandler!!
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {
             allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))

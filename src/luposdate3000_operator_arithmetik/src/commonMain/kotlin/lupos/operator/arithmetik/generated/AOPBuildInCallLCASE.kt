@@ -47,14 +47,14 @@ public class AOPBuildInCallLCASE public constructor(query: IQuery, child0: AOPBa
                 }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp_12: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_13: String = tmp_12.toLowerCase()
+                    val tmp_13: String = tmp_12.lowercase()
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
                     val tmp_15_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
                     val tmp_15_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_16_content: String = tmp_15_content.toLowerCase()
+                    val tmp_16_content: String = tmp_15_content.lowercase()
                     val tmp_16_lang: String = tmp_15_lang
                     DictionaryHelper.langToByteArray(tmp_2, tmp_16_content, tmp_16_lang)
                     res = query.getDictionary().createValue(tmp_2)
@@ -62,7 +62,7 @@ public class AOPBuildInCallLCASE public constructor(query: IQuery, child0: AOPBa
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     val tmp_18_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
                     val tmp_18_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_19_content: String = tmp_18_content.toLowerCase()
+                    val tmp_19_content: String = tmp_18_content.lowercase()
                     val tmp_19_type: String = tmp_18_type
                     DictionaryHelper.typedToByteArray(tmp_2, tmp_19_content, tmp_19_type)
                     res = query.getDictionary().createValue(tmp_2)

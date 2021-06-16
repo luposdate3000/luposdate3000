@@ -53,7 +53,6 @@ import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
-import lupos.shared.communicationHandler
 import lupos.shared.fileformat.DictionaryIntermediate
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
@@ -127,7 +126,7 @@ public object LuposdateEndpoint {
         val key = "${query.getTransactionID()}"
         try {
             if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
                 query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
             }
             instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
@@ -243,13 +242,13 @@ public object LuposdateEndpoint {
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
             if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
             if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             throw e
         }
@@ -262,7 +261,7 @@ public object LuposdateEndpoint {
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
         val key = "${query.getTransactionID()}"
         if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
+            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
             query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val import = import2.evaluateRoot()
@@ -273,7 +272,7 @@ public object LuposdateEndpoint {
         instance.tripleStoreManager!!.commit(query)
         query.commited = true
         if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
         }
         return XMLElement("success").toString()
     }
@@ -392,11 +391,13 @@ public object LuposdateEndpoint {
     public fun close(instance: Luposdate3000Instance) {
         try {
             if (instance.initialized) {
-                println("LuposdateEndpoint.close")
                 instance.initialized = false
                 instance.nodeGlobalDictionary!!.close()
+                instance.nodeGlobalDictionary = null
                 instance.tripleStoreManager!!.close()
+                instance.tripleStoreManager = null
                 instance.bufferManager!!.close()
+                instance.bufferManager = null
             }
         } finally {
             initializerLock.withLock {
@@ -427,21 +428,22 @@ public object LuposdateEndpoint {
             instances.add(instance)
             instance.bufferManager = BufferManager(instance)
             instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
-            val hostnames = instance.LUPOS_PROCESS_URLS
-            val localhost = hostnames[instance.LUPOS_PROCESS_ID]
-            instance.tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost, instance)
+            instance.tripleStoreManager = TripleStoreManagerImpl(instance.LUPOS_PROCESS_URLS, instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID], instance)
             instance.tripleStoreManager!!.initialize()
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
-            MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
-            MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
-            MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
-            MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
-            MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
-            Platform.setShutdownHock {
-                close()
-            }
             instance.initialized = true
         }
         return instance!!
+    }
+
+    init {
+        MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
+        MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
+        MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
+        MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
+        MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
+        Platform.setShutdownHock {
+            close()
+        }
     }
 }

@@ -23,6 +23,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyLock
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
+import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
@@ -31,6 +32,21 @@ import kotlin.jvm.JvmField
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long, @JvmField public val instance: Luposdate3000Instance) : IQuery {
     public constructor(dictionary: IDictionary, instance: Luposdate3000Instance) : this(dictionary, UUID_Counter.getNextUUID(), instance)
     public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
+
+    @JvmField
+    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
+
+    @JvmField
+    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+
+    @JvmField
+    public var dependenciesMapTopDown: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
+
+    @JvmField
+    public var dependenciesMapBottomUp: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
+
+    @JvmField
+    public var keyRepresentative: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
     public var _workingDirectory: String = ""
@@ -70,6 +86,8 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     @JvmField
     public var dictionaryUrl: String? = null
+    public override fun getOperatorgraphPartsToHostMap(): MutableMap<String, String> = operatorgraphPartsToHostMap
+    public override fun getOperatorgraphParts(): MutableMap<String, XMLElement> = operatorgraphParts
 
     public override fun getInstance(): Luposdate3000Instance = instance
 
@@ -81,6 +99,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         dictionary = dict
     }
 
+    override fun getRoot(): IOPBase = root!!
     public override fun getDictionaryUrl(): String? = dictionaryUrl
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
     override fun initialize(newroot: IOPBase): IOPBase {
@@ -88,8 +107,14 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         transactionID = UUID_Counter.getNextUUID()
         commited = false
         partitions.clear()
-        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
-            return instance.distributedOptimizerQueryFactory().optimize(this)
+        val factory = instance.distributedOptimizerQueryFactory
+        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process && factory != null) {
+            operatorgraphParts = mutableMapOf<String, XMLElement>()
+            operatorgraphPartsToHostMap = mutableMapOf<String, String>()
+            dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
+            dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+            keyRepresentative = mutableMapOf<String, String>()
+            return factory().optimize(this)
         } else {
             return newroot
         }

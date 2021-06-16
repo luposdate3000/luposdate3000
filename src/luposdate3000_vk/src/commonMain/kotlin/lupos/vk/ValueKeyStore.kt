@@ -414,7 +414,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
 
 internal class ValueKeyStoreIteratorSearch {
 
-    @Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: IBufferManager, buffer: ByteArrayWrapper): Int {
         var pageid = startpageid
         while (true) {

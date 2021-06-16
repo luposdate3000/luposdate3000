@@ -25,6 +25,7 @@ import lupos.operator.factory.XMLElementToOPBase
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
+import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
@@ -34,10 +35,24 @@ import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 import kotlin.jvm.JvmField
 
-internal object RestEndpoint {
+public object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
     private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
+
+    public fun distributed_graph_create(params: Map<String, String>, instance: Luposdate3000Instance) {
+        val name = params["name"]!!
+        val query = Query(instance)
+        instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
+    }
+
+    public fun distributed_graph_modify(params: Map<String, String>, instance: Luposdate3000Instance, connectionInMy: IMyInputStream) {
+        val query = Query(instance)
+        val key = params["key"]!!
+        val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
+        val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
+        instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy)
+    }
 
     @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(instance: Luposdate3000Instance, key: String): RemoteDictionaryServer {
@@ -112,10 +127,17 @@ internal object RestEndpoint {
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
-                for (step in eev.getOptimizedStepsLogical()) {
+                connectionOutMy.print("[")
+                val steps = eev.getOptimizedStepsLogical()
+                for (i in 0 until steps.size - 1) {
+                    val step = steps[i]
                     connectionOutMy.print(step)
-                    connectionOutMy.print("NEWTREE")
+                    connectionOutMy.print(",")
                 }
+                if (steps.size > 0) {
+                    connectionOutMy.print(steps[steps.size - 1])
+                }
+                connectionOutMy.print("]")
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
@@ -124,10 +146,17 @@ internal object RestEndpoint {
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
-                for (step in eev.getOptimizedStepsPhysical()) {
+                connectionOutMy.print("[")
+                val steps = eev.getOptimizedStepsPhysical()
+                for (i in 0 until steps.size - 1) {
+                    val step = steps[i]
                     connectionOutMy.print(step)
-                    connectionOutMy.print("NEWTREE")
+                    connectionOutMy.print(",")
                 }
+                if (steps.size > 0) {
+                    connectionOutMy.print(steps[steps.size - 1])
+                }
+                connectionOutMy.print("]")
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
@@ -147,9 +176,16 @@ internal object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 val tmp = eev.getDataSteps()
-                for (i in tmp) {
-                    connectionOutMy.print(i)
+                connectionOutMy.print("[")
+                for (i in 0 until tmp.size - 1) {
+                    val j = tmp[i]
+                    connectionOutMy.print(j)
+                    connectionOutMy.print(",")
                 }
+                if (tmp.size > 0) {
+                    connectionOutMy.print(tmp[tmp.size - 1])
+                }
+                connectionOutMy.print("]")
             } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
@@ -239,9 +275,7 @@ internal object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
-            val name = params["name"]!!
-            val query = Query(instance)
-            instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
+            distributed_graph_create(params, instance)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) {
@@ -263,11 +297,7 @@ internal object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) {
-            val query = Query(instance)
-            val key = params["key"]!!
-            val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
-            val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-            instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy)
+            distributed_graph_modify(params, instance, connectionInMy)
         }
         paths["/distributed/graph/modifysorted"] = PathMappingHelper(false, mapOf()) {
             val query = Query(instance)

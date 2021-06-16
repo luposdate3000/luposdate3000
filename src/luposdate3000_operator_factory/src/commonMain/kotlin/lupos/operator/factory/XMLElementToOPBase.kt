@@ -162,7 +162,7 @@ public object XMLElementToOPBase {
         return AOPVariable(query, name)
     }
 
-    private fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): List<String> {
+    private fun createProjectedVariables(node: XMLElement): List<String> {
         val res = mutableListOf<String>()
         SanityCheck.check { node["projectedVariables"] != null }
         for (c in node["projectedVariables"]!!.childs) {
@@ -475,26 +475,26 @@ public object XMLElementToOPBase {
                 val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
                 val xmlby = node["by"]!!
                 val sortBy = Array(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
-                res = POPSort(query, createProjectedVariables(query, node, mapping), sortBy, node.attributes["order"] == "ASC", child)
+                res = POPSort(query, createProjectedVariables(node), sortBy, node.attributes["order"] == "ASC", child)
             }
             "POPProjection" -> {
                 val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
-                res = POPProjection(query, createProjectedVariables(query, node, mapping), child)
+                res = POPProjection(query, createProjectedVariables(node), child)
             }
             "LOPMakeBooleanResult" -> {
                 res = LOPMakeBooleanResult(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPMakeBooleanResult" -> {
-                res = POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPMakeBooleanResult(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPMergePartition" -> {
                 val id = node.attributes["partitionID"]!!.toInt()
-                res = POPMergePartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPMergePartition(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
                 query.addPartitionOperator(res.uuid, id)
             }
             "POPMergePartitionOrderedByIntId" -> {
                 val id = node.attributes["partitionID"]!!.toInt()
-                res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
                 query.addPartitionOperator(res.uuid, id)
             }
             "POPDistributedSendSingle" -> {
@@ -507,7 +507,7 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedSendSingle(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
@@ -526,7 +526,7 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedSendSingleCount(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
@@ -545,7 +545,7 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedSendMulti(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
@@ -564,11 +564,11 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedReceiveSingle(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
-                    OPNothing(query, createProjectedVariables(query, node, mapping)),
+                    OPNothing(query, createProjectedVariables(node)),
                     hosts
                 )
                 query.addPartitionOperator(res.uuid, id)
@@ -583,11 +583,11 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedReceiveSingleCount(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
-                    OPNothing(query, createProjectedVariables(query, node, mapping)),
+                    OPNothing(query, createProjectedVariables(node)),
                     hosts
                 )
                 query.addPartitionOperator(res.uuid, id)
@@ -602,11 +602,11 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedReceiveMulti(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
-                    OPNothing(query, createProjectedVariables(query, node, mapping)),
+                    OPNothing(query, createProjectedVariables(node)),
                     hosts
                 )
                 query.addPartitionOperator(res.uuid, id)
@@ -621,11 +621,11 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedReceiveMultiCount(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
-                    OPNothing(query, createProjectedVariables(query, node, mapping)),
+                    OPNothing(query, createProjectedVariables(node)),
                     hosts
                 )
                 query.addPartitionOperator(res.uuid, id)
@@ -640,11 +640,11 @@ public object XMLElementToOPBase {
                 }
                 res = POPDistributedReceiveMultiOrdered(
                     query,
-                    createProjectedVariables(query, node, mapping),
+                    createProjectedVariables(node),
                     node.attributes["partitionVariable"]!!,
                     node.attributes["partitionCount"]!!.toInt(),
                     id,
-                    OPNothing(query, createProjectedVariables(query, node, mapping)),
+                    OPNothing(query, createProjectedVariables(node)),
                     hosts
                 )
                 query.addPartitionOperator(res.uuid, id)
@@ -656,12 +656,12 @@ public object XMLElementToOPBase {
             }
             "POPSplitPartition" -> {
                 val id = node.attributes["partitionID"]!!.toInt()
-                res = POPSplitPartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPSplitPartition(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
                 query.addPartitionOperator(res.uuid, id)
             }
             "POPSplitPartitionFromStore" -> {
                 val id = node.attributes["partitionID"]!!.toInt()
-                res = POPSplitPartitionFromStore(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPSplitPartitionFromStore(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
                 var storeNodeTmp = res.children[0]
                 while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
@@ -673,7 +673,7 @@ public object XMLElementToOPBase {
             }
             "POPSplitPartitionFromStoreCount" -> {
                 val id = node.attributes["partitionID"]!!.toInt()
-                res = POPSplitPartitionFromStoreCount(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPSplitPartitionFromStoreCount(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
                 var storeNodeTmp = res.children[0]
                 while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
@@ -694,9 +694,9 @@ public object XMLElementToOPBase {
                     bindings = POPBind(query, listOf(), createAOPVariable(query, mapping, it.attributes["name"]!!), XMLElementToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
                 }
                 res = if (bindings is POPEmptyRow) {
-                    POPGroup(query, createProjectedVariables(query, node, mapping), by, null, child)
+                    POPGroup(query, createProjectedVariables(node), by, null, child)
                 } else {
-                    POPGroup(query, createProjectedVariables(query, node, mapping), by, bindings as POPBind, child)
+                    POPGroup(query, createProjectedVariables(node), by, bindings as POPBind, child)
                 }
             }
             "POPModify" -> {
@@ -709,30 +709,30 @@ public object XMLElementToOPBase {
                     delete.add(XMLElementToOPBase(query, c, mapping) as LOPTriple)
                 }
                 val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
-                res = POPModify(query, createProjectedVariables(query, node, mapping), insert, delete, child)
+                res = POPModify(query, createProjectedVariables(node), insert, delete, child)
             }
             "POPFilter" -> {
-                res = POPFilter(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPFilter(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPBind" -> {
                 val child0 = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
                 val child1 = XMLElementToOPBase(query, node["children"]!!.childs[1], mapping)
-                res = POPBind(query, createProjectedVariables(query, node, mapping), createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
+                res = POPBind(query, createProjectedVariables(node), createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
             }
             "POPOffset" -> {
-                res = POPOffset(query, createProjectedVariables(query, node, mapping), node.attributes["offset"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPOffset(query, createProjectedVariables(node), node.attributes["offset"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPLimit" -> {
-                res = POPLimit(query, createProjectedVariables(query, node, mapping), node.attributes["limit"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPLimit(query, createProjectedVariables(node), node.attributes["limit"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPVisualisation" -> {
-                res = POPVisualisation(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPVisualisation(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPDebug" -> {
-                res = POPDebug(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPDebug(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPReduced" -> {
-                res = POPReduced(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                res = POPReduced(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPValues" -> {
                 val rows = node.attributes["rows"]!!.toInt()
@@ -749,48 +749,48 @@ public object XMLElementToOPBase {
                         }
                         vals.add(exp.toList())
                     }
-                    res = POPValues(query, createProjectedVariables(query, node, mapping), vars, vals)
+                    res = POPValues(query, createProjectedVariables(node), vars, vals)
                 } else {
                     res = POPValues(query, rows)
                 }
 /*Coverage Unreachable*/
             }
             "POPEmptyRow" -> {
-                res = POPEmptyRow(query, createProjectedVariables(query, node, mapping))
+                res = POPEmptyRow(query, createProjectedVariables(node))
             }
             "POPUnion" -> {
-                res = POPUnion(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping))
+                res = POPUnion(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping))
             }
             "POPMinus" -> {
-                res = POPMinus(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping))
+                res = POPMinus(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping))
             }
             "POPJoinHashMap" -> {
-                res = POPJoinHashMap(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+                res = POPJoinHashMap(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
             }
             "POPJoinCartesianProduct" -> {
-                res = POPJoinCartesianProduct(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+                res = POPJoinCartesianProduct(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
             }
             "POPJoinMerge" -> {
-                res = POPJoinMerge(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+                res = POPJoinMerge(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
             }
             "POPJoinMergeOptional" -> {
-                res = POPJoinMergeOptional(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+                res = POPJoinMergeOptional(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
             }
             "POPJoinMergeSingleColumn" -> {
-                res = POPJoinMergeSingleColumn(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+                res = POPJoinMergeSingleColumn(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
             }
             "POPJoinWithStore" -> {
-                res = POPJoinWithStore(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
+                res = POPJoinWithStore(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
             }
             "POPJoinWithStoreExists" -> {
-                res = POPJoinWithStoreExists(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
+                res = POPJoinWithStoreExists(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
             }
             "POPTripleStoreIterator" -> {
                 val s = XMLElementToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
                 val p = XMLElementToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
                 val o = XMLElementToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
                 val tripleStoreIndexDescription = query.getInstance().tripleStoreManager!!.getIndexFromXML(node["idx"]!!) as TripleStoreIndexDescription
-                res = POPTripleStoreIterator(query, createProjectedVariables(query, node, mapping), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
+                res = POPTripleStoreIterator(query, createProjectedVariables(node), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
             }
             "LOPTriple" -> {
                 res = LOPTriple(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())

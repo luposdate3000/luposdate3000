@@ -86,8 +86,8 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
             var b = readByte()
             while (true) {
                 when (b) {
-                    '\n'.toByte() -> break
-                    '\r'.toByte() -> {
+                    '\n'.code.toByte() -> break
+                    '\r'.code.toByte() -> {
                     }
                     0.toByte() -> throw Exception("zero Bytes not allowed within utf8-string")
                     else -> {

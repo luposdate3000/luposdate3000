@@ -1,12 +1,12 @@
 package lupos.simulator_db.dummyImpl
 
+import lupos.shared_inline.File
 import lupos.simulator_db.ChoosenOperatorPackage
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
 import lupos.simulator_db.PreprocessingPackage
 import lupos.simulator_db.ResultPackage
-import lupos.shared_inline.File
 
 public class DatabaseSystemDummy : IDatabase {
 
@@ -18,12 +18,10 @@ public class DatabaseSystemDummy : IDatabase {
         File(state.dataFile).withOutputStream { }
     }
 
-    public override fun activate(state: IDatabaseState) {
-        this.state = state as DatabaseState
+    public override fun activate() {
     }
 
-    public override fun deactivate(): IDatabaseState {
-        return state
+    public override fun deactivate() {
     }
 
     public override fun end() {

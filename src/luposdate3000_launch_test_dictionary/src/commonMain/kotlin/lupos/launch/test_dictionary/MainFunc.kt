@@ -20,9 +20,9 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
-import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.AflCore
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
@@ -52,13 +52,15 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (isLocal && dictType == EDictionaryTypeExt.KV) {
                 continue
             }
-            var instance = LuposdateEndpoint.initialize()
+            var instance = Luposdate3000Instance()
+            instance.allowInitFromDisk = false
             resetRandom()
             BufferManagerExt.allowInitFromDisk = false
-            var bufferManager = BufferManager(instance)
+            instance.bufferManager = BufferManager(instance)
             if (isLocal) {
                 instance.nodeGlobalDictionary?.close()
                 instance.nodeGlobalDictionary = object : ADictionary(instance) {
+                    override fun createNewUUID(): Int = throw Exception("not implemented")
                     override fun close() {}
                     override fun delete() {}
                     override fun createNewBNode(): Int = throw Exception("not implemented")
@@ -73,11 +75,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:74")
+                            rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:74")
                         }
-                        return DictionaryFactory.createDictionary(dictType, false, bufferManager, rootPage, initFromRootPage, instance)
+                        return DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
-                    else -> return DictionaryFactory.createDictionary(dictType, isLocal, bufferManager, -1, false, instance)
+                    else -> return DictionaryFactory.createDictionary(dictType, isLocal, instance.bufferManager!!, -1, false, instance)
                 }
             }
             if (verbose) {
@@ -306,7 +308,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
             if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
                 dict.close()
-                if (bufferManager.getNumberOfReferencedPages() != 0) {
+                if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
                     throw Exception("")
                 }
                 dict = createDict(true)
@@ -315,14 +317,13 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 testGetValueOk(values[v], k)
             }
             dict.delete()
-            if (bufferManager.getNumberOfReferencedPages() != 0) {
+            if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
                 throw Exception("")
             }
-            if (bufferManager.getNumberOfAllocatedPages() != 0) {
+            if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
                 throw Exception("")
             }
-            bufferManager.close()
-            LuposdateEndpoint.close(instance)
+            instance.bufferManager!!.close()
         }
     }
 }

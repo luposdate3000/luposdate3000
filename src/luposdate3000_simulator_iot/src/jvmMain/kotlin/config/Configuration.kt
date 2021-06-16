@@ -238,12 +238,7 @@ public object Configuration {
     }
 
     private fun createDbDeviceAddresses() {
-        dbDeviceAddresses = IntArray(dbDeviceCounter)
-        var index = 0
-        for (d in devices)
-            if (d.hasDatabase()) {
-                dbDeviceAddresses[index] = d.address
-                index++
-            }
+        val addresses = devices.filter { it.hasDatabase() }.map { it.address }
+        dbDeviceAddresses = IntArray(addresses.size) { addresses[it] }
     }
 }

@@ -38,11 +38,11 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
     @JvmField
     internal val lock = MyReadWriteLock()
     override fun valueToGlobal(value: Int): Int {
-        var res: Int? = 0
+        var res: Int = 0
         lock.withWriteLock {
             res = dictionary.valueToGlobal(value)
         }
-        return res!!
+        return res
     }
 
     override fun createValue(buffer: ByteArrayWrapper): Int {
@@ -55,6 +55,10 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
 
     override fun createNewBNode(): Int {
         return dictionary.createNewBNode()
+    }
+
+    override fun createNewUUID(): Int {
+        return dictionary.createNewUUID()
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): Int? {
@@ -99,6 +103,10 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                     getValue(buffer, value)
                     output.writeInt(buffer.size)
                     output.write(buffer.buf, buffer.size)
+                }
+                7 -> {
+                    val res = createNewUUID()
+                    output.writeInt(res)
                 }
             }
             output.flush()

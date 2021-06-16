@@ -262,7 +262,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>, nodeManager: NodeManager) {
+    internal inline fun initializeWith(node: ByteArray, childs: MutableList<Int>, nodeManager: NodeManager) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null

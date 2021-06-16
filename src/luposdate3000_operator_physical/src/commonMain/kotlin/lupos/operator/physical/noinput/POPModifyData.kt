@@ -59,7 +59,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         res += " DATA {"
         for (c in data) {
             if (c.graphVar) {
-                throw GraphVariablesNotImplementedException(classname)
+                throw GraphVariablesNotImplementedException()
             }
             SanityCheck.check { !c.graphVar }
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {

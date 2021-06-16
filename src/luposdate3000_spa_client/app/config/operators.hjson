@@ -5,17 +5,17 @@ values:["1", "2", "3", "4", "5", "6", "7"],
 },
     "Instrument": {
 standard:"piano",
-values:["piano", "bass - electric", "bassoon", "cello", "clarinet", "contrabass", "flute", "french - horn", "guitar - acoustic", "guitar - electric", "guitar - nylon", "harmonium", "harp", "organ", "saxophone", "trombone", "trumpet", "tuba", "violin", "xylophone"],
+values:["piano", "bass-electric", "bassoon", "cello", "clarinet", "contrabass", "flute", "french-horn", "guitar-acoustic", "guitar-electric", "guitar-nylon", "harmonium", "harp", "organ", "saxophone", "trombone", "trumpet", "tuba", "violin", "xylophone"],
 },
     "Pitch":{
 standard:"C",
-values: ["C", "C #", "Db", "D", "D #", "Eb", "E", "F", "F #", "Gb", "G", "G #", "Ab", "A", "A #", "Bb", "B"],
+values: ["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"],
 },
     "modes": ["Operator", "Binding"],
     "information": {
         "Pitch": {
             "standard": "None,",
-            "values": ["None", "Simple", "Operator-ID", "Operator-Depth", "Operator-Type", "Operator-Variable", "Data-Index", "Data-Variable", "Query-Progress","Dynamic"]
+            "values": ["None", "Simple", "Operator-ID", "Operator-Depth", "Operator-Type", "Operator-Variable", "Data-Index", "Data-Variable", "Query-Progress","Dynamic Operator-ID", "Dynamic Operator-Depth"]
         },
         "Instrument": {
             "standard": "None,",

@@ -72,51 +72,17 @@ function calcDifferentOperatorVariables() { //called by formatResultData
 function calcDifferentDataVariables() { //called by formatResultData
     var i;
     differentDataVariables = [];
-    for (i = 0; i <= globalAnimationList.length - 1; i++) {
-        var tmp = globalAnimationList[i][2].split(" ")[0]
+    for (i = 0; i <= App.globalAnimationList.length - 1; i++) {
+        var tmp = App.globalAnimationList[i][2].split(" ")[0]
         if (!differentDataVariables.includes(tmp)) {
-            idMappings["Data-Variable"][globalAnimationList[i][3]] = differentDataVariables.length
+            idMappings["Data-Variable"][App.globalAnimationList[i][3]] = differentDataVariables.length
             differentDataVariables.push(tmp);
         } else {
-            idMappings["Data-Variable"][globalAnimationList[i][3]] = differentDataVariables.indexOf(tmp)
+            idMappings["Data-Variable"][App.globalAnimationList[i][3]] = differentDataVariables.indexOf(tmp)
         }
     }
 }
 
-function addLocicalSteps(data) { //called after query execution  - called by main.coffee
-    var tmp = data.split("NEWTREE")
-    var i;
-    App.logGraph = []
-    for (i = 0; i < tmp.length - 1; i++) {
-        App.logGraph.push(tmp[i]);
-    }
-}
-
-function addPhysicalSteps(data) { //called after query execution  - called by main.coffee
-    var tmp = data.split("NEWTREE")
-    var i;
-    App.physGraph = []
-    for (i = 0; i < tmp.length - 1; i++) {
-        App.physGraph.push(tmp[i]);
-    }
-}
-
-
-function addAnimationDataSplit(visData) { //called after query execution  - called by main.coffee
-    addAnimationData(visData.split("NEWDATA"));
-}
-
-function addAnimationData(tmpResult) { //called after query execution  - called by main.coffee
-    globalAnimationList = [];
-    for (i = 0; i <= tmpResult.length - 2; i++) {
-        var tmp;
-        tmp = tmpResult[i].split("||");
-        tmp[0] = parseInt(tmp[0], 10);
-        tmp[1] = parseInt(tmp[1], 10);
-        tmp[3] = parseInt(tmp[3], 10);
-        globalAnimationList.push(tmp);
-    }
-}
 
 
 function formatResultData() { //called after query execution  - called by main.coffee
@@ -144,8 +110,8 @@ function formatResultData() { //called after query execution  - called by main.c
 
     //Load final optimized step of the physical operator graph by default
     replacePrefix();
-    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
-    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), false);
+    loadData(App.physGraph[App.physGraph.length - 1], true);
+    loadData(App.physGraph[App.physGraph.length - 1], false);
     //draw the network
 
     idMappings = {

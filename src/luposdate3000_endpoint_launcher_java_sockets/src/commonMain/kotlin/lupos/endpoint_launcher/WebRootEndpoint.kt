@@ -17,12 +17,11 @@
 package lupos.endpoint_launcher
 
 import lupos.shared_inline.File
-import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 
 internal object WebRootEndpoint {
 
-    internal fun initialize(paths: MutableMap<String, PathMappingHelper>, params: Map<String, String>, connectionInMy: MyInputStream, connectionOutMy: MyOutputStream) {
+    internal fun initialize(paths: MutableMap<String, PathMappingHelper>, connectionOutMy: MyOutputStream) {
         val webroot = "src/luposdate3000_spa_client/dist/" // relative to luposdate3000 or absolute path including trailling slash
         val basepath = "/" // base path in the browser url. this may be the empty path. this must include a trailing slash
         File(webroot).walk { p ->

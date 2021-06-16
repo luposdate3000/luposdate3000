@@ -36,7 +36,7 @@ public class LoggerStub() : ISimulationLifeCycle {
     private fun logSimulationEnd() {
         log("")
         log("Number of processed events: ${simulation.addedEventCounter}")
-        //log("Simulation clock: ${simulation.currentClock}")
+        // log("Simulation clock: ${simulation.currentClock}")
         log("Simulation completed")
         log("================================================")
         log("")

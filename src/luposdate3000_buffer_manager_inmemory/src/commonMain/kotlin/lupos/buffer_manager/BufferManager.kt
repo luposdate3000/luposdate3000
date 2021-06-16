@@ -24,7 +24,7 @@ import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
-public class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
+public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") instance: Luposdate3000Instance) : IBufferManager {
 
     /*
      * each type safe page-manager safes to its own store
@@ -54,10 +54,10 @@ public class BufferManager public constructor(instance: Luposdate3000Instance) :
     internal var freeListSize = 0
 
     @ProguardTestAnnotation
-    public fun getNumberOfAllocatedPages(): Int = counter - freeListSize
+    override fun getNumberOfAllocatedPages(): Int = counter - freeListSize
 
     @ProguardTestAnnotation
-    public fun getNumberOfReferencedPages(): Int {
+    override fun getNumberOfReferencedPages(): Int {
         val res = allPagesRefcounters.sum()
         SanityCheck {
             val tmp = mutableMapOf<Int, Int>()

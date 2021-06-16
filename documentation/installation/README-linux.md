@@ -14,7 +14,7 @@ apt install openjdk-8-jdk-headless unzip
 
 #if you want to use the spa-client
 {
-    apt install g++ python2 node
+    apt install g++ python2 node firefox
 }
 
 #Define the folder, where to download everything else.

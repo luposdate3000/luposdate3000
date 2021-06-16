@@ -82,7 +82,7 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
+    internal inline fun initializeWith(node: ByteArray, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {
