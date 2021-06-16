@@ -152,11 +152,14 @@ public class DatabaseSystemDummy : IDatabase {
         state.queriesInProgress[queryID] = newQuery
     }
 
-    private fun calculate(queryID: Int) {
+    private fun calculate(queryID: Int, isLastHop: Boolean, src: Int) {
         val query = state.queriesInProgress[queryID]!!
         for (part in query.operatorGraphParts)
             if (part.canBeEvaluatedWithoutRemoteDependencies())
                 query.choosenOperators.add(part)
+
+        if (isLastHop)
+            startEvaluation(src, queryID)
     }
 
     private fun sendPreprocessingPackage(to: Int, dests: IntArray, parts: ByteArray, queryID: Int) {
@@ -172,25 +175,14 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
 
-    private fun setupOperatorGraph(
-        destinationAddresses: IntArray,
-        parts: List<OperatorGraphPart>,
-        senderAddress: Int,
-        queryID: Int,
-    ) {
-
+    private fun setupOperatorGraph(destinationAddresses: IntArray, parts: List<OperatorGraphPart>, senderAddress: Int,  queryID: Int) {
         val nextHopToDestsMap = getHopToDestinationsMap(destinationAddresses)
         updateQueryInProgress(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress, queryID)
 
-        for ((hop, dest) in nextHopToDestsMap) {
-            if (hop == state.ownAddress) {
-                calculate(queryID)
-                if (nextHopToDestsMap.size == 1) {
-                    // wenn ich ganz unten im operator Graph bin ... also der triple store
-                    startEvaluation(senderAddress, queryID)
-                }
-            } else
+        for ((hop, dest) in nextHopToDestsMap)
+            if (hop == state.ownAddress)
+                calculate(queryID, nextHopToDestsMap.size == 1, senderAddress)
+             else
                 sendPreprocessingPackage(hop,dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
-        }
     }
 }
