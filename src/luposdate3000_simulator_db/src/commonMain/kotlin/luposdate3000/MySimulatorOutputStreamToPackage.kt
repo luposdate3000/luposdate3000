@@ -54,7 +54,7 @@ internal class MySimulatorOutputStreamToPackage(val target: Int, val path: Strin
     }
 
     override fun write(buf: ByteArray) {
-        TODO()
+        ByteArrayWrapperExt.appendTo(buf, buffer)
     }
 
     override fun write(buf: ByteArray, len: Int) {

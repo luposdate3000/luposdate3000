@@ -63,4 +63,18 @@ public object ByteArrayWrapperExt {
         setSize(b, a.size)
         a.buf.copyInto(b.buf, 0, 0, a.size)
     }
+
+    @Suppress("NOTHING_TO_INLINE")
+    public inline fun appendTo(a: ByteArrayWrapper, b: ByteArrayWrapper) {
+        val offset = b.size
+        setSize(b, b.size + a.size)
+        a.buf.copyInto(b.buf, offset, 0, a.size)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    public inline fun appendTo(a: ByteArray, b: ByteArrayWrapper) {
+        val offset = b.size
+        setSize(b, b.size + a.size)
+        a.copyInto(b.buf, offset, 0, a.size)
+    }
 }

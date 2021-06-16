@@ -66,23 +66,24 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
         val bytes = toBytes(query)
         saveData(bytes)
     }
-
+    private var myhelper = 0
     private fun buildInsertQuery(s: ParkingSample): String {
-        return "SELECT * WHERE {?s ?p ?o . }"
-    }
-    private fun buildInsertQueryOther(s: ParkingSample): String {
-        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-            "\n" +
-            "INSERT DATA {\n" +
-            "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-            "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
-            "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
-            "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
-            "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
-            "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
-            "}\n"
+        if (myhelper++ == 0) {
+            return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+                "\n" +
+                "INSERT DATA {\n" +
+                "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
+                "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
+                "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
+                "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
+                "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
+                "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
+                "}\n"
+        } else {
+            return "SELECT * WHERE {?s ?p ?o . }"
+        }
     }
 
     private fun saveData(data: ByteArray) {

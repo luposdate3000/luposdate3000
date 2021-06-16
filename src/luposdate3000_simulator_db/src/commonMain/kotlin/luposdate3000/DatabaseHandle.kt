@@ -109,12 +109,17 @@ public class DatabaseHandle : IDatabase {
             }
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
             "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MySimulatorInputStreamFromPackage(pck.data!!))
+            "simulator-intermediate-result" -> {
+                SanityCheck.check { myPendingWorkData[pck.params["key"]!!] == null }
+                myPendingWorkData[pck.params["key"]!!] = pck.data!!
+                doWork()
+            }
             else -> TODO("${pck.path} ${pck.params}")
         }
     }
 
     private fun receive(pck: MySimulatorOperatorgraphPackage) {
-        println("receive MySimulatorOperatorgraphPackage")
+        println("receive MySimulatorOperatorgraphPackage ${pck.dependenciesMapTopDown} ${pck.operatorGraph}")
         val allHosts = pck.operatorgraphPartsToHostMap.values.toSet().toTypedArray()
         val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
 //        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
@@ -206,22 +211,28 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun doWork() {
+        println("doWork ${myPendingWork.size}")
         var changed = true
         while (changed) {
             changed = false
             for (w in myPendingWork) {
+                println("checkWork ${myPendingWorkData.keys} ${w.dependencies} -> ${w.key}")
                 if (myPendingWorkData.keys.containsAll(w.dependencies)) {
+                    myPendingWork.remove(w)
+                    println("doIt NOW")
                     changed = true
                     val query = Query(instance)
                     val node = XMLElementToOPBase(query, w.operatorGraph) as POPBase
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            node.evaluate(MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!))
+                            println("going to evaluate")
+                            val out = MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
+                            node.evaluate(out)
+                            out.close()
                         }
-                        else -> throw Exception("unexpected node '${node.classname}'")
+                        else -> TODO(node.toString())
                     }
 
-                    myPendingWork.remove(w)
                     changed = true
                     break
                 }
