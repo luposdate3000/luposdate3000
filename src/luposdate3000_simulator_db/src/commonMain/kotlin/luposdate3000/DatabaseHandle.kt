@@ -79,6 +79,7 @@ public class DatabaseHandle : IDatabase {
 
     override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
         val queryString = query.decodeToString()
+        println("receive receiveQuery $queryString")
         targetForQueryResponse = sourceAddress
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         op.getQuery().initialize(op)
@@ -108,6 +109,7 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
+        println("receive MySimulatorAbstractPackage ${pck.path}")
         when (pck.path) {
             "/distributed/query/dictionary/register",
             "/distributed/query/dictionary/remove" -> {

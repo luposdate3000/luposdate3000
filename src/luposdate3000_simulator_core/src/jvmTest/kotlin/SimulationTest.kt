@@ -26,7 +26,7 @@ class SimulationTest {
     @Test
     fun `sent data equals the received data`() {
         val data = 5
-        val delay: Int = 18
+        val delay: Long = 18
         var receivingEntity: Entity? = null
         var actualData: Int? = null
         var actualSrcEntity: Entity? = null
@@ -60,9 +60,9 @@ class SimulationTest {
 
     @Test
     fun `clock equals to the time of occurrence of the last event`() {
-        val firstDelay: Int = 4
-        val secondDelay: Int = 5
-        val thirdDelay: Int = 499
+        val firstDelay: Long = 4
+        val secondDelay: Long = 5
+        val thirdDelay: Long = 499
         var receivingEntity: Entity? = null
         var actualFirstClock: Long? = null
         var actualSecondClock: Long? = null
@@ -206,8 +206,8 @@ class SimulationTest {
 
     @Test
     fun `An entity responds to an event with an event`() {
-        val firstDelay: Int = 4
-        val responseDelay: Int = 5
+        val firstDelay: Long = 4
+        val responseDelay: Long = 5
         var isResponseReceived = false
         var respondingEntity: Entity? = null
 
@@ -237,14 +237,14 @@ class SimulationTest {
         val sim = Simulation(arrayListOf(respondingEntity, sendingEntity), callback = LoggerStub())
         sim.startSimulation()
 
-        val expected: Int = firstDelay + responseDelay
+        val expected: Long = firstDelay + responseDelay
         assertEquals(expected.toLong(), sim.getCurrentClock())
         assertTrue(isResponseReceived)
     }
 
     @Test
     fun `Terminated entity does not receive a message`() {
-        val delay: Int = 4
+        val delay: Long = 4
         var processCounter = 0
         val expectedProcessCounter = 1
         var respondingEntity: Entity? = null
@@ -283,7 +283,7 @@ class SimulationTest {
 
     @Test
     fun `event is processed when delay equals clock`() {
-        val delay: Int = 58
+        val delay: Long = 58
         val eventType = 3
         var eventProcessedAt: Long = 0
 
@@ -344,7 +344,7 @@ class SimulationTest {
 
     @Test
     fun `recursive sending events until maxClock is reached`() {
-        val delay: Int = 1
+        val delay: Long = 1
         val maxClock: Long = 100
         var respondingEntity: Entity? = null
 
@@ -378,7 +378,7 @@ class SimulationTest {
 
     @Test
     fun `recursive sending events until stop is called`() {
-        val delay: Int = 1
+        val delay: Long = 1
         val maxEventNumber = 100
         var currentProcessedEventCounter = 0
         var respondingEntity: Entity? = null
@@ -419,9 +419,9 @@ class SimulationTest {
 
     @Test
     fun `set multiple timer`() {
-        val timerDelay1: Int = 14
-        val timerDelay2: Int = 22
-        val timerDelay3: Int = 37
+        val timerDelay1: Long = 14
+        val timerDelay2: Long = 22
+        val timerDelay3: Long = 37
 
         var timer1Result: Long = 0
         var timer2Result: Long = 0
@@ -468,7 +468,7 @@ class SimulationTest {
         lateinit var entityA: Entity
         lateinit var entityB: Entity
         val steadyStateAt: Long = 5
-        val delay: Int = 15
+        val delay: Long = 15
         var entityAIsCalledAt: Long = 0
         var entityBIsCalledAt: Long = 0
 
