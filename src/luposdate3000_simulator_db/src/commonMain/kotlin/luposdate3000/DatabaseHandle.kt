@@ -17,10 +17,11 @@
 package lupos.simulator_db.luposdate3000
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
+import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.result_format.QueryResultToXMLStream
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPDistributedSendSingle
+import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
@@ -144,9 +145,9 @@ public class DatabaseHandle : IDatabase {
                             } else {
                                 if (dest != d) {
                                     packageMap[k] = ownAdress // alles mit unterschiedlichen next hops selber berechnen
-for(i in pck.dependenciesMapTopDown[k]!!){ 
-pck.destinations[i]=ownAdress
-}
+                                    for (i in pck.dependenciesMapTopDown[k]!!) {
+                                        pck.destinations[i] = ownAdress
+                                    }
                                     changed = true
                                     continue@loop
                                 }
@@ -155,9 +156,9 @@ pck.destinations[i]=ownAdress
                             continue@loop
                         }
                     }
-for(i in pck.dependenciesMapTopDown[k]!!){
-pck.destinations[i]=dest
-}
+                    for (i in pck.dependenciesMapTopDown[k]!!) {
+                        pck.destinations[i] = dest
+                    }
                     packageMap[k] = dest // alles mit gemeinsamen next Hop zusammen weitersenden
                     changed = true
                 }
@@ -177,12 +178,12 @@ pck.destinations[i]=dest
             } else {
                 p.dependenciesMapTopDown[k] = mutableSetOf()
             }
-val d=pck.destinations[k]
-if(d!=null){
-p.destinations[k]=d
-}else{
-p.destinations[k]=ownAdress
-}
+            val d = pck.destinations[k]
+            if (d != null) {
+                p.destinations[k] = d
+            } else {
+                p.destinations[k] = ownAdress
+            }
         }
         SanityCheck.check { packageMap.size == pck.operatorGraph.size }
         for ((k, v) in packages) {
@@ -197,7 +198,7 @@ p.destinations[k]=ownAdress
                     p.operatorGraph[k]!!,
                     p.destinations[k]!!,
                     p.dependenciesMapTopDown[k]!!,
-k
+                    k
                 )
             )
         }
@@ -205,29 +206,27 @@ k
     }
 
     private fun doWork() {
-var changed=true
-while(changed){
-changed=false
-for(w in myPendingWork){
-if(myPendingWorkData.keys.containsAll(w.dependencies)){
-//w.operatorGraph
-//w.destination
-changed=true
-val node = XMLElementToOPBase(query, queryXML) as POPBase
-when (node) {
-                                            is POPDistributedSendSingle -> {
-                                                node.evaluate(MySimulatorOutputStreamToPackage(w.destination,"simulator-intermediate-result",mapOf("key" to w.key),router!!))
-                                            }
-                                            else -> throw Exception("unexpected node '${node.classname}'")
-                                        }
+        var changed = true
+        while (changed) {
+            changed = false
+            for (w in myPendingWork) {
+                if (myPendingWorkData.keys.containsAll(w.dependencies)) {
+                    changed = true
+                    val query = Query(instance)
+                    val node = XMLElementToOPBase(query, w.operatorGraph) as POPBase
+                    when (node) {
+                        is POPDistributedSendSingle -> {
+                            node.evaluate(MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!))
+                        }
+                        else -> throw Exception("unexpected node '${node.classname}'")
+                    }
 
-
-myPendingWork.remove(w)
-changed=true
-break
-}
-}
-}
+                    myPendingWork.remove(w)
+                    changed = true
+                    break
+                }
+            }
+        }
     }
 
     override fun receive(pck: IDatabasePackage) {
