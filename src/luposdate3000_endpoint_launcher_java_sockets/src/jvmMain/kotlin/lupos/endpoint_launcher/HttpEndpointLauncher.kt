@@ -59,7 +59,6 @@ public actual object HttpEndpointLauncher {
     }
 
     public actual /*suspend*/ fun start(instance: Luposdate3000Instance) {
-
         val hosturl = instance.tripleStoreManager!!.getLocalhost().split(":")
         val hostname = hosturl[0]
         val port = if (hosturl.size > 1) {

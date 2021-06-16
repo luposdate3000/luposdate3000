@@ -28,13 +28,16 @@ public interface IOPBase {
     public fun replaceVariableWithAnother(name: String, name2: String): IOPBase
     public fun getClassname(): String
     public fun toSparql(): String
+
     /*suspend*/ public fun evaluate(parent: Partition): IteratorBundle
     public fun cloneOP(): IOPBase
     public fun getPartitionCount(variable: String): Int
     public fun getRequiredVariableNamesRecoursive(): List<String>
     public fun getRequiredVariableNames(): List<String>
     public fun getProvidedVariableNames(): List<String>
+
     /*suspend*/ public fun toXMLElementRoot(partial: Boolean): XMLElement
+
     /*suspend*/ public fun toXMLElement(partial: Boolean): XMLElement
     public fun getLatestChild(): IOPBase
     public fun getPossibleSortPriorities(): List<List<SortHelper>>
@@ -42,6 +45,7 @@ public interface IOPBase {
     public fun getChildren(): Array<IOPBase>
     public fun getMySortPriority(): MutableList<SortHelper>
     public fun setMySortPriority(value: MutableList<SortHelper>)
+
     /*suspend*/ public fun getHistogram(): HistogramResult
     public fun selectSortPriority(priority: List<SortHelper>)
     public fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false)

@@ -14,7 +14,8 @@ public class PowerSupply(capacity: Double) {
 
     public fun decrease() {
         consumed += drainageRate
-        if (isInfinite)
+        if (isInfinite) {
             actualCapacity -= drainageRate
+        }
     }
 }

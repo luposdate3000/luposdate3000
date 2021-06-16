@@ -526,7 +526,6 @@ public object InputToIntermediate {
             val tripleInitialSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - inferenceTime
             var myCount = -1L
             for (o in 0 until 6) {
-
                 val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
                 val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
                 val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }

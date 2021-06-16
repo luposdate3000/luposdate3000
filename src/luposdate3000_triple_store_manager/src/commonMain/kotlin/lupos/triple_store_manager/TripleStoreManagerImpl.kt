@@ -497,7 +497,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         for (hostname in hostnames) {
             if (hostname != localhost) {
                 query.getInstance().communicationHandler!!.sendData(
-                    hostname, "/distributed/graph/create",
+                    hostname,
+                    "/distributed/graph/create",
                     mapOf(
                         "name" to graphName,
                         "origin" to "false",
@@ -530,7 +531,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         } else {
                             if (origin) {
                                 query.getInstance().communicationHandler!!.sendData(
-                                    store.first, "/distributed/graph/clear",
+                                    store.first,
+                                    "/distributed/graph/clear",
                                     mapOf(
                                         "origin" to "false",
                                         "name" to graphName
@@ -558,7 +560,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                     } else {
                         if (origin) {
                             query.getInstance().communicationHandler!!.sendData(
-                                store.first, "/distributed/graph/drop",
+                                store.first,
+                                "/distributed/graph/drop",
                                 mapOf(
                                     "origin" to "false",
                                     "name" to graphName
@@ -650,7 +653,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (hostname in hostnames) {
                 if (hostname != localhost) {
                     query.getInstance().communicationHandler!!.sendData(
-                        hostname, "/distributed/graph/commit",
+                        hostname,
+                        "/distributed/graph/commit",
                         mapOf(
                             "origin" to "false",
                         )

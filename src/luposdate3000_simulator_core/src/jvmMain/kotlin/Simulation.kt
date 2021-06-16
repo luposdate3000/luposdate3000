@@ -44,14 +44,17 @@ public class Simulation(
     }
 
     private fun runNextTimeStep(): Boolean {
-        if (!futureEvents.hasNext())
+        if (!futureEvents.hasNext()) {
             return true
+        }
 
-        if (isSteadyStateReached())
+        if (isSteadyStateReached()) {
             transferToSteadyState()
+        }
 
-        if (isMaxClockReached())
+        if (isMaxClockReached()) {
             return true
+        }
 
         processEvent()
         return false

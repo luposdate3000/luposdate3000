@@ -49,7 +49,6 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
     override fun evaluate(parent: Partition): IteratorBundle {
-
         val child = getChildren()[0].evaluate(parent)
         var rowMode = child.rows.columns.toMutableList()
         val target = getChildren()[0].getProvidedVariableNames()

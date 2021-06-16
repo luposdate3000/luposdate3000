@@ -100,14 +100,16 @@ internal class NodeManager(bufferManager: IBufferManager) {
         action(node, nodeid)
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline /*suspend*/ fun freeNode(call_location: String, nodeid: Int) {
+    /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+    internal inline
+    fun freeNode(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeNode($nodeid) : $call_location" }
         bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:105", nodeid)
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline /*suspend*/ fun freeNodeAndAllRelated(call_location: String, nodeid: Int) {
+    /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+    internal inline
+    fun freeNodeAndAllRelated(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($nodeid) : $call_location" }
         releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:111", nodeid)
         freeNodeAndAllRelatedInternal("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:112", nodeid)

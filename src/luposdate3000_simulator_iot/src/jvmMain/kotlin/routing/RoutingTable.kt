@@ -17,11 +17,13 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
         var updated = false
         initializeEntries()
 
-        if (nextHops[destinationAddress] == notInitialized)
+        if (nextHops[destinationAddress] == notInitialized) {
             destinationCounter++
+        }
 
-        if (nextHops[destinationAddress] != nextHopAddress)
+        if (nextHops[destinationAddress] != nextHopAddress) {
             updated = true
+        }
 
         nextHops[destinationAddress] = nextHopAddress
         hops.add(nextHopAddress)
@@ -32,24 +34,28 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
     }
 
     private fun initializeEntries() {
-        if (nextHops.isEmpty())
+        if (nextHops.isEmpty()) {
             nextHops = IntArray(addressSpace) { notInitialized }
+        }
 
-        if (nextDatabaseHops.isEmpty())
+        if (nextDatabaseHops.isEmpty()) {
             nextDatabaseHops = IntArray(addressSpace) { notInitialized }
+        }
     }
 
     public fun getNextHop(destinationAddress: Int): Int =
-        if (!hasDestination(destinationAddress))
+        if (!hasDestination(destinationAddress)) {
             defaultAddress
-        else
+        } else {
             nextHops[destinationAddress]
+        }
 
     public fun getNextDatabaseHop(destinationAddress: Int): Int =
-        if (!hasDestination(destinationAddress))
+        if (!hasDestination(destinationAddress)) {
             notInitialized
-        else
+        } else {
             nextDatabaseHops[destinationAddress]
+        }
 
     public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         val dbHops = IntArray(destinationAddresses.size) { -1 }

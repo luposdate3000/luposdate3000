@@ -224,16 +224,18 @@ public object Configuration {
     }
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
-        if (deviceType.parkingSensor)
+        if (deviceType.parkingSensor) {
             return ParkingSensor(device)
+        }
         return null
     }
 
     private fun createAvailableLinks() {
         for (one in devices)
             for (two in devices)
-                if (!one.isStarNetworkChild && !two.isStarNetworkChild)
+                if (!one.isStarNetworkChild && !two.isStarNetworkChild) {
                     one.linkManager.setLinkIfPossible(two)
+                }
     }
 
     private fun createDbDeviceAddresses() {

@@ -87,6 +87,7 @@ public class EmptyResultException public constructor() : EvaluationException("Em
 
 // known bugs --->>>
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")
+
 // used to indicate, that intentionally every exception is caught here
 public typealias DontCareWhichException = Throwable
 

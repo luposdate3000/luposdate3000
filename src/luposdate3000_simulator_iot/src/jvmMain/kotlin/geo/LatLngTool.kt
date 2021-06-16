@@ -166,7 +166,6 @@ internal object LatLngTool {
      * @return the normalized latitude.
      */
     internal fun normalizeLatitude(latitude: Double): Double {
-
         return if (latitude > 0) {
             latitude.coerceAtMost(90.0)
         } else {

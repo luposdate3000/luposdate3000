@@ -12,9 +12,11 @@ public class LinkManager(public val device: Device) {
     private fun getBestLinkTypeIndex(otherDevice: Device): Int {
         val size = device.supportedLinkTypes.size.coerceAtMost(otherDevice.supportedLinkTypes.size)
         for (i in 0 until size)
-            if (device.supportedLinkTypes[i] == otherDevice.supportedLinkTypes[i])
-                if (isReachableByLinkType(device.supportedLinkTypes[i], otherDevice))
+            if (device.supportedLinkTypes[i] == otherDevice.supportedLinkTypes[i]) {
+                if (isReachableByLinkType(device.supportedLinkTypes[i], otherDevice)) {
                     return device.supportedLinkTypes[i]
+                }
+            }
         return -1
     }
 
@@ -26,8 +28,9 @@ public class LinkManager(public val device: Device) {
 
     public fun getBestLink(otherDevice: Device): Link? {
         val linkIndex = getBestLinkTypeIndex(otherDevice)
-        if (linkIndex == -1)
+        if (linkIndex == -1) {
             return null
+        }
 
         val distance = getDistanceInMeters(otherDevice)
         val dataRate = getLinkTypeByIndex(linkIndex).dataRateInKbps
@@ -47,11 +50,13 @@ public class LinkManager(public val device: Device) {
     }
 
     public fun setLinkIfPossible(otherDevice: Device) {
-        if (otherDevice == device)
+        if (otherDevice == device) {
             return
+        }
 
-        if (hasLink(otherDevice))
+        if (hasLink(otherDevice)) {
             return
+        }
 
         val link = getBestLink(otherDevice) ?: return
         setLink(otherDevice, link)

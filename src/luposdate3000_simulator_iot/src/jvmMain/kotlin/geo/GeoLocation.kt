@@ -60,17 +60,20 @@ public class GeoLocation(internal var latitude: Double, internal var longitude: 
     internal fun getDistanceInMeters(other: GeoLocation): Int {
         val distance = LatLngTool.distance(
             LatLng(latitude, longitude),
-            LatLng(other.latitude, other.longitude), LengthUnit.METER
+            LatLng(other.latitude, other.longitude),
+            LengthUnit.METER
         )
         return round(distance).toInt()
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other === this)
+        if (other === this) {
             return true
+        }
 
-        if (other !is GeoLocation)
+        if (other !is GeoLocation) {
             return false
+        }
 
         return latitude == other.latitude && longitude == other.longitude
     }

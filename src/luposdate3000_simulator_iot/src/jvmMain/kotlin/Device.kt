@@ -44,10 +44,11 @@ public class Device(
     override fun onEvent(source: Entity, data: Any) {
         val pck = data as NetworkPackage
         packageCounter++
-        if (pck.destinationAddress == address)
+        if (pck.destinationAddress == address) {
             processPackage(pck)
-        else
+        } else {
             forwardPackage(pck)
+        }
     }
 
     private fun processPackage(pck: NetworkPackage) {
@@ -90,11 +91,13 @@ public class Device(
     public fun hasDatabase(): Boolean = database != null
 
     override fun equals(other: Any?): Boolean {
-        if (other === this)
+        if (other === this) {
             return true
+        }
 
-        if (other !is Device)
+        if (other !is Device) {
             return false
+        }
 
         return address == other.address
     }

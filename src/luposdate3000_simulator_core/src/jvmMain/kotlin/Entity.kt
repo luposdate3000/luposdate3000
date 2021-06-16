@@ -9,13 +9,15 @@ public abstract class Entity : ISimulationLifeCycle {
     public abstract fun onEvent(source: Entity, data: Any)
 
     internal fun processIncomingEvent(event: Event) {
-        if (isTerminated)
+        if (isTerminated) {
             return
+        }
 
-        if (event.data is ITimer)
+        if (event.data is ITimer) {
             event.data.onExpire()
-        else
+        } else {
             onEvent(event.source, event.data)
+        }
     }
 
     protected fun scheduleEvent(destination: Entity, data: Any, delay: Long) {

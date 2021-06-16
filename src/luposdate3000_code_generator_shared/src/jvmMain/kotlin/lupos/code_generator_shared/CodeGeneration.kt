@@ -469,7 +469,6 @@ internal fun writeMethod(child: IOPBase, classes: MyPrintWriter?, variables: Mut
 
 // Creates variables and the comparisons to filter, the root variable contains the filters result
 internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph: OPBase, variables: MutableSet<String>?) {
-
     val tmpBuf = ByteArrayWrapper()
 
     // Call recursively for all children

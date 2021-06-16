@@ -12,8 +12,9 @@ public object RandomGenerator {
         private set
 
     public fun getDouble(minInclusive: Double, maxInclusive: Double): Double {
-        if (minInclusive == maxInclusive)
+        if (minInclusive == maxInclusive) {
             return minInclusive
+        }
         require(maxInclusive < Double.MAX_VALUE)
         val maxExclusive = maxInclusive + Double.MIN_VALUE
         return random.nextDouble(minInclusive, maxExclusive)

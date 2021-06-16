@@ -90,9 +90,10 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
 
     private fun deleteDirectory(directoryToBeDeleted: File): Boolean {
         val allContents = directoryToBeDeleted.listFiles()
-        if (allContents != null)
+        if (allContents != null) {
             for (file in allContents)
                 deleteDirectory(file)
+        }
 
         return directoryToBeDeleted.delete()
     }

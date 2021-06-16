@@ -51,8 +51,9 @@ public class ParkingSensor(public var device: Device) : ISensor {
     }
 
     private fun onSampleTaken() {
-        if (isStopped)
+        if (isStopped) {
             return
+        }
 
         val data = getSample()
         device.sendSensorSample(dataSinkAddress, data)

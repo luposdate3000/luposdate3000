@@ -39,8 +39,9 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
 
     private fun broadcastDIO() {
         for (potentialChild in device.linkManager.getNeighbours())
-            if (potentialChild != preferredParent.address)
+            if (potentialChild != preferredParent.address) {
                 sendDIO(potentialChild)
+            }
     }
 
     private fun sendDIO(destinationAddress: Int) {
@@ -68,8 +69,9 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         val dio = pck.payload as DIO
         dioReceivedCounter++
         dioCounter++
-        if (objectiveFunction(pck) >= rank)
+        if (objectiveFunction(pck) >= rank) {
             return
+        }
 
         forwardedDioCounter++
         rank = objectiveFunction(pck)
@@ -78,12 +80,15 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
     }
 
     private fun updateParent(newParent: Parent) {
-        if (hasParent())
-            if (newParent.address == preferredParent.address)
+        if (hasParent()) {
+            if (newParent.address == preferredParent.address) {
                 return
+            }
+        }
 
-        if (hasParent())
+        if (hasParent()) {
             sendDAONoPath(preferredParent.address)
+        }
 
         preferredParent = newParent
         sendDAO(preferredParent.address)
@@ -97,19 +102,23 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
 
         val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, dao)
 
-        if (hasParent() && hasRoutingTableChanged)
-            if (!isDelayDAOTimerRunning)
+        if (hasParent() && hasRoutingTableChanged) {
+            if (!isDelayDAOTimerRunning) {
                 startDelayDAOTimer()
+            }
+        }
     }
 
     private fun updateRoutingTable(hopAddress: Int, dao: DAO): Boolean {
         return if (dao.isPath) {
-            if (dao.hopHasDatabase)
+            if (dao.hopHasDatabase) {
                 routingTable.setDestinationsByDatabaseHop(hopAddress, dao.destinations)
-            else
+            } else {
                 routingTable.setDestinationsByHop(hopAddress, dao.destinations, dao.existingDatabaseHops)
-        } else
+            }
+        } else {
             routingTable.removeDestinationsByHop(hopAddress)
+        }
     }
 
     private fun objectiveFunction(pck: NetworkPackage): Int {
@@ -201,8 +210,9 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
             val link = device.linkManager.getLink(children)!!
             strBuilder.append("$link to $children").append(separator)
         }
-        if (strBuilder.length >= separator.length)
+        if (strBuilder.length >= separator.length) {
             strBuilder.deleteRange(strBuilder.length - separator.length, strBuilder.length)
+        }
         return strBuilder
     }
 

@@ -117,6 +117,7 @@ public open class SparqlTestSuite {
         val nilIri = Dictionary.IRI(nil)
         val firstIri = Dictionary.IRI(first)
         val restIri = Dictionary.IRI(rest)
+
         /*suspend*/ fun recursiveListMembers(current: Long) {
             data.sp(current, firstIri).forEach { f(it) }
             data.sp(current, restIri).forEach {
@@ -419,8 +420,9 @@ public open class SparqlTestSuite {
     @JvmField
     public var lastTripleCount: Int = 0
 
-    @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    public open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+    /*suspend*/ @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
+    public open
+    fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {
 //            return true
 //        }
@@ -698,7 +700,6 @@ public open class SparqlTestSuite {
                     }
                 } else {
                     if (expectedResult) {
-
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Failed(Incorrect)")
                         println(buf2.toString())

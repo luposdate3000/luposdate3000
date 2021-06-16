@@ -1994,10 +1994,12 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         }
         val where = GroupGraphPattern()
         return ASTModifyWithWhere(
-            iri?.iri, delete ?: arrayOf(),
+            iri?.iri,
+            delete ?: arrayOf(),
             insert
                 ?: arrayOf(),
-            collect.toTypedArray(), where
+            collect.toTypedArray(),
+            where
         )
     }
 

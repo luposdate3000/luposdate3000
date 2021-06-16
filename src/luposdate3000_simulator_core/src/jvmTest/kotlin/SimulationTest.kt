@@ -109,7 +109,6 @@ class SimulationTest {
 
     @Test
     fun `all entities are called at the beginning`() {
-
         var entityAIsCalled: Boolean? = null
         val entityA = object : Entity() {
             override fun onStartUp() {
@@ -168,7 +167,6 @@ class SimulationTest {
 
     @Test
     fun `all entities are called at the end`() {
-
         var entityAIsCalled: Boolean? = null
         val entityA = object : Entity() {
             override fun onStartUp() {}
@@ -464,7 +462,6 @@ class SimulationTest {
 
     @Test
     fun `entities are called when the simulation reaches steady state`() {
-
         lateinit var entityA: Entity
         lateinit var entityB: Entity
         val steadyStateAt: Long = 5

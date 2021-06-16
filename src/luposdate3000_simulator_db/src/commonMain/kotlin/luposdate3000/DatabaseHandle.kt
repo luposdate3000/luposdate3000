@@ -86,7 +86,6 @@ public class DatabaseHandle : IDatabase {
 
         val parts = op.getQuery().getOperatorgraphParts()
         if (parts.size == 1) {
-
             val out = MyPrintWriter(true)
             QueryResultToXMLStream(op.getQuery().getRoot(), out)
             val res = out.toString().encodeToByteArray()

@@ -24,7 +24,9 @@ public expect class BufferManager public constructor(instance: Luposdate3000Inst
 
     public override fun releasePage(call_location: String, pageid: Int)
     public override fun getPage(call_location: String, pageid: Int): ByteArray
+
     /*suspend*/ public override fun allocPage(call_location: String): Int
+
     /*suspend*/ public override fun deletePage(call_location: String, pageid: Int)
     public override fun flushPage(call_location: String, pageid: Int)
 

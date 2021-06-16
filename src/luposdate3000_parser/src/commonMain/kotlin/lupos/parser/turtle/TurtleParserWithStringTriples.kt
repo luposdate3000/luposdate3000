@@ -50,6 +50,7 @@ public abstract class TurtleParserWithStringTriples {
 
     @JvmField
     public var bnodeCounter: Int = 0
+
     /*suspend*/ public fun parse() {
         var t1 = ltit!!.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {

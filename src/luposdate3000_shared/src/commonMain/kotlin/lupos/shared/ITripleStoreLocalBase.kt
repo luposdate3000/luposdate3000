@@ -22,7 +22,10 @@ import lupos.shared.operator.iterator.IteratorBundle
 
 public interface ITripleStoreLocalBase {
     public fun clear()
+
     /*suspend*/ public fun getHistogram(query: IQuery, params: Array<IAOPBase>): Pair<Int, Int>
+
     /*suspend*/ public fun getIterator(query: IQuery, params: Array<IAOPBase>): IteratorBundle
+
     /*suspend*/ public fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType)
 }

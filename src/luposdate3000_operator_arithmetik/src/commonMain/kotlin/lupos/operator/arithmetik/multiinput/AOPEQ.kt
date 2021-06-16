@@ -42,7 +42,6 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
                 if (query.getDictionary().isBnode(a1) || query.getDictionary().isBnode(b1)) {
                     res = DictionaryExt.booleanFalseValue
                 } else {
-
                     query.getDictionary().getValue(bufferA, a1)
                     query.getDictionary().getValue(bufferB, b1)
                     try {

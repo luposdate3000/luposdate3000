@@ -75,19 +75,20 @@ public class DatabaseSystemDummy : IDatabase {
         for (operatorID in pck.operators)
             choosenOperators.add(ReceivedResults(pck.senderAddress, operatorID))
 
-        if (allReplied(query.answeredByNextHop))
+        if (allReplied(query.answeredByNextHop)) {
             startEvaluation(query.parentAddress, pck.queryID)
+        }
     }
 
     private fun allReplied(answeredByNextHop: BooleanArray): Boolean {
         for (hasReplied in answeredByNextHop)
-            if (!hasReplied)
+            if (!hasReplied) {
                 return false
+            }
         return true
     }
 
     private fun startEvaluation(senderAddress: Int, queryID: Int) {
-
         val query = state.queriesInProgress[queryID]!!
         val operatorGraphParts = query.operatorGraphParts
         val choosenOperators = query.choosenOperators
@@ -137,8 +138,9 @@ public class DatabaseSystemDummy : IDatabase {
         val map = HashMap<Int, MutableSet<Int>>(destinationAddresses.size)
         val nextHops = state.sender.getNextDatabaseHops(destinationAddresses)
         for (i in nextHops.indices) {
-            if (!map.containsKey(nextHops[i]))
+            if (!map.containsKey(nextHops[i])) {
                 map[nextHops[i]] = mutableSetOf()
+            }
             map[nextHops[i]]!!.add(destinationAddresses[i])
         }
         return map
@@ -150,7 +152,6 @@ public class DatabaseSystemDummy : IDatabase {
         senderAddress: Int,
         queryID: Int,
     ) {
-
         val nextHopMap = getNextHops(destinationAddresses)
         val newQuery = Query(parts, nextHopMap.keys.toIntArray(), senderAddress)
         state.queriesInProgress[queryID] = newQuery

@@ -231,7 +231,6 @@ public fun generateMethod(child: IOPBase, indention: String, inputNames: Array<S
 }
 
 private fun generateOptimizedWhenStructure(indention: String, map: MutableMap<String, MutableSet<Array<ETripleComponentType>>>, builder: StringBuilder, maxDepth: Int, currentDepth: Int, inputNames: List<String>) {
-
     if (currentDepth > maxDepth || map.isEmpty()) {
         return
     }
@@ -273,10 +272,8 @@ private fun generateOptimizedWhenStructure(indention: String, map: MutableMap<St
     if (m.size == 1) {
         builder.append(m.keys.first())
     } else {
-
         builder.appendLine(" when (DictionaryHelper.byteArrayToType(${inputNames[currentDepth]})) {")
         for ((k, v) in m) {
-
             builder.appendLine(v.joinToString { "ETripleComponentTypeExt.${ETripleComponentTypeExt.names[it]}" } + " -> {")
             builder.append(k)
             builder.appendLine("}")

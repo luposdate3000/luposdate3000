@@ -8,8 +8,9 @@ internal class EventPriorityQueue {
 
     fun enqueue(newEvent: Event) {
         var insertionIndex = queue.binarySearch(newEvent, comparator)
-        if (insertionIndex < 0)
+        if (insertionIndex < 0) {
             insertionIndex = insertionIndex.inv()
+        }
         queue.add(insertionIndex, newEvent)
     }
 
