@@ -67,10 +67,10 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
         saveData(bytes)
     }
 
-    private fun buildInsertQueryOther(s: ParkingSample): String {
+    private fun buildInsertQuery(s: ParkingSample): String {
         return "SELECT * WHERE {?s ?p ?o . }"
     }
-    private fun buildInsertQuery(s: ParkingSample): String {
+    private fun buildInsertQueryOther(s: ParkingSample): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
             "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +

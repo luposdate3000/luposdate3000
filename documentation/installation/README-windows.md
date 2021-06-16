@@ -78,14 +78,14 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 https://nodejs.org/dist/v14.17.0/node-v14.17.0-x64.msi
 https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi
 
-add this to your path (modify them as needed)
+Add this to your path (modify them as needed)
 "/c/Python27"
-it needs to contain a "python2.exe". if there is no python2.exe, than copy paste the "python.exe" and rename it.
+This directory must contain a "python2.exe". If there is no python2.exe, than copy paste the "python.exe" and rename it.
 
 copy paste 
 C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current
 to
 C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0
-because of an bug in node-gyp
+because of an bug in node-gyp, which uses the wrong path
 
 

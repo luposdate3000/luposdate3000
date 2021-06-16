@@ -17,7 +17,10 @@
 package lupos.simulator_db.luposdate3000
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
+import lupos.operator.factory.XMLElementToOPBase
 import lupos.result_format.QueryResultToXMLStream
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
@@ -120,7 +123,6 @@ public class DatabaseHandle : IDatabase {
         for (i in nextHops.toSet()) {
             packages[i] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
         }
-        val allMyDependencies = mutableSetOf<String>()
         packages[ownAdress] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
         println("pp ${packages.keys}")
         val packageMap = mutableMapOf<String, Int>()
@@ -141,11 +143,10 @@ public class DatabaseHandle : IDatabase {
                                 dest = d
                             } else {
                                 if (dest != d) {
-                                    val deps = pck.dependenciesMapTopDown[k]
-                                    if (deps != null) {
-                                        allMyDependencies.addAll(deps)
-                                    }
                                     packageMap[k] = ownAdress // alles mit unterschiedlichen next hops selber berechnen
+for(i in pck.dependenciesMapTopDown[k]!!){ 
+pck.destinations[i]=ownAdress
+}
                                     changed = true
                                     continue@loop
                                 }
@@ -154,12 +155,9 @@ public class DatabaseHandle : IDatabase {
                             continue@loop
                         }
                     }
-                    if (dest == ownAdress) {
-                        val deps = pck.dependenciesMapTopDown[k]
-                        if (deps != null) {
-                            allMyDependencies.addAll(deps)
-                        }
-                    }
+for(i in pck.dependenciesMapTopDown[k]!!){
+pck.destinations[i]=dest
+}
                     packageMap[k] = dest // alles mit gemeinsamen next Hop zusammen weitersenden
                     changed = true
                 }
@@ -174,16 +172,17 @@ public class DatabaseHandle : IDatabase {
                 p.operatorgraphPartsToHostMap[k] = h
             }
             val deps = pck.dependenciesMapTopDown[k]
-            if (allMyDependencies.contains(k)) {
-                p.destinations[k] = ownAdress
-            } else {
-                p.destinations[k] = pck.destinations[k]!!
-            }
             if (deps != null) {
                 p.dependenciesMapTopDown[k] = deps
             } else {
                 p.dependenciesMapTopDown[k] = mutableSetOf()
             }
+val d=pck.destinations[k]
+if(d!=null){
+p.destinations[k]=d
+}else{
+p.destinations[k]=ownAdress
+}
         }
         SanityCheck.check { packageMap.size == pck.operatorGraph.size }
         for ((k, v) in packages) {
@@ -197,7 +196,8 @@ public class DatabaseHandle : IDatabase {
                 MySimulatorPendingWork(
                     p.operatorGraph[k]!!,
                     p.destinations[k]!!,
-                    p.dependenciesMapTopDown[k]!!
+                    p.dependenciesMapTopDown[k]!!,
+k
                 )
             )
         }
@@ -205,7 +205,29 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun doWork() {
-        TODO()
+var changed=true
+while(changed){
+changed=false
+for(w in myPendingWork){
+if(myPendingWorkData.keys.containsAll(w.dependencies)){
+//w.operatorGraph
+//w.destination
+changed=true
+val node = XMLElementToOPBase(query, queryXML) as POPBase
+when (node) {
+                                            is POPDistributedSendSingle -> {
+                                                node.evaluate(MySimulatorOutputStreamToPackage(w.destination,"simulator-intermediate-result",mapOf("key" to w.key),router!!))
+                                            }
+                                            else -> throw Exception("unexpected node '${node.classname}'")
+                                        }
+
+
+myPendingWork.remove(w)
+changed=true
+break
+}
+}
+}
     }
 
     override fun receive(pck: IDatabasePackage) {
