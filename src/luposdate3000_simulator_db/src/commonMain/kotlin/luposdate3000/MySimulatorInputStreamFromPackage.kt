@@ -20,7 +20,7 @@ import lupos.shared.IMyInputStream
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.ByteArrayHelper
-
+import kotlin.math.min
 internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : IMyInputStream {
     private var offset = 0
     override fun close() {}
@@ -29,9 +29,12 @@ internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : I
     }
 
     override fun read(buf: ByteArray, len: Int): Int {
-        TODO()
+        val l = min(len, data.size - offset)
+        println("reading ... ${data.size} ${buf.size} - $len : $offset $l > ${offset + l}")
+        data.buf.copyInto(buf, 0, offset, offset + l)
+        offset += l
+        return l
     }
-
     override fun read(buf: ByteArray, off: Int, len: Int): Int {
         TODO()
     }
@@ -44,6 +47,7 @@ internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : I
         SanityCheck.check { offset + 4 <= data.size }
         val res = ByteArrayHelper.readInt4(data.buf, offset)
         offset += 4
+        println("readInt $res")
         return res
     }
 

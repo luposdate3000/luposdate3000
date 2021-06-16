@@ -133,7 +133,6 @@ import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
-import lupos.shared.UnknownOperatorTypeInXMLException
 import lupos.shared.UnreachableException
 import lupos.shared.ValueBoolean
 import lupos.shared.ValueDateTime
@@ -153,6 +152,8 @@ import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.triple_store_manager.TripleStoreIndexDescription
 
+public typealias XMLElementToOPBaseMap = (Query, XMLElement, MutableMap<String, String>, Map<String, Any>) -> IOPBase
+
 public object XMLElementToOPBase {
     private fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
         val n = mapping[name]
@@ -162,7 +163,7 @@ public object XMLElementToOPBase {
         return AOPVariable(query, name)
     }
 
-    private fun createProjectedVariables(node: XMLElement): List<String> {
+    public fun createProjectedVariables(node: XMLElement): List<String> {
         val res = mutableListOf<String>()
         SanityCheck.check { node["projectedVariables"] != null }
         for (c in node["projectedVariables"]!!.childs) {
@@ -171,634 +172,650 @@ public object XMLElementToOPBase {
         return res
     }
 
-    /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): IOPBase {
-        val res: IOPBase
-        when (node.tag) {
-            "OPBaseCompound" -> {
-                val childs = mutableListOf<IOPBase>()
-                for (c in node["children"]!!.childs) {
-                    childs.add(XMLElementToOPBase(query, c, mapping))
-                }
-                val cpos = mutableListOf<List<String>>()
-                val x = node["columnProjectionOrders"]!!
-                for (a in x.childs) {
-                    val list = mutableListOf<String>()
-                    cpos.add(list)
-                    for (b in a.childs) {
-                        list.add(b.content)
-                    }
-                }
-                res = OPBaseCompound(query, childs.toTypedArray(), cpos)
+    public val operatorMap: Map<String, XMLElementToOPBaseMap>
+
+    init {
+        val operatorMap = mutableMapOf<String, XMLElementToOPBaseMap>()
+        operatorMap["OPBaseCompound"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<IOPBase>()
+            for (c in node["children"]!!.childs) {
+                childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc))
             }
-            "AOPBuildInCallIsNUMERIC" -> {
-                res = AOPBuildInCallIsNUMERIC(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "OPNothing" -> {
+            val cpos = mutableListOf<List<String>>()
+            val x = node["columnProjectionOrders"]!!
+            for (a in x.childs) {
                 val list = mutableListOf<String>()
-                for (c in node.childs) {
-                    list.add(c.content)
+                cpos.add(list)
+                for (b in a.childs) {
+                    list.add(b.content)
                 }
-                res = OPNothing(query, list)
             }
-            "LOPSubGroup" -> {
-                res = LOPSubGroup(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+            OPBaseCompound(query, childs.toTypedArray(), cpos)
+        }
+        operatorMap["AOPBuildInCallIsNUMERIC"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallIsNUMERIC(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["OPNothing"] = { query, node, mapping, recursionFunc ->
+            val list = mutableListOf<String>()
+            for (c in node.childs) {
+                list.add(c.content)
             }
-            "ValueDateTime" -> {
-                res = AOPConstant(query, ValueDateTime(node.attributes["value"]!!))
+            OPNothing(query, list)
+        }
+        operatorMap["LOPSubGroup"] = { query, node, mapping, recursionFunc ->
+            LOPSubGroup(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["ValueDateTime"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueDateTime(node.attributes["value"]!!))
+        }
+        operatorMap["AOPNot"] = { query, node, mapping, recursionFunc ->
+            AOPNot(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPAddition"] = { query, node, mapping, recursionFunc ->
+            AOPAddition(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPSubtraction"] = { query, node, mapping, recursionFunc ->
+            AOPSubtraction(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPGEQ"] = { query, node, mapping, recursionFunc ->
+            AOPGEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPLEQ"] = { query, node, mapping, recursionFunc ->
+            AOPLEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPSet"] = { query, node, mapping, recursionFunc ->
+            val children = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                children.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            "AOPNot" -> {
-                res = AOPNot(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            AOPSet(query, children)
+        }
+        operatorMap["AOPBuildInCallCOALESCE"] = { query, node, mapping, recursionFunc ->
+            val children = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                children.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            "AOPAddition" -> {
-                res = AOPAddition(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPSubtraction" -> {
-                res = AOPSubtraction(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPGEQ" -> {
-                res = AOPGEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPLEQ" -> {
-                res = AOPLEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPSet" -> {
-                val children = mutableListOf<AOPBase>()
+            AOPBuildInCallCOALESCE(query, children)
+        }
+        operatorMap["AOPBuildInCallCONTAINS"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallCONTAINS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallDAY"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallDAY(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPFunctionCallFloat"] = { query, node, mapping, recursionFunc ->
+            AOPFunctionCallFloat(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPFunctionCallDouble"] = { query, node, mapping, recursionFunc ->
+            AOPFunctionCallDouble(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPFunctionCallString"] = { query, node, mapping, recursionFunc ->
+            AOPFunctionCallString(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallFLOOR"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallFLOOR(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallCEIL"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallCEIL(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallExists"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallExists(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["AOPBuildInCallNotExists"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallNotExists(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["AOPBuildInCallABS"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallABS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallIsIri"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallIsIri(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallROUND"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallROUND(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallBOUND"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallBOUND(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallHOURS"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallHOURS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallIF"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallIF(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallLANGMATCHES"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallLANGMATCHES(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallMD5"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallMD5(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSTRLEN"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRLEN(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallMINUTES"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallMINUTES(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSECONDS"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSECONDS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallMONTH"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallMONTH(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSHA1"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSHA1(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSHA256"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSHA256(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallYEAR"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallYEAR(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPEQ"] = { query, node, mapping, recursionFunc ->
+            AOPEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["ValueUndef"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueUndef())
+        }
+        operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
+        }
+        operatorMap["AOPVariable"] = { query, node, mapping, recursionFunc ->
+            AOPVariable(query, node.attributes["name"]!!)
+        }
+        operatorMap["AOPBuildInCallIRI"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallIRI(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, node.attributes["prefix"]!!)
+        }
+        operatorMap["AOPBuildInCallDATATYPE"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallDATATYPE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallTIMEZONE"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallTIMEZONE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallUCASE"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallUCASE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallLCASE"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallLCASE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallLANG"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallLANG(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPDivision"] = { query, node, mapping, recursionFunc ->
+            AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["ValueInteger"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueInteger(BigInteger.parseString(node.attributes["value"]!!, 10)))
+        }
+        operatorMap["ValueDecimal"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueDecimal(BigDecimal.parseString(node.attributes["value"]!!, 10)))
+        }
+        operatorMap["ValueFloat"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))
+        }
+        operatorMap["ValueDouble"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueDouble(node.attributes["value"]!!.toDouble()))
+        }
+        operatorMap["AOPMultiplication"] = { query, node, mapping, recursionFunc ->
+            AOPMultiplication(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["ValueSimpleLiteral"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!))
+        }
+        operatorMap["ValueTypedLiteral"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!))
+        }
+        operatorMap["ValueLanguageTaggedLiteral"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueLanguageTaggedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["language"]!!))
+        }
+        operatorMap["ValueBoolean"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueBoolean(node.attributes["value"]!!.toBoolean()))
+        }
+        operatorMap["AOPBuildInCallSTRDT"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRDT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSTRLANG"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRLANG(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSTRAFTER"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRAFTER(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSTRBEFORE"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRBEFORE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallBNODE0"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallBNODE0(query)
+        }
+        operatorMap["AOPBuildInCallSTR"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTR(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallIsLITERAL"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallIsLITERAL(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["ValueIri"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, ValueIri(node.attributes["value"]!!))
+        }
+        operatorMap["AOPBuildInCallSTRENDS"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRENDS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallSTRSTARTS"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRSTARTS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallCONCAT"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallCONCAT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPAggregationCOUNT"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<AOPBase>()
+            if (node["children"] != null) {
                 for (c in node["children"]!!.childs) {
-                    children.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
+                    childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
                 }
-                res = AOPSet(query, children)
             }
-            "AOPBuildInCallCOALESCE" -> {
-                val children = mutableListOf<AOPBase>()
-                for (c in node["children"]!!.childs) {
-                    children.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
+            AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+        }
+        operatorMap["AOPAggregationSAMPLE"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
+            }
+            AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+        }
+        operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
+            XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping, recursionFunc)
+        }
+        operatorMap["AOPAggregationAVG"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
+            }
+            AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+        }
+        operatorMap["AOPAggregationSUM"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
+            }
+            AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+        }
+        operatorMap["AOPAggregationMIN"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
+            }
+            AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+        }
+        operatorMap["AOPAggregationMAX"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
+            }
+            AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+        }
+        operatorMap["AOPGT"] = { query, node, mapping, recursionFunc ->
+            AOPGT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPIn"] = { query, node, mapping, recursionFunc ->
+            AOPIn(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPNotIn"] = { query, node, mapping, recursionFunc ->
+            AOPNotIn(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPOr"] = { query, node, mapping, recursionFunc ->
+            AOPOr(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPLT"] = { query, node, mapping, recursionFunc ->
+            AOPLT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPNEQ"] = { query, node, mapping, recursionFunc ->
+            AOPNEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPAnd"] = { query, node, mapping, recursionFunc ->
+            AOPAnd(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallTZ"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallTZ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["POPSort"] = { query, node, mapping, recursionFunc ->
+            val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc)
+            val xmlby = node["by"]!!
+            val sortBy = Array(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
+            POPSort(query, createProjectedVariables(node), sortBy, node.attributes["order"] == "ASC", child)
+        }
+        operatorMap["POPProjection"] = { query, node, mapping, recursionFunc ->
+            val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc)
+            POPProjection(query, createProjectedVariables(node), child)
+        }
+        operatorMap["LOPMakeBooleanResult"] = { query, node, mapping, recursionFunc ->
+            LOPMakeBooleanResult(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPMakeBooleanResult"] = { query, node, mapping, recursionFunc ->
+            POPMakeBooleanResult(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPMergePartition"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val res = POPMergePartition(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPMergePartitionOrderedByIntId"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedSendSingle"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableListOf<String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionProvideKey") {
+                    hosts.add(c.attributes["key"]!!)
                 }
-                res = AOPBuildInCallCOALESCE(query, children)
             }
-            "AOPBuildInCallCONTAINS" -> {
-                res = AOPBuildInCallCONTAINS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallDAY" -> {
-                res = AOPBuildInCallDAY(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPFunctionCallFloat" -> {
-                res = AOPFunctionCallFloat(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPFunctionCallDouble" -> {
-                res = AOPFunctionCallDouble(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPFunctionCallString" -> {
-                res = AOPFunctionCallString(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallFLOOR" -> {
-                res = AOPBuildInCallFLOOR(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallCEIL" -> {
-                res = AOPBuildInCallCEIL(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallExists" -> {
-                res = AOPBuildInCallExists(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "AOPBuildInCallNotExists" -> {
-                res = AOPBuildInCallNotExists(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "AOPBuildInCallABS" -> {
-                res = AOPBuildInCallABS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallIsIri" -> {
-                res = AOPBuildInCallIsIri(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallROUND" -> {
-                res = AOPBuildInCallROUND(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallBOUND" -> {
-                res = AOPBuildInCallBOUND(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallHOURS" -> {
-                res = AOPBuildInCallHOURS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallIF" -> {
-                res = AOPBuildInCallIF(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase)
-            }
-            "AOPBuildInCallLANGMATCHES" -> {
-                res = AOPBuildInCallLANGMATCHES(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallMD5" -> {
-                res = AOPBuildInCallMD5(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSTRLEN" -> {
-                res = AOPBuildInCallSTRLEN(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallMINUTES" -> {
-                res = AOPBuildInCallMINUTES(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSECONDS" -> {
-                res = AOPBuildInCallSECONDS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallMONTH" -> {
-                res = AOPBuildInCallMONTH(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSHA1" -> {
-                res = AOPBuildInCallSHA1(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSHA256" -> {
-                res = AOPBuildInCallSHA256(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallYEAR" -> {
-                res = AOPBuildInCallYEAR(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPEQ" -> {
-                res = AOPEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "ValueUndef" -> {
-                res = AOPConstant(query, ValueUndef())
-            }
-            "ValueBnode" -> {
-                res = AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
-            }
-            "AOPVariable" -> {
-                res = AOPVariable(query, node.attributes["name"]!!)
-            }
-            "AOPBuildInCallIRI" -> {
-                res = AOPBuildInCallIRI(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, node.attributes["prefix"]!!)
-            }
-            "AOPBuildInCallDATATYPE" -> {
-                res = AOPBuildInCallDATATYPE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallTIMEZONE" -> {
-                res = AOPBuildInCallTIMEZONE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallUCASE" -> {
-                res = AOPBuildInCallUCASE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallLCASE" -> {
-                res = AOPBuildInCallLCASE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallLANG" -> {
-                res = AOPBuildInCallLANG(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPDivision" -> {
-                res = AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "ValueInteger" -> {
-                res = AOPConstant(query, ValueInteger(BigInteger.parseString(node.attributes["value"]!!, 10)))
-            }
-            "ValueDecimal" -> {
-                res = AOPConstant(query, ValueDecimal(BigDecimal.parseString(node.attributes["value"]!!, 10)))
-            }
-            "ValueFloat" -> {
-                res = AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))
-            }
-            "ValueDouble" -> {
-                res = AOPConstant(query, ValueDouble(node.attributes["value"]!!.toDouble()))
-            }
-            "AOPMultiplication" -> {
-                res = AOPMultiplication(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "ValueSimpleLiteral" -> {
-                res = AOPConstant(query, ValueSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!))
-            }
-            "ValueTypedLiteral" -> {
-                res = AOPConstant(query, ValueTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!))
-            }
-            "ValueLanguageTaggedLiteral" -> {
-                res = AOPConstant(query, ValueLanguageTaggedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["language"]!!))
-            }
-            "ValueBoolean" -> {
-                res = AOPConstant(query, ValueBoolean(node.attributes["value"]!!.toBoolean()))
-            }
-            "AOPBuildInCallSTRDT" -> {
-                res = AOPBuildInCallSTRDT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSTRLANG" -> {
-                res = AOPBuildInCallSTRLANG(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSTRAFTER" -> {
-                res = AOPBuildInCallSTRAFTER(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSTRBEFORE" -> {
-                res = AOPBuildInCallSTRBEFORE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallBNODE0" -> {
-                res = AOPBuildInCallBNODE0(query)
-            }
-            "AOPBuildInCallSTR" -> {
-                res = AOPBuildInCallSTR(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "AOPBuildInCallIsLITERAL" -> {
-                res = AOPBuildInCallIsLITERAL(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "ValueIri" -> {
-                res = AOPConstant(query, ValueIri(node.attributes["value"]!!))
-            }
-            "AOPBuildInCallSTRENDS" -> {
-                res = AOPBuildInCallSTRENDS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallSTRSTARTS" -> {
-                res = AOPBuildInCallSTRSTARTS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallCONCAT" -> {
-                res = AOPBuildInCallCONCAT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPAggregationCOUNT" -> {
-                val childs = mutableListOf<AOPBase>()
-                if (node["children"] != null) {
-                    for (c in node["children"]!!.childs) {
-                        childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
-                    }
+            val res = POPDistributedSendSingle(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedSendSingleCount"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableListOf<String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionProvideKey") {
+                    hosts.add(c.attributes["key"]!!)
                 }
-                res = AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
-            "AOPAggregationSAMPLE" -> {
-                val childs = mutableListOf<AOPBase>()
-                for (c in node["children"]!!.childs) {
-                    childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
+            val res = POPDistributedSendSingleCount(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedSendMulti"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableListOf<String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionProvideKey") {
+                    hosts.add(c.attributes["key"]!!)
                 }
-                res = AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
-            "AOPConstant" -> {
-                res = XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping)
-            }
-            "AOPAggregationAVG" -> {
-                val childs = mutableListOf<AOPBase>()
-                for (c in node["children"]!!.childs) {
-                    childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
+            val res = POPDistributedSendMulti(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
-                res = AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
-            "AOPAggregationSUM" -> {
-                val childs = mutableListOf<AOPBase>()
-                for (c in node["children"]!!.childs) {
-                    childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
+            val res = POPDistributedReceiveSingle(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(node)),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedReceiveSingleCount"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
-                res = AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
-            "AOPAggregationMIN" -> {
-                val childs = mutableListOf<AOPBase>()
-                for (c in node["children"]!!.childs) {
-                    childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
+            val res = POPDistributedReceiveSingleCount(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(node)),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedReceiveMulti"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
-                res = AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
-            "AOPAggregationMAX" -> {
-                val childs = mutableListOf<AOPBase>()
-                for (c in node["children"]!!.childs) {
-                    childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
+            val res = POPDistributedReceiveMulti(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(node)),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedReceiveMultiCount"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
-                res = AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
-            "AOPGT" -> {
-                res = AOPGT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPIn" -> {
-                res = AOPIn(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPNotIn" -> {
-                res = AOPNotIn(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPOr" -> {
-                res = AOPOr(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPLT" -> {
-                res = AOPLT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPNEQ" -> {
-                res = AOPNEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPAnd" -> {
-                res = AOPAnd(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
-            }
-            "AOPBuildInCallTZ" -> {
-                res = AOPBuildInCallTZ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
-            }
-            "POPSort" -> {
-                val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
-                val xmlby = node["by"]!!
-                val sortBy = Array(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
-                res = POPSort(query, createProjectedVariables(node), sortBy, node.attributes["order"] == "ASC", child)
-            }
-            "POPProjection" -> {
-                val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
-                res = POPProjection(query, createProjectedVariables(node), child)
-            }
-            "LOPMakeBooleanResult" -> {
-                res = LOPMakeBooleanResult(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPMakeBooleanResult" -> {
-                res = POPMakeBooleanResult(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPMergePartition" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                res = POPMergePartition(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPMergePartitionOrderedByIntId" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPDistributedSendSingle" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableListOf<String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionProvideKey") {
-                        hosts.add(c.attributes["key"]!!)
-                    }
+            val res = POPDistributedReceiveMultiCount(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(node)),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPDistributedReceiveMultiOrdered"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
-                res = POPDistributedSendSingle(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    XMLElementToOPBase(query, node["children"]!!.childs[0], mapping),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
             }
-            "POPDistributedSendSingleCount" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableListOf<String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionProvideKey") {
-                        hosts.add(c.attributes["key"]!!)
-                    }
-                }
-                res = POPDistributedSendSingleCount(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    XMLElementToOPBase(query, node["children"]!!.childs[0], mapping),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPDistributedSendMulti" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableListOf<String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionProvideKey") {
-                        hosts.add(c.attributes["key"]!!)
-                    }
-                }
-                res = POPDistributedSendMulti(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    XMLElementToOPBase(query, node["children"]!!.childs[0], mapping),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPDistributedReceiveSingle" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableMapOf<String, String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionReceiveKey") {
-                        hosts[c.attributes["key"]!!] = c.attributes["host"]!!
-                    }
-                }
-                res = POPDistributedReceiveSingle(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    OPNothing(query, createProjectedVariables(node)),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPDistributedReceiveSingleCount" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableMapOf<String, String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionReceiveKey") {
-                        hosts[c.attributes["key"]!!] = c.attributes["host"]!!
-                    }
-                }
-                res = POPDistributedReceiveSingleCount(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    OPNothing(query, createProjectedVariables(node)),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPDistributedReceiveMulti" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableMapOf<String, String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionReceiveKey") {
-                        hosts[c.attributes["key"]!!] = c.attributes["host"]!!
-                    }
-                }
-                res = POPDistributedReceiveMulti(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    OPNothing(query, createProjectedVariables(node)),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPDistributedReceiveMultiCount" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableMapOf<String, String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionReceiveKey") {
-                        hosts[c.attributes["key"]!!] = c.attributes["host"]!!
-                    }
-                }
-                res = POPDistributedReceiveMultiCount(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    OPNothing(query, createProjectedVariables(node)),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPDistributedReceiveMultiOrdered" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                val hosts = mutableMapOf<String, String>()
-                for (c in node.childs) {
-                    if (c.tag == "partitionDistributionReceiveKey") {
-                        hosts[c.attributes["key"]!!] = c.attributes["host"]!!
-                    }
-                }
-                res = POPDistributedReceiveMultiOrdered(
-                    query,
-                    createProjectedVariables(node),
-                    node.attributes["partitionVariable"]!!,
-                    node.attributes["partitionCount"]!!.toInt(),
-                    id,
-                    OPNothing(query, createProjectedVariables(node)),
-                    hosts
-                )
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPMergePartitionCount" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                res = POPMergePartitionCount(query, listOf(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPSplitPartition" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                res = POPSplitPartition(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-                query.addPartitionOperator(res.uuid, id)
-            }
-            "POPSplitPartitionFromStore" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                res = POPSplitPartitionFromStore(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-                var storeNodeTmp = res.children[0]
-                while (storeNodeTmp !is POPTripleStoreIterator) {
+            val res = POPDistributedReceiveMultiOrdered(
+                query,
+                createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(node)),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPMergePartitionCount"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val res = POPMergePartitionCount(query, listOf(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPSplitPartition"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val res = POPSplitPartition(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPSplitPartitionFromStore"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val res = POPSplitPartitionFromStore(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            var storeNodeTmp = res.children[0]
+            while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
-                    storeNodeTmp = storeNodeTmp.getChildren()[0]
-                }
-                val storeNode = storeNodeTmp
-                storeNode.hasSplitFromStore = true
-                query.addPartitionOperator(res.uuid, id)
+                storeNodeTmp = storeNodeTmp.getChildren()[0]
             }
-            "POPSplitPartitionFromStoreCount" -> {
-                val id = node.attributes["partitionID"]!!.toInt()
-                res = POPSplitPartitionFromStoreCount(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-                var storeNodeTmp = res.children[0]
-                while (storeNodeTmp !is POPTripleStoreIterator) {
+            val storeNode = storeNodeTmp
+            storeNode.hasSplitFromStore = true
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPSplitPartitionFromStoreCount"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val res = POPSplitPartitionFromStoreCount(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            var storeNodeTmp = res.children[0]
+            while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
-                    storeNodeTmp = storeNodeTmp.getChildren()[0]
-                }
-                val storeNode = storeNodeTmp
-                storeNode.hasSplitFromStore = true
-                query.addPartitionOperator(res.uuid, id)
+                storeNodeTmp = storeNodeTmp.getChildren()[0]
             }
-            "POPGroup" -> {
-                val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
-                val by = mutableListOf<AOPVariable>()
-                var bindings: POPBase = POPEmptyRow(query, listOf())
-                node["by"]!!.childs.forEach {
-                    by.add(createAOPVariable(query, mapping, it.attributes["name"]!!))
-                }
-                node["bindings"]!!.childs.forEach {
-                    bindings = POPBind(query, listOf(), createAOPVariable(query, mapping, it.attributes["name"]!!), XMLElementToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
-                }
-                res = if (bindings is POPEmptyRow) {
-                    POPGroup(query, createProjectedVariables(node), by, null, child)
-                } else {
-                    POPGroup(query, createProjectedVariables(node), by, bindings as POPBind, child)
-                }
+            val storeNode = storeNodeTmp as POPTripleStoreIterator
+            storeNode.hasSplitFromStore = true
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPGroup"] = { query, node, mapping, recursionFunc ->
+            val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc)
+            val by = mutableListOf<AOPVariable>()
+            var bindings: POPBase = POPEmptyRow(query, listOf())
+            node["by"]!!.childs.forEach {
+                by.add(createAOPVariable(query, mapping, it.attributes["name"]!!))
             }
-            "POPModify" -> {
-                val insert = mutableListOf<LOPTriple>()
-                for (c in node["insert"]!!.childs) {
-                    insert.add(XMLElementToOPBase(query, c, mapping) as LOPTriple)
-                }
-                val delete = mutableListOf<LOPTriple>()
-                for (c in node["delete"]!!.childs) {
-                    delete.add(XMLElementToOPBase(query, c, mapping) as LOPTriple)
-                }
-                val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
-                res = POPModify(query, createProjectedVariables(node), insert, delete, child)
+            node["bindings"]!!.childs.forEach {
+                bindings = POPBind(query, listOf(), createAOPVariable(query, mapping, it.attributes["name"]!!), XMLElementToOPBase(query, it.childs[0], mapping, recursionFunc) as AOPBase, bindings)
             }
-            "POPFilter" -> {
-                res = POPFilter(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPBind" -> {
-                val child0 = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
-                val child1 = XMLElementToOPBase(query, node["children"]!!.childs[1], mapping)
-                res = POPBind(query, createProjectedVariables(node), createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
-            }
-            "POPOffset" -> {
-                res = POPOffset(query, createProjectedVariables(node), node.attributes["offset"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPLimit" -> {
-                res = POPLimit(query, createProjectedVariables(node), node.attributes["limit"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPVisualisation" -> {
-                res = POPVisualisation(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPDebug" -> {
-                res = POPDebug(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPReduced" -> {
-                res = POPReduced(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
-            }
-            "POPValues" -> {
-                val rows = node.attributes["rows"]!!.toInt()
-                if (rows == -1) {
-                    val vars = mutableListOf<String>()
-                    val vals = mutableListOf<List<String?>>()
-                    node["variables"]!!.childs.forEach {
-                        vars.add(it.attributes["name"]!!)
-                    }
-                    node["bindings"]!!.childs.forEach { it ->
-                        val exp = arrayOfNulls<String?>(vars.size)
-                        it.childs.forEach {
-                            exp[vars.indexOf(it.attributes["name"]!!)] = it.attributes["content"]
-                        }
-                        vals.add(exp.toList())
-                    }
-                    res = POPValues(query, createProjectedVariables(node), vars, vals)
-                } else {
-                    res = POPValues(query, rows)
-                }
-/*Coverage Unreachable*/
-            }
-            "POPEmptyRow" -> {
-                res = POPEmptyRow(query, createProjectedVariables(node))
-            }
-            "POPUnion" -> {
-                res = POPUnion(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping))
-            }
-            "POPMinus" -> {
-                res = POPMinus(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping))
-            }
-            "POPJoinHashMap" -> {
-                res = POPJoinHashMap(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
-            }
-            "POPJoinCartesianProduct" -> {
-                res = POPJoinCartesianProduct(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
-            }
-            "POPJoinMerge" -> {
-                res = POPJoinMerge(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
-            }
-            "POPJoinMergeOptional" -> {
-                res = POPJoinMergeOptional(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
-            }
-            "POPJoinMergeSingleColumn" -> {
-                res = POPJoinMergeSingleColumn(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
-            }
-            "POPJoinWithStore" -> {
-                res = POPJoinWithStore(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
-            }
-            "POPJoinWithStoreExists" -> {
-                res = POPJoinWithStoreExists(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
-            }
-            "POPTripleStoreIterator" -> {
-                val s = XMLElementToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
-                val p = XMLElementToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
-                val o = XMLElementToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
-                val tripleStoreIndexDescription = query.getInstance().tripleStoreManager!!.getIndexFromXML(node["idx"]!!) as TripleStoreIndexDescription
-                res = POPTripleStoreIterator(query, createProjectedVariables(node), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
-            }
-            "LOPTriple" -> {
-                res = LOPTriple(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())
-            }
-            else -> {
-                throw UnknownOperatorTypeInXMLException(node.tag)
+            if (bindings is POPEmptyRow) {
+                POPGroup(query, createProjectedVariables(node), by, null, child)
+            } else {
+                POPGroup(query, createProjectedVariables(node), by, bindings as POPBind, child)
             }
         }
+        operatorMap["POPModify"] = { query, node, mapping, recursionFunc ->
+            val insert = mutableListOf<LOPTriple>()
+            for (c in node["insert"]!!.childs) {
+                insert.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as LOPTriple)
+            }
+            val delete = mutableListOf<LOPTriple>()
+            for (c in node["delete"]!!.childs) {
+                delete.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as LOPTriple)
+            }
+            val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc)
+            POPModify(query, createProjectedVariables(node), insert, delete, child)
+        }
+        operatorMap["POPFilter"] = { query, node, mapping, recursionFunc ->
+            POPFilter(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPBind"] = { query, node, mapping, recursionFunc ->
+            val child0 = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc)
+            val child1 = XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc)
+            POPBind(query, createProjectedVariables(node), createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
+        }
+        operatorMap["POPOffset"] = { query, node, mapping, recursionFunc ->
+            POPOffset(query, createProjectedVariables(node), node.attributes["offset"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPLimit"] = { query, node, mapping, recursionFunc ->
+            POPLimit(query, createProjectedVariables(node), node.attributes["limit"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPVisualisation"] = { query, node, mapping, recursionFunc ->
+            POPVisualisation(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPDebug"] = { query, node, mapping, recursionFunc ->
+            POPDebug(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPReduced"] = { query, node, mapping, recursionFunc ->
+            POPReduced(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+        }
+        operatorMap["POPValues"] = { query, node, mapping, recursionFunc ->
+            val rows = node.attributes["rows"]!!.toInt()
+            if (rows == -1) {
+                val vars = mutableListOf<String>()
+                val vals = mutableListOf<List<String?>>()
+                node["variables"]!!.childs.forEach {
+                    vars.add(it.attributes["name"]!!)
+                }
+                node["bindings"]!!.childs.forEach { it ->
+                    val exp = arrayOfNulls<String?>(vars.size)
+                    it.childs.forEach {
+                        exp[vars.indexOf(it.attributes["name"]!!)] = it.attributes["content"]
+                    }
+                    vals.add(exp.toList())
+                }
+                POPValues(query, createProjectedVariables(node), vars, vals)
+            } else {
+                POPValues(query, rows)
+            }
+        }
+        operatorMap["POPEmptyRow"] = { query, node, mapping, recursionFunc ->
+            POPEmptyRow(query, createProjectedVariables(node))
+        }
+        operatorMap["POPUnion"] = { query, node, mapping, recursionFunc ->
+            POPUnion(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc))
+        }
+        operatorMap["POPMinus"] = { query, node, mapping, recursionFunc ->
+            POPMinus(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc))
+        }
+        operatorMap["POPJoinHashMap"] = { query, node, mapping, recursionFunc ->
+            POPJoinHashMap(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
+        }
+        operatorMap["POPJoinCartesianProduct"] = { query, node, mapping, recursionFunc ->
+            POPJoinCartesianProduct(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
+        }
+        operatorMap["POPJoinMerge"] = { query, node, mapping, recursionFunc ->
+            POPJoinMerge(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
+        }
+        operatorMap["POPJoinMergeOptional"] = { query, node, mapping, recursionFunc ->
+            POPJoinMergeOptional(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
+        }
+        operatorMap["POPJoinMergeSingleColumn"] = { query, node, mapping, recursionFunc ->
+            POPJoinMergeSingleColumn(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
+        }
+        operatorMap["POPJoinWithStore"] = { query, node, mapping, recursionFunc ->
+            POPJoinWithStore(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as LOPTriple, node.attributes["optional"]!!.toBoolean())
+        }
+        operatorMap["POPJoinWithStoreExists"] = { query, node, mapping, recursionFunc ->
+            POPJoinWithStoreExists(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as LOPTriple, node.attributes["optional"]!!.toBoolean())
+        }
+        operatorMap["POPTripleStoreIterator"] = { query, node, mapping, recursionFunc ->
+            val s = XMLElementToOPBase(query, node["sparam"]!!.childs[0], mapping, recursionFunc) as IAOPBase
+            val p = XMLElementToOPBase(query, node["pparam"]!!.childs[0], mapping, recursionFunc) as IAOPBase
+            val o = XMLElementToOPBase(query, node["oparam"]!!.childs[0], mapping, recursionFunc) as IAOPBase
+            val tripleStoreIndexDescription = query.getInstance().tripleStoreManager!!.getIndexFromXML(node["idx"]!!) as TripleStoreIndexDescription
+            POPTripleStoreIterator(query, createProjectedVariables(node), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
+        }
+        operatorMap["LOPTriple"] = { query, node, mapping, recursionFunc ->
+            LOPTriple(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping, recursionFunc) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())
+        }
+        this.operatorMap = operatorMap
+    }
+
+/*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
+        val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
+        val res = theMap [node.tag]!!(query, node, mapping, operatorMap as Map<String, Any>)
         if (res !is AOPBase) {
             val tmp = node.attributes["selectedSort"]
             if (tmp != null && tmp.length > 2) {

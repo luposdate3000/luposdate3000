@@ -19,12 +19,15 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
+import lupos.operator.factory.XMLElementToOPBaseMap
+import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.MyPrintWriter
@@ -210,6 +213,37 @@ public class DatabaseHandle : IDatabase {
         doWork()
     }
 
+    private fun localXMLElementToOPBase(query: Query, node: XMLElement): POPBase {
+        val operators = mutableMapOf<String, XMLElementToOPBaseMap>()
+        operators.putAll(XMLElementToOPBase.operatorMap)
+        operators["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val keys = mutableSetOf<String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    keys.add(c.attributes["key"]!!)
+                }
+            }
+            SanityCheck.check { keys.size == 1 }
+            val key = keys.first()!!
+            SanityCheck.check { myPendingWorkData.contains(key) }
+            val input = MySimulatorInputStreamFromPackage(myPendingWorkData[key]!!)
+            myPendingWorkData.remove(key)
+            val res = MySimulatorPOPDistributedReceiveSingle(
+                query,
+                XMLElementToOPBase.createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
+                input
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        return XMLElementToOPBase(query, node, mutableMapOf(), operators) as POPBase
+    }
+
     private fun doWork() {
         println("doWork ${myPendingWork.size}")
         var changed = true
@@ -222,7 +256,7 @@ public class DatabaseHandle : IDatabase {
                     println("doIt NOW")
                     changed = true
                     val query = Query(instance)
-                    val node = XMLElementToOPBase(query, w.operatorGraph) as POPBase
+                    val node = localXMLElementToOPBase(query, w.operatorGraph)
                     when (node) {
                         is POPDistributedSendSingle -> {
                             println("going to evaluate")
