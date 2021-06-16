@@ -1,5 +1,6 @@
 package lupos.simulator_iot.config
 
+import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import lupos.simulator_iot.DatabaseAdapter
 import lupos.simulator_iot.Device
