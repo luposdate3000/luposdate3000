@@ -18,21 +18,11 @@ package lupos.simulator_db.luposdate3000
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
-import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
-import lupos.shared.ICommunicationHandler
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryTypeExt
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
-import lupos.shared.optimizer.IDistributedOptimizer
-import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.MyPrintWriter
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.ChoosenOperatorPackage
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
@@ -40,103 +30,6 @@ import lupos.simulator_db.IDatabaseState
 import lupos.simulator_db.IRouter
 import lupos.simulator_db.PreprocessingPackage
 import lupos.simulator_db.ResultPackage
-
-internal class MyAbstractPackage(val path: String, val params: Map<String, String>, val data: ByteArrayWrapper = ByteArrayWrapper()) : IDatabasePackage
-
-internal class MySimulatorInputStream(val target: Int, val path: String, val params: Map<String, String>) : IMyInputStream {
-    override fun close() {}
-    override fun read(buf: ByteArray): Int {
-        TODO()
-    }
-
-    override fun read(buf: ByteArray, len: Int): Int {
-        TODO()
-    }
-
-    override fun read(buf: ByteArray, off: Int, len: Int): Int {
-        TODO()
-    }
-
-    override fun readByte(): Byte {
-        TODO()
-    }
-
-    override fun readInt(): Int {
-        TODO()
-    }
-
-    override fun readLine(): String? {
-        TODO()
-    }
-}
-
-internal class MySimulatorOutputStream(val target: Int, val path: String, val params: Map<String, String>, val router: IRouter) : IMyOutputStream {
-    val buffer = ByteArrayWrapper()
-    override fun flush() {}
-    override fun close() {
-        router.send(target, MyAbstractPackage(path, params, buffer))
-    }
-
-    override fun print(x: Boolean) {
-        TODO()
-    }
-
-    override fun print(x: Double) {
-        TODO()
-    }
-
-    override fun print(x: Int) {
-        TODO()
-    }
-
-    override fun print(x: String) {
-        TODO()
-    }
-
-    override fun println() {
-        TODO()
-    }
-
-    override fun println(x: String) {
-        TODO()
-    }
-
-    override fun write(buf: ByteArray) {
-        TODO()
-    }
-
-    override fun write(buf: ByteArray, len: Int) {
-        TODO()
-    }
-
-    override fun writeInt(value: Int) {
-        val offset = buffer.size
-        ByteArrayWrapperExt.setSizeCopy(buffer, offset + 4)
-        ByteArrayHelper.writeInt4(buffer.buf, offset, value)
-    }
-}
-
-internal class CommunicationHandler(val instance: Luposdate3000Instance, val router: IRouter) : ICommunicationHandler {
-    override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
-        router.send(targetHost.toInt(), MyAbstractPackage(path, params))
-    }
-
-    override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
-        return Pair(MySimulatorInputStream(targetHost.toInt(), path, params), MySimulatorOutputStream(targetHost.toInt(), path, params, router))
-    }
-
-    override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> {
-        TODO()
-    }
-}
-
-internal class DistributedOptimizer(val router: IRouter, val dest: () -> Int) : IDistributedOptimizer {
-    private var originalOptimizer = DistributedOptimizerQuery()
-    override fun optimize(query: IQuery): IOPBase {
-        originalOptimizer.splitQuery(query)
-        return query.getRoot()
-    }
-}
 
 public class DatabaseHandle : IDatabase {
 
@@ -157,10 +50,10 @@ public class DatabaseHandle : IDatabase {
         instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
         instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
         instance.LUPOS_BUFFER_SIZE = 8192
-        instance.communicationHandler = CommunicationHandler(instance, initialState.sender)
+        instance.communicationHandler = MySimulatorCommunicationHandler(instance, initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
         instance.distributedOptimizerQueryFactory = {
-            DistributedOptimizer(initialState.sender, { targetForQueryResponse })
+            MySimulatorDistributedOptimizer(initialState.sender, { targetForQueryResponse })
         }
     }
 
@@ -216,26 +109,22 @@ public class DatabaseHandle : IDatabase {
         TODO()
     }
 
-    private fun receive(pck: MyAbstractPackage) {
-        println("receive MyAbstractPackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
+    private fun receive(pck: MySimulatorAbstractPackage) {
+        println("receive MySimulatorAbstractPackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
         when (pck.path) {
             "/distributed/query/dictionary/register",
             "/distributed/query/dictionary/remove" -> {
-// dont use dictionaries right now -> register dictionary must proceed
-            }
-            "/distributed/graph/create" -> {
-                RestEndpoint.distributed_graph_create(pck.params, instance)
-            }
-            else -> {
-                TODO("${pck.path} ${pck.params}")
-            }
+            } // dont use dictionaries right now - register dictionary must proceed
+            "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
+            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance)
+            else -> TODO("${pck.path} ${pck.params}")
         }
     }
 
     override fun receive(pck: IDatabasePackage) {
         println("receive IDatabasePackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
         when (pck) {
-            is MyAbstractPackage -> receive(pck)
+            is MySimulatorAbstractPackage -> receive(pck)
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)

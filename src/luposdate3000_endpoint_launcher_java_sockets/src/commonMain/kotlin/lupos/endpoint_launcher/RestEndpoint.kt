@@ -25,6 +25,7 @@ import lupos.operator.factory.XMLElementToOPBase
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
+import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
@@ -34,7 +35,7 @@ import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 import kotlin.jvm.JvmField
 
-internal object RestEndpoint {
+public object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
     private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
@@ -43,6 +44,14 @@ internal object RestEndpoint {
         val name = params["name"]!!
         val query = Query(instance)
         instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
+    }
+
+    public fun distributed_graph_modify(params: Map<String, String>, instance: Luposdate3000Instance, connectionInMy: IMyInputStream) {
+        val query = Query(instance)
+        val key = params["key"]!!
+        val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
+        val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
+        instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy)
     }
 
     @Suppress("NOTHING_TO_INLNE")
@@ -288,11 +297,7 @@ internal object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) {
-            val query = Query(instance)
-            val key = params["key"]!!
-            val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
-            val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-            instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy)
+            distributed_graph_modify(params, instance, connectionInMy)
         }
         paths["/distributed/graph/modifysorted"] = PathMappingHelper(false, mapOf()) {
             val query = Query(instance)
