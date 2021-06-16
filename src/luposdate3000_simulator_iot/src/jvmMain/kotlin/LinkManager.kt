@@ -4,7 +4,7 @@ import lupos.simulator_iot.config.LinkType
 
 public class LinkManager(public val device: Device) {
 
-    private var links: MutableMap<Int, Link> = HashMap(5)
+    private var links: MutableMap<Int, Link> = mutableMapOf()
 
     public fun getDistanceInMeters(otherDevice: Device): Int =
         device.location.getDistanceInMeters(otherDevice.location)

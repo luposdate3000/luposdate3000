@@ -27,7 +27,7 @@ public open class OperatorGraphPart {
         }
 
         public fun encodeToByteArray(l: List<OperatorGraphPart>): ByteArray {
-            return ByteArray(0)
+            return ByteArray(0) // DB can filter here to reduce network-amount
         }
     }
 }

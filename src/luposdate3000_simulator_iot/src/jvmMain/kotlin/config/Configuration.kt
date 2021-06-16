@@ -13,18 +13,18 @@ import kotlin.math.round
 
 public object Configuration {
 
-    public var devices: MutableList<Device> = ArrayList()
+    public var devices: MutableList<Device> = mutableListOf()
         private set
 
-    private var namedAddresses: MutableMap<String, Int> = HashMap()
+    private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
     public var jsonObjects: JsonObjects = JsonObjects()
         private set
 
-    public var randStarNetworks: MutableMap<String, StarNetwork> = HashMap()
+    public var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
         private set
 
-    public var randMeshNetworks: MutableMap<String, MeshNetwork> = HashMap()
+    public var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
     public var dbDeviceAddresses: IntArray = intArrayOf()
@@ -47,11 +47,12 @@ public object Configuration {
     }
 
     private fun resetVariables() {
-        devices = ArrayList()
-        randStarNetworks = HashMap()
-        randMeshNetworks = HashMap()
+        devices = mutableListOf()
+        randStarNetworks = mutableMapOf()
+        randMeshNetworks = mutableMapOf()
         jsonObjects = JsonObjects()
-        namedAddresses = HashMap()
+        namedAddresses = mutableMapOf()
+        dbDeviceCounter = 0
     }
 
     private fun readJsonFile(fileName: String) {
@@ -101,7 +102,7 @@ public object Configuration {
     }
 
     private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceType: DeviceType): MutableList<Device> {
-        val column = ArrayList<Device>()
+        val column = mutableListOf<Device>()
         var restCoverageSouth = network.signalCoverageSouth - linkType.rangeInMeters
         column.add(origin)
         var predecessor = origin
@@ -196,7 +197,7 @@ public object Configuration {
     }
 
     private fun getLinkTypeIndices(deviceType: DeviceType): IntArray {
-        val list = ArrayList<LinkType>(deviceType.supportedLinkTypes.size)
+        val list = mutableListOf<LinkType>()
         for (name in deviceType.supportedLinkTypes)
             list.add(getLinkTypeByName(name))
 

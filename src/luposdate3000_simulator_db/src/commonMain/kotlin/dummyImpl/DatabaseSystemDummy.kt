@@ -134,16 +134,44 @@ public class DatabaseSystemDummy : IDatabase {
         }
     }
 
-    private fun getNextHops(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
+    private fun getHopToDestinationsMap(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
         val map = HashMap<Int, MutableSet<Int>>(destinationAddresses.size)
         val nextHops = state.sender.getNextDatabaseHops(destinationAddresses)
-        for (i in nextHops.indices) {
-            if (!map.containsKey(nextHops[i])) {
-                map[nextHops[i]] = mutableSetOf()
-            }
-            map[nextHops[i]]!!.add(destinationAddresses[i])
-        }
+        for (i in nextHops.indices)
+            addToHopMap(map, nextHops[i], destinationAddresses[i])
         return map
+    }
+
+    private fun addToHopMap(map: HashMap<Int, MutableSet<Int>>, hop: Int, dest: Int) {
+        if (!map.containsKey(hop)) {
+            map[hop] = mutableSetOf()
+        }
+        map[hop]!!.add(dest)
+    }
+
+    private fun updateQueryInProgress(parts: List<OperatorGraphPart>, nextHops: IntArray, senderAddress: Int, queryID: Int) {
+        val newQuery = Query(parts, nextHops, senderAddress)
+        state.queriesInProgress[queryID] = newQuery
+    }
+
+    private fun calculate(queryID: Int) {
+        val query = state.queriesInProgress[queryID]!!
+        for (part in query.operatorGraphParts)
+            if (part.canBeEvaluatedWithoutRemoteDependencies()) {
+                query.choosenOperators.add(part)
+            }
+    }
+
+    private fun sendPreprocessingPackage(to: Int, dests: IntArray, parts: ByteArray, queryID: Int) {
+        state.sender.send(
+            to,
+            PreprocessingPackage(
+                destinationAddresses = dests,
+                operatorGraphParts = parts,
+                senderAddress = state.ownAddress,
+                queryID = queryID,
+            )
+        )
     }
 
     private fun setupOperatorGraph(
@@ -152,35 +180,18 @@ public class DatabaseSystemDummy : IDatabase {
         senderAddress: Int,
         queryID: Int,
     ) {
-        val nextHopMap = getNextHops(destinationAddresses)
-        val newQuery = Query(parts, nextHopMap.keys.toIntArray(), senderAddress)
-        state.queriesInProgress[queryID] = newQuery
+        val nextHopToDestsMap = getHopToDestinationsMap(destinationAddresses)
+        updateQueryInProgress(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress, queryID)
 
-        for ((hop, dest) in nextHopMap) {
+        for ((hop, dest) in nextHopToDestsMap) {
             if (hop == state.ownAddress) {
-// selber berechnen
-                val q = state.queriesInProgress[queryID]!!
-                val choosenOperators = q.choosenOperators
-                for (part in parts) {
-                    if (part.canBeEvaluatedWithoutRemoteDependencies()) {
-                        choosenOperators.add(part)
-                    }
-                }
-                if (nextHopMap.size == 1) {
-// wenn ich ganz unten im operator Graph bin ... also der triple store
+                calculate(queryID)
+                if (nextHopToDestsMap.size == 1) {
+                    // wenn ich ganz unten im operator Graph bin ... also der triple store
                     startEvaluation(senderAddress, queryID)
                 }
             } else {
-// weitersenden Richtung triple store
-                state.sender.send(
-                    hop,
-                    PreprocessingPackage(
-                        destinationAddresses = dest.toIntArray(),
-                        operatorGraphParts = OperatorGraphPart.encodeToByteArray(parts), // DB can filter here to reduce network-amount
-                        senderAddress = state.ownAddress,
-                        queryID = queryID,
-                    )
-                )
+                sendPreprocessingPackage(hop, dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
             }
         }
     }

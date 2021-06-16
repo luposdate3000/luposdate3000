@@ -29,7 +29,7 @@ class RoutingSimulationTest {
     @Test
     fun selfMessagesDoNotDelay() {
         Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
-        val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
+        val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2 * 1000
 
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
 
