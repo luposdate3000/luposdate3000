@@ -183,6 +183,7 @@ public class DatabaseSystemDummy : IDatabase {
         for ((hop, dest) in nextHopToDestsMap)
             if (hop == state.ownAddress)
                 chooseOperators(queryID, nextHopToDestsMap.size == 1, senderAddress)
+             //TODO Bug: Sende immer weiter herunter wenn man nicht der letzte ist.
              else
                 sendPreprocessingPackage(hop,dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
     }
