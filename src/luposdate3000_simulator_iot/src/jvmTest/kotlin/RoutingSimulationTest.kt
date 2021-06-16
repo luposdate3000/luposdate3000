@@ -4,11 +4,7 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
-import kotlin.test.Ignore
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class RoutingSimulationTest {
 
@@ -19,7 +15,7 @@ class RoutingSimulationTest {
     @Test
     fun runSimulationWithoutEntities() {
         Configuration.parse("$prefix/runSimulationWithoutEntities.json")
-        val sim: Simulation = Simulation(Configuration.devices, callback = Logger())
+        val sim: Simulation = Simulation(Configuration.devices, callback = Logger)
 
         sim.startSimulation()
         assertEquals(0, sim.getCurrentClock())
@@ -30,7 +26,7 @@ class RoutingSimulationTest {
         Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
 
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger())
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
 
         sim.startSimulation()
         assertEquals(maxClock, sim.getCurrentClock())
@@ -50,7 +46,7 @@ class RoutingSimulationTest {
         assertFalse(child1Router.hasParent())
         assertFalse(child2Router.hasParent())
 
-        val sim = Simulation(Configuration.devices, maxClock = 200, callback = Logger())
+        val sim = Simulation(Configuration.devices, maxClock = 200, callback = Logger)
         sim.startSimulation()
 
         assertTrue(child1Router.hasParent())
@@ -66,12 +62,11 @@ class RoutingSimulationTest {
     }
 
     @Test
-    @Ignore
     fun meshToDODAG() {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
         val rootRouter = root.router as RPLRouter
-        val sim = Simulation(Configuration.devices, callback = Logger())
+        val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
         assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.destinationCounter)
@@ -87,10 +82,10 @@ class RoutingSimulationTest {
 
         f.sensor!!.setDataSink(a.address)
 
-        val maxClock: Long = 100
-        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
+        val numberOfSamples: Long = 3
+        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger())
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(numberOfSamples, a.processedSensorDataPackages)
@@ -105,10 +100,10 @@ class RoutingSimulationTest {
 
         a.sensor!!.setDataSink(f.address)
 
-        val maxClock: Long = 100
-        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
+        val numberOfSamples: Long = 3
+        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger())
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(numberOfSamples, f.processedSensorDataPackages)
@@ -123,10 +118,10 @@ class RoutingSimulationTest {
 
         f.sensor!!.setDataSink(d.address)
 
-        val maxClock: Long = 100
-        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
+        val numberOfSamples: Long = 3
+        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger())
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(numberOfSamples, d.processedSensorDataPackages)

@@ -1,20 +1,23 @@
 package lupos.simulator_iot
 
+import kotlinx.datetime.*
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
 
-public class Logger : ISimulationLifeCycle {
+public object Logger : ISimulationLifeCycle {
 
     override lateinit var simulation: Simulation
+    private lateinit var startTimeStamp: Instant
 
     public override fun onStartUp() {
+        startTimeStamp = Clock.System.now()
         log("")
         log("")
         log("================================================")
-        log("Simulation has started")
+        log("Simulation has started at ${TimeUtils.toISOString(startTimeStamp)}")
         log("")
         log("Number of devices: ${Configuration.devices.size}")
         log("Number of sensors: ${ParkingSensor.sensorCounter}")
@@ -22,10 +25,10 @@ public class Logger : ISimulationLifeCycle {
     }
 
     override fun onSteadyState() {
-        // TODO
     }
 
     override fun onShutDown() {
+        val endTime = getSimulationTime()
         log(getDODAGString())
         log("Total number of network packages: ${Device.packageCounter}")
         log("Number of received DIOs: ${RPLRouter.dioCounter}, of which further sent: ${RPLRouter.forwardedDioCounter}")
@@ -33,7 +36,8 @@ public class Logger : ISimulationLifeCycle {
         log("Number of data packages: ${Device.observationPackageCounter}")
         log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
         log("")
-        log("Simulation clock: ${simulation.getCurrentClock()}")
+        log("Simulation end time: ${TimeUtils.toISOString(endTime)}")
+        log("Difference to start time: ${TimeUtils.differenceInMillis(startTimeStamp, endTime)} ms")
         log("Simulation completed")
         log("================================================")
         log("")
@@ -41,6 +45,10 @@ public class Logger : ISimulationLifeCycle {
 
         resetCounters()
     }
+
+    private fun getSimulationTime(): Instant = TimeUtils.addMillis(startTimeStamp, simulation.getCurrentClock())
+
+    internal fun getSimulationTimeString(): String = TimeUtils.toISOString(getSimulationTime())
 
     private fun log(content: String) {
         println(content)

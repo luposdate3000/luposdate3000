@@ -2,6 +2,7 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
+import lupos.simulator_iot.Logger
 import lupos.simulator_iot.RandomGenerator
 
 public class ParkingSensor(public var device: Device) : ISensor {
@@ -45,7 +46,8 @@ public class ParkingSensor(public var device: Device) : ISensor {
 
     override fun startSampling() {
         isStopped = false
-        device.setTimer(dataRateInSeconds, SamplingProcessFinished())
+        val rateInMillis: Long = dataRateInSeconds.toLong() * 1000
+        device.setTimer(rateInMillis, SamplingProcessFinished())
     }
 
     private fun onSampleTaken() {
@@ -63,7 +65,7 @@ public class ParkingSensor(public var device: Device) : ISensor {
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
-            sampleTime = device.simulation.getCurrentClock(),
+            sampleTime = Logger.getSimulationTimeString(),
             isOccupied = RandomGenerator.random.nextBoolean(),
             parkingSpotID = device.address,
             area = device.address.toString()

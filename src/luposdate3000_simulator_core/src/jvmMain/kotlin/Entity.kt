@@ -18,13 +18,13 @@ public abstract class Entity : ISimulationLifeCycle {
             onEvent(event.source, event.data)
     }
 
-    protected fun scheduleEvent(destination: Entity, data: Any, delay: Int) {
+    protected fun scheduleEvent(destination: Entity, data: Any, delay: Long) {
         require(!isTerminated)
         val sim = simulation
-        sim.addEvent(delay.toLong(), this, destination, data)
+        sim.addEvent(delay, this, destination, data)
     }
 
-    public fun setTimer(time: Int, callback: ITimer) {
+    public fun setTimer(time: Long, callback: ITimer) {
         scheduleEvent(this, callback, time)
     }
 

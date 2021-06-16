@@ -211,7 +211,7 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         // RPL Constants and Variables (see RFC 6550)
         public const val DEFAULT_DAO_DELAY: Int = 1 // seconds
 
-        public val daoDelay: Int = 2 // DEFAULT_DAO_DELAY * 3
+        public val daoDelay: Long = 2 // DEFAULT_DAO_DELAY * 3
 
         public const val ROOT_RANK: Int = 0
 
