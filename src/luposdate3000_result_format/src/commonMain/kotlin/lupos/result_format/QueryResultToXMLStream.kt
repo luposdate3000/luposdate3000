@@ -150,7 +150,7 @@ public object QueryResultToXMLStream {
         }
     }
 
-    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition = Partition()) {
+    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition, asRoot: Boolean) {
         if ((node.getQuery().getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -168,7 +168,11 @@ public object QueryResultToXMLStream {
                 jobs[p] = Parallel.launch {
                     try {
                         val child2 = node.getChildren()[0]
-                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                        val child = if (asRoot) {
+                            child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                        } else {
+                            child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        }
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
@@ -186,13 +190,20 @@ public object QueryResultToXMLStream {
                 }
             }
         } else {
-            val child = node.evaluateRoot(parent)
+            val child = if (asRoot) {
+                node.evaluateRoot(parent)
+            } else {
+                node.evaluate(parent)
+            }
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
 
     public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
+        this(rootNode, output, true)
+    }
+    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -235,7 +246,11 @@ public object QueryResultToXMLStream {
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val child = node.evaluateRoot(Partition())
+                    val child = if (asRoot) {
+                        node.evaluateRoot(Partition())
+                    } else {
+                        node.evaluate(Partition())
+                    }
                     output.print(" <head/>\n")
                     val buffer = ByteArrayWrapper()
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
@@ -245,7 +260,11 @@ public object QueryResultToXMLStream {
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-                        val child = node.evaluateRoot(Partition())
+                        val child = if (asRoot) {
+                            node.evaluateRoot(Partition())
+                        } else {
+                            node.evaluate(Partition())
+                        }
                         output.print(" <head/>\n <results>\n")
                         for (j in 0 until child.count()) {
                             output.print("  <result/>\n")
@@ -259,7 +278,7 @@ public object QueryResultToXMLStream {
                             output.print("\"/>\n")
                         }
                         output.print(" </head>\n <results>\n")
-                        writeNodeResult(variables, node, output)
+                        writeNodeResult(variables, node, output, Partition(), asRoot)
                         output.print(" </results>\n")
                     }
                 }

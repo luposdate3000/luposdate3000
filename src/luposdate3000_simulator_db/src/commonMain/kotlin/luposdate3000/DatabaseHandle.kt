@@ -17,19 +17,21 @@
 package lupos.simulator_db.luposdate3000
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
 import lupos.operator.logical.noinput.OPNothing
-import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IMyInputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.operator.IOPBase
 import lupos.shared_inline.MyPrintWriter
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
@@ -213,10 +215,10 @@ public class DatabaseHandle : IDatabase {
         doWork()
     }
 
-    private fun localXMLElementToOPBase(query: Query, node: XMLElement): POPBase {
-        val operators = mutableMapOf<String, XMLElementToOPBaseMap>()
-        operators.putAll(XMLElementToOPBase.operatorMap)
-        operators["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
+    private fun localXMLElementToOPBase(query: Query, node: XMLElement): IOPBase {
+        val operatorMap = mutableMapOf<String, XMLElementToOPBaseMap>()
+        operatorMap.putAll(XMLElementToOPBase.operatorMap)
+        operatorMap["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
             val keys = mutableSetOf<String>()
             for (c in node.childs) {
@@ -241,7 +243,32 @@ public class DatabaseHandle : IDatabase {
             query.addPartitionOperator(res.uuid, id)
             res
         }
-        return XMLElementToOPBase(query, node, mutableMapOf(), operators) as POPBase
+        operatorMap["POPDistributedReceiveMulti"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val keys = mutableSetOf<String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    keys.add(c.attributes["key"]!!)
+                }
+            }
+            val inputs = keys.map { key ->
+                val input = MySimulatorInputStreamFromPackage(myPendingWorkData[key]!!)
+                myPendingWorkData.remove(key)
+                input as IMyInputStream
+            }.toTypedArray()
+            val res = MySimulatorPOPDistributedReceiveMulti(
+                query,
+                XMLElementToOPBase.createProjectedVariables(node),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
+                inputs
+            )
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        return XMLElementToOPBase(query, node, mutableMapOf(), operatorMap) as IOPBase
     }
 
     private fun doWork() {
@@ -263,6 +290,11 @@ public class DatabaseHandle : IDatabase {
                             val out = MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
                             node.evaluate(out)
                             out.close()
+                        }
+                        is OPBaseCompound -> {
+                            val buf = MyPrintWriter(true)
+                            QueryResultToXMLStream(node, buf, false)
+                            router!!.sendQueryResult(w.destination, buf.toString().encodeToByteArray())
                         }
                         else -> TODO(node.toString())
                     }
