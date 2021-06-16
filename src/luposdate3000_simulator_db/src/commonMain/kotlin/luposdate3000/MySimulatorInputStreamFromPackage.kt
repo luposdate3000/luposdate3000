@@ -30,7 +30,6 @@ internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : I
 
     override fun read(buf: ByteArray, len: Int): Int {
         val l = min(len, data.size - offset)
-        println("reading ... ${data.size} ${buf.size} - $len : $offset $l > ${offset + l}")
         data.buf.copyInto(buf, 0, offset, offset + l)
         offset += l
         return l
@@ -47,7 +46,6 @@ internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : I
         SanityCheck.check { offset + 4 <= data.size }
         val res = ByteArrayHelper.readInt4(data.buf, offset)
         offset += 4
-        println("readInt $res")
         return res
     }
 

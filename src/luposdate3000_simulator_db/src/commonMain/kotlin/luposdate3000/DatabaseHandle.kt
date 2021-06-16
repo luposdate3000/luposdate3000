@@ -98,6 +98,7 @@ public class DatabaseHandle : IDatabase {
             val out = MyPrintWriter(true)
             QueryResultToXMLStream(q.getRoot(), out)
             val res = out.toString().encodeToByteArray()
+            println("sending the result AAA ::: $out")
             router!!.sendQueryResult(sourceAddress, res)
         } else {
             val destinations = mutableMapOf("" to sourceAddress)
@@ -130,12 +131,10 @@ public class DatabaseHandle : IDatabase {
 //        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
         val nextHops = allHostAdresses
         val packages = mutableMapOf<Int, MySimulatorOperatorgraphPackage>()
-        println("nextHops ${nextHops.map{it}} .. ${allHostAdresses.map{it}} .. ${allHosts.map{it}}")
         for (i in nextHops.toSet()) {
             packages[i] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
         }
         packages[ownAdress] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
-        println("pp ${packages.keys}")
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorgraphPartsToHostMap) {
             packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
@@ -272,21 +271,17 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun doWork() {
-        println("doWork ${myPendingWork.size}")
         var changed = true
         while (changed) {
             changed = false
             for (w in myPendingWork) {
-                println("checkWork ${myPendingWorkData.keys} ${w.dependencies} -> ${w.key}")
                 if (myPendingWorkData.keys.containsAll(w.dependencies)) {
                     myPendingWork.remove(w)
-                    println("doIt NOW")
                     changed = true
                     val query = Query(instance)
                     val node = localXMLElementToOPBase(query, w.operatorGraph)
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            println("going to evaluate")
                             val out = MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
                             node.evaluate(out)
                             out.close()
@@ -294,6 +289,7 @@ public class DatabaseHandle : IDatabase {
                         is OPBaseCompound -> {
                             val buf = MyPrintWriter(true)
                             QueryResultToXMLStream(node, buf, false)
+                            println("sending the result BBB ::: $buf")
                             router!!.sendQueryResult(w.destination, buf.toString().encodeToByteArray())
                         }
                         else -> TODO(node.toString())
