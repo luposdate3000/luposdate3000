@@ -154,6 +154,25 @@ public class DatabaseSystemDummy : IDatabase {
         state.queriesInProgress[queryID] = newQuery
     }
 
+    private fun calculate(queryID: Int) {
+        val query = state.queriesInProgress[queryID]!!
+        for (part in query.operatorGraphParts)
+            if (part.canBeEvaluatedWithoutRemoteDependencies())
+                query.choosenOperators.add(part)
+    }
+
+    private fun sendPreprocessingPackage(to: Int, dests: IntArray, parts: ByteArray, queryID: Int) {
+        state.sender.send(
+            to,
+            PreprocessingPackage(
+                destinationAddresses = dests,
+                operatorGraphParts = parts,
+                senderAddress = state.ownAddress,
+                queryID = queryID,
+            )
+        )
+    }
+
 
     private fun setupOperatorGraph(
         destinationAddresses: IntArray,
@@ -167,30 +186,13 @@ public class DatabaseSystemDummy : IDatabase {
 
         for ((hop, dest) in nextHopToDestsMap) {
             if (hop == state.ownAddress) {
-// selber berechnen
-                val q = state.queriesInProgress[queryID]!!
-                val choosenOperators = q.choosenOperators
-                for (part in parts) {
-                    if (part.canBeEvaluatedWithoutRemoteDependencies()) {
-                        choosenOperators.add(part)
-                    }
-                }
+                calculate(queryID)
                 if (nextHopToDestsMap.size == 1) {
-// wenn ich ganz unten im operator Graph bin ... also der triple store
+                    // wenn ich ganz unten im operator Graph bin ... also der triple store
                     startEvaluation(senderAddress, queryID)
                 }
-            } else {
-// weitersenden Richtung triple store
-                state.sender.send(
-                    hop,
-                    PreprocessingPackage(
-                        destinationAddresses = dest.toIntArray(),
-                        operatorGraphParts = OperatorGraphPart.encodeToByteArray(parts), // DB can filter here to reduce network-amount
-                        senderAddress = state.ownAddress,
-                        queryID = queryID,
-                    )
-                )
-            }
+            } else
+                sendPreprocessingPackage(hop,dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
         }
     }
 }
