@@ -3,7 +3,13 @@ package lupos.simulator_iot
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.sensor.ParkingSensor
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class ConfigurationTest {
 

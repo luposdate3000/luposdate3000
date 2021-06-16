@@ -1,6 +1,8 @@
 package lupos.simulator_iot
 
-import kotlin.test.*
+import org.junit.Ignore
+import org.junit.Test
+
 
 class DatabaseAdapterTest {
     @Ignore
