@@ -111,7 +111,8 @@ public class DatabaseHandle : IDatabase {
         when (pck.path) {
             "/distributed/query/dictionary/register",
             "/distributed/query/dictionary/remove" -> {
-            } // dont use dictionaries right now - register dictionary must proceed
+                // dont use dictionaries right now
+            }
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
             "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MySimulatorInputStreamFromPackage(pck.data!!))
             else -> TODO("${pck.path} ${pck.params}")
