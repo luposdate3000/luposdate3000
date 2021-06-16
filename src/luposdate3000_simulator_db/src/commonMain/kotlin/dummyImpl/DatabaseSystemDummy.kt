@@ -64,16 +64,15 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
     private fun receive(pck: ResultPackage) {
-        // TODO use this in the related „ReceivedResultsDummyImpl"
-        // wenn dies nicht lokal benutzt wird, einfach weiter im operatorgraphen hochsenden
+        //if this is not used locally, then simply send it upwards in the operator graph
     }
 
     private fun receive(pck: ChoosenOperatorPackage) {
         val query = state.queriesInProgress[pck.queryID]!!
-        val choosenOperators = query.choosenOperators
+
         query.answeredByNextHop[query.nextHops.indexOf(pck.senderAddress)] = true
         for (operatorID in pck.operators)
-            choosenOperators.add(ReceivedResults(pck.senderAddress, operatorID))
+            query.choosenOperators.add(ReceivedResults(pck.senderAddress, operatorID))
 
         if (allReplied(query.answeredByNextHop))
             startEvaluation(query.parentAddress, pck.queryID)
@@ -86,27 +85,29 @@ public class DatabaseSystemDummy : IDatabase {
         return true
     }
 
+
+    private fun mergeChoosenOperators(query: Query) {
+        for (part in query.operatorGraphParts) {
+            if (part.canBeEvaluatedWithTheseDependencies(query.choosenOperators)) {
+                val dep = part.mergeAndGetDependencies(query.choosenOperators)
+                query.choosenOperators.removeAll(dep)
+                query.choosenOperators.add(part) // alle unnötigen netzwerk-möglichkeiten eliminieren, wenn mehrere query-parts auf der gleichen node berechnet werden
+            }
+        }
+    }
+
     private fun startEvaluation(senderAddress: Int, queryID: Int) {
 
         val query = state.queriesInProgress[queryID]!!
-        val operatorGraphParts = query.operatorGraphParts
-        val choosenOperators = query.choosenOperators
 
-        // Bei zb. Join Von Tripplestorezugriffen auf den selben knoten
-        for (part in operatorGraphParts) {
-            if (part.canBeEvaluatedWithTheseDependencies(choosenOperators)) {
-                val dep = part.mergeAndGetDependencies(choosenOperators)
-                choosenOperators.removeAll(dep)
-                choosenOperators.add(part) // alle unnötigen netzwerk-möglichkeiten eliminieren, wenn mehrere query-parts auf der gleichen node berechnet werden
-            }
-        }
+        mergeChoosenOperators(query)
+
         state.sender.send(
             senderAddress,
-// anzeigen, was man berechnen wird, siehe #2
             ChoosenOperatorPackage(
                 destinationAddress = senderAddress,
                 senderAddress = state.ownAddress,
-                operators = choosenOperators.map { it.getUUID() }.toIntArray(),
+                operators = query.choosenOperators.map { it.getUUID() }.toIntArray(),
                 queryID = queryID,
             )
         )
@@ -118,7 +119,7 @@ public class DatabaseSystemDummy : IDatabase {
         // Bei kleinen Bäumen kommt der Fall nicht vor.
         // z.B wenn das selbe trippelmuster mehrfach auftaucht, aber noch etwas dazwischen liegt,
         // kann der Optimizer nicht immer diese Operanden fusionieren.
-        for (op in choosenOperators) {
+        for (op in query.choosenOperators) {
 // ergebnisse senden
             state.sender.send(
                 senderAddress,
@@ -152,7 +153,7 @@ public class DatabaseSystemDummy : IDatabase {
         state.queriesInProgress[queryID] = newQuery
     }
 
-    private fun calculate(queryID: Int, isLastHop: Boolean, src: Int) {
+    private fun chooseOperators(queryID: Int, isLastHop: Boolean, src: Int) {
         val query = state.queriesInProgress[queryID]!!
         for (part in query.operatorGraphParts)
             if (part.canBeEvaluatedWithoutRemoteDependencies())
@@ -181,7 +182,7 @@ public class DatabaseSystemDummy : IDatabase {
 
         for ((hop, dest) in nextHopToDestsMap)
             if (hop == state.ownAddress)
-                calculate(queryID, nextHopToDestsMap.size == 1, senderAddress)
+                chooseOperators(queryID, nextHopToDestsMap.size == 1, senderAddress)
              else
                 sendPreprocessingPackage(hop,dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
     }
