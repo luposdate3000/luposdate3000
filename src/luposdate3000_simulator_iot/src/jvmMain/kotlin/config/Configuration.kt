@@ -52,6 +52,7 @@ public object Configuration {
         randMeshNetworks = HashMap()
         jsonObjects = JsonObjects()
         namedAddresses = HashMap()
+        dbDeviceCounter = 0
     }
 
     private fun readJsonFile(fileName: String) {
