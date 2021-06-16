@@ -331,6 +331,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             appendix += "_Debug"
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
+        val enableProguard = false // !onWindows && enableJVM
 
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -372,6 +373,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
                 out.println("import org.gradle.api.tasks.testing.logging.TestExceptionFormat")
                 out.println("import org.gradle.api.tasks.testing.logging.TestLogEvent")
+                out.println("import org.jlleitschuh.gradle.ktlint.reporter.ReporterType")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        mavenLocal()")
@@ -383,7 +385,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    }")
                 out.println("    dependencies {")
                 out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${moduleArgs.compilerVersion}\")")
-                out.println("        classpath(\"com.guardsquare:proguard-gradle:7.1.0-beta3\")")
+                if (enableProguard) {
+                    out.println("        classpath(\"com.guardsquare:proguard-gradle:7.1.0-beta3\")")
+                }
                 out.println("    }")
                 out.println("}")
                 val allDep = mutableSetOf<String>()
@@ -402,6 +406,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
                 out.println("plugins {")
+                out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
                 if (!buildLibrary && moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
@@ -630,7 +635,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("}")
                 }
                 out.println("tasks.register(\"luposSetup\") {")
-// xxxxx
+                out.println("    dependsOn(\"ktlintFormat\")")
                 out.println("    val regexDisableNoInline = \"(^|[^a-zA-Z])noinline \".toRegex()")
                 out.println("    val regexDisableInline = \"(^|[^a-zA-Z])inline \".toRegex()")
                 out.println("    val regexDisableCrossInline = \"(^|[^a-zA-Z])crossinline \".toRegex()")
@@ -663,7 +668,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("            }")
                 out.println("        }")
                 out.println("    }")
-// xxxxx
                 out.println("}")
                 if (enableJVM) {
                     out.println("tasks.named(\"compileKotlinJvm\") {")
@@ -698,7 +702,15 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    dependsOn(\"luposSetup\")")
                     out.println("}")
                 }
-                if (!onWindows) {
+                out.println("tasks.named(\"build\") {")
+                out.println("}")
+                println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
+                println("    enableExperimentalRules.set(true)")
+                println("    filter {")
+                println("        exclude(\"**/build/**\")")
+                println("    }")
+                println("}")
+                if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
                     out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")

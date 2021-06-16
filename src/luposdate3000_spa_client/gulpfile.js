@@ -110,7 +110,6 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
-                "app/scripts/algos/luposdate3000/Luposdate3000_Simulator_Db.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Code_Generator_Shared.js",
                 //LUPOSDATE3000 GENERATED CODE END
             ]),
@@ -184,7 +183,6 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
-            "app/scripts/algos/luposdate3000/Luposdate3000_Simulator_Db.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Code_Generator_Shared.js",
             //LUPOSDATE3000 GENERATED CODE END
             "app/scripts/algos/createGraph.js",
