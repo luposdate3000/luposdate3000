@@ -34,6 +34,23 @@ class DatabaseSimulationTest {
         assertEquals(numberOfSamples, g.processedSensorDataPackages)
     }
 
+    /**
+     * DB(A) -> B -> DB(C) -> DB(D) -> E -> DB(F)
+     *                              -> DB(G)
+     *
+     * Send Data from root A to the leaf G and save it there.
+     */
+    @Test
+    fun saveParkingSamplesInDummyTripleStore2() {
+        Configuration.parse("$prefix/saveParkingSamplesInDummyTripleStore.json")
+        val a = Configuration.getNamedDevice("A")
+        val g = Configuration.getNamedDevice("G")
+        a.sensor!!.setDataSink(g.address)
+
+        val sim = Simulation(Configuration.devices, callback = Logger(), maxClock = 100000)
+        sim.startSimulation()
+    }
+
 //    /**
 //     * DB(A) -> B -> DB(C) -> DB(D) -> E -> DB(F)
 //     *                              -> DB(G)
