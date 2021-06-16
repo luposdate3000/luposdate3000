@@ -94,7 +94,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         idx = Array(description.indices.size) { EIndexPatternHelper.tripleIndicees[description.indices[it].idx_set[0]] }
         allBuf = Array(description.indices.size) { index -> Array(description.indices[index].getAllLocations().size) { MyBuf(instance) } }
         allStore = Array(description.indices.size) { description.indices[it].getAllLocations() }
-        allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to idx[it].toString(), "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
+        allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(allStore.size) {
             allStore[it].map { j ->
                 if (j.first == localH) {

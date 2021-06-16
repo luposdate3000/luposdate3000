@@ -496,7 +496,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         val metadataStr = graph.toMetaString()
         for (hostname in hostnames) {
             if (hostname != localhost) {
-                println("sending it ... $hostname $localhost")
                 query.getInstance().communicationHandler!!.sendData(
                     hostname, "/distributed/graph/create",
                     mapOf(

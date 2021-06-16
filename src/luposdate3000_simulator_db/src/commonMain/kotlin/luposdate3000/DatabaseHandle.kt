@@ -42,7 +42,6 @@ public class DatabaseHandle : IDatabase {
         if (initialState.allAddresses.size == 0) {
             throw Exception("invalid input")
         }
-        println("${initialState.allAddresses.map { it }} ... ${initialState.ownAddress}")
         router = initialState.sender
         instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
@@ -80,7 +79,6 @@ public class DatabaseHandle : IDatabase {
 
     override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
         val queryString = query.decodeToString()
-        println("receiveQuery ")
         targetForQueryResponse = sourceAddress
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         op.getQuery().initialize(op)
@@ -110,19 +108,17 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
-        println("receive MySimulatorAbstractPackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
         when (pck.path) {
             "/distributed/query/dictionary/register",
             "/distributed/query/dictionary/remove" -> {
             } // dont use dictionaries right now - register dictionary must proceed
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
-            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance)
+            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MySimulatorInputStreamFromPackage(pck.data!!))
             else -> TODO("${pck.path} ${pck.params}")
         }
     }
 
     override fun receive(pck: IDatabasePackage) {
-        println("receive IDatabasePackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
         when (pck) {
             is MySimulatorAbstractPackage -> receive(pck)
             is PreprocessingPackage -> receive(pck)
