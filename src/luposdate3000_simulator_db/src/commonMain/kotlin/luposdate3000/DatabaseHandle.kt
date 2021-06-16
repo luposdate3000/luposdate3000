@@ -17,7 +17,7 @@
 package lupos.simulator_db.luposdate3000
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.base.Query
+import lupos.endpoint_launcher.RestEndpoint
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
@@ -74,7 +74,6 @@ internal class MySimulatorOutputStream(val target: Int, val path: String, val pa
     val buffer = ByteArrayWrapper()
     override fun flush() {}
     override fun close() {
-        println("router.send MySimulatorOutputStream")
         router.send(target, MyAbstractPackage(path, params, buffer))
     }
 
@@ -119,7 +118,6 @@ internal class MySimulatorOutputStream(val target: Int, val path: String, val pa
 
 internal class CommunicationHandler(val instance: Luposdate3000Instance, val router: IRouter) : ICommunicationHandler {
     override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
-        println("router.send CommunicationHandler")
         router.send(targetHost.toInt(), MyAbstractPackage(path, params))
     }
 
@@ -221,13 +219,12 @@ public class DatabaseHandle : IDatabase {
     private fun receive(pck: MyAbstractPackage) {
         println("receive MyAbstractPackage at ${instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID]}")
         when (pck.path) {
-            "/distributed/query/dictionary/register" -> {
+            "/distributed/query/dictionary/register",
+            "/distributed/query/dictionary/remove" -> {
 // dont use dictionaries right now -> register dictionary must proceed
             }
             "/distributed/graph/create" -> {
-                val name = pck.params["name"]!!
-                val query = Query(instance)
-                instance.tripleStoreManager!!.remoteCreateGraph(query, name, (pck.params["origin"] == null || pck.params["origin"].toBoolean()), pck.params["metadata"])
+                RestEndpoint.distributed_graph_create(pck.params, instance)
             }
             else -> {
                 TODO("${pck.path} ${pck.params}")

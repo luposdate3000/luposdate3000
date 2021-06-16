@@ -226,26 +226,58 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         }
     }
 
-    fun booleanToByteArray() {
-        resetRandom()
+    fun booleanToByteArray1() {
         DictionaryHelper.booleanToByteArray(buffer, true)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BOOLEAN })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBoolean(buffer) }, { true })
+    }
+
+    fun booleanToByteArray2() {
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+    }
+
+    fun booleanToByteArray3() {
         DictionaryHelper.sparqlToByteArray(buffer2, "true")
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+    }
+
+    fun booleanToByteArray4() {
         DictionaryHelper.sparqlToByteArray(buffer2, "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+    }
+
+    fun booleanToByteArray5() {
         DictionaryHelper.booleanToByteArray(buffer, false)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BOOLEAN })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBoolean(buffer) }, { false })
+    }
+
+    fun booleanToByteArray6() {
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+    }
+
+    fun booleanToByteArray7() {
         DictionaryHelper.sparqlToByteArray(buffer2, "false")
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+    }
+
+    fun booleanToByteArray8() {
         DictionaryHelper.sparqlToByteArray(buffer2, "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+    }
+
+    fun booleanToByteArray() {
+        resetRandom()
+        booleanToByteArray1()
+        booleanToByteArray2()
+        booleanToByteArray3()
+        booleanToByteArray4()
+        booleanToByteArray5()
+        booleanToByteArray6()
+        booleanToByteArray7()
+        booleanToByteArray8()
     }
 
     fun iriToByteArray() {

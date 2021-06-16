@@ -1,6 +1,7 @@
 package lupos.simulator_iot
 
 import lupos.simulator_core.Entity
+import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.routing.IRoutingAlgorithm
@@ -55,6 +56,8 @@ public class Device(
         } else if (pck.payload is ParkingSample) {
             processedSensorDataPackages++
             database?.saveParkingSample(pck.payload)
+        } else if (pck.payload is IDatabasePackage) {
+            database?.receive(pck.payload)
         }
     }
 

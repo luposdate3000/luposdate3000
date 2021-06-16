@@ -55,7 +55,7 @@ public class ParkingSensor(public var device: Device) : ISensor {
         val data = getSample()
         device.sendSensorSample(dataSinkAddress, data)
         totalSampleCounter++
-        // startSampling()
+        startSampling()
     }
 
     // TODO setze die richtigen Daten

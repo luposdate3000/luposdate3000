@@ -39,6 +39,12 @@ internal object RestEndpoint {
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
     private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
 
+    public fun distributed_graph_create(params: Map<String, String>, instance: Luposdate3000Instance) {
+        val name = params["name"]!!
+        val query = Query(instance)
+        instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
+    }
+
     @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(instance: Luposdate3000Instance, key: String): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
@@ -260,9 +266,7 @@ internal object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
-            val name = params["name"]!!
-            val query = Query(instance)
-            instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
+            distributed_graph_create(params, instance)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) {
