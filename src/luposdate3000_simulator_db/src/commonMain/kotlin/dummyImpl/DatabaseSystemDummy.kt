@@ -135,16 +135,20 @@ public class DatabaseSystemDummy : IDatabase {
         }
     }
 
-    private fun getNextHops(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
+    private fun getHopToDestinationsMap(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
         val map = HashMap<Int, MutableSet<Int>>(destinationAddresses.size)
         val nextHops = state.sender.getNextDatabaseHops(destinationAddresses)
-        for (i in nextHops.indices) {
-            if (!map.containsKey(nextHops[i]))
-                map[nextHops[i]] = mutableSetOf()
-            map[nextHops[i]]!!.add(destinationAddresses[i])
-        }
+        for (i in nextHops.indices)
+            addToHopMap(map, nextHops[i], destinationAddresses[i])
         return map
     }
+
+    private fun addToHopMap(map: HashMap<Int, MutableSet<Int>>, hop: Int, dest: Int) {
+        if (!map.containsKey(hop))
+            map[hop] = mutableSetOf()
+        map[hop]!!.add(dest)
+    }
+
 
     private fun setupOperatorGraph(
         destinationAddresses: IntArray,
@@ -153,11 +157,11 @@ public class DatabaseSystemDummy : IDatabase {
         queryID: Int,
     ) {
 
-        val nextHopMap = getNextHops(destinationAddresses)
-        val newQuery = Query(parts, nextHopMap.keys.toIntArray(), senderAddress)
+        val nextHopToDestsMap = getHopToDestinationsMap(destinationAddresses)
+        val newQuery = Query(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress)
         state.queriesInProgress[queryID] = newQuery
 
-        for ((hop, dest) in nextHopMap) {
+        for ((hop, dest) in nextHopToDestsMap) {
             if (hop == state.ownAddress) {
 // selber berechnen
                 val q = state.queriesInProgress[queryID]!!
@@ -167,7 +171,7 @@ public class DatabaseSystemDummy : IDatabase {
                         choosenOperators.add(part)
                     }
                 }
-                if (nextHopMap.size == 1) {
+                if (nextHopToDestsMap.size == 1) {
 // wenn ich ganz unten im operator Graph bin ... also der triple store
                     startEvaluation(senderAddress, queryID)
                 }
