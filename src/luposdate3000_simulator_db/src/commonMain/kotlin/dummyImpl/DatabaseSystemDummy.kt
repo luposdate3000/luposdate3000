@@ -10,7 +10,7 @@ import lupos.simulator_db.ResultPackage
 
 public class DatabaseSystemDummy : IDatabase {
 
-    public lateinit var state: DatabaseState
+    private lateinit var state: DatabaseState
 
     public override fun start(initialState: IDatabaseState) {
         state = DatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
