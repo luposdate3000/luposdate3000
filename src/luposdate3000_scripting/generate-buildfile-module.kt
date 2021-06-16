@@ -370,10 +370,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         for (filename in listOf("${moduleArgs.moduleFolder}/build.gradle.kts")) {
             File(filename).printWriter().use { out ->
-                out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
                 out.println("import org.gradle.api.tasks.testing.logging.TestExceptionFormat")
                 out.println("import org.gradle.api.tasks.testing.logging.TestLogEvent")
-                out.println("import org.jlleitschuh.gradle.ktlint.reporter.ReporterType")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        mavenLocal()")
@@ -406,7 +404,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
                 out.println("plugins {")
+if(!onWindows){
                 out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
+}
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
                 if (!buildLibrary && moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
@@ -448,7 +448,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("kotlin {")
                 out.println("    explicitApi()") // https://zsmb.co/mastering-api-visibility-in-kotlin/
                 out.println("    metadata {")
-                out.println("        compilations.forEach{")
+                out.println("        compilations.forEach {")
                 out.println("            it.kotlinOptions {")
                 out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
                 out.println("                freeCompilerArgs += \"-Xnew-inference\"")
@@ -458,10 +458,10 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    }")
                 if (enableJVM) {
                     out.println("    jvm {")
-                    out.println("        compilations.forEach{")
+                    out.println("        compilations.forEach {")
                     out.println("            it.kotlinOptions {")
-//                    out.println("                jvmTarget= \"14\"")
-                    out.println("                jvmTarget= \"1.8\"")
+//                    out.println("                jvmTarget = \"14\"")
+                    out.println("                jvmTarget = \"1.8\"")
                     out.println("                useIR = true")
                     out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
                     out.println("                freeCompilerArgs += \"-Xno-param-assertions\"")
@@ -635,25 +635,27 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("}")
                 }
                 out.println("tasks.register(\"luposSetup\") {")
+if(!onWindows){
                 out.println("    dependsOn(\"ktlintFormat\")")
+}
                 out.println("    val regexDisableNoInline = \"(^|[^a-zA-Z])noinline \".toRegex()")
                 out.println("    val regexDisableInline = \"(^|[^a-zA-Z])inline \".toRegex()")
                 out.println("    val regexDisableCrossInline = \"(^|[^a-zA-Z])crossinline \".toRegex()")
-                out.println("    for (bp in listOf(File(buildDir.parentFile,\"/src\"),File(rootDir,\"src/luposdate3000_shared_inline/src\"))) {")
+                out.println("    for (bp in listOf(File(buildDir.parentFile, \"/src\"), File(rootDir, \"src/luposdate3000_shared_inline/src\"))) {")
                 out.println("        for (it in bp.walk()) {")
                 out.println("            val tmp = it.toString()")
-                out.println("            val ff=File(tmp)")
+                out.println("            val ff = File(tmp)")
                 out.println("            if (ff.isFile() && ff.name.endsWith(\".kt\")) {")
-                out.println("                File(ff.absolutePath+\".tmp\").printWriter().use { out ->")
+                out.println("                File(ff.absolutePath + \".tmp\").printWriter().use { out ->")
                 out.println("                    var line = 0")
                 out.println("                    ff.forEachLine { line2 ->")
                 out.println("                        var s = line2")
                 out.println("                        s = s.replace(\"lupos.SOURCE_FILE\", \"\\\"\${ff.absolutePath.replace(\"\\\\\", \"/\")}:\$line\\\"\")")
 //                out.println("                        s = s.replace(\" public \", \" @lupos.ProguardKeepAnnotation public \")")
                 if (moduleArgs.inlineMode == InlineMode.Enable) {
-                    out.println("                        s = s.replace(\"/*NOINLINE*/\",\"noinline \" )")
-                    out.println("                        s = s.replace(\"/*CROSSINLINE*/\",\"crossinline \" )")
-                    out.println("                        s = s.replace( \"/*INLINE*/\",\"inline \")")
+                    out.println("                        s = s.replace(\"/*NOINLINE*/\", \"noinline \")")
+                    out.println("                        s = s.replace(\"/*CROSSINLINE*/\", \"crossinline \")")
+                    out.println("                        s = s.replace(\"/*INLINE*/\", \"inline \")")
                 } else {
                     out.println("                        s = s.replace(\"noinline \", \"/*NOINLINE*/\")")
                     out.println("                        s = s.replace(\"crossinline \", \"/*CROSSINLINE*/\")")
@@ -663,8 +665,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("                        line++")
                 out.println("                    }")
                 out.println("                }")
-                out.println("                File(ff.absolutePath+\".tmp\").copyTo(ff,true)")
-                out.println("                File(ff.absolutePath+\".tmp\").delete()")
+                out.println("                File(ff.absolutePath + \".tmp\").copyTo(ff, true)")
+                out.println("                File(ff.absolutePath + \".tmp\").delete()")
                 out.println("            }")
                 out.println("        }")
                 out.println("    }")
@@ -673,7 +675,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("tasks.named(\"compileKotlinJvm\") {")
                     out.println("    dependsOn(\"luposSetup\")")
                     out.println("    doLast {")
-                    out.println("        File(buildDir,\"external_jvm_dependencies\").printWriter().use { out ->")
+                    out.println("        File(buildDir, \"external_jvm_dependencies\").printWriter().use { out ->")
                     out.println("            for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
                     out.println("                if (!\"\$f\".contains(\"luposdate3000\")) {")
                     out.println("                    out.println(\"\$f\")")
@@ -704,6 +706,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
                 out.println("tasks.named(\"build\") {")
                 out.println("}")
+if(!onWindows){
                 out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
                 out.println("    enableExperimentalRules.set(true)")
                 out.println("    ignoreFailures.set(true)")
@@ -711,6 +714,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        exclude(\"**/build/**\")")
                 out.println("    }")
                 out.println("}")
+}
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")

@@ -28,6 +28,8 @@ public interface IQuery {
     public fun setCommited()
     public fun getTransactionID(): Long
     public fun getDistributionKey(): Map<String, Int>
+    public fun getDependenciesMapTopDown(): MutableMap<String, Set<String>>
+
     public fun getDictionaryUrl(): String?
     public fun setDictionaryUrl(url: String)
     public fun setDictionaryServer(dict: IDictionary)

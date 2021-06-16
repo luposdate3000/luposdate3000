@@ -15,17 +15,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
-
-import lupos.optimizer.distributed.query.DistributedOptimizerQuery
-import lupos.shared.IQuery
-import lupos.shared.operator.IOPBase
-import lupos.shared.optimizer.IDistributedOptimizer
-import lupos.simulator_db.IRouter
-
-internal class MySimulatorDistributedOptimizer(val router: IRouter) : IDistributedOptimizer {
-    private var originalOptimizer = DistributedOptimizerQuery()
-    override fun optimize(query: IQuery): IOPBase {
-        originalOptimizer.splitQuery(query)
-        return query.getRoot()
-    }
-}
+import lupos.shared.XMLElement
+internal class MySimulatorPendingWork(val operatorGraph: XMLElement, val destination: Int, val dependencies: Set<String>)

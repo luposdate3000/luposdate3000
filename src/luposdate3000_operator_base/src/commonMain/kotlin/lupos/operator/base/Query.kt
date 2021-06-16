@@ -88,7 +88,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public var dictionaryUrl: String? = null
     public override fun getOperatorgraphPartsToHostMap(): MutableMap<String, String> = operatorgraphPartsToHostMap
     public override fun getOperatorgraphParts(): MutableMap<String, XMLElement> = operatorgraphParts
-
+    public override fun getDependenciesMapTopDown(): MutableMap<String, Set<String>> = dependenciesMapTopDown
     public override fun getInstance(): Luposdate3000Instance = instance
 
     public override fun setDictionaryUrl(url: String) {

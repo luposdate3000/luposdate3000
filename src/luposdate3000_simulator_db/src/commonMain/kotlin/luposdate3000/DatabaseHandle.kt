@@ -15,33 +15,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
-
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.SanityCheck
 import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.MyPrintWriter
-import lupos.simulator_db.ChoosenOperatorPackage
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
 import lupos.simulator_db.IRouter
-import lupos.simulator_db.PreprocessingPackage
-import lupos.simulator_db.ResultPackage
 
 public class DatabaseHandle : IDatabase {
-
+    private var ownAdress: Int = 0
     private var instance = Luposdate3000Instance()
-
-    private var targetForQueryResponse: Int = -1
+    private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
+    private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
     private var router: IRouter? = null
 
     override fun start(initialState: IDatabaseState) {
+        println("DatabaseHandle.start ${initialState.allAddresses.map{it}} .. ${initialState.ownAddress}")
         if (initialState.allAddresses.size == 0) {
             throw Exception("invalid input")
         }
+        ownAdress = initialState.ownAddress
         router = initialState.sender
         instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
@@ -52,7 +52,7 @@ public class DatabaseHandle : IDatabase {
         instance.communicationHandler = MySimulatorCommunicationHandler(instance, initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
         instance.distributedOptimizerQueryFactory = {
-            MySimulatorDistributedOptimizer(initialState.sender, { targetForQueryResponse })
+            MySimulatorDistributedOptimizer(initialState.sender)
         }
     }
 
@@ -80,31 +80,20 @@ public class DatabaseHandle : IDatabase {
     override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
         val queryString = query.decodeToString()
         println("receive receiveQuery $queryString")
-        targetForQueryResponse = sourceAddress
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
-        op.getQuery().initialize(op)
+        val q = op.getQuery()
+        q.initialize(op)
 
-        val parts = op.getQuery().getOperatorgraphParts()
+        val parts = q.getOperatorgraphParts()
         if (parts.size == 1) {
             val out = MyPrintWriter(true)
-            QueryResultToXMLStream(op.getQuery().getRoot(), out)
+            QueryResultToXMLStream(q.getRoot(), out)
             val res = out.toString().encodeToByteArray()
-            router!!.sendQueryResult(targetForQueryResponse, res)
+            router!!.sendQueryResult(sourceAddress, res)
         } else {
-            TODO()
+            val destinations = mutableMapOf("" to sourceAddress)
+            receive(MySimulatorOperatorgraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown()))
         }
-    }
-
-    private fun receive(pck: PreprocessingPackage) {
-        TODO()
-    }
-
-    private fun receive(pck: ResultPackage) {
-        TODO()
-    }
-
-    private fun receive(pck: ChoosenOperatorPackage) {
-        TODO()
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
@@ -120,12 +109,110 @@ public class DatabaseHandle : IDatabase {
         }
     }
 
+    private fun receive(pck: MySimulatorOperatorgraphPackage) {
+        println("receive MySimulatorOperatorgraphPackage")
+        val allHosts = pck.operatorgraphPartsToHostMap.values.toSet().toTypedArray()
+        val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
+//        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
+        val nextHops = allHostAdresses
+        val packages = mutableMapOf<Int, MySimulatorOperatorgraphPackage>()
+        println("nextHops ${nextHops.map{it}} .. ${allHostAdresses.map{it}} .. ${allHosts.map{it}}")
+        for (i in nextHops.toSet()) {
+            packages[i] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+        }
+        val allMyDependencies = mutableSetOf<String>()
+        packages[ownAdress] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+        println("pp ${packages.keys}")
+        val packageMap = mutableMapOf<String, Int>()
+        for ((k, v) in pck.operatorgraphPartsToHostMap) {
+            packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
+        }
+        var changed = true
+        while (changed) {
+            changed = false
+            loop@ for ((k, v) in pck.dependenciesMapTopDown) {
+                if (!packageMap.contains(k)) {
+                    SanityCheck.check { v.size >= 1 }
+                    var dest = -1
+                    for (key in v) {
+                        val d = packageMap[key]
+                        if (d != null) {
+                            if (dest == -1) {
+                                dest = d
+                            } else {
+                                if (dest != d) {
+                                    val deps = pck.dependenciesMapTopDown[k]
+                                    if (deps != null) {
+                                        allMyDependencies.addAll(deps)
+                                    }
+                                    packageMap[k] = ownAdress // alles mit unterschiedlichen next hops selber berechnen
+                                    changed = true
+                                    continue@loop
+                                }
+                            }
+                        } else {
+                            continue@loop
+                        }
+                    }
+                    if (dest == ownAdress) {
+                        val deps = pck.dependenciesMapTopDown[k]
+                        if (deps != null) {
+                            allMyDependencies.addAll(deps)
+                        }
+                    }
+                    packageMap[k] = dest // alles mit gemeinsamen next Hop zusammen weitersenden
+                    changed = true
+                }
+            }
+        }
+        for ((k, v) in packageMap) {
+            val targetInt = v
+            val p = packages[targetInt]!!
+            p.operatorGraph[k] = pck.operatorGraph[k]!!
+            val h = pck.operatorgraphPartsToHostMap[k]
+            if (h != null) {
+                p.operatorgraphPartsToHostMap[k] = h
+            }
+            val deps = pck.dependenciesMapTopDown[k]
+            if (allMyDependencies.contains(k)) {
+                p.destinations[k] = ownAdress
+            } else {
+                p.destinations[k] = pck.destinations[k]!!
+            }
+            if (deps != null) {
+                p.dependenciesMapTopDown[k] = deps
+            } else {
+                p.dependenciesMapTopDown[k] = mutableSetOf()
+            }
+        }
+        SanityCheck.check { packageMap.size == pck.operatorGraph.size }
+        for ((k, v) in packages) {
+            if (k != ownAdress) {
+                router!!.send(k, v)
+            }
+        }
+        val p = packages[ownAdress!!]!!
+        for ((k, v) in p.operatorGraph) {
+            myPendingWork.add(
+                MySimulatorPendingWork(
+                    p.operatorGraph[k]!!,
+                    p.destinations[k]!!,
+                    p.dependenciesMapTopDown[k]!!
+                )
+            )
+        }
+        doWork()
+    }
+
+    private fun doWork() {
+        TODO()
+    }
+
     override fun receive(pck: IDatabasePackage) {
         when (pck) {
             is MySimulatorAbstractPackage -> receive(pck)
-            is PreprocessingPackage -> receive(pck)
-            is ResultPackage -> receive(pck)
-            is ChoosenOperatorPackage -> receive(pck)
+            is MySimulatorOperatorgraphPackage -> receive(pck)
+            else -> TODO("$pck")
         }
     }
 }
