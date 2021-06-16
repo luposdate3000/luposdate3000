@@ -149,6 +149,11 @@ public class DatabaseSystemDummy : IDatabase {
         map[hop]!!.add(dest)
     }
 
+    private fun updateQueryInProgress(parts: List<OperatorGraphPart>, nextHops: IntArray, senderAddress: Int, queryID: Int) {
+        val newQuery = Query(parts, nextHops, senderAddress)
+        state.queriesInProgress[queryID] = newQuery
+    }
+
 
     private fun setupOperatorGraph(
         destinationAddresses: IntArray,
@@ -158,8 +163,7 @@ public class DatabaseSystemDummy : IDatabase {
     ) {
 
         val nextHopToDestsMap = getHopToDestinationsMap(destinationAddresses)
-        val newQuery = Query(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress)
-        state.queriesInProgress[queryID] = newQuery
+        updateQueryInProgress(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress, queryID)
 
         for ((hop, dest) in nextHopToDestsMap) {
             if (hop == state.ownAddress) {
