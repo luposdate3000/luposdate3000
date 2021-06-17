@@ -205,7 +205,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_I(buffer) }, { v })
             AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_S(buffer) })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { "$v" })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { "_:$v" })
         }
     }
 

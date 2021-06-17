@@ -92,8 +92,9 @@ public class DictionaryKV internal constructor(
         val iter = vk.getIterator(buffer)
         while (iter.hasNext()) {
             val id = iter.next()
-            action(id or flag2)
+            action(id or flag)
         }
+        iter.close()
     }
     init {
         isLocal = false

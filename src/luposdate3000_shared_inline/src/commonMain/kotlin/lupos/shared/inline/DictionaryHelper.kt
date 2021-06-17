@@ -751,7 +751,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     public inline fun byteArrayToBnode_A(buffer: ByteArrayWrapper): String {
         if (buffer.size == 8) {
-            return ByteArrayHelper.readInt4(buffer.buf, 4).toString()
+            return "_:" + ByteArrayHelper.readInt4(buffer.buf, 4).toString()
         } else {
             val l1 = ByteArrayHelper.readInt4(buffer.buf, 4)
             val buf = ByteArray(l1)
