@@ -2,6 +2,7 @@ package lupos.simulator_iot.config
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import lupos.simulator_core.Entity
 import lupos.simulator_iot.DatabaseAdapter
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.LinkManager
@@ -67,6 +68,14 @@ public object Configuration {
 
     private fun readFileDirectlyAsText(fileName: String) =
         javaClass.classLoader!!.getResource(fileName)!!.readText()
+
+
+    public fun getEntities(): MutableList<Entity> {
+        val entities: MutableList<Entity> = mutableListOf()
+        entities.addAll(devices)
+        entities.addAll(querySenders)
+        return entities
+    }
 
     private fun createSortedLinkTypes() {
         LinkManager.sortedLinkTypes = jsonObjects.linkType.toTypedArray()

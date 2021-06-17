@@ -17,10 +17,11 @@ internal class QuerySender(
     }
 
     override fun onStartUp() {
+        startTimer()
     }
 
     override fun onSteadyState() {
-        startTimer()
+
     }
 
     override fun onShutDown() {
@@ -29,7 +30,7 @@ internal class QuerySender(
     private inner class SendTimer: Entity.ITimer {
         override fun onExpire() {
             sendQueryNow()
-            if(queryCounter <= maxNumberOfQueries)
+            if(queryCounter < maxNumberOfQueries)
                 startTimer()
         }
     }

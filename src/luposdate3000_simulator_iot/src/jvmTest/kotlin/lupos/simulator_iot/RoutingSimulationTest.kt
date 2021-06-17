@@ -132,6 +132,17 @@ class RoutingSimulationTest {
     }
 
     @Test
+    fun sendQueries() {
+        Configuration.parse("$prefix/sendQueries.json")
+        val querySender = Configuration.querySenders[0]
+        val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec
+        val expectedTimeMillis = expectedTimeSec * 1000
+        val sim = Simulation(Configuration.getEntities(), steadyClock = 0, callback = Logger)
+        sim.startSimulation()
+        assertEquals(expectedTimeMillis.toLong(), sim.getCurrentClock())
+    }
+
+    @Test
     fun sensorFromStarSendDataOverMesh() {
         // TODO zuerst star root
 //        //Send data from the leaf F to the leaf D
