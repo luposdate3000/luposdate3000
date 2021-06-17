@@ -64,7 +64,7 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
     private fun receive(pck: ResultPackage) {
-        //if this is not used locally, then simply send it upwards in the operator graph
+        // if this is not used locally, then simply send it upwards in the operator graph
     }
 
     private fun receive(pck: ChoosenOperatorPackage) {
@@ -98,7 +98,6 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
     private fun startEvaluation(senderAddress: Int, queryID: Int) {
-
         val query = state.queriesInProgress[queryID]!!
 
         mergeChoosenOperators(query)
@@ -160,9 +159,11 @@ public class DatabaseSystemDummy : IDatabase {
         for (part in query.operatorGraphParts)
             if (part.canBeEvaluatedWithoutRemoteDependencies()) {
                 query.choosenOperators.add(part)
+            }
 
-        if (isLastHop)
+        if (isLastHop) {
             startEvaluation(src, queryID)
+        }
     }
 
     private fun sendPreprocessingPackage(to: Int, dests: IntArray, parts: ByteArray, queryID: Int) {
@@ -177,16 +178,17 @@ public class DatabaseSystemDummy : IDatabase {
         )
     }
 
-
-    private fun setupOperatorGraph(destinationAddresses: IntArray, parts: List<OperatorGraphPart>, senderAddress: Int,  queryID: Int) {
+    private fun setupOperatorGraph(destinationAddresses: IntArray, parts: List<OperatorGraphPart>, senderAddress: Int, queryID: Int) {
         val nextHopToDestsMap = getHopToDestinationsMap(destinationAddresses)
         updateQueryInProgress(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress, queryID)
 
         for ((hop, dest) in nextHopToDestsMap)
-            if (hop == state.ownAddress)
+            if (hop == state.ownAddress) {
                 chooseOperators(queryID, nextHopToDestsMap.size == 1, senderAddress)
-             //TODO Bug: Sende immer weiter herunter wenn man nicht der letzte ist.
-             else
-                sendPreprocessingPackage(hop,dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
+            }
+            // TODO Bug: Sende immer weiter herunter wenn man nicht der letzte ist.
+            else {
+                sendPreprocessingPackage(hop, dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
+            }
     }
 }
