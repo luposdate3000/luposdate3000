@@ -14,15 +14,13 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-public class DatabaseAdapter(public val device: Device) : IRouter {
+public class DatabaseAdapter(public val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var path: Path = Paths.get("src", "db", "device${device.address}")
     private var absolutePath = ""
 
-    // //
-    private val db: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
-    private val dbother: IDatabase = DatabaseSystemDummy() // just to keep the imports on formatting code ... rename variables as needed
-// //
+    private val db: IDatabase = if(isDummy) DatabaseSystemDummy() else  DatabaseHandle()
+
 
     private lateinit var currentState: IDatabaseState
 

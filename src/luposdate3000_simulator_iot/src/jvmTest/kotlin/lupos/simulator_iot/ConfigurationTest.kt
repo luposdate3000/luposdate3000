@@ -9,6 +9,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class ConfigurationTest {
@@ -56,7 +57,7 @@ class ConfigurationTest {
         Configuration.parse("$prefix/sensorsKnowTheirDevice.json")
         val device = Configuration.getNamedDevice("Tower1")
         val parkingSensor = device.sensor!! as ParkingSensor
-        assertTrue(device === parkingSensor.device)
+        assertSame(device, parkingSensor.device)
     }
 
     @Test

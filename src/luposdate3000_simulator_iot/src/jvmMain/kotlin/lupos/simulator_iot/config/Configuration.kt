@@ -29,7 +29,7 @@ public object Configuration {
 
     public var dbDeviceAddresses: IntArray = intArrayOf()
 
-    public var rootRouterAddress: Int = -1
+    private var rootRouterAddress: Int = -1
 
     private var dbDeviceCounter = 0
 
@@ -219,7 +219,7 @@ public object Configuration {
     private fun getDatabase(deviceType: DeviceType, device: Device): DatabaseAdapter? {
         if (deviceType.database) {
             dbDeviceCounter++
-            return DatabaseAdapter(device)
+            return DatabaseAdapter(device, jsonObjects.dummyDatabase)
         }
         return null
     }
