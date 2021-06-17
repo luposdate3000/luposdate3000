@@ -70,7 +70,31 @@ public class DictionaryKV internal constructor(
     }
 
     public override fun isInmemoryOnly(): Boolean = false
-
+public override fun forEachValue(buffer:ByteArrayWrapper,action:(Int)->Unit){
+var flag=flagNoBNode
+var flag2=0
+if (isLocal) {
+flag=flag or flagLocal
+flag2=flag2 or flagLocal
+}
+DictionaryHelper.booleanToByteArray(buffer, true)
+action( DictionaryExt.booleanTrueValue )
+ DictionaryHelper.booleanToByteArray(buffer, false)
+action(     DictionaryExt.booleanFalseValue)
+ DictionaryHelper.errorToByteArray(buffer)
+action(      DictionaryExt.errorValue )
+DictionaryHelper.undefToByteArray(buffer)
+action( DictionaryExt.undefValue )
+for(i in 5 until bNodeCounter){
+DictionaryHelper.bnodeToByteArray(buffer, i)
+action(i or flag2)
+}
+val iter=vk.getIterator(buffer)
+while(iter.hasNext()){
+val id=iter.next()
+action(id or flag2)
+}
+}
     init {
         isLocal = false
         rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:70", rootPageID)
