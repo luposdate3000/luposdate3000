@@ -26,8 +26,8 @@ import lupos.shared.ValueInteger
 import lupos.shared.ValueIri
 import lupos.shared.ValueStringBase
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.operator.IOPBase
 
 public enum class OperatorType(public val str: String) {
     BuildInCall("BuildInCall"),

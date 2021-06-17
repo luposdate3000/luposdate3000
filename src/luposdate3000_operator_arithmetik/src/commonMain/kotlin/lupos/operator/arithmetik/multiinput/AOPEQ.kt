@@ -22,9 +22,9 @@ import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Exception
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.inline.DictionaryHelper
 
 public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPEQID, "AOPEQ", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " = " + children[1].toSparql() + ")"

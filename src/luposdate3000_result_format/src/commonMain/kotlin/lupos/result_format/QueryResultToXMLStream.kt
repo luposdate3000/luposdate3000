@@ -30,10 +30,10 @@ import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 
 public object QueryResultToXMLStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {

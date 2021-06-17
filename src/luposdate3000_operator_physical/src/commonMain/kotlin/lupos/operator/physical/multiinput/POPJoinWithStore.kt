@@ -32,13 +32,13 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.inline.ColumnIteratorQueueExt
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {

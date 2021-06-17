@@ -31,8 +31,8 @@ import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.operator.IOPBase
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
 
 public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) : IVisualisation {

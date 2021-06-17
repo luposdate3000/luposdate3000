@@ -24,8 +24,8 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.operator.IOPBase
 
 public object QueryResultToXMLElement {
     public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {

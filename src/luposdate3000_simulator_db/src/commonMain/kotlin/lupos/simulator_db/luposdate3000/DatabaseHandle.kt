@@ -31,8 +31,8 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.operator.IOPBase
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState

@@ -23,10 +23,10 @@ import lupos.shared.IQuery
 import lupos.shared.ValueDefinition
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPConstant
-import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class AOPConstant : AOPBase, IAOPConstant {

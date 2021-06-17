@@ -25,9 +25,9 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.inline.DictionaryHelper
 
 public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase, child1: AOPBase) : AOPBase(query, EOperatorIDExt.AOPMultiplicationID, "AOPMultiplication", arrayOf(child0, child1)) {
     override fun toSparql(): String = "Multiplication(${children[0].toSparql()}, ${children[1].toSparql()})"

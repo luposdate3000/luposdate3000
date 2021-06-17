@@ -27,10 +27,10 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreBulkImportExt
 import lupos.shared.TripleStoreIndex
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.BufferManagerPage
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.inline.BufferManagerPage
 import lupos.triple_store_id_triple.index_IDTriple.BulkImportIterator
 import lupos.triple_store_id_triple.index_IDTriple.Count1PassThroughIterator
 import lupos.triple_store_id_triple.index_IDTriple.DistinctIterator

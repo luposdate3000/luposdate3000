@@ -30,9 +30,9 @@ import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.inline.DictionaryHelper
 
 public object QueryResultToMemoryTable {
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, output: MemoryTable) {

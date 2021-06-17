@@ -26,8 +26,8 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.operator.IOPBase
 import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionPartitionedByID(

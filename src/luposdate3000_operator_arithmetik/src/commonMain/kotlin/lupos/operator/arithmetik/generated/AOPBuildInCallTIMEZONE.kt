@@ -25,9 +25,9 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.inline.DictionaryHelper
 
 public class AOPBuildInCallTIMEZONE public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallTIMEZONEID, "AOPBuildInCallTIMEZONE", arrayOf(child0)) {
     override fun toSparql(): String = "TIMEZONE(${children[0].toSparql()})"

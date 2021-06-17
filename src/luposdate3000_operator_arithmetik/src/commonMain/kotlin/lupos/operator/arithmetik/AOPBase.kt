@@ -25,11 +25,11 @@ import lupos.shared.SanityCheck
 import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.inline.DictionaryHelper
 
 public abstract class AOPBase public constructor(
     query: IQuery,

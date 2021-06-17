@@ -25,10 +25,10 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.math.roundToInt
 
 public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0)) {

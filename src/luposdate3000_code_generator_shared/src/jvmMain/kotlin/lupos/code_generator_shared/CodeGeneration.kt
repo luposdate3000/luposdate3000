@@ -49,9 +49,9 @@ import lupos.shared.ValueInteger
 import lupos.shared.ValueIri
 import lupos.shared.ValueStringBase
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.operator.IOPBase
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 import java.io.OutputStream
 import java.io.PrintWriter
@@ -100,9 +100,9 @@ public object CodeGeneration {
                 "lupos.shared.operator.iterator.ColumnIteratorQueue",
                 "lupos.operator.arithmetik.generated.AOPAnd",
                 "lupos.shared.ValueIri",
-                "lupos" + ".shared_inline.MyPrintWriter",
-                "lupos" + ".shared_inline.ColumnIteratorQueueExt",
-                "lupos" + ".shared_inline.DictionaryHelper",
+                "lupos" + ".shared.inline.MyPrintWriter",
+                "lupos" + ".shared.inline.ColumnIteratorQueueExt",
+                "lupos" + ".shared.inline.DictionaryHelper",
                 "lupos.shared.dictionary.DictionaryExt",
                 "lupos.shared.dynamicArray.ByteArrayWrapper"
             )

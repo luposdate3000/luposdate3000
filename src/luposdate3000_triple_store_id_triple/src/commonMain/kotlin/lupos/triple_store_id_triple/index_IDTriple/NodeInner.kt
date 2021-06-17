@@ -18,8 +18,8 @@ package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.inline.BufferManagerPage
+import lupos.shared.operator.iterator.ColumnIterator
 
 internal object NodeInner {
     const val START_OFFSET = 16

@@ -19,8 +19,8 @@ package lupos.shared
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
-import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.shared.inline.Platform
+import lupos.shared.optimizer.IDistributedOptimizer
 import kotlin.jvm.JvmField
 
 public typealias FuncIDistributedOptimizer = () -> IDistributedOptimizer

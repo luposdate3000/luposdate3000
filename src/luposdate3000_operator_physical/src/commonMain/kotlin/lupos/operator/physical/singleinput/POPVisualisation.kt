@@ -33,10 +33,10 @@ import lupos.shared.IQuery
 import lupos.shared.IVisualisation
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
-import lupos.shared.inline.DictionaryHelper
 
 public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public var visualTest: IVisualisation? = null
