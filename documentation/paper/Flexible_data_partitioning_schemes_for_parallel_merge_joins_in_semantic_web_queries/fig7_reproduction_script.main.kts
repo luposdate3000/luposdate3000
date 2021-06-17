@@ -19,8 +19,8 @@
 @file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
 @file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentType.kt")
 @file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentTypeExt.kt")
-@file:Import("../../../src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/Platform.kt")
-@file:Import("../../../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared_inline/Platform.kt")
+@file:Import("../../../src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("../../../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.shared.inline.Platform
