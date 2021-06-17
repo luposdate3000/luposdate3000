@@ -582,10 +582,6 @@ val defaultParams = mutableListOf(
             } else {
                 File("${System.getProperty("user.home")}/.cache/main.kts.compiled.cache").deleteRecursively()
             }
-            File(Platform.getGradleCache() + "/modules-2").deleteRecursively()
-            File(Platform.getGradleCache() + "/jars-8").deleteRecursively()
-            File(Platform.getGradleCache() + "/jars-3").deleteRecursively()
-            File(Platform.getMavenCache() + "/luposdate3000").deleteRecursively()
             System.exit(0)
         }
     ),

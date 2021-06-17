@@ -23,11 +23,7 @@ public object ByteArrayWrapperExt {
     public inline fun setSize(data: ByteArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
-            var newSize = 1024
-            while (newSize < c) {
-                newSize *= 2
-            }
-            data.buf = ByteArray(newSize)
+            data.buf = ByteArray(c)
         }
     }
 
@@ -36,11 +32,7 @@ public object ByteArrayWrapperExt {
         data.size = c
         if (c > data.buf.size) {
             val oldBuf = data.buf
-            var newSize = 1024
-            while (newSize < c) {
-                newSize *= 2
-            }
-            data.buf = ByteArray(newSize)
+            data.buf = ByteArray(c)
             oldBuf.copyInto(data.buf)
         }
     }
