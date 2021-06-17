@@ -20,7 +20,7 @@ import kotlin.jvm.JvmField
 
 public class ByteArrayWrapper public constructor(@JvmField public var buf: ByteArray, @JvmField public var size: Int) : Comparable<ByteArrayWrapper> {
     public constructor(buf: ByteArray) : this(buf, buf.size)
-    public constructor() : this(ByteArray(0), 0)
+    public constructor() : this(ByteArray(20), 0)
 
     override fun compareTo(other: ByteArrayWrapper): Int {
         var res = 0

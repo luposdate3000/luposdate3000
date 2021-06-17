@@ -32,5 +32,5 @@ public interface IDictionary {
     public fun delete()
     public fun isInmemoryOnly(): Boolean
     public fun isLocalValue(value: Int): Boolean
-public fun forEachValue(buffer:ByteArrayWrapper,action:(Int)->Unit)
+    public fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit)
 }

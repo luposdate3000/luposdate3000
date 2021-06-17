@@ -60,12 +60,13 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (isLocal) {
                 instance.nodeGlobalDictionary?.close()
                 instance.nodeGlobalDictionary = object : ADictionary(instance) {
-                    override fun createNewUUID(): Int = throw Exception("not implemented")
+                    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+                    override fun createNewUUID(): Int = TODO()
                     override fun close() {}
                     override fun delete() {}
-                    override fun createNewBNode(): Int = throw Exception("not implemented")
-                    override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
-                    override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
+                    override fun createNewBNode(): Int = TODO()
+                    override fun createValue(buffer: ByteArrayWrapper): Int = TODO()
+                    override fun getValue(buffer: ByteArrayWrapper, value: Int) = TODO()
                     override fun hasValue(buffer: ByteArrayWrapper): Int? = null
                     override fun isInmemoryOnly(): Boolean = true
                 }

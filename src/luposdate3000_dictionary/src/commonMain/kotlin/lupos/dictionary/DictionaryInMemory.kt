@@ -66,30 +66,30 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         var res: Int = uuidCounter++
         return res
     }
-public override fun forEachValue(buffer:ByteArrayWrapper,action:(Int)->Unit){
-var flag=flagNoBNode
-var flag2=0
-if (isLocal) {
-flag=flag or flagLocal
-flag2=flag2 or flagLocal
-}
-DictionaryHelper.booleanToByteArray(buffer, true)
-action( DictionaryExt.booleanTrueValue )
- DictionaryHelper.booleanToByteArray(buffer, false)
-action(     DictionaryExt.booleanFalseValue)
- DictionaryHelper.errorToByteArray(buffer)
-action(      DictionaryExt.errorValue )
-DictionaryHelper.undefToByteArray(buffer)
-action( DictionaryExt.undefValue )
-for(i in 5 until bNodeCounter){
-DictionaryHelper.bnodeToByteArray(buffer, i)
-action(i or flag2)
-}
-for((k,v) in dataV2I){
-ByteArrayWrapperExt.copyInto(k, buffer)
-action(v  or flag)
-}
-}
+    public override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit) {
+        var flag = flagNoBNode
+        var flag2 = 0
+        if (isLocal) {
+            flag = flag or flagLocal
+            flag2 = flag2 or flagLocal
+        }
+        DictionaryHelper.booleanToByteArray(buffer, true)
+        action(DictionaryExt.booleanTrueValue)
+        DictionaryHelper.booleanToByteArray(buffer, false)
+        action(DictionaryExt.booleanFalseValue)
+        DictionaryHelper.errorToByteArray(buffer)
+        action(DictionaryExt.errorValue)
+        DictionaryHelper.undefToByteArray(buffer)
+        action(DictionaryExt.undefValue)
+        for (i in 5 until bNodeCounter) {
+            DictionaryHelper.bnodeToByteArray(buffer, i)
+            action(i or flag2)
+        }
+        for ((k, v) in dataV2I) {
+            ByteArrayWrapperExt.copyInto(k, buffer)
+            action(v or flag)
+        }
+    }
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
         when (value) {
             DictionaryExt.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
