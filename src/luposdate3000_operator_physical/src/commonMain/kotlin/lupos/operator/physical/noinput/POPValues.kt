@@ -31,7 +31,7 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public open class POPValues : POPBase {

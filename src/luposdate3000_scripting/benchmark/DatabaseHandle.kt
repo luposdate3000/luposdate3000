@@ -16,7 +16,7 @@
  */
 package lupos.benchmark
 
-import lupos.shared_inline.Platform
+import lupos.shared.inline.Platform
 import java.net.URLEncoder
 
 abstract class DatabaseHandle() {

@@ -38,7 +38,7 @@ import lupos.shared.UnreachableException
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
 public class POPGraphOperation public constructor(

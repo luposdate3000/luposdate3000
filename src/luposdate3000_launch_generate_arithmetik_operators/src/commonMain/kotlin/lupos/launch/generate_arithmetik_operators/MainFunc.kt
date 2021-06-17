@@ -19,7 +19,7 @@ package lupos.launch.generate_arithmetik_operators
 import lupos.code_generator_shared.MyOperator
 import lupos.code_generator_shared.OperatorBuilder
 import lupos.shared.Parallel
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(): Unit = Parallel.runBlocking {

@@ -19,7 +19,7 @@ package lupos.code_generator_shared
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.MyPrintWriter
 
 internal fun generatePOPBind(
     operatorGraph: POPBind,

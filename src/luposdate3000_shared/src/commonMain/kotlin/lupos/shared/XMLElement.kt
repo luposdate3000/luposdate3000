@@ -17,7 +17,7 @@
 package lupos.shared
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 

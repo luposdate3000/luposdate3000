@@ -38,9 +38,9 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
-import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.File
+import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.File
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.min

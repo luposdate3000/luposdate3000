@@ -48,7 +48,7 @@ import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
-import lupos.shared_inline.Platform
+import lupos.shared.inline.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

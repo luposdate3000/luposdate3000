@@ -228,8 +228,8 @@ import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.File
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
 public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {

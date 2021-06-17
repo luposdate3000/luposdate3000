@@ -1,6 +1,6 @@
 package lupos.simulator_db.dummyImpl
 
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 import lupos.simulator_db.ChoosenOperatorPackage
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage

@@ -20,8 +20,8 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
-import lupos.shared_inline.File
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.File
+import lupos.shared.inline.MyPrintWriter
 
 internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout

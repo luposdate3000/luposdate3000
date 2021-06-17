@@ -16,7 +16,7 @@
  */
 package lupos.benchmark
 
-import lupos.shared_inline.Platform
+import lupos.shared.inline.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 import java.net.HttpURLConnection

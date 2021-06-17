@@ -16,8 +16,8 @@
  */
 package lupos.endpoint_launcher
 
-import lupos.shared_inline.File
-import lupos.shared_inline.MyOutputStream
+import lupos.shared.inline.File
+import lupos.shared.inline.MyOutputStream
 
 internal object WebRootEndpoint {
 

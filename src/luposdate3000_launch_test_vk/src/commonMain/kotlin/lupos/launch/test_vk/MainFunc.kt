@@ -23,7 +23,7 @@ import lupos.shared.AflCore
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 import kotlin.math.abs

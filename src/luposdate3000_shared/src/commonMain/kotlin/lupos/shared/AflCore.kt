@@ -16,7 +16,7 @@
  */
 package lupos.shared
 
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.min

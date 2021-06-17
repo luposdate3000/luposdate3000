@@ -16,9 +16,9 @@
  */
 package lupos.shared.fileformat
 
-import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.File
-import lupos.shared_inline.IntegerExt
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.File
+import lupos.shared.inline.IntegerExt
 import kotlin.jvm.JvmField
 
 public class TriplesIntermediateWriter : TriplesIntermediate {

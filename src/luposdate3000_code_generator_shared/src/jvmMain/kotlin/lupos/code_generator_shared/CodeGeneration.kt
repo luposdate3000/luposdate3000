@@ -50,8 +50,8 @@ import lupos.shared.ValueIri
 import lupos.shared.ValueStringBase
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyPrintWriter
 import lupos.triple_store_manager.POPTripleStoreIterator
 import java.io.OutputStream
 import java.io.PrintWriter

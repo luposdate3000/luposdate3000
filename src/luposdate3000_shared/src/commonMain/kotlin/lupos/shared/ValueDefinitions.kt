@@ -21,7 +21,7 @@ import com.ionspin.kotlin.bignum.decimal.plus
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import com.ionspin.kotlin.bignum.integer.toBigInteger
-import lupos.shared_inline.DateHelper
+import lupos.shared.inline.DateHelper
 import kotlin.jvm.JvmField
 
 public sealed class ValueDefinition : Comparable<ValueDefinition> {

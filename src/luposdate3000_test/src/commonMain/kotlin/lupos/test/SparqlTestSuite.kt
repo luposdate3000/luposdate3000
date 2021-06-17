@@ -51,8 +51,8 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownManifestException
 import lupos.shared.XMLElementFromXML
-import lupos.shared_inline.File
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.File
+import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {

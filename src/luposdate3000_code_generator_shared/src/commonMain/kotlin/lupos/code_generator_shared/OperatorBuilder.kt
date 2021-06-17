@@ -85,7 +85,7 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
-                                imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
+                                imports.add("lupos.shared.inline.dynamicArray.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
@@ -143,7 +143,7 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
-                                imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
+                                imports.add("lupos.shared.inline.dynamicArray.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
@@ -200,7 +200,7 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
-                                imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
+                                imports.add("lupos.shared.inline.dynamicArray.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
@@ -2101,7 +2101,7 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
-                                imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
+                                imports.add("lupos.shared.inline.dynamicArray.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
@@ -2160,7 +2160,7 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
-                                imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
+                                imports.add("lupos.shared.inline.dynamicArray.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)

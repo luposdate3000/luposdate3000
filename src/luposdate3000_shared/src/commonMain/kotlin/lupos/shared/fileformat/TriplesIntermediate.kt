@@ -19,7 +19,7 @@ package lupos.shared.fileformat
 
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
 public abstract class TriplesIntermediate(@JvmField internal val filename: String) {

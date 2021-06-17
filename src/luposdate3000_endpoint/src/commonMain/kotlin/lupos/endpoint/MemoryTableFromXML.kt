@@ -22,7 +22,7 @@ import lupos.shared.MemoryTableParser
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 
 public class MemoryTableFromXML : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable? {

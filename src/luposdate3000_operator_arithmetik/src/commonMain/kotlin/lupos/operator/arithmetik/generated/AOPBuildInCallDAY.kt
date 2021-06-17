@@ -27,7 +27,7 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 
 public class AOPBuildInCallDAY public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallDAYID, "AOPBuildInCallDAY", arrayOf(child0)) {
     override fun toSparql(): String = "DAY(${children[0].toSparql()})"

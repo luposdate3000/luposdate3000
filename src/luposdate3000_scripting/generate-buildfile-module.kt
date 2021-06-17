@@ -17,7 +17,7 @@
 package launcher
 
 import lupos.shared.EOperatingSystemExt
-import lupos.shared_inline.Platform
+import lupos.shared.inline.Platform
 import java.io.File
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
@@ -53,10 +53,10 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
     src.forEachLine { it ->
         var s = it
         for ((k, v) in effectiveReplacement) {
-            if (s.startsWith("import lupos.shared_inline.")) {
-                sharedInlineReferences.add(s.substring("import lupos.shared_inline.".length))
-            } else if (s.startsWith("// require lupos.shared_inline.")) {
-                sharedInlineReferences.add(s.substring("// require lupos.shared_inline.".length))
+            if (s.startsWith("import lupos.shared.inline.")) {
+                sharedInlineReferences.add(s.substring("import lupos.shared.inline.".length))
+            } else if (s.startsWith("// require lupos.shared.inline.")) {
+                sharedInlineReferences.add(s.substring("// require lupos.shared.inline.".length))
             }
             s = s.replace(k, v)
             if (k.startsWith(" ")) {
@@ -773,24 +773,24 @@ if(!onWindows){
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
-            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared_inline.SanityCheckOff")
+            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
         } else {
-            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared_inline.SanityCheckOn")
+            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOn")
         }
         if (moduleArgs.suspendMode == SuspendMode.Enable) {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared_inline.ParallelCoroutine")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.shared_inline.ParallelCoroutineJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.shared_inline.ParallelCoroutineCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.shared_inline.ParallelCoroutineQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.shared_inline.MyCoroutineLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.shared_inline.MyCoroutineReadWriteLock")
+            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared.inline.ParallelCoroutine")
+            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.shared.inline.ParallelCoroutineJob")
+            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.shared.inline.ParallelCoroutineCondition")
+            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.shared.inline.ParallelCoroutineQueue<T>")
+            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.shared.inline.MyCoroutineLock")
+            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.shared.inline.MyCoroutineReadWriteLock")
         } else {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared_inline.ParallelThread")
+            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared.inline.ParallelThread")
             typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.shared.ParallelThreadJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.shared_inline.ParallelThreadCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.shared_inline.ParallelThreadQueue<T>")
+            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.shared.inline.ParallelThreadCondition")
+            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.shared.inline.ParallelThreadQueue<T>")
             typeAliasAll["MyLock"] = Pair("MyLock", "lupos.shared.MyThreadLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.shared_inline.MyThreadReadWriteLock")
+            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.shared.inline.MyThreadReadWriteLock")
         }
 // selectively copy classes which are inlined from the inline internal module ->
         val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")

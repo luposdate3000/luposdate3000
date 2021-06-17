@@ -28,9 +28,9 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.max

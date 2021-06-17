@@ -18,8 +18,8 @@ package lupos.parser.nQuads
 
 import lupos.shared.IMyInputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.MyStringExt
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyStringExt
 import kotlin.jvm.JvmField
 
 public abstract class NQuads2Parser(input: IMyInputStream) {

@@ -28,9 +28,9 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.xmlParser.XMLParser
-import lupos.shared_inline.MyInputStream
-import lupos.shared_inline.MyOutputStream
-import lupos.shared_inline.MyStringStream
+import lupos.shared.inline.MyInputStream
+import lupos.shared.inline.MyOutputStream
+import lupos.shared.inline.MyStringStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.URLDecoder

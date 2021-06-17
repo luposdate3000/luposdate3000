@@ -31,8 +31,8 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
-import lupos.shared_inline.MyInputStream
-import lupos.shared_inline.MyOutputStream
+import lupos.shared.inline.MyInputStream
+import lupos.shared.inline.MyOutputStream
 import kotlin.jvm.JvmField
 
 public object RestEndpoint {

@@ -19,7 +19,7 @@ package lupos.launch.code_gen_example_ksp
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.CodeGenerationAnnotationKSP
 import lupos.shared.DateHelperRelative
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 public class BenchmarkClass {

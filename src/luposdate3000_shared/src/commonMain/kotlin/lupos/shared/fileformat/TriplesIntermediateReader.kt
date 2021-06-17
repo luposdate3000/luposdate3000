@@ -17,8 +17,8 @@
 
 package lupos.shared.fileformat
 
-import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.File
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {

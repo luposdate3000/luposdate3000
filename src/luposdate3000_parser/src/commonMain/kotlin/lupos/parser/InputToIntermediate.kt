@@ -31,9 +31,9 @@ import lupos.shared.fileformat.DictionaryIntermediateWriter
 import lupos.shared.fileformat.TriplesIntermediate
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.fileformat.TriplesIntermediateWriter
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.File
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.File
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.math.min
 
 // rdfs: <http://www.w3.org/2000/01/rdf-schema#>

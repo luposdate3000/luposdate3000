@@ -18,7 +18,7 @@
 package lupos.shared.fileformat
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {

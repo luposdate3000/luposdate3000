@@ -21,8 +21,8 @@ import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.File
+import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.File
 import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
 

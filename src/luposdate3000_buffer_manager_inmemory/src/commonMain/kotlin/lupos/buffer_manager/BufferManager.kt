@@ -21,7 +21,7 @@ import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared_inline.BufferManagerPage
+import lupos.shared.inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
 public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") instance: Luposdate3000Instance) : IBufferManager {

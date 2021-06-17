@@ -25,7 +25,7 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 
 public class AOPNot public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPNotID, "AOPNot", arrayOf(child0)) {
     override fun toSparql(): String = "Not(${children[0].toSparql()})"

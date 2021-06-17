@@ -16,7 +16,7 @@
  */
 package lupos.test
 
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {

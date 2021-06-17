@@ -21,7 +21,7 @@ import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 
 internal object AOPAggregationHelper {
     internal fun addition(inputA: ByteArrayWrapper, inputB: ByteArrayWrapper, output: ByteArrayWrapper) {

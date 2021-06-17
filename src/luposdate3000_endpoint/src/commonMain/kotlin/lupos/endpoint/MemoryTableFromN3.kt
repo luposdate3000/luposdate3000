@@ -25,8 +25,8 @@ import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.MyStringStream
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyStringStream
 
 public class MemoryTableFromN3 : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {

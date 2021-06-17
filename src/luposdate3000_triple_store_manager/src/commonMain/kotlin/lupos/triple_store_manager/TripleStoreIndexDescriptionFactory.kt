@@ -20,7 +20,7 @@ import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.ITripleStoreIndexDescriptionFactory
 import lupos.shared.Luposdate3000Instance
-import lupos.shared_inline.ByteArrayHelper
+import lupos.shared.inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 
 public open class TripleStoreIndexDescriptionFactory(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescriptionFactory {

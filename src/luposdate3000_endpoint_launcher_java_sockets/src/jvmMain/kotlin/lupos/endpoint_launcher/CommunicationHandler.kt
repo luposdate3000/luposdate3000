@@ -19,8 +19,8 @@ package lupos.endpoint_launcher
 import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared_inline.MyInputStream
-import lupos.shared_inline.MyOutputStream
+import lupos.shared.inline.MyInputStream
+import lupos.shared.inline.MyOutputStream
 import java.net.Socket
 import java.net.URLEncoder
 

@@ -22,7 +22,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 
 public object DictionaryFactory {
     public fun createGlobalDictionary(instance: Luposdate3000Instance): IDictionary {

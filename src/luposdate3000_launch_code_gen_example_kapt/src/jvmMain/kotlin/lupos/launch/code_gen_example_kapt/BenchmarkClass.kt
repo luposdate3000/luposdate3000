@@ -20,7 +20,7 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.CodeGenerationAnnotation
 import lupos.shared.DateHelperRelative
 import lupos.shared.Luposdate3000Instance
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 public class BenchmarkClass(private val instance: Luposdate3000Instance) {

@@ -19,7 +19,7 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.IMyInputStream
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.ByteArrayHelper
+import lupos.shared.inline.ByteArrayHelper
 import kotlin.math.min
 internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : IMyInputStream {
     private var offset = 0

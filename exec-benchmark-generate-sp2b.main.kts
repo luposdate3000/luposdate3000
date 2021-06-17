@@ -23,7 +23,7 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.shared.LUPOS_REAL_WORLD_DATA_ROOT
-import lupos.shared_inline.Platform
+import lupos.shared.inline.Platform
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
