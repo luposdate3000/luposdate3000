@@ -70,5 +70,6 @@
             "deviceType": "StandAloneParkingSensor",
             "number": "10002"
         }
-    ]
+    ],
+    "querySender": []
 }

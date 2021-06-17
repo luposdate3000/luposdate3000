@@ -11,13 +11,6 @@
             "parkingSensor": false,
             "powerCapacity": -1.0,
             "supportedLinkTypes": ["WPAN"]
-        },
-        {
-            "name": "StandAloneParkingSensor",
-            "database": false,
-            "parkingSensor": true,
-            "powerCapacity": -1.0,
-            "supportedLinkTypes": ["WPAN"]
         }
     ],
     "fixedDevice": [{
@@ -28,17 +21,8 @@
     }],
     "fixedLink": [],
     "rootRouter": "Tower1",
-    "randomMeshNetwork": [
-
-    ],
-    "randomStarNetwork": [{
-        "networkPrefix": "garageA",
-        "starRoot": "Tower1",
-        "dataSink": "Tower1",
-        "linkType": "WPAN",
-        "deviceType": "StandAloneParkingSensor",
-        "number": 20
-    }],
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
     "querySender": [{
         "name": "Driver1",
         "sendRateInSeconds": "30",

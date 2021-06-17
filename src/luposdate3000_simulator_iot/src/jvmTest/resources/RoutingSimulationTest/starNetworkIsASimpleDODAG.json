@@ -38,5 +38,6 @@
         "linkType": "WPAN",
         "deviceType": "StandAloneParkingSensor",
         "number": 2
-    }]
+    }],
+    "querySender": []
 }

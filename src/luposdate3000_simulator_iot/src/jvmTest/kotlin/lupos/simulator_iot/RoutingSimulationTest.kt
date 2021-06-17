@@ -4,7 +4,6 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -25,7 +24,7 @@ class RoutingSimulationTest {
         assertEquals(0, sim.getCurrentClock())
     }
 
-    @Ignore
+
     @Test
     fun selfMessagesDoNotDelay() {
         Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
@@ -67,7 +66,6 @@ class RoutingSimulationTest {
     }
 
     @Test
-    @Ignore
     fun meshToDODAG() {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()

@@ -62,8 +62,14 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
     public fun saveParkingSample(sample: ParkingSample) {
         val query = buildInsertQuery(sample)
         val bytes = toBytes(query)
-        saveData(bytes)
+        receiveQuery(bytes)
     }
+
+    public fun processQuery(query: String) {
+        val queryBytes = toBytes(query)
+        receiveQuery(queryBytes)
+    }
+
     private var myhelper = 0
     private fun buildInsertQuery(s: ParkingSample): String {
         if (myhelper++ == 0) {
@@ -84,7 +90,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         }
     }
 
-    private fun saveData(data: ByteArray) {
+    private fun receiveQuery(data: ByteArray) {
         db.activate()
         db.receiveQuery(device.address, data)
         db.deactivate()

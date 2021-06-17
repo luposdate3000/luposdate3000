@@ -52,13 +52,20 @@ public class Device(
     }
 
     private fun processPackage(pck: NetworkPackage) {
-        if (router.isControlPackage(pck)) {
-            router.processControlPackage(pck)
-        } else if (pck.payload is ParkingSample) {
-            processedSensorDataPackages++
-            database?.saveParkingSample(pck.payload)
-        } else if (pck.payload is IDatabasePackage) {
-            database?.receive(pck.payload)
+        when {
+            router.isControlPackage(pck) -> {
+                router.processControlPackage(pck)
+            }
+            pck.payload is ParkingSample -> {
+                processedSensorDataPackages++
+                database?.saveParkingSample(pck.payload)
+            }
+            pck.payload is IDatabasePackage -> {
+                database?.receive(pck.payload)
+            }
+            pck.payload is QuerySender.QueryPackage -> {
+                database!!.processQuery(pck.payload.query)
+            }
         }
     }
 

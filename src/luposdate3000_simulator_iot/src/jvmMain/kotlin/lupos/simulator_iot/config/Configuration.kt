@@ -27,6 +27,9 @@ public object Configuration {
     public var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
+    internal var querySenders: MutableList<lupos.simulator_iot.QuerySender> = mutableListOf()
+        private set
+
     public var dbDeviceAddresses: IntArray = intArrayOf()
 
     private var rootRouterAddress: Int = -1
@@ -39,6 +42,7 @@ public object Configuration {
         createSortedLinkTypes()
         createFixedDevices()
         setRootDevice()
+        createQuerySenders()
         createFixedLinks()
         createRandomMeshNetworks()
         createRandomStarNetworks()
@@ -52,6 +56,7 @@ public object Configuration {
         randMeshNetworks = mutableMapOf()
         jsonObjects = JsonObjects()
         namedAddresses = mutableMapOf()
+        querySenders = mutableListOf()
         dbDeviceCounter = 0
     }
 
@@ -75,6 +80,11 @@ public object Configuration {
     private fun createRandomStarNetworks() {
         for (network in jsonObjects.randomStarNetwork)
             createRandomStarNetwork(network)
+    }
+
+    private fun createQuerySenders() {
+        for(sender in jsonObjects.querySender)
+            createQuerySender(sender)
     }
 
     private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
@@ -182,6 +192,17 @@ public object Configuration {
         val created = createDevice(deviceType, location)
         require(!namedAddresses.containsKey(fixedDevice.name)) { "name ${fixedDevice.name} must be unique" }
         namedAddresses[fixedDevice.name] = created.address
+    }
+
+    private fun createQuerySender(querySenderJson: QuerySender) {
+        val receiverDevice = getNamedDevice(querySenderJson.receiverDevice)
+        val querySender = lupos.simulator_iot.QuerySender(
+            name = querySenderJson.name,
+            sendRateInSec = querySenderJson.sendRateInSeconds,
+            maxNumberOfQueries = querySenderJson.maxNumberOfQueries,
+            receiver = receiverDevice,
+            query = querySenderJson.query)
+        querySenders.add(querySender)
     }
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {

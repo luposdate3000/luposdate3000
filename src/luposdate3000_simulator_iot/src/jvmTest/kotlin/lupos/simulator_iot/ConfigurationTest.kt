@@ -99,9 +99,9 @@ class ConfigurationTest {
         val linkA = deviceA.linkManager.getLink(deviceB)
         val linkB = deviceB.linkManager.getLink(deviceA)
 
-        assertTrue(linkA === linkB)
+        assertSame(linkA, linkB)
         linkA!!.distanceInMeters = -1
-        assertTrue(linkB!!.distanceInMeters == -1)
+        assertEquals(linkB!!.distanceInMeters, -1)
     }
 
     @Test
@@ -271,5 +271,16 @@ class ConfigurationTest {
 
         assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
         assertNotEquals(meshOrigin.linkManager.getNumberOfLinks(), fixedDevice.linkManager.getNumberOfLinks())
+    }
+
+    @Test
+    fun configOneQuerySender() {
+        Configuration.parse("$prefix/configOneQuerySender.json")
+        assertEquals(1, Configuration.querySenders.size)
+        val querySender = Configuration.querySenders[0]
+        assertEquals("Driver1", querySender.name)
+        assertEquals( 30, querySender.sendRateInSec)
+        assertEquals(Configuration.getNamedDevice("Tower1"), querySender.receiver)
+        assertEquals("Select dummy From dum", querySender.query)
     }
 }

@@ -17,5 +17,6 @@
     "fixedLink": [],
     "rootRouter": "Tower1",
     "randomMeshNetwork": [],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

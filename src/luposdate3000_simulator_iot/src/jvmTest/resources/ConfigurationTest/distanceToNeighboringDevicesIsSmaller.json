@@ -24,5 +24,6 @@
         "signalCoverageEast": 30,
         "signalCoverageSouth": 30
     }],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

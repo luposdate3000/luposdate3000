@@ -66,5 +66,6 @@
     ],
     "rootRouter": "",
     "randomMeshNetwork": [],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

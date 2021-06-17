@@ -12,6 +12,7 @@ public data class JsonObjects(
     val rootRouter: String = "",
     val randomMeshNetwork: List<RandomMeshNetwork> = arrayListOf(),
     val randomStarNetwork: List<RandomStarNetwork> = arrayListOf(),
+    val querySender: List<QuerySender> = arrayListOf(),
 )
 
 @Serializable
@@ -64,4 +65,13 @@ public data class RandomMeshNetwork(
     val linkType: String = "",
     val signalCoverageEast: Int = 0,
     val signalCoverageSouth: Int = 0
+)
+
+@Serializable
+public data class QuerySender(
+    val name: String = "",
+    val sendRateInSeconds: Int = 0,
+    val maxNumberOfQueries: Int = 0,
+    val receiverDevice: String = "",
+    val query: String = "",
 )

@@ -6,5 +6,6 @@
     "fixedLink": [],
     "rootRouter": "",
     "randomMeshNetwork": [],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }
