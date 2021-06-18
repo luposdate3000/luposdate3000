@@ -431,52 +431,52 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        val buf = IntArray(instance.LUPOS_BUFFER_SIZE/4)
-val limit=buf.size-3
-var done=false
-while(!done){
-var i=0
-while(i<limit){
-val a=stream.readInt()
-if(a==-1){ 
-done=true
-break
-}
-buf[i++] = a
-buf[i++] = stream.readInt()
-buf[i++] = stream.readInt()
-}
-        if (mode == EModifyTypeExt.INSERT) {
-            store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
-        } else {
-            store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - 3
+        var done = false
+        while (!done) {
+            var i = 0
+            while (i <limit) {
+                val a = stream.readInt()
+                if (a == -1) {
+                    done = true
+                    break
+                }
+                buf[i++] = a
+                buf[i++] = stream.readInt()
+                buf[i++] = stream.readInt()
+            }
+            if (mode == EModifyTypeExt.INSERT) {
+                store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            } else {
+                store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            }
         }
-}
     }
 
     public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        val buf = IntArray(instance.LUPOS_BUFFER_SIZE/4)
-val limit=buf.size-3
-var done=false
-while(!done){
-var i=0
-while(i<limit){
-val a=stream.readInt()
-if(a==-1){
-done=true
-break
-}
-buf[i++] = a
-buf[i++] = stream.readInt()
-buf[i++] = stream.readInt()
-}
-        if (mode == EModifyTypeExt.INSERT) {
-            store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
-        } else {
-            store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - 3
+        var done = false
+        while (!done) {
+            var i = 0
+            while (i <limit) {
+                val a = stream.readInt()
+                if (a == -1) {
+                    done = true
+                    break
+                }
+                buf[i++] = a
+                buf[i++] = stream.readInt()
+                buf[i++] = stream.readInt()
+            }
+            if (mode == EModifyTypeExt.INSERT) {
+                store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            } else {
+                store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            }
         }
-}
     }
 
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {

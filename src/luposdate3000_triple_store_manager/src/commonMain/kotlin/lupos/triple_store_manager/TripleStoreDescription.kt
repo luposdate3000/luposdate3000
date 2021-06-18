@@ -134,18 +134,18 @@ public class TripleStoreDescription(
             for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
                 val conn = localcache.allConn[i][j]
-conn.second.writeInt(localcache.row[0])
-conn.second.writeInt(localcache.row[1])
-conn.second.writeInt(localcache.row[2])
+                conn.second.writeInt(localcache.row[0])
+                conn.second.writeInt(localcache.row[1])
+                conn.second.writeInt(localcache.row[2])
             }
         }
         if (flush) {
             for (i in 0 until localcache.allConn.size) {
                 for (j in 0 until localcache.allConn[i].size) {
-val conn = localcache.allConn[i][j]
-conn.second.writeInt(-1)
-conn.first.close()
-conn.second.close()
+                    val conn = localcache.allConn[i][j]
+                    conn.second.writeInt(-1)
+                    conn.first.close()
+                    conn.second.close()
                 }
             }
         }
@@ -163,18 +163,18 @@ conn.second.close()
             for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
                 val conn = localcache.allConn[i][j]
-conn.second.writeInt(localcache.row[0])
-conn.second.writeInt(localcache.row[1])
-conn.second.writeInt(localcache.row[2])
+                conn.second.writeInt(localcache.row[0])
+                conn.second.writeInt(localcache.row[1])
+                conn.second.writeInt(localcache.row[2])
             }
         }
         if (flush) {
             for (i in 0 until localcache.allConn.size) {
                 for (j in 0 until localcache.allConn[i].size) {
-val conn = localcache.allConn[i][j]
-conn.first.close()
-conn.second.writeInt(-1)
-conn.second.close()
+                    val conn = localcache.allConn[i][j]
+                    conn.first.close()
+                    conn.second.writeInt(-1)
+                    conn.second.close()
                 }
             }
         }
