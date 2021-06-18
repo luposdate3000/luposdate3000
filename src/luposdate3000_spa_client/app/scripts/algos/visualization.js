@@ -863,10 +863,8 @@ function draw(flag) {
     };
     var colorByType = App.config.colorsByType
     if (typeof colorByType !== "undefined") {
-console.log(dataNodes)
         for (nodeIdx in dataNodes) {
             var node = dataNodes[nodeIdx]
-console.log(node)
             var nodeType = node.label.split(' ')[0];
             if (typeof colorByType[nodeType] !== "undefined") {
                 node.color = colorByType[nodeType]
