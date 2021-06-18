@@ -19,6 +19,6 @@ package lupos.shared
 public class OPVisualGraph() {
     public val edges: MutableList<OPVisualEdge> = mutableListOf<OPVisualEdge>()
     public val nodes: MutableList<OPVisualNode> = mutableListOf<OPVisualNode>()
-    public var maxID: Long = 0
+    public var maxID: Int = 0
     public fun toJson(): String = "{\"edges\":[${edges.map{it.toJson()}.joinToString()}],\"nodes\":[${nodes.map{it.toJson()}.joinToString()}]}"
 }

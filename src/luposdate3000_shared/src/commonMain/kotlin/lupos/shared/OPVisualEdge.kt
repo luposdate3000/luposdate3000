@@ -16,6 +16,6 @@
  */
 package lupos.shared
 
-public class OPVisualEdge(public val from: Long, public val to: Long, public val width: Int) {
+public class OPVisualEdge(public val from: Int, public val to: Int, public val width: Int) {
     public fun toJson(): String = "{\"from\":$from,\"to\":$to,\"width\":$width}"
 }
