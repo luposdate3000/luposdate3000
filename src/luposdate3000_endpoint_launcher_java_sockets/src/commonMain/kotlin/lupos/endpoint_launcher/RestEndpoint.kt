@@ -259,7 +259,7 @@ public object RestEndpoint {
                     break
                 }
             }
-            connectionOutMy.println("$counter,${time * 1000.0},${counter / time}")
+            connectionOutMy.println("$counter,${time * 1000.0},${counter / time},${params["query"]!!}")
             removeDictionary(key)
             /*Coverage Unreachable*/
         }
