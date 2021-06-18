@@ -113,6 +113,7 @@ public object LuposdateEndpoint {
         }
     }
 
+
     @JsName("import_turtle_file")
     /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String): String {
         if (!DictionaryIntermediate.fileExists(fileName)) {
@@ -314,6 +315,22 @@ public object LuposdateEndpoint {
         }
         return popNode
     }
+
+public fun  evaluateOperatorgraphToVisual(instance: Luposdate3000Instance, node: IOPBase,output:OPVisualGraph):Int{
+val id=output.maxID++
+var label=node.getClassname()+" "+node.getUUID()
+ when (node) {
+                is AOPVariable -> label+="\n?"+node.getName()
+                is AOPConstant -> label+="\n"+node.toSparql()
+                else -> label+="\n"+node.getProvidedVariableNames()
+            }
+output.nodes.add(OPVisualNode(id,label))
+for(c in node.getChildren()){
+val childId=evaluateOperatorgraphToVisual(instance,c,output)
+output.edges.add(OPVisualEdge(id,childId,1))
+}
+return id
+}
 
     @JsName("evaluate_operatorgraph_to_result")
     /*suspend*/ public fun evaluateOperatorgraphToResult(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream) {
