@@ -15,9 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryFactory
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.factory.XMLElementToOPBase
@@ -47,6 +48,9 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
+import lupos.shared.OPVisualEdge
+import lupos.shared.OPVisualGraph
+import lupos.shared.OPVisualNode
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
@@ -112,7 +116,6 @@ public object LuposdateEndpoint {
             }
         }
     }
-
 
     @JsName("import_turtle_file")
     /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String): String {
@@ -316,21 +319,21 @@ public object LuposdateEndpoint {
         return popNode
     }
 
-public fun  evaluateOperatorgraphToVisual(instance: Luposdate3000Instance, node: IOPBase,output:OPVisualGraph):Int{
-val id=output.maxID++
-var label=node.getClassname()+" "+node.getUUID()
- when (node) {
-                is AOPVariable -> label+="\n?"+node.getName()
-                is AOPConstant -> label+="\n"+node.toSparql()
-                else -> label+="\n"+node.getProvidedVariableNames()
-            }
-output.nodes.add(OPVisualNode(id,label))
-for(c in node.getChildren()){
-val childId=evaluateOperatorgraphToVisual(instance,c,output)
-output.edges.add(OPVisualEdge(id,childId,1))
-}
-return id
-}
+    public fun evaluateOperatorgraphToVisual(instance: Luposdate3000Instance, node: IOPBase, output: OPVisualGraph): Int {
+        val id = output.maxID++
+        var label = node.getClassname() + " " + node.getUUID()
+        when (node) {
+            is AOPVariable -> label += "\n?" + node.getName()
+            is AOPConstant -> label += "\n" + node.toSparql()
+            else -> label += "\n" + node.getProvidedVariableNames()
+        }
+        output.nodes.add(OPVisualNode(id, label))
+        for (c in node.getChildren()) {
+            val childId = evaluateOperatorgraphToVisual(instance, c, output)
+            output.edges.add(OPVisualEdge(id, childId, 1))
+        }
+        return id
+    }
 
     @JsName("evaluate_operatorgraph_to_result")
     /*suspend*/ public fun evaluateOperatorgraphToResult(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream) {

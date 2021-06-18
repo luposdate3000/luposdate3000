@@ -277,12 +277,8 @@ App.bindEvents = ->
                 if withGraph
                     eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
                     tmp = eev.getOptimizedStepsLogical();
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v)
                     App.logGraph = tmp
                     tmp = eev.getOptimizedStepsPhysical();
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v)
                     App.physGraph = tmp
                     #Result from the query
                     App.result = eev.getResult();

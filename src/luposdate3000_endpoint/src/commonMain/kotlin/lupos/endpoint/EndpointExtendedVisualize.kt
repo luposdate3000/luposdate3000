@@ -16,8 +16,6 @@
  */
 package lupos.endpoint
 
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.optimizer.ast.OperatorGraphVisitor
@@ -31,10 +29,10 @@ import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.OPVisualGraph
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
-
 public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) : IVisualisation {
     private var resultLog: Array<OPVisualGraph>
     private var resultPhys: Array<OPVisualGraph>
@@ -53,22 +51,22 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
         val logSteps: MutableList<IOPBase> = mutableListOf()
         val optLog: IOPBase = LogicalOptimizer(q).optimizeCall(lopNode, {}, { logSteps.add(it.cloneOP()) })
         val resultLogTmp = mutableListOf<OPVisualGraph>()
-resultLog=logSteps.map{
-val g=OPVisualGraph()
-LuposdateEndpoint.evaluateOperatorgraphToVisual(instance,it,g)
-            resultLogTmp.add(g)
-}.toTypedArray()
+        resultLog = logSteps.map {
+            val g = OPVisualGraph()
+            LuposdateEndpoint.evaluateOperatorgraphToVisual(instance, it, g)
+            g
+        }.toTypedArray()
         val popOptimizer: PhysicalOptimizer = PhysicalOptimizer(q)
         val physSteps: MutableList<IOPBase> = mutableListOf()
         val tmp: IOPBase =
             popOptimizer.optimizeCall(optLog, {}, { physSteps.add(it.cloneOP()) }) // Physical Operatorgraph
         val optPhys: IOPBase = PhysicalOptimizerVisualisation(q).optimizeCall(tmp)
-physSteps.add(optPhys)
-resultPhys=physSteps.map{
-val g=OPVisualGraph()
-LuposdateEndpoint.evaluateOperatorgraphToVisual(instance,it,g)
-            resultPhysTmp.add(g)
-}.toTypedArray()
+        physSteps.add(optPhys)
+        resultPhys = physSteps.map {
+            val g = OPVisualGraph()
+            LuposdateEndpoint.evaluateOperatorgraphToVisual(instance, it, g)
+            g
+        }.toTypedArray()
         val buf = MyPrintWriter(true)
         recursive(optPhys)
         LuposdateEndpoint.evaluateOperatorgraphToResult(instance, optPhys, buf)
@@ -90,12 +88,12 @@ LuposdateEndpoint.evaluateOperatorgraphToVisual(instance,it,g)
     }
 
     @JsName("getOptimizedStepsPhysical")
-    public fun getOptimizedStepsPhysical(): Array<String> {
+    public fun getOptimizedStepsPhysical(): Array<OPVisualGraph> {
         return resultPhys
     }
 
     @JsName("getOptimizedStepsLogical")
-    public fun getOptimizedStepsLogical(): Array<String> {
+    public fun getOptimizedStepsLogical(): Array<OPVisualGraph> {
         return resultLog
     }
 
@@ -103,7 +101,6 @@ LuposdateEndpoint.evaluateOperatorgraphToVisual(instance,it,g)
     public fun getResult(): String {
         return result
     }
-
 
     override fun sendData(string: String) {
         animationData.add(string)

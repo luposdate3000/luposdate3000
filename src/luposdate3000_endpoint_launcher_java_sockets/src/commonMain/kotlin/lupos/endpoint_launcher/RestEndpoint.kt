@@ -132,11 +132,11 @@ public object RestEndpoint {
                 val steps = eev.getOptimizedStepsLogical()
                 for (i in 0 until steps.size - 1) {
                     val step = steps[i]
-                    connectionOutMy.print(step)
+                    connectionOutMy.print(step.toJson())
                     connectionOutMy.print(",")
                 }
                 if (steps.size > 0) {
-                    connectionOutMy.print(steps[steps.size - 1])
+                    connectionOutMy.print(steps[steps.size - 1].toJson())
                 }
                 connectionOutMy.print("]")
             } else {
@@ -151,11 +151,11 @@ public object RestEndpoint {
                 val steps = eev.getOptimizedStepsPhysical()
                 for (i in 0 until steps.size - 1) {
                     val step = steps[i]
-                    connectionOutMy.print(step)
+                    connectionOutMy.print(step.toJson())
                     connectionOutMy.print(",")
                 }
                 if (steps.size > 0) {
-                    connectionOutMy.print(steps[steps.size - 1])
+                    connectionOutMy.print(steps[steps.size - 1].toJson())
                 }
                 connectionOutMy.print("]")
             } else {

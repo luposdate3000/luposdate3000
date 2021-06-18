@@ -16,5 +16,6 @@
  */
 package lupos.shared
 
-public class OPVisualNode(public val id:Int,public val label:String){
+public class OPVisualNode(public val id: Int, public val label: String) {
+    public fun toJson(): String = "\"id\":$id,\"label\":\"${label.replace("\"","\\\"")}\""
 }
