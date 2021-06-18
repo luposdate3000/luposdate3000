@@ -16,7 +16,6 @@
  */
 package lupos.endpoint_launcher
 import lupos.dictionary.DictionaryFactory
-import lupos.triple_store_manager.TripleStoreManagerImpl
 import lupos.endpoint.EndpointExtendedVisualize
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena_wrapper.JenaWrapper
@@ -359,16 +358,16 @@ public object RestEndpoint {
             instance.tripleStoreManager!!.debugAllLocalStoreContent()
             printHeaderSuccess(connectionOutMy)
         }
-paths["/distributed/query/histogram"]= PathMappingHelper(false, mapOf(Pair("tag", "") to ::inputElement)) {
-var cnt=connectionInMy.readInt()
-val filter=IntArray(cnt)
-for(i in 0 until cnt){
-filter[i]=connectionInMy.readInt()
-}
-val tmp = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[params["tag"]!!]!!.getHistogram(Query(instance), filter)
-connectionOutMy.writeInt(tmp.first)
-connectionOutMy.writeInt(tmp.second)
-connectionOutMy.flush()
-}
+        paths["/distributed/query/histogram"] = PathMappingHelper(false, mapOf(Pair("tag", "") to ::inputElement)) {
+            var cnt = connectionInMy.readInt()
+            val filter = IntArray(cnt)
+            for (i in 0 until cnt) {
+                filter[i] = connectionInMy.readInt()
+            }
+            val tmp = instance.tripleStoreManager!!.remoteHistogram(params["tag"]!!, filter)
+            connectionOutMy.writeInt(tmp.first)
+            connectionOutMy.writeInt(tmp.second)
+            connectionOutMy.flush()
+        }
     }
 }

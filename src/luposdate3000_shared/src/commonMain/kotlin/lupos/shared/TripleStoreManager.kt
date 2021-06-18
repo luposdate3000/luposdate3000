@@ -20,7 +20,7 @@ public abstract class TripleStoreManager {
     public companion object {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
-
+    public abstract fun remoteHistogram(tag: String, filter: IntArray): Pair<Int, Int>
     public abstract fun close()
     public abstract fun delete()
     public abstract fun getLocalhost(): LuposHostname

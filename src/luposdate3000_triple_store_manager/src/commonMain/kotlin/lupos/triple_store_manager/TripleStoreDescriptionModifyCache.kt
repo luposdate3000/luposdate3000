@@ -21,6 +21,8 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
@@ -43,7 +45,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     internal val idx: Array<IntArray>
 
     @JvmField
-    internal val allBuf: Array<Array<MyBuf>>
+    internal val allConn: Array<Array<Pair<IMyInputStream, IMyOutputStream>>>
 
     @JvmField
     internal val allStore: Array<List<Pair<LuposHostname, LuposStoreKey>>>
@@ -71,7 +73,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
         }
         idx = Array(usedIndices.size) { EIndexPatternHelper.tripleIndicees[usedIndices[it].idx_set[0]] }
-        allBuf = Array(usedIndices.size) { index -> Array(usedIndices[index].getAllLocations().size) { MyBuf(instance) } }
         allStore = Array(usedIndices.size) { usedIndices[it].getAllLocations() }
         allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(allStore.size) {
@@ -83,6 +84,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
             }.toTypedArray()
         }
+        allConn = Array(usedIndices.size) { i -> Array(usedIndices[i].getAllLocations().size) { j -> instance.communicationHandler!!.openConnection(allStore[i][j].first, "/distributed/graph/modifysorted", allStoreParams[i][j]) } }
     }
 
     public constructor(description: TripleStoreDescription, type: EModifyType, instance: Luposdate3000Instance) {
@@ -92,7 +94,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         this.description = description
         this.type = type
         idx = Array(description.indices.size) { EIndexPatternHelper.tripleIndicees[description.indices[it].idx_set[0]] }
-        allBuf = Array(description.indices.size) { index -> Array(description.indices[index].getAllLocations().size) { MyBuf(instance) } }
         allStore = Array(description.indices.size) { description.indices[it].getAllLocations() }
         allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(allStore.size) {
@@ -104,49 +105,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
             }.toTypedArray()
         }
-    }
-
-    internal fun mySendSorted(i: Int, j: Int) {
-        val buf = allBuf[i][j]
-        val store = allStore[i][j]
-        if (store.first == ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
-            if (type == EModifyTypeExt.INSERT) {
-                allStoreLocal[i][j]!!.insertAsBulkSorted(buf.buf, idx[i], buf.offset)
-            } else {
-                allStoreLocal[i][j]!!.removeAsBulkSorted(buf.buf, idx[i], buf.offset)
-            }
-        } else {
-            val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/graph/modifysorted", allStoreParams[i][j])
-            conn.second.writeInt(buf.offset)
-            for (k in 0 until buf.offset) {
-                conn.second.writeInt(buf.buf[k])
-            }
-            conn.second.flush()
-            conn.first.close()
-            conn.second.close()
-        }
-        buf.offset = 0
-    }
-
-    internal fun mySend(i: Int, j: Int) {
-        val buf = allBuf[i][j]
-        val store = allStore[i][j]
-        if (store.first == ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
-            if (type == EModifyTypeExt.INSERT) {
-                allStoreLocal[i][j]!!.insertAsBulk(buf.buf, idx[i], buf.offset)
-            } else {
-                allStoreLocal[i][j]!!.removeAsBulk(buf.buf, idx[i], buf.offset)
-            }
-        } else {
-            val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/graph/modify", allStoreParams[i][j])
-            conn.second.writeInt(buf.offset)
-            for (k in 0 until buf.offset) {
-                conn.second.writeInt(buf.buf[k])
-            }
-            conn.second.flush()
-            conn.first.close()
-            conn.second.close()
-        }
-        buf.offset = 0
+        allConn = Array(description.indices.size) { i -> Array(description.indices[i].getAllLocations().size) { j -> instance.communicationHandler!!.openConnection(allStore[i][j].first, "/distributed/graph/modify", allStoreParams[i][j]) } }
     }
 }
