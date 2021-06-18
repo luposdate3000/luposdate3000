@@ -319,8 +319,9 @@ public object LuposdateEndpoint {
         return popNode
     }
 
-    public fun evaluateOperatorgraphToVisual(instance: Luposdate3000Instance, node: IOPBase, output: OPVisualGraph): Int {
+    public fun evaluateOperatorgraphToVisual(instance: Luposdate3000Instance, node: IOPBase, output: OPVisualGraph): Long {
         val id = output.maxID++
+        node.setVisualUUID(id)
         var label = node.getClassname() + " " + node.getUUID()
         when (node) {
             is AOPVariable -> label += "\n?" + node.getName()
