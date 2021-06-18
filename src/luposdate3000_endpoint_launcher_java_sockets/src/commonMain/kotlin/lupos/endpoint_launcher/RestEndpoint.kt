@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
-
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.EndpointExtendedVisualize
 import lupos.endpoint.LuposdateEndpoint
@@ -23,6 +22,7 @@ import lupos.jena_wrapper.JenaWrapper
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.result_format.EQueryResultToStreamExt
+import lupos.shared.DateHelperRelative
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyInputStream
@@ -33,6 +33,7 @@ import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.inline.MyInputStream
 import lupos.shared.inline.MyOutputStream
+import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 public object RestEndpoint {
@@ -217,6 +218,48 @@ public object RestEndpoint {
             query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
             printHeaderSuccess(connectionOutMy)
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
+            removeDictionary(key)
+            /*Coverage Unreachable*/
+        }
+        paths["/sparql/benchmark"] = PathMappingHelper(true, mapOf(Pair("minimumTime", "10") to ::inputElement, Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) {
+            val e = params["evaluator"]
+            val evaluator = if (e == null) {
+                EQueryResultToStreamExt.DEFAULT_STREAM
+            } else {
+                val e2 = EQueryResultToStreamExt.names.indexOf(e)
+                if (e2 >= 0) {
+                    e2
+                } else {
+                    EQueryResultToStreamExt.DEFAULT_STREAM
+                }
+            }
+            val e3 = params["minimumTime"]
+            var minimumTime = try {
+                e3!!.toDouble()
+            } catch (e: Throwable) {
+                10.0
+            }
+            val writer = MyPrintWriter(false)
+            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
+            val query = node.getQuery()
+            val key = "${query.getTransactionID()}"
+            val dict = registerDictionary(instance, key, query.getDictionary())
+            query.setDictionaryServer(dict)
+            query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
+            printHeaderSuccess(connectionOutMy)
+            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, evaluator)
+            val timer = DateHelperRelative.markNow()
+            var time: Double
+            var counter = 0
+            while (true) {
+                counter++
+                LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+                time = DateHelperRelative.elapsedSeconds(timer)
+                if (time > minimumTime) {
+                    break
+                }
+            }
+            connectionOutMy.println("$counter,${time * 1000.0},${counter / time}")
             removeDictionary(key)
             /*Coverage Unreachable*/
         }
