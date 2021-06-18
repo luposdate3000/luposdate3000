@@ -33,7 +33,7 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID, "PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator") {
     // this optimizer makes sure, that every partitioning which belongs to the same section uses the same partition count
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        if (((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Thread || (query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process)) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process)) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]

@@ -125,7 +125,7 @@ public object LuposdateEndpoint {
         val query = Query(instance)
         val key = "${query.getTransactionID()}"
         try {
-            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
                 query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
             }
@@ -241,13 +241,13 @@ public object LuposdateEndpoint {
             val storeTime = totalTime - dictTime
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
-            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
-            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             throw e
@@ -260,7 +260,7 @@ public object LuposdateEndpoint {
         val query = Query(instance)
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
         val key = "${query.getTransactionID()}"
-        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
             query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
@@ -271,7 +271,7 @@ public object LuposdateEndpoint {
         store.modify_cache(query, dataLocal, EModifyTypeExt.INSERT, cache, true)
         instance.tripleStoreManager!!.commit(query)
         query.commited = true
-        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
         }
         return XMLElement("success").toString()

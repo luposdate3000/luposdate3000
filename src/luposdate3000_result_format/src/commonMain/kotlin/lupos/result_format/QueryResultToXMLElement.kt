@@ -33,7 +33,7 @@ public object QueryResultToXMLElement {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+        if (flag && instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
             query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
@@ -140,7 +140,7 @@ public object QueryResultToXMLElement {
             res.add(nodeSparql)
         }
         if (res.size == 1) {
-            if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            if (flag && instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             }
             return res[0]
@@ -149,7 +149,7 @@ public object QueryResultToXMLElement {
         for (r in res) {
             compountResult.addContent(r)
         }
-        if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+        if (flag && instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return compountResult

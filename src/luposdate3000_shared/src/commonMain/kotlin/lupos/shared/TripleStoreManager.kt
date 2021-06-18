@@ -24,7 +24,6 @@ public abstract class TripleStoreManager {
     public abstract fun close()
     public abstract fun delete()
     public abstract fun getLocalhost(): LuposHostname
-    public abstract fun getPartitionMode(): EPartitionMode
     public abstract fun debugAllLocalStoreContent()
     public abstract fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
     public abstract fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
