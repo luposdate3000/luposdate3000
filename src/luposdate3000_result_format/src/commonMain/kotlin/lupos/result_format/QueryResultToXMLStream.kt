@@ -207,7 +207,7 @@ public object QueryResultToXMLStream {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag && instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
             query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
@@ -285,7 +285,7 @@ public object QueryResultToXMLStream {
             }
             output.print("</sparql>\n")
         }
-        if (flag && instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
     }

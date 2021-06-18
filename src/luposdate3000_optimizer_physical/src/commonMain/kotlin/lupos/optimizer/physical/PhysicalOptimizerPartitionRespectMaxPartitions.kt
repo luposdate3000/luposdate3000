@@ -52,7 +52,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]

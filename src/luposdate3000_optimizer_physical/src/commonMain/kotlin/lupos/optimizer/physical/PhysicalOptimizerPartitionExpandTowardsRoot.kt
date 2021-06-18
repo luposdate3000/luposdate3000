@@ -41,7 +41,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
     // this optimizer moves the partitioning upwards to the root
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]

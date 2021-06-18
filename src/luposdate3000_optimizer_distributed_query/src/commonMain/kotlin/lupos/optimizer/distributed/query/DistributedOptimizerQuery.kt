@@ -215,7 +215,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     public fun splitQuery(query2: IQuery) {
         val query = query2 as Query
         val root = query.root!!
-        if instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.operatorgraphParts.clear()
 // assign host to root node
             query.operatorgraphParts[""] = root.toXMLElement(true)
@@ -235,7 +235,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     public override fun optimize(query2: IQuery): IOPBase {
         val query = query2 as Query
         val root = query.root!!
-        if instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             splitQuery(query)
 // assign hosts to other parts
             for (childOptimizer2 in childOptimizer) {
