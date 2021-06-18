@@ -26,7 +26,7 @@ mkdir -p src/luposdate3000_spa_client/dist
 sleep 5
 benchmarkfile="benchmarks-luposdate3000-single-instance.csv"
 START=$(date +%s.%N)
-curl localhost:80/import/turtle?file=%2Fmnt%2Fluposdate-testdata%2Fyago1%2Fyago-1.0.0-turtle.ttl
+curl "localhost:80/import/turtle?file=%2Fmnt%2Fluposdate-testdata%2Fyago1%2Fyago-1.0.0-turtle.ttl"
 END=$(date +%s.%N)
 DIFF=$(echo "$END - $START" | bc)
 echo "import-time $DIFF" >> $benchmarkfile
@@ -40,7 +40,7 @@ pkill java
 sleep 5
 benchmarkfile="benchmarks-luposdate3000-single-instance-threads.csv"
 START=$(date +%s.%N)
-curl localhost:80/import/turtle?file=%2Fmnt%2Fluposdate-testdata%2Fyago1%2Fyago-1.0.0-turtle.ttl
+curl "localhost:80/import/turtle?file=%2Fmnt%2Fluposdate-testdata%2Fyago1%2Fyago-1.0.0-turtle.ttl"
 END=$(date +%s.%N)
 DIFF=$(echo "$END - $START" | bc)
 echo "import-time $DIFF" >> $benchmarkfile
@@ -50,13 +50,16 @@ curl "localhost:80/sparql/benchmark?query=$query" >> $benchmarkfile
 done
 pkill java
 
+for schema in "byId4"
+do
 for processCount in 4
 do
 ./launcher.main.kts --run --partitionMode=Process --processCount=$processCount
 sleep 5
-benchmarkfile="benchmarks-luposdate3000-multi-instance-$processCount.csv"
+benchmarkfile="benchmarks-luposdate3000-multi-instance-$processCount-$schema.csv"
+curl "localhost:80/import/partition/scheme?file=${schema}.partition"
 START=$(date +%s.%N)
-curl localhost:80/import/turtle?file=%2Fmnt%2Fluposdate-testdata%2Fyago1%2Fyago-1.0.0-turtle.ttl
+curl "localhost:80/import/turtle?file=%2Fmnt%2Fluposdate-testdata%2Fyago1%2Fyago-1.0.0-turtle.ttl"
 END=$(date +%s.%N)
 DIFF=$(echo "$END - $START" | bc)
 echo "import-time $DIFF" >> $benchmarkfile
@@ -65,4 +68,5 @@ do
 curl "localhost:80/sparql/benchmark?query=$query" >> $benchmarkfile
 done
 pkill java
+done
 done

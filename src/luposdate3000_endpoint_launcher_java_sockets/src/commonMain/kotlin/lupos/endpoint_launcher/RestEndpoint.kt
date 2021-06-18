@@ -291,6 +291,11 @@ public object RestEndpoint {
             connectionOutMy.print(LuposdateEndpoint.importTurtleFile(instance, params["file"]!!))
             /*Coverage Unreachable*/
         }
+        paths["/import/partition/scheme"] = PathMappingHelper(true, mapOf(Pair("file", "") to ::inputElement)) {
+LuposdateEndpoint.setEstimatedPartitionsFromFile(instance,params["file"]!!)
+            printHeaderSuccess(connectionOutMy)
+            /*Coverage Unreachable*/
+        }
         paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(LuposdateEndpoint.importTurtleString(instance, params["data"]!!))
