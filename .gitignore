@@ -144,6 +144,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 .dmypy.json
+
+.idea/
 dmypy.json
 
 *.zip
