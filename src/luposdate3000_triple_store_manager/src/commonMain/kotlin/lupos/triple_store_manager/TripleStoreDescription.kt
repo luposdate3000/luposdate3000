@@ -226,7 +226,15 @@ public class TripleStoreDescription(
                         first += tmp.first
                         second += tmp.second
                     } else {
-                        throw Exception("getHistogram send to remote node '${store.first}' vs '${((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localhost}'")
+                        val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second))
+                        conn.second.writeInt(filter.size)
+                        for (i in 0 until filter.size) {
+                            conn.second.writeInt(filter[i])
+                        }
+                        first += conn.first.readInt()
+                        second += conn.first.readInt()
+                        conn.first.close()
+                        conn.second.close()
                     }
                 }
                 return Pair(first, second)

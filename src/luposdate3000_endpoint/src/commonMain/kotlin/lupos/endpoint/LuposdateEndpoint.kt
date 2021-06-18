@@ -98,13 +98,13 @@ public object LuposdateEndpoint {
                     filePartitions.forEachLine { it2 ->
                         val t = it2.split(",")
                         val idx = EIndexPatternExt.names.indexOf(t[0])
-when(t[1]){
-"Simple"->layout.addIndex { it.simple(idx) }
-"ID0"->layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 0) }
-"ID1"->layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
-"ID2"->layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
-"KEY"->layout.addIndex { it.partitionedByKey(idx, t[2].toInt()) }
-}
+                        when (t[1]) {
+                            "Simple" -> layout.addIndex { it.simple(idx) }
+                            "ID0" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 0) }
+                            "ID1" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
+                            "ID2" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
+                            "KEY" -> layout.addIndex { it.partitionedByKey(idx, t[2].toInt()) }
+                        }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

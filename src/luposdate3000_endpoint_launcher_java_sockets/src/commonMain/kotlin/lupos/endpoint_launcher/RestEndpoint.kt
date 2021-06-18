@@ -16,6 +16,7 @@
  */
 package lupos.endpoint_launcher
 import lupos.dictionary.DictionaryFactory
+import lupos.triple_store_manager.TripleStoreManagerImpl
 import lupos.endpoint.EndpointExtendedVisualize
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena_wrapper.JenaWrapper
@@ -292,7 +293,7 @@ public object RestEndpoint {
             /*Coverage Unreachable*/
         }
         paths["/import/partition/scheme"] = PathMappingHelper(true, mapOf(Pair("file", "") to ::inputElement)) {
-LuposdateEndpoint.setEstimatedPartitionsFromFile(instance,params["file"]!!)
+            LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             /*Coverage Unreachable*/
         }
@@ -358,5 +359,16 @@ LuposdateEndpoint.setEstimatedPartitionsFromFile(instance,params["file"]!!)
             instance.tripleStoreManager!!.debugAllLocalStoreContent()
             printHeaderSuccess(connectionOutMy)
         }
+paths["/distributed/query/histogram"]= PathMappingHelper(false, mapOf(Pair("tag", "") to ::inputElement)) {
+var cnt=connectionInMy.readInt()
+val filter=IntArray(cnt)
+for(i in 0 until cnt){
+filter[i]=connectionInMy.readInt()
+}
+val tmp = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[params["tag"]!!]!!.getHistogram(Query(instance), filter)
+connectionOutMy.writeInt(tmp.first)
+connectionOutMy.writeInt(tmp.second)
+connectionOutMy.flush()
+}
     }
 }
