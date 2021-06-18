@@ -165,7 +165,6 @@ public class LogicalOptimizerJoinOrderML(query: Query, private val joinOrder: In
 /*Coverage Unreachable*/
     }
 
-
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
