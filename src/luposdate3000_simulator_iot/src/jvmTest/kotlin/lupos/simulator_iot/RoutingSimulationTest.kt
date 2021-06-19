@@ -2,7 +2,7 @@ package lupos.simulator_iot
 
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.routing.RPLRouter
+import lupos.simulator_iot.net.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.test.Test
 import kotlin.test.assertEquals

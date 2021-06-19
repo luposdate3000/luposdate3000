@@ -1,6 +1,6 @@
-package lupos.simulator_iot.routing
+package lupos.simulator_iot.net.routing
 
-import lupos.simulator_iot.NetworkPackage
+import lupos.simulator_iot.net.NetworkPackage
 
 public interface IRoutingAlgorithm {
     public var isRoot: Boolean

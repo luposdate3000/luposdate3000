@@ -1,6 +1,7 @@
 package lupos.simulator_iot
 
 import lupos.simulator_core.Entity
+import lupos.simulator_iot.net.NetworkPackage
 
 internal class QuerySender(
     val name: String,

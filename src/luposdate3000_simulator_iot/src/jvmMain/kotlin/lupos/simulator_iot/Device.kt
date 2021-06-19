@@ -4,8 +4,10 @@ import lupos.simulator_core.Entity
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.geo.GeoLocation
-import lupos.simulator_iot.routing.IRoutingAlgorithm
-import lupos.simulator_iot.routing.RPLRouter
+import lupos.simulator_iot.net.LinkManager
+import lupos.simulator_iot.net.NetworkPackage
+import lupos.simulator_iot.net.routing.IRoutingAlgorithm
+import lupos.simulator_iot.net.routing.RPLRouter
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 

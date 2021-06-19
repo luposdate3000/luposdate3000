@@ -1,5 +1,6 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.net
 
+import lupos.simulator_iot.Device
 import lupos.simulator_iot.config.LinkType
 
 public class LinkManager(public val device: Device) {

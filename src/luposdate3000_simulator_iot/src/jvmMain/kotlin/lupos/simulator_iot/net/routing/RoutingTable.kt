@@ -1,4 +1,4 @@
-package lupos.simulator_iot.routing
+package lupos.simulator_iot.net.routing
 
 public class RoutingTable(public var defaultAddress: Int, private val addressSpace: Int) {
 

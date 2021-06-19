@@ -5,7 +5,8 @@ import kotlinx.datetime.Instant
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.routing.RPLRouter
+import lupos.simulator_iot.net.LinkManager
+import lupos.simulator_iot.net.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
 
 public object Logger : ISimulationLifeCycle {

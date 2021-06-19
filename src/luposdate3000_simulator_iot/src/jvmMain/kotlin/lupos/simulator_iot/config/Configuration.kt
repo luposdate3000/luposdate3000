@@ -5,10 +5,12 @@ import kotlinx.serialization.json.Json
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.DatabaseAdapter
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.LinkManager
+import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.PowerSupply
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.net.MeshNetwork
+import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.math.round
 

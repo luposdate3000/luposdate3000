@@ -1,8 +1,8 @@
-package lupos.simulator_iot.routing
+package lupos.simulator_iot.net.routing
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.NetworkPackage
+import lupos.simulator_iot.net.NetworkPackage
 import lupos.simulator_iot.config.Configuration
 
 public class RPLRouter(public val device: Device) : IRoutingAlgorithm {

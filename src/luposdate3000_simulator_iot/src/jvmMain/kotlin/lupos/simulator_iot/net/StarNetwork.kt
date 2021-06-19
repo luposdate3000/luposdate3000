@@ -1,4 +1,4 @@
-package lupos.simulator_iot.config
+package lupos.simulator_iot.net
 
 import lupos.simulator_iot.Device
 
