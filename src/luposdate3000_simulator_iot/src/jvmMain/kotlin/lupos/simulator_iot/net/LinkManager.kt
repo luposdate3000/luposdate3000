@@ -2,10 +2,25 @@ package lupos.simulator_iot.net
 
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.config.LinkType
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 public class LinkManager(public val device: Device) {
 
     private var links: MutableMap<Int, Link> = mutableMapOf()
+
+    public fun getTransmissionDelay(destinationAddress: Int, numberOfBytesToSend: Int): Long {
+        val link = getLink(destinationAddress)
+        requireNotNull(link) { "The device $destinationAddress is not reachable!" }
+        val kiloBits = bytesToKBits(numberOfBytesToSend)
+        val seconds =  kiloBits / link.dataRateInKbps.toDouble()
+        val millis = seconds * 1000
+        return millis.roundToLong()
+    }
+
+    private fun bytesToKBits(b: Int): Double
+        // * 8 / 1000
+        = b.toDouble() / 125
 
     public fun getDistanceInMeters(otherDevice: Device): Int =
         device.location.getDistanceInMeters(otherDevice.location)

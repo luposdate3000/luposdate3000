@@ -80,4 +80,22 @@ class LinkManagerTest {
         assertTrue(expected1.contentEquals(actual1))
         assertTrue(expected2.contentEquals(actual2))
     }
+
+    @Test
+    fun transmissionDelay1() {
+        val destAddr = 1
+        val linkTypeW = LinkType("W", 200, 250)
+        LinkManager.sortedLinkTypes = arrayOf(linkTypeW)
+        val srcDevice = Stubs.createEmptyDevice(0,intArrayOf(0))
+        val linkManager = LinkManager(srcDevice)
+        val destDevice = Stubs.createEmptyDevice(destAddr, intArrayOf(0))
+        destDevice.location = GeoLocation.createNorthernLocation(srcDevice.location, 150)
+        linkManager.setLinkIfPossible(destDevice)
+
+        assertEquals(0, linkManager.getTransmissionDelay(destAddr, 0))
+        assertEquals(1, linkManager.getTransmissionDelay(destAddr, 21))
+        assertEquals(2, linkManager.getTransmissionDelay(destAddr, 50))
+        assertEquals(64000, linkManager.getTransmissionDelay(destAddr, 2000000))
+
+    }
 }
