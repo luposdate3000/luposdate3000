@@ -21,6 +21,8 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
@@ -43,7 +45,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     internal val idx: Array<IntArray>
 
     @JvmField
-    internal val allBuf: Array<Array<MyBuf>>
+    internal val allConn: Array<Array<Pair<IMyInputStream?, IMyOutputStream>>>
 
     @JvmField
     internal val allStore: Array<List<Pair<LuposHostname, LuposStoreKey>>>
@@ -57,9 +59,113 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     @JvmField
     internal var instance: Luposdate3000Instance
 
+    private class LocalSortedInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
+        var off = 0
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - (buf.size % 3)
+        val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
+        override fun flush() {}
+        override fun close() { }
+
+        override fun print(x: Boolean) {
+        }
+
+        override fun print(x: Double) {
+        }
+
+        override fun print(x: Int) {
+        }
+
+        override fun print(x: String) {
+        }
+
+        override fun println() {
+        }
+
+        override fun println(x: String) {
+        }
+
+        override fun write(buf: ByteArray) {
+        }
+
+        override fun write(buf: ByteArray, len: Int) {
+        }
+        override fun writeInt(i: Int) {
+            if (i != -1) {
+                if (off >= limit) {
+                    if (mode == EModifyTypeExt.INSERT) {
+                        store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    } else {
+                        store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    }
+                    off = 0
+                }
+                buf[off++] = i
+            } else {
+                if (mode == EModifyTypeExt.INSERT) {
+                    store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                } else {
+                    store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                }
+                off = 0
+            }
+        }
+    }
+    private class LocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
+        var off = 0
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - (buf.size % 3)
+        val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
+        override fun flush() {}
+        override fun close() { }
+
+        override fun print(x: Boolean) {
+        }
+
+        override fun print(x: Double) {
+        }
+
+        override fun print(x: Int) {
+        }
+
+        override fun print(x: String) {
+        }
+
+        override fun println() {
+        }
+
+        override fun println(x: String) {
+        }
+
+        override fun write(buf: ByteArray) {
+        }
+
+        override fun write(buf: ByteArray, len: Int) {
+        }
+        override fun writeInt(i: Int) {
+            if (i != -1) {
+                if (off >= limit) {
+                    if (mode == EModifyTypeExt.INSERT) {
+                        store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    } else {
+                        store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    }
+                    off = 0
+                }
+                buf[off++] = i
+            } else {
+                if (mode == EModifyTypeExt.INSERT) {
+                    store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                } else {
+                    store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                }
+                off = 0
+            }
+        }
+    }
     public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {
-        val localStores = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()
-        val localH = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost
+        val localStores = (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localStoresGet()
+        val localH = (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localhost
         this.instance = instance
         this.description = description
         this.type = type
@@ -71,7 +177,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
         }
         idx = Array(usedIndices.size) { EIndexPatternHelper.tripleIndicees[usedIndices[it].idx_set[0]] }
-        allBuf = Array(usedIndices.size) { index -> Array(usedIndices[index].getAllLocations().size) { MyBuf(instance) } }
         allStore = Array(usedIndices.size) { usedIndices[it].getAllLocations() }
         allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(allStore.size) {
@@ -83,16 +188,24 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
             }.toTypedArray()
         }
+        allConn = Array(usedIndices.size) { i ->
+            Array(usedIndices[i].getAllLocations().size) { j ->
+                if (allStore[i][j].first == (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localhost) {
+                    Pair(null, LocalSortedInputStream(allStore[i][j].second, type, idx[i].first(), instance))
+                } else {
+                    instance.communicationHandler!!.openConnection(allStore[i][j].first, "/distributed/graph/modifysorted", allStoreParams[i][j])
+                }
+            }
+        }
     }
 
     public constructor(description: TripleStoreDescription, type: EModifyType, instance: Luposdate3000Instance) {
-        val localStores = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()
-        val localH = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost
+        val localStores = (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localStoresGet()
+        val localH = (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localhost
         this.instance = instance
         this.description = description
         this.type = type
         idx = Array(description.indices.size) { EIndexPatternHelper.tripleIndicees[description.indices[it].idx_set[0]] }
-        allBuf = Array(description.indices.size) { index -> Array(description.indices[index].getAllLocations().size) { MyBuf(instance) } }
         allStore = Array(description.indices.size) { description.indices[it].getAllLocations() }
         allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(allStore.size) {
@@ -104,49 +217,14 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
             }.toTypedArray()
         }
-    }
-
-    internal fun mySendSorted(i: Int, j: Int) {
-        val buf = allBuf[i][j]
-        val store = allStore[i][j]
-        if (store.first == ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
-            if (type == EModifyTypeExt.INSERT) {
-                allStoreLocal[i][j]!!.insertAsBulkSorted(buf.buf, idx[i], buf.offset)
-            } else {
-                allStoreLocal[i][j]!!.removeAsBulkSorted(buf.buf, idx[i], buf.offset)
+        allConn = Array(description.indices.size) { i ->
+            Array(description.indices[i].getAllLocations().size) { j ->
+                if (allStore[i][j].first == (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localhost) {
+                    Pair(null, LocalInputStream(allStore[i][j].second, type, idx[i].first(), instance))
+                } else {
+                    instance.communicationHandler!!.openConnection(allStore[i][j].first, "/distributed/graph/modify", allStoreParams[i][j])
+                }
             }
-        } else {
-            val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/graph/modifysorted", allStoreParams[i][j])
-            conn.second.writeInt(buf.offset)
-            for (k in 0 until buf.offset) {
-                conn.second.writeInt(buf.buf[k])
-            }
-            conn.second.flush()
-            conn.first.close()
-            conn.second.close()
         }
-        buf.offset = 0
-    }
-
-    internal fun mySend(i: Int, j: Int) {
-        val buf = allBuf[i][j]
-        val store = allStore[i][j]
-        if (store.first == ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
-            if (type == EModifyTypeExt.INSERT) {
-                allStoreLocal[i][j]!!.insertAsBulk(buf.buf, idx[i], buf.offset)
-            } else {
-                allStoreLocal[i][j]!!.removeAsBulk(buf.buf, idx[i], buf.offset)
-            }
-        } else {
-            val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/graph/modify", allStoreParams[i][j])
-            conn.second.writeInt(buf.offset)
-            for (k in 0 until buf.offset) {
-                conn.second.writeInt(buf.buf[k])
-            }
-            conn.second.flush()
-            conn.first.close()
-            conn.second.close()
-        }
-        buf.offset = 0
     }
 }

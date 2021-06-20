@@ -14,18 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.triple_store_manager
+package lupos.shared
 
-import lupos.shared.Luposdate3000Instance
-import kotlin.jvm.JvmField
-
-internal class MyBuf(instance: Luposdate3000Instance) {
-    @JvmField
-    internal val size = (instance.LUPOS_BUFFER_SIZE / 12) * 3
-
-    @JvmField
-    internal var offset: Int = 0
-
-    @JvmField
-    internal var buf = IntArray(size)
+public class OPVisualEdge(public val from: Int, public val to: Int, public val width: Int) {
+    public fun toJson(): String = "{\"from\":$from,\"to\":$to,\"width\":$width}"
 }

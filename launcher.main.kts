@@ -502,6 +502,13 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
+        "--processCount",
+        "",
+        {
+            processUrls = Array(it.toInt()){"localhost:"+(80+it)}.joinToString(",")
+        }
+    ),
+    ParamClass(
         "--releaseMode",
         ReleaseMode.Disable.toString(),
         ReleaseMode.values().map { it -> it.toString() to { releaseMode = it } }.toMap()

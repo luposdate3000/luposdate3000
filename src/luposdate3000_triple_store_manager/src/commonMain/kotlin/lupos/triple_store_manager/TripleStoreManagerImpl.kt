@@ -23,7 +23,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
-import lupos.shared.EPartitionMode
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IBufferManager
 import lupos.shared.IMyInputStream
@@ -54,9 +53,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     @JvmField
     internal var instance: Luposdate3000Instance
-
-    @JvmField
-    internal val partitionMode: EPartitionMode
 
     @JvmField
     internal var bufferManager: IBufferManager
@@ -211,7 +207,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         this.hostnames = hostnames
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
-        partitionMode = instance.LUPOS_PARTITION_MODE
         println("allocation TripleStoreManagerImpl on $localhost")
     }
 
@@ -331,7 +326,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun getLocalhost(): LuposHostname = localhost
-    public override fun getPartitionMode(): EPartitionMode = partitionMode
     public override fun debugAllLocalStoreContent() {
         File("${localhost.replace(":", "_")}.metadata").withOutputStream { out ->
             for ((k, v) in metadata_) {
@@ -366,7 +360,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun resetDefaultTripleStoreLayout() {
-        if (partitionMode == EPartitionModeExt.None) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
             defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                 .addIndex { it.simple(EIndexPatternExt.SPO) } //
                 .addIndex { it.simple(EIndexPatternExt.SOP) } //
@@ -431,31 +425,57 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
     }
 
+    public override fun remoteHistogram(tag: String, filter: IntArray): Pair<Int, Int> {
+        return localStoresGet()[tag]!!.getHistogram(Query(instance), filter)
+    }
+
     public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        var count = stream.readInt()
-        val buf = IntArray(count)
-        for (i in 0 until count) {
-            buf[i] = stream.readInt()
-        }
-        if (mode == EModifyTypeExt.INSERT) {
-            store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
-        } else {
-            store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - 3
+        var done = false
+        while (!done) {
+            var i = 0
+            while (i <limit) {
+                val a = stream.readInt()
+                if (a == -1) {
+                    done = true
+                    break
+                }
+                buf[i++] = a
+                buf[i++] = stream.readInt()
+                buf[i++] = stream.readInt()
+            }
+            if (mode == EModifyTypeExt.INSERT) {
+                store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            } else {
+                store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            }
         }
     }
 
     public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        var count = stream.readInt()
-        val buf = IntArray(count)
-        for (i in 0 until count) {
-            buf[i] = stream.readInt()
-        }
-        if (mode == EModifyTypeExt.INSERT) {
-            store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], count)
-        } else {
-            store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], count)
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - 3
+        var done = false
+        while (!done) {
+            var i = 0
+            while (i <limit) {
+                val a = stream.readInt()
+                if (a == -1) {
+                    done = true
+                    break
+                }
+                buf[i++] = a
+                buf[i++] = stream.readInt()
+                buf[i++] = stream.readInt()
+            }
+            if (mode == EModifyTypeExt.INSERT) {
+                store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            } else {
+                store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            }
         }
     }
 

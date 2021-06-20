@@ -70,7 +70,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 // Columns auf ein mal senden
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
-                    var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
+                    var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer).replace("\\", "\\\\").replace("\"", "\\\"")
                     var outputString = "[" + getChildren()[0].getVisualUUUID().toString() + ","
                     outputString += getParent().getVisualUUUID().toString() + ","
                     outputString += "\"" + string + "\","

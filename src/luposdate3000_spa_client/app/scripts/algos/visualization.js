@@ -715,8 +715,8 @@ function deleteDebugOperator() { //only called by loadData
 
 //Loads the Nodes and Edges from the data provided
 function loadData(dataParameter, flag) {
-    dataNodes = dataParameter[0];
-    dataEdges = dataParameter[1];
+    dataNodes = dataParameter.nodes;
+    dataEdges = dataParameter.edges;
     //remove the POPRico operator
     deleteDebugOperator();
     data = {

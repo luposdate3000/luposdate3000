@@ -19,10 +19,10 @@ package lupos.test_dictionary_encoding
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.math.abs
-
 private object AssertionFunctions {
     fun <T> assumeEQ(a: () -> T, b: () -> T) {
         val a1 = a()
@@ -62,6 +62,9 @@ private object AssertionFunctions {
 }
 
 public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    if (!SanityCheck.enabled) {
+        return
+    }
     val verbose = false
     val buffer = ByteArrayWrapper()
     val buffer2 = ByteArrayWrapper()
@@ -205,7 +208,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_I(buffer) }, { v })
             AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_S(buffer) })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { "$v" })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { "_:$v" })
         }
     }
 

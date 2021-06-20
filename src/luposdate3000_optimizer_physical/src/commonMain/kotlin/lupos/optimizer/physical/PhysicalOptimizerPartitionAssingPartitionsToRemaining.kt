@@ -32,7 +32,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if (((query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Thread || (query.getInstance().tripleStoreManager!!).getPartitionMode() == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPTripleStoreIterator -> {
                     if (!node.hasSplitFromStore) {

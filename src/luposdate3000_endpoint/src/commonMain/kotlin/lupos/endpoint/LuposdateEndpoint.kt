@@ -15,9 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryFactory
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.factory.XMLElementToOPBase
@@ -47,6 +48,9 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
+import lupos.shared.OPVisualEdge
+import lupos.shared.OPVisualGraph
+import lupos.shared.OPVisualNode
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
@@ -98,12 +102,12 @@ public object LuposdateEndpoint {
                     filePartitions.forEachLine { it2 ->
                         val t = it2.split(",")
                         val idx = EIndexPatternExt.names.indexOf(t[0])
-                        if (t[1] == "-1") {
-                            layout.addIndex { it.simple(idx) }
-                        } else if (t[1] == "1") {
-                            layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
-                        } else if (t[1] == "2") {
-                            layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
+                        when (t[1]) {
+                            "Simple" -> layout.addIndex { it.simple(idx) }
+                            "ID0" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 0) }
+                            "ID1" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
+                            "ID2" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
+                            "KEY" -> layout.addIndex { it.partitionedByKey(idx, t[2].toInt()) }
                         }
                     }
                 } catch (e: Exception) {
@@ -125,7 +129,7 @@ public object LuposdateEndpoint {
         val query = Query(instance)
         val key = "${query.getTransactionID()}"
         try {
-            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
                 query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
             }
@@ -241,13 +245,13 @@ public object LuposdateEndpoint {
             val storeTime = totalTime - dictTime
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
-            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
-            if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             throw e
@@ -260,7 +264,7 @@ public object LuposdateEndpoint {
         val query = Query(instance)
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
         val key = "${query.getTransactionID()}"
-        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
             query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
@@ -271,7 +275,7 @@ public object LuposdateEndpoint {
         store.modify_cache(query, dataLocal, EModifyTypeExt.INSERT, cache, true)
         instance.tripleStoreManager!!.commit(query)
         query.commited = true
-        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
         }
         return XMLElement("success").toString()
@@ -313,6 +317,23 @@ public object LuposdateEndpoint {
             println(OperatorGraphToLatex(popNode.toString(), ""))
         }
         return popNode
+    }
+
+    public fun evaluateOperatorgraphToVisual(instance: Luposdate3000Instance, node: IOPBase, output: OPVisualGraph): Int {
+        val id = output.maxID++
+        node.setVisualUUID(id.toLong())
+        var label = node.getClassname() + " " + node.getUUID()
+        when (node) {
+            is AOPVariable -> label += "\n?" + node.getName()
+            is AOPConstant -> label += "\n" + node.toSparql()
+            else -> label += "\n" + node.getProvidedVariableNames()
+        }
+        output.nodes.add(OPVisualNode(id, label))
+        for (c in node.getChildren()) {
+            val childId = evaluateOperatorgraphToVisual(instance, c, output)
+            output.edges.add(OPVisualEdge(id, childId, 1))
+        }
+        return id
     }
 
     @JsName("evaluate_operatorgraph_to_result")

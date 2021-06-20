@@ -24,6 +24,7 @@ import lupos.shared.AflCore
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
+import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
@@ -47,6 +48,9 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    if (!SanityCheck.enabled) {
+        return
+    }
     for (isLocal in listOf(true, false)) {
         for (dictType in 0 until EDictionaryTypeExt.values_size) {
             if (isLocal && dictType == EDictionaryTypeExt.KV) {

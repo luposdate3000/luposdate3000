@@ -22,6 +22,7 @@ import lupos.kv.KeyValueStore
 import lupos.shared.AflCore
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
+import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
 import kotlin.math.abs
@@ -38,6 +39,9 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
+    if (!SanityCheck.enabled) {
+        return
+    }
     var instance = Luposdate3000Instance()
     instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false

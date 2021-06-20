@@ -108,7 +108,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         commited = false
         partitions.clear()
         val factory = instance.distributedOptimizerQueryFactory
-        if (instance.tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process && factory != null) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process && factory != null) {
             operatorgraphParts = mutableMapOf<String, XMLElement>()
             operatorgraphPartsToHostMap = mutableMapOf<String, String>()
             dependenciesMapTopDown = mutableMapOf<String, Set<String>>()

@@ -8,3 +8,6 @@
 
 3. E: After running "./launcher.main.kts --setupIntellijIdea" there are the same errors as before
    A: To speed up the script, the kotlin-compiler is using caches. Unfortunately the caching does not consider the Files the script depends on. To work around this issue, the easiest method is to add an space to the launcher.main.kts File.
+
+4. E: "platform clash of method signature"
+   A: If you have just merged with master, this may happen, if the index of intellij is outdated. The first option is to restart the indexing within intellij. Otherwise use the steps from 1.

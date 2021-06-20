@@ -57,12 +57,12 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val tmp = query.getInstance().tripleStoreManager!!.getGraph(node.graph).getIterator(query, Array<IAOPBase>(3) { node.getChildren()[it] as IAOPBase }, idx)
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
-                    if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
                         query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
-                    if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     SanityCheck.check { tmp2.hasCountMode() }
@@ -77,12 +77,12 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val tmp = query.getInstance().tripleStoreManager!!.getGraph(node.graph).getIterator(query, Array<IAOPBase>(3) { node.getChildren()[it] as IAOPBase }, idx)
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
-                    if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
                         query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
-                    if (flag && query.getInstance().tripleStoreManager!!.getPartitionMode() == EPartitionModeExt.Process) {
+                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     val columns = tmp2.columns

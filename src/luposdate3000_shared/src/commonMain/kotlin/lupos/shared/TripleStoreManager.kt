@@ -20,11 +20,10 @@ public abstract class TripleStoreManager {
     public companion object {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
-
+    public abstract fun remoteHistogram(tag: String, filter: IntArray): Pair<Int, Int>
     public abstract fun close()
     public abstract fun delete()
     public abstract fun getLocalhost(): LuposHostname
-    public abstract fun getPartitionMode(): EPartitionMode
     public abstract fun debugAllLocalStoreContent()
     public abstract fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
     public abstract fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit

@@ -131,21 +131,21 @@ public class TripleStoreDescription(
             if (localcache.row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
-            for (i in 0 until localcache.allBuf.size) {
+            for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
-                val buf = localcache.allBuf[i][j]
-                if (buf.offset >= buf.size) {
-                    localcache.mySend(i, j)
-                }
-                buf.buf[buf.offset++] = localcache.row[0]
-                buf.buf[buf.offset++] = localcache.row[1]
-                buf.buf[buf.offset++] = localcache.row[2]
+                val conn = localcache.allConn[i][j]
+                conn.second.writeInt(localcache.row[0])
+                conn.second.writeInt(localcache.row[1])
+                conn.second.writeInt(localcache.row[2])
             }
         }
         if (flush) {
-            for (i in 0 until localcache.allBuf.size) {
-                for (j in 0 until localcache.allBuf[i].size) {
-                    localcache.mySend(i, j)
+            for (i in 0 until localcache.allConn.size) {
+                for (j in 0 until localcache.allConn[i].size) {
+                    val conn = localcache.allConn[i][j]
+                    conn.second.writeInt(-1)
+                    conn.first?.close()
+                    conn.second.close()
                 }
             }
         }
@@ -160,21 +160,21 @@ public class TripleStoreDescription(
             if (localcache.row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
-            for (i in 0 until localcache.allBuf.size) {
+            for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
-                val buf = localcache.allBuf[i][j]
-                if (buf.offset >= buf.size) {
-                    localcache.mySendSorted(i, j)
-                }
-                buf.buf[buf.offset++] = localcache.row[0]
-                buf.buf[buf.offset++] = localcache.row[1]
-                buf.buf[buf.offset++] = localcache.row[2]
+                val conn = localcache.allConn[i][j]
+                conn.second.writeInt(localcache.row[0])
+                conn.second.writeInt(localcache.row[1])
+                conn.second.writeInt(localcache.row[2])
             }
         }
         if (flush) {
-            for (i in 0 until localcache.allBuf.size) {
-                for (j in 0 until localcache.allBuf[i].size) {
-                    localcache.mySendSorted(i, j)
+            for (i in 0 until localcache.allConn.size) {
+                for (j in 0 until localcache.allConn[i].size) {
+                    val conn = localcache.allConn[i][j]
+                    conn.first?.close()
+                    conn.second.writeInt(-1)
+                    conn.second.close()
                 }
             }
         }
@@ -226,7 +226,15 @@ public class TripleStoreDescription(
                         first += tmp.first
                         second += tmp.second
                     } else {
-                        throw Exception("getHistogram send to remote node '${store.first}' vs '${((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localhost}'")
+                        val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second))
+                        conn.second.writeInt(filter.size)
+                        for (i in 0 until filter.size) {
+                            conn.second.writeInt(filter[i])
+                        }
+                        first += conn.first.readInt()
+                        second += conn.first.readInt()
+                        conn.first.close()
+                        conn.second.close()
                     }
                 }
                 return Pair(first, second)
