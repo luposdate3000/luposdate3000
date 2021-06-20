@@ -26,11 +26,12 @@ public class Device(
     public var processedSensorDataPackages: Long = 0
         private set
 
-    private fun getNetworkDelay(destinationAddress: Int): Long {
+    private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
         return if (destinationAddress == address) {
             0
         } else {
-            1
+            val size = NetworkPackage.headerSize + pck.payload.getSizeInBytes()
+            linkManager.getTransmissionDelay(destinationAddress, size)
         }
     }
 
@@ -83,13 +84,13 @@ public class Device(
 
     private fun forwardPackage(pck: NetworkPackage) {
         val nextHop = router.getNextHop(pck.destinationAddress)
-        val delay = getNetworkDelay(nextHop)
+        val delay = getNetworkDelay(nextHop, pck)
         scheduleEvent(Configuration.devices[nextHop], pck, delay)
     }
 
     public fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
-        val delay = getNetworkDelay(destinationNeighbour)
+        val delay = getNetworkDelay(destinationNeighbour, pck)
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 

@@ -61,27 +61,27 @@
     "fixedLink": [{
             "fixedDeviceA": "A",
             "fixedDeviceB": "B",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "A",
             "fixedDeviceB": "C",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "C",
             "fixedDeviceB": "D",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "C",
             "fixedDeviceB": "E",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "E",
             "fixedDeviceB": "F",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         }
     ],
     "rootRouter": "A",

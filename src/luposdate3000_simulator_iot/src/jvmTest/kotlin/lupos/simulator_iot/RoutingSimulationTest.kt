@@ -81,13 +81,10 @@ class RoutingSimulationTest {
         // Send data from the leaf F to the root A
         Configuration.parse("$prefix/upwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
-
         val f = Configuration.getNamedDevice("F")
-
         f.sensor!!.setDataSink(a.address)
-
-        val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
+        val numberOfSamples: Long = 2
+        val maxClock: Long = numberOfSamples * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
@@ -105,7 +102,7 @@ class RoutingSimulationTest {
         a.sensor!!.setDataSink(f.address)
 
         val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
+        val maxClock: Long = numberOfSamples * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
@@ -123,7 +120,7 @@ class RoutingSimulationTest {
         f.sensor!!.setDataSink(d.address)
 
         val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
+        val maxClock: Long = numberOfSamples * ParkingSensor.dataRateInSeconds.toLong() * 1000
 
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
