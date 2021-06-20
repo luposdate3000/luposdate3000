@@ -3,7 +3,7 @@
     "linkType": [],
     "deviceType": [{
         "name": "RadioTower",
-        "database": false,
+        "database": true,
         "parkingSensor": true,
         "supportedLinkTypes": []
     }],

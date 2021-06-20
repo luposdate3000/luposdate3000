@@ -138,15 +138,6 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         }
     }
 
-    public class DIO(public val rank: Int)
-
-    public class DAO(
-        public val isPath: Boolean,
-        public val destinations: IntArray,
-        public val hopHasDatabase: Boolean,
-        public val existingDatabaseHops: IntArray
-    )
-
     override fun isControlPackage(pck: NetworkPackage): Boolean =
         pck.payload is DAO || pck.payload is DIO
 

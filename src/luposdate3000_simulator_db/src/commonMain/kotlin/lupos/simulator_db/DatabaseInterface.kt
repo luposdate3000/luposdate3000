@@ -15,7 +15,9 @@ public interface IRouter {
     public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
 }
 
-public interface IDatabasePackage
+public interface IDatabasePackage {
+    public fun getPackageSizeInBytes(): Int
+}
 
 public interface IDatabaseState {
     public val ownAddress: Int

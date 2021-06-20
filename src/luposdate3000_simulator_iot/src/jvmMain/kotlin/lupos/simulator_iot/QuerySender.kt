@@ -1,6 +1,7 @@
 package lupos.simulator_iot
 
 import lupos.simulator_core.Entity
+import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.net.NetworkPackage
 
 internal class QuerySender(
@@ -30,7 +31,7 @@ internal class QuerySender(
 
     private inner class SendTimer: Entity.ITimer {
         override fun onExpire() {
-            sendQueryNow()
+            triggerQueryProcessing()
             if(queryCounter < maxNumberOfQueries)
                 startTimer()
         }
@@ -41,7 +42,7 @@ internal class QuerySender(
         setTimer(millis.toLong(), SendTimer())
     }
 
-    private fun sendQueryNow() {
+    private fun triggerQueryProcessing() {
         queryCounter++
         val queryPck = QueryPackage(query)
         val pck = NetworkPackage(-1, receiver.address, queryPck)
@@ -50,6 +51,11 @@ internal class QuerySender(
 
 
 
-    public class QueryPackage (public val query: String)
+    public class QueryPackage (public val query: String) : IPayload {
+        override fun getSizeInBytes(): Int {
+            return query.toByteArray().size
+        }
+
+    }
 
 }

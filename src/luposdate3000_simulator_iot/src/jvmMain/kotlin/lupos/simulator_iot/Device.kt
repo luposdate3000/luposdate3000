@@ -4,6 +4,7 @@ import lupos.simulator_core.Entity
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
 import lupos.simulator_iot.net.routing.IRoutingAlgorithm
@@ -59,14 +60,19 @@ public class Device(
             }
             pck.payload is ParkingSample -> {
                 processedSensorDataPackages++
-                database?.saveParkingSample(pck.payload)
+                requireNotNull(database
+                ) { "The device $address has no database configured to store the ParkingSample." }
+                database!!.saveParkingSample(pck.payload)
             }
-            pck.payload is IDatabasePackage -> {
-                database?.receive(pck.payload)
+            database?.isDatabasePackage(pck.payload) == true -> {
+                database?.processPackage(pck.payload)
             }
             pck.payload is QuerySender.QueryPackage -> {
+                requireNotNull(database
+                ) { "The device $address has no database configured to process the query." }
                 database!!.processQuery(pck.payload.query)
             }
+            else -> throw Exception("Undefined NetworkPackage or wrong device address.")
         }
     }
 
@@ -81,18 +87,18 @@ public class Device(
         scheduleEvent(Configuration.devices[nextHop], pck, delay)
     }
 
-    public fun sendUnRoutedPackage(destinationNeighbour: Int, data: Any) {
+    public fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour)
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
-    public fun sendRoutedPackage(src: Int, dest: Int, data: Any) {
+    public fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
         forwardPackage(pck)
     }
 
-    public fun sendSensorSample(destinationAddress: Int, data: Any) {
+    public fun sendSensorSample(destinationAddress: Int, data: IPayload) {
         sendRoutedPackage(address, destinationAddress, data)
     }
 

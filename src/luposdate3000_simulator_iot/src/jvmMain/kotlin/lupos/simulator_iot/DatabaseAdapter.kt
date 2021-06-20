@@ -7,9 +7,9 @@ import lupos.simulator_db.IRouter
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 import java.io.File
-import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -53,7 +53,19 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         currentState = buildInitialStateObject()
     }
 
-    public fun receive(pck: IDatabasePackage) {
+    public fun processPackage(payload: IPayload) {
+        when (payload) {
+            is DBInternData -> receive(payload.content)
+            is DBQueryResult -> useQueryResult(payload.result)
+            else -> throw Exception("undefined payload")
+        }
+    }
+
+    private fun useQueryResult(result: ByteArray) {
+        //TODO
+    }
+
+    private fun receive(pck: IDatabasePackage) {
         db.activate()
         db.receive(pck)
         db.deactivate()
@@ -61,12 +73,12 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
 
     public fun saveParkingSample(sample: ParkingSample) {
         val query = buildInsertQuery(sample)
-        val bytes = toBytes(query)
+        val bytes = query.toByteArray()
         receiveQuery(bytes)
     }
 
     public fun processQuery(query: String) {
-        val queryBytes = toBytes(query)
+        val queryBytes = query.toByteArray()
         receiveQuery(queryBytes)
     }
 
@@ -106,18 +118,38 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         return directoryToBeDeleted.delete()
     }
 
-    private fun toBytes(s: String) = s.toByteArray(StandardCharsets.UTF_8)
 
-    public fun isDatabasePackage(pck: Any): Boolean = pck is IDatabasePackage
+    public fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternData
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        device.sendRoutedPackage(device.address, destinationAddress, pck)
+        device.sendRoutedPackage(device.address, destinationAddress, DBInternData(pck))
     }
 
     override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
-        device.sendRoutedPackage(device.address, destinationAddress, result) // TODO
+        if (device.address == destinationAddress) {
+            println("sendQueryResult deviceAddress == $destinationAddress")
+            useQueryResult(result)
+        }
+        else {
+            println("sendQueryResult route forward to $destinationAddress")
+            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResult(result))
+        }
+
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         device.router.getNextDatabaseHops(destinationAddresses)
+
+
+    public class DBInternData(public val content: IDatabasePackage): IPayload {
+        override fun getSizeInBytes(): Int {
+            return content.getPackageSizeInBytes()
+        }
+    }
+
+    public class DBQueryResult(public val result: ByteArray): IPayload {
+        override fun getSizeInBytes(): Int {
+            return result.size
+        }
+    }
 }
