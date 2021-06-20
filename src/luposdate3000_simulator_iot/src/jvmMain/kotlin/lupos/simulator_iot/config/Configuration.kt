@@ -217,7 +217,8 @@ public object Configuration {
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
         val linkTypes = getLinkTypeIndices(deviceType)
-        val device = Device(location, devices.size, null, null, linkTypes)
+        require(deviceType.performance != 0.0) { "The performance level of a device can not be 0.0 %" }
+        val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         val database = getDatabase(deviceType, device)

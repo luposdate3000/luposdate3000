@@ -18,4 +18,10 @@ internal object TimeUtils {
         val duration = endInstant - startInstant
         return duration.inWholeMilliseconds
     }
+
+    @OptIn(ExperimentalTime::class)
+    internal fun differenceInMicroSec(startInstant: Instant, endInstant: Instant): Long {
+        val duration = endInstant - startInstant
+        return duration.inWholeMicroseconds
+    }
 }

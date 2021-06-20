@@ -9,18 +9,21 @@
             "name": "FogTower",
             "database": true,
             "parkingSensor": false,
+            "performance": 110.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "EdgeGatewayDevice",
             "database": true,
             "parkingSensor": false,
+            "performance": 32.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "ParkingSensorDevice",
             "database": false,
             "parkingSensor": true,
+            "performance": 1.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],

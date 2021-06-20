@@ -12,12 +12,14 @@ import lupos.simulator_iot.net.routing.IRoutingAlgorithm
 import lupos.simulator_iot.net.routing.RPLRouter
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
+import kotlin.math.roundToLong
 
 public class Device(
     internal var location: GeoLocation,
     public val address: Int,
     public var database: DatabaseAdapter?,
     public var sensor: ISensor?,
+    public val performance: Double,
     public val supportedLinkTypes: IntArray
 ) : Entity() {
     public val router: IRoutingAlgorithm = RPLRouter(this)
@@ -40,7 +42,10 @@ public class Device(
 
     private fun getProcessingDelay(): Long {
         val now = Clock.System.now()
-        return TimeUtils.differenceInMillis(deviceStart, now)
+        val microDif =  TimeUtils.differenceInMicroSec(deviceStart, now)
+        val scaled = microDif * 100 / performance
+        val millis = scaled / 1000
+        return millis.roundToLong()
     }
 
     override fun onStartUp() {

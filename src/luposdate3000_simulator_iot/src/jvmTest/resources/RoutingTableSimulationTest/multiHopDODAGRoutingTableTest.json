@@ -5,6 +5,7 @@
         "name": "Fog",
         "database": true,
         "parkingSensor": false,
+        "performance": 20.0,
         "supportedLinkTypes": []
     }],
     "fixedDevice": [{

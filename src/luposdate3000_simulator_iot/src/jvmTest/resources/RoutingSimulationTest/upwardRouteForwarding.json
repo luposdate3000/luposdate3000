@@ -5,18 +5,21 @@
             "name": "Fog",
             "database": false,
             "parkingSensor": false,
+            "performance": 20.0,
             "supportedLinkTypes": []
         },
         {
             "name": "SensorDevice",
             "database": false,
             "parkingSensor": true,
+            "performance": 0.9,
             "supportedLinkTypes": []
         },
         {
             "name": "DataStore",
             "database": true,
             "parkingSensor": false,
+            "performance": 120.0,
             "supportedLinkTypes": []
         }
 

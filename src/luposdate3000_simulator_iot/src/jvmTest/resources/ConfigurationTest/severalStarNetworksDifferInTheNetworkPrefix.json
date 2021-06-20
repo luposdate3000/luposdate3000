@@ -9,12 +9,14 @@
             "name": "Fog",
             "database": true,
             "parkingSensor": true,
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "StandAloneParkingSensor",
             "database": false,
             "parkingSensor": true,
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],

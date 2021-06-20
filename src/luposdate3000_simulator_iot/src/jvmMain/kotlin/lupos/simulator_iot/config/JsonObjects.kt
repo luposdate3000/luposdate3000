@@ -27,6 +27,7 @@ public data class DeviceType(
     val name: String = "",
     val database: Boolean = false,
     val parkingSensor: Boolean = false,
+    val performance: Double = 100.0,
     val supportedLinkTypes: List<String> = arrayListOf(),
 )
 

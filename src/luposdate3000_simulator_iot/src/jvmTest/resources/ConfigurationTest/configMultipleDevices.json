@@ -15,6 +15,7 @@
             "name": "StandAloneParkingSensor",
             "database": false,
             "parkingSensor": true,
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
 
@@ -22,12 +23,14 @@
             "name": "RadioTower",
             "database": false,
             "parkingSensor": false,
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "Fog",
             "database": true,
             "parkingSensor": false,
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],

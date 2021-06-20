@@ -15,12 +15,14 @@
             "name": "Fog",
             "database": false,
             "parkingSensor": false,
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "Other",
             "database": false,
             "parkingSensor": false,
+            "performance": 20.0,
             "supportedLinkTypes": ["X"]
         }
     ],

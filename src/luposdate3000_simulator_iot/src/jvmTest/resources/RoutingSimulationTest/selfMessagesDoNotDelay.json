@@ -5,6 +5,7 @@
         "name": "RadioTower",
         "database": true,
         "parkingSensor": true,
+        "performance": 500.0,
         "supportedLinkTypes": []
     }],
     "fixedDevice": [{
