@@ -6,7 +6,6 @@ import lupos.simulator_core.Entity
 import lupos.simulator_iot.DatabaseAdapter
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.net.LinkManager
-import lupos.simulator_iot.PowerSupply
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.net.MeshNetwork
@@ -217,9 +216,8 @@ public object Configuration {
     }
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
-        val powerSupply = PowerSupply(deviceType.powerCapacity)
         val linkTypes = getLinkTypeIndices(deviceType)
-        val device = Device(powerSupply, location, devices.size, null, null, linkTypes)
+        val device = Device(location, devices.size, null, null, linkTypes)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         val database = getDatabase(deviceType, device)

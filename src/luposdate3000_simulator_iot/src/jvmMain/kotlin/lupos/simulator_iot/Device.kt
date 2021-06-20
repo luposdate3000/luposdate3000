@@ -12,7 +12,6 @@ import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 
 public class Device(
-    public val powerSupply: PowerSupply,
     internal var location: GeoLocation,
     public val address: Int,
     public var database: DatabaseAdapter?,

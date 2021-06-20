@@ -9,21 +9,18 @@
             "name": "DataSinkDevice",
             "database": true,
             "parkingSensor": false,
-            "powerCapacity": -1.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "MeshDevice",
             "database": false,
             "parkingSensor": false,
-            "powerCapacity": -1.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "StarRootDevice",
             "database": false,
             "parkingSensor": true,
-            "powerCapacity": -1.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],

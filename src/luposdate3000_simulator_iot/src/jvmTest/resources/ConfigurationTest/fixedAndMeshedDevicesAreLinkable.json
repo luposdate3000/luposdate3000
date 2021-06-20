@@ -9,7 +9,6 @@
         "name": "Fog",
         "database": false,
         "parkingSensor": false,
-        "powerCapacity": -1.0,
         "supportedLinkTypes": ["WPAN"]
     }],
     "fixedDevice": [{

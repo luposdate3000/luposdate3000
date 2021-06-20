@@ -9,7 +9,6 @@
         "name": "Fog",
         "database": true,
         "parkingSensor": false,
-        "powerCapacity": -1.0,
         "supportedLinkTypes": ["WIRE"]
     }],
     "fixedDevice": [{

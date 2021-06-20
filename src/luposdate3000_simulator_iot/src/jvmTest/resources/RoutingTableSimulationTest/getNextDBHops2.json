@@ -5,14 +5,12 @@
             "name": "Fog",
             "database": false,
             "parkingSensor": false,
-            "powerCapacity": -1.0,
             "supportedLinkTypes": []
         },
         {
             "name": "FogWithDatabase",
             "database": true,
             "parkingSensor": false,
-            "powerCapacity": -1.0,
             "supportedLinkTypes": []
         }
     ],

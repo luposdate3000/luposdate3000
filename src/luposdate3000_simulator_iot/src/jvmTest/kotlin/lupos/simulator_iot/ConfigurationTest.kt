@@ -38,7 +38,6 @@ class ConfigurationTest {
         assertEquals(location, device.location)
         assertNull(device.database)
         assertNull(device.sensor)
-        assertTrue(device.powerSupply.isInfinite)
     }
 
     @Test
@@ -48,8 +47,6 @@ class ConfigurationTest {
         val device = Configuration.getNamedDevice(deviceName)
         assertTrue(device.database is DatabaseAdapter)
         assertNotNull(device.sensor)
-        assertEquals(70.0, device.powerSupply.actualCapacity)
-        assertFalse(device.powerSupply.isInfinite)
     }
 
     @Test
