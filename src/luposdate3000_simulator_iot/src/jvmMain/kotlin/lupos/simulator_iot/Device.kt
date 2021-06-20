@@ -1,7 +1,8 @@
 package lupos.simulator_iot
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
-import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.net.IPayload
@@ -26,16 +27,24 @@ public class Device(
     public var processedSensorDataPackages: Long = 0
         private set
 
+    private lateinit var deviceStart: Instant
+
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
         return if (destinationAddress == address) {
-            0
+            getProcessingDelay()
         } else {
             val size = NetworkPackage.headerSize + pck.payload.getSizeInBytes()
-            linkManager.getTransmissionDelay(destinationAddress, size)
+            linkManager.getTransmissionDelay(destinationAddress, size) + getProcessingDelay()
         }
     }
 
+    private fun getProcessingDelay(): Long {
+        val now = Clock.System.now()
+        return TimeUtils.differenceInMillis(deviceStart, now)
+    }
+
     override fun onStartUp() {
+        deviceStart = Clock.System.now()
         sensor?.startSampling()
         database?.startUp()
         router.startRouting()
@@ -46,6 +55,7 @@ public class Device(
 
     override fun onEvent(source: Entity, data: Any) {
         val pck = data as NetworkPackage
+        deviceStart = Clock.System.now()
         packageCounter++
         if (pck.destinationAddress == address) {
             processPackage(pck)
