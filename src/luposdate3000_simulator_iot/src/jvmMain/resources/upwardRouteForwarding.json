@@ -1,24 +1,32 @@
 {
     "dummyDatabase": false,
     "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "A",
+            "rateInSec": 30,
+            "maxSamples": 100
+        }
+    ],
     "deviceType": [{
             "name": "Fog",
             "database": false,
-            "parkingSensor": false,
+            "parkingSensor": "",
             "performance": 11.0,
             "supportedLinkTypes": []
         },
         {
             "name": "SensorDevice",
             "database": false,
-            "parkingSensor": true,
+            "parkingSensor": "park1",
             "performance": 0.9,
             "supportedLinkTypes": []
         },
         {
             "name": "DataStore",
             "database": true,
-            "parkingSensor": false,
+            "parkingSensor": "",
             "performance": 50.0,
             "supportedLinkTypes": []
         }
@@ -90,5 +98,13 @@
     "rootRouter": "A",
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": []
+    "querySender": [
+        {
+            "name": "driver looking for parking 1",
+            "sendRateInSeconds": 2,
+            "maxNumberOfQueries": 1,
+            "sendStartClockInSec": 200,
+            "query": "SELECT * WHERE {?s ?p ?o . }"
+        }
+    ]
 }

@@ -8,18 +8,20 @@ internal class QuerySender(
     val name: String,
     val sendRateInSec: Int,
     val maxNumberOfQueries: Int,
+    val startClock: Int,
     val receiver: Device,
     val query: String,
 ): Entity() {
 
-    private var queryCounter = 0
+    internal var queryCounter = 0
+        private set
 
     override fun onEvent(source: Entity, data: Any) {
-        throw Exception("Wrong way")
+        throw Exception("Wrong way. A QuerySender is only a sender.")
     }
 
     override fun onStartUp() {
-        startTimer()
+        setTimer(Time.toMillis(startClock), StartUpTimer())
     }
 
     override fun onSteadyState() {
@@ -29,25 +31,36 @@ internal class QuerySender(
     override fun onShutDown() {
     }
 
-    private inner class SendTimer: Entity.ITimer {
+    private inner class StartUpTimer: ITimer {
         override fun onExpire() {
-            triggerQueryProcessing()
-            if(queryCounter < maxNumberOfQueries)
-                startTimer()
+            scheduleQuery()
         }
     }
 
-    private fun startTimer() {
-        val millis = sendRateInSec * 1000
-        setTimer(millis.toLong(), SendTimer())
+    private fun scheduleQuery() {
+        if(queryCounter < maxNumberOfQueries) {
+            queryCounter++
+            triggerQueryProcessing()
+            setTimer(Time.toMillis(sendRateInSec), SendTimer())
+        }
     }
 
+
+    private inner class SendTimer: ITimer {
+        override fun onExpire() {
+            scheduleQuery()
+        }
+    }
+
+
+
     private fun triggerQueryProcessing() {
-        queryCounter++
         val queryPck = QueryPackage(query)
         val pck = NetworkPackage(-1, receiver.address, queryPck)
         scheduleEvent(receiver, pck, 0)
     }
+
+
 
 
 

@@ -35,8 +35,8 @@
     "querySender": [{
         "name": "Driver1",
         "sendRateInSeconds": "2",
-        "maxNumberOfQueries": 2,
-        "sendStartClockInSec": 50,
+        "maxNumberOfQueries": 79,
+        "sendStartClockInSec": 0,
         "query": "Select dummy From dum"
         }
     ]

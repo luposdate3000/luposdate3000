@@ -7,7 +7,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 
-internal object TimeUtils {
+internal object Time {
 
     internal fun addMillis(instant: Instant, millis: Long): Instant = instant.plus(millis, DateTimeUnit.MILLISECOND, TimeZone.UTC)
 
@@ -24,4 +24,7 @@ internal object TimeUtils {
         val duration = endInstant - startInstant
         return duration.inWholeMicroseconds
     }
+
+    internal fun toMillis(seconds: Int): Long
+        = seconds.toLong() * 1000
 }

@@ -42,7 +42,7 @@ public class Device(
 
     private fun getProcessingDelay(): Long {
         val now = Clock.System.now()
-        val microDif =  TimeUtils.differenceInMicroSec(deviceStart, now)
+        val microDif =  Time.differenceInMicroSec(deviceStart, now)
         val scaled = microDif * 100 / performance
         val millis = scaled / 1000
         return millis.roundToLong()
@@ -120,7 +120,6 @@ public class Device(
 
     public fun hasDatabase(): Boolean = database != null
 
-    public fun hasSensor(): Boolean = sensor != null
 
     override fun equals(other: Any?): Boolean {
         if (other === this) {

@@ -23,7 +23,7 @@ public object IoTSimLifeCycle : ISimulationLifeCycle {
         log("")
         log("")
         log("================================================")
-        log("Simulation has started at ${TimeUtils.toISOString(startTimeStamp)}")
+        log("Simulation has started at ${Time.toISOString(startTimeStamp)}")
         log("")
         log("Number of devices: ${Configuration.devices.size}")
         log("Number of sensors: ${ParkingSensor.sensorCounter}")
@@ -42,8 +42,8 @@ public object IoTSimLifeCycle : ISimulationLifeCycle {
         log("Number of data packages: ${Device.observationPackageCounter}")
         log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
         log("")
-        log("Simulation end time: ${TimeUtils.toISOString(endTime)}")
-        log("Difference to start time: ${TimeUtils.differenceInMillis(startTimeStamp, endTime)} ms")
+        log("Simulation end time: ${Time.toISOString(endTime)}")
+        log("Difference to start time: ${Time.differenceInMillis(startTimeStamp, endTime)} ms")
         log("Simulation completed")
         log("================================================")
         log("")
@@ -60,9 +60,9 @@ public object IoTSimLifeCycle : ISimulationLifeCycle {
         lupos.shared.inline.File(pathToDatabaseData).mkdirs()
     }
 
-    private fun getSimulationTime(): Instant = TimeUtils.addMillis(startTimeStamp, simulation.getCurrentClock())
+    private fun getSimulationTime(): Instant = Time.addMillis(startTimeStamp, simulation.getCurrentClock())
 
-    internal fun getSimulationTimeString(): String = TimeUtils.toISOString(getSimulationTime())
+    internal fun getSimulationTimeString(): String = Time.toISOString(getSimulationTime())
 
     private fun log(content: String) {
         println(content)

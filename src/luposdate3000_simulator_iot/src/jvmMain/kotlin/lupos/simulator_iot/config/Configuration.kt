@@ -203,11 +203,12 @@ public object Configuration {
     }
 
     private fun createQuerySender(querySenderJson: QuerySender) {
-        val receiverDevice = getNamedDevice(querySenderJson.receiverDevice)
+        val receiverDevice = getNamedDevice(jsonObjects.rootRouter)
         val querySender = lupos.simulator_iot.QuerySender(
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,
             maxNumberOfQueries = querySenderJson.maxNumberOfQueries,
+            startClock = querySenderJson.sendStartClockInSec,
             receiver = receiverDevice,
             query = querySenderJson.query)
         querySenders.add(querySender)

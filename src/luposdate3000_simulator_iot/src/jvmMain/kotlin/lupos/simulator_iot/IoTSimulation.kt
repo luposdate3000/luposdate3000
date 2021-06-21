@@ -19,7 +19,6 @@ public class IoTSimulation {
         f.sensor!!.setDataSink(a.address)
         val sim = Simulation(
             entities =  Configuration.getEntities(),
-            maxClock = 100 * 1000,
             callback = IoTSimLifeCycle)
         sim.startSimulation()
     }

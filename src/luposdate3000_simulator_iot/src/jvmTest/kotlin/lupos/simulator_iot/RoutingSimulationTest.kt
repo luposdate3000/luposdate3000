@@ -109,11 +109,19 @@ class RoutingSimulationTest {
     fun sendQueries() {
         Configuration.parse("$prefix/sendQueries.json")
         val querySender = Configuration.querySenders[0]
-        val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec
-        val expectedTimeMillis = expectedTimeSec * 1000
-        val sim = Simulation(Configuration.getEntities(), steadyClock = 0, callback = IoTSimLifeCycle)
+        val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec + querySender.startClock
+        val sim = Simulation(Configuration.getEntities(), callback = IoTSimLifeCycle)
         sim.startSimulation()
-        assertEquals(expectedTimeMillis.toLong(), sim.getCurrentClock())
+        assertEquals(Time.toMillis(expectedTimeSec), sim.getCurrentClock())
+    }
+
+    @Test
+    fun sendLimitedNumberOfQueries() {
+        Configuration.parse("$prefix/sendLimitedNumberOfQueries.json")
+        val querySender = Configuration.querySenders[0]
+        val sim = Simulation(Configuration.getEntities(), callback = IoTSimLifeCycle)
+        sim.startSimulation()
+        assertEquals(79, querySender.queryCounter)
     }
 
     @Test
