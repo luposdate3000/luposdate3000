@@ -15,9 +15,6 @@ public class IoTSimulation {
 
     public fun simulate(configFileName: String) {
         Configuration.parse(configFileName)
-        val a = Configuration.getNamedDevice("A")
-        val f = Configuration.getNamedDevice("F")
-        f.sensor!!.setDataSink(a.address)
         val sim = Simulation(
             entities =  Configuration.getEntities(),
             callback = IoTSimLifeCycle)
