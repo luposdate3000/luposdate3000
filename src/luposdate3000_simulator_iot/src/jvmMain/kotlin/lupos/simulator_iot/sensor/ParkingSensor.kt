@@ -6,10 +6,10 @@ import lupos.simulator_iot.IoTSimLifeCycle
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.config.Configuration
 
-public class ParkingSensor(
-    public var device: Device,
-    public val rateInSec: Int,
-    public val maxSamples: Int,
+internal class ParkingSensor(
+    internal var device: Device,
+    internal val rateInSec: Int,
+    internal val maxSamples: Int,
     private val dataSinkDeviceName: String,
     ) : ISensor {
 
@@ -19,22 +19,22 @@ public class ParkingSensor(
 
     private var isStopped: Boolean = false
 
-    public var sampleCounter: Int = 0
+    internal var sampleCounter: Int = 0
         private set
 
     init {
         sensorCounter++
     }
 
-    public companion object {
+    internal companion object {
 
-        public var sensorCounter: Int = 0
+        internal var sensorCounter: Int = 0
             private set
 
-        public var totalSampleCounter: Int = 0
+        internal var totalSampleCounter: Int = 0
             private set
 
-        public fun resetCounter() {
+        internal fun resetCounter() {
             totalSampleCounter = 0
             sensorCounter = 0
         }
@@ -43,7 +43,7 @@ public class ParkingSensor(
     private fun hasMaxSamplesReached()
         = maxSamples != infinitySamples && sampleCounter >= maxSamples
 
-    public inner class SamplingProcessFinished : Entity.ITimer {
+    internal inner class SamplingProcessFinished : Entity.ITimer {
         override fun onExpire() {
             onSampleTaken()
         }
@@ -53,7 +53,7 @@ public class ParkingSensor(
         dataSinkAddress = sinkAddress
     }
 
-    public fun getSinkAddress(): Int {
+    internal fun getSinkAddress(): Int {
         return if (dataSinkAddress != -1) {
             dataSinkAddress
         } else {

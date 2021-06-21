@@ -14,32 +14,32 @@ import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.math.round
 
-public object Configuration {
+internal object Configuration {
 
-    public var devices: MutableList<Device> = mutableListOf()
+    internal var devices: MutableList<Device> = mutableListOf()
         private set
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
-    public var jsonObjects: JsonObjects = JsonObjects()
+    internal var jsonObjects: JsonObjects = JsonObjects()
         private set
 
-    public var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
+    internal var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
         private set
 
-    public var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
+    internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
     internal var querySenders: MutableList<lupos.simulator_iot.QuerySender> = mutableListOf()
         private set
 
-    public var dbDeviceAddresses: IntArray = intArrayOf()
+    internal var dbDeviceAddresses: IntArray = intArrayOf()
 
     private var rootRouterAddress: Int = -1
 
     private var dbDeviceCounter = 0
 
-    public fun parse(fileName: String) {
+    internal fun parse(fileName: String) {
         resetVariables()
         readJsonFile(fileName)
         createSortedLinkTypes()
@@ -68,7 +68,7 @@ public object Configuration {
         jsonObjects = Json.decodeFromString(fileStr)
     }
 
-    public fun getEntities(): MutableList<Entity> {
+    internal fun getEntities(): MutableList<Entity> {
         val entities: MutableList<Entity> = mutableListOf()
         entities.addAll(devices)
         entities.addAll(querySenders)
@@ -146,12 +146,12 @@ public object Configuration {
         return createDevice(deviceType, location)
     }
 
-    public fun getNamedDevice(name: String): Device {
+    internal fun getNamedDevice(name: String): Device {
         val index = namedAddresses.getValue(name)
         return devices[index]
     }
 
-    public fun getRootDevice(): Device = devices[rootRouterAddress]
+    internal fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.starRoot)

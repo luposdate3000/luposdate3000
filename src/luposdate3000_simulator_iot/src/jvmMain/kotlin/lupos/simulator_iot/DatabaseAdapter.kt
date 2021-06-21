@@ -12,7 +12,7 @@ import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 
 
-public class DatabaseAdapter(public val device: Device, private val isDummy: Boolean) : IRouter {
+internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
     private var resultDevicePath = IoTSimLifeCycle.pathToQueryResult + "\\device${device.address}"
@@ -25,7 +25,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
 
     private lateinit var currentState: IDatabaseState
 
-    public fun startUp() {
+    internal fun startUp() {
         createFiles()
         currentState = buildInitialStateObject()
         db.start(currentState)
@@ -46,7 +46,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         }
     }
 
-    public fun shutDown() {
+    internal fun shutDown() {
         db.activate()
         db.end()
         if(!isDummy)
@@ -54,7 +54,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         currentState = buildInitialStateObject()
     }
 
-    public fun processPackage(payload: IPayload) {
+    internal fun processPackage(payload: IPayload) {
         when (payload) {
             is DBInternData -> receive(payload.content)
             is DBQueryResult -> useQueryResult(payload.result)
@@ -83,13 +83,13 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         db.deactivate()
     }
 
-    public fun saveParkingSample(sample: ParkingSample) {
+    internal fun saveParkingSample(sample: ParkingSample) {
         val query = buildInsertQuery(sample)
         val bytes = query.toByteArray()
         receiveQuery(bytes)
     }
 
-    public fun processQuery(query: String) {
+    internal fun processQuery(query: String) {
         val queryBytes = query.toByteArray()
         receiveQuery(queryBytes)
     }
@@ -117,7 +117,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
     }
 
 
-    public fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternData
+    internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternData
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
         device.sendRoutedPackage(device.address, destinationAddress, DBInternData(pck))
@@ -139,13 +139,13 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         device.router.getNextDatabaseHops(destinationAddresses)
 
 
-    public class DBInternData(public val content: IDatabasePackage): IPayload {
+    internal class DBInternData(internal val content: IDatabasePackage): IPayload {
         override fun getSizeInBytes(): Int {
             return content.getPackageSizeInBytes()
         }
     }
 
-    public class DBQueryResult(public val result: ByteArray): IPayload {
+    internal class DBQueryResult(internal val result: ByteArray): IPayload {
         override fun getSizeInBytes(): Int {
             return result.size
         }

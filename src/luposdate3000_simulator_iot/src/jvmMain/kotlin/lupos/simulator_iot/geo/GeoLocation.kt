@@ -7,7 +7,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 // adapter class for LatLng
-public class GeoLocation(internal var latitude: Double, internal var longitude: Double) {
+internal class GeoLocation(internal var latitude: Double, internal var longitude: Double) {
 
     internal companion object {
 

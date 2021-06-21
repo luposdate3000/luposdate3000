@@ -14,19 +14,19 @@ import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 import kotlin.math.roundToLong
 
-public class Device(
+internal class Device(
     internal var location: GeoLocation,
-    public val address: Int,
-    public var database: DatabaseAdapter?,
-    public var sensor: ISensor?,
-    public val performance: Double,
-    public val supportedLinkTypes: IntArray
+    internal val address: Int,
+    internal var database: DatabaseAdapter?,
+    internal var sensor: ISensor?,
+    internal val performance: Double,
+    internal val supportedLinkTypes: IntArray
 ) : Entity() {
-    public val router: IRoutingAlgorithm = RPLRouter(this)
-    public val linkManager: LinkManager = LinkManager(this)
-    public var isStarNetworkChild: Boolean = false
+    internal val router: IRoutingAlgorithm = RPLRouter(this)
+    internal val linkManager: LinkManager = LinkManager(this)
+    internal var isStarNetworkChild: Boolean = false
 
-    public var processedSensorDataPackages: Long = 0
+    internal var processedSensorDataPackages: Long = 0
         private set
 
     private lateinit var deviceStart: Instant
@@ -103,22 +103,22 @@ public class Device(
         scheduleEvent(Configuration.devices[nextHop], pck, delay)
     }
 
-    public fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
+    internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
-    public fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
+    internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
         forwardPackage(pck)
     }
 
-    public fun sendSensorSample(destinationAddress: Int, data: IPayload) {
+    internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {
         sendRoutedPackage(address, destinationAddress, data)
     }
 
-    public fun hasDatabase(): Boolean = database != null
+    internal fun hasDatabase(): Boolean = database != null
 
 
     override fun equals(other: Any?): Boolean {
@@ -137,14 +137,14 @@ public class Device(
         return address
     }
 
-    public companion object {
-        public var packageCounter: Int = 0
+    internal companion object {
+        internal var packageCounter: Int = 0
             private set
 
-        public var observationPackageCounter: Int = 0
+        internal var observationPackageCounter: Int = 0
             private set
 
-        public fun resetCounter() {
+        internal fun resetCounter() {
             packageCounter = 0
             observationPackageCounter = 0
         }

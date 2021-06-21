@@ -96,8 +96,8 @@ class RoutingTableSimulationTest {
         sim.startSimulation()
 
         // routing table from A
-        assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(a.address))
-        assertEquals(RoutingTable.notInitialized, aRouter.getNextDatabaseHop(b.address))
+        assertEquals(a.address, aRouter.getNextDatabaseHop(a.address))
+        assertEquals(a.address, aRouter.getNextDatabaseHop(b.address))
         assertEquals(c.address, aRouter.getNextDatabaseHop(c.address))
         // routing table from B
         assertEquals(c.address, bRouter.getNextDatabaseHop(c.address))

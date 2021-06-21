@@ -2,11 +2,11 @@ package lupos.simulator_iot.net.routing
 
 import lupos.simulator_iot.net.IPayload
 
-public class DAO(
-    public val isPath: Boolean,
-    public val destinations: IntArray,
-    public val hopHasDatabase: Boolean,
-    public val existingDatabaseHops: IntArray
+internal class DAO(
+    internal val isPath: Boolean,
+    internal val destinations: IntArray,
+    internal val hopHasDatabase: Boolean,
+    internal val existingDatabaseHops: IntArray
 ): IPayload {
     override fun getSizeInBytes(): Int {
         val ipv6InBytes = 16
