@@ -2,6 +2,7 @@ package lupos.simulator_iot.config
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.DatabaseAdapter
 import lupos.simulator_iot.Device
@@ -63,13 +64,9 @@ public object Configuration {
     }
 
     private fun readJsonFile(fileName: String) {
-        val fileStr = readFileDirectlyAsText(fileName)
+        val fileStr = File(fileName).readAsString()
         jsonObjects = Json.decodeFromString(fileStr)
     }
-
-    private fun readFileDirectlyAsText(fileName: String) =
-        javaClass.classLoader!!.getResource(fileName)!!.readText()
-
 
     public fun getEntities(): MutableList<Entity> {
         val entities: MutableList<Entity> = mutableListOf()

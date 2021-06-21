@@ -46,12 +46,6 @@
         "deviceType": "StandAloneParkingSensor",
         "number": 20
     }],
-    "querySender": [{
-        "name": "Driver1",
-        "sendRateInSeconds": "30",
-        "maxNumberOfQueries": 1,
-        "receiverDevice": "Tower1",
-        "query": "Select dummy From dum"
-        }
+    "querySender": [
     ]
 }

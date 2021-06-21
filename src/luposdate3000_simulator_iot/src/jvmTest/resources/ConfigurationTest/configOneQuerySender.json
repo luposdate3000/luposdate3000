@@ -27,9 +27,9 @@
     "randomStarNetwork": [],
     "querySender": [{
         "name": "Driver1",
-        "sendRateInSeconds": "30",
+        "sendRateInSeconds": 30,
         "maxNumberOfQueries": 1,
-        "receiverDevice": "Tower1",
+        "sendStartClockInSec": 200,
         "query": "Select dummy From dum"
         }
     ]

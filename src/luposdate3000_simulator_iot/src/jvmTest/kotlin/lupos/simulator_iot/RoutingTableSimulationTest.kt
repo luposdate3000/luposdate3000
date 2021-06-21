@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 class RoutingTableSimulationTest {
 
     companion object {
-        private const val prefix = "RoutingTableSimulationTest"
+        private const val prefix = "$testResource\\RoutingTableSimulationTest"
     }
 
     @Test

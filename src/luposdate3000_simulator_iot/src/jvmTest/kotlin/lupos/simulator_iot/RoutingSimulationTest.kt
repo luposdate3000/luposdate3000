@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 class RoutingSimulationTest {
 
     companion object {
-        private const val prefix = "RoutingSimulationTest"
+        private const val prefix = "$testResource\\RoutingSimulationTest"
     }
 
     @Test

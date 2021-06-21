@@ -6,7 +6,7 @@ import lupos.simulator_iot.config.Configuration
 public fun main() {
 
     //IoTSimulation().simulate("upwardRouteForwarding.json")
-    IoTSimulation().simulate("nullPointerException.json")
+    IoTSimulation().simulate("$jvmResource\\multipleDatabases.json")
 }
 
 public class IoTSimulation {

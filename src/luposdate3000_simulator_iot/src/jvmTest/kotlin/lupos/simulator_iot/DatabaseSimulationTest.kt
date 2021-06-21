@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 class DatabaseSimulationTest {
 
     companion object {
-        private const val prefix = "DatabaseSimulationTest"
+        private const val prefix = "$testResource\\DatabaseSimulationTest"
     }
 
     /**
