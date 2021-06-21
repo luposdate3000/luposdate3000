@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 public data class JsonObjects(
     val dummyDatabase: Boolean =  true,
     val linkType: List<LinkType> = arrayListOf(),
+    val sensorType: List<SensorType> = arrayListOf(),
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevice: List<FixedDevice> = arrayListOf(),
     val fixedLink: List<FixedLink> = arrayListOf(),
@@ -23,10 +24,18 @@ public data class LinkType(
 )
 
 @Serializable
+public data class SensorType(
+    val name: String = "",
+    val dataSink: String = "",
+    val rateInSec: Int = 0,
+    val maxSamples: Int = -1,
+)
+
+@Serializable
 public data class DeviceType(
     val name: String = "",
     val database: Boolean = false,
-    val parkingSensor: Boolean = false,
+    val parkingSensor: String = "",
     val performance: Double = 100.0,
     val supportedLinkTypes: List<String> = arrayListOf(),
 )

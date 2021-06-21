@@ -5,10 +5,12 @@
         "rangeInMeters": 30,
         "dataRateInKbps": 250
     }],
+    "sensorType": [
+    ],
     "deviceType": [{
             "name": "Fog",
             "database": true,
-            "parkingSensor": false,
+            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         }

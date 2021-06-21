@@ -5,10 +5,18 @@
         "rangeInMeters": 15,
         "dataRateInKbps": 250
     }],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "Fog",
+            "rateInSec": 30,
+            "maxSamples": -1
+        }
+    ],
     "deviceType": [{
         "name": "Fog",
         "database": true,
-        "parkingSensor": true,
+        "parkingSensor": "park1",
         "performance": 20.0,
         "supportedLinkTypes": ["WPAN"]
     }],

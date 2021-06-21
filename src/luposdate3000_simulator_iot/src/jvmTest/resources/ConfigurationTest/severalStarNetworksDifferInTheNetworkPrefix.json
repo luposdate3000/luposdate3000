@@ -5,17 +5,31 @@
         "rangeInMeters": 30,
         "dataRateInKbps": 250
     }],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "1",
+            "rateInSec": 30,
+            "maxSamples": -1
+        },
+        {
+            "name": "park2",
+            "dataSink": "abc",
+            "rateInSec": 30,
+            "maxSamples": -1
+        }
+    ],
     "deviceType": [{
             "name": "Fog",
             "database": true,
-            "parkingSensor": true,
+            "parkingSensor": "park1",
             "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "StandAloneParkingSensor",
             "database": false,
-            "parkingSensor": true,
+            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         }
@@ -39,7 +53,6 @@
     "randomStarNetwork": [{
             "networkPrefix": "garageA",
             "starRoot": "1",
-            "dataSink": "1",
             "linkType": "WPAN",
             "deviceType": "StandAloneParkingSensor",
             "number": 10
@@ -47,7 +60,6 @@
         {
             "networkPrefix": "garageB",
             "starRoot": "1",
-            "dataSink": "1",
             "linkType": "WPAN",
             "deviceType": "Fog",
             "number": 11
@@ -55,7 +67,6 @@
         {
             "networkPrefix": "garageC",
             "starRoot": "abc",
-            "dataSink": "abc",
             "linkType": "WPAN",
             "deviceType": "StandAloneParkingSensor",
             "number": 12

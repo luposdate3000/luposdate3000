@@ -5,17 +5,19 @@
         "rangeInMeters": 100000,
         "dataRateInKbps": 1000
     }],
+    "sensorType": [
+    ],
     "deviceType": [{
             "name": "RadioTower",
             "database": true,
-            "parkingSensor": true,
+            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": ["WIRE"]
         },
         {
             "name": "Fog",
             "database": true,
-            "parkingSensor": false,
+            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": ["WIRE"]
         }

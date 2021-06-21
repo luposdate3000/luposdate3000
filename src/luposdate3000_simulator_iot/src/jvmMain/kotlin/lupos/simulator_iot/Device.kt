@@ -120,6 +120,8 @@ public class Device(
 
     public fun hasDatabase(): Boolean = database != null
 
+    public fun hasSensor(): Boolean = sensor != null
+
     override fun equals(other: Any?): Boolean {
         if (other === this) {
             return true

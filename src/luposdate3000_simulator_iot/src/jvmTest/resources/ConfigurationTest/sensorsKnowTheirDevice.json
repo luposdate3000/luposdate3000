@@ -1,10 +1,18 @@
 {
     "dummyDatabase": true,
     "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "Tower1",
+            "rateInSec": 30,
+            "maxSamples": -1
+        }
+    ],
     "deviceType": [{
         "name": "RadioTower",
         "database": true,
-        "parkingSensor": true,
+        "parkingSensor": "park1",
         "performance": 20.0,
         "supportedLinkTypes": []
     }],

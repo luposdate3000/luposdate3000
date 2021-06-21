@@ -1,10 +1,12 @@
 {
     "dummyDatabase": true,
     "linkType": [],
+    "sensorType": [
+    ],
     "deviceType": [{
         "name": "Fog",
         "database": true,
-        "parkingSensor": false,
+        "parkingSensor": "",
         "performance": 20.0,
         "supportedLinkTypes": []
     }],

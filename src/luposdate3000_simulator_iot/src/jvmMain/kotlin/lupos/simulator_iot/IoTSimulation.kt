@@ -2,7 +2,6 @@ package lupos.simulator_iot
 
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.net.routing.RPLRouter
 
 public fun main() {
 
@@ -20,8 +19,8 @@ public class IoTSimulation {
         f.sensor!!.setDataSink(a.address)
         val sim = Simulation(
             entities =  Configuration.getEntities(),
-            maxClock = 1000 * 1000,
-            callback = Logger)
+            maxClock = 100 * 1000,
+            callback = IoTSimLifeCycle)
         sim.startSimulation()
     }
 }

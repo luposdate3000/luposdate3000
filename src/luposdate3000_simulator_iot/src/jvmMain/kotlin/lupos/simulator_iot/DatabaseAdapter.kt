@@ -14,11 +14,9 @@ import lupos.simulator_iot.sensor.ParkingSample
 public class DatabaseAdapter(public val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
-    private var resultPath = "query_result"
-    private var resultDevicePath = resultPath + "\\device${device.address}"
+    private var resultDevicePath = IoTSimLifeCycle.pathToQueryResult + "\\device${device.address}"
 
-    private var path = "db_data"
-    private var pathDevice = path + "\\device${device.address}"
+    private var pathDevice = IoTSimLifeCycle.pathToDatabaseData + "\\device${device.address}"
 
 
     private val db: IDatabase = if(isDummy) DatabaseSystemDummy() else  DatabaseHandle()
@@ -27,8 +25,8 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
     private lateinit var currentState: IDatabaseState
 
     public fun startUp() {
-        refreshResultFile()
-        refreshDataFiles()
+        lupos.shared.inline.File(pathDevice).mkdirs()
+        lupos.shared.inline.File(resultDevicePath).mkdirs()
         currentState = buildInitialStateObject()
         db.start(currentState)
         db.deactivate()
@@ -52,7 +50,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         db.activate()
         db.end()
         if(!isDummy)
-            lupos.shared.inline.File(path).deleteRecursively()
+            lupos.shared.inline.File(pathDevice).deleteRecursively()
         currentState = buildInitialStateObject()
     }
 
@@ -64,15 +62,6 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         }
     }
 
-    private fun refreshDataFiles() {
-        lupos.shared.inline.File(path).deleteRecursively()
-        lupos.shared.inline.File(pathDevice).mkdirs()
-    }
-
-    private fun refreshResultFile() {
-        lupos.shared.inline.File(resultPath).deleteRecursively()
-        lupos.shared.inline.File(resultDevicePath).mkdirs()
-    }
 
     private fun useQueryResult(result: ByteArray) {
         val fileName = "$resultDevicePath\\file.txt"

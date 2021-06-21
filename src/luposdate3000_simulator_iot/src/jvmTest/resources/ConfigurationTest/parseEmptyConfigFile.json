@@ -1,6 +1,8 @@
 {
     "dummyDatabase": true,
     "linkType": [],
+    "sensorType": [
+    ],
     "deviceType": [],
     "fixedDevice": [],
     "fixedLink": [],

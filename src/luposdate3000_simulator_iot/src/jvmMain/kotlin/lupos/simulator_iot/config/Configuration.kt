@@ -158,15 +158,13 @@ public object Configuration {
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.starRoot)
-        val sink = getNamedDevice(network.dataSink)
-        val starNetwork = StarNetwork(root, sink)
+        val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val leaf = createDevice(deviceType, location)
-            leaf.sensor!!.setDataSink(sink.address)
             root.linkManager.setLinkIfPossible(leaf)
             leaf.isStarNetworkChild = true
             starNetwork.children.add(leaf)
@@ -243,7 +241,13 @@ public object Configuration {
 
     private fun getLinkTypeByName(name: String): LinkType {
         val element = jsonObjects.linkType.find { name == it.name }
-        requireNotNull(element) { "protocol $name does not exist" }
+        requireNotNull(element) { "link type $name does not exist" }
+        return element
+    }
+
+    private fun getSensorTypeByName(name: String): SensorType {
+        val element = jsonObjects.sensorType.find { name == it.name }
+        requireNotNull(element) { "sensor type $name does not exist" }
         return element
     }
 
@@ -256,11 +260,13 @@ public object Configuration {
     }
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
-        if (deviceType.parkingSensor) {
-            return ParkingSensor(device)
+        if (deviceType.parkingSensor.isNotEmpty()) {
+            val sensorType = getSensorTypeByName(deviceType.parkingSensor)
+            return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink)
         }
         return null
     }
+
 
     private fun createAvailableLinks() {
         for (one in devices)

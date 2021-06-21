@@ -9,13 +9,17 @@ import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.routing.RPLRouter
 import lupos.simulator_iot.sensor.ParkingSensor
 
-public object Logger : ISimulationLifeCycle {
+public object IoTSimLifeCycle : ISimulationLifeCycle {
+
+    public val pathToQueryResult: String = "query_result"
+    public val pathToDatabaseData: String = "db_data"
 
     override lateinit var simulation: Simulation
     private lateinit var startTimeStamp: Instant
 
     public override fun onStartUp() {
         startTimeStamp = Clock.System.now()
+        refreshDatabaseDirectories()
         log("")
         log("")
         log("================================================")
@@ -46,6 +50,14 @@ public object Logger : ISimulationLifeCycle {
         log("")
 
         resetCounters()
+    }
+
+    private fun refreshDatabaseDirectories() {
+        lupos.shared.inline.File(pathToQueryResult).deleteRecursively()
+        lupos.shared.inline.File(pathToQueryResult).mkdirs()
+
+        lupos.shared.inline.File(pathToDatabaseData).deleteRecursively()
+        lupos.shared.inline.File(pathToDatabaseData).mkdirs()
     }
 
     private fun getSimulationTime(): Instant = TimeUtils.addMillis(startTimeStamp, simulation.getCurrentClock())

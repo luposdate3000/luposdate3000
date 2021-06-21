@@ -2,13 +2,20 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.Logger
+import lupos.simulator_iot.IoTSimLifeCycle
 import lupos.simulator_iot.RandomGenerator
+import lupos.simulator_iot.config.Configuration
 
-public class ParkingSensor(public var device: Device) : ISensor {
+public class ParkingSensor(
+    public var device: Device,
+    public val rateInSec: Int,
+    public val maxSamples: Int,
+    private val dataSinkDeviceName: String,
+    ) : ISensor {
 
-    public var dataSinkAddress: Int = device.address
-        private set
+    private val infinitySamples: Int = -1
+
+    private var dataSinkAddress: Int = -1
 
     private var isStopped: Boolean = false
 
@@ -20,7 +27,6 @@ public class ParkingSensor(public var device: Device) : ISensor {
     }
 
     public companion object {
-        public var dataRateInSeconds: Int = 60
 
         public var sensorCounter: Int = 0
             private set
@@ -34,6 +40,9 @@ public class ParkingSensor(public var device: Device) : ISensor {
         }
     }
 
+    private fun hasMaxSamplesReached()
+        = maxSamples != infinitySamples && sampleCounter >= maxSamples
+
     public inner class SamplingProcessFinished : Entity.ITimer {
         override fun onExpire() {
             onSampleTaken()
@@ -44,9 +53,21 @@ public class ParkingSensor(public var device: Device) : ISensor {
         dataSinkAddress = sinkAddress
     }
 
+    public fun getSinkAddress(): Int {
+        return if (dataSinkAddress != -1) {
+            dataSinkAddress
+        } else {
+            dataSinkAddress = Configuration.getNamedDevice(dataSinkDeviceName).address
+            dataSinkAddress
+        }
+    }
+
     override fun startSampling() {
+        if (hasMaxSamplesReached())
+            return
+
         isStopped = false
-        val rateInMillis: Long = dataRateInSeconds.toLong() * 1000
+        val rateInMillis: Long = rateInSec.toLong() * 1000
         device.setTimer(rateInMillis, SamplingProcessFinished())
     }
 
@@ -56,7 +77,8 @@ public class ParkingSensor(public var device: Device) : ISensor {
         }
 
         val data = getSample()
-        device.sendSensorSample(dataSinkAddress, data)
+        device.sendSensorSample(getSinkAddress(), data)
+        sampleCounter++
         totalSampleCounter++
         startSampling()
     }
@@ -66,7 +88,7 @@ public class ParkingSensor(public var device: Device) : ISensor {
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
-            sampleTime = Logger.getSimulationTimeString(),
+            sampleTime = IoTSimLifeCycle.getSimulationTimeString(),
             isOccupied = RandomGenerator.random.nextBoolean(),
             parkingSpotID = device.address,
             area = device.address.toString()

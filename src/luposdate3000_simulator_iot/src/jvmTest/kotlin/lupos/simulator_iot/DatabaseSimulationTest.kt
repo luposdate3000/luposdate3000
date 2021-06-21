@@ -2,7 +2,6 @@ package lupos.simulator_iot
 
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -21,17 +20,13 @@ class DatabaseSimulationTest {
     @Test
     fun saveParkingSamplesInDummyTripleStore() {
         Configuration.parse("$prefix/saveParkingSamplesInDummyTripleStore.json")
-        val a = Configuration.getNamedDevice("A")
         val g = Configuration.getNamedDevice("G")
-        a.sensor!!.setDataSink(g.address)
 
-        val maxClock: Long = 100000
-        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds / 1000
-
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
+        val maxClock: Long = 10000000
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = IoTSimLifeCycle)
         sim.startSimulation()
 
-        assertEquals(numberOfSamples, g.processedSensorDataPackages)
+        assertEquals(8, g.processedSensorDataPackages)
     }
 
 //    /**
@@ -56,7 +51,7 @@ class DatabaseSimulationTest {
 //        val maxClock = 100
 //        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 //
-//        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
+//        Simulation.start(Configuration.devices, IoTSimLifeCycle(), maxClock.toLong())
 //        assertEquals(numberOfSamples, g.processedSensorDataPackages)
 //    }
 }

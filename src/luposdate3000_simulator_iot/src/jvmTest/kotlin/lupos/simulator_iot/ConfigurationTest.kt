@@ -58,20 +58,12 @@ class ConfigurationTest {
     }
 
     @Test
-    fun sensorsDataSinkIsItsOwnDevice() {
-        Configuration.parse("$prefix/sensorsDataSinkIsItsOwnDevice.json")
-        val device = Configuration.getNamedDevice("Tower1")
-        val parkingSensor = device.sensor!! as ParkingSensor
-        assertEquals(device.address, parkingSensor.dataSinkAddress)
-    }
-
-    @Test
     fun starRootIsDataSinkOfItsSensors() {
         Configuration.parse("$prefix/starRootIsDataSinkOfItsSensors.json")
         val root = Configuration.getNamedDevice("Tower1")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parkingSensor = starNet.children[0].sensor as ParkingSensor
-        assertEquals(root.address, parkingSensor.dataSinkAddress)
+        assertEquals(root.address, parkingSensor.getSinkAddress())
     }
 
     @Test
@@ -117,8 +109,8 @@ class ConfigurationTest {
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
         for (child in starNet.children) {
-            assertTrue(child.linkManager.hasLink(starNet.dataSink))
-            assertTrue(starNet.dataSink.linkManager.hasLink(child))
+            assertTrue(child.linkManager.hasLink(starNet.root))
+            assertTrue(starNet.root.linkManager.hasLink(child))
         }
     }
 

@@ -1,24 +1,32 @@
 {
     "dummyDatabase": true,
     "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "D",
+            "rateInSec": 60,
+            "maxSamples": 3
+        }
+    ],
     "deviceType": [{
             "name": "Fog",
             "database": false,
-            "parkingSensor": false,
+            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": []
         },
         {
             "name": "SensorDevice",
             "database": false,
-            "parkingSensor": true,
+            "parkingSensor": "park1",
             "performance": 2.33,
             "supportedLinkTypes": []
         },
         {
             "name": "DataStore",
             "database": true,
-            "parkingSensor": false,
+            "parkingSensor": "",
             "performance": 5322.0,
             "supportedLinkTypes": []
         }

@@ -5,17 +5,25 @@
         "rangeInMeters": 100000,
         "dataRateInKbps": 1000
     }],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "Tower1",
+            "rateInSec": 30,
+            "maxSamples": -1
+        }
+    ],
     "deviceType": [{
             "name": "RadioTower",
             "database": true,
-            "parkingSensor": true,
+            "parkingSensor": "park1",
             "performance": 20.0,
             "supportedLinkTypes": ["WIRE"]
         },
         {
             "name": "Fog",
             "database": true,
-            "parkingSensor": false,
+            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": ["WIRE"]
         }
