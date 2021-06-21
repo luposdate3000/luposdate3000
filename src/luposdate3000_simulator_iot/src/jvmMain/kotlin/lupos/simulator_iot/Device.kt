@@ -41,7 +41,7 @@ public class Device(
     }
 
     private fun getProcessingDelay(): Long {
-        val now = Clock.System.now()
+        val now = Time.stamp()
         val microDif =  Time.differenceInMicroSec(deviceStart, now)
         val scaled = microDif * 100 / performance
         val millis = scaled / 1000
@@ -49,7 +49,7 @@ public class Device(
     }
 
     override fun onStartUp() {
-        deviceStart = Clock.System.now()
+        deviceStart = Time.stamp()
         sensor?.startSampling()
         database?.startUp()
         router.startRouting()
@@ -60,7 +60,7 @@ public class Device(
 
     override fun onEvent(source: Entity, data: Any) {
         val pck = data as NetworkPackage
-        deviceStart = Clock.System.now()
+        deviceStart = Time.stamp()
         packageCounter++
         if (pck.destinationAddress == address) {
             processPackage(pck)

@@ -18,7 +18,7 @@ public object IoTSimLifeCycle : ISimulationLifeCycle {
     private lateinit var startTimeStamp: Instant
 
     public override fun onStartUp() {
-        startTimeStamp = Clock.System.now()
+        startTimeStamp = Time.stamp()
         refreshDatabaseDirectories()
         log("")
         log("")

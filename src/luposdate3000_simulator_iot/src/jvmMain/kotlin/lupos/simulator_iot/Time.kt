@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -27,4 +28,7 @@ internal object Time {
 
     internal fun toMillis(seconds: Int): Long
         = seconds.toLong() * 1000
+
+    internal fun stamp(): Instant
+        = Clock.System.now()
 }
