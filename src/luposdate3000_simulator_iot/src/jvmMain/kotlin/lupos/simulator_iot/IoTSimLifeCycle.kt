@@ -1,12 +1,11 @@
 package lupos.simulator_iot
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.LinkManager
-import lupos.simulator_iot.net.routing.RPLRouter
+import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ParkingSensor
 
 internal object IoTSimLifeCycle : ISimulationLifeCycle {
@@ -37,8 +36,8 @@ internal object IoTSimLifeCycle : ISimulationLifeCycle {
         val endTime = getSimulationTime()
         log(getDODAGString())
         log("Total number of network packages: ${Device.packageCounter}")
-        log("Number of received DIOs: ${RPLRouter.dioCounter}, of which further sent: ${RPLRouter.forwardedDioCounter}")
-        log("Number of received DAOs: ${RPLRouter.daoCounter}, of which further sent: ${RPLRouter.forwardedDaoCounter}")
+        log("Number of received DIOs: ${RPL.dioCounter}, of which further sent: ${RPL.forwardedDioCounter}")
+        log("Number of received DAOs: ${RPL.daoCounter}, of which further sent: ${RPL.forwardedDaoCounter}")
         log("Number of data packages: ${Device.observationPackageCounter}")
         log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
         log("")
@@ -71,7 +70,7 @@ internal object IoTSimLifeCycle : ISimulationLifeCycle {
     private fun resetCounters() {
         LinkManager.resetCounter()
         Device.resetCounter()
-        RPLRouter.resetCounter()
+        RPL.resetCounter()
         ParkingSensor.resetCounter()
     }
 

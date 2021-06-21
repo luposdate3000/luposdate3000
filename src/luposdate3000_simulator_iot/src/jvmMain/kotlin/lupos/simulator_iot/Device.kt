@@ -1,6 +1,5 @@
 package lupos.simulator_iot
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.config.Configuration
@@ -8,8 +7,8 @@ import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
-import lupos.simulator_iot.net.routing.IRoutingAlgorithm
-import lupos.simulator_iot.net.routing.RPLRouter
+import lupos.simulator_iot.net.routing.IRoutingProtocol
+import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 import kotlin.math.roundToLong
@@ -22,7 +21,7 @@ internal class Device(
     internal val performance: Double,
     internal val supportedLinkTypes: IntArray
 ) : Entity() {
-    internal val router: IRoutingAlgorithm = RPLRouter(this)
+    internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this)
     internal var isStarNetworkChild: Boolean = false
 

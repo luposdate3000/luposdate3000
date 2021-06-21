@@ -5,7 +5,7 @@ import lupos.simulator_iot.Device
 import lupos.simulator_iot.net.NetworkPackage
 import lupos.simulator_iot.config.Configuration
 
-internal class RPLRouter(internal val device: Device) : IRoutingAlgorithm {
+internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     internal lateinit var routingTable: RoutingTable
 

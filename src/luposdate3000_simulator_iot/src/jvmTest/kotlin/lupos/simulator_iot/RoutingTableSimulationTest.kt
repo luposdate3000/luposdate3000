@@ -2,7 +2,7 @@ package lupos.simulator_iot
 
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.net.routing.RPLRouter
+import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.net.routing.RoutingTable
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,17 +17,17 @@ class RoutingTableSimulationTest {
     fun multiHopDODAGRoutingTableTest() {
         Configuration.parse("$prefix/multiHopDODAGRoutingTableTest.json")
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPLRouter
+        val aRouter = a.router as RPL
         val b = Configuration.getNamedDevice("B")
-        val bRouter = b.router as RPLRouter
+        val bRouter = b.router as RPL
         val c = Configuration.getNamedDevice("C")
-        val cRouter = c.router as RPLRouter
+        val cRouter = c.router as RPL
         val d = Configuration.getNamedDevice("D")
-        val dRouter = d.router as RPLRouter
+        val dRouter = d.router as RPL
         val e = Configuration.getNamedDevice("E")
-        val eRouter = e.router as RPLRouter
+        val eRouter = e.router as RPL
         val f = Configuration.getNamedDevice("F")
-        val fRouter = f.router as RPLRouter
+        val fRouter = f.router as RPL
 
         val sim = Simulation(Configuration.devices, callback = IoTSimLifeCycle)
         sim.startSimulation()
@@ -65,9 +65,9 @@ class RoutingTableSimulationTest {
         Configuration.parse("$prefix/starNetworkRoutingTables.json")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val root = starNet.root
-        val rootRouter = root.router as RPLRouter
+        val rootRouter = root.router as RPL
         val child1 = starNet.children[0]
-        val child1Router = child1.router as RPLRouter
+        val child1Router = child1.router as RPL
 
         val sim = Simulation(Configuration.devices, maxClock = 100, callback = IoTSimLifeCycle)
         sim.startSimulation()
@@ -87,9 +87,9 @@ class RoutingTableSimulationTest {
     fun getNextDBHops1() {
         Configuration.parse("$prefix/getNextDBHops1.json")
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPLRouter
+        val aRouter = a.router as RPL
         val b = Configuration.getNamedDevice("B")
-        val bRouter = b.router as RPLRouter
+        val bRouter = b.router as RPL
         val c = Configuration.getNamedDevice("C")
 
         val sim = Simulation(Configuration.devices, callback = IoTSimLifeCycle)
@@ -111,9 +111,9 @@ class RoutingTableSimulationTest {
     fun getNextDBHops2() {
         Configuration.parse("$prefix/getNextDBHops2.json")
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPLRouter
+        val aRouter = a.router as RPL
         val b = Configuration.getNamedDevice("B")
-        val bRouter = b.router as RPLRouter
+        val bRouter = b.router as RPL
         val c = Configuration.getNamedDevice("C")
         val d = Configuration.getNamedDevice("D")
 
@@ -138,12 +138,12 @@ class RoutingTableSimulationTest {
     fun getNextDBHops3() {
         Configuration.parse("$prefix/getNextDBHops3.json")
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPLRouter
+        val aRouter = a.router as RPL
         val b = Configuration.getNamedDevice("B")
-        val bRouter = b.router as RPLRouter
+        val bRouter = b.router as RPL
         val c = Configuration.getNamedDevice("C")
         val d = Configuration.getNamedDevice("D")
-        val dRouter = d.router as RPLRouter
+        val dRouter = d.router as RPL
         val e = Configuration.getNamedDevice("E")
         val f = Configuration.getNamedDevice("F")
         val g = Configuration.getNamedDevice("G")

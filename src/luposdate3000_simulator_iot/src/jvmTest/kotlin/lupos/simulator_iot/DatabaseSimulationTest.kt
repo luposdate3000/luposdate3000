@@ -43,7 +43,7 @@ class DatabaseSimulationTest {
 //    fun queryTest1(fileName: String) {
 //        Configuration.parse(fileName)
 //        val a = Configuration.getNamedDevice("A")
-//        val aRouter = a.router as RPLRouter
+//        val aRouter = a.router as RPL
 //        aRouter.root = true
 //        val g = Configuration.getNamedDevice("G")
 //        a.sensor!!.setDataSink(g.address)

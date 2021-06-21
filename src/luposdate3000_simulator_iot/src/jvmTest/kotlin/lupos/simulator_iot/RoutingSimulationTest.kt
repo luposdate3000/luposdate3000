@@ -2,7 +2,7 @@ package lupos.simulator_iot
 
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.net.routing.RPLRouter
+import lupos.simulator_iot.net.routing.RPL
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -30,12 +30,12 @@ class RoutingSimulationTest {
         Configuration.parse("$prefix/starNetworkIsASimpleDODAG.json")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parent = starNet.root
-        val parentRouter = parent.router as RPLRouter
+        val parentRouter = parent.router as RPL
 
         val child1 = starNet.children[0]
-        val child1Router = child1.router as RPLRouter
+        val child1Router = child1.router as RPL
         val child2 = starNet.children[1]
-        val child2Router = child2.router as RPLRouter
+        val child2Router = child2.router as RPL
         assertFalse(child1Router.hasParent())
         assertFalse(child2Router.hasParent())
 
@@ -45,9 +45,9 @@ class RoutingSimulationTest {
         assertTrue(child1Router.hasParent())
         assertTrue(child2Router.hasParent())
         assertFalse(parentRouter.hasParent())
-        assertEquals(RPLRouter.ROOT_RANK, parentRouter.rank)
-        assertTrue(child1Router.rank >= RPLRouter.ROOT_RANK)
-        assertTrue(child2Router.rank >= RPLRouter.ROOT_RANK)
+        assertEquals(RPL.ROOT_RANK, parentRouter.rank)
+        assertTrue(child1Router.rank >= RPL.ROOT_RANK)
+        assertTrue(child2Router.rank >= RPL.ROOT_RANK)
         assertEquals(parent.address, child1Router.preferredParent.address)
         assertEquals(parent.address, child2Router.preferredParent.address)
         assertEquals(parentRouter.rank, child1Router.preferredParent.rank)
@@ -58,7 +58,7 @@ class RoutingSimulationTest {
     fun meshToDODAG() {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
-        val rootRouter = root.router as RPLRouter
+        val rootRouter = root.router as RPL
         val sim = Simulation(Configuration.devices, callback = IoTSimLifeCycle)
         sim.startSimulation()
 
