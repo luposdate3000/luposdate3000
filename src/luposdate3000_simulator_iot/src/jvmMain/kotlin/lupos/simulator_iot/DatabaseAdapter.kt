@@ -9,15 +9,17 @@ import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
-import java.io.File
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
+
 
 public class DatabaseAdapter(public val device: Device, private val isDummy: Boolean) : IRouter {
 
-    private var path: Path = Paths.get("src", "db", "device${device.address}")
-    private var absolutePath = ""
+    private var resultCounter = 0
+    private var resultPath = "query_result"
+    private var resultDevicePath = resultPath + "\\device${device.address}"
+
+    private var path = "db_data"
+    private var pathDevice = path + "\\device${device.address}"
+
 
     private val db: IDatabase = if(isDummy) DatabaseSystemDummy() else  DatabaseHandle()
 
@@ -25,8 +27,8 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
     private lateinit var currentState: IDatabaseState
 
     public fun startUp() {
-        path = Files.createDirectories(path)
-        absolutePath = path.toFile().absolutePath
+        refreshResultFile()
+        refreshDataFiles()
         currentState = buildInitialStateObject()
         db.start(currentState)
         db.deactivate()
@@ -42,14 +44,15 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
             override val sender: IRouter
                 get() = this@DatabaseAdapter
             override val absolutePathToDataDirectory: String
-                get() = absolutePath
+                get() = pathDevice
         }
     }
 
     public fun shutDown() {
         db.activate()
         db.end()
-        deleteDirectory(path.toFile())
+        if(!isDummy)
+            lupos.shared.inline.File(path).deleteRecursively()
         currentState = buildInitialStateObject()
     }
 
@@ -61,8 +64,25 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         }
     }
 
+    private fun refreshDataFiles() {
+        lupos.shared.inline.File(path).deleteRecursively()
+        lupos.shared.inline.File(pathDevice).mkdirs()
+    }
+
+    private fun refreshResultFile() {
+        lupos.shared.inline.File(resultPath).deleteRecursively()
+        lupos.shared.inline.File(resultDevicePath).mkdirs()
+    }
+
     private fun useQueryResult(result: ByteArray) {
-        //TODO
+        val fileName = "$resultDevicePath\\file.txt"
+        lupos.shared.inline.File(fileName).withOutputStream { }
+        val stream = lupos.shared.inline.File(fileName).openOutputStream(true)
+        resultCounter++
+        stream.println("Query result number $resultCounter")
+        stream.println()
+        stream.println(result.decodeToString())
+        stream.close()
     }
 
     private fun receive(pck: IDatabasePackage) {
@@ -82,9 +102,29 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         receiveQuery(queryBytes)
     }
 
-    private var myhelper = 0
+//    private var myhelper = 0
+//    private fun buildInsertQuery(s: ParkingSample): String {
+//        if (myhelper++ == 0) {
+//            return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+//                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+//                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+//                "\n" +
+//                "INSERT DATA {\n" +
+//                "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
+//                "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
+//                "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
+//                "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
+//                "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
+//                "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
+//                "}\n"
+//        } else {
+//            return "SELECT * WHERE {?s ?p ?o . }"
+//        }
+//    }
+
+
+
     private fun buildInsertQuery(s: ParkingSample): String {
-        if (myhelper++ == 0) {
             return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                 "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
@@ -97,25 +137,13 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
                 "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
                 "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
                 "}\n"
-        } else {
-            return "SELECT * WHERE {?s ?p ?o . }"
-        }
     }
+
 
     private fun receiveQuery(data: ByteArray) {
         db.activate()
         db.receiveQuery(device.address, data)
         db.deactivate()
-    }
-
-    private fun deleteDirectory(directoryToBeDeleted: File): Boolean {
-        val allContents = directoryToBeDeleted.listFiles()
-        if (allContents != null) {
-            for (file in allContents)
-                deleteDirectory(file)
-        }
-
-        return directoryToBeDeleted.delete()
     }
 
 

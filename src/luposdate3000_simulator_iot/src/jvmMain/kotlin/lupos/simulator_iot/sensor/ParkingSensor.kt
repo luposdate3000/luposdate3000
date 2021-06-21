@@ -20,7 +20,7 @@ public class ParkingSensor(public var device: Device) : ISensor {
     }
 
     public companion object {
-        public var dataRateInSeconds: Int = 30
+        public var dataRateInSeconds: Int = 60
 
         public var sensorCounter: Int = 0
             private set
