@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import lupos.shared.inline.File
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
@@ -15,7 +16,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
 
     private var resultCounter = 0
     private var resultDevicePath = IoTSimLifeCycle.pathToQueryResult + "\\device${device.address}"
-
+    private var resultFileName = "$resultDevicePath\\file.txt"
     private var pathDevice = IoTSimLifeCycle.pathToDatabaseData + "\\device${device.address}"
 
 
@@ -25,8 +26,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
     private lateinit var currentState: IDatabaseState
 
     public fun startUp() {
-        lupos.shared.inline.File(pathDevice).mkdirs()
-        lupos.shared.inline.File(resultDevicePath).mkdirs()
+        createFiles()
         currentState = buildInitialStateObject()
         db.start(currentState)
         db.deactivate()
@@ -50,7 +50,7 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         db.activate()
         db.end()
         if(!isDummy)
-            lupos.shared.inline.File(pathDevice).deleteRecursively()
+            File(pathDevice).deleteRecursively()
         currentState = buildInitialStateObject()
     }
 
@@ -62,11 +62,14 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         }
     }
 
+    private fun createFiles() {
+        File(pathDevice).mkdirs()
+        File(resultDevicePath).mkdirs()
+        File(resultFileName).withOutputStream { }
+    }
 
     private fun useQueryResult(result: ByteArray) {
-        val fileName = "$resultDevicePath\\file.txt"
-        lupos.shared.inline.File(fileName).withOutputStream { }
-        val stream = lupos.shared.inline.File(fileName).openOutputStream(true)
+        val stream = File(resultFileName).openOutputStream(true)
         resultCounter++
         stream.println("Query result number $resultCounter")
         stream.println()
@@ -90,28 +93,6 @@ public class DatabaseAdapter(public val device: Device, private val isDummy: Boo
         val queryBytes = query.toByteArray()
         receiveQuery(queryBytes)
     }
-
-//    private var myhelper = 0
-//    private fun buildInsertQuery(s: ParkingSample): String {
-//        if (myhelper++ == 0) {
-//            return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-//                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-//                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-//                "\n" +
-//                "INSERT DATA {\n" +
-//                "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-//                "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
-//                "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
-//                "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
-//                "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
-//                "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
-//                "}\n"
-//        } else {
-//            return "SELECT * WHERE {?s ?p ?o . }"
-//        }
-//    }
-
-
 
     private fun buildInsertQuery(s: ParkingSample): String {
             return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
