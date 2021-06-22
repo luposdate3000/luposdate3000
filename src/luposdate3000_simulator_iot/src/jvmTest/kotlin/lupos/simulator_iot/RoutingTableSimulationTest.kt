@@ -80,6 +80,8 @@ class RoutingTableSimulationTest {
             assertEquals(child.address, rootRouter.routingTable.getNextHop(child.address))
     }
 
+
+
     /**
      * DB(A) -> B -> DB(C)
      */
@@ -87,11 +89,8 @@ class RoutingTableSimulationTest {
     fun getNextDBHops1() {
         Configuration.parse("$prefix/getNextDBHops1.json")
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPL
         val b = Configuration.getNamedDevice("B")
-        val bRouter = b.router as RPL
         val c = Configuration.getNamedDevice("C")
-        val cRouter = c.router as RPL
         val sim = Simulation(Configuration.devices, callback = IoTSimLifeCycle)
         sim.startSimulation()
 
@@ -121,9 +120,7 @@ class RoutingTableSimulationTest {
     fun getNextDBHops2() {
         Configuration.parse("$prefix/getNextDBHops2.json")
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPL
         val b = Configuration.getNamedDevice("B")
-        val bRouter = b.router as RPL
         val c = Configuration.getNamedDevice("C")
         val d = Configuration.getNamedDevice("D")
 
@@ -151,14 +148,10 @@ class RoutingTableSimulationTest {
     fun getNextDBHops3() {
         Configuration.parse("$prefix/getNextDBHops3.json")
         val a = Configuration.getNamedDevice("A")
-        val aRouter = a.router as RPL
         val b = Configuration.getNamedDevice("B")
-        val bRouter = b.router as RPL
         val c = Configuration.getNamedDevice("C")
         val d = Configuration.getNamedDevice("D")
-        val dRouter = d.router as RPL
         val e = Configuration.getNamedDevice("E")
-        val eRouter = e.router as RPL
         val f = Configuration.getNamedDevice("F")
         val g = Configuration.getNamedDevice("G")
 

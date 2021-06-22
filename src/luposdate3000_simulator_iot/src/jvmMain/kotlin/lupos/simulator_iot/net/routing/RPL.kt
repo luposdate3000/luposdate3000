@@ -159,6 +159,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         when (pck.payload) {
             is DIO -> processDIO(pck)
             is DAO -> processDAO(pck)
+            else -> throw Exception("Wrong Package")
         }
     }
 
