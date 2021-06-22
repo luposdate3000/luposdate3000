@@ -31,11 +31,10 @@ public object TestCase26 {
     internal const val targetFileName=".//resources/sparql11-test-suite/bind/bind02.srx"
     @CodeGenerationAnnotation
     internal const val query = "PREFIX : <http://example.org/>  " +
-        "SELECT ?o ?z ?z2 " +
+        "SELECT * " +
         "{ " +
         "  ?s ?p ?o . " +
-        "  BIND(?o+10 AS ?z) " +
-        "  BIND(?o+100 AS ?z2) " +
+        "  BIND(?o+100-?o AS ?z2) " +
         "}"
     internal operator fun invoke(){
         println("Test: 'bind02 - BIND'")

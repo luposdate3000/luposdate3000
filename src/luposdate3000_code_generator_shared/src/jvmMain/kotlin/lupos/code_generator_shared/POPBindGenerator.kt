@@ -85,9 +85,8 @@ internal fun generatePOPBind(
     for (variable in variablename) {
         clazz.iteratorClassVariables.add("        var column$variable : LocalIterator? = null")
     }
-    writeMethod(operatorGraph.children[1],  clazz.iteratorNextBody, clazz.iteratorClassVariables);
 
-    writeFilter(operatorGraph.children[1],  null, operatorGraph, clazz.iteratorClassVariables)
+   // writeFilter(operatorGraph.children[1],  null, operatorGraph, clazz.iteratorClassVariables)
     if (inlineChild) {
         clazz.iteratorClassVariables.addAll(childContainer!!.iteratorClassVariables)
     }
@@ -114,10 +113,11 @@ internal fun generatePOPBind(
     }
     clazz.iteratorNextBody.println("                        } else {")
     // Creating the filter term itself, child${operatorGraph.children[1].getUUID()}:Boolean contains the evaluated term
-    writeFilter(operatorGraph.children[1], clazz.iteratorNextBody, operatorGraph, null)
-    clazz.iteratorNextBody.println("                        val tmp${operatorGraph.uuid} = ValueDefinition.convertToValueDefinition(child${operatorGraph.children[1].getUUID()})")
-    clazz.iteratorNextBody.println("                        DictionaryHelper.valueDefinitionToByteArray(buffer,tmp${operatorGraph.uuid})")
-    clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
+    //writeFilter(operatorGraph.children[1], clazz.iteratorNextBody, operatorGraph, null)
+    writeMethod(operatorGraph.children[1],  clazz.iteratorNextBody, clazz.iteratorClassVariables, imports);
+    //clazz.iteratorNextBody.println("                        val tmp${operatorGraph.uuid} = ValueDefinition.convertToValueDefinition(child${operatorGraph.children[1].getUUID()})")
+    //clazz.iteratorNextBody.println("                        DictionaryHelper.valueDefinitionToByteArray(buffer,tmp${operatorGraph.uuid})")
+    //clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
     clazz.iteratorNextBody.println("                    }")
     clazz.iteratorNextBody.println("                    } catch (e: Throwable) {")
     clazz.iteratorNextBody.println("                    e.printStackTrace()")

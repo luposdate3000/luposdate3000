@@ -28,9 +28,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}.abs()")
+                                target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = ${inputNames[0]}.abs()")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -38,9 +38,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.abs()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}.abs()")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
                         )
@@ -48,9 +48,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.abs")
-                                target.appendLine("${indention}val $outputName: Double = abs(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = abs(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -58,9 +58,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.abs")
-                                target.appendLine("${indention}val $outputName: Double = abs(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = abs(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -78,15 +78,15 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
+                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, valPrefix, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
                                 imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
-                                globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+                                globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             }
@@ -95,10 +95,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                                 imports.add("com.ionspin.kotlin.bignum.decimal.RoundingMode")
-                                target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.roundToDigitPositionAfterDecimalPoint(0, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}.roundToDigitPositionAfterDecimalPoint(0, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO)")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
                         )
@@ -106,9 +106,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.roundToInt")
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.roundToInt().toDouble()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.roundToInt().toDouble()")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -116,9 +116,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.roundToInt")
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.roundToInt().toDouble()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.roundToInt().toDouble()")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -136,15 +136,15 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
+                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, valPrefix, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
                                 imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
-                                globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+                                globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             }
@@ -153,9 +153,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.floor()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}.floor()")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
                         )
@@ -163,9 +163,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.floor")
-                                target.appendLine("${indention}val $outputName: Double = floor(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = floor(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -173,9 +173,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.floor")
-                                target.appendLine("${indention}val $outputName: Double = floor(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = floor(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -193,15 +193,15 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
+                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, valPrefix, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
                                 imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
-                                globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+                                globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             }
@@ -210,9 +210,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.ceil()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}.ceil()")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
                         )
@@ -220,9 +220,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.ceil")
-                                target.appendLine("${indention}val $outputName: Double = ceil(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ceil(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -230,9 +230,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("kotlin.math.ceil")
-                                target.appendLine("${indention}val $outputName: Double = ceil(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ceil(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -265,9 +265,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = BigInteger(${inputNames[0]}.length)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = BigInteger(${inputNames[0]}.length)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -275,9 +275,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = BigInteger(${inputNames[0]}_content.length)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = BigInteger(${inputNames[0]}_content.length)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -285,9 +285,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = BigInteger(${inputNames[0]}_content.length)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = BigInteger(${inputNames[0]}_content.length)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -305,8 +305,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toLowerCase()")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toLowerCase()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -314,9 +314,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.toLowerCase()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -324,9 +324,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.toLowerCase()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
                         )
@@ -352,18 +352,18 @@ public object OperatorBuilder {
                             arrayOf(ETripleComponentTypeExt.BOOLEAN),
                             arrayOf(ETripleComponentTypeExt.DATE_TIME)
                         ),
-                        generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                        generateInstantiated = { indention, _, outputName, _, imports, target, _, valPrefix, onResult ->
                             imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                            target.appendLine("${indention}val $outputName: String = \"\"")
+                            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                             onResult(indention, ETripleComponentTypeExt.STRING)
                         },
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_lang")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_lang")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -381,9 +381,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -391,9 +391,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -401,9 +401,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -411,9 +411,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -421,9 +421,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -431,9 +431,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -441,9 +441,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -451,9 +451,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -461,9 +461,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -471,9 +471,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_typed_content")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_typed_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -492,10 +492,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -503,10 +503,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -514,10 +514,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -525,10 +525,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -536,10 +536,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -547,10 +547,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -558,10 +558,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -569,10 +569,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toString()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -580,10 +580,10 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_typed_content")
-                                target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_typed_content")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -601,8 +601,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toUpperCase()")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.toUpperCase()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -610,9 +610,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toUpperCase()")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.toUpperCase()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -620,9 +620,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toUpperCase()")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.toUpperCase()")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
                         )
@@ -641,9 +641,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -651,8 +651,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -660,8 +660,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -669,8 +669,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
                         )
@@ -678,8 +678,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = if (${inputNames[0]}) {")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = if (${inputNames[0]}) {")
                                 target.appendLine("$indention    1.0")
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    0.0")
@@ -691,9 +691,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
-                                target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble()")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.toDouble()")
                                 onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
                                 target.appendLine("$indention} catch (e: Throwable) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -704,9 +704,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
-                                target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}_content.toDouble()")
                                 onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
                                 target.appendLine("$indention} catch (e: Throwable) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -717,9 +717,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
-                                target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}_content.toDouble()")
                                 onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
                                 target.appendLine("$indention} catch (e: Throwable) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -741,9 +741,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -751,8 +751,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -760,8 +760,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -769,8 +769,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
@@ -778,8 +778,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Double = if (${inputNames[0]}) {")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = if (${inputNames[0]}) {")
                                 target.appendLine("$indention    1.0")
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    0.0")
@@ -791,9 +791,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
-                                target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble()")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}.toDouble()")
                                 onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
                                 target.appendLine("$indention} catch (e: Throwable) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -804,9 +804,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
-                                target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}_content.toDouble()")
                                 onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
                                 target.appendLine("$indention} catch (e: Throwable) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -817,9 +817,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
-                                target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${inputNames[0]}_content.toDouble()")
                                 onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
                                 target.appendLine("$indention} catch (e: Throwable) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -840,9 +840,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_day")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}_day")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -860,9 +860,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_month")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}_month")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -880,9 +880,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_hours")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}_hours")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -900,9 +900,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_minutes")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}_minutes")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -920,9 +920,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
-                                target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_year")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]}_year")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
@@ -940,9 +940,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}_seconds")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}_seconds")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
                         )
@@ -960,8 +960,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_tz")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_tz")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -979,8 +979,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_timezone")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_timezone")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -998,9 +998,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.IRI),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
@@ -1018,9 +1018,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
                         ),
@@ -1038,8 +1038,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]} == ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]} == ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         ),
@@ -1057,13 +1057,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]})")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1072,13 +1072,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1087,13 +1087,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1102,14 +1102,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
@@ -1118,14 +1118,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
@@ -1134,14 +1134,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
@@ -1150,14 +1150,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
@@ -1166,14 +1166,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
@@ -1182,14 +1182,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
@@ -1208,13 +1208,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]})")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1223,13 +1223,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1238,13 +1238,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1253,14 +1253,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
@@ -1269,14 +1269,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
@@ -1285,14 +1285,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
@@ -1301,14 +1301,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
-                                target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}val${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention   ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
@@ -1317,14 +1317,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
@@ -1333,14 +1333,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
-                                target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
@@ -1359,8 +1359,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}.endsWith(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}.endsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1368,8 +1368,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.endsWith(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.endsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1377,8 +1377,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.endsWith(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.endsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         ),
@@ -1396,8 +1396,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}.startsWith(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}.startsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1405,8 +1405,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1414,8 +1414,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1433,8 +1433,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}.contains(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}.contains(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1442,8 +1442,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.contains(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.contains(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1451,8 +1451,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.contains(${inputNames[1]})")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.contains(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1470,8 +1470,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]} + ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]} + ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1479,8 +1479,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]} + ${inputNames[1]}_content")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]} + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1488,8 +1488,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1497,8 +1497,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]} + ${inputNames[1]}_content")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]} + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1506,8 +1506,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1515,8 +1515,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1524,8 +1524,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1533,13 +1533,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[0]}_lang == ${inputNames[1]}_lang) {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
-                                target.appendLine("$indention    val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1548,13 +1548,13 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\" && ${inputNames[1]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
-                                target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
-                                target.appendLine("$indention    val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 onResult(indention + "    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
@@ -1573,8 +1573,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = !${inputNames[0]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = !${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1592,8 +1592,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]} && ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]} && ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1601,11 +1601,11 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[0]}) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: Boolean = false")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = false")
                                 onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention}")
                             },
@@ -1614,11 +1614,11 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[1]}) {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: Boolean = false")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = false")
                                 onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention}")
                             },
@@ -1637,8 +1637,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]} || ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = ${inputNames[0]} || ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
@@ -1646,9 +1646,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[0]}) {")
-                                target.appendLine("$indention    val $outputName: Boolean = true")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = true")
                                 onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention} else {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -1659,9 +1659,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[1]}) {")
-                                target.appendLine("$indention    val $outputName: Boolean = true")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = true")
                                 onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention} else {")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
@@ -1682,9 +1682,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto_MD5")
-                                target.appendLine("${indention}val $outputName: String = Crypto_MD5.md5(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto_MD5.md5(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1692,9 +1692,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto_MD5")
-                                target.appendLine("${indention}val $outputName: String = Crypto_MD5.md5(${inputNames[0]}_content)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto_MD5.md5(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1702,9 +1702,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto_MD5")
-                                target.appendLine("${indention}val $outputName: String = Crypto_MD5.md5(${inputNames[0]}_content)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto_MD5.md5(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1722,9 +1722,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.sha1(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto.sha1(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1732,9 +1732,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.sha1(${inputNames[0]}_content)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto.sha1(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1742,9 +1742,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.sha1(${inputNames[0]}_content)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto.sha1(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1762,9 +1762,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.sha256(${inputNames[0]})")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto.sha256(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1772,9 +1772,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.sha256(${inputNames[0]}_content)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto.sha256(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1782,9 +1782,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.sha256(${inputNames[0]}_content)")
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = Crypto.sha256(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1871,8 +1871,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
-                            generateInstantiated = { indention, _, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"ERROR_ERROR\")")
+                            generateInstantiated = { indention, _, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"ERROR_ERROR\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1880,8 +1880,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
-                            generateInstantiated = { indention, _, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"UNDEF_UNDEF\")")
+                            generateInstantiated = { indention, _, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"UNDEF_UNDEF\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1889,8 +1889,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BLANK_NODE),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"BLANK_NODE_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"BLANK_NODE_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1898,8 +1898,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"BOOLEAN_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"BOOLEAN_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1907,8 +1907,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"DECIMAL_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"DECIMAL_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1916,8 +1916,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"DOUBLE_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"DOUBLE_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1925,8 +1925,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"FLOAT_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"FLOAT_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1934,8 +1934,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"INTEGER_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"INTEGER_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1943,8 +1943,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"IRI_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"IRI_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1952,8 +1952,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"STRING_\${${inputNames[0]}}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"STRING_\${${inputNames[0]}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1961,8 +1961,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"STRING_LANG_\${${inputNames[0]}_content}_\${${inputNames[0]}_lang}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"STRING_LANG_\${${inputNames[0]}_content}_\${${inputNames[0]}_lang}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -1970,8 +1970,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"STRING_TYPED_\${${inputNames[0]}_content}_\${${inputNames[0]}_type}\")")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"STRING_TYPED_\${${inputNames[0]}_content}_\${${inputNames[0]}_type}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
@@ -2073,8 +2073,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_type")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_type")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -2095,14 +2095,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Iri)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             },
-                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
+                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, valPrefix, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
                                 imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
-                                globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+                                globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             }
@@ -2111,8 +2111,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention}${indention}${valPrefix(outputName,EVariablePlaceholderExt.Iri)} = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                                 target.appendLine("$indention    \"\$prefix/\$${inputNames[0]}\"")
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    \"\$prefix\$${inputNames[0]}\"")
@@ -2124,9 +2124,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
-                                target.appendLine("$indention    val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Iri)} = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                                 target.appendLine("$indention        \"\$prefix/\$${inputNames[0]}_content\"")
                                 target.appendLine("$indention    } else {")
                                 target.appendLine("$indention        \"\$prefix\$${inputNames[0]}_content\"")
@@ -2154,14 +2154,14 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention} ${valPrefix(outputName,EVariablePlaceholderExt.Iri)} = ${inputNames[0]}")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             },
-                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
+                            generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, valPrefix, onResult ->
                                 imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
                                 imports.add("lupos.shared_inline.dynamicArray.ByteArrayWrapperExt")
-                                globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+                                globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             }
@@ -2170,8 +2170,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                                target.appendLine("${indention}val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
+                                target.appendLine("${indention} ${valPrefix(outputName,EVariablePlaceholderExt.Iri)} = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                                 target.appendLine("$indention    \"\$prefix/\$${inputNames[0]}\"")
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    \"\$prefix\$${inputNames[0]}\"")
@@ -2183,9 +2183,9 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
-                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
-                                target.appendLine("$indention    val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                                target.appendLine("$indention     ${valPrefix(outputName,EVariablePlaceholderExt.Iri)} = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                                 target.appendLine("$indention        \"\$prefix/\$${inputNames[0]}_content\"")
                                 target.appendLine("$indention    } else {")
                                 target.appendLine("$indention        \"\$prefix\$${inputNames[0]}_content\"")
@@ -2211,12 +2211,12 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
                                 imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                                 onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention} else {")
-                                target.appendLine("$indention    val $outputName: BigDecimal = BigDecimal.fromBigInteger(${inputNames[0]}) / BigDecimal.fromBigInteger(${inputNames[1]})")
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = BigDecimal.fromBigInteger(${inputNames[0]}) / BigDecimal.fromBigInteger(${inputNames[1]})")
                                 onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
                                 target.appendLine("$indention}")
                             },
@@ -2236,8 +2236,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} + ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]} + ${inputNames[1]}")
                                 onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
                             },
                         ),
@@ -2257,8 +2257,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} - ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]} - ${inputNames[1]}")
                                 onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
                             },
                         ),
@@ -2277,8 +2277,8 @@ public object OperatorBuilder {
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
-                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} * ${inputNames[1]}")
+                            generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
+                                target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${inputNames[0]} * ${inputNames[1]}")
                                 onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
                             },
                         ),

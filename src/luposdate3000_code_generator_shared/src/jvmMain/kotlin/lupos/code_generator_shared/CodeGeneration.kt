@@ -17,7 +17,6 @@
 package lupos.code_generator_shared
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTR
@@ -429,42 +428,32 @@ private fun writeOperatorGraph(
     }
 }
 
-internal fun writeMethod(child: IOPBase, classes: MyPrintWriter?, variables: MutableSet<String>?)
+internal fun writeMethod(
+    child: IOPBase,
+    classes: MyPrintWriter,
+    variables: MutableSet<String>,
+    imports: MutableSet<String>
+)
 {
-    /**
-    val mop = MyOperatorPartFactory();
-    val operators = mutableListOf<MyOperator>()
-    OperatorBuilder.build(operators)
-    println("List size" + operators.size)
-    for(op in operators)
+
+    val builder = StringBuilder()
+
+    val target = StringBuilder()
+    val variables = mutableMapOf<String,String>()
+    val variableBuilder = StringBuilder()
+    generateMethod(child,"", arrayOf(""), "", "", imports, target, mutableSetOf(""), mutableListOf(), false, builder, variables)
+    val buildString = builder.toString();
+    for((k,v) in variables)
     {
-        if(op.name.equals("Addition"))
+        if(buildString.contains(k) && v != "")
         {
-            val timp = mutableSetOf<String>()
-            val tempVar = mutableSetOf<String>()
-            val target = StringBuilder()
-            println(op.name)
-            op.generate("",EParamRepresentation.ID,timp,target,tempVar);
-            println(target.toString())
+            variableBuilder.appendLine("var $k : $v")
         }
     }
-    val tmpBuf = ByteArrayWrapper()
-    for(c in child.getChildren())
-    {
-        if(c is AOPVariable)
-        {
-            println(c.getUUID())
-
-        }else if(c is AOPBase)
-        {
-            println(c.getClassname())
-        }
-    }
-    **/
-
-    val target = StringBuilder();
-    generateMethod(child,"", arrayOf(""), "", "", mutableSetOf(""), target, mutableSetOf(""), mutableListOf())
+    classes.println(variableBuilder.toString())
     //println(target.toString());
+    println(builder.toString())
+    classes.println(builder.toString())
 
 
 }
