@@ -96,18 +96,21 @@ class RoutingTableSimulationTest {
         sim.startSimulation()
 
         // routing table from A
-        assertEquals(a.address, aRouter.getNextDatabaseHop(a.address))
-        assertEquals(a.address, aRouter.getNextDatabaseHop(b.address))
-        assertEquals(c.address, aRouter.getNextDatabaseHop(c.address))
+        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address,b.address, c.address))
+        assertEquals(a.address, actual[0])
+        assertEquals(a.address, actual[1])
+        assertEquals(c.address, actual[2])
         // routing table from B
-        assertEquals(c.address, bRouter.getNextDatabaseHop(c.address))
-        assertEquals(RoutingTable.notInitialized, bRouter.getNextDatabaseHop(b.address))
-        assertEquals(RoutingTable.notInitialized, bRouter.getNextDatabaseHop(a.address))
-        assertEquals(RoutingTable.notInitialized, bRouter.getNextDatabaseHop(999))
+        actual = b.router.getNextDatabaseHops(intArrayOf(c.address, b.address, a.address, 999))
+        assertEquals(c.address, actual[0])
+        assertEquals(RoutingTable.notInitialized, actual[1])
+        assertEquals(RoutingTable.notInitialized, actual[2])
+        assertEquals(RoutingTable.notInitialized, actual[3])
         // routing table from C
-        assertEquals(c.address, cRouter.getNextDatabaseHop(c.address))
-        assertEquals(c.address, cRouter.getNextDatabaseHop(999))
-        assertEquals(c.address, cRouter.getNextDatabaseHop(a.address))
+        actual = c.router.getNextDatabaseHops(intArrayOf(c.address, 999, a.address))
+        assertEquals(c.address, actual[0])
+        assertEquals(c.address, actual[1])
+        assertEquals(c.address, actual[2])
     }
 
     /**
@@ -128,14 +131,16 @@ class RoutingTableSimulationTest {
         sim.startSimulation()
 
         // routing table from A
-        assertEquals(a.address, aRouter.getNextDatabaseHop(a.address))
-        assertEquals(a.address, aRouter.getNextDatabaseHop(b.address))
-        assertEquals(c.address, aRouter.getNextDatabaseHop(c.address))
-        assertEquals(d.address, aRouter.getNextDatabaseHop(d.address))
+        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address,b.address, c.address, d.address))
+        assertEquals(a.address, actual[0])
+        assertEquals(a.address, actual[1])
+        assertEquals(c.address, actual[2])
+        assertEquals(d.address, actual[3])
         // routing table from B
-        assertEquals(c.address, bRouter.getNextDatabaseHop(c.address))
-        assertEquals(d.address, bRouter.getNextDatabaseHop(d.address))
-        assertEquals(RoutingTable.notInitialized, bRouter.getNextDatabaseHop(b.address))
+        actual = b.router.getNextDatabaseHops(intArrayOf(c.address, d.address, b.address))
+        assertEquals(c.address, actual[0])
+        assertEquals(d.address, actual[1])
+        assertEquals(RoutingTable.notInitialized, actual[2])
     }
 
     /**
@@ -161,26 +166,30 @@ class RoutingTableSimulationTest {
         sim.startSimulation()
 
         // routing table from A
-        assertEquals(a.address, aRouter.getNextDatabaseHop(a.address))
-        assertEquals(a.address, aRouter.getNextDatabaseHop(b.address))
-        assertEquals(c.address, aRouter.getNextDatabaseHop(c.address))
-        assertEquals(c.address, aRouter.getNextDatabaseHop(d.address))
-        assertEquals(c.address, aRouter.getNextDatabaseHop(e.address))
-        assertEquals(c.address, aRouter.getNextDatabaseHop(f.address))
-        assertEquals(c.address, aRouter.getNextDatabaseHop(g.address))
+        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address,b.address, c.address, d.address, e.address, f.address, g.address))
+        assertEquals(a.address, actual[0])
+        assertEquals(a.address, actual[1])
+        assertEquals(c.address, actual[2])
+        assertEquals(c.address, actual[3])
+        assertEquals(c.address, actual[4])
+        assertEquals(c.address, actual[5])
+        assertEquals(c.address, actual[6])
         // routing table from B
-        assertEquals(c.address, bRouter.getNextDatabaseHop(c.address))
-        assertEquals(c.address, bRouter.getNextDatabaseHop(d.address))
-        assertEquals(c.address, bRouter.getNextDatabaseHop(e.address))
-        assertEquals(c.address, bRouter.getNextDatabaseHop(f.address))
-        assertEquals(c.address, bRouter.getNextDatabaseHop(g.address))
+        actual = b.router.getNextDatabaseHops(intArrayOf(c.address, d.address, e.address, f.address, g.address))
+        assertEquals(c.address, actual[0])
+        assertEquals(c.address, actual[1])
+        assertEquals(c.address, actual[2])
+        assertEquals(c.address, actual[3])
+        assertEquals(c.address, actual[4])
         // routing table from D
-        assertEquals(d.address, dRouter.getNextDatabaseHop(e.address))
-        assertEquals(f.address, dRouter.getNextDatabaseHop(f.address))
-        assertEquals(g.address, dRouter.getNextDatabaseHop(g.address))
+        actual = d.router.getNextDatabaseHops(intArrayOf(e.address, f.address, g.address))
+        assertEquals(d.address, actual[0])
+        assertEquals(f.address, actual[1])
+        assertEquals(g.address, actual[2])
         // routing table from E
-        assertEquals(RoutingTable.notInitialized, eRouter.getNextDatabaseHop(e.address))
-        assertEquals(f.address, eRouter.getNextDatabaseHop(f.address))
-        assertEquals(RoutingTable.notInitialized, eRouter.getNextDatabaseHop(a.address))
+        actual = e.router.getNextDatabaseHops(intArrayOf(e.address, f.address, a.address))
+        assertEquals(RoutingTable.notInitialized, actual[0])
+        assertEquals(f.address, actual[1])
+        assertEquals(RoutingTable.notInitialized, actual[2])
     }
 }

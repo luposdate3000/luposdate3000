@@ -168,9 +168,6 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         routingTable.getNextDatabaseHops(destinationAddresses)
 
-    override fun getNextDatabaseHop(destinationAddress: Int): Int =
-        routingTable.getNextDatabaseHop(destinationAddress)
-
     override fun toString(): String {
         val strBuilder = StringBuilder()
         strBuilder

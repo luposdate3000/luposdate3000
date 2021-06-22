@@ -31,8 +31,8 @@
     "fixedDevice": [{
         "name": "Tower1",
         "deviceType": "Fog",
-        "latitude": 3.0,
-        "longitude": 3.0
+        "latitude": 53.640454118715894,
+        "longitude": 10.179179491574411
     }],
     "fixedLink": [],
     "rootRouter": "Tower1",
