@@ -53,7 +53,6 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     private fun sendDAO(destinationAddress: Int) {
         val destinations = routingTable.getDestinations()
         val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
-
         val dao = DAO(true, destinations, device.hasDatabase(), nextDatabaseHops)
         device.sendUnRoutedPackage(destinationAddress, dao)
         daoSentCounter++
@@ -85,14 +84,12 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
                 return
             }
         }
-
         if (hasParent()) {
             sendDAONoPath(preferredParent.address)
         }
-
         preferredParent = newParent
+        routingTable.fallbackHop = preferredParent.address
         sendDAO(preferredParent.address)
-        routingTable.defaultAddress = preferredParent.address
     }
 
     private fun processDAO(pck: NetworkPackage) {
@@ -131,7 +128,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         preferredParent.address != notInitializedAddress
 
     override fun startRouting() {
-        routingTable = RoutingTable(device.address, Configuration.devices.size)
+        routingTable = RoutingTable(device.address, Configuration.devices.size, device.hasDatabase())
         if (isRoot) {
             rank = ROOT_RANK
             broadcastDIO()

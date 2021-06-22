@@ -1,6 +1,10 @@
 package lupos.simulator_iot.net.routing
 
-internal class RoutingTable(internal var defaultAddress: Int, private val addressSpace: Int) {
+internal class RoutingTable(
+    private val ownAddress: Int,
+    private val addressSpace: Int,
+    private val hasDatabase: Boolean
+    ) {
 
     private var nextHops = IntArray(0)
     private var nextDatabaseHops = IntArray(0)
@@ -12,6 +16,8 @@ internal class RoutingTable(internal var defaultAddress: Int, private val addres
     internal companion object {
         internal const val notInitialized: Int = -1
     }
+
+    internal var fallbackHop = ownAddress
 
     private fun updateHop(destinationAddress: Int, nextHopAddress: Int, nextDatabaseHopAddress: Int): Boolean {
         var updated = false
@@ -45,17 +51,21 @@ internal class RoutingTable(internal var defaultAddress: Int, private val addres
 
     internal fun getNextHop(destinationAddress: Int): Int =
         if (!hasDestination(destinationAddress)) {
-            defaultAddress
+            fallbackHop
         } else {
             nextHops[destinationAddress]
         }
 
     internal fun getNextDatabaseHop(destinationAddress: Int): Int =
         if (!hasDestination(destinationAddress)) {
-            notInitialized
+            getOwnAddressIfItHasDatabase()
         } else {
-            nextDatabaseHops[destinationAddress]
+            val hop = nextDatabaseHops[destinationAddress]
+            if(hop != notInitialized) hop else getOwnAddressIfItHasDatabase()
         }
+
+    private fun getOwnAddressIfItHasDatabase() : Int
+        = if(hasDatabase) ownAddress else notInitialized
 
     internal fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         val dbHops = IntArray(destinationAddresses.size) { -1 }
