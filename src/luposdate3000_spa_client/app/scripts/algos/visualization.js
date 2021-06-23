@@ -956,5 +956,10 @@ function draw(flag) {
         });
         container.style.display = "inline-block";
         network.fit();
+        if(flag){
+            networkSon.fit();
+        }else{
+            network.fit();
+        }
     }, 10);
 }
