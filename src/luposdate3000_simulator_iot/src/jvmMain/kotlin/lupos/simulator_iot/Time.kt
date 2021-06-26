@@ -20,6 +20,11 @@ internal object Time {
         return duration.inWholeMilliseconds
     }
 
+    internal fun differenceInSeconds(startInstant: Instant, endInstant: Instant): Double {
+        val duration = differenceInMillis(startInstant, endInstant).toDouble()
+        return duration / 1000
+    }
+
     @OptIn(ExperimentalTime::class)
     internal fun differenceInMicroSec(startInstant: Instant, endInstant: Instant): Long {
         val duration = endInstant - startInstant
