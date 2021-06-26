@@ -11,7 +11,7 @@
     ],
     "deviceType": [{
             "name": "Fog",
-            "database": true,
+            "database": false,
             "parkingSensor": "",
             "performance": 11.0,
             "supportedLinkTypes": []
@@ -34,7 +34,7 @@
     ],
     "fixedDevice": [{
             "name": "A",
-            "deviceType": "DataStore",
+            "deviceType": "SensorDevice",
             "latitude": 53.09814632127328,
             "longitude": 8.754628362427354
         },
@@ -102,7 +102,7 @@
         {
             "name": "driver looking for parking 1",
             "sendRateInSeconds": 2,
-            "maxNumberOfQueries": 1,
+            "maxNumberOfQueries": 0,
             "sendStartClockInSec": 200,
             "query": "SELECT * WHERE {?s ?p ?o . }"
         }

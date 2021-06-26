@@ -11,13 +11,13 @@ import kotlin.test.assertTrue
 class RoutingSimulationTest {
 
     companion object {
-        private const val prefix = "$testResource\\RoutingSimulationTest"
+        private const val prefix = "${FilePaths.testResource}\\RoutingSimulationTest"
     }
 
     @Test
     fun runSimulationWithoutEntities() {
         Configuration.parse("$prefix/runSimulationWithoutEntities.json")
-        val sim: Simulation = Simulation(Configuration.devices, callback = IoTSimLifeCycle)
+        val sim: Simulation = Simulation(Configuration.devices, callback = Logger)
 
         sim.startSimulation()
         assertEquals(0, sim.getCurrentClock())
@@ -39,7 +39,7 @@ class RoutingSimulationTest {
         assertFalse(child1Router.hasParent())
         assertFalse(child2Router.hasParent())
 
-        val sim = Simulation(Configuration.devices, maxClock = 200, callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.devices, maxClock = 200, callback = Logger)
         sim.startSimulation()
 
         assertTrue(child1Router.hasParent())
@@ -59,7 +59,7 @@ class RoutingSimulationTest {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
         val rootRouter = root.router as RPL
-        val sim = Simulation(Configuration.devices, callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
         assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.destinationCounter)
@@ -72,7 +72,7 @@ class RoutingSimulationTest {
         val a = Configuration.getNamedDevice("A")
 
         val maxClock: Long = 300 * 1000
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(6, a.processedSensorDataPackages)
@@ -86,7 +86,7 @@ class RoutingSimulationTest {
 
 
         val maxClock: Long = 200 * 1000
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(4, f.processedSensorDataPackages)
@@ -99,7 +99,7 @@ class RoutingSimulationTest {
         val d = Configuration.getNamedDevice("D")
 
         val maxClock: Long = 800 * 1000
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(3, d.processedSensorDataPackages)
@@ -110,7 +110,7 @@ class RoutingSimulationTest {
         Configuration.parse("$prefix/sendQueries.json")
         val querySender = Configuration.querySenders[0]
         val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec + querySender.startClock
-        val sim = Simulation(Configuration.getEntities(), callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.getEntities(), callback = Logger)
         sim.startSimulation()
         assertEquals(Time.toMillis(expectedTimeSec), sim.getCurrentClock())
     }
@@ -119,7 +119,7 @@ class RoutingSimulationTest {
     fun sendLimitedNumberOfQueries() {
         Configuration.parse("$prefix/sendLimitedNumberOfQueries.json")
         val querySender = Configuration.querySenders[0]
-        val sim = Simulation(Configuration.getEntities(), callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.getEntities(), callback = Logger)
         sim.startSimulation()
         assertEquals(79, querySender.queryCounter)
     }
@@ -138,7 +138,7 @@ class RoutingSimulationTest {
 //        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 //
 //        val sim = Simulation(Configuration.devices)
-//        sim.setLifeCycleCallback(IoTSimLifeCycle(sim))
+//        sim.setLifeCycleCallback(Logger(sim))
 //        sim.setMaximalTime(maxClock)
 //        sim.start()
 //

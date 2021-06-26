@@ -5,8 +5,12 @@ import lupos.simulator_iot.config.Configuration
 
 public fun main() {
 
-    //IoTSimulation().simulate("upwardRouteForwarding.json")
-    IoTSimulation().simulate("$jvmResource\\multipleDatabases.json")
+    //IoTSimulation().simulate("${FilePaths.jvmResource}\\Exception_2Sensors1Database.json")
+    //IoTSimulation().simulate("${FilePaths.jvmResource}\\anotherException_2Sensor1Database.json")
+    //IoTSimulation().simulate("${FilePaths.jvmResource}\\Exception_2DBwith1Sensor.json")
+    IoTSimulation().simulate("${FilePaths.jvmResource}\\star.json")
+
+
 }
 
 public class IoTSimulation {
@@ -17,7 +21,7 @@ public class IoTSimulation {
         Configuration.parse(configFileName)
         val sim = Simulation(
             entities =  Configuration.getEntities(),
-            callback = IoTSimLifeCycle)
+            callback = Logger)
         sim.startSimulation()
     }
 }

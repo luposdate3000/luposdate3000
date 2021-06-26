@@ -15,9 +15,9 @@ import lupos.simulator_iot.sensor.ParkingSample
 internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
-    private var resultDevicePath = IoTSimLifeCycle.pathToQueryResult + "\\device${device.address}"
+    private var resultDevicePath = "${FilePaths.queryResult}\\device${device.address}"
     private var resultFileName = "$resultDevicePath\\file.txt"
-    private var pathDevice = IoTSimLifeCycle.pathToDatabaseData + "\\device${device.address}"
+    private var pathDevice = "${FilePaths.dbStates}\\device${device.address}"
 
 
     private val db: IDatabase = if(isDummy) DatabaseSystemDummy() else  DatabaseHandle()

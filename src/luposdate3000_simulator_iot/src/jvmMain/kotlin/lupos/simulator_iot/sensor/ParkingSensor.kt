@@ -2,7 +2,7 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.IoTSimLifeCycle
+import lupos.simulator_iot.Logger
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.config.Configuration
 
@@ -88,7 +88,7 @@ internal class ParkingSensor(
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
-            sampleTime = IoTSimLifeCycle.getSimulationTimeString(),
+            sampleTime = Logger.getSimulationTimeString(),
             isOccupied = RandomGenerator.random.nextBoolean(),
             parkingSpotID = device.address,
             area = device.address.toString()

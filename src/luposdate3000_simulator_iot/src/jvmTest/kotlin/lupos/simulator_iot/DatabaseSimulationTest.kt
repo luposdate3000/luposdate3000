@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 class DatabaseSimulationTest {
 
     companion object {
-        private const val prefix = "$testResource\\DatabaseSimulationTest"
+        private const val prefix = "${FilePaths.testResource}\\DatabaseSimulationTest"
     }
 
     /**
@@ -23,7 +23,7 @@ class DatabaseSimulationTest {
         val g = Configuration.getNamedDevice("G")
 
         val maxClock: Long = 10000000
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = IoTSimLifeCycle)
+        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
         assertEquals(8, g.processedSensorDataPackages)
@@ -51,7 +51,7 @@ class DatabaseSimulationTest {
 //        val maxClock = 100
 //        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
 //
-//        Simulation.start(Configuration.devices, IoTSimLifeCycle(), maxClock.toLong())
+//        Simulation.start(Configuration.devices, Logger(), maxClock.toLong())
 //        assertEquals(numberOfSamples, g.processedSensorDataPackages)
 //    }
 }
