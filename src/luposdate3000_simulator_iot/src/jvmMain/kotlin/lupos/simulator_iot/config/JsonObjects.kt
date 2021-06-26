@@ -5,15 +5,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class JsonObjects(
     val dummyDatabase: Boolean =  true,
-    val linkType: List<LinkType> = arrayListOf(),
-    val sensorType: List<SensorType> = arrayListOf(),
-    val deviceType: List<DeviceType> = arrayListOf(),
-    val fixedDevice: List<FixedDevice> = arrayListOf(),
-    val fixedLink: List<FixedLink> = arrayListOf(),
+    val linkType: MutableList<LinkType> = arrayListOf(),
+    val sensorType: MutableList<SensorType> = arrayListOf(),
+    val deviceType: MutableList<DeviceType> = arrayListOf(),
+    val fixedDevice: MutableList<FixedDevice> = arrayListOf(),
+    val fixedLink: MutableList<FixedLink> = arrayListOf(),
     val rootRouter: String = "",
-    val randomMeshNetwork: List<RandomMeshNetwork> = arrayListOf(),
-    val randomStarNetwork: List<RandomStarNetwork> = arrayListOf(),
-    val querySender: List<QuerySender> = arrayListOf(),
+    val randomMeshNetwork: MutableList<RandomMeshNetwork> = arrayListOf(),
+    val randomStarNetwork: MutableList<RandomStarNetwork> = arrayListOf(),
+    val querySender: MutableList<QuerySender> = arrayListOf(),
 )
 
 @Serializable

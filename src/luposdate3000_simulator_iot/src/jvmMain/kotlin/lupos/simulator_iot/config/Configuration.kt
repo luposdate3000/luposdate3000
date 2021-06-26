@@ -39,9 +39,9 @@ internal object Configuration {
 
     private var dbDeviceCounter = 0
 
-    internal fun parse(fileName: String) {
+    internal fun parse(jsonObjects: JsonObjects) {
         resetVariables()
-        readJsonFile(fileName)
+        this.jsonObjects = jsonObjects
         createSortedLinkTypes()
         createFixedDevices()
         setRootDevice()
@@ -53,19 +53,23 @@ internal object Configuration {
         createDbDeviceAddresses()
     }
 
+    internal fun parse(fileName: String) {
+        parse(readJsonFile(fileName))
+    }
+
     private fun resetVariables() {
+        jsonObjects = JsonObjects()
         devices = mutableListOf()
         randStarNetworks = mutableMapOf()
         randMeshNetworks = mutableMapOf()
-        jsonObjects = JsonObjects()
         namedAddresses = mutableMapOf()
         querySenders = mutableListOf()
         dbDeviceCounter = 0
     }
 
-    private fun readJsonFile(fileName: String) {
+    internal fun readJsonFile(fileName: String): JsonObjects {
         val fileStr = File(fileName).readAsString()
-        jsonObjects = Json.decodeFromString(fileStr)
+        return Json.decodeFromString(fileStr)
     }
 
     internal fun getEntities(): MutableList<Entity> {

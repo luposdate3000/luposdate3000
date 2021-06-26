@@ -1,6 +1,7 @@
 package lupos.simulator_iot
 
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.config.RandomStarNetwork
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.test.Test
@@ -271,5 +272,14 @@ class ConfigurationTest {
         assertEquals( 30, querySender.sendRateInSec)
         assertEquals(Configuration.getNamedDevice("Tower1"), querySender.receiver)
         assertEquals("Select dummy From dum", querySender.query)
+    }
+
+    @Test
+    fun manipulateJsonObjects() {
+        val jsonObjects = Configuration.readJsonFile("$prefix/manipulateJsonObjects.json")
+        jsonObjects.randomStarNetwork.add(RandomStarNetwork(
+            networkPrefix = "star2", starRoot = "Tower1", linkType = "WPAN", deviceType = "StandAloneParkingSensor", number = 3))
+        Configuration.parse(jsonObjects)
+        assertEquals(2, Configuration.randStarNetworks.size)
     }
 }
