@@ -445,6 +445,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
+                println("read row c :: [${buf[i - 3]}, ${buf[i - 2]}, ${buf[i - 1]}]")
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
@@ -470,6 +471,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
+                println("read row d :: [${buf[i - 3]}, ${buf[i - 2]}, ${buf[i - 1]}]")
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
