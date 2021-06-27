@@ -29,11 +29,11 @@ internal object SanityCheckOn {
     public val ignoreTripleFlag = false
 
     internal inline fun check_is_S(i: Int) {
-        check {
+        this {
             if (!ignoreTripleFlag) {
                 val flag = i and TRIPLE_FLAG_All
                 when (flag) {
-                    TRIPLE_FLAG_S -> return
+                    TRIPLE_FLAG_S -> {}
                     TRIPLE_FLAG_P -> TODO("expected subject but found predicate $i")
                     TRIPLE_FLAG_O -> TODO("expected subject but found object $i")
                     else -> TODO("expected subject but found undefined $i")
@@ -42,12 +42,12 @@ internal object SanityCheckOn {
         }
     }
     internal inline fun check_is_P(i: Int) {
-        check {
+        this {
             if (!ignoreTripleFlag) {
                 val flag = i and TRIPLE_FLAG_All
                 when (flag) {
                     TRIPLE_FLAG_S -> TODO("expected predicate but found subject $i")
-                    TRIPLE_FLAG_P -> return
+                    TRIPLE_FLAG_P -> {}
                     TRIPLE_FLAG_O -> TODO("expected predicate but found object $i")
                     else -> TODO("expected predicate but found undefined $i")
                 }
@@ -55,13 +55,13 @@ internal object SanityCheckOn {
         }
     }
     internal inline fun check_is_O(i: Int) {
-        check {
+        this {
             if (!ignoreTripleFlag) {
                 val flag = i and TRIPLE_FLAG_All
                 when (flag) {
                     TRIPLE_FLAG_S -> TODO("expected object but found subject $i")
                     TRIPLE_FLAG_P -> TODO("expected object but found predicate $i")
-                    TRIPLE_FLAG_O -> return
+                    TRIPLE_FLAG_O -> {}
                     else -> TODO("expected object but found undefined $i")
                 }
             }

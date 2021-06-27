@@ -445,9 +445,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
-SanityCheck.check_is_S(buf[i - 3])
-SanityCheck.check_is_P(buf[i - 2])
-SanityCheck.check_is_O(buf[i - 1])
+                SanityCheck.check_is_S(buf[i - 3])
+                SanityCheck.check_is_P(buf[i - 2])
+                SanityCheck.check_is_O(buf[i - 1])
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
@@ -474,9 +474,9 @@ SanityCheck.check_is_O(buf[i - 1])
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
-SanityCheck.check_is_S(buf[i - 3])
-SanityCheck.check_is_P(buf[i - 2])
-SanityCheck.check_is_O(buf[i - 1])
+                SanityCheck.check_is_S(buf[i - 3])
+                SanityCheck.check_is_P(buf[i - 2])
+                SanityCheck.check_is_O(buf[i - 1])
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)

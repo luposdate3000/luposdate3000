@@ -116,9 +116,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
             SanityCheck {
                 if (off >= 3 && off % 3 == 0) {
-SanityCheck.check_is_S(buf[off - 3])
-SanityCheck.check_is_P(buf[off - 2])
-SanityCheck.check_is_O(buf[off - 1])
+                    SanityCheck.check_is_S(buf[off - 3])
+                    SanityCheck.check_is_P(buf[off - 2])
+                    SanityCheck.check_is_O(buf[off - 1])
                 }
             }
         }
@@ -175,9 +175,9 @@ SanityCheck.check_is_O(buf[off - 1])
             }
             SanityCheck {
                 if (off >= 3 && off % 3 == 0) {
-SanityCheck.check_is_S(buf[off - 3])
-SanityCheck.check_is_P(buf[off - 2])
-SanityCheck.check_is_O(buf[off - 1])
+                    SanityCheck.check_is_S(buf[off - 3])
+                    SanityCheck.check_is_P(buf[off - 2])
+                    SanityCheck.check_is_O(buf[off - 1])
                 }
             }
         }

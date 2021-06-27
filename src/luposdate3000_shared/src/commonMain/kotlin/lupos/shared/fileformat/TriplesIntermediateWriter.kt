@@ -50,9 +50,9 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
 
     public fun getCount(): Long = count
     public fun write(s: Int, p: Int, o: Int) {
-SanityCheck.check_is_S(s)
-SanityCheck.check_is_P(p)
-SanityCheck.check_is_O(o)
+        SanityCheck.check_is_S(s)
+        SanityCheck.check_is_P(p)
+        SanityCheck.check_is_O(o)
         val l0: Int
         val l1: Int
         val l2: Int

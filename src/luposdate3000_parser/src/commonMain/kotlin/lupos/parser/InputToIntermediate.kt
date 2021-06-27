@@ -471,9 +471,9 @@ public object InputToIntermediate {
                 inTriples.readAll { it ->
                     SanityCheck {
                         if (!SanityCheck.ignoreTripleFlag) {
-SanityCheck.check_is_S(it[0])
-SanityCheck.check_is_P(it[1])
-SanityCheck.check_is_O(it[2])
+                            SanityCheck.check_is_S(it[0])
+                            SanityCheck.check_is_P(it[1])
+                            SanityCheck.check_is_O(it[2])
                             it[0] = it[0] - SanityCheck.TRIPLE_FLAG_S
                             it[1] = it[1] - SanityCheck.TRIPLE_FLAG_P
                             it[2] = it[2] - SanityCheck.TRIPLE_FLAG_O

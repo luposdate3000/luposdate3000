@@ -594,9 +594,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-SanityCheck.check_is_S(data[0])
-SanityCheck.check_is_P(data[1])
-SanityCheck.check_is_O(data[2])
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()
@@ -627,9 +627,9 @@ SanityCheck.check_is_O(data[2])
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-SanityCheck.check_is_S(data[0])
-SanityCheck.check_is_P(data[1])
-SanityCheck.check_is_O(data[2])
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()
@@ -660,9 +660,9 @@ SanityCheck.check_is_O(data[2])
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-SanityCheck.check_is_S(data[0])
-SanityCheck.check_is_P(data[1])
-SanityCheck.check_is_O(data[2])
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()
@@ -691,9 +691,9 @@ SanityCheck.check_is_O(data[2])
     override fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-SanityCheck.check_is_S(data[0])
-SanityCheck.check_is_P(data[1])
-SanityCheck.check_is_O(data[2])
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()
