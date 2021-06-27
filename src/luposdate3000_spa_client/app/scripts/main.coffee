@@ -594,7 +594,8 @@ App.processSparql = (doc, namespaces, colors) ->
             resultSet.head.push variable._attributes.name
             varorder[variable._attributes.name] = i
             i++
-
+        if ! doc.sparql.results.hasOwnProperty("result")
+            doc.sparql.results={result:[]}
         unless $.isArray doc.sparql.results.result
             doc.sparql.results.result = [doc.sparql.results.result]
         for result in doc.sparql.results.result
