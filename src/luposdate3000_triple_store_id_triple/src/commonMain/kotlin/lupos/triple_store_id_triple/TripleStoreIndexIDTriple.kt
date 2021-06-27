@@ -592,6 +592,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+SanityCheck{
+if(dataSize>0){
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+}
+}
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -618,6 +625,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+SanityCheck{
+if(dataSize>0){
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+}
+}
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -644,6 +658,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
+SanityCheck{
+if(dataSize>0){
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+}
+}
         flushContinueWithWriteLock()
         val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null
@@ -668,6 +689,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
+SanityCheck{
+if(dataSize>0){
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+}
+}
         flushContinueWithWriteLock()
         val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null

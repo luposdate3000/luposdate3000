@@ -169,9 +169,26 @@ public object LuposdateEndpoint {
                         store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
                         bufPos = 0
                     }
+SanityCheck{
+if(!SanityCheck.ignoreTripleFlag){
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+it[0]=it[0]-SanityCheck.TRIPLE_FLAG_S
+it[1]=it[1]-SanityCheck.TRIPLE_FLAG_P
+it[2]=it[2]-SanityCheck.TRIPLE_FLAG_O
+}
+}
                     bufS[bufPos] = mapping[it[0]]
                     bufP[bufPos] = mapping[it[1]]
                     bufO[bufPos] = mapping[it[2]]
+SanityCheck{
+if(!SanityCheck.ignoreTripleFlag){
+bufS[bufPos]=bufS[bufPos]+SanityCheck.TRIPLE_FLAG_S
+bufP[bufPos]=bufP[bufPos]+SanityCheck.TRIPLE_FLAG_P
+bufO[bufPos]=bufO[bufPos]+SanityCheck.TRIPLE_FLAG_O
+}
+}
                     bufPos++
                     counter++
                     if (counter % 10000 == 0L) {
@@ -225,9 +242,26 @@ public object LuposdateEndpoint {
                             store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
                             bufPos = 0
                         }
+SanityCheck{
+if(!SanityCheck.ignoreTripleFlag){
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+it[0]=it[0]-SanityCheck.TRIPLE_FLAG_S
+it[1]=it[1]-SanityCheck.TRIPLE_FLAG_P
+it[2]=it[2]-SanityCheck.TRIPLE_FLAG_O
+}
+}
                         bufS[bufPos] = mapping[it[0]]
                         bufP[bufPos] = mapping[it[1]]
                         bufO[bufPos] = mapping[it[2]]
+SanityCheck{
+if(!SanityCheck.ignoreTripleFlag){
+bufS[bufPos]=bufS[bufPos]+SanityCheck.TRIPLE_FLAG_S
+bufP[bufPos]=bufP[bufPos]+SanityCheck.TRIPLE_FLAG_P
+bufO[bufPos]=bufO[bufPos]+SanityCheck.TRIPLE_FLAG_O
+}
+}
                         bufPos++
                         counter++
                         if (counter % 10000 == 0L) {

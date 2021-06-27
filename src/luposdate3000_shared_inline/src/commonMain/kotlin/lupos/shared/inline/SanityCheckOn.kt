@@ -22,6 +22,12 @@ import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
+public val TRIPLE_FLAG_S=0x00010000
+public val TRIPLE_FLAG_P=0x00020000
+public val TRIPLE_FLAG_O=0x00030000
+public val ignoreTripleFlag=false
+
+
     public val enabled = true
     internal const val SANITYCHECK_PRINTING = false
     internal const val SANITYCHECK_PRINTING_NODEMANAGER = false

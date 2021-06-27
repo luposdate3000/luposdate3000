@@ -113,9 +113,13 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
                 off = 0
             }
+SanityCheck{
             if (off >= 3 && off % 3 == 0) {
-                kotlin.io.println("read row a : [${buf[off - 3]}, ${buf[off - 2]}, ${buf[off - 1]}]")
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
             }
+}
         }
     }
     private class LocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
@@ -168,6 +172,13 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
                 off = 0
             }
+SanityCheck{
+            if (off >= 3 && off % 3 == 0) {
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+            }
+}
         }
     }
     public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {

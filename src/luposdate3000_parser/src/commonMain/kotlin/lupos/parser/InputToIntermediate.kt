@@ -165,7 +165,7 @@ public object InputToIntermediate {
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     private fun process(inputFileName: String, backupmode: Boolean, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
         var shouldReturn = false
-        val inference_enabled = true
+        val inference_enabled = false
         var inferredTriples = 0
         val startTime = DateHelperRelative.markNow()
         val quadMode = inputFileName.endsWith(".n4")
@@ -248,6 +248,13 @@ public object InputToIntermediate {
                         for (i in 0 until 3) {
                             row[i] = addToDict(triple[i])
                         }
+SanityCheck{
+if(!SanityCheck.ignoreTripleFlag){
+row[0]=row[0] + SanityCheck.TRIPLE_FLAG_S
+row[1]=row[1] + SanityCheck.TRIPLE_FLAG_P
+row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
+}
+}
                         outTriples.write(row[0], row[1], row[2])
                         cnt++
                         if (cnt % 10000L == 0L) {
@@ -271,6 +278,13 @@ public object InputToIntermediate {
                             for (i in 0 until 3) {
                                 row[i] = addToDict(triple[i])
                             }
+SanityCheck{ 
+if(!SanityCheck.ignoreTripleFlag){
+row[0]=row[0] + SanityCheck.TRIPLE_FLAG_S
+row[1]=row[1] + SanityCheck.TRIPLE_FLAG_P
+row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
+}
+}
                             outTriples.write(row[0], row[1], row[2])
                             cnt++
                             if (cnt % 10000L == 0L) {
@@ -298,6 +312,13 @@ public object InputToIntermediate {
                     for (i in 0 until 3) {
                         row[i] = addToDict(quad[i])
                     }
+SanityCheck{ 
+if(!SanityCheck.ignoreTripleFlag){
+row[0]=row[0] + SanityCheck.TRIPLE_FLAG_S
+row[1]=row[1] + SanityCheck.TRIPLE_FLAG_P
+row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
+}
+}
                     outTriples.write(row[0], row[1], row[2])
                     cnt++
                     if (cnt % 10000L == 0L) {
@@ -439,9 +460,26 @@ public object InputToIntermediate {
                 val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type")
                 val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf")
                 inTriples.readAll { it ->
+SanityCheck.check{
+if(!SanityCheck.ignoreTripleFlag){
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
+SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+it[0]=it[0]-SanityCheck.TRIPLE_FLAG_S
+it[1]=it[1]-SanityCheck.TRIPLE_FLAG_P
+it[2]=it[2]-SanityCheck.TRIPLE_FLAG_O
+}
+}
                     val t_s = mapping[it[0]]
                     val t_p = mapping[it[1]]
                     val t_o = mapping[it[2]]
+SanityCheck.check{
+if(!SanityCheck.ignoreTripleFlag){
+t_s=t_s+SanityCheck.TRIPLE_FLAG_S
+t_p=t_p+SanityCheck.TRIPLE_FLAG_P
+t_o=t_o+SanityCheck.TRIPLE_FLAG_O
+}
+}
                     outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {
                         when (t_p) {
