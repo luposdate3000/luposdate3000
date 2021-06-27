@@ -225,9 +225,9 @@ public object LuposdateEndpoint {
                             store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
                             bufPos = 0
                         }
-                        bufS[bufPos] = mapping[it[order[0]]]
-                        bufP[bufPos] = mapping[it[order[1]]]
-                        bufO[bufPos] = mapping[it[order[2]]]
+                        bufS[bufPos] = mapping[it[0]]
+                        bufP[bufPos] = mapping[it[1]]
+                        bufO[bufPos] = mapping[it[2]]
                         bufPos++
                         counter++
                         if (counter % 10000 == 0L) {

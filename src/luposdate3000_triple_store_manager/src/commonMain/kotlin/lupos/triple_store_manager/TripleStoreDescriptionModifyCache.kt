@@ -65,7 +65,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         val limit = buf.size - (buf.size % 3)
         val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
         init {
-            println("created LocalSortedInputStream")
+            kotlin.io.println("created LocalSortedInputStream")
         }
         override fun flush() {}
         override fun close() { }
@@ -94,7 +94,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         override fun write(buf: ByteArray, len: Int) {
         }
         override fun writeInt(i: Int) {
-            println("read off a $off")
+            kotlin.io.println("read off a $off")
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
@@ -113,8 +113,8 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
                 off = 0
             }
-            if (off >= 3 && off % 3 == 1) {
-                println("read row a : [${buf[off - 3]}, ${buf[off - 2]}, ${buf[off - 1]}]")
+            if (off >= 3 && off % 3 == 0) {
+                kotlin.io.println("read row a : [${buf[off - 3]}, ${buf[off - 2]}, ${buf[off - 1]}]")
             }
         }
     }
@@ -123,9 +123,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - (buf.size % 3)
         val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
-        init {
-            println("created LocalInputStream")
-        }
         override fun flush() {}
         override fun close() { }
 
@@ -153,7 +150,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         override fun write(buf: ByteArray, len: Int) {
         }
         override fun writeInt(i: Int) {
-            println("read off b $off")
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
@@ -171,9 +167,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
                 }
                 off = 0
-            }
-            if (off >= 3 && off % 3 == 1) {
-                println("read row b : [${buf[off - 3]}, ${buf[off - 2]}, ${buf[off - 1]}]")
             }
         }
     }
@@ -205,8 +198,10 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         allConn = Array(usedIndices.size) { i ->
             Array(usedIndices[i].getAllLocations().size) { j ->
                 if (allStore[i][j].first == (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localhost) {
+                    println("openConn c")
                     Pair(null, LocalSortedInputStream(allStore[i][j].second, type, idx[i].first(), instance))
                 } else {
+                    println("openConn d")
                     instance.communicationHandler!!.openConnection(allStore[i][j].first, "/distributed/graph/modifysorted", allStoreParams[i][j])
                 }
             }
@@ -234,8 +229,10 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         allConn = Array(description.indices.size) { i ->
             Array(description.indices[i].getAllLocations().size) { j ->
                 if (allStore[i][j].first == (((instance.tripleStoreManager!! as TripleStoreManagerImpl)) as TripleStoreManagerImpl).localhost) {
+                    println("openConn a")
                     Pair(null, LocalInputStream(allStore[i][j].second, type, idx[i].first(), instance))
                 } else {
+                    println("openConn b")
                     instance.communicationHandler!!.openConnection(allStore[i][j].first, "/distributed/graph/modify", allStoreParams[i][j])
                 }
             }
