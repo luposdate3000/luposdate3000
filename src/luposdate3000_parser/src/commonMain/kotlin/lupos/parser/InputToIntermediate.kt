@@ -21,6 +21,7 @@ import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
 import lupos.shared.DateHelperRelative
+import lupos.shared.EIndexPatternExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
@@ -179,7 +180,7 @@ public object InputToIntermediate {
         var dictSizeEstimated = 0L
         var chunc = 0
 // create chunced dictionaries
-        var outTriples = TriplesIntermediateWriter("$inputFileName.0")
+        var outTriples = TriplesIntermediateWriter("$inputFileName.0", EIndexPatternExt.SPO)
         val dict = mutableMapOf<ByteArrayWrapper, Int>()
         var dictCounter = 0L
         var cnt = 0L
@@ -248,13 +249,13 @@ public object InputToIntermediate {
                         for (i in 0 until 3) {
                             row[i] = addToDict(triple[i])
                         }
-SanityCheck{
-if(!SanityCheck.ignoreTripleFlag){
-row[0]=row[0] + SanityCheck.TRIPLE_FLAG_S
-row[1]=row[1] + SanityCheck.TRIPLE_FLAG_P
-row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
-}
-}
+                        SanityCheck {
+                            if (!SanityCheck.ignoreTripleFlag) {
+                                row[0] = row[0] + SanityCheck.TRIPLE_FLAG_S
+                                row[1] = row[1] + SanityCheck.TRIPLE_FLAG_P
+                                row[2] = row[2] + SanityCheck.TRIPLE_FLAG_O
+                            }
+                        }
                         outTriples.write(row[0], row[1], row[2])
                         cnt++
                         if (cnt % 10000L == 0L) {
@@ -278,13 +279,13 @@ row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
                             for (i in 0 until 3) {
                                 row[i] = addToDict(triple[i])
                             }
-SanityCheck{ 
-if(!SanityCheck.ignoreTripleFlag){
-row[0]=row[0] + SanityCheck.TRIPLE_FLAG_S
-row[1]=row[1] + SanityCheck.TRIPLE_FLAG_P
-row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
-}
-}
+                            SanityCheck {
+                                if (!SanityCheck.ignoreTripleFlag) {
+                                    row[0] = row[0] + SanityCheck.TRIPLE_FLAG_S
+                                    row[1] = row[1] + SanityCheck.TRIPLE_FLAG_P
+                                    row[2] = row[2] + SanityCheck.TRIPLE_FLAG_O
+                                }
+                            }
                             outTriples.write(row[0], row[1], row[2])
                             cnt++
                             if (cnt % 10000L == 0L) {
@@ -312,13 +313,13 @@ row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
                     for (i in 0 until 3) {
                         row[i] = addToDict(quad[i])
                     }
-SanityCheck{ 
-if(!SanityCheck.ignoreTripleFlag){
-row[0]=row[0] + SanityCheck.TRIPLE_FLAG_S
-row[1]=row[1] + SanityCheck.TRIPLE_FLAG_P
-row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
-}
-}
+                    SanityCheck {
+                        if (!SanityCheck.ignoreTripleFlag) {
+                            row[0] = row[0] + SanityCheck.TRIPLE_FLAG_S
+                            row[1] = row[1] + SanityCheck.TRIPLE_FLAG_P
+                            row[2] = row[2] + SanityCheck.TRIPLE_FLAG_O
+                        }
+                    }
                     outTriples.write(row[0], row[1], row[2])
                     cnt++
                     if (cnt % 10000L == 0L) {
@@ -398,6 +399,14 @@ row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
                 intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos"
                 intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
             )
+            val indexPatterns = arrayOf(
+                EIndexPatternExt.SPO,
+                EIndexPatternExt.SOP,
+                EIndexPatternExt.PSO,
+                EIndexPatternExt.POS,
+                EIndexPatternExt.OSP,
+                EIndexPatternExt.OPS,
+            )
             val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
             val tripleBufA = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
             val tripleBufB = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
@@ -438,7 +447,7 @@ row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
                         },
                         step = 3,
                     )
-                    val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
+                    val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock", indexPatterns[o])
                     var i = 0
                     while (i < offset) {
                         outTriples2.write(tripleBufA[i + order[0]], tripleBufA[i + order[1]], tripleBufA[i + order[2]])
@@ -456,30 +465,30 @@ row[2]=row[2] + SanityCheck.TRIPLE_FLAG_O
             if (true) { // apply dictionary mapping
                 val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
 
-                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
-                val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type")
-                val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}", EIndexPatternExt.SPO)
+                val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type", EIndexPatternExt.SPO)
+                val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf", EIndexPatternExt.SPO)
                 inTriples.readAll { it ->
-SanityCheck.check{
-if(!SanityCheck.ignoreTripleFlag){
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((it[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
-it[0]=it[0]-SanityCheck.TRIPLE_FLAG_S
-it[1]=it[1]-SanityCheck.TRIPLE_FLAG_P
-it[2]=it[2]-SanityCheck.TRIPLE_FLAG_O
-}
-}
-                    val t_s = mapping[it[0]]
-                    val t_p = mapping[it[1]]
-                    val t_o = mapping[it[2]]
-SanityCheck.check{
-if(!SanityCheck.ignoreTripleFlag){
-t_s=t_s+SanityCheck.TRIPLE_FLAG_S
-t_p=t_p+SanityCheck.TRIPLE_FLAG_P
-t_o=t_o+SanityCheck.TRIPLE_FLAG_O
-}
-}
+                    SanityCheck {
+                        if (!SanityCheck.ignoreTripleFlag) {
+                            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
+                            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
+                            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+                            it[0] = it[0] - SanityCheck.TRIPLE_FLAG_S
+                            it[1] = it[1] - SanityCheck.TRIPLE_FLAG_P
+                            it[2] = it[2] - SanityCheck.TRIPLE_FLAG_O
+                        }
+                    }
+                    var t_s = mapping[it[0]]
+                    var t_p = mapping[it[1]]
+                    var t_o = mapping[it[2]]
+                    SanityCheck {
+                        if (!SanityCheck.ignoreTripleFlag) {
+                            t_s = t_s + SanityCheck.TRIPLE_FLAG_S
+                            t_p = t_p + SanityCheck.TRIPLE_FLAG_P
+                            t_o = t_o + SanityCheck.TRIPLE_FLAG_O
+                        }
+                    }
                     outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {
                         when (t_p) {
@@ -513,7 +522,7 @@ t_o=t_o+SanityCheck.TRIPLE_FLAG_O
                     }
                 }
                 inTriples.close()
-                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}", EIndexPatternExt.SPO)
                 inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
                 inTriples.readAll { it ->
                     outTriples2.write(it[0], it[1], it[2])
@@ -564,7 +573,7 @@ t_o=t_o+SanityCheck.TRIPLE_FLAG_O
             val tripleInitialSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - inferenceTime
             var myCount = -1L
             for (o in 0 until 6) {
-                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}", indexPatterns[o])
                 val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
                 val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }
                 val smallest = IntArray(3)

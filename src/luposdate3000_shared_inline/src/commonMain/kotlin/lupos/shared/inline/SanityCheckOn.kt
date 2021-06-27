@@ -22,12 +22,51 @@ import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
-public val TRIPLE_FLAG_S=0x00010000
-public val TRIPLE_FLAG_P=0x00020000
-public val TRIPLE_FLAG_O=0x00030000
-public val ignoreTripleFlag=false
+    public val TRIPLE_FLAG_S = 0x00010000
+    public val TRIPLE_FLAG_P = 0x00020000
+    public val TRIPLE_FLAG_O = 0x00030000
+    public val TRIPLE_FLAG_All=TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
+    public val ignoreTripleFlag = false
 
-
+internal inline fun check_is_S(i:Int){
+check{
+if(!ignoreTripleFlag){
+val flag=i and TRIPLE_FLAG_All
+when(flag){
+TRIPLE_FLAG_S->return
+TRIPLE_FLAG_P->TODO("expected subject but found predicate $i")
+TRIPLE_FLAG_O->TODO("expected subject but found object $i")
+else->TODO("expected subject but found undefined $i")
+}
+}
+}
+}
+internal inline fun check_is_P(i:Int){
+check{
+if(!ignoreTripleFlag){
+val flag=i and TRIPLE_FLAG_All
+when(flag){ 
+TRIPLE_FLAG_S->TODO("expected predicate but found subject $i")
+TRIPLE_FLAG_P->return
+TRIPLE_FLAG_O->TODO("expected predicate but found object $i")
+else->TODO("expected predicate but found undefined $i")
+}
+}
+}
+}
+internal inline fun check_is_O(i:Int){
+check{
+if(!ignoreTripleFlag){
+val flag=i and TRIPLE_FLAG_All
+when(flag){ 
+TRIPLE_FLAG_S->TODO("expected object but found subject $i")
+TRIPLE_FLAG_P->TODO("expected object but found predicate $i")
+TRIPLE_FLAG_O->return
+else->TODO("expected object but found undefined $i")
+}
+}
+}
+}
     public val enabled = true
     internal const val SANITYCHECK_PRINTING = false
     internal const val SANITYCHECK_PRINTING_NODEMANAGER = false

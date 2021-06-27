@@ -27,6 +27,7 @@ import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import kotlin.jvm.JvmField
 
@@ -113,13 +114,13 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
                 off = 0
             }
-SanityCheck{
-            if (off >= 3 && off % 3 == 0) {
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+            SanityCheck {
+                if (off >= 3 && off % 3 == 0) {
+                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
+                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
+                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+                }
             }
-}
         }
     }
     private class LocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
@@ -172,13 +173,13 @@ SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 1] and SanityCheck.T
                 }
                 off = 0
             }
-SanityCheck{
-            if (off >= 3 && off % 3 == 0) {
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+            SanityCheck {
+                if (off >= 3 && off % 3 == 0) {
+                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
+                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
+                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+                }
             }
-}
         }
     }
     public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {

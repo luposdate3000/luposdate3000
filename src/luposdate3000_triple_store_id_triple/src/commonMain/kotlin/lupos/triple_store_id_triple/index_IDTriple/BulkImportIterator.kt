@@ -16,8 +16,8 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
-import kotlin.jvm.JvmField
 import lupos.shared.SanityCheck
+import kotlin.jvm.JvmField
 internal class BulkImportIterator(@JvmField val data: IntArray, @JvmField val count: Int, @JvmField val order: IntArray) : TripleIterator() {
     @JvmField
     var offset = 0
@@ -26,9 +26,9 @@ internal class BulkImportIterator(@JvmField val data: IntArray, @JvmField val co
     }
 
     override fun next(component: Int): Int {
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[offset] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[offset+1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((data[offset+2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
+        SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[offset] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
+        SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[offset + 1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
+        SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[offset + 2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
         value[0] = data[offset + order[0]]
         value[1] = data[offset + order[1]]
         value[2] = data[offset + order[2]]

@@ -16,12 +16,12 @@
  */
 package lupos.shared.fileformat
 
-import lupos.shared.inline.ByteArrayHelper
-import lupos.shared.inline.File
-import lupos.shared.inline.IntegerExt
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.SanityCheck
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.File
+import lupos.shared.inline.IntegerExt
 import kotlin.jvm.JvmField
 
 public class TriplesIntermediateWriter : TriplesIntermediate {
@@ -40,54 +40,55 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
 
     @JvmField
     internal val buf: ByteArray = ByteArray(13)
-private val writeOrder:EIndexPattern
+    private val writeOrder: EIndexPattern
 
-    public constructor(filename: String, writeOrder:EIndexPattern) : super(filename) {
-this.writeOrder=writeOrder
+    public constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
+        this.writeOrder = writeOrder
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
-streamOut.writeInt4(writeOrder)
+        streamOut!!.writeInt(writeOrder)
     }
 
     public fun getCount(): Long = count
     public fun write(s: Int, p: Int, o: Int) {
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((s and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((p and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P)}
-SanityCheck.check{SanityCheck.ignoreTripleFlag||((o and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O)}
-val l0:Int
-val l1:Int
-val l2:Int
-when(writeOrder){
-EIndexPatternExt.SPO->{
-l0=s
-l1=p
-l2=o
-}
-EIndexPatternExt.SOP->{ 
-l0=s
-l1=o
-l2=p
-}
-EIndexPatternExt.PSO->{ 
-l0=p
-l1=s
-l2=o
-}
-EIndexPatternExt.POS->{
-l0=p
-l1=o
-l2=s
-}
-EIndexPatternExt.OSP->{ 
-l0=o
-l1=s
-l2=p
-}
-EIndexPatternExt.OPS->{
-l0=o
-l1=p
-l2=s
-}
-}
+SanityCheck.check_is_S(s)
+SanityCheck.check_is_P(p)
+SanityCheck.check_is_O(o)
+        val l0: Int
+        val l1: Int
+        val l2: Int
+        when (writeOrder) {
+            EIndexPatternExt.SPO -> {
+                l0 = s
+                l1 = p
+                l2 = o
+            }
+            EIndexPatternExt.SOP -> {
+                l0 = s
+                l1 = o
+                l2 = p
+            }
+            EIndexPatternExt.PSO -> {
+                l0 = p
+                l1 = s
+                l2 = o
+            }
+            EIndexPatternExt.POS -> {
+                l0 = p
+                l1 = o
+                l2 = s
+            }
+            EIndexPatternExt.OSP -> {
+                l0 = o
+                l1 = s
+                l2 = p
+            }
+            EIndexPatternExt.OPS -> {
+                l0 = o
+                l1 = p
+                l2 = s
+            }
+            else -> TODO()
+        }
         val b0 = last0 xor l0
         val b1 = last1 xor l1
         val b2 = last2 xor l2
