@@ -171,9 +171,9 @@ public object LuposdateEndpoint {
                     }
                     SanityCheck {
                         if (!SanityCheck.ignoreTripleFlag) {
-                            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(it[0])
+SanityCheck.check_is_P(it[1])
+SanityCheck.check_is_O(it[2])
                             it[0] = it[0] - SanityCheck.TRIPLE_FLAG_S
                             it[1] = it[1] - SanityCheck.TRIPLE_FLAG_P
                             it[2] = it[2] - SanityCheck.TRIPLE_FLAG_O
@@ -244,9 +244,9 @@ public object LuposdateEndpoint {
                         }
                         SanityCheck {
                             if (!SanityCheck.ignoreTripleFlag) {
-                                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((it[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(it[0])
+SanityCheck.check_is_P(it[1])
+SanityCheck.check_is_O(it[2])
                                 it[0] = it[0] - SanityCheck.TRIPLE_FLAG_S
                                 it[1] = it[1] - SanityCheck.TRIPLE_FLAG_P
                                 it[2] = it[2] - SanityCheck.TRIPLE_FLAG_O

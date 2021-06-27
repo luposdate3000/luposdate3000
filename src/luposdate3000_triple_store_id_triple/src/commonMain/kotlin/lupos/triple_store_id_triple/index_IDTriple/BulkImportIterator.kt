@@ -26,9 +26,9 @@ internal class BulkImportIterator(@JvmField val data: IntArray, @JvmField val co
     }
 
     override fun next(component: Int): Int {
-        SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[offset] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-        SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[offset + 1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-        SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[offset + 2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(data[offset])
+SanityCheck.check_is_P(data[offset+1])
+SanityCheck.check_is_O(data[offset+2])
         value[0] = data[offset + order[0]]
         value[1] = data[offset + order[1]]
         value[2] = data[offset + order[2]]

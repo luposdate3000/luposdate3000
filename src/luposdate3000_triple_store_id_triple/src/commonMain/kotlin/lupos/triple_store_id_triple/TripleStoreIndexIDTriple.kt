@@ -594,9 +594,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(data[0])
+SanityCheck.check_is_P(data[1])
+SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()
@@ -627,9 +627,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(data[0])
+SanityCheck.check_is_P(data[1])
+SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()
@@ -660,9 +660,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(data[0])
+SanityCheck.check_is_P(data[1])
+SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()
@@ -691,9 +691,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
             if (dataSize> 0) {
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((data[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(data[0])
+SanityCheck.check_is_P(data[1])
+SanityCheck.check_is_O(data[2])
             }
         }
         flushContinueWithWriteLock()

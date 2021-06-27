@@ -66,9 +66,9 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
             buffer[i0] = buffer[i0] xor ByteArrayHelper.readIntX(buf, 0, counter0)
             buffer[i1] = buffer[i1] xor ByteArrayHelper.readIntX(buf, rel0, counter1)
             buffer[i2] = buffer[i2] xor ByteArrayHelper.readIntX(buf, rel1, counter2)
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buffer[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buffer[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buffer[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(buffer[0])
+SanityCheck.check_is_P(buffer[1])
+SanityCheck.check_is_O(buffer[2])
             return buffer
         }
     }

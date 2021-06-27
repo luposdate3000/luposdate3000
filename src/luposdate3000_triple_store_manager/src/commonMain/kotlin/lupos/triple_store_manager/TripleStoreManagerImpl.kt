@@ -445,9 +445,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[i - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[i - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[i - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(buf[i - 3])
+SanityCheck.check_is_P(buf[i - 2])
+SanityCheck.check_is_O(buf[i - 1])
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
@@ -474,9 +474,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[i - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[i - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[i - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(buf[i - 3])
+SanityCheck.check_is_P(buf[i - 2])
+SanityCheck.check_is_O(buf[i - 1])
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)

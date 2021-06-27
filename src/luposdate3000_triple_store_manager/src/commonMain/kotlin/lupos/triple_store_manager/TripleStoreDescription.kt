@@ -131,9 +131,9 @@ public class TripleStoreDescription(
             if (localcache.row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((localcache.row[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((localcache.row[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((localcache.row[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(localcache.row[0])
+SanityCheck.check_is_P(localcache.row[1])
+SanityCheck.check_is_O(localcache.row[2])
             for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
                 val conn = localcache.allConn[i][j]
@@ -165,9 +165,9 @@ public class TripleStoreDescription(
             if (localcache.row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((localcache.row[0] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((localcache.row[1] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-            SanityCheck.check { SanityCheck.ignoreTripleFlag || ((localcache.row[2] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(localcache.row[0])
+SanityCheck.check_is_P(localcache.row[1])
+SanityCheck.check_is_O(localcache.row[2])
             for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
                 val conn = localcache.allConn[i][j]

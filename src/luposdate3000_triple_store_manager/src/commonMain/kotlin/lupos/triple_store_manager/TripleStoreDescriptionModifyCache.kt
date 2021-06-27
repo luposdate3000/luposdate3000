@@ -116,9 +116,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
             SanityCheck {
                 if (off >= 3 && off % 3 == 0) {
-                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(buf[off - 3])
+SanityCheck.check_is_P(buf[off - 2])
+SanityCheck.check_is_O(buf[off - 1])
                 }
             }
         }
@@ -175,9 +175,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
             SanityCheck {
                 if (off >= 3 && off % 3 == 0) {
-                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 3] and SanityCheck.TRIPLE_FLAG_S) != SanityCheck.TRIPLE_FLAG_S) }
-                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 2] and SanityCheck.TRIPLE_FLAG_P) != SanityCheck.TRIPLE_FLAG_P) }
-                    SanityCheck.check { SanityCheck.ignoreTripleFlag || ((buf[off - 1] and SanityCheck.TRIPLE_FLAG_O) != SanityCheck.TRIPLE_FLAG_O) }
+SanityCheck.check_is_S(buf[off - 3])
+SanityCheck.check_is_P(buf[off - 2])
+SanityCheck.check_is_O(buf[off - 1])
                 }
             }
         }
