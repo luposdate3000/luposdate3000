@@ -109,6 +109,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
                 off = 0
             }
+            if (off >= 3 && off % 3 == 1) {
+                println("read row a : [${buf[off - 3]}, ${buf[off - 2]}, ${buf[off - 1]}]")
+            }
         }
     }
     private class LocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
@@ -160,6 +163,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
                 }
                 off = 0
+            }
+            if (off >= 3 && off % 3 == 1) {
+                println("read row b : [${buf[off - 3]}, ${buf[off - 2]}, ${buf[off - 1]}]")
             }
         }
     }

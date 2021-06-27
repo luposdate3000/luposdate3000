@@ -134,6 +134,7 @@ public class TripleStoreDescription(
             for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
                 val conn = localcache.allConn[i][j]
+                println("write row a :: ${localcache.row.map{it}}")
                 conn.second.writeInt(localcache.row[0])
                 conn.second.writeInt(localcache.row[1])
                 conn.second.writeInt(localcache.row[2])
@@ -143,6 +144,7 @@ public class TripleStoreDescription(
             for (i in 0 until localcache.allConn.size) {
                 for (j in 0 until localcache.allConn[i].size) {
                     val conn = localcache.allConn[i][j]
+                    println("write row a :: -1")
                     conn.second.writeInt(-1)
                     conn.first?.close()
                     conn.second.close()
@@ -163,6 +165,7 @@ public class TripleStoreDescription(
             for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
                 val conn = localcache.allConn[i][j]
+                println("write row b :: ${localcache.row.map{it}}")
                 conn.second.writeInt(localcache.row[0])
                 conn.second.writeInt(localcache.row[1])
                 conn.second.writeInt(localcache.row[2])
@@ -175,6 +178,7 @@ public class TripleStoreDescription(
                     conn.first?.close()
                     conn.second.writeInt(-1)
                     conn.second.close()
+                    println("write row b :: -1")
                 }
             }
         }
