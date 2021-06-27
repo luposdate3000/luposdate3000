@@ -25,7 +25,7 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
     public override fun end() {
-        //File(state.dataFile).deleteRecursively()
+
     }
 
     public override fun receive(pck: IDatabasePackage) {

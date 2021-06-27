@@ -68,7 +68,7 @@ internal object Configuration {
     }
 
     internal fun readJsonFile(fileName: String): JsonObjects {
-        val fileStr = File(fileName).readAsString()
+        val fileStr = File(fileName) .readAsString()
         return Json.decodeFromString(fileStr)
     }
 

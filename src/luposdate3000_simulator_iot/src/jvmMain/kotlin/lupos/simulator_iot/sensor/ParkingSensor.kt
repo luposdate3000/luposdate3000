@@ -2,7 +2,7 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.Logger
+import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.config.Configuration
 

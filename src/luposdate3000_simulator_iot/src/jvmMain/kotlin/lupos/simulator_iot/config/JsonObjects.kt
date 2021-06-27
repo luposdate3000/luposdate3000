@@ -62,7 +62,7 @@ public data class RandomStarNetwork(
     val dataSink: String = "",
     val linkType: String = "",
     val deviceType: String = "",
-    val number: Int = 0
+    var number: Int = 0
 )
 
 @Serializable

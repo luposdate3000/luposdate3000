@@ -1,9 +1,12 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.log
 
 import kotlinx.datetime.Instant
 import lupos.shared.inline.File
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
+import lupos.simulator_iot.Device
+import lupos.simulator_iot.FilePaths
+import lupos.simulator_iot.Time
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.routing.RPL
@@ -15,7 +18,7 @@ internal object Logger : ISimulationLifeCycle {
     private lateinit var startUpTimeStamp: Instant
     private lateinit var shutDownTimeStamp: Instant
     private lateinit var realShutDownTimeStamp: Instant
-    private val initStartTimeStamp: Instant = Time.stamp()
+    private var initStartTimeStamp: Instant = Time.stamp()
 
     override fun onStartUp() {
         startUpTimeStamp = Time.stamp()
@@ -33,6 +36,10 @@ internal object Logger : ISimulationLifeCycle {
         resetCounters()
     }
 
+    internal fun reset() {
+        initStartTimeStamp= Time.stamp()
+    }
+
     private fun refreshDirectories() {
         File(FilePaths.queryResult).deleteRecursively()
         File(FilePaths.queryResult).mkdirs()
@@ -47,7 +54,7 @@ internal object Logger : ISimulationLifeCycle {
     internal fun getInitDuration(): Double
         = Time.differenceInSeconds(initStartTimeStamp, startUpTimeStamp)
 
-    internal fun getSimulationDuration(): Double
+    private fun getSimulationDuration(): Double
         = Time.differenceInSeconds(startUpTimeStamp, shutDownTimeStamp)
 
     internal fun getRealSimulationDuration(): Double
