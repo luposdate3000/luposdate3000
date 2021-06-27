@@ -450,7 +450,7 @@ public object InputToIntermediate {
                     val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock", indexPatterns[o])
                     var i = 0
                     while (i < offset) {
-                        outTriples2.write(tripleBufA[i + order[0]], tripleBufA[i + order[1]], tripleBufA[i + order[2]])
+                        outTriples2.write(tripleBufA[i ], tripleBufA[i + 1], tripleBufA[i + 2])
                         i += 3
                     }
                     outTriples2.close()
@@ -474,20 +474,19 @@ public object InputToIntermediate {
                             SanityCheck.check_is_S(it[0])
                             SanityCheck.check_is_P(it[1])
                             SanityCheck.check_is_O(it[2])
-                            it[0] = it[0] - SanityCheck.TRIPLE_FLAG_S
-                            it[1] = it[1] - SanityCheck.TRIPLE_FLAG_P
-                            it[2] = it[2] - SanityCheck.TRIPLE_FLAG_O
                         }
                     }
-                    var t_s = mapping[it[0]]
-                    var t_p = mapping[it[1]]
-                    var t_o = mapping[it[2]]
-                    SanityCheck {
-                        if (!SanityCheck.ignoreTripleFlag) {
-                            t_s = t_s + SanityCheck.TRIPLE_FLAG_S
-                            t_p = t_p + SanityCheck.TRIPLE_FLAG_P
-                            t_o = t_o + SanityCheck.TRIPLE_FLAG_O
-                        }
+                    val t_s: Int
+                    val t_p: Int
+                    val t_o: Int
+                    if (SanityCheck.ignoreTripleFlag) {
+                        t_s = mapping[it[0]]
+                        t_p = mapping[it[1]]
+                        t_o = mapping[it[2]]
+                    } else {
+                        t_s = mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S
+                        t_p = mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P
+                        t_o = mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O
                     }
                     outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {

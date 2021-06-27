@@ -58,8 +58,12 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     var insertBufferSize = 0
     val deleteBuffer = IntArray(3000)
     var deleteBufferSize = 0
-    fun mergeSPO(s: Int, p: Int, o: Int): Int = (s and 0x7fff0000.toInt()) or ((p and 0x7f000000.toInt()) shr 16) or ((o and 0x7f000000.toInt()) shr 24)
-    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) = action(v and 0x7fff0000.toInt(), (v and 0x00007f00.toInt()) shl 16, (v and 0x0000007f.toInt()) shl 24)
+    fun mergeSPO(s: Int, p: Int, o: Int): Int {
+        return (s and 0x7fff0000.toInt() and SanityCheck.TRIPLE_FLAG_NONE) or ((p and 0x7f000000.toInt()and SanityCheck.TRIPLE_FLAG_NONE) shr 16) or ((o and 0x7f000000.toInt()and SanityCheck.TRIPLE_FLAG_NONE) shr 24)
+    }
+    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) {
+        action(v and 0x7fff0000.toInt()and SanityCheck.TRIPLE_FLAG_NONE, ((v and 0x00007f00.toInt()) shl 16) and SanityCheck.TRIPLE_FLAG_NONE, ((v and 0x0000007f.toInt()) shl 24)and SanityCheck.TRIPLE_FLAG_NONE)
+    }
     fun filterArrToFun(filter: IntArray): (Int) -> Boolean {
         var res: (Int) -> Boolean = { true }
         when (filter.size) {
@@ -106,9 +110,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("dataBuffer.add(0x${insertBuffer[i + 0].toString(16).padStart(8, '0')},0x${insertBuffer[i + 1].toString(16).padStart(8, '0')},0x${insertBuffer[i + 2].toString(16).padStart(8, '0')}) -> $x")
                 }
-                insertBuffer[i + 0] = insertBuffer[i + 0] + SanityCheck.TRIPLE_FLAG_S
-                insertBuffer[i + 1] = insertBuffer[i + 1] + SanityCheck.TRIPLE_FLAG_P
-                insertBuffer[i + 2] = insertBuffer[i + 2] + SanityCheck.TRIPLE_FLAG_O
+                insertBuffer[i + 0] = insertBuffer[i + 0] or SanityCheck.TRIPLE_FLAG_S
+                insertBuffer[i + 1] = insertBuffer[i + 1] or SanityCheck.TRIPLE_FLAG_P
+                insertBuffer[i + 2] = insertBuffer[i + 2] or SanityCheck.TRIPLE_FLAG_O
                 i += 3
                 totalinserts++
                 if (!x) {
@@ -159,9 +163,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("dataBuffer.remove(0x${deleteBuffer[i + 0].toString(16).padStart(8, '0')},0x${deleteBuffer[i + 1].toString(16).padStart(8, '0')},0x${deleteBuffer[i + 2].toString(16).padStart(8, '0')}) -> $x")
                 }
-                deleteBuffer[i + 0] = deleteBuffer[i + 0] + SanityCheck.TRIPLE_FLAG_S
-                deleteBuffer[i + 1] = deleteBuffer[i + 1] + SanityCheck.TRIPLE_FLAG_P
-                deleteBuffer[i + 2] = deleteBuffer[i + 2] + SanityCheck.TRIPLE_FLAG_O
+                deleteBuffer[i + 0] = deleteBuffer[i + 0] or SanityCheck.TRIPLE_FLAG_S
+                deleteBuffer[i + 1] = deleteBuffer[i + 1] or SanityCheck.TRIPLE_FLAG_P
+                deleteBuffer[i + 2] = deleteBuffer[i + 2] or SanityCheck.TRIPLE_FLAG_O
                 i += 3
             }
             index.removeAsBulk(deleteBuffer, order, deleteBufferSize)
@@ -275,6 +279,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         val actual = mutableListOf<Int>()
         var value = iter.next()
         while (value != DictionaryExt.nullValue) {
+            if (!SanityCheck.ignoreTripleFlag) {
+                SanityCheck.check_is_S(value)
+                value = value - SanityCheck.TRIPLE_FLAG_S
+            }
             actual.add(value)
             value = iter.next()
         }
@@ -296,6 +304,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         val actual = mutableListOf<Int>()
         var value = iter.next()
         while (value != DictionaryExt.nullValue) {
+            if (!SanityCheck.ignoreTripleFlag) {
+                SanityCheck.check_is_P(value)
+                value = value - SanityCheck.TRIPLE_FLAG_P
+            }
             actual.add(value)
             value = iter.next()
         }
@@ -317,6 +329,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         val actual = mutableListOf<Int>()
         var value = iter.next()
         while (value != DictionaryExt.nullValue) {
+            if (!SanityCheck.ignoreTripleFlag) {
+                SanityCheck.check_is_O(value)
+                value = value - SanityCheck.TRIPLE_FLAG_O
+            }
             actual.add(value)
             value = iter.next()
         }

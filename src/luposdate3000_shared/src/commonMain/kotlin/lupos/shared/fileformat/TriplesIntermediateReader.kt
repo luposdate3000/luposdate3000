@@ -18,6 +18,7 @@
 package lupos.shared.fileformat
 
 import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ByteArrayHelper
@@ -31,9 +32,9 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
     init {
         streamIn = File("$filename$filenameEnding").openInputStream()
         writeOrder = streamIn!!.readInt()
-        i0 = EIndexPatternHelper.keyIndices[writeOrder][0]
-        i1 = EIndexPatternHelper.keyIndices[writeOrder][1]
-        i2 = EIndexPatternHelper.keyIndices[writeOrder][2]
+        i0 = EIndexPatternHelper.tripleIndicees[writeOrder][0]
+        i1 = EIndexPatternHelper.tripleIndicees[writeOrder][1]
+        i2 = EIndexPatternHelper.tripleIndicees[writeOrder][2]
     }
 
     public inline fun readAll(crossinline action: (IntArray) -> Unit) {
@@ -63,9 +64,14 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
             streamIn!!.read(buf, rel2)
-            buffer[i0] = buffer[i0] xor ByteArrayHelper.readIntX(buf, 0, counter0)
-            buffer[i1] = buffer[i1] xor ByteArrayHelper.readIntX(buf, rel0, counter1)
-            buffer[i2] = buffer[i2] xor ByteArrayHelper.readIntX(buf, rel1, counter2)
+            val b0 = ByteArrayHelper.readIntX(buf, 0, counter0)
+            val b1 = ByteArrayHelper.readIntX(buf, rel0, counter1)
+            val b2 = ByteArrayHelper.readIntX(buf, rel1, counter2)
+            buffer[i0] = buffer[i0] xor b0
+            buffer[i1] = buffer[i1] xor b1
+            buffer[i2] = buffer[i2] xor b2
+            println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " readerdelta .. ${b0.toString(16)} ${b1.toString(16)} ${b2.toString(16)}")
+            println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " reader .. ${buffer[0].toString(16)} ${buffer[1].toString(16)} ${buffer[2].toString(16)}")
             SanityCheck.check_is_S(buffer[0])
             SanityCheck.check_is_P(buffer[1])
             SanityCheck.check_is_O(buffer[2])
