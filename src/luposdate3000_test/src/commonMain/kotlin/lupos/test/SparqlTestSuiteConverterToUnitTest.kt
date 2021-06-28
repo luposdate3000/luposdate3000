@@ -204,7 +204,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             }
         }
         val targetType = outputFile!!.substring(outputFile.lastIndexOf("."))
-        val inputType = outputFile!!.substring(inputFile.lastIndexOf("."))
+        val inputType = inputFile!!.substring(inputFile.lastIndexOf("."))
 
         val configurations = mutableListOf<Pair<File, Config>>()
         if ((enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) && enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN)) || enabledConfigurations.contains(Config.RUNTIME)) {
@@ -730,9 +730,14 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         )
         val ignoreList = ignoreListDueToTooSlow + ignoreListDueToNotImplemented
         val acceptedInputTypes = listOf(
-            "n3",
+            ".n3",
+            ".nt",
+            ".ttl",
         )
         var ignored = ignoreList.contains(testCaseName)
+        if (!acceptedInputTypes.contains(inputType)) {
+            println("$acceptedInputTypes .. $inputType -> ${!acceptedInputTypes.contains(inputType)}")
+        }
         ignored = ignored || !acceptedInputTypes.contains(inputType)
         for (configuration in configurations) {
             configuration.first.withOutputStream { out ->
@@ -804,7 +809,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("        try {")
                 }
                 out.println("            instance.LUPOS_BUFFER_SIZE=128")
-                out.println("            if(inputType==\"n3\") {")
+                out.println("            if(listOf(\".n3\",\".ttl\",\".nt\").contains(inputType)){")
                 out.println("                LuposdateEndpoint.importTurtleString(instance,inputData)")
                 out.println("            }else{")
                 out.println("                TODO()")
