@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 class ConfigurationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}\\ConfigurationTest"
+        private const val prefix = "${FilePaths.testResource}/ConfigurationTest"
     }
 
     @Test

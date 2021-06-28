@@ -35,7 +35,7 @@ internal class MySimulatorOperatorgraphPackage(
     private fun getOperatorGraphSizeInBytes(): Int {
         var size = 0
         for ((key, value) in operatorGraph)
-            size += key.encodeToByteArray().size + value.toString().toByteArray().size
+            size += key.encodeToByteArray().size + value.toString().encodeToByteArray().size
         return size
     }
 
