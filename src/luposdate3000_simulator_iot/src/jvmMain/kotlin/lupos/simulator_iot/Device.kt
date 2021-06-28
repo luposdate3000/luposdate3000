@@ -33,12 +33,10 @@ internal class Device(
     private lateinit var deviceStart: Instant
 
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
-        return if (destinationAddress == address) {
+        return if (destinationAddress == address)
             getProcessingDelay()
-        } else {
-            val size = NetworkPackage.headerSize + pck.payload.getSizeInBytes()
-            linkManager.getTransmissionDelay(destinationAddress, size) + getProcessingDelay()
-        }
+         else
+            linkManager.getTransmissionDelay(destinationAddress, pck.pckSize) + getProcessingDelay()
     }
 
     private fun getProcessingDelay(): Long {
@@ -64,6 +62,7 @@ internal class Device(
         deviceStart = Time.stamp()
         packageCounter++
         if (pck.destinationAddress == address) {
+            logReceivePackage(pck)
             processPackage(pck)
         } else {
             forwardPackage(pck)
@@ -71,7 +70,6 @@ internal class Device(
     }
 
     private fun processPackage(pck: NetworkPackage) {
-        Logger.log("> Device $address receives $pck at ${simulation.getCurrentClock()}")
         when {
             router.isControlPackage(pck) -> {
                 router.processControlPackage(pck)
@@ -110,13 +108,13 @@ internal class Device(
     internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
-        Logger.log("> Device $address send $pck")
+        logSendPackage(pck)
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
-        Logger.log("> Device $address send $pck")
+        logSendPackage(pck)
         forwardPackage(pck)
     }
 
@@ -125,6 +123,14 @@ internal class Device(
     }
 
     internal fun hasDatabase(): Boolean = database != null
+
+    private fun logReceivePackage(pck: NetworkPackage) {
+        Logger.log("> Device $address receives $pck at clock=${simulation.getCurrentClock()}")
+    }
+
+    private fun logSendPackage(pck: NetworkPackage) {
+        Logger.log("> Device $address sends $pck at clock=${simulation.getCurrentClock()}")
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other === this) {
