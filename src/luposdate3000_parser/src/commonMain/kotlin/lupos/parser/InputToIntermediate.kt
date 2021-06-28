@@ -243,7 +243,6 @@ public object InputToIntermediate {
                 val ltit = LookAheadTokenIterator(tit, 3)
                 val x = object : TurtleParserWithStringTriples() {
                     /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                        println("adding row :: $s $p $o")
                         DictionaryHelper.sparqlToByteArray(triple[0], s)
                         DictionaryHelper.sparqlToByteArray(triple[1], p)
                         DictionaryHelper.sparqlToByteArray(triple[2], o)
@@ -277,7 +276,6 @@ public object InputToIntermediate {
                 try {
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple() {
-                            println("adding row :: ${DictionaryHelper.byteArrayToSparql(triple[0])} ${DictionaryHelper.byteArrayToSparql(triple[1])} ${DictionaryHelper.byteArrayToSparql(triple[2])}")
                             for (i in 0 until 3) {
                                 row[i] = addToDict(triple[i])
                             }

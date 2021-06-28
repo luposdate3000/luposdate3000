@@ -1241,7 +1241,6 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                     try {
                                         res.append(parseRegex(allTokens[token2]!!, parseRegex(str.substring(idx), tail)))
                                     } catch (e: Throwable) {
-                                        println("$token2 .. ${allTokens.keys}")
                                         throw e
                                     }
                                     return res.compile()
@@ -1414,7 +1413,6 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 root.append(parseRegex(allTokens[args[idx]]!!, CharGroup(args[idx], CharGroupModifier.ACTION)))
             }
             out.println("    crossinline on${args[args.size - 1]}: () -> Unit")
-            println("debugggging :: '${args[args.size - 1]}' ${allTokens.keys}")
             root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1], CharGroupModifier.ACTION)))
             out.println(") {")
             out.println("    context.clear()")

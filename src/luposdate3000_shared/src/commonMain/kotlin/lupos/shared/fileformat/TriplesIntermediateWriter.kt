@@ -46,12 +46,10 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
         this.writeOrder = writeOrder
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
         streamOut!!.writeInt(writeOrder)
-        // println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " writer")
     }
 
     public fun getCount(): Long = count
     public fun write(s: Int, p: Int, o: Int) {
-        // println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " writer .. ${s.toString(16)} ${p.toString(16)} ${o.toString(16)}")
         SanityCheck.check_is_S(s)
         SanityCheck.check_is_P(p)
         SanityCheck.check_is_O(o)
@@ -107,7 +105,6 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
             ByteArrayHelper.writeIntX(buf, 1, b0, counter0)
             ByteArrayHelper.writeIntX(buf, rel0, b1, counter1)
             ByteArrayHelper.writeIntX(buf, rel1, b2, counter2)
-            // println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " writerdelta .. ${b0.toString(16)} ${b1.toString(16)} ${b2.toString(16)}")
             streamOut!!.write(buf, rel2)
             last0 = l0
             last1 = l1

@@ -343,7 +343,6 @@ public object RestEndpoint {
             distributed_graph_modify(params, instance, connectionInMy)
         }
         paths["/distributed/graph/modifysorted"] = PathMappingHelper(false, mapOf()) {
-            println("receive /distributed/graph/modifysorted")
             val query = Query(instance)
             val key = params["key"]!!
             val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)

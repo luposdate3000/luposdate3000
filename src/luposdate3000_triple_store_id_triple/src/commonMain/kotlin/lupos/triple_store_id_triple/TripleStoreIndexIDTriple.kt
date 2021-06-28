@@ -306,7 +306,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
-        println("getIterator ${debugSortOrder.map{it}} .. ${filter.map{it}} .. $projection")
         var res: IteratorBundle
         SanityCheck.check { filter.size in 0..3 }
         SanityCheck.check { projection.size + filter.size == 3 }

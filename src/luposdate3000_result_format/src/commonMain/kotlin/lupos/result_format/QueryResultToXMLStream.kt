@@ -226,7 +226,6 @@ public object QueryResultToXMLStream {
         this(rootNode, output, true)
     }
     public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
-        println(rootNode)
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"

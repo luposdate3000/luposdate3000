@@ -458,7 +458,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
-        println("reading remoteModifySorted")
         val store = localStores_[key]!!
         val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - 3

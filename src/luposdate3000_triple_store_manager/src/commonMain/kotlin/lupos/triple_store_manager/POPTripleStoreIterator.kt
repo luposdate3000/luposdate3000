@@ -151,7 +151,6 @@ public class POPTripleStoreIterator(
                 }
             }
         }
-        println(projection)
         val filter = IntArray(filter2.size) { filter2[it] }
         return store.getIterator(query, filter, projection)
     }
