@@ -3,7 +3,9 @@ package lupos.simulator_iot
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
@@ -69,6 +71,7 @@ internal class Device(
     }
 
     private fun processPackage(pck: NetworkPackage) {
+        Logger.log("> Device $address receives $pck")
         when {
             router.isControlPackage(pck) -> {
                 router.processControlPackage(pck)
@@ -107,11 +110,13 @@ internal class Device(
     internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
+        Logger.log("> Device $address send $pck")
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
+        Logger.log("> Device $address send $pck")
         forwardPackage(pck)
     }
 

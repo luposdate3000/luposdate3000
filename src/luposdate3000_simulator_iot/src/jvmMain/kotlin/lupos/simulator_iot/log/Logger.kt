@@ -20,9 +20,14 @@ internal object Logger : ISimulationLifeCycle {
     private lateinit var realShutDownTimeStamp: Instant
     private var initStartTimeStamp: Instant = Time.stamp()
 
+    private const val logFile = "${FilePaths.logDir}/log.txt"
+
+    init {
+        refreshFiles()
+    }
+
     override fun onStartUp() {
         startUpTimeStamp = Time.stamp()
-        refreshDirectories()
         logStartUp()
     }
 
@@ -40,7 +45,10 @@ internal object Logger : ISimulationLifeCycle {
         initStartTimeStamp = Time.stamp()
     }
 
-    private fun refreshDirectories() {
+    private fun refreshFiles() {
+        File(logFile).deleteRecursively()
+        File(FilePaths.logDir).mkdirs()
+        File(logFile).withOutputStream { }
         File(FilePaths.queryResult).deleteRecursively()
         File(FilePaths.queryResult).mkdirs()
         File(FilePaths.dbStates).deleteRecursively()
@@ -65,13 +73,19 @@ internal object Logger : ISimulationLifeCycle {
         log("")
         log("================================================")
         log("Simulation has started at ${Time.toISOString(startUpTimeStamp)}")
-        log("")
+        log("Initialize..")
         log("Number of devices: ${Configuration.devices.size}")
         log("Number of sensors: ${ParkingSensor.sensorCounter}")
+        log("Number of databases: ${Configuration.dbDeviceAddresses.size}")
         log("Number of links: ${LinkManager.linkCounter}")
+        log("Initialization is finished after ${getInitDuration()}s")
+        log("")
+        log("")
     }
 
     private fun logShutDown() {
+        log("")
+        log("")
         log(getDODAGString())
         log("Total number of network packages: ${Device.packageCounter}")
         log("Number of received DIOs: ${RPL.dioCounter}, of which further sent: ${RPL.forwardedDioCounter}")
@@ -87,8 +101,10 @@ internal object Logger : ISimulationLifeCycle {
         log("")
     }
 
-    private fun log(content: String) {
-        println(content)
+    internal fun log(content: String) {
+        val stream = File(logFile).openOutputStream(true)
+        stream.println(content)
+        stream.close()
     }
 
     private fun resetCounters() {

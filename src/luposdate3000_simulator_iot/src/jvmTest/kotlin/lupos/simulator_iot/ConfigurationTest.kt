@@ -2,6 +2,7 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.RandomStarNetwork
+import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.test.Test
