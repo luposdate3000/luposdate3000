@@ -265,13 +265,11 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         dep.remove("Luposdate3000_Shared_Inline")
         dep.remove(v.moduleName)
     }
-// add explicit dependencies
+// add explicit dependencies of inline module
     for (v in modules.values) {
         val c = modules["Luposdate3000_Shared_Inline"]!!
         v.dependenciesCommon.addAll(c.dependenciesCommon)
         v.dependenciesJvm.addAll(c.dependenciesJvm)
-        v.dependenciesJvmRecoursive.addAll(c.dependenciesJvm)
-        v.dependenciesJvmRecoursive.addAll(c.dependenciesCommon)
         v.dependenciesJs.addAll(c.dependenciesJs)
         v.dependenciesNative.addAll(c.dependenciesNative)
     }
@@ -291,12 +289,12 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             if (v.codegenKSP) {
                 depss.add("Luposdate3000_Code_Generator_KSP")
                 depss.add("Luposdate3000_Endpoint")
-                v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1")
-                v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Endpoint:0.0.1")
+                v.dependenciesJvm.add("luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1")
+                v.dependenciesJvm.add("luposdate3000:Luposdate3000_Endpoint:0.0.1")
             }
             if (v.codegenKAPT) {
                 depss.add("Luposdate3000_Code_Generator_KAPT")
-                v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Code_Generator_KAPT:0.0.1")
+                v.dependenciesJvm.add("luposdate3000:Luposdate3000_Code_Generator_KAPT:0.0.1")
             }
         }
     }
@@ -315,11 +313,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                     if (s != depss.size) {
                         for (w in deps!!) {
-                            v.dependenciesJvmRecoursive.add("luposdate3000:$w:0.0.1")
-                            v.dependenciesJs.add("luposdate3000:$w:0.0.1")
-                            v.dependenciesNative.add("luposdate3000:$w:0.0.1")
+                            v.dependenciesCommon.add("luposdate3000:$w:0.0.1")
                         }
-                        v.dependenciesJvmRecoursive.addAll(modules[dep]!!.dependenciesJvmRecoursive)
+                        v.dependenciesJvm.addAll(modules[dep]!!.dependenciesJvm)
                         v.dependenciesJs.addAll(modules[dep]!!.dependenciesJs)
                         v.dependenciesNative.addAll(modules[dep]!!.dependenciesNative)
                         flag = true
@@ -358,7 +354,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         v.dependenciesCommon.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
         v.dependenciesJvm.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
         v.dependenciesNative.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
-        v.dependenciesJvmRecoursive.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
+        v.dependenciesJvm.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
     }
     modules["Luposdate3000_Shared"]!!.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
     return res
