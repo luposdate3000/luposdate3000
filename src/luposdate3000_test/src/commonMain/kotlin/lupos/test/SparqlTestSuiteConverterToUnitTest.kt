@@ -181,7 +181,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         }
 
         counter++
-        val testCaseName = "TestCase$counter"
+        val testCaseName = testName.filter { it.isLetterOrDigit() || it == ' ' }
         allTests.add("$testCaseName")
         var queryResultIsOrdered = false
         File(outputFolderTestResourcesCommon + "/$testCaseName.query").withOutputStream { out ->
@@ -218,6 +218,45 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         if (enabledConfigurations.contains(Config.BUILDTIME_NO_CODE_GEN)) {
             configurations.add(File("$outputFolderTestCommon/$testCaseName.kt") to Config.BUILDTIME_NO_CODE_GEN)
         }
+        val ignoreListDueToTooSlow = setOf(
+            "resourcessp2bq12b2sparql32978",
+            "resourcessp2bq12bsparql32978",
+            "resourcessp2bq1sparql32978",
+            "resourcessp2bq66sparql32978",
+            "resourcessp2bq65sparql32978",
+            "resourcessp2bq41sparql32978",
+            "resourcessp2bq12asparql32978",
+            "resourcessp2bq3asparql32978",
+            "resourcessp2bq7sparql32978",
+            "resourcessp2bq12b4sparql32978",
+            "resourcessp2bq62sparql32978",
+            "resourcessp2bq3csparql32978",
+            "resourcessp2bq111sparql32978",
+            "resourcessp2bq12csparql32978",
+            "resourcessp2bq91sparql32978",
+            "resourcessp2bq61sparql32978",
+            "resourcessp2bq71sparql32978",
+            "resourcessp2bq63sparql32978",
+            "resourcessp2bq68sparql32978",
+            "resourcessp2bq10sparql32978",
+            "resourcessp2bq5asparql32978",
+            "resourcessp2bq12b3sparql32978",
+            "resourcessp2bq42sparql32978",
+            "resourcessp2bq72sparql32978",
+            "resourcessp2bq6sparql32978",
+            "resourcessp2bq4sparql32978",
+            "resourcessp2bq67sparql32978",
+            "resourcessp2bq11sparql32978",
+            "resourcessp2bq12b1sparql32978",
+            "resourcessp2bq9sparql32978",
+            "resourcessp2bq12a1sparql32978",
+            "resourcessp2bq5bsparql32978",
+            "resourcessp2bq3bsparql32978",
+            "resourcessp2bq8sparql32978",
+            "resourcessp2bq2sparql32978",
+            "resourcessp2bq92sparql32978",
+        )
+        val ignoreList = ignoreListDueToTooSlow
         for (configuration in configurations) {
             configuration.first.withOutputStream { out ->
                 out.println("/*")
@@ -248,6 +287,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 if (configIsBuildTime(configuration.second)) {
                     out.println("import kotlin.test.Test")
                     out.println("import kotlin.test.fail")
+                    if (ignoreList.contains(testCaseName)) {
+                        out.println("import kotlin.test.Ignore")
+                    }
                 }
                 if (configIsCodeGen(configuration.second)) {
                     out.println("import lupos.shared.CodeGenerationAnnotation")
@@ -269,7 +311,10 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 }
                 if (configIsBuildTime(configuration.second)) {
                     out.println("    val query = File(\"src/jvmTest/resources/$testCaseName.query\").readAsString()")
-                    out.println("    @Test fun `${testName.filter { it.isLetterOrDigit() || it == ' ' }}`(){")
+                    if (ignoreList.contains(testCaseName)) {
+                        out.println("    @Ignore")
+                    }
+                    out.println("    @Test fun `$testCaseName}`(){")
                     out.println("            val instance = LuposdateEndpoint.initialize()")
                 } else {
                     out.println("    internal val query = File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.query\").readAsString()")
