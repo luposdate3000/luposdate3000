@@ -1,12 +1,28 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.net
 
+import lupos.simulator_iot.Device
 import lupos.simulator_iot.config.LinkType
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
-public class LinkManager(public val device: Device) {
+internal class LinkManager(internal val device: Device) {
 
     private var links: MutableMap<Int, Link> = mutableMapOf()
 
-    public fun getDistanceInMeters(otherDevice: Device): Int =
+    internal fun getTransmissionDelay(destinationAddress: Int, numberOfBytesToSend: Int): Long {
+        val link = getLink(destinationAddress)
+        requireNotNull(link) { "The device $destinationAddress is not reachable!" }
+        val kiloBits = bytesToKBits(numberOfBytesToSend)
+        val seconds =  kiloBits / link.dataRateInKbps.toDouble()
+        val millis = seconds * 1000
+        return millis.roundToLong()
+    }
+
+    private fun bytesToKBits(b: Int): Double
+        // * 8 / 1000
+        = b.toDouble() / 125
+
+    internal fun getDistanceInMeters(otherDevice: Device): Int =
         device.location.getDistanceInMeters(otherDevice.location)
 
     private fun getBestLinkTypeIndex(otherDevice: Device): Int {
@@ -26,7 +42,7 @@ public class LinkManager(public val device: Device) {
         return distance <= linkType.rangeInMeters
     }
 
-    public fun getBestLink(otherDevice: Device): Link? {
+    internal fun getBestLink(otherDevice: Device): Link? {
         val linkIndex = getBestLinkTypeIndex(otherDevice)
         if (linkIndex == -1) {
             return null
@@ -37,7 +53,7 @@ public class LinkManager(public val device: Device) {
         return Link(distance, linkIndex, dataRate)
     }
 
-    public fun setLink(otherDevice: Device, dataRate: Int) {
+    internal fun setLink(otherDevice: Device, dataRate: Int) {
         val distance = getDistanceInMeters(otherDevice)
         val link = Link(distance, -1, dataRate)
         setLink(otherDevice, link)
@@ -49,7 +65,7 @@ public class LinkManager(public val device: Device) {
         linkCounter++
     }
 
-    public fun setLinkIfPossible(otherDevice: Device) {
+    internal fun setLinkIfPossible(otherDevice: Device) {
         if (otherDevice == device) {
             return
         }
@@ -62,43 +78,43 @@ public class LinkManager(public val device: Device) {
         setLink(otherDevice, link)
     }
 
-    public fun getLink(otherDeviceAddress: Int): Link? =
+    internal fun getLink(otherDeviceAddress: Int): Link? =
         links[otherDeviceAddress]
 
-    public fun getLink(otherDevice: Device): Link? =
+    internal fun getLink(otherDevice: Device): Link? =
         getLink(otherDevice.address)
 
-    public fun hasLink(otherDevice: Device): Boolean =
+    internal fun hasLink(otherDevice: Device): Boolean =
         null != getLink(otherDevice)
 
-    public fun getNumberOfLinks(): Int =
+    internal fun getNumberOfLinks(): Int =
         links.size
 
-    public fun getNeighbours(): MutableSet<Int> =
+    internal fun getNeighbours(): MutableSet<Int> =
         links.keys
 
-    public companion object {
+    internal companion object {
 
-        public var linkCounter: Int = 0
+        internal var linkCounter: Int = 0
             private set
 
-        public fun resetCounter() {
+        internal fun resetCounter() {
             linkCounter = 0
         }
 
-        public var sortedLinkTypes: Array<LinkType> = emptyArray()
+        internal var sortedLinkTypes: Array<LinkType> = emptyArray()
             set(value) {
                 field = value
                 field.sortByDescending { it.dataRateInKbps }
             }
 
-        public fun getLinkTypeByIndex(index: Int): LinkType =
+        internal fun getLinkTypeByIndex(index: Int): LinkType =
             sortedLinkTypes[index]
 
         private fun getIndexByLinkType(linkType: LinkType) =
             sortedLinkTypes.indexOfFirst { linkType.name == it.name }
 
-        public fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
+        internal fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
             val result = IntArray(list.size)
             for ((index, linkType) in list.withIndex()) {
                 result[index] = getIndexByLinkType(linkType)

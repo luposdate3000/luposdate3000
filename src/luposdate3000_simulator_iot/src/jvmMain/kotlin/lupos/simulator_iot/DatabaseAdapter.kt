@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import lupos.shared.inline.File
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
@@ -7,28 +8,25 @@ import lupos.simulator_db.IRouter
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
-import java.io.File
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 
-public class DatabaseAdapter(public val device: Device) : IRouter {
 
-    private var path: Path = Paths.get("src", "db", "device${device.address}")
-    private var absolutePath = ""
+internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
-    // //
-    private val db: IDatabase = DatabaseHandle() // just to keep the imports on formatting code
-    private val dbother: IDatabase = DatabaseSystemDummy() // just to keep the imports on formatting code ... rename variables as needed
-// //
+    private var resultCounter = 0
+    private var resultDevicePath = "${FilePaths.queryResult}\\device${device.address}"
+    private var resultFileName = "$resultDevicePath\\file.txt"
+    private var pathDevice = "${FilePaths.dbStates}\\device${device.address}"
+
+
+    private val db: IDatabase = if(isDummy) DatabaseSystemDummy() else  DatabaseHandle()
+
 
     private lateinit var currentState: IDatabaseState
 
-    public fun startUp() {
-        path = Files.createDirectories(path)
-        absolutePath = path.toFile().absolutePath
+    internal fun startUp() {
+        createFiles()
         currentState = buildInitialStateObject()
         db.start(currentState)
         db.deactivate()
@@ -44,31 +42,59 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
             override val sender: IRouter
                 get() = this@DatabaseAdapter
             override val absolutePathToDataDirectory: String
-                get() = absolutePath
+                get() = pathDevice
         }
     }
 
-    public fun shutDown() {
+    internal fun shutDown() {
         db.activate()
         db.end()
-        deleteDirectory(path.toFile())
+        if(!isDummy)
+            File(pathDevice).deleteRecursively()
         currentState = buildInitialStateObject()
     }
 
-    public fun receive(pck: IDatabasePackage) {
+    internal fun processPackage(payload: IPayload) {
+        when (payload) {
+            is DBInternData -> receive(payload.content)
+            is DBQueryResult -> useQueryResult(payload.result)
+            else -> throw Exception("undefined payload")
+        }
+    }
+
+    private fun createFiles() {
+        File(pathDevice).mkdirs()
+        File(resultDevicePath).mkdirs()
+        File(resultFileName).withOutputStream { }
+    }
+
+    private fun useQueryResult(result: ByteArray) {
+        val stream = File(resultFileName).openOutputStream(true)
+        resultCounter++
+        stream.println("Query result number $resultCounter")
+        stream.println()
+        stream.println(result.decodeToString())
+        stream.close()
+    }
+
+    private fun receive(pck: IDatabasePackage) {
         db.activate()
         db.receive(pck)
         db.deactivate()
     }
 
-    public fun saveParkingSample(sample: ParkingSample) {
+    internal fun saveParkingSample(sample: ParkingSample) {
         val query = buildInsertQuery(sample)
-        val bytes = toBytes(query)
-        saveData(bytes)
+        val bytes = query.toByteArray()
+        receiveQuery(bytes)
     }
-    private var myhelper = 0
+
+    internal fun processQuery(query: String) {
+        val queryBytes = query.toByteArray()
+        receiveQuery(queryBytes)
+    }
+
     private fun buildInsertQuery(s: ParkingSample): String {
-        if (myhelper++ == 0) {
             return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                 "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
@@ -81,39 +107,47 @@ public class DatabaseAdapter(public val device: Device) : IRouter {
                 "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
                 "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
                 "}\n"
-        } else {
-            return "SELECT * WHERE {?s ?p ?o . }"
-        }
     }
 
-    private fun saveData(data: ByteArray) {
+
+    private fun receiveQuery(data: ByteArray) {
         db.activate()
         db.receiveQuery(device.address, data)
         db.deactivate()
     }
 
-    private fun deleteDirectory(directoryToBeDeleted: File): Boolean {
-        val allContents = directoryToBeDeleted.listFiles()
-        if (allContents != null) {
-            for (file in allContents)
-                deleteDirectory(file)
-        }
 
-        return directoryToBeDeleted.delete()
-    }
-
-    private fun toBytes(s: String) = s.toByteArray(StandardCharsets.UTF_8)
-
-    public fun isDatabasePackage(pck: Any): Boolean = pck is IDatabasePackage
+    internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternData
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        device.sendRoutedPackage(device.address, destinationAddress, pck)
+        device.sendRoutedPackage(device.address, destinationAddress, DBInternData(pck))
     }
 
     override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
-        device.sendRoutedPackage(device.address, destinationAddress, result) // TODO
+        if (device.address == destinationAddress) {
+            println("sendQueryResult deviceAddress == $destinationAddress")
+            useQueryResult(result)
+        }
+        else {
+            println("sendQueryResult route forward to $destinationAddress")
+            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResult(result))
+        }
+
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         device.router.getNextDatabaseHops(destinationAddresses)
+
+
+    internal class DBInternData(internal val content: IDatabasePackage): IPayload {
+        override fun getSizeInBytes(): Int {
+            return content.getPackageSizeInBytes()
+        }
+    }
+
+    internal class DBQueryResult(internal val result: ByteArray): IPayload {
+        override fun getSizeInBytes(): Int {
+            return result.size
+        }
+    }
 }

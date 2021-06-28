@@ -1,14 +1,17 @@
 {
+    "dummyDatabase": true,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 10,
         "dataRateInKbps": 250
     }],
+    "sensorType": [
+    ],
     "deviceType": [{
         "name": "Fog",
         "database": true,
-        "parkingSensor": false,
-        "powerCapacity": -1.0,
+        "parkingSensor": "",
+        "performance": 20.0,
         "supportedLinkTypes": ["WPAN"]
     }],
     "fixedDevice": [{
@@ -28,5 +31,6 @@
         "signalCoverageEast": 200,
         "signalCoverageSouth": 300
     }],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

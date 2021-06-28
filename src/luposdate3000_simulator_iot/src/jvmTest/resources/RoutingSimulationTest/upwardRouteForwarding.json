@@ -1,24 +1,33 @@
 {
+    "dummyDatabase": true,
     "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "A",
+            "rateInSec": 10,
+            "maxSamples": 6
+        }
+    ],
     "deviceType": [{
             "name": "Fog",
             "database": false,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 20.0,
             "supportedLinkTypes": []
         },
         {
             "name": "SensorDevice",
             "database": false,
-            "parkingSensor": true,
-            "powerCapacity": -1.0,
+            "parkingSensor": "park1",
+            "performance": 0.9,
             "supportedLinkTypes": []
         },
         {
             "name": "DataStore",
             "database": true,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 120.0,
             "supportedLinkTypes": []
         }
 
@@ -63,30 +72,31 @@
     "fixedLink": [{
             "fixedDeviceA": "A",
             "fixedDeviceB": "B",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "A",
             "fixedDeviceB": "C",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "C",
             "fixedDeviceB": "D",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "C",
             "fixedDeviceB": "E",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         },
         {
             "fixedDeviceA": "E",
             "fixedDeviceB": "F",
-            "dataRateInKbps": 2500
+            "dataRateInKbps": 1
         }
     ],
     "rootRouter": "A",
     "randomMeshNetwork": [],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

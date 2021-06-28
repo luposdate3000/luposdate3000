@@ -1,17 +1,23 @@
-package lupos.simulator_iot.routing
+package lupos.simulator_iot.net.routing
 
-public class RoutingTable(public var defaultAddress: Int, private val addressSpace: Int) {
+internal class RoutingTable(
+    private val ownAddress: Int,
+    private val addressSpace: Int,
+    private val hasDatabase: Boolean
+    ) {
 
     private var nextHops = IntArray(0)
     private var nextDatabaseHops = IntArray(0)
     private var hops: MutableSet<Int> = mutableSetOf()
 
-    public var destinationCounter: Int = 0
+    internal var destinationCounter: Int = 0
         private set
 
-    public companion object {
-        public const val notInitialized: Int = -1
+    internal companion object {
+        internal const val notInitialized: Int = -1
     }
+
+    internal var fallbackHop = ownAddress
 
     private fun updateHop(destinationAddress: Int, nextHopAddress: Int, nextDatabaseHopAddress: Int): Boolean {
         var updated = false
@@ -43,21 +49,25 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
         }
     }
 
-    public fun getNextHop(destinationAddress: Int): Int =
+    internal fun getNextHop(destinationAddress: Int): Int =
         if (!hasDestination(destinationAddress)) {
-            defaultAddress
+            fallbackHop
         } else {
             nextHops[destinationAddress]
         }
 
-    public fun getNextDatabaseHop(destinationAddress: Int): Int =
+    internal fun getNextDatabaseHop(destinationAddress: Int): Int =
         if (!hasDestination(destinationAddress)) {
-            notInitialized
+            getOwnAddressIfItHasDatabase()
         } else {
-            nextDatabaseHops[destinationAddress]
+            val hop = nextDatabaseHops[destinationAddress]
+            if(hop != notInitialized) hop else getOwnAddressIfItHasDatabase()
         }
 
-    public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
+    private fun getOwnAddressIfItHasDatabase() : Int
+        = if(hasDatabase) ownAddress else notInitialized
+
+    internal fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         val dbHops = IntArray(destinationAddresses.size) { -1 }
         for ((index, dest) in destinationAddresses.withIndex())
             dbHops[index] = getNextDatabaseHop(dest)
@@ -68,7 +78,7 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
     private fun hasDestination(destinationAddress: Int) =
         destinationAddress <= nextHops.size - 1 && nextHops[destinationAddress] != notInitialized
 
-    public fun removeDestinationsByHop(hop: Int): Boolean {
+    internal fun removeDestinationsByHop(hop: Int): Boolean {
         var updated = false
         for ((index, value) in nextHops.withIndex())
             if (value == hop) {
@@ -81,7 +91,7 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
         return updated
     }
 
-    public fun setDestinationsByHop(hop: Int, destinations: IntArray, existingDatabaseHops: IntArray): Boolean {
+    internal fun setDestinationsByHop(hop: Int, destinations: IntArray, existingDatabaseHops: IntArray): Boolean {
         var updated: Boolean
         updated = updateHop(hop, hop, notInitialized)
         for ((index, dest) in destinations.withIndex()) {
@@ -91,7 +101,7 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
         return updated
     }
 
-    public fun setDestinationsByDatabaseHop(hop: Int, destinations: IntArray): Boolean {
+    internal fun setDestinationsByDatabaseHop(hop: Int, destinations: IntArray): Boolean {
         var updated: Boolean
         updated = updateHop(hop, hop, hop)
         for (dest in destinations) {
@@ -101,7 +111,7 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
         return updated
     }
 
-    public fun getDestinations(): IntArray {
+    internal fun getDestinations(): IntArray {
         val destinations = IntArray(destinationCounter)
         var destIndex = 0
         for ((index, value) in nextHops.withIndex())
@@ -112,5 +122,5 @@ public class RoutingTable(public var defaultAddress: Int, private val addressSpa
         return destinations
     }
 
-    public fun getHops(): Set<Int> = hops
+    internal fun getHops(): Set<Int> = hops
 }

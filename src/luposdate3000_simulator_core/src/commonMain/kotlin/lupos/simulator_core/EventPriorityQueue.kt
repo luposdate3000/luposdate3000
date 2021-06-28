@@ -6,7 +6,7 @@ internal class EventPriorityQueue {
 
     private val queue = mutableListOf<Event>()
 
-    fun enqueue(newEvent: Event) {
+    internal fun enqueue(newEvent: Event) {
         var insertionIndex = queue.binarySearch(newEvent, comparator)
         if (insertionIndex < 0) {
             insertionIndex = insertionIndex.inv()
@@ -14,11 +14,11 @@ internal class EventPriorityQueue {
         queue.add(insertionIndex, newEvent)
     }
 
-    fun dequeue(): Event =
+    internal fun dequeue(): Event =
         queue.removeAt(0)
 
-    fun peek(): Event =
+    internal fun peek(): Event =
         queue[0]
 
-    fun hasNext() = queue.isNotEmpty()
+    internal fun hasNext() = queue.isNotEmpty()
 }

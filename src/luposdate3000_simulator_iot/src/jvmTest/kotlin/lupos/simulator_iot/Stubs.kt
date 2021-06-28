@@ -2,17 +2,15 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.geo.GeoLocation
 
-object Stubs {
+internal object Stubs {
 
-    fun createEmptyDevice(address: Int): Device {
+    internal fun createEmptyDevice(address: Int): Device {
         val loc = GeoLocation.getRandom()
-        val powerSupply = PowerSupply(-1.0)
-        return Device(powerSupply, loc, address, null, null, IntArray(0))
+        return Device( loc, address, null, null,100.0, IntArray(0))
     }
 
-    fun createEmptyDevice(address: Int, linkTypes: IntArray): Device {
+    internal fun createEmptyDevice(address: Int, linkTypes: IntArray): Device {
         val loc = GeoLocation.getRandom()
-        val powerSupply = PowerSupply(-1.0)
-        return Device(powerSupply, loc, address, null, null, linkTypes)
+        return Device( loc, address, null, null, 100.0, linkTypes)
     }
 }

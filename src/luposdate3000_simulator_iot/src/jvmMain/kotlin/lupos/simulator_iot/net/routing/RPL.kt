@@ -1,13 +1,13 @@
-package lupos.simulator_iot.routing
+package lupos.simulator_iot.net.routing
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.NetworkPackage
+import lupos.simulator_iot.net.NetworkPackage
 import lupos.simulator_iot.config.Configuration
 
-public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
+internal class RPL(internal val device: Device) : IRoutingProtocol {
 
-    public lateinit var routingTable: RoutingTable
+    internal lateinit var routingTable: RoutingTable
 
     private val notInitializedRank = Int.MAX_VALUE
 
@@ -15,27 +15,27 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
 
     override var isRoot: Boolean = false
 
-    public var rank: Int = notInitializedRank
+    internal var rank: Int = notInitializedRank
         private set
 
-    public var preferredParent: Parent = Parent()
+    internal var preferredParent: Parent = Parent()
         private set
 
     private var isDelayDAOTimerRunning = false
 
-    public var dioSentCounter: Int = 0
+    internal var dioSentCounter: Int = 0
         private set
 
-    public var dioReceivedCounter: Int = 0
+    internal var dioReceivedCounter: Int = 0
         private set
 
-    public var daoSentCounter: Int = 0
+    internal var daoSentCounter: Int = 0
         private set
 
-    public var daoReceivedCounter: Int = 0
+    internal var daoReceivedCounter: Int = 0
         private set
 
-    public inner class Parent(public var address: Int = notInitializedAddress, public var rank: Int = notInitializedRank)
+    internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = notInitializedRank)
 
     private fun broadcastDIO() {
         for (potentialChild in device.linkManager.getNeighbours())
@@ -53,7 +53,6 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
     private fun sendDAO(destinationAddress: Int) {
         val destinations = routingTable.getDestinations()
         val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
-
         val dao = DAO(true, destinations, device.hasDatabase(), nextDatabaseHops)
         device.sendUnRoutedPackage(destinationAddress, dao)
         daoSentCounter++
@@ -85,14 +84,12 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
                 return
             }
         }
-
         if (hasParent()) {
             sendDAONoPath(preferredParent.address)
         }
-
         preferredParent = newParent
+        routingTable.fallbackHop = preferredParent.address
         sendDAO(preferredParent.address)
-        routingTable.defaultAddress = preferredParent.address
     }
 
     private fun processDAO(pck: NetworkPackage) {
@@ -127,25 +124,16 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         return otherRank + link.distanceInMeters
     }
 
-    public fun hasParent(): Boolean =
+    internal fun hasParent(): Boolean =
         preferredParent.address != notInitializedAddress
 
     override fun startRouting() {
-        routingTable = RoutingTable(device.address, Configuration.devices.size)
+        routingTable = RoutingTable(device.address, Configuration.devices.size, device.hasDatabase())
         if (isRoot) {
             rank = ROOT_RANK
             broadcastDIO()
         }
     }
-
-    public class DIO(public val rank: Int)
-
-    public class DAO(
-        public val isPath: Boolean,
-        public val destinations: IntArray,
-        public val hopHasDatabase: Boolean,
-        public val existingDatabaseHops: IntArray
-    )
 
     override fun isControlPackage(pck: NetworkPackage): Boolean =
         pck.payload is DAO || pck.payload is DIO
@@ -155,7 +143,7 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         forwardedDaoCounter++
     }
 
-    public inner class DelayDAOTimerExpired : Entity.ITimer {
+    internal inner class DelayDAOTimerExpired : Entity.ITimer {
         override fun onExpire() {
             isDelayDAOTimerRunning = false
             forwardDAO()
@@ -171,6 +159,7 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         when (pck.payload) {
             is DIO -> processDIO(pck)
             is DAO -> processDAO(pck)
+            else -> throw Exception("Wrong Package")
         }
     }
 
@@ -179,9 +168,6 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         routingTable.getNextDatabaseHops(destinationAddresses)
-
-    override fun getNextDatabaseHop(destinationAddress: Int): Int =
-        routingTable.getNextDatabaseHop(destinationAddress)
 
     override fun toString(): String {
         val strBuilder = StringBuilder()
@@ -216,28 +202,28 @@ public class RPLRouter(public val device: Device) : IRoutingAlgorithm {
         return strBuilder
     }
 
-    public companion object {
+    internal companion object {
 
         // RPL Constants and Variables (see RFC 6550)
-        public const val DEFAULT_DAO_DELAY: Int = 1 // seconds
+        internal const val DEFAULT_DAO_DELAY: Int = 1 // seconds
 
-        public val daoDelay: Long = 2 // DEFAULT_DAO_DELAY * 3
+        internal val daoDelay: Long = 2 // DEFAULT_DAO_DELAY * 3
 
-        public const val ROOT_RANK: Int = 0
+        internal const val ROOT_RANK: Int = 0
 
-        public var daoCounter: Int = 0
+        internal var daoCounter: Int = 0
             private set
 
-        public var dioCounter: Int = 0
+        internal var dioCounter: Int = 0
             private set
 
-        public var forwardedDaoCounter: Int = 0
+        internal var forwardedDaoCounter: Int = 0
             private set
 
-        public var forwardedDioCounter: Int = 0
+        internal var forwardedDioCounter: Int = 0
             private set
 
-        public fun resetCounter() {
+        internal fun resetCounter() {
             daoCounter = 0
             dioCounter = 0
             forwardedDaoCounter = 0

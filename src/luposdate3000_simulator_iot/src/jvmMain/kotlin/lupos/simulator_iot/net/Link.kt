@@ -1,6 +1,6 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.net
 
-public data class Link(
+internal data class Link(
     var distanceInMeters: Int,
     val linkTypeIndex: Int,
     val dataRateInKbps: Int,

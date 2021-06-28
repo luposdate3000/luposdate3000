@@ -1,21 +1,24 @@
 {
+    "dummyDatabase": true,
     "linkType": [{
         "name": "WIRE",
         "rangeInMeters": 100000,
         "dataRateInKbps": 1000
     }],
+    "sensorType": [
+    ],
     "deviceType": [{
             "name": "RadioTower",
             "database": true,
-            "parkingSensor": true,
-            "powerCapacity": "70.0",
+            "parkingSensor": "",
+            "performance": 20.0,
             "supportedLinkTypes": ["WIRE"]
         },
         {
             "name": "Fog",
             "database": true,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 20.0,
             "supportedLinkTypes": ["WIRE"]
         }
     ],
@@ -39,5 +42,6 @@
     }],
     "rootRouter": "",
     "randomMeshNetwork": [],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

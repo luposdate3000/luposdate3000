@@ -1,9 +1,13 @@
 {
+    "dummyDatabase": true,
     "linkType": [],
+    "sensorType": [
+    ],
     "deviceType": [],
     "fixedDevice": [],
     "fixedLink": [],
     "rootRouter": "",
     "randomMeshNetwork": [],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

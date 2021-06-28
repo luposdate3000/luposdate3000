@@ -1,4 +1,5 @@
 {
+    "dummyDatabase": true,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 30,
@@ -8,21 +9,21 @@
             "name": "FogTower",
             "database": true,
             "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "performance": 110.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "EdgeGatewayDevice",
             "database": true,
             "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "performance": 32.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "ParkingSensorDevice",
             "database": false,
             "parkingSensor": true,
-            "powerCapacity": -1.0,
+            "performance": 1.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],

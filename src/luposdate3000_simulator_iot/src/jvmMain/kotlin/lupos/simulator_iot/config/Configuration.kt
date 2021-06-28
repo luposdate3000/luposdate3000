@@ -2,43 +2,50 @@ package lupos.simulator_iot.config
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import lupos.shared.inline.File
+import lupos.simulator_core.Entity
 import lupos.simulator_iot.DatabaseAdapter
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.LinkManager
-import lupos.simulator_iot.PowerSupply
+import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.net.MeshNetwork
+import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.math.round
 
-public object Configuration {
+internal object Configuration {
 
-    public var devices: MutableList<Device> = mutableListOf()
+    internal var devices: MutableList<Device> = mutableListOf()
         private set
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
-    public var jsonObjects: JsonObjects = JsonObjects()
+    internal var jsonObjects: JsonObjects = JsonObjects()
         private set
 
-    public var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
+    internal var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
         private set
 
-    public var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
+    internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
-    public var dbDeviceAddresses: IntArray = intArrayOf()
+    internal var querySenders: MutableList<lupos.simulator_iot.QuerySender> = mutableListOf()
+        private set
 
-    public var rootRouterAddress: Int = -1
+    internal var dbDeviceAddresses: IntArray = intArrayOf()
+
+    private var rootRouterAddress: Int = -1
 
     private var dbDeviceCounter = 0
 
-    public fun parse(fileName: String) {
+    internal fun parse(jsonObjects: JsonObjects) {
         resetVariables()
-        readJsonFile(fileName)
+        this.jsonObjects = jsonObjects
         createSortedLinkTypes()
         createFixedDevices()
         setRootDevice()
+        createQuerySenders()
         createFixedLinks()
         createRandomMeshNetworks()
         createRandomStarNetworks()
@@ -46,22 +53,31 @@ public object Configuration {
         createDbDeviceAddresses()
     }
 
+    internal fun parse(fileName: String) {
+        parse(readJsonFile(fileName))
+    }
+
     private fun resetVariables() {
+        jsonObjects = JsonObjects()
         devices = mutableListOf()
         randStarNetworks = mutableMapOf()
         randMeshNetworks = mutableMapOf()
-        jsonObjects = JsonObjects()
         namedAddresses = mutableMapOf()
+        querySenders = mutableListOf()
         dbDeviceCounter = 0
     }
 
-    private fun readJsonFile(fileName: String) {
-        val fileStr = readFileDirectlyAsText(fileName)
-        jsonObjects = Json.decodeFromString(fileStr)
+    internal fun readJsonFile(fileName: String): JsonObjects {
+        val fileStr = File(fileName) .readAsString()
+        return Json.decodeFromString(fileStr)
     }
 
-    private fun readFileDirectlyAsText(fileName: String) =
-        javaClass.classLoader!!.getResource(fileName)!!.readText()
+    internal fun getEntities(): MutableList<Entity> {
+        val entities: MutableList<Entity> = mutableListOf()
+        entities.addAll(devices)
+        entities.addAll(querySenders)
+        return entities
+    }
 
     private fun createSortedLinkTypes() {
         LinkManager.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
@@ -75,6 +91,11 @@ public object Configuration {
     private fun createRandomStarNetworks() {
         for (network in jsonObjects.randomStarNetwork)
             createRandomStarNetwork(network)
+    }
+
+    private fun createQuerySenders() {
+        for(sender in jsonObjects.querySender)
+            createQuerySender(sender)
     }
 
     private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
@@ -129,24 +150,22 @@ public object Configuration {
         return createDevice(deviceType, location)
     }
 
-    public fun getNamedDevice(name: String): Device {
+    internal fun getNamedDevice(name: String): Device {
         val index = namedAddresses.getValue(name)
         return devices[index]
     }
 
-    public fun getRootDevice(): Device = devices[rootRouterAddress]
+    internal fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.starRoot)
-        val sink = getNamedDevice(network.dataSink)
-        val starNetwork = StarNetwork(root, sink)
+        val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val leaf = createDevice(deviceType, location)
-            leaf.sensor!!.setDataSink(sink.address)
             root.linkManager.setLinkIfPossible(leaf)
             leaf.isStarNetworkChild = true
             starNetwork.children.add(leaf)
@@ -184,10 +203,22 @@ public object Configuration {
         namedAddresses[fixedDevice.name] = created.address
     }
 
+    private fun createQuerySender(querySenderJson: QuerySender) {
+        val receiverDevice = getNamedDevice(jsonObjects.rootRouter)
+        val querySender = lupos.simulator_iot.QuerySender(
+            name = querySenderJson.name,
+            sendRateInSec = querySenderJson.sendRateInSeconds,
+            maxNumberOfQueries = querySenderJson.maxNumberOfQueries,
+            startClock = querySenderJson.sendStartClockInSec,
+            receiver = receiverDevice,
+            query = querySenderJson.query)
+        querySenders.add(querySender)
+    }
+
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
-        val powerSupply = PowerSupply(deviceType.powerCapacity)
         val linkTypes = getLinkTypeIndices(deviceType)
-        val device = Device(powerSupply, location, devices.size, null, null, linkTypes)
+        require(deviceType.performance != 0.0) { "The performance level of a device can not be 0.0 %" }
+        val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         val database = getDatabase(deviceType, device)
@@ -212,24 +243,32 @@ public object Configuration {
 
     private fun getLinkTypeByName(name: String): LinkType {
         val element = jsonObjects.linkType.find { name == it.name }
-        requireNotNull(element) { "protocol $name does not exist" }
+        requireNotNull(element) { "link type $name does not exist" }
+        return element
+    }
+
+    private fun getSensorTypeByName(name: String): SensorType {
+        val element = jsonObjects.sensorType.find { name == it.name }
+        requireNotNull(element) { "sensor type $name does not exist" }
         return element
     }
 
     private fun getDatabase(deviceType: DeviceType, device: Device): DatabaseAdapter? {
         if (deviceType.database) {
             dbDeviceCounter++
-            return DatabaseAdapter(device)
+            return DatabaseAdapter(device, jsonObjects.dummyDatabase)
         }
         return null
     }
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
-        if (deviceType.parkingSensor) {
-            return ParkingSensor(device)
+        if (deviceType.parkingSensor.isNotEmpty()) {
+            val sensorType = getSensorTypeByName(deviceType.parkingSensor)
+            return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink)
         }
         return null
     }
+
 
     private fun createAvailableLinks() {
         for (one in devices)

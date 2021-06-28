@@ -1,6 +1,7 @@
 package lupos.simulator_iot
 
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.config.RandomStarNetwork
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.test.Test
@@ -9,12 +10,13 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class ConfigurationTest {
 
     companion object {
-        private const val prefix = "ConfigurationTest"
+        private const val prefix = "${FilePaths.testResource}\\ConfigurationTest"
     }
 
     @Test
@@ -37,7 +39,6 @@ class ConfigurationTest {
         assertEquals(location, device.location)
         assertNull(device.database)
         assertNull(device.sensor)
-        assertTrue(device.powerSupply.isInfinite)
     }
 
     @Test
@@ -47,8 +48,6 @@ class ConfigurationTest {
         val device = Configuration.getNamedDevice(deviceName)
         assertTrue(device.database is DatabaseAdapter)
         assertNotNull(device.sensor)
-        assertEquals(70.0, device.powerSupply.actualCapacity)
-        assertFalse(device.powerSupply.isInfinite)
     }
 
     @Test
@@ -56,15 +55,7 @@ class ConfigurationTest {
         Configuration.parse("$prefix/sensorsKnowTheirDevice.json")
         val device = Configuration.getNamedDevice("Tower1")
         val parkingSensor = device.sensor!! as ParkingSensor
-        assertTrue(device === parkingSensor.device)
-    }
-
-    @Test
-    fun sensorsDataSinkIsItsOwnDevice() {
-        Configuration.parse("$prefix/sensorsDataSinkIsItsOwnDevice.json")
-        val device = Configuration.getNamedDevice("Tower1")
-        val parkingSensor = device.sensor!! as ParkingSensor
-        assertEquals(device.address, parkingSensor.dataSinkAddress)
+        assertSame(device, parkingSensor.device)
     }
 
     @Test
@@ -73,7 +64,7 @@ class ConfigurationTest {
         val root = Configuration.getNamedDevice("Tower1")
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parkingSensor = starNet.children[0].sensor as ParkingSensor
-        assertEquals(root.address, parkingSensor.dataSinkAddress)
+        assertEquals(root.address, parkingSensor.getSinkAddress())
     }
 
     @Test
@@ -98,9 +89,9 @@ class ConfigurationTest {
         val linkA = deviceA.linkManager.getLink(deviceB)
         val linkB = deviceB.linkManager.getLink(deviceA)
 
-        assertTrue(linkA === linkB)
+        assertSame(linkA, linkB)
         linkA!!.distanceInMeters = -1
-        assertTrue(linkB!!.distanceInMeters == -1)
+        assertEquals(linkB!!.distanceInMeters, -1)
     }
 
     @Test
@@ -119,8 +110,8 @@ class ConfigurationTest {
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
         for (child in starNet.children) {
-            assertTrue(child.linkManager.hasLink(starNet.dataSink))
-            assertTrue(starNet.dataSink.linkManager.hasLink(child))
+            assertTrue(child.linkManager.hasLink(starNet.root))
+            assertTrue(starNet.root.linkManager.hasLink(child))
         }
     }
 
@@ -270,5 +261,25 @@ class ConfigurationTest {
 
         assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
         assertNotEquals(meshOrigin.linkManager.getNumberOfLinks(), fixedDevice.linkManager.getNumberOfLinks())
+    }
+
+    @Test
+    fun configOneQuerySender() {
+        Configuration.parse("$prefix/configOneQuerySender.json")
+        assertEquals(1, Configuration.querySenders.size)
+        val querySender = Configuration.querySenders[0]
+        assertEquals("Driver1", querySender.name)
+        assertEquals( 30, querySender.sendRateInSec)
+        assertEquals(Configuration.getNamedDevice("Tower1"), querySender.receiver)
+        assertEquals("Select dummy From dum", querySender.query)
+    }
+
+    @Test
+    fun manipulateJsonObjects() {
+        val jsonObjects = Configuration.readJsonFile("$prefix/manipulateJsonObjects.json")
+        jsonObjects.randomStarNetwork.add(RandomStarNetwork(
+            networkPrefix = "star2", starRoot = "Tower1", linkType = "WPAN", deviceType = "StandAloneParkingSensor", number = 3))
+        Configuration.parse(jsonObjects)
+        assertEquals(2, Configuration.randStarNetworks.size)
     }
 }
