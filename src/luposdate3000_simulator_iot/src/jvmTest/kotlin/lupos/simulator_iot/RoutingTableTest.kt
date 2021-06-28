@@ -246,8 +246,8 @@ class RoutingTableTest {
     @Test
     fun getHopCount() {
         val numberOfHops = 20
-        val table = RoutingTable(0, numberOfHops+1, false)
-        for(i in 1..numberOfHops) {
+        val table = RoutingTable(0, numberOfHops + 1, false)
+        for (i in 1..numberOfHops) {
             table.setDestinationsByHop(i, intArrayOf(), intArrayOf())
         }
         assertEquals(numberOfHops, table.getHops().size)

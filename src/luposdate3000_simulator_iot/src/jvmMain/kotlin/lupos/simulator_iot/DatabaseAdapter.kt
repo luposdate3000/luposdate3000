@@ -11,7 +11,6 @@ import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 
-
 internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
@@ -19,9 +18,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     private var resultFileName = "$resultDevicePath\\file.txt"
     private var pathDevice = "${FilePaths.dbStates}\\device${device.address}"
 
-
-    private val db: IDatabase = if(isDummy) DatabaseSystemDummy() else  DatabaseHandle()
-
+    private val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
 
     private lateinit var currentState: IDatabaseState
 
@@ -49,8 +46,9 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     internal fun shutDown() {
         db.activate()
         db.end()
-        if(!isDummy)
+        if (!isDummy) {
             File(pathDevice).deleteRecursively()
+        }
         currentState = buildInitialStateObject()
     }
 
@@ -85,37 +83,35 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     internal fun saveParkingSample(sample: ParkingSample) {
         val query = buildInsertQuery(sample)
-        val bytes = query.toByteArray()
+        val bytes = query.encodeToByteArray()
         receiveQuery(bytes)
     }
 
     internal fun processQuery(query: String) {
-        val queryBytes = query.toByteArray()
+        val queryBytes = query.encodeToByteArray()
         receiveQuery(queryBytes)
     }
 
     private fun buildInsertQuery(s: ParkingSample): String {
-            return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-                "\n" +
-                "INSERT DATA {\n" +
-                "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-                "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
-                "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
-                "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
-                "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
-                "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
-                "}\n"
+        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "\n" +
+            "INSERT DATA {\n" +
+            "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
+            "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
+            "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
+            "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
+            "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
+            "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
+            "}\n"
     }
-
 
     private fun receiveQuery(data: ByteArray) {
         db.activate()
         db.receiveQuery(device.address, data)
         db.deactivate()
     }
-
 
     internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternData
 
@@ -127,25 +123,22 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         if (device.address == destinationAddress) {
             println("sendQueryResult deviceAddress == $destinationAddress")
             useQueryResult(result)
-        }
-        else {
+        } else {
             println("sendQueryResult route forward to $destinationAddress")
             device.sendRoutedPackage(device.address, destinationAddress, DBQueryResult(result))
         }
-
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         device.router.getNextDatabaseHops(destinationAddresses)
 
-
-    internal class DBInternData(internal val content: IDatabasePackage): IPayload {
+    internal class DBInternData(internal val content: IDatabasePackage) : IPayload {
         override fun getSizeInBytes(): Int {
             return content.getPackageSizeInBytes()
         }
     }
 
-    internal class DBQueryResult(internal val result: ByteArray): IPayload {
+    internal class DBQueryResult(internal val result: ByteArray) : IPayload {
         override fun getSizeInBytes(): Int {
             return result.size
         }

@@ -21,7 +21,7 @@ internal class LoggerCollection {
     }
 
     private fun printHeaderLine() {
-        printLine("Nodes${delimiter}InitDuration${delimiter}SimDuration${delimiter}")
+        printLine("Nodes${delimiter}InitDuration${delimiter}SimDuration$delimiter")
     }
 
     private fun printLine(str: String) {
@@ -34,6 +34,4 @@ internal class LoggerCollection {
         val line = "$nodeCount$delimiter${logger.getInitDuration()}$delimiter${logger.getRealSimulationDuration()}"
         printLine(line)
     }
-
-
 }

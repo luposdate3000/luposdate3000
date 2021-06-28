@@ -11,7 +11,7 @@ internal class QuerySender(
     val startClock: Int,
     val receiver: Device,
     val query: String,
-): Entity() {
+) : Entity() {
 
     internal var queryCounter = 0
         private set
@@ -25,34 +25,30 @@ internal class QuerySender(
     }
 
     override fun onSteadyState() {
-
     }
 
     override fun onShutDown() {
     }
 
-    private inner class StartUpTimer: ITimer {
+    private inner class StartUpTimer : ITimer {
         override fun onExpire() {
             scheduleQuery()
         }
     }
 
     private fun scheduleQuery() {
-        if(queryCounter < maxNumberOfQueries) {
+        if (queryCounter < maxNumberOfQueries) {
             queryCounter++
             triggerQueryProcessing()
             setTimer(Time.toMillis(sendRateInSec), SendTimer())
         }
     }
 
-
-    private inner class SendTimer: ITimer {
+    private inner class SendTimer : ITimer {
         override fun onExpire() {
             scheduleQuery()
         }
     }
-
-
 
     private fun triggerQueryProcessing() {
         val queryPck = QueryPackage(query)
@@ -60,15 +56,9 @@ internal class QuerySender(
         scheduleEvent(receiver, pck, 0)
     }
 
-
-
-
-
-    public class QueryPackage (public val query: String) : IPayload {
+    public class QueryPackage(public val query: String) : IPayload {
         override fun getSizeInBytes(): Int {
-            return query.toByteArray().size
+            return query.encodeToByteArray().size
         }
-
     }
-
 }

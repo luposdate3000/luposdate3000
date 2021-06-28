@@ -24,8 +24,6 @@ class RoutingSimulationTest {
         assertEquals(0, sim.getCurrentClock())
     }
 
-
-
     @Test
     fun starNetworkIsASimpleDODAG() {
         Configuration.parse("$prefix/starNetworkIsASimpleDODAG.json")
@@ -84,7 +82,6 @@ class RoutingSimulationTest {
         // Send data from the root A to the leaf F
         Configuration.parse("$prefix/downwardRouteForwarding.json")
         val f = Configuration.getNamedDevice("F")
-
 
         val maxClock: Long = 200 * 1000
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)

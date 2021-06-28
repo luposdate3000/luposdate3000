@@ -41,7 +41,7 @@ internal class Device(
 
     private fun getProcessingDelay(): Long {
         val now = Time.stamp()
-        val microDif =  Time.differenceInMicroSec(deviceStart, now)
+        val microDif = Time.differenceInMicroSec(deviceStart, now)
         val scaled = microDif * 100 / performance
         val millis = scaled / 1000
         return millis.roundToLong()
@@ -75,7 +75,8 @@ internal class Device(
             }
             pck.payload is ParkingSample -> {
                 processedSensorDataPackages++
-                requireNotNull(database
+                requireNotNull(
+                    database
                 ) { "The device $address has no database configured to store the ParkingSample." }
                 database!!.saveParkingSample(pck.payload)
             }
@@ -83,7 +84,8 @@ internal class Device(
                 database?.processPackage(pck.payload)
             }
             pck.payload is QuerySender.QueryPackage -> {
-                requireNotNull(database
+                requireNotNull(
+                    database
                 ) { "The device $address has no database configured to process the query." }
                 database!!.processQuery(pck.payload.query)
             }
@@ -118,7 +120,6 @@ internal class Device(
     }
 
     internal fun hasDatabase(): Boolean = database != null
-
 
     override fun equals(other: Any?): Boolean {
         if (other === this) {

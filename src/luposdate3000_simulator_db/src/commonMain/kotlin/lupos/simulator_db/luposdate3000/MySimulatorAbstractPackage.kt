@@ -26,14 +26,13 @@ internal class MySimulatorAbstractPackage(
 ) : IDatabasePackage {
 
     override fun getPackageSizeInBytes(): Int {
-        return path.toByteArray().size + getParamsSizeInBytes() + data.buf.size
+        return path.encodeToByteArray().size + getParamsSizeInBytes() + data.buf.size
     }
 
     private fun getParamsSizeInBytes(): Int {
         var size = 0
-        for((key, value) in params)
-            size += key.toByteArray().size + value.toByteArray().size
+        for ((key, value) in params)
+            size += key.encodeToByteArray().size + value.encodeToByteArray().size
         return size
     }
-
 }

@@ -13,6 +13,4 @@ internal object FilePaths {
     const val queryResult = "$outputDir\\query_result"
 
     const val dbStates = "$outputDir\\db_states"
-
 }
-

@@ -81,8 +81,6 @@ class RoutingTableSimulationTest {
             assertEquals(child.address, rootRouter.routingTable.getNextHop(child.address))
     }
 
-
-
     /**
      * DB(A) -> B -> DB(C)
      */
@@ -96,7 +94,7 @@ class RoutingTableSimulationTest {
         sim.startSimulation()
 
         // routing table from A
-        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address,b.address, c.address))
+        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address))
         assertEquals(a.address, actual[0])
         assertEquals(a.address, actual[1])
         assertEquals(c.address, actual[2])
@@ -129,7 +127,7 @@ class RoutingTableSimulationTest {
         sim.startSimulation()
 
         // routing table from A
-        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address,b.address, c.address, d.address))
+        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address))
         assertEquals(a.address, actual[0])
         assertEquals(a.address, actual[1])
         assertEquals(c.address, actual[2])
@@ -160,7 +158,7 @@ class RoutingTableSimulationTest {
         sim.startSimulation()
 
         // routing table from A
-        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address,b.address, c.address, d.address, e.address, f.address, g.address))
+        var actual = a.router.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address, e.address, f.address, g.address))
         assertEquals(a.address, actual[0])
         assertEquals(a.address, actual[1])
         assertEquals(c.address, actual[2])

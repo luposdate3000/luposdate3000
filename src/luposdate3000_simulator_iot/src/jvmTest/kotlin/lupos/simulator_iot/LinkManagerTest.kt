@@ -86,7 +86,7 @@ class LinkManagerTest {
         val destAddr = 1
         val linkTypeW = LinkType("W", 200, 250)
         LinkManager.sortedLinkTypes = arrayOf(linkTypeW)
-        val srcDevice = Stubs.createEmptyDevice(0,intArrayOf(0))
+        val srcDevice = Stubs.createEmptyDevice(0, intArrayOf(0))
         val linkManager = LinkManager(srcDevice)
         val destDevice = Stubs.createEmptyDevice(destAddr, intArrayOf(0))
         destDevice.location = GeoLocation.createNorthernLocation(srcDevice.location, 150)
@@ -96,6 +96,5 @@ class LinkManagerTest {
         assertEquals(1, linkManager.getTransmissionDelay(destAddr, 21))
         assertEquals(2, linkManager.getTransmissionDelay(destAddr, 50))
         assertEquals(64000, linkManager.getTransmissionDelay(destAddr, 2000000))
-
     }
 }

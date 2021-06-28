@@ -11,7 +11,6 @@ internal class ParkingSample(
     internal val area: String
 ) : IPayload {
     override fun getSizeInBytes(): Int {
-        return 2 + 2 + sampleTime.toByteArray().size + 2 + area.toByteArray().size
+        return 2 + 2 + sampleTime.encodeToByteArray().size + 2 + area.encodeToByteArray().size
     }
-
 }

@@ -6,9 +6,9 @@ import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.DatabaseAdapter
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.MeshNetwork
 import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
@@ -68,7 +68,7 @@ internal object Configuration {
     }
 
     internal fun readJsonFile(fileName: String): JsonObjects {
-        val fileStr = File(fileName) .readAsString()
+        val fileStr = File(fileName).readAsString()
         return Json.decodeFromString(fileStr)
     }
 
@@ -94,7 +94,7 @@ internal object Configuration {
     }
 
     private fun createQuerySenders() {
-        for(sender in jsonObjects.querySender)
+        for (sender in jsonObjects.querySender)
             createQuerySender(sender)
     }
 
@@ -211,7 +211,8 @@ internal object Configuration {
             maxNumberOfQueries = querySenderJson.maxNumberOfQueries,
             startClock = querySenderJson.sendStartClockInSec,
             receiver = receiverDevice,
-            query = querySenderJson.query)
+            query = querySenderJson.query
+        )
         querySenders.add(querySender)
     }
 
@@ -268,7 +269,6 @@ internal object Configuration {
         }
         return null
     }
-
 
     private fun createAvailableLinks() {
         for (one in devices)

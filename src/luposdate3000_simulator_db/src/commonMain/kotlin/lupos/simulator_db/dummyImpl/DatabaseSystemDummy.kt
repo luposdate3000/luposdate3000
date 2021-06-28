@@ -25,7 +25,6 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
     public override fun end() {
-
     }
 
     public override fun receive(pck: IDatabasePackage) {

@@ -31,9 +31,9 @@ internal object Time {
         return duration.inWholeMicroseconds
     }
 
-    internal fun toMillis(seconds: Int): Long
-        = seconds.toLong() * 1000
+    internal fun toMillis(seconds: Int): Long =
+        seconds.toLong() * 1000
 
-    internal fun stamp(): Instant
-        = Clock.System.now()
+    internal fun stamp(): Instant =
+        Clock.System.now()
 }
