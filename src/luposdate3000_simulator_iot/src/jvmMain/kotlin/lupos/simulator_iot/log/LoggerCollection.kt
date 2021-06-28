@@ -5,7 +5,7 @@ import lupos.simulator_iot.FilePaths
 
 internal class LoggerCollection {
 
-    private val perfCSVFile = "${FilePaths.logDir}\\perf.csv"
+    private val perfCSVFile = "${FilePaths.logDir}/perf.csv"
 
     private val delimiter = ";"
 
@@ -21,7 +21,7 @@ internal class LoggerCollection {
     }
 
     private fun printHeaderLine() {
-        printLine("Nodes${delimiter}InitDuration${delimiter}SimDuration${delimiter}")
+        printLine("Nodes${delimiter}InitDuration${delimiter}SimDuration$delimiter")
     }
 
     private fun printLine(str: String) {
@@ -34,6 +34,4 @@ internal class LoggerCollection {
         val line = "$nodeCount$delimiter${logger.getInitDuration()}$delimiter${logger.getRealSimulationDuration()}"
         printLine(line)
     }
-
-
 }

@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 class RoutingSimulationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}\\RoutingSimulationTest"
+        private const val prefix = "${FilePaths.testResource}/RoutingSimulationTest"
     }
 
     @Test
@@ -23,8 +23,6 @@ class RoutingSimulationTest {
         sim.startSimulation()
         assertEquals(0, sim.getCurrentClock())
     }
-
-
 
     @Test
     fun starNetworkIsASimpleDODAG() {
@@ -84,7 +82,6 @@ class RoutingSimulationTest {
         // Send data from the root A to the leaf F
         Configuration.parse("$prefix/downwardRouteForwarding.json")
         val f = Configuration.getNamedDevice("F")
-
 
         val maxClock: Long = 200 * 1000
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)

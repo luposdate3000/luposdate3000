@@ -2,16 +2,16 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.log.Logger
 
 internal class ParkingSensor(
     internal var device: Device,
     internal val rateInSec: Int,
     internal val maxSamples: Int,
     private val dataSinkDeviceName: String,
-    ) : ISensor {
+) : ISensor {
 
     private val infinitySamples: Int = -1
 
@@ -40,8 +40,8 @@ internal class ParkingSensor(
         }
     }
 
-    private fun hasMaxSamplesReached()
-        = maxSamples != infinitySamples && sampleCounter >= maxSamples
+    private fun hasMaxSamplesReached() =
+        maxSamples != infinitySamples && sampleCounter >= maxSamples
 
     internal inner class SamplingProcessFinished : Entity.ITimer {
         override fun onExpire() {
@@ -63,8 +63,9 @@ internal class ParkingSensor(
     }
 
     override fun startSampling() {
-        if (hasMaxSamplesReached())
+        if (hasMaxSamplesReached()) {
             return
+        }
 
         isStopped = false
         val rateInMillis: Long = rateInSec.toLong() * 1000

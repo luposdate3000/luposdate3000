@@ -16,4 +16,7 @@
  */
 package lupos.shared
 
-public interface ITripleStoreDescriptionModifyCache
+public interface ITripleStoreDescriptionModifyCache {
+    public fun writeRow(s: Int, p: Int, o: Int, query: IQuery)
+    public fun close()
+}

@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.noinput
-
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.physical.POPBase
@@ -35,6 +34,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -142,7 +142,16 @@ public class POPGraphOperation public constructor(
         val row = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         val cache = target.modify_create_cache(EModifyTypeExt.INSERT)
-        target.modify_cache(query, iterator, EModifyTypeExt.INSERT, cache, true)
+        while (true) {
+            val s = iterator[0].next()
+            val p = iterator[1].next()
+            val o = iterator[2].next()
+            if (s == DictionaryExt.nullValue) {
+                break
+            }
+            cache.writeRow(s, p, o, query)
+        }
+        cache.close()
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -216,7 +225,16 @@ public class POPGraphOperation public constructor(
                         ColumnIteratorMultiValue3(oa, oa.size),
                     )
                     val cache = target.modify_create_cache(EModifyTypeExt.INSERT)
-                    target.modify_cache(query, iterator, EModifyTypeExt.INSERT, cache, true)
+                    while (true) {
+                        val s = iterator[0].next()
+                        val p = iterator[1].next()
+                        val o = iterator[2].next()
+                        if (s == DictionaryExt.nullValue) {
+                            break
+                        }
+                        cache.writeRow(s, p, o, query)
+                    }
+                    cache.close()
                 }
                 EGraphOperationTypeExt.COPY -> {
                     when (graph1type) {

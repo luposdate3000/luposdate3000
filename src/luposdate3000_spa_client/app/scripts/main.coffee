@@ -253,7 +253,7 @@ App.bindEvents = ->
             withGraph = App.config.evalGraphRif
         endpoint = App.config.endpoints[App.config.selectedEndpoint]
         data =
-            query: App.cm['sparql'].getValue();
+            query: App.cm[target].getValue();
         if App.config.sendRDF
             data['rdf'] = App.cm['rdf'].getValue()
         else
@@ -594,7 +594,8 @@ App.processSparql = (doc, namespaces, colors) ->
             resultSet.head.push variable._attributes.name
             varorder[variable._attributes.name] = i
             i++
-
+        if ! doc.sparql.results.hasOwnProperty("result")
+            doc.sparql.results={result:[]}
         unless $.isArray doc.sparql.results.result
             doc.sparql.results.result = [doc.sparql.results.result]
         for result in doc.sparql.results.result
@@ -761,6 +762,7 @@ App.initConfigComponentsEndpointSelector = ->
             App.additionalHiddenTabs = App.rightTabs
             App.initConfigComponentsHideTabs()
     $('#endpoint_selector').val App.config.selectedEndpoint
+    $('#endpoint_selector').change()
 
 App.initConfigComponentsEvaluatorSelector = ->
     endpoint = App.config.endpoints[App.config.selectedEndpoint]
@@ -788,7 +790,9 @@ App.initConfigComponentsEvaluatorSelector = ->
             App.initConfigComponentsHideWithGraph()
             App.additionalHiddenTabs = App.rightTabs
             App.initConfigComponentsHideTabs()
+            App.initConfigComponentsHideInference()
     $('#evaluator_selector').val endpoint.selectedEvaluator
+    $('#evaluator_selector').change()
 
 App.initConfigComponentsHideWithGraph = ->
     if App.config.hide.withGraph || App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame"
@@ -801,7 +805,7 @@ App.initConfigComponentsHideTabs = ->
         tabsToHide.push(tab)
     for tab in App.additionalHiddenTabs
         tabsToHide.push(tab)
-    if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame" || App.selectedEvaluatorName == "Luposdate3000")
+    if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame" || App.selectedEvaluatorName.indexOf("Luposdate3000")!=-1)
         tabsToHide.push("rif")
     allTabs = []
     # tabs on the left
@@ -898,6 +902,25 @@ App.initConfigComponentsInference = ->
     selector += App.config.queryParameters.inference
     selector += "]"
     $(selector).click()
+App.initConfigComponentsHideInference = ->
+    allRadio=["rdfs", "owl", "rif", "without"]
+    for radio in allRadio
+        s = '#rule_' + radio
+        $(s).show()
+        $(s + '_label').show()    
+    if App.selectedEvaluatorName.indexOf("Luposdate3000")!=-1
+        for radio in allRadio
+            s = '#rule_' + radio
+            $(s).hide()
+            $(s + '_label').hide()
+    else if App.config.hide.inference
+        for radio in allRadio
+            actual = App.config['queryParameters']['inference']
+            if actual.toLowerCase() isnt radio and not (actual == "OWL2RL" and radio == "owl")
+                s = '#rule_' + radio
+                $(s).hide()
+                $(s + '_label').hide()
+    
 App.initConfigComponents = ->
     $('.my-tabs .my-tab-links a').click (e)->
         currentAttrValue = $(this).attr('href')
@@ -912,14 +935,7 @@ App.initConfigComponents = ->
     App.initConfigComponentsEvalGraph()
     App.initConfigComponentsSendRdf()
     App.initConfigComponentsInference()
-    if App.config.hide.inference
-        for radio in ["rdfs", "owl", "rif", "without"]
-            actual = App.config['queryParameters']['inference']
-            if actual.toLowerCase() isnt radio and not (actual == "OWL2RL" and radio == "owl")
-                s = '#rule_' + radio
-                $(s).hide()
-                $(s + '_label').hide()
-
+    App.initConfigComponentsHideInference()
     for tab in App.config.readOnlyTabs
         App.cm[tab].setOption("readOnly", true)
 

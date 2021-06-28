@@ -37,7 +37,7 @@ internal object Logger : ISimulationLifeCycle {
     }
 
     internal fun reset() {
-        initStartTimeStamp= Time.stamp()
+        initStartTimeStamp = Time.stamp()
     }
 
     private fun refreshDirectories() {
@@ -51,14 +51,14 @@ internal object Logger : ISimulationLifeCycle {
 
     internal fun getSimulationTimeString(): String = Time.toISOString(getSimulationTime())
 
-    internal fun getInitDuration(): Double
-        = Time.differenceInSeconds(initStartTimeStamp, startUpTimeStamp)
+    internal fun getInitDuration(): Double =
+        Time.differenceInSeconds(initStartTimeStamp, startUpTimeStamp)
 
-    private fun getSimulationDuration(): Double
-        = Time.differenceInSeconds(startUpTimeStamp, shutDownTimeStamp)
+    private fun getSimulationDuration(): Double =
+        Time.differenceInSeconds(startUpTimeStamp, shutDownTimeStamp)
 
-    internal fun getRealSimulationDuration(): Double
-        = Time.differenceInSeconds(startUpTimeStamp, realShutDownTimeStamp)
+    internal fun getRealSimulationDuration(): Double =
+        Time.differenceInSeconds(startUpTimeStamp, realShutDownTimeStamp)
 
     private fun logStartUp() {
         log("")

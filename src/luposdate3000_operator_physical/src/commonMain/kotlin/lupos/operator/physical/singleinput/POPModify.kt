@@ -201,7 +201,17 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
                     val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                    store.modify_cache(query, Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type, cache, true)
+                    val iterator = Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }
+                    while (true) {
+                        val s = iterator[0].next()
+                        val p = iterator[1].next()
+                        val o = iterator[2].next()
+                        if (s == DictionaryExt.nullValue) {
+                            break
+                        }
+                        cache.writeRow(s, p, o, query)
+                    }
+                    cache.close()
                 }
             }
         }

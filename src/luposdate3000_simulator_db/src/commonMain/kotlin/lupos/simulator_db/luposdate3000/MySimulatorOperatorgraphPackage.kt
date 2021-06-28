@@ -34,38 +34,37 @@ internal class MySimulatorOperatorgraphPackage(
 
     private fun getOperatorGraphSizeInBytes(): Int {
         var size = 0
-        for((key, value) in operatorGraph)
-            size += key.toByteArray().size + value.tag.toByteArray().size
+        for ((key, value) in operatorGraph)
+            size += key.encodeToByteArray().size + value.toString().encodeToByteArray().size
         return size
     }
 
     private fun getDestinationsSizeInBytes(): Int {
         val addressSizeIPv6 = 16
         var size = 0
-        for((key) in destinations)
-            size += key.toByteArray().size + addressSizeIPv6
+        for ((key) in destinations)
+            size += key.encodeToByteArray().size + addressSizeIPv6
         return size
     }
 
     private fun getPartsToHostMapSizeInBytes(): Int {
         var size = 0
-        for((key, value) in operatorgraphPartsToHostMap)
-            size += key.toByteArray().size + value.toByteArray().size
+        for ((key, value) in operatorgraphPartsToHostMap)
+            size += key.encodeToByteArray().size + value.encodeToByteArray().size
         return size
     }
 
     private fun getDependenciesMapTopDownSizeInBytes(): Int {
         var size = 0
-        for((key, value) in dependenciesMapTopDown)
-            size += key.toByteArray().size + getStringSetSizeInBytes(value)
+        for ((key, value) in dependenciesMapTopDown)
+            size += key.encodeToByteArray().size + getStringSetSizeInBytes(value)
         return size
     }
 
     private fun getStringSetSizeInBytes(set: Set<String>): Int {
         var size = 0
         for (str in set)
-            size += str.toByteArray().size
+            size += str.encodeToByteArray().size
         return size
     }
-
 }

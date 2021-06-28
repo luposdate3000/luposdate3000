@@ -37,7 +37,9 @@ internal class Count1PassThroughIterator(@JvmField val a: TripleIterator) : Trip
         }
     }
 
-    override fun hasNext() = flag != 0
+    override fun hasNext(): Boolean {
+        return flag != 0
+    }
     override fun next(component: Int): Int {
         value[0] = a.value[0]
         value[1] = a.value[1]

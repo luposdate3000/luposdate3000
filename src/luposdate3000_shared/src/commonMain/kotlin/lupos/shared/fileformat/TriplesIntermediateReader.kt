@@ -17,13 +17,23 @@
 
 package lupos.shared.fileformat
 
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternHelper
+import lupos.shared.SanityCheck
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
-
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
+    private val writeOrder: EIndexPattern
+    private val i0: Int
+    private val i1: Int
+    private val i2: Int
     init {
         streamIn = File("$filename$filenameEnding").openInputStream()
+        writeOrder = streamIn!!.readInt()
+        i0 = EIndexPatternHelper.tripleIndicees[writeOrder][0]
+        i1 = EIndexPatternHelper.tripleIndicees[writeOrder][1]
+        i2 = EIndexPatternHelper.tripleIndicees[writeOrder][2]
     }
 
     public inline fun readAll(crossinline action: (IntArray) -> Unit) {
@@ -53,9 +63,15 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
             streamIn!!.read(buf, rel2)
-            buffer[0] = buffer[0] xor ByteArrayHelper.readIntX(buf, 0, counter0)
-            buffer[1] = buffer[1] xor ByteArrayHelper.readIntX(buf, rel0, counter1)
-            buffer[2] = buffer[2] xor ByteArrayHelper.readIntX(buf, rel1, counter2)
+            val b0 = ByteArrayHelper.readIntX(buf, 0, counter0)
+            val b1 = ByteArrayHelper.readIntX(buf, rel0, counter1)
+            val b2 = ByteArrayHelper.readIntX(buf, rel1, counter2)
+            buffer[i0] = buffer[i0] xor b0
+            buffer[i1] = buffer[i1] xor b1
+            buffer[i2] = buffer[i2] xor b2
+            SanityCheck.check_is_S(buffer[0])
+            SanityCheck.check_is_P(buffer[1])
+            SanityCheck.check_is_O(buffer[2])
             return buffer
         }
     }

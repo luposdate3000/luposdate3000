@@ -16,6 +16,9 @@
  */
 package lupos.shared.fileformat
 
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternExt
+import lupos.shared.SanityCheck
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.IntegerExt
@@ -27,26 +30,68 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     internal var count = 0L
 
     @JvmField
-    internal var lastS: Int = 0
+    internal var last0: Int = 0
 
     @JvmField
-    internal var lastP: Int = 0
+    internal var last1: Int = 0
 
     @JvmField
-    internal var lastO: Int = 0
+    internal var last2: Int = 0
 
     @JvmField
     internal val buf: ByteArray = ByteArray(13)
+    private val writeOrder: EIndexPattern
 
-    public constructor(filename: String) : super(filename) {
+    public constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
+        this.writeOrder = writeOrder
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
+        streamOut!!.writeInt(writeOrder)
     }
 
     public fun getCount(): Long = count
     public fun write(s: Int, p: Int, o: Int) {
-        val b0 = lastS xor s
-        val b1 = lastP xor p
-        val b2 = lastO xor o
+        SanityCheck.check_is_S(s)
+        SanityCheck.check_is_P(p)
+        SanityCheck.check_is_O(o)
+        val l0: Int
+        val l1: Int
+        val l2: Int
+        when (writeOrder) {
+            EIndexPatternExt.SPO -> {
+                l0 = s
+                l1 = p
+                l2 = o
+            }
+            EIndexPatternExt.SOP -> {
+                l0 = s
+                l1 = o
+                l2 = p
+            }
+            EIndexPatternExt.PSO -> {
+                l0 = p
+                l1 = s
+                l2 = o
+            }
+            EIndexPatternExt.POS -> {
+                l0 = p
+                l1 = o
+                l2 = s
+            }
+            EIndexPatternExt.OSP -> {
+                l0 = o
+                l1 = s
+                l2 = p
+            }
+            EIndexPatternExt.OPS -> {
+                l0 = o
+                l1 = p
+                l2 = s
+            }
+            else -> TODO()
+        }
+        val b0 = last0 xor l0
+        val b1 = last1 xor l1
+        val b2 = last2 xor l2
         val counter0 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b0))) shr 3)
         val counter1 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b1))) shr 3)
         val counter2 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b2))) shr 3)
@@ -61,9 +106,9 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
             ByteArrayHelper.writeIntX(buf, rel0, b1, counter1)
             ByteArrayHelper.writeIntX(buf, rel1, b2, counter2)
             streamOut!!.write(buf, rel2)
-            lastS = s
-            lastP = p
-            lastO = o
+            last0 = l0
+            last1 = l1
+            last2 = l2
         }
     }
 

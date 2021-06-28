@@ -29,10 +29,8 @@ import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import kotlin.jvm.JvmField
@@ -120,64 +118,6 @@ public class TripleStoreDescription(
 
     public override fun modify_create_cache_sorted(type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache {
         return TripleStoreDescriptionModifyCache(this, type, sortedBy, instance)
-    }
-
-    public override fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean) {
-        val localcache = cache as TripleStoreDescriptionModifyCache
-        loop@ while (true) {
-            localcache.row[0] = columns[0].next()
-            localcache.row[1] = columns[1].next()
-            localcache.row[2] = columns[2].next()
-            if (localcache.row[0] == DictionaryExt.nullValue) {
-                break@loop
-            }
-            for (i in 0 until localcache.allConn.size) {
-                val j = indices[i].findPartitionFor(query, localcache.row)
-                val conn = localcache.allConn[i][j]
-                conn.second.writeInt(localcache.row[0])
-                conn.second.writeInt(localcache.row[1])
-                conn.second.writeInt(localcache.row[2])
-            }
-        }
-        if (flush) {
-            for (i in 0 until localcache.allConn.size) {
-                for (j in 0 until localcache.allConn[i].size) {
-                    val conn = localcache.allConn[i][j]
-                    conn.second.writeInt(-1)
-                    conn.first?.close()
-                    conn.second.close()
-                }
-            }
-        }
-    }
-
-    public override fun modify_cache_sorted(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, sortedBy: EIndexPattern, flush: Boolean) {
-        val localcache = cache as TripleStoreDescriptionModifyCache
-        loop@ while (true) {
-            localcache.row[0] = columns[0].next()
-            localcache.row[1] = columns[1].next()
-            localcache.row[2] = columns[2].next()
-            if (localcache.row[0] == DictionaryExt.nullValue) {
-                break@loop
-            }
-            for (i in 0 until localcache.allConn.size) {
-                val j = indices[i].findPartitionFor(query, localcache.row)
-                val conn = localcache.allConn[i][j]
-                conn.second.writeInt(localcache.row[0])
-                conn.second.writeInt(localcache.row[1])
-                conn.second.writeInt(localcache.row[2])
-            }
-        }
-        if (flush) {
-            for (i in 0 until localcache.allConn.size) {
-                for (j in 0 until localcache.allConn[i].size) {
-                    val conn = localcache.allConn[i][j]
-                    conn.first?.close()
-                    conn.second.writeInt(-1)
-                    conn.second.close()
-                }
-            }
-        }
     }
 
     public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {

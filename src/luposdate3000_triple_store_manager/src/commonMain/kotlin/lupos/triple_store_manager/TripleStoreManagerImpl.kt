@@ -445,6 +445,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
+                SanityCheck.check_is_S(buf[i - 3])
+                SanityCheck.check_is_P(buf[i - 2])
+                SanityCheck.check_is_O(buf[i - 1])
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
@@ -470,6 +473,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 buf[i++] = a
                 buf[i++] = stream.readInt()
                 buf[i++] = stream.readInt()
+                SanityCheck.check_is_S(buf[i - 3])
+                SanityCheck.check_is_P(buf[i - 2])
+                SanityCheck.check_is_O(buf[i - 1])
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
@@ -495,7 +501,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     val page = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:471")
-                    localStoresAdd(store.second, TripleStoreIndexIDTriple(page, false, instance))
+                    val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
+                    tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
+                    localStoresAdd(store.second, tripleStore)
                 }
             }
         }

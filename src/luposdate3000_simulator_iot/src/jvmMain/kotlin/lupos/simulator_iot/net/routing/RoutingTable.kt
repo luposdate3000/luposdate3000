@@ -4,7 +4,7 @@ internal class RoutingTable(
     private val ownAddress: Int,
     private val addressSpace: Int,
     private val hasDatabase: Boolean
-    ) {
+) {
 
     private var nextHops = IntArray(0)
     private var nextDatabaseHops = IntArray(0)
@@ -61,11 +61,11 @@ internal class RoutingTable(
             getOwnAddressIfItHasDatabase()
         } else {
             val hop = nextDatabaseHops[destinationAddress]
-            if(hop != notInitialized) hop else getOwnAddressIfItHasDatabase()
+            if (hop != notInitialized) hop else getOwnAddressIfItHasDatabase()
         }
 
-    private fun getOwnAddressIfItHasDatabase() : Int
-        = if(hasDatabase) ownAddress else notInitialized
+    private fun getOwnAddressIfItHasDatabase(): Int =
+        if (hasDatabase) ownAddress else notInitialized
 
     internal fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         val dbHops = IntArray(destinationAddresses.size) { -1 }

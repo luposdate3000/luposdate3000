@@ -949,12 +949,12 @@ function draw(flag) {
     }
     addCustomContextMenu(net, flag);
     setTimeout(() => {
-        network.setOptions({
+        net.setOptions({
             layout: {
                 hierarchical: false
             },
         });
         container.style.display = "inline-block";
-        network.fit();
+        net.fit();
     }, 10);
 }

@@ -175,6 +175,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         cachedHistograms2Cursor = 0
     }
 
+    @JvmField public var debugSortOrder: IntArray = intArrayOf()
+
     private fun checkForCachedHistogram(filter: IntArray): Pair<Int, Int>? {
         var res: Pair<Int, Int>? = null
         when (filter.size) {
@@ -592,6 +594,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
+            if (dataSize> 0) {
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
+            }
+        }
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -618,6 +633,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
+            if (dataSize> 0) {
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
+            }
+        }
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -644,6 +672,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
+            if (dataSize> 0) {
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
+            }
+        }
         flushContinueWithWriteLock()
         val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null
@@ -668,6 +709,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
+            if (dataSize> 0) {
+                SanityCheck.check_is_S(data[0])
+                SanityCheck.check_is_P(data[1])
+                SanityCheck.check_is_O(data[2])
+            }
+        }
         flushContinueWithWriteLock()
         val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null

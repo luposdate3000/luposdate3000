@@ -7,10 +7,10 @@ public class PreprocessingPackage(
     public val queryID: Int, // die ist immer gleich für alles was zu einem "QueryPackage" gehört
 ) : IDatabasePackage {
     override fun getPackageSizeInBytes(): Int {
-        @Suppress("UnnecessaryVariable") val dummySize = 20
+        @Suppress("UnnecessaryVariable")
+        val dummySize = 20
         return dummySize
     }
-
 }
 
 public class ChoosenOperatorPackage(
@@ -21,7 +21,8 @@ public class ChoosenOperatorPackage(
     public val queryID: Int,
 ) : IDatabasePackage {
     override fun getPackageSizeInBytes(): Int {
-        @Suppress("UnnecessaryVariable") val dummySize = 20
+        @Suppress("UnnecessaryVariable")
+        val dummySize = 20
         return dummySize
     }
 }
@@ -34,7 +35,8 @@ public class ResultPackage(
     public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
 ) : IDatabasePackage {
     override fun getPackageSizeInBytes(): Int {
-        @Suppress("UnnecessaryVariable") val dummySize = 20
+        @Suppress("UnnecessaryVariable")
+        val dummySize = 20
         return dummySize
     }
 }

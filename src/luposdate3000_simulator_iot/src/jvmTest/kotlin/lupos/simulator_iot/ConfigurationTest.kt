@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 class ConfigurationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}\\ConfigurationTest"
+        private const val prefix = "${FilePaths.testResource}/ConfigurationTest"
     }
 
     @Test
@@ -269,7 +269,7 @@ class ConfigurationTest {
         assertEquals(1, Configuration.querySenders.size)
         val querySender = Configuration.querySenders[0]
         assertEquals("Driver1", querySender.name)
-        assertEquals( 30, querySender.sendRateInSec)
+        assertEquals(30, querySender.sendRateInSec)
         assertEquals(Configuration.getNamedDevice("Tower1"), querySender.receiver)
         assertEquals("Select dummy From dum", querySender.query)
     }
@@ -277,8 +277,15 @@ class ConfigurationTest {
     @Test
     fun manipulateJsonObjects() {
         val jsonObjects = Configuration.readJsonFile("$prefix/manipulateJsonObjects.json")
-        jsonObjects.randomStarNetwork.add(RandomStarNetwork(
-            networkPrefix = "star2", starRoot = "Tower1", linkType = "WPAN", deviceType = "StandAloneParkingSensor", number = 3))
+        jsonObjects.randomStarNetwork.add(
+            RandomStarNetwork(
+                networkPrefix = "star2",
+                starRoot = "Tower1",
+                linkType = "WPAN",
+                deviceType = "StandAloneParkingSensor",
+                number = 3
+            )
+        )
         Configuration.parse(jsonObjects)
         assertEquals(2, Configuration.randStarNetworks.size)
     }

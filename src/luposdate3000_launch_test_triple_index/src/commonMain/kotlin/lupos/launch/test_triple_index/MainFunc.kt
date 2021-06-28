@@ -57,8 +57,12 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     var insertBufferSize = 0
     val deleteBuffer = IntArray(3000)
     var deleteBufferSize = 0
-    fun mergeSPO(s: Int, p: Int, o: Int): Int = (s and 0x7fff0000.toInt()) or ((p and 0x7f000000.toInt()) shr 16) or ((o and 0x7f000000.toInt()) shr 24)
-    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) = action(v and 0x7fff0000.toInt(), (v and 0x00007f00.toInt()) shl 16, (v and 0x0000007f.toInt()) shl 24)
+    fun mergeSPO(s: Int, p: Int, o: Int): Int {
+        return (s and 0x7fff0000.toInt()) or ((p and 0x7f000000.toInt()) shr 16) or ((o and 0x7f000000.toInt()) shr 24)
+    }
+    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) {
+        action(v and 0x7fff0000.toInt(), ((v and 0x00007f00.toInt()) shl 16), ((v and 0x0000007f.toInt()) shl 24))
+    }
     fun filterArrToFun(filter: IntArray): (Int) -> Boolean {
         var res: (Int) -> Boolean = { true }
         when (filter.size) {
