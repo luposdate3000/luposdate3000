@@ -51,6 +51,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownManifestException
 import lupos.shared.XMLElementFromXML
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
@@ -494,17 +495,17 @@ public open class SparqlTestSuite {
                         val tmp = tmp2.evaluateRoot()
                         val sstore = instance.tripleStoreManager!!.getDefaultGraph()
                         val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
-val iterator=arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
-while(true){
-val s=iterator[0].next()
-val p=iterator[1].next()
-val o=iterator[2].next()
-if (s == DictionaryExt.nullValue) {
-                break@loop
-            }
-cache.writeRow(s,p,o,query)
-}
-cache.close()
+                        val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
+                        while (true) {
+                            val s = iterator[0].next()
+                            val p = iterator[1].next()
+                            val o = iterator[2].next()
+                            if (s == DictionaryExt.nullValue) {
+                                break
+                            }
+                            cache.writeRow(s, p, o, query)
+                        }
+                        cache.close()
                         instance.tripleStoreManager!!.commit(query)
                         query.commited = true
                         if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
@@ -540,17 +541,17 @@ cache.close()
                     val tmp = tmp2.evaluateRoot()
                     val sstore = instance.tripleStoreManager!!.getGraph(it["name"]!!)
                     val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
-val iterator=arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
-while(true){
-val s=iterator[0].next()
-val p=iterator[1].next()
-val o=iterator[2].next()
-if (s == DictionaryExt.nullValue) {
-                break@loop
-            }
-cache.writeRow(s,p,o,query)
-}
-cache.close()
+                    val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
+                    while (true) {
+                        val s = iterator[0].next()
+                        val p = iterator[1].next()
+                        val o = iterator[2].next()
+                        if (s == DictionaryExt.nullValue) {
+                            break
+                        }
+                        cache.writeRow(s, p, o, query)
+                    }
+                    cache.close()
                     instance.tripleStoreManager!!.commit(query)
                     if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))

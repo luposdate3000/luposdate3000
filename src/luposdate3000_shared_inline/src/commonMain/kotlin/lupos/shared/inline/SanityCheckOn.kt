@@ -27,7 +27,7 @@ internal object SanityCheckOn {
     public val TRIPLE_FLAG_O = 0x00030000
     public val TRIPLE_FLAG_All = TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
     public val TRIPLE_FLAG_NONE = Int.MAX_VALUE - TRIPLE_FLAG_All
-    public val ignoreTripleFlag = false
+    public val ignoreTripleFlag = true
 
     internal inline fun check_is_S(i: Int) {
         this {
