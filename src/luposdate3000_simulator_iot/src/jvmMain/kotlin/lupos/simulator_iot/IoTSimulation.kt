@@ -5,14 +5,6 @@ import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.log.LoggerCollection
 
-public fun main() {
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2Sensors1Database.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2DBwith1Sensor.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/star.json")
-    IoTSimulation().measureStarPerformance()
-}
-
 public class IoTSimulation {
 
     public fun simulate(configFileName: String) {
