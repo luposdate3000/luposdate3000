@@ -109,9 +109,6 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("dataBuffer.add(0x${insertBuffer[i + 0].toString(16).padStart(8, '0')},0x${insertBuffer[i + 1].toString(16).padStart(8, '0')},0x${insertBuffer[i + 2].toString(16).padStart(8, '0')}) -> $x")
                 }
-                insertBuffer[i + 0] = insertBuffer[i + 0]
-                insertBuffer[i + 1] = insertBuffer[i + 1]
-                insertBuffer[i + 2] = insertBuffer[i + 2]
                 i += 3
                 totalinserts++
                 if (!x) {
@@ -162,9 +159,6 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("dataBuffer.remove(0x${deleteBuffer[i + 0].toString(16).padStart(8, '0')},0x${deleteBuffer[i + 1].toString(16).padStart(8, '0')},0x${deleteBuffer[i + 2].toString(16).padStart(8, '0')}) -> $x")
                 }
-                deleteBuffer[i + 0] = deleteBuffer[i + 0]
-                deleteBuffer[i + 1] = deleteBuffer[i + 1]
-                deleteBuffer[i + 2] = deleteBuffer[i + 2]
                 i += 3
             }
             index.removeAsBulk(deleteBuffer, order, deleteBufferSize)

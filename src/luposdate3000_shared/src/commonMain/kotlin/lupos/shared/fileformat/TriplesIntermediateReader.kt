@@ -18,7 +18,6 @@
 package lupos.shared.fileformat
 
 import lupos.shared.EIndexPattern
-import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ByteArrayHelper
@@ -70,8 +69,8 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
             buffer[i0] = buffer[i0] xor b0
             buffer[i1] = buffer[i1] xor b1
             buffer[i2] = buffer[i2] xor b2
-            println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " readerdelta .. ${b0.toString(16)} ${b1.toString(16)} ${b2.toString(16)}")
-            println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " reader .. ${buffer[0].toString(16)} ${buffer[1].toString(16)} ${buffer[2].toString(16)}")
+            // println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " readerdelta .. ${b0.toString(16)} ${b1.toString(16)} ${b2.toString(16)}")
+            // println(EIndexPatternExt.names[writeOrder] + " .. " + filename + " reader .. ${buffer[0].toString(16)} ${buffer[1].toString(16)} ${buffer[2].toString(16)}")
             SanityCheck.check_is_S(buffer[0])
             SanityCheck.check_is_P(buffer[1])
             SanityCheck.check_is_O(buffer[2])

@@ -175,6 +175,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         cachedHistograms2Cursor = 0
     }
 
+    @JvmField public var debugSortOrder: IntArray = intArrayOf()
+
     private fun checkForCachedHistogram(filter: IntArray): Pair<Int, Int>? {
         var res: Pair<Int, Int>? = null
         when (filter.size) {
@@ -304,6 +306,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
+        println("getIterator ${debugSortOrder.map{it}} .. ${filter.map{it}} .. $projection")
         var res: IteratorBundle
         SanityCheck.check { filter.size in 0..3 }
         SanityCheck.check { projection.size + filter.size == 3 }
@@ -593,6 +596,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
             if (dataSize> 0) {
                 SanityCheck.check_is_S(data[0])
                 SanityCheck.check_is_P(data[1])
@@ -626,6 +635,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
             if (dataSize> 0) {
                 SanityCheck.check_is_S(data[0])
                 SanityCheck.check_is_P(data[1])
@@ -659,6 +674,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
             if (dataSize> 0) {
                 SanityCheck.check_is_S(data[0])
                 SanityCheck.check_is_P(data[1])
@@ -690,6 +711,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         SanityCheck {
+            if (debugSortOrder.size == 0) {
+                debugSortOrder = order
+            }
+            for (i in 0 until 3) {
+                SanityCheck.check { order[i] == debugSortOrder[i] }
+            }
             if (dataSize> 0) {
                 SanityCheck.check_is_S(data[0])
                 SanityCheck.check_is_P(data[1])

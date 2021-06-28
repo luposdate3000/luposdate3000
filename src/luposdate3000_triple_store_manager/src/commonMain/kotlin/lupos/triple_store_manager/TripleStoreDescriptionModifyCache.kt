@@ -33,32 +33,25 @@ import kotlin.jvm.JvmField
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
 
-    @JvmField
-    internal val description: TripleStoreDescription
+    private val description: TripleStoreDescription
 
-    @JvmField
-    internal val type: EModifyType
+    private val type: EModifyType
 
     @JvmField
     internal val row = IntArray(3)
 
-    @JvmField
-    internal val idx: Array<IntArray>
+    private val idx: Array<IntArray>
 
     @JvmField
     internal val allConn: Array<Array<Pair<IMyInputStream?, IMyOutputStream>>>
 
-    @JvmField
-    internal val allStore: Array<List<Pair<LuposHostname, LuposStoreKey>>>
+    private val allStore: Array<List<Pair<LuposHostname, LuposStoreKey>>>
 
-    @JvmField
-    internal val allStoreParams: Array<Array<Map<String, LuposStoreKey>>>
+    private val allStoreParams: Array<Array<Map<String, LuposStoreKey>>>
 
-    @JvmField
-    internal val allStoreLocal: Array<Array<TripleStoreIndex?>>
+    private val allStoreLocal: Array<Array<TripleStoreIndex?>>
 
-    @JvmField
-    internal var instance: Luposdate3000Instance
+    private var instance: Luposdate3000Instance
 
     private class LocalSortedInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
         var off = 0
@@ -66,7 +59,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         val limit = buf.size - (buf.size % 3)
         val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
         init {
-            kotlin.io.println("created LocalSortedInputStream")
+//            kotlin.io.println("created LocalSortedInputStream")
         }
         override fun flush() {}
         override fun close() { }
@@ -95,7 +88,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         override fun write(buf: ByteArray, len: Int) {
         }
         override fun writeInt(i: Int) {
-            kotlin.io.println("read off a $off")
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {

@@ -37,7 +37,29 @@ import lupos.shared.operator.iterator.ColumnIterator
 
 public object QueryResultToXMLStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
-        dictionary.getValue(buffer, valueID)
+        if (SanityCheck.ignoreTripleFlag) {
+            dictionary.getValue(buffer, valueID)
+        } else {
+            when {
+                columnName.startsWith("s") -> {
+                    SanityCheck.check_is_S(valueID)
+                    dictionary.getValue(buffer, valueID - SanityCheck.TRIPLE_FLAG_S)
+                }
+                columnName.startsWith("p") -> {
+                    SanityCheck.check_is_P(valueID)
+                    dictionary.getValue(buffer, valueID - SanityCheck.TRIPLE_FLAG_P)
+                }
+                columnName.startsWith("o") -> {
+                    SanityCheck.check_is_O(valueID)
+                    dictionary.getValue(buffer, valueID - SanityCheck.TRIPLE_FLAG_O)
+                }
+                else -> {
+                    println(columnName)
+                    dictionary.getValue(buffer, valueID)
+                }
+            }
+        }
+
         DictionaryHelper.byteArrayToCallback(
             buffer,
             { value ->
@@ -204,6 +226,7 @@ public object QueryResultToXMLStream {
         this(rootNode, output, true)
     }
     public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
+        println(rootNode)
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"

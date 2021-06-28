@@ -63,6 +63,45 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     }
                     SanityCheck.check { columnMode.containsAll(target) }
                     SanityCheck.check { target.containsAll(columnMode) }
+                    val outMap = mutableMapOf<String, ColumnIterator>()
+                    for ((columnName, childIter) in child.columns) {
+                        val iterator = object : ColumnIterator() {
+                            override /*suspend*/ fun next(): Int {
+                                val res = childIter.next()
+                                if (res != DictionaryExt.nullValue) {
+                                    if (!SanityCheck.ignoreTripleFlag) {
+                                        when {
+                                            columnName.startsWith("s") -> {
+                                                SanityCheck.check_is_S(res)
+                                            }
+                                            columnName.startsWith("p") -> {
+                                                SanityCheck.check_is_P(res)
+                                            }
+                                            columnName.startsWith("o") -> {
+                                                SanityCheck.check_is_O(res)
+                                            }
+                                            else -> {
+                                                println(columnName)
+                                            }
+                                        }
+                                    }
+                                }
+                                return res
+                            }
+                            override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
+                                childIter.nextSIP(minValue, result)
+                            }
+                            override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+                                val res = childIter.skipSIP(skipCount)
+                                return res
+                            }
+                            override /*suspend*/ fun close() {
+                                childIter.close()
+                            }
+                        }
+                        outMap[columnName] = iterator
+                    }
+                    return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
                     SanityCheck.check { rowMode.containsAll(target) }
