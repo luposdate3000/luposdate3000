@@ -71,7 +71,7 @@ internal class Device(
     }
 
     private fun processPackage(pck: NetworkPackage) {
-        Logger.log("> Device $address receives $pck")
+        Logger.log("> Device $address receives $pck at ${simulation.getCurrentClock()}")
         when {
             router.isControlPackage(pck) -> {
                 router.processControlPackage(pck)
