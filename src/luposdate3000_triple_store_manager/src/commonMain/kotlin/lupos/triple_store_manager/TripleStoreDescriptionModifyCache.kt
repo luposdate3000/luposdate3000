@@ -63,18 +63,18 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
-                        store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                        store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                     } else {
-                        store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                        store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                     }
                     off = 0
                 }
                 buf[off++] = i
             } else {
                 if (mode == EModifyTypeExt.INSERT) {
-                    store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                 } else {
-                    store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                 }
                 off = 0
             }
@@ -122,18 +122,18 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
-                        store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                        store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                     } else {
-                        store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                        store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                     }
                     off = 0
                 }
                 buf[off++] = i
             } else {
                 if (mode == EModifyTypeExt.INSERT) {
-                    store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                 } else {
-                    store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off / 3)
+                    store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                 }
                 off = 0
             }

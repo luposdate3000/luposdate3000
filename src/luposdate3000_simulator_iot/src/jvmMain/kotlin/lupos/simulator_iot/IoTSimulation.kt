@@ -5,9 +5,9 @@ import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.log.LoggerCollection
 
-public class IoTSimulation {
-
-    public fun simulate(configFileName: String) {
+public actual class IoTSimulation {
+    public actual constructor() {}
+    public actual fun simulate(configFileName: String) {
         Configuration.parse(configFileName)
         val sim = Simulation(
             entities = Configuration.getEntities(),
@@ -16,7 +16,7 @@ public class IoTSimulation {
         sim.startSimulation()
     }
 
-    public fun measureStarPerformance() {
+    public actual fun measureStarPerformance() {
         val loggerCollection = LoggerCollection()
         val testWithDatabase = true
         var arr: IntArray = if (testWithDatabase) {

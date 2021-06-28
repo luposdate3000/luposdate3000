@@ -16,14 +16,8 @@
  */
 package lupos.launch.endpoint
 
-import lupos.endpoint.LuposdateEndpoint
-import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.shared.Parallel
-import lupos.simulator_core.Simulation
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
-import lupos.simulator_iot.log.LoggerCollection
-
+import lupos.simulator_iot.IoTSimulation
 internal fun mainFunc(): Unit = Parallel.runBlocking {
     // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2Sensors1Database.json")
     // IoTSimulation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")

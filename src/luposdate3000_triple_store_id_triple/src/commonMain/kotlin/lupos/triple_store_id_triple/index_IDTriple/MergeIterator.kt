@@ -37,7 +37,9 @@ internal class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: T
         }
     }
 
-    override fun hasNext() = flag != 0
+    override fun hasNext(): Boolean {
+        return flag != 0
+    }
     override fun next(component: Int): Int {
         when (flag) {
             3 -> {
