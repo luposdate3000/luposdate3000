@@ -204,6 +204,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             }
         }
         val targetType = outputFile!!.substring(outputFile.lastIndexOf("."))
+        val inputType = outputFile!!.substring(inputFile.lastIndexOf("."))
 
         val configurations = mutableListOf<Pair<File, Config>>()
         if ((enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) && enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN)) || enabledConfigurations.contains(Config.RUNTIME)) {
@@ -675,52 +676,64 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             "resourcessp2bq9sparql700",
             "resourcessp2bq9sparql973",
         )
-val ignoreListDueToNotImplemented = setOf(
-"Nestedpositiveexists",
-"GROUPCONCAT2",
-"pp03Simplepathwithloop",
-"pp23Diamondwithtailp",
-"SHA512onUnicodedata",
-"IN1",
-"SUBSTR3argument",
-"ENCODEFORURI",
-"pp30Operatorprecedence1",
-"PositiveEXISTS1",
-"pp12Variablelengthpathandtwopathstosametargetnode",
-"Existswithoneconstant",
-"REPLACEwithcapturedsubstring",
-"STRUUIDpatternmatch",
-"NOTIN2",
-"pp31Operatorprecedence2",
-"GROUPCONCAT1",
-"pp08Reversepath",
-"SHA512",
-"Existswithgroundtriple",
-"pp01Simplepath",
-"Nestednegativeexistsinpositiveexists",
-"REPLACE",
-"pp11Simplepathandtwopathstosametargetnode",
-"IN2",
-"SUBSTR2argument",
-"pp02Starpath",
-"pp36Arbitrarypathwithboundendpoints",
-"pp09Reversesequencepath",
-"pp14Starpathoverfoafknows",
-"pp33Operatorprecedence4",
-"pp16Duplicatepathsandcyclesthroughfoafknows",
-"GROUPCONCATwithSEPARATOR",
-"RAND",
-"pp32Operatorprecedence3",
-"pp25Diamondwithloopp",
-"pp21Diamondp",
-"pp10Pathwithnegation",
-"UUIDpatternmatch",
-"pp37Nested",
-"REPLACEwithoverlappingpattern",
-"PositiveEXISTS2",
-"pp28aDiamondwithlooppp",
-}
-        val ignoreList = ignoreListDueToTooSlow+ignoreListDueToNotImplemented
+        val ignoreListDueToNotImplemented = setOf(
+            "Nestedpositiveexists",
+            "GROUPCONCAT2",
+            "pp03Simplepathwithloop",
+            "pp23Diamondwithtailp",
+            "SHA512onUnicodedata",
+            "IN1",
+            "SUBSTR3argument",
+            "ENCODEFORURI",
+            "pp30Operatorprecedence1",
+            "PositiveEXISTS1",
+            "pp12Variablelengthpathandtwopathstosametargetnode",
+            "Existswithoneconstant",
+            "REPLACEwithcapturedsubstring",
+            "STRUUIDpatternmatch",
+            "NOTIN2",
+            "pp31Operatorprecedence2",
+            "GROUPCONCAT1",
+            "pp08Reversepath",
+            "SHA512",
+            "Existswithgroundtriple",
+            "pp01Simplepath",
+            "Nestednegativeexistsinpositiveexists",
+            "REPLACE",
+            "pp11Simplepathandtwopathstosametargetnode",
+            "IN2",
+            "SUBSTR2argument",
+            "pp02Starpath",
+            "pp36Arbitrarypathwithboundendpoints",
+            "pp09Reversesequencepath",
+            "pp14Starpathoverfoafknows",
+            "pp33Operatorprecedence4",
+            "pp16Duplicatepathsandcyclesthroughfoafknows",
+            "GROUPCONCATwithSEPARATOR",
+            "RAND",
+            "pp32Operatorprecedence3",
+            "pp25Diamondwithloopp",
+            "pp21Diamondp",
+            "pp10Pathwithnegation",
+            "UUIDpatternmatch",
+            "pp37Nested",
+            "REPLACEwithoverlappingpattern",
+            "PositiveEXISTS2",
+            "pp28aDiamondwithlooppp",
+            "jsonres01JSONResultFormat",
+            "jsonres02JSONResultFormat",
+            "jsonres03JSONResultFormat",
+            "jsonres04JSONResultFormat",
+        )
+        val ignoreListDueToBugs = setOf(
+            "csv03CSVResultFormat", // csv-parser
+        )
+        val ignoreList = ignoreListDueToTooSlow + ignoreListDueToNotImplemented
+        val acceptedInputTypes = listOf(
+            "n3",
+        )
+        var ignored = ignoreList.contains(testCaseName)
+        ignored = ignored || !acceptedInputTypes.contains(inputType)
         for (configuration in configurations) {
             configuration.first.withOutputStream { out ->
                 out.println("/*")
@@ -751,7 +764,7 @@ val ignoreListDueToNotImplemented = setOf(
                 if (configIsBuildTime(configuration.second)) {
                     out.println("import kotlin.test.Test")
                     out.println("import kotlin.test.fail")
-                    if (ignoreList.contains(testCaseName)) {
+                    if (ignored) {
                         out.println("import kotlin.test.Ignore")
                     }
                 }
@@ -764,18 +777,20 @@ val ignoreListDueToNotImplemented = setOf(
                     out.println("   val inputData=File(\"src/jvmTest/resources/$testCaseName.input\").readAsString()")
                     out.println("   val targetData=File(\"src/jvmTest/resources/$testCaseName.output\").readAsString()")
                     out.println("   val targetType=\"$targetType\"")
+                    out.println("   val inputType=\"$inputType\"")
                 } else {
                     out.println("public object $testCaseName {")
                     out.println("   internal val inputData=File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.input\").readAsString()")
                     out.println("   internal val targetData=File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.output\").readAsString()")
                     out.println("   internal val targetType=\"$targetType\"")
+                    out.println("   internal val inputType=\"$inputType\"")
                 }
                 if (configIsCodeGen(configuration.second)) {
                     out.println("    @CodeGenerationAnnotation")
                 }
                 if (configIsBuildTime(configuration.second)) {
                     out.println("    val query = File(\"src/jvmTest/resources/$testCaseName.query\").readAsString()")
-                    if (ignoreList.contains(testCaseName)) {
+                    if (ignored) {
                         out.println("    @Ignore")
                     }
                     out.println("    @Test fun `$testCaseName2}`(){")
@@ -789,7 +804,11 @@ val ignoreListDueToNotImplemented = setOf(
                     out.println("        try {")
                 }
                 out.println("            instance.LUPOS_BUFFER_SIZE=128")
-                out.println("            LuposdateEndpoint.importTurtleString(instance,inputData)")
+                out.println("            if(inputType==\"n3\") {")
+                out.println("                LuposdateEndpoint.importTurtleString(instance,inputData)")
+                out.println("            }else{")
+                out.println("                TODO()")
+                out.println("            }")
                 if (configIsBuildTimeCodeGen(configuration.second)) {
                     out.println("                val op = query_evaluate()")
                 } else {
