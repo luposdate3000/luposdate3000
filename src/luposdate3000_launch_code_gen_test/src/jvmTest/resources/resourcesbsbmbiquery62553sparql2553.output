@@ -1,0 +1,17 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="reviewer"/>
+  <variable name="reviewerAvgScore"/>
+ </head>
+ <results>
+  <result>
+   <binding name="reviewer">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer3</uri>
+   </binding>
+   <binding name="reviewerAvgScore">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#float">9.0</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

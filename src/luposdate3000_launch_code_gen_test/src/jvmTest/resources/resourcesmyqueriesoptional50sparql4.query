@@ -1,0 +1,15 @@
+PREFIX : <http://example.org/>
+SELECT * WHERE {
+ {
+  ?s :b1 ?o1 .
+ } UNION {
+  ?s :b1 ?o1 .
+ }
+ OPTIONAL {
+  {
+   ?s :b2 ?o2 .
+  } UNION {
+   ?s :b2 ?o2 .
+  }
+ }
+}
