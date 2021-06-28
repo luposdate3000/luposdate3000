@@ -27,7 +27,11 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.jvm.JvmField
 
-internal actual class File actual constructor(@JvmField internal val filename: String) {
+internal actual class File {
+@JvmField internal val filename: String
+actual constructor( filename: String){
+this.filename=filename.replace("\\", "/").replace("/./", "/").replace("//", "/")
+}
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getAbsolutePath() = java.io.File(filename).absolutePath.toString()
 

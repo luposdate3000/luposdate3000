@@ -6,10 +6,10 @@ import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.log.LoggerCollection
 
 public fun main() {
-    // IoTSimulation().simulate("${FilePaths.jvmResource}\\Exception_2Sensors1Database.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}\\anotherException_2Sensor1Database.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}\\Exception_2DBwith1Sensor.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}\\star.json")
+    // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2Sensors1Database.json")
+    // IoTSimulation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")
+    // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2DBwith1Sensor.json")
+    // IoTSimulation().simulate("${FilePaths.jvmResource}/star.json")
     IoTSimulation().measureStarPerformance()
 }
 
@@ -33,7 +33,7 @@ public class IoTSimulation {
             buildNodeSizesArray(100, 1000)
         }
 
-        Configuration.parse("${FilePaths.jvmResource}\\starPerformance.json")
+        Configuration.parse("${FilePaths.jvmResource}/starPerformance.json")
         for (numberOfChilds in arr)
             runSimulationStarPerformance(numberOfChilds, loggerCollection)
     }
@@ -47,7 +47,7 @@ public class IoTSimulation {
 
     private fun runSimulationStarPerformance(numberOfChilds: Int, collection: LoggerCollection) {
         Logger.reset()
-        val configFileName = "${FilePaths.jvmResource}\\starPerformance.json"
+        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         val jsonObjects = Configuration.readJsonFile(configFileName)
         jsonObjects.randomStarNetwork[0].number = numberOfChilds - 1
         Configuration.parse(jsonObjects)

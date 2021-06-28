@@ -5,7 +5,7 @@ import lupos.simulator_iot.FilePaths
 
 internal class LoggerCollection {
 
-    private val perfCSVFile = "${FilePaths.logDir}\\perf.csv"
+    private val perfCSVFile = "${FilePaths.logDir}/perf.csv"
 
     private val delimiter = ";"
 
