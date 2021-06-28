@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class IntegrationTest {
@@ -13,6 +14,7 @@ class IntegrationTest {
         IoTSimulation().simulate("${FilePaths.testResource}/anotherException_2Sensor1Database.json")
     }
 
+    @Ignore
     @Test
     fun test3() {
         IoTSimulation().simulate("${FilePaths.testResource}/Exception_2DBwith1Sensor.json")
