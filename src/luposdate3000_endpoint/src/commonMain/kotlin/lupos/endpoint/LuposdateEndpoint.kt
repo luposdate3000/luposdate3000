@@ -20,9 +20,7 @@ import lupos.dictionary.DictionaryFactory
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
-import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.optimizer.logical.LogicalOptimizer
@@ -55,7 +53,6 @@ import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
-import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.fileformat.DictionaryIntermediate
 import lupos.shared.fileformat.TriplesIntermediateReader
@@ -64,7 +61,6 @@ import lupos.shared.inline.FileExt
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.Platform
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
@@ -137,18 +133,12 @@ public object LuposdateEndpoint {
             instance.tripleStoreManager!!.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             var counter = 0L
             val store = instance.tripleStoreManager!!.getDefaultGraph()
-            val bufS = IntArray(instance.LUPOS_BUFFER_SIZE)
-            val bufP = IntArray(instance.LUPOS_BUFFER_SIZE)
-            val bufO = IntArray(instance.LUPOS_BUFFER_SIZE)
-            var bufPos = 0
             println("importing intermediate file '$fileName'")
             val startTime = DateHelperRelative.markNow()
             setEstimatedPartitionsFromFile(instance, "$fileName.partitions")
             instance.tripleStoreManager!!.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
             val dictTime = DateHelperRelative.elapsedSeconds(startTime)
-            val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
-            val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
             var requireSorting = false
             for (i in 1 until mappingLength) {
                 if (mapping[i] < mapping[i - 1]) {
@@ -160,38 +150,22 @@ public object LuposdateEndpoint {
             if (requireSorting) {
                 val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                 val fileTriples = TriplesIntermediateReader("$fileName.spo")
-                bufPos = 0
                 fileTriples.readAll {
-                    if (bufPos == bufS.size) {
-                        for (i in 0 until 3) {
-                            arr[i].reset(bufPos)
-                        }
-                        store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
-                        bufPos = 0
-                    }
                     if (SanityCheck.ignoreTripleFlag) {
-                        bufS[bufPos] = mapping[it[0]]
-                        bufP[bufPos] = mapping[it[1]]
-                        bufO[bufPos] = mapping[it[2]]
+                        cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
                     } else {
                         SanityCheck.check_is_S(it[0])
                         SanityCheck.check_is_P(it[1])
                         SanityCheck.check_is_O(it[2])
-                        bufS[bufPos] = mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S
-                        bufP[bufPos] = mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P
-                        bufO[bufPos] = mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O
+                        cache.writeRow(mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S, mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P, mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O, query)
                     }
-                    bufPos++
                     counter++
                     if (counter % 10000 == 0L) {
                         println("imported $counter triples without sorting")
                     }
                 }
                 println("imported $counter triples without sorting")
-                for (i in 0 until 3) {
-                    arr[i].reset(bufPos)
-                }
-                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
+                cache.close()
             } else {
                 val orders = arrayOf(
                     intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
@@ -225,38 +199,22 @@ public object LuposdateEndpoint {
                     val sortedBy = orderPatterns[o]
                     val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
-                    bufPos = 0
                     fileTriples.readAll {
-                        if (bufPos == bufS.size) {
-                            for (i in 0 until 3) {
-                                arr[i].reset(bufPos)
-                            }
-                            store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
-                            bufPos = 0
-                        }
                         if (SanityCheck.ignoreTripleFlag) {
-                            bufS[bufPos] = mapping[it[0]]
-                            bufP[bufPos] = mapping[it[1]]
-                            bufO[bufPos] = mapping[it[2]]
+                            cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
                         } else {
                             SanityCheck.check_is_S(it[0])
                             SanityCheck.check_is_P(it[1])
                             SanityCheck.check_is_O(it[2])
-                            bufS[bufPos] = mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S
-                            bufP[bufPos] = mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P
-                            bufO[bufPos] = mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O
+                            cache.writeRow(mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S, mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P, mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O, query)
                         }
-                        bufPos++
                         counter++
                         if (counter % 10000 == 0L) {
                             println("imported $counter triples for index $orderName")
                         }
                     }
                     println("imported $counter triples for index $orderName")
-                    for (i in 0 until 3) {
-                        arr[i].reset(bufPos)
-                    }
-                    store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, true)
+                    cache.close()
                 }
             }
             val totalTime = DateHelperRelative.elapsedSeconds(startTime)
@@ -275,28 +233,6 @@ public object LuposdateEndpoint {
             throw e
         }
 /*Coverage Unreachable*/
-    }
-
-    @JsName("import_xml_data")
-    /*suspend*/ public fun importXmlData(instance: Luposdate3000Instance, data: String): String {
-        val query = Query(instance)
-        val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
-        val key = "${query.getTransactionID()}"
-        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
-            query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
-        }
-        val import = import2.evaluateRoot()
-        val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        val store = instance.tripleStoreManager!!.getDefaultGraph()
-        val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-        store.modify_cache(query, dataLocal, EModifyTypeExt.INSERT, cache, true)
-        instance.tripleStoreManager!!.commit(query)
-        query.commited = true
-        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
-        }
-        return XMLElement("success").toString()
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_a")

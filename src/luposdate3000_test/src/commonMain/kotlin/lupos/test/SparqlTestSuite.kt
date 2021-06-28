@@ -494,7 +494,17 @@ public open class SparqlTestSuite {
                         val tmp = tmp2.evaluateRoot()
                         val sstore = instance.tripleStoreManager!!.getDefaultGraph()
                         val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
-                        sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
+val iterator=arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
+while(true){
+val s=iterator[0].next()
+val p=iterator[1].next()
+val o=iterator[2].next()
+if (s == DictionaryExt.nullValue) {
+                break@loop
+            }
+cache.writeRow(s,p,o,query)
+}
+cache.close()
                         instance.tripleStoreManager!!.commit(query)
                         query.commited = true
                         if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
@@ -530,7 +540,17 @@ public open class SparqlTestSuite {
                     val tmp = tmp2.evaluateRoot()
                     val sstore = instance.tripleStoreManager!!.getGraph(it["name"]!!)
                     val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
-                    sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
+val iterator=arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
+while(true){
+val s=iterator[0].next()
+val p=iterator[1].next()
+val o=iterator[2].next()
+if (s == DictionaryExt.nullValue) {
+                break@loop
+            }
+cache.writeRow(s,p,o,query)
+}
+cache.close()
                     instance.tripleStoreManager!!.commit(query)
                     if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))

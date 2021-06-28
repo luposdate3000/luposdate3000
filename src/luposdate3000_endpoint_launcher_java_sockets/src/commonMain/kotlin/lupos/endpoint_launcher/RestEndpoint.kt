@@ -305,11 +305,6 @@ public object RestEndpoint {
             LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
             printHeaderSuccess(connectionOutMy)
         }
-        paths["/import/xml"] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {
-            printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importXmlData(instance, params["xml"]!!))
-            /*Coverage Unreachable*/
-        }
         paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
             val dict = dictionaryMapping[params["key"]!!]!!
             dict.connect(connectionInMy, connectionOutMy)
