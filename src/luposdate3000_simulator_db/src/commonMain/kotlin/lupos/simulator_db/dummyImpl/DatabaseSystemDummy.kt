@@ -1,12 +1,11 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.shared.inline.File
-import lupos.simulator_db.ChoosenOperatorPackage
+
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IDatabaseState
-import lupos.simulator_db.PreprocessingPackage
-import lupos.simulator_db.ResultPackage
+
 
 public class DatabaseSystemDummy : IDatabase {
 

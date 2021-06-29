@@ -102,7 +102,7 @@ public class DatabaseHandle : IDatabase {
             router!!.sendQueryResult(sourceAddress, res)
         } else {
             val destinations = mutableMapOf("" to sourceAddress)
-            receive(MySimulatorOperatorgraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown()))
+            receive(MySimulatorOperatorGraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown()))
         }
     }
 
@@ -124,19 +124,19 @@ public class DatabaseHandle : IDatabase {
         }
     }
 
-    private fun receive(pck: MySimulatorOperatorgraphPackage) {
-        println("receive MySimulatorOperatorgraphPackage ${pck.dependenciesMapTopDown} ${pck.operatorGraph}")
-        val allHosts = pck.operatorgraphPartsToHostMap.values.toSet().toTypedArray()
+    private fun receive(pck: MySimulatorOperatorGraphPackage) {
+        println("receive MySimulatorOperatorGraphPackage ${pck.dependenciesMapTopDown} ${pck.operatorGraph}")
+        val allHosts = pck.operatorGraphPartsToHostMap.values.toSet().toTypedArray()
         val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
 //        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
         val nextHops = allHostAdresses
-        val packages = mutableMapOf<Int, MySimulatorOperatorgraphPackage>()
+        val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in nextHops.toSet()) {
-            packages[i] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
         }
-        packages[ownAdress] = MySimulatorOperatorgraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
         val packageMap = mutableMapOf<String, Int>()
-        for ((k, v) in pck.operatorgraphPartsToHostMap) {
+        for ((k, v) in pck.operatorGraphPartsToHostMap) {
             packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
         }
         var changed = true
@@ -177,9 +177,9 @@ public class DatabaseHandle : IDatabase {
             val targetInt = v
             val p = packages[targetInt]!!
             p.operatorGraph[k] = pck.operatorGraph[k]!!
-            val h = pck.operatorgraphPartsToHostMap[k]
+            val h = pck.operatorGraphPartsToHostMap[k]
             if (h != null) {
-                p.operatorgraphPartsToHostMap[k] = h
+                p.operatorGraphPartsToHostMap[k] = h
             }
             val deps = pck.dependenciesMapTopDown[k]
             if (deps != null) {
@@ -305,7 +305,7 @@ public class DatabaseHandle : IDatabase {
     override fun receive(pck: IDatabasePackage) {
         when (pck) {
             is MySimulatorAbstractPackage -> receive(pck)
-            is MySimulatorOperatorgraphPackage -> receive(pck)
+            is MySimulatorOperatorGraphPackage -> receive(pck)
             else -> TODO("$pck")
         }
     }

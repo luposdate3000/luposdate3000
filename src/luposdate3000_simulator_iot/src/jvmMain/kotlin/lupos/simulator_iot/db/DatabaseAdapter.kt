@@ -56,8 +56,8 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     internal fun processPackage(payload: IPayload) {
         when (payload) {
-            is DBInternData -> receive(payload.content)
-            is DBQueryResult -> useQueryResult(payload.result)
+            is DBInternPackage -> receive(payload.content)
+            is DBQueryResultPackage -> useQueryResult(payload.result)
             else -> throw Exception("undefined payload")
         }
     }
@@ -115,10 +115,10 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         db.deactivate()
     }
 
-    internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternData
+    internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternPackage
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        device.sendRoutedPackage(device.address, destinationAddress, DBInternData(pck))
+        device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
     }
 
     override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
@@ -127,7 +127,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             useQueryResult(result)
         } else {
             println("sendQueryResult route forward to $destinationAddress")
-            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResult(result))
+            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(result))
         }
     }
 

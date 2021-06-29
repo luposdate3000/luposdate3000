@@ -17,6 +17,7 @@ public interface IRouter {
 
 public interface IDatabasePackage {
     public fun getPackageSizeInBytes(): Int
+    public fun getContentLogString(): String
 }
 
 public interface IDatabaseState {
