@@ -3,7 +3,7 @@ package lupos.simulator_iot.db
 import lupos.shared.inline.File
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.IDatabaseState
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IRouter
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
@@ -22,7 +22,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     private val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
 
-    private lateinit var currentState: IDatabaseState
+    private lateinit var currentState: DatabaseState
 
     internal fun startUp() {
         createFiles()
@@ -31,18 +31,13 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         db.deactivate()
     }
 
-    private fun buildInitialStateObject(): IDatabaseState {
-        return object : IDatabaseState {
-            override val ownAddress: Int
-                get() = device.address
-            override var allAddresses: IntArray
-                get() = Configuration.dbDeviceAddresses
-                set(value) {}
-            override val sender: IRouter
-                get() = this@DatabaseAdapter
-            override val absolutePathToDataDirectory: String
-                get() = pathDevice
-        }
+    private fun buildInitialStateObject(): DatabaseState {
+        return object : DatabaseState(
+            ownAddress = device.address,
+            allAddresses = Configuration.dbDeviceAddresses,
+            sender = this@DatabaseAdapter,
+            absolutePathToDataDirectory = pathDevice,
+        ) {}
     }
 
     internal fun shutDown() {

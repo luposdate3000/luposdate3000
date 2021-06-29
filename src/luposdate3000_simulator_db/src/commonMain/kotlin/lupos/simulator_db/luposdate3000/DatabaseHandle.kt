@@ -35,7 +35,7 @@ import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.IDatabaseState
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IRouter
 
 public class DatabaseHandle : IDatabase {
@@ -45,7 +45,7 @@ public class DatabaseHandle : IDatabase {
     private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
     private var router: IRouter? = null
 
-    override fun start(initialState: IDatabaseState) {
+    override fun start(initialState: DatabaseState) {
         println("DatabaseHandle.start ${initialState.allAddresses.map{it}} .. ${initialState.ownAddress}")
         if (initialState.allAddresses.size == 0) {
             throw Exception("invalid input")
