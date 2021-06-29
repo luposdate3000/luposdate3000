@@ -29,6 +29,7 @@ public class FLOOR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/FLOOR.query").readAsString()
+
     @Test
     fun `FLOOR}`() {
         val instance = LuposdateEndpoint.initialize()

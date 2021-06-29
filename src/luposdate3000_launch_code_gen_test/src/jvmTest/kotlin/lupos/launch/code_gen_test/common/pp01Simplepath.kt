@@ -30,6 +30,7 @@ public class pp01Simplepath {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp01Simplepath.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp01 Simple path}`() {

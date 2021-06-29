@@ -29,6 +29,7 @@ public class COUNT2 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/COUNT2.query").readAsString()
+
     @Test
     fun `COUNT 2}`() {
         val instance = LuposdateEndpoint.initialize()

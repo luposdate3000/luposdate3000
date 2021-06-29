@@ -29,6 +29,7 @@ public class isNumeric {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/isNumeric.query").readAsString()
+
     @Test
     fun `isNumeric}`() {
         val instance = LuposdateEndpoint.initialize()

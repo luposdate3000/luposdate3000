@@ -29,6 +29,7 @@ public class Expressionisequality {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Expressionisequality.query").readAsString()
+
     @Test
     fun `Expression is equality}`() {
         val instance = LuposdateEndpoint.initialize()

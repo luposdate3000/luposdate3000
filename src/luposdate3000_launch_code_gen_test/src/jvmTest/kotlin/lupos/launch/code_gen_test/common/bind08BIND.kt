@@ -29,6 +29,7 @@ public class bind08BIND {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/bind08BIND.query").readAsString()
+
     @Test
     fun `bind08  BIND}`() {
         val instance = LuposdateEndpoint.initialize()

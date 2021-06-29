@@ -30,6 +30,7 @@ public class papersparqldlQ1rdfs {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/papersparqldlQ1rdfs.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `papersparqldlQ1rdfs}`() {

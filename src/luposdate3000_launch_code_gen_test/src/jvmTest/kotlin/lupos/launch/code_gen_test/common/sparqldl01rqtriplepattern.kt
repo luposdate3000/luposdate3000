@@ -29,6 +29,7 @@ public class sparqldl01rqtriplepattern {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl01rqtriplepattern.query").readAsString()
+
     @Test
     fun `sparqldl01rq triple pattern}`() {
         val instance = LuposdateEndpoint.initialize()

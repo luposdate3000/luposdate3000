@@ -30,6 +30,7 @@ public class sq14limitbyresource {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sq14limitbyresource.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `sq14  limit by resource}`() {

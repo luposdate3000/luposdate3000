@@ -29,6 +29,7 @@ public class MINUTES {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MINUTES.query").readAsString()
+
     @Test
     fun `MINUTES}`() {
         val instance = LuposdateEndpoint.initialize()

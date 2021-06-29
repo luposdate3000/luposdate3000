@@ -30,6 +30,7 @@ public class pp11Simplepathandtwopathstosametargetnode {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp11Simplepathandtwopathstosametargetnode.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp11 Simple path and two paths to same target node}`() {

@@ -30,6 +30,7 @@ public class COALESCE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/COALESCE.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `COALESCE}`() {

@@ -29,6 +29,7 @@ public class STRDTSTR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRDTSTR.query").readAsString()
+
     @Test
     fun `STRDTSTR}`() {
         val instance = LuposdateEndpoint.initialize()

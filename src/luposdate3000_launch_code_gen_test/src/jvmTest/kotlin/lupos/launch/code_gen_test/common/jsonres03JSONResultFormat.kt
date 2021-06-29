@@ -30,6 +30,7 @@ public class jsonres03JSONResultFormat {
     val targetType = ".srj"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/jsonres03JSONResultFormat.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `jsonres03  JSON Result Format}`() {

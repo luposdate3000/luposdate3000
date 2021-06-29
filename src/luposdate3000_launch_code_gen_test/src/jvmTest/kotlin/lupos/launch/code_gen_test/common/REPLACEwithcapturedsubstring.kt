@@ -30,6 +30,7 @@ public class REPLACEwithcapturedsubstring {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/REPLACEwithcapturedsubstring.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `REPLACE with captured substring}`() {

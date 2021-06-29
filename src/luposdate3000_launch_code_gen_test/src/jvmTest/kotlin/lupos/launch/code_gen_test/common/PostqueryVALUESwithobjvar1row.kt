@@ -30,6 +30,7 @@ public class PostqueryVALUESwithobjvar1row {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PostqueryVALUESwithobjvar1row.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Postquery VALUES with objvar 1 row}`() {

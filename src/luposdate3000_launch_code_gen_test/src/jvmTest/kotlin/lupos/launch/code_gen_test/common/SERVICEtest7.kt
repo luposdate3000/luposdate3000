@@ -30,6 +30,7 @@ public class SERVICEtest7 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SERVICEtest7.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `SERVICE test 7}`() {

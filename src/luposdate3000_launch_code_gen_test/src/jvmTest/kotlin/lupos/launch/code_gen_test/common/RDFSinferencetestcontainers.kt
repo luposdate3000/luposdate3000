@@ -29,6 +29,7 @@ public class RDFSinferencetestcontainers {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestcontainers.query").readAsString()
+
     @Test
     fun `RDFS inference test containers}`() {
         val instance = LuposdateEndpoint.initialize()

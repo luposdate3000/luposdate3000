@@ -30,6 +30,7 @@ public class STRUUIDpatternmatch {
     val targetType = ".srx"
     val inputType = ".nt"
     val query = File("src/jvmTest/resources/STRUUIDpatternmatch.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `STRUUID pattern match}`() {

@@ -30,6 +30,7 @@ public class TIMEZONE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/TIMEZONE.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `TIMEZONE}`() {

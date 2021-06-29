@@ -30,6 +30,7 @@ public class simple3 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/simple3.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `simple 3}`() {

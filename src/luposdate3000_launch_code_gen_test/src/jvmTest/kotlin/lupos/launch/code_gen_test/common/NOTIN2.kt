@@ -30,6 +30,7 @@ public class NOTIN2 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/NOTIN2.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `NOT IN 2}`() {

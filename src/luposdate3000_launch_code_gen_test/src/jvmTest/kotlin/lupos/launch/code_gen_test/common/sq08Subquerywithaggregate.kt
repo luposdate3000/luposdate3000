@@ -30,6 +30,7 @@ public class sq08Subquerywithaggregate {
     val targetType = ".srx"
     val inputType = ".rdf"
     val query = File("src/jvmTest/resources/sq08Subquerywithaggregate.query").readAsString()
+
     @Ignore
     @Test
     fun `sq08  Subquery with aggregate}`() {

@@ -29,6 +29,7 @@ public class CEIL {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/CEIL.query").readAsString()
+
     @Test
     fun `CEIL}`() {
         val instance = LuposdateEndpoint.initialize()

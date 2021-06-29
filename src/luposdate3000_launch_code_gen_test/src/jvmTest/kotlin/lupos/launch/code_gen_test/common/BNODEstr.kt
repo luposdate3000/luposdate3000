@@ -30,6 +30,7 @@ public class BNODEstr {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/BNODEstr.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `BNODEstr}`() {

@@ -30,6 +30,7 @@ public class pp25Diamondwithloopp {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp25Diamondwithloopp.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp25 Diamond with loop  p}`() {

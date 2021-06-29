@@ -30,6 +30,7 @@ public class resourcesmyqueriesoptional35sparql5 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/resourcesmyqueriesoptional35sparql5.query").readAsString()
+
     @Ignore // Reason: >too slow<
     @Test
     fun `resourcesmyqueriesoptional35sparql5}`() {

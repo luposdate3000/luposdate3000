@@ -29,6 +29,7 @@ public class STRLEN {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRLEN.query").readAsString()
+
     @Test
     fun `STRLEN}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -30,6 +30,7 @@ public class STRLANG {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRLANG.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `STRLANG}`() {

@@ -31,6 +31,7 @@ public class DELETEINSERT6b {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/DELETEINSERT6b.query").readAsString()
+
     @Test
     fun `DELETE INSERT 6b}`() {
         val instance = LuposdateEndpoint.initialize()

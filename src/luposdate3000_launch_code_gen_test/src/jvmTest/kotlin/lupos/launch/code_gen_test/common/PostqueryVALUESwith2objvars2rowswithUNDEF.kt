@@ -30,6 +30,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PostqueryVALUESwith2objvars2rowswithUNDEF.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Postquery VALUES with 2 objvars 2 rows with UNDEF}`() {

@@ -31,6 +31,7 @@ public class INSERT01 {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/INSERT01.query").readAsString()
+
     @Test
     fun `INSERT 01}`() {
         val instance = LuposdateEndpoint.initialize()

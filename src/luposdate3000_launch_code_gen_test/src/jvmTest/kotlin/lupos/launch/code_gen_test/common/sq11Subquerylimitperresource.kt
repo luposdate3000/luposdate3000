@@ -30,6 +30,7 @@ public class sq11Subquerylimitperresource {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sq11Subquerylimitperresource.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `sq11  Subquery limit per resource}`() {

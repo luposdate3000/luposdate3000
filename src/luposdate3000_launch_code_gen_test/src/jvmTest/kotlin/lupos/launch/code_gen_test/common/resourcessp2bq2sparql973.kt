@@ -30,6 +30,7 @@ public class resourcessp2bq2sparql973 {
     val targetType = ".srx"
     val inputType = ".n3"
     val query = File("src/jvmTest/resources/resourcessp2bq2sparql973.query").readAsString()
+
     @Ignore // Reason: >too slow<
     @Test
     fun `resourcessp2bq2sparql973}`() {

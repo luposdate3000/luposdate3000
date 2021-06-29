@@ -30,6 +30,7 @@ public class pp21Diamondp {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp21Diamondp.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp21 Diamond  p}`() {

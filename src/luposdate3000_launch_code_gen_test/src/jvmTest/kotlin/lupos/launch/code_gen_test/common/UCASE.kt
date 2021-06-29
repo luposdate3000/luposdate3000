@@ -29,6 +29,7 @@ public class UCASE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/UCASE.query").readAsString()
+
     @Test
     fun `UCASE}`() {
         val instance = LuposdateEndpoint.initialize()

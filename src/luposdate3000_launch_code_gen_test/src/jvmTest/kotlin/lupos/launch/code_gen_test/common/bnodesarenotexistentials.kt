@@ -29,6 +29,7 @@ public class bnodesarenotexistentials {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/bnodesarenotexistentials.query").readAsString()
+
     @Test
     fun `bnodes are not existentials}`() {
         val instance = LuposdateEndpoint.initialize()

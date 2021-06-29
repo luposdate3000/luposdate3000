@@ -30,6 +30,7 @@ public class RAND {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RAND.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `RAND}`() {

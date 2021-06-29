@@ -30,6 +30,7 @@ public class STRAFTER {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRAFTER.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `STRAFTER}`() {

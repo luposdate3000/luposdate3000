@@ -30,6 +30,7 @@ public class Reuseaprojectexpressionvariableinselect {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Reuseaprojectexpressionvariableinselect.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Reuse a project expression variable in select}`() {

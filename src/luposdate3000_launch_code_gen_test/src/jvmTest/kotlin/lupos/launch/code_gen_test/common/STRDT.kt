@@ -30,6 +30,7 @@ public class STRDT {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRDT.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `STRDT}`() {

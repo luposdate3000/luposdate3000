@@ -29,6 +29,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout.query").readAsString()
+
     @Test
     fun `Plain literals with language tag are not the same as the same literal without}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -32,6 +32,7 @@ public class DELETEINSERT1c {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/DELETEINSERT1c.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `DELETE INSERT 1c}`() {

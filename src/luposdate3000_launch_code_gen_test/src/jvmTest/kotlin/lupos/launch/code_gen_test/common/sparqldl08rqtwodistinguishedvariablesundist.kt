@@ -30,6 +30,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl08rqtwodistinguishedvariablesundist.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl08rq two distinguished variables  undist}`() {

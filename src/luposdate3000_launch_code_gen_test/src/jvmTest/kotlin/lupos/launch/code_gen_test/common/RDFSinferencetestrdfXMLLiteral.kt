@@ -29,6 +29,7 @@ public class RDFSinferencetestrdfXMLLiteral {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestrdfXMLLiteral.query").readAsString()
+
     @Test
     fun `RDFS inference test rdfXMLLiteral}`() {
         val instance = LuposdateEndpoint.initialize()

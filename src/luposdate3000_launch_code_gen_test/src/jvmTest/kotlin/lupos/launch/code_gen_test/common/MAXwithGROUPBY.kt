@@ -30,6 +30,7 @@ public class MAXwithGROUPBY {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MAXwithGROUPBY.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `MAX with GROUP BY}`() {

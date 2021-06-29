@@ -30,6 +30,7 @@ public class pp32Operatorprecedence3 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp32Operatorprecedence3.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp32 Operator precedence 3}`() {

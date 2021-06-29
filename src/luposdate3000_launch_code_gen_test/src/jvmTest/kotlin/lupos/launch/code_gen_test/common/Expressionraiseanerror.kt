@@ -30,6 +30,7 @@ public class Expressionraiseanerror {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Expressionraiseanerror.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Expression raise an error}`() {

@@ -30,6 +30,7 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl05rqsimpleundistinguishedvariabletest.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl05rq simple undistinguished variable test}`() {

@@ -30,6 +30,7 @@ public class SUBSTR2argument {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SUBSTR2argument.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `SUBSTR 2argument}`() {

@@ -29,6 +29,7 @@ public class PostsubqueryVALUES {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PostsubqueryVALUES.query").readAsString()
+
     @Test
     fun `Postsubquery VALUES}`() {
         val instance = LuposdateEndpoint.initialize()

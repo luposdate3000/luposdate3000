@@ -29,6 +29,7 @@ public class YEAR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/YEAR.query").readAsString()
+
     @Test
     fun `YEAR}`() {
         val instance = LuposdateEndpoint.initialize()

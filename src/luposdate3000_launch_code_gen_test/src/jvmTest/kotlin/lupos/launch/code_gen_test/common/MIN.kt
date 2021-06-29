@@ -29,6 +29,7 @@ public class MIN {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MIN.query").readAsString()
+
     @Test
     fun `MIN}`() {
         val instance = LuposdateEndpoint.initialize()

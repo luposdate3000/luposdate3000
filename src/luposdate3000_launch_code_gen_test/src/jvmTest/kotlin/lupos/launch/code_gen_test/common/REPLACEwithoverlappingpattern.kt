@@ -30,6 +30,7 @@ public class REPLACEwithoverlappingpattern {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/REPLACEwithoverlappingpattern.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `REPLACE with overlapping pattern}`() {

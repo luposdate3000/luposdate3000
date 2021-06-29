@@ -32,6 +32,7 @@ public class SimpleDELETE1 {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SimpleDELETE1.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Simple DELETE 1}`() {

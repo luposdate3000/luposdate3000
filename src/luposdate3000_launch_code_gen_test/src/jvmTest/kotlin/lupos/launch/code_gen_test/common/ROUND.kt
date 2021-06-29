@@ -29,6 +29,7 @@ public class ROUND {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/ROUND.query").readAsString()
+
     @Test
     fun `ROUND}`() {
         val instance = LuposdateEndpoint.initialize()

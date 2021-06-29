@@ -30,6 +30,7 @@ public class SHA1onUnicodedata {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SHA1onUnicodedata.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `SHA1 on Unicode data}`() {

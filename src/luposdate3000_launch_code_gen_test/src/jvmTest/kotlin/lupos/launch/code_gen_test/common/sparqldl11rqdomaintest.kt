@@ -30,6 +30,7 @@ public class sparqldl11rqdomaintest {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl11rqdomaintest.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl11rq domain test}`() {

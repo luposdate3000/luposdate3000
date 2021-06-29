@@ -30,6 +30,7 @@ public class TZ {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/TZ.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `TZ}`() {

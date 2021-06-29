@@ -29,6 +29,7 @@ public class Expressionhasundefinedvariable {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Expressionhasundefinedvariable.query").readAsString()
+
     @Test
     fun `Expression has undefined variable}`() {
         val instance = LuposdateEndpoint.initialize()

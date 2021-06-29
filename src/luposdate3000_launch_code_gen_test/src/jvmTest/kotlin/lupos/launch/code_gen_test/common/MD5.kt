@@ -29,6 +29,7 @@ public class MD5 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MD5.query").readAsString()
+
     @Test
     fun `MD5}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -29,6 +29,7 @@ public class SHA1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SHA1.query").readAsString()
+
     @Test
     fun `SHA1}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -29,6 +29,7 @@ public class STRLANGSTR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRLANGSTR.query").readAsString()
+
     @Test
     fun `STRLANGSTR}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -29,6 +29,7 @@ public class InlineVALUESgraphpattern {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/InlineVALUESgraphpattern.query").readAsString()
+
     @Test
     fun `Inline VALUES graph pattern}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -30,6 +30,7 @@ public class SUM {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SUM.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `SUM}`() {

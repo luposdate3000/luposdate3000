@@ -30,6 +30,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
     val targetType = ".srx"
     val inputType = ".rdf"
     val query = File("src/jvmTest/resources/sq06Subquerywithgraphpatternfromnamedapplies.query").readAsString()
+
     @Ignore
     @Test
     fun `sq06  Subquery with graph pattern from named applies}`() {

@@ -30,6 +30,7 @@ public class subclassquerywithhasChildsomeThingrestriction {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/subclassquerywithhasChildsomeThingrestriction.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `subclass query with hasChild some Thing restriction}`() {

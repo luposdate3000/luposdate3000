@@ -30,6 +30,7 @@ public class sq10Subquerywithexists {
     val targetType = ".srx"
     val inputType = ".rdf"
     val query = File("src/jvmTest/resources/sq10Subquerywithexists.query").readAsString()
+
     @Ignore
     @Test
     fun `sq10  Subquery with exists}`() {

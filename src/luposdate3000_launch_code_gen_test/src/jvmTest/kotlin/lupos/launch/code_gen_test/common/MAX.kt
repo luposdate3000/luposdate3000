@@ -30,6 +30,7 @@ public class MAX {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MAX.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `MAX}`() {

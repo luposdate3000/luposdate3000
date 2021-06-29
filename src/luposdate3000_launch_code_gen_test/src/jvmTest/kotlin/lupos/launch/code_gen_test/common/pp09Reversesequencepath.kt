@@ -30,6 +30,7 @@ public class pp09Reversesequencepath {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp09Reversesequencepath.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp09 Reverse sequence path}`() {

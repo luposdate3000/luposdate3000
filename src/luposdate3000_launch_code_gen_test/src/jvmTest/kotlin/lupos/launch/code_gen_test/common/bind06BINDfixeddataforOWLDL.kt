@@ -30,6 +30,7 @@ public class bind06BINDfixeddataforOWLDL {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/bind06BINDfixeddataforOWLDL.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `bind06  BIND fixed data for OWL DL}`() {

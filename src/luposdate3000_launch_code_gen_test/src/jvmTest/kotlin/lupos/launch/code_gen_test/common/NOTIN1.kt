@@ -29,6 +29,7 @@ public class NOTIN1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/NOTIN1.query").readAsString()
+
     @Test
     fun `NOT IN 1}`() {
         val instance = LuposdateEndpoint.initialize()

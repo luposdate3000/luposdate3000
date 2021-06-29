@@ -32,6 +32,7 @@ public class SimpleDELETEWHERE1 {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SimpleDELETEWHERE1.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Simple DELETE WHERE 1}`() {

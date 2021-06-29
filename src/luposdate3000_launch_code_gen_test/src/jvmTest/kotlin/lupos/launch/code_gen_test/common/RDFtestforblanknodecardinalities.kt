@@ -29,6 +29,7 @@ public class RDFtestforblanknodecardinalities {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFtestforblanknodecardinalities.query").readAsString()
+
     @Test
     fun `RDF test for blank node cardinalities}`() {
         val instance = LuposdateEndpoint.initialize()

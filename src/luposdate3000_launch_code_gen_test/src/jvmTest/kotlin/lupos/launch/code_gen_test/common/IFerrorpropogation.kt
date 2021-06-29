@@ -30,6 +30,7 @@ public class IFerrorpropogation {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/IFerrorpropogation.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `IF error propogation}`() {

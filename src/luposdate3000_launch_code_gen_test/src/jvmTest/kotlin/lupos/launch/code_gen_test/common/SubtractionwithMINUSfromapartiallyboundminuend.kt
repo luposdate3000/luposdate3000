@@ -30,6 +30,7 @@ public class SubtractionwithMINUSfromapartiallyboundminuend {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SubtractionwithMINUSfromapartiallyboundminuend.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Subtraction with MINUS from a partially bound minuend}`() {

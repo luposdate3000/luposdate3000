@@ -30,6 +30,7 @@ public class pp36Arbitrarypathwithboundendpoints {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp36Arbitrarypathwithboundendpoints.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp36 Arbitrary path with bound endpoints}`() {

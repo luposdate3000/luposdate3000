@@ -30,6 +30,7 @@ public class plus1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/plus1.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `plus1}`() {

@@ -30,6 +30,7 @@ public class AVGwithGROUPBY {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/AVGwithGROUPBY.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `AVG with GROUP BY}`() {

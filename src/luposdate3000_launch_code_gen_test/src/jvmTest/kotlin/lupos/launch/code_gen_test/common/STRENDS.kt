@@ -29,6 +29,7 @@ public class STRENDS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRENDS.query").readAsString()
+
     @Test
     fun `STRENDS}`() {
         val instance = LuposdateEndpoint.initialize()

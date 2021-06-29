@@ -30,6 +30,7 @@ public class MINwithGROUPBY {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MINwithGROUPBY.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `MIN with GROUP BY}`() {

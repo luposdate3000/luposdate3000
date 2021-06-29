@@ -30,6 +30,7 @@ public class STRDTTypeErrors {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRDTTypeErrors.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `STRDT TypeErrors}`() {

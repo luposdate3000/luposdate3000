@@ -29,6 +29,7 @@ public class SubsetsbyexclusionMINUS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SubsetsbyexclusionMINUS.query").readAsString()
+
     @Test
     fun `Subsets by exclusion MINUS}`() {
         val instance = LuposdateEndpoint.initialize()

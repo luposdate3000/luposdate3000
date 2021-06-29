@@ -29,6 +29,7 @@ public class LCASE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/LCASE.query").readAsString()
+
     @Test
     fun `LCASE}`() {
         val instance = LuposdateEndpoint.initialize()

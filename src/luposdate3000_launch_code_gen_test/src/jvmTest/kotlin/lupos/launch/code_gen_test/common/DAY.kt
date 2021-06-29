@@ -29,6 +29,7 @@ public class DAY {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/DAY.query").readAsString()
+
     @Test
     fun `DAY}`() {
         val instance = LuposdateEndpoint.initialize()

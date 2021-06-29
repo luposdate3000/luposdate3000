@@ -29,6 +29,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.query").readAsString()
+
     @Test
     fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers}`() {
         val instance = LuposdateEndpoint.initialize()

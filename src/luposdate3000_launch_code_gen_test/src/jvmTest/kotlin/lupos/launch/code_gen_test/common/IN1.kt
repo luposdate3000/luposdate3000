@@ -30,6 +30,7 @@ public class IN1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/IN1.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `IN 1}`() {

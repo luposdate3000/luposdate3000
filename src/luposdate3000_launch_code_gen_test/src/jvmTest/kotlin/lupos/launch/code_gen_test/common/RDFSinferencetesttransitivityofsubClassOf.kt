@@ -30,6 +30,7 @@ public class RDFSinferencetesttransitivityofsubClassOf {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubClassOf.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test transitivity of subClassOf}`() {

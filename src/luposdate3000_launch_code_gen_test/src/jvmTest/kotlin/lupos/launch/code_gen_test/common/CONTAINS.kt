@@ -29,6 +29,7 @@ public class CONTAINS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/CONTAINS.query").readAsString()
+
     @Test
     fun `CONTAINS}`() {
         val instance = LuposdateEndpoint.initialize()

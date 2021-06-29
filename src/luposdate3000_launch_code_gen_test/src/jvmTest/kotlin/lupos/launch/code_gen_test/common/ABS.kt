@@ -29,6 +29,7 @@ public class ABS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/ABS.query").readAsString()
+
     @Test
     fun `ABS}`() {
         val instance = LuposdateEndpoint.initialize()

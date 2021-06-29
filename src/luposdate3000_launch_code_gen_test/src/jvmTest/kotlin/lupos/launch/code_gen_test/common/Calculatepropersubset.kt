@@ -30,6 +30,7 @@ public class Calculatepropersubset {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Calculatepropersubset.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Calculate proper subset}`() {

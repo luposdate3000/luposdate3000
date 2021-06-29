@@ -30,6 +30,7 @@ public class AVG {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/AVG.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `AVG}`() {

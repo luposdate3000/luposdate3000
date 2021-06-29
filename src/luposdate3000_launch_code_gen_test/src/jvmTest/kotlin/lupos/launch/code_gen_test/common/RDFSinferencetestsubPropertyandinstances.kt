@@ -30,6 +30,7 @@ public class RDFSinferencetestsubPropertyandinstances {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestsubPropertyandinstances.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test subProperty and instances}`() {

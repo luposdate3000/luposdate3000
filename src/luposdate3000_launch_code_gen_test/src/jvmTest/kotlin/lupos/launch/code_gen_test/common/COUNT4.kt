@@ -30,6 +30,7 @@ public class COUNT4 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/COUNT4.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `COUNT 4}`() {

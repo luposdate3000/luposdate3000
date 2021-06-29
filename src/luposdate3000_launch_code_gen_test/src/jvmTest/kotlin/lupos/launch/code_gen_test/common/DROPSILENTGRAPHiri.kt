@@ -31,6 +31,7 @@ public class DROPSILENTGRAPHiri {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/DROPSILENTGRAPHiri.query").readAsString()
+
     @Test
     fun `DROP SILENT GRAPH iri}`() {
         val instance = LuposdateEndpoint.initialize()

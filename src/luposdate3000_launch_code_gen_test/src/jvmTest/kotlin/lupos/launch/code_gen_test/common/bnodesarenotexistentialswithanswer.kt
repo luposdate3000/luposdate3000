@@ -30,6 +30,7 @@ public class bnodesarenotexistentialswithanswer {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/bnodesarenotexistentialswithanswer.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `bnodes are not existentials with answer}`() {

@@ -29,6 +29,7 @@ public class simpletriplepatternmatch {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/simpletriplepatternmatch.query").readAsString()
+
     @Test
     fun `simple triple pattern match}`() {
         val instance = LuposdateEndpoint.initialize()

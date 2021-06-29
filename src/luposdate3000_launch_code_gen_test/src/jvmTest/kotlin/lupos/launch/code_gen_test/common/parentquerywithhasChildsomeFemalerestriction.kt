@@ -30,6 +30,7 @@ public class parentquerywithhasChildsomeFemalerestriction {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/parentquerywithhasChildsomeFemalerestriction.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `parent query with hasChild some Female restriction}`() {

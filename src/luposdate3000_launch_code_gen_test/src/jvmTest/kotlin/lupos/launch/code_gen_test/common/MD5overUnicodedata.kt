@@ -29,6 +29,7 @@ public class MD5overUnicodedata {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MD5overUnicodedata.query").readAsString()
+
     @Test
     fun `MD5 over Unicode data}`() {
         val instance = LuposdateEndpoint.initialize()

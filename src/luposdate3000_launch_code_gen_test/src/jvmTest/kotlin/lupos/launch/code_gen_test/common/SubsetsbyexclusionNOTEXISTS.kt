@@ -29,6 +29,7 @@ public class SubsetsbyexclusionNOTEXISTS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SubsetsbyexclusionNOTEXISTS.query").readAsString()
+
     @Test
     fun `Subsets by exclusion NOT EXISTS}`() {
         val instance = LuposdateEndpoint.initialize()

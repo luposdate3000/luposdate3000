@@ -29,6 +29,7 @@ public class CONCAT {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/CONCAT.query").readAsString()
+
     @Test
     fun `CONCAT}`() {
         val instance = LuposdateEndpoint.initialize()

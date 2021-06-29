@@ -30,6 +30,7 @@ public class MedicaltemporalproximitybyexclusionNOTEXISTS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MedicaltemporalproximitybyexclusionNOTEXISTS.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Medical temporal proximity by exclusion NOT EXISTS}`() {

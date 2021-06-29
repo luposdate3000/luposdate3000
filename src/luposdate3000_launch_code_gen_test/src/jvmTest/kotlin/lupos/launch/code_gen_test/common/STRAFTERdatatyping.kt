@@ -30,6 +30,7 @@ public class STRAFTERdatatyping {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRAFTERdatatyping.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `STRAFTER datatyping}`() {

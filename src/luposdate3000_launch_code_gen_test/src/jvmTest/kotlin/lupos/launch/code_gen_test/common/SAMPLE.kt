@@ -29,6 +29,7 @@ public class SAMPLE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SAMPLE.query").readAsString()
+
     @Test
     fun `SAMPLE}`() {
         val instance = LuposdateEndpoint.initialize()

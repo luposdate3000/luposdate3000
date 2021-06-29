@@ -29,6 +29,7 @@ public class constructwhere01CONSTRUCTWHERE {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/constructwhere01CONSTRUCTWHERE.query").readAsString()
+
     @Test
     fun `constructwhere01  CONSTRUCT WHERE}`() {
         val instance = LuposdateEndpoint.initialize()

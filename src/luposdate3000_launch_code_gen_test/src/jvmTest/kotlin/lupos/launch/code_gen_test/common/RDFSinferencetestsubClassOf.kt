@@ -30,6 +30,7 @@ public class RDFSinferencetestsubClassOf {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestsubClassOf.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test subClassOf}`() {

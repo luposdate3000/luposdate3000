@@ -29,6 +29,7 @@ public class tsv03TSVResultFormat {
     val targetType = ".tsv"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/tsv03TSVResultFormat.query").readAsString()
+
     @Test
     fun `tsv03  TSV Result Format}`() {
         val instance = LuposdateEndpoint.initialize()

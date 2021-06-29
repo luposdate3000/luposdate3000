@@ -29,6 +29,7 @@ public class Literalwithlanguagetagtest {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Literalwithlanguagetagtest.query").readAsString()
+
     @Test
     fun `Literal with language tag test}`() {
         val instance = LuposdateEndpoint.initialize()

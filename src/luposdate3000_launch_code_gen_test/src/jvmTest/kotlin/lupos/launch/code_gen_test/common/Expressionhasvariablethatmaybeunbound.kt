@@ -30,6 +30,7 @@ public class Expressionhasvariablethatmaybeunbound {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Expressionhasvariablethatmaybeunbound.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Expression has variable that may be unbound}`() {

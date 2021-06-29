@@ -29,6 +29,7 @@ public class IF {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/IF.query").readAsString()
+
     @Test
     fun `IF}`() {
         val instance = LuposdateEndpoint.initialize()

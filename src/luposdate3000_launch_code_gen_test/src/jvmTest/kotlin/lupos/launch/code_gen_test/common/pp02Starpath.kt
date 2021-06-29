@@ -30,6 +30,7 @@ public class pp02Starpath {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp02Starpath.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp02 Star path}`() {

@@ -29,6 +29,7 @@ public class Group1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Group1.query").readAsString()
+
     @Test
     fun `Group1}`() {
         val instance = LuposdateEndpoint.initialize()

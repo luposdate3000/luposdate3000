@@ -30,6 +30,7 @@ public class RDFSinferencetestrange {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestrange.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test range}`() {

@@ -30,6 +30,7 @@ public class sparqldl04rqbugfixingtest {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl04rqbugfixingtest.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl04rq bug fixing test}`() {
