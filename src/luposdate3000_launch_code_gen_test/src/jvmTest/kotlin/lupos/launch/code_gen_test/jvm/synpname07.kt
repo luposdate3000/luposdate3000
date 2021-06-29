@@ -27,8 +27,8 @@ public class synpname07 {
     fun `synpname07}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
+        val buf = MyPrintWriter(false)
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val buf = MyPrintWriter(true)
         LuposdateEndpoint.close(instance)
     }
 }

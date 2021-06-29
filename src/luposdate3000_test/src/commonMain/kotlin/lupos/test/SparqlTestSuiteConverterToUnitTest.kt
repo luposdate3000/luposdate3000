@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
-
 import lupos.shared.TripleStoreManager
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
@@ -632,9 +631,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "constructwhere04CONSTRUCTWHERE" to "Bug in SparqlTestSuiteConverterToUnitTest",
         "syntaxconstructwhere02rq" to "Bug in SparqlTestSuiteConverterToUnitTest",
     )
-    private val ignoreListDueToBugs = mapOf(
-        "ADD2" to "Bug",
-        "ADD4" to "Bug",
+    private val ignoreListDueToBugs = mapOf<String, String>(
         "ADD5" to "Bug",
         "AVG" to "Bug",
         "AVGwithGROUPBY" to "Bug",
@@ -646,6 +643,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "bind06BINDfixeddataforOWLDL" to "Bug",
         "bind07BINDfixeddataforOWLDL" to "Bug",
         "bind08BINDfixeddataforOWLDL" to "Bug",
+        "bnodesarenotexistentials" to "Bug",
         "bnodesarenotexistentialswithanswer" to "Bug",
         "BNODEstr" to "Bug",
         "BNODE" to "Bug",
@@ -929,16 +927,13 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println(" */")
                 out.println("package lupos.launch.$folderPathCoponent")
                 out.println("import lupos.endpoint.LuposdateEndpoint")
-                if (mode != BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                    out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
-                }
+                out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
+                out.println("import lupos.operator.base.Query")
                 out.println("import lupos.result_format.EQueryResultToStreamExt")
                 if (useCodeGen) {
                     out.println("import lupos.shared.CodeGenerationAnnotation")
                 }
-                if (mode != BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                    out.println("import lupos.shared.EIndexPatternExt")
-                }
+                out.println("import lupos.shared.EIndexPatternExt")
                 out.println("import lupos.shared.MemoryTable")
                 out.println("import lupos." + "shared.inline.File")
                 out.println("import lupos." + "shared.inline.MyPrintWriter")
@@ -1003,11 +998,24 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("    fun `$testCaseName2}`() {")
                 out.println("        val instance = LuposdateEndpoint.initialize()")
                 out.println("        instance.LUPOS_BUFFER_SIZE = 128")
+                out.println("        val buf = MyPrintWriter(false)")
                 for (i in 0 until inputGraphs.size) {
                     out.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
                     out.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i],inputGraph[$i])")
                     out.println("        } else {")
                     out.println("            TODO()")
+                    out.println("        }")
+                }
+                for (i in 0 until inputGraphs.size) {
+                    out.println("")
+                    out.println("        val query_a_$i = Query(instance)")
+                    out.println("        val input_a_$i = MemoryTable.parseFromAny(inputData[$i], inputType[$i], query_a_$i)!!")
+                    out.println("        val graph_a_$i = instance.tripleStoreManager!!.getGraph(inputGraph[$i])")
+                    out.println("        val op2_a_$i = graph_a_$i.getIterator(query_a_$i, arrayOf(AOPVariable(query_a_$i, \"s\"), AOPVariable(query_a_$i, \"p\"), AOPVariable(query_a_$i, \"o\")), EIndexPatternExt.SPO)")
+                    out.println("        val result_a_$i = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op2_a_$i, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
+                    out.println("        val buf_err_a_$i = MyPrintWriter()")
+                    out.println("        if (!input_a_$i.equalsVerbose(result_a_$i, ${!queryResultIsOrdered}, true, buf_err_a_$i)) {")
+                    out.println("            fail(input_a_$i.toString()+\" .. \"+result_a_$i.toString()+\" .. \"+buf_err_a_$i.toString()+\" .. \"+op2_a_$i)")
                     out.println("        }")
                 }
                 val evaluateIt = outputGraphs.size> 0 || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
@@ -1032,9 +1040,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("            fail(\"expected failure\")")
                     out.println("        }")
                 }
-                out.println("        val buf = MyPrintWriter(true)")
                 if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                    out.println("        val target = MemoryTable.parseFromAny(targetData, targetType, op.getQuery())!!")
+                    out.println("        val query_target = Query(instance)")
+                    out.println("        val target = MemoryTable.parseFromAny(targetData, targetType, query_target)!!")
                     out.println("        val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
                     out.println("        val buf_err = MyPrintWriter()")
                     out.println("        if (!target.equalsVerbose(result, ${!queryResultIsOrdered}, true, buf_err)) {")
@@ -1046,13 +1054,15 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     }
                 }
                 for (i in 0 until outputGraphs.size) {
-                    out.println("        val output$i = MemoryTable.parseFromAny(outputData[$i], outputType[$i], op.getQuery())!!")
+                    out.println("")
+                    out.println("        val query_$i = Query(instance)")
+                    out.println("        val output$i = MemoryTable.parseFromAny(outputData[$i], outputType[$i], query_$i)!!")
                     out.println("        val graph$i = instance.tripleStoreManager!!.getGraph(outputGraph[$i])")
-                    out.println("        val op2$i = graph$i.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
+                    out.println("        val op2$i = graph$i.getIterator(query_$i, arrayOf(AOPVariable(query_$i, \"s\"), AOPVariable(query_$i, \"p\"), AOPVariable(query_$i, \"o\")), EIndexPatternExt.SPO)")
                     out.println("        val result$i = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op2$i, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
                     out.println("        val buf_err$i = MyPrintWriter()")
                     out.println("        if (!output$i.equalsVerbose(result$i, ${!queryResultIsOrdered}, true, buf_err$i)) {")
-                    out.println("            fail(buf_err$i.toString())")
+                    out.println("            fail(output$i.toString()+\" .. \"+result$i.toString()+\" .. \"+buf_err$i.toString()+\" .. \"+op2$i+\" .. \"+op)")
                     out.println("        }")
                 }
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data

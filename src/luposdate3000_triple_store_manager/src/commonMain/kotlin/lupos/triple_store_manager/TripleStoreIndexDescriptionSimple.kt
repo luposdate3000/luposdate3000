@@ -90,6 +90,8 @@ public class TripleStoreIndexDescriptionSimple(
     }
 
     internal override fun assignHosts() {
+        SanityCheck.check { hostname == "" }
+        SanityCheck.check { key == "" }
         val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
         hostname = tmp.first
         key = tmp.second

@@ -30,6 +30,7 @@ public class syntaxupdatebad08ru {
     fun `syntaxupdatebad08ru}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
+        val buf = MyPrintWriter(false)
         var flag = false
         try {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
@@ -39,7 +40,6 @@ public class syntaxupdatebad08ru {
         if (!flag) {
             fail("expected failure")
         }
-        val buf = MyPrintWriter(true)
         LuposdateEndpoint.close(instance)
     }
 }

@@ -44,6 +44,10 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         return res
     }
 
+    override fun toString(): String {
+        return "$booleanResult - ${columns.map{it}} - ${data.map{it.map{it}}}"
+    }
+
     override fun equals(other: Any?): Boolean {
         return equalsVerbose(other, false, false, null)
     }

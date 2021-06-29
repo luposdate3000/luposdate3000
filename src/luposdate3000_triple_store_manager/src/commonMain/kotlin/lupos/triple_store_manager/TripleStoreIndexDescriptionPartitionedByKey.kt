@@ -157,6 +157,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
+            SanityCheck.check { hostnames[i] == "" }
+            SanityCheck.check { keys[i] == "" }
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }
