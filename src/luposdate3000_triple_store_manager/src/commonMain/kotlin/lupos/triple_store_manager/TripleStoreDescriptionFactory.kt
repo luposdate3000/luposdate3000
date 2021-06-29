@@ -34,7 +34,14 @@ public class TripleStoreDescriptionFactory(@JvmField internal val instance: Lupo
 
     public override fun apply(other: ITripleStoreDescriptionFactory): ITripleStoreDescriptionFactory {
         indices.clear()
-        indices.addAll((other as TripleStoreDescriptionFactory).indices)
+        for (idx in (other as TripleStoreDescriptionFactory).indices) {
+            when (idx) {
+                is TripleStoreIndexDescriptionSimple -> indices.add(TripleStoreIndexDescriptionSimple(idx.idx_set[0], instance))
+                is TripleStoreIndexDescriptionPartitionedByID -> indices.add(TripleStoreIndexDescriptionPartitionedByID(idx.idx_set[0], idx.partitionCount, idx.partitionColumn, instance))
+                is TripleStoreIndexDescriptionPartitionedByKey -> indices.add(TripleStoreIndexDescriptionPartitionedByKey(idx.idx_set[0], idx.partitionCount, instance))
+                else -> TODO(idx.toString())
+            }
+        }
         return this
     }
 

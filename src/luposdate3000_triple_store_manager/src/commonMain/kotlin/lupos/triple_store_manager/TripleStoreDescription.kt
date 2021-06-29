@@ -39,7 +39,7 @@ public class TripleStoreDescription(
     @JvmField internal val indices: Array<TripleStoreIndexDescription>,
     @JvmField internal val instance: Luposdate3000Instance,
 ) : ITripleStoreDescription {
-    public fun toMetaString(): String {
+    public override fun toMetaString(): String {
         var res = StringBuilder()
         for (idx in indices) {
             when (idx) {

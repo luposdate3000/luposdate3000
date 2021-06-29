@@ -17,6 +17,7 @@
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
@@ -41,16 +42,18 @@ public class Simpleinsertdata1 {
     fun `Simple insert data 1}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
+        val buf = MyPrintWriter(false)
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val buf = MyPrintWriter(true)
         LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-        val output0 = MemoryTable.parseFromAny(outputData[0], outputType[0], op.getQuery())!!
+
+        val query_0 = Query(instance)
+        val output0 = MemoryTable.parseFromAny(outputData[0], outputType[0], query_0)!!
         val graph0 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-        val op20 = graph0.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), "s"), AOPVariable(op.getQuery(), "p"), AOPVariable(op.getQuery(), "o")), EIndexPatternExt.SPO)
+        val op20 = graph0.getIterator(query_0, arrayOf(AOPVariable(query_0, "s"), AOPVariable(query_0, "p"), AOPVariable(query_0, "o")), EIndexPatternExt.SPO)
         val result0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op20, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val buf_err0 = MyPrintWriter()
         if (!output0.equalsVerbose(result0, true, true, buf_err0)) {
-            fail(buf_err0.toString())
+            fail(output0.toString() + " .. " + result0.toString() + " .. " + buf_err0.toString() + " .. " + op20 + " .. " + op)
         }
         LuposdateEndpoint.close(instance)
     }

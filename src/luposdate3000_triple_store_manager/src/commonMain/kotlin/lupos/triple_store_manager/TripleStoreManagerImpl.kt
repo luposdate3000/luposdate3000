@@ -665,7 +665,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             createGraph(query, graphName)
         }
         val res = metadata_[graphName]
-        println("getGraph $graphName .. ${metadata_.keys} .. ${metadata_.size}")
         return res!!
     }
 

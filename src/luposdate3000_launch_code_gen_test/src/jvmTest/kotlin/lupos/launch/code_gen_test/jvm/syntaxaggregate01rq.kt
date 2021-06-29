@@ -27,8 +27,8 @@ public class syntaxaggregate01rq {
     fun `syntaxaggregate01rq}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
+        val buf = MyPrintWriter(false)
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val buf = MyPrintWriter(true)
         LuposdateEndpoint.close(instance)
     }
 }

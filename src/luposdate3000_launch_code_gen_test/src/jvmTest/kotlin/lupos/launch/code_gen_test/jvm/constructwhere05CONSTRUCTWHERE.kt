@@ -28,6 +28,7 @@ public class constructwhere05CONSTRUCTWHERE {
     fun `constructwhere05  CONSTRUCT WHERE}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
+        val buf = MyPrintWriter(false)
         var flag = false
         try {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
@@ -37,7 +38,6 @@ public class constructwhere05CONSTRUCTWHERE {
         if (!flag) {
             fail("expected failure")
         }
-        val buf = MyPrintWriter(true)
         LuposdateEndpoint.close(instance)
     }
 }

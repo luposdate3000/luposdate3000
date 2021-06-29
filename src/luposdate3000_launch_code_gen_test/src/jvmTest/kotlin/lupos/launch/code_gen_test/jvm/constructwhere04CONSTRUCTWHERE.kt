@@ -16,6 +16,7 @@
  */
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
@@ -34,9 +35,10 @@ public class constructwhere04CONSTRUCTWHERE {
     fun `constructwhere04  CONSTRUCT WHERE}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
+        val buf = MyPrintWriter(false)
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val buf = MyPrintWriter(true)
-        val target = MemoryTable.parseFromAny(targetData, targetType, op.getQuery())!!
+        val query_target = Query(instance)
+        val target = MemoryTable.parseFromAny(targetData, targetType, query_target)!!
         val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val buf_err = MyPrintWriter()
         if (!target.equalsVerbose(result, true, true, buf_err)) {
