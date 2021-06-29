@@ -20,6 +20,7 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -37,6 +38,7 @@ public class RDFSinferencetestrange {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/RDFSinferencetestrange.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test range}`() {
         val instance = LuposdateEndpoint.initialize()

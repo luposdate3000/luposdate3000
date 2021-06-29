@@ -22,6 +22,7 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -58,6 +59,7 @@ public class GraphspecificDELETE1USING {
     )
     internal val query = File("src/jvmTest/resources/GraphspecificDELETE1USING.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `Graphspecific DELETE 1 USING}`() {
         val instance = LuposdateEndpoint.initialize()

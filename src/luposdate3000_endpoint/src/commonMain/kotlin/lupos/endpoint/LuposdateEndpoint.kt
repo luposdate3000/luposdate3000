@@ -85,6 +85,7 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_string_b")
     /*suspend*/ public fun importTurtleString(instance: Luposdate3000Instance, data: String, graphName: String): String {
+        println("importTurtleString >$graphName<")
         val dir = FileExt.createTempDirectory()
         val fileName = dir + "data.n3"
         File(fileName).withOutputStream { out ->
@@ -125,10 +126,11 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_file_b")
     /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String, graphName: String): String {
+        println("importTurtleFile >$graphName<")
         if (!DictionaryIntermediate.fileExists(fileName)) {
             InputToIntermediate.process(fileName, instance)
         }
-        return importIntermediateFile(instance, fileName)
+        return importIntermediateFile(instance, fileName, graphName)
     }
 
     /*suspend*/ private fun importIntermediateFile(instance: Luposdate3000Instance, fileName: String): String {
@@ -136,6 +138,7 @@ public object LuposdateEndpoint {
     }
 
     /*suspend*/ private fun importIntermediateFile(instance: Luposdate3000Instance, fileName: String, graphName: String): String {
+        println("importIntermediateFile >$graphName<")
         val query = Query(instance)
         val key = "${query.getTransactionID()}"
         try {
@@ -144,13 +147,15 @@ public object LuposdateEndpoint {
                 query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
             }
             instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
-            instance.tripleStoreManager!!.resetGraph(query, graphName)
             var counter = 0L
-            val store = instance.tripleStoreManager!!.getGraph(graphName)
             println("importing intermediate file '$fileName'")
             val startTime = DateHelperRelative.markNow()
             setEstimatedPartitionsFromFile(instance, "$fileName.partitions")
-            instance.tripleStoreManager!!.resetGraph(query, graphName)
+            if (instance.tripleStoreManager!!.getGraphNames().contains(graphName)) {
+                instance.tripleStoreManager!!.dropGraph(query, graphName)
+            }
+            instance.tripleStoreManager!!.createGraph(query, graphName)
+            val store = instance.tripleStoreManager!!.getGraph(graphName)
             val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
             val dictTime = DateHelperRelative.elapsedSeconds(startTime)
             var requireSorting = false

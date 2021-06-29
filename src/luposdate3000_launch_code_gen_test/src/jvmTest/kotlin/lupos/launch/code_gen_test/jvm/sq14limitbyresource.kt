@@ -20,6 +20,7 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -37,6 +38,7 @@ public class sq14limitbyresource {
     internal val targetType = ".ttl"
     internal val query = File("src/jvmTest/resources/sq14limitbyresource.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `sq14  limit by resource}`() {
         val instance = LuposdateEndpoint.initialize()

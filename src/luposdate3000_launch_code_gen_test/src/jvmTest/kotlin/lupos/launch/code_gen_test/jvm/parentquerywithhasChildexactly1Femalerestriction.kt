@@ -20,6 +20,7 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -37,6 +38,7 @@ public class parentquerywithhasChildexactly1Femalerestriction {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/parentquerywithhasChildexactly1Femalerestriction.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `parent query with hasChild exactly 1 Female restriction}`() {
         val instance = LuposdateEndpoint.initialize()

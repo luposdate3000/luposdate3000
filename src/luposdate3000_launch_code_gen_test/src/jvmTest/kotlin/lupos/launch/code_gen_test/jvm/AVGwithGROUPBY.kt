@@ -20,6 +20,7 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -37,6 +38,7 @@ public class AVGwithGROUPBY {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/AVGwithGROUPBY.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `AVG with GROUP BY}`() {
         val instance = LuposdateEndpoint.initialize()

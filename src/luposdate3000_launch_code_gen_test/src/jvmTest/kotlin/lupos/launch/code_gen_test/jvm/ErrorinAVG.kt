@@ -20,6 +20,7 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -37,6 +38,7 @@ public class ErrorinAVG {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/ErrorinAVG.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `Error in AVG}`() {
         val instance = LuposdateEndpoint.initialize()

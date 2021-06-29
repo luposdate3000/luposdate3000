@@ -20,6 +20,7 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -37,6 +38,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/PostqueryVALUESwith2objvars2rowswithUNDEF.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `Postquery VALUES with 2 objvars 2 rows with UNDEF}`() {
         val instance = LuposdateEndpoint.initialize()

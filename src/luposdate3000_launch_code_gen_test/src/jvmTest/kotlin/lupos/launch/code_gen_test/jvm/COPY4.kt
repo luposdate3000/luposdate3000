@@ -22,6 +22,7 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -55,6 +56,7 @@ public class COPY4 {
     )
     internal val query = File("src/jvmTest/resources/COPY4.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `COPY 4}`() {
         val instance = LuposdateEndpoint.initialize()

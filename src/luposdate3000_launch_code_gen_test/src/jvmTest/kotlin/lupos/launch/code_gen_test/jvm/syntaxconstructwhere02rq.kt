@@ -18,11 +18,13 @@ package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxconstructwhere02rq {
     internal val query = File("src/jvmTest/resources/syntaxconstructwhere02rq.query").readAsString()
 
+    @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
     fun `syntaxconstructwhere02rq}`() {
         val instance = LuposdateEndpoint.initialize()

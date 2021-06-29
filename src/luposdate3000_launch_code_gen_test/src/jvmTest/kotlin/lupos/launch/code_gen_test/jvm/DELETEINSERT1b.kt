@@ -22,6 +22,7 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -46,6 +47,7 @@ public class DELETEINSERT1b {
     )
     internal val query = File("src/jvmTest/resources/DELETEINSERT1b.query").readAsString()
 
+    @Ignore // Reason: >Bug<
     @Test
     fun `DELETE INSERT 1b}`() {
         val instance = LuposdateEndpoint.initialize()
