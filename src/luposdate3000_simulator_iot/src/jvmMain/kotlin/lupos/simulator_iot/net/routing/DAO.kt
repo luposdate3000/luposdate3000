@@ -16,7 +16,7 @@ internal class DAO(
     }
 
     override fun toString(): String {
-        return "DAO(isPath=$isPath, destinations=${destinations.contentToString()}, hopHasDatabase=$hopHasDatabase, existingDatabaseHops=${existingDatabaseHops.contentToString()})"
+        return "DAO(isPath $isPath)"
     }
 
 

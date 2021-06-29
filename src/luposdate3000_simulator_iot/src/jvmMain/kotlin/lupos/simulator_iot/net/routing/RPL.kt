@@ -173,7 +173,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         val strBuilder = StringBuilder()
         strBuilder
             .append("> Device ${device.address}").append(", ")
-            .append("name ${Configuration.getDeviceName(device.deviceNameID)}").append(", ")
+            .append("name '${Configuration.getDeviceName(device.deviceNameID)}'").append(", ")
             .append("rank $rank").append(", ")
             .append(getParentString())
             .appendLine().append("  ")

@@ -126,11 +126,11 @@ internal class Device(
     internal fun hasDatabase(): Boolean = database != null
 
     private fun logReceivePackage(pck: NetworkPackage) {
-        Logger.log("> $this receives $pck at clock=${simulation.getCurrentClock()}")
+        Logger.log("> $this receives $pck at clock ${simulation.getCurrentClock()}")
     }
 
     private fun logSendPackage(pck: NetworkPackage) {
-        Logger.log("> $this sends $pck at clock=${simulation.getCurrentClock()}")
+        Logger.log("> $this sends $pck at clock ${simulation.getCurrentClock()}")
     }
 
     override fun equals(other: Any?): Boolean {
@@ -150,7 +150,7 @@ internal class Device(
     }
 
     override fun toString(): String {
-        return "Device(addr=$address, name=${Configuration.getDeviceName(deviceNameID)})"
+        return "Device(addr $address, name '${Configuration.getDeviceName(deviceNameID)}')"
     }
 
     internal companion object {

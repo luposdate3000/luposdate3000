@@ -8,7 +8,7 @@ internal class DIO(internal val rank: Int) : IPayload {
     }
 
     override fun toString(): String {
-        return "DIO(rank=$rank)"
+        return "DIO(rank $rank)"
     }
 
 }
