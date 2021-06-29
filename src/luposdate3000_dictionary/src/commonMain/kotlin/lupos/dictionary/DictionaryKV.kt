@@ -57,12 +57,14 @@ public class DictionaryKV internal constructor(
     @JvmField
     internal val rootPage: ByteArray
     public override fun close() {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         kv.close()
         vk.close()
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:55", rootPageID)
     }
 
     public override fun delete() {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         kv.delete()
         vk.delete()
         bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:61", rootPageID)
@@ -71,6 +73,7 @@ public class DictionaryKV internal constructor(
 
     public override fun isInmemoryOnly(): Boolean = false
     public override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit) {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var flag = flagNoBNode
         var flag2 = 0
         if (isLocal) {
@@ -119,18 +122,21 @@ public class DictionaryKV internal constructor(
     }
 
     public override fun createNewBNode(): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val res: Int = bNodeCounter++
         BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 
     public override fun createNewUUID(): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val res: Int = uuidCounter++
         BufferManagerPage.writeInt4(rootPage, 12, uuidCounter)
         return res
     }
 
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (value) {
             DictionaryExt.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
             DictionaryExt.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
@@ -152,20 +158,23 @@ public class DictionaryKV internal constructor(
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
-                return if (buffer.size == 8) {
+                val res = if (buffer.size == 8) {
                     DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
                     createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
                 }
+                return res
             }
             ETripleComponentTypeExt.BOOLEAN -> {
-                return if (DictionaryHelper.byteArrayToBoolean(buffer)) {
+                val res = if (DictionaryHelper.byteArrayToBoolean(buffer)) {
                     DictionaryExt.booleanTrueValue
                 } else {
                     DictionaryExt.booleanFalseValue
                 }
+                return res
             }
             ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
             ETripleComponentTypeExt.UNDEF -> return DictionaryExt.undefValue
@@ -183,6 +192,7 @@ public class DictionaryKV internal constructor(
 
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var mymapping = IntArray(0)
         var lastId = -1
         fun addEntry(id: Int, i: Int) {
@@ -216,8 +226,6 @@ public class DictionaryKV internal constructor(
                     reader.next(buffer) { id ->
                         originalID = id
                         ready = true
-                    }
-                    if (ready) {
                         val type = DictionaryHelper.byteArrayToType(buffer)
                         if (type == ETripleComponentTypeExt.BLANK_NODE) {
                             val id = createNewBNode()
@@ -242,11 +250,13 @@ public class DictionaryKV internal constructor(
                 addEntry(originalID, id or flagNoBNode)
             }
         )
+        SanityCheck.check { !ready }
         println("imported $lastId dictionaryItems")
         return Pair(mymapping, lastId + 1)
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check { type != ETripleComponentTypeExt.BLANK_NODE }
         SanityCheck.check { type != ETripleComponentTypeExt.BOOLEAN }

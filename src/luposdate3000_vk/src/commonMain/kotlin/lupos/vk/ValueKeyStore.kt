@@ -118,16 +118,16 @@ public class ValueKeyStore {
         val buffer = ByteArrayWrapper()
         val writer = ValueKeyStoreWriter(bufferManager, PAGE_TYPE_LEAF)
         val reader = ValueKeyStoreIteratorLeaf(bufferManager, firstLeafID, buffer)
-        var isInserted = false
-        while (!isInserted && reader.hasNext()) {
+        var dataIsInserted = false
+        while (!dataIsInserted && reader.hasNext()) {
             val id = reader.next()
             if (data == buffer) {
                 res = id
-                isInserted = true
+                dataIsInserted = true
                 SanityCheck.check { res != ValueKeyStore.ID_NULL }
             } else if (data < buffer) {
                 res = value()
-                isInserted = true
+                dataIsInserted = true
                 SanityCheck.check { res != ValueKeyStore.ID_NULL }
                 writer.write(res, data)
             }
@@ -137,7 +137,7 @@ public class ValueKeyStore {
             val id = reader.next()
             writer.write(id, buffer)
         }
-        if (!isInserted) {
+        if (!dataIsInserted) {
             res = value()
             SanityCheck.check { res != ValueKeyStore.ID_NULL }
             writer.write(res, data)
@@ -159,55 +159,55 @@ public class ValueKeyStore {
     }
 
     public fun createValues(hasNext: () -> Boolean, next: () -> ByteArrayWrapper, onNotFound: (ByteArrayWrapper) -> Int, onFound: (ByteArrayWrapper, Int) -> Unit) {
-        if (hasNext()) {
-            var data = next()
-            val buffer = ByteArrayWrapper()
+        val buffer = ByteArrayWrapper()
+        var data = buffer
+        var dataIsInserted = false
+        var bufferIsInserted = false
+        var id = 0
+        fun localNextData() {
+            if (hasNext()) {
+                data = next()
+            } else {
+                dataIsInserted = true
+            }
+        }
+        localNextData()
+        if (!dataIsInserted) {
             val writer = ValueKeyStoreWriter(bufferManager, PAGE_TYPE_LEAF)
             val reader = ValueKeyStoreIteratorLeaf(bufferManager, firstLeafID, buffer)
-            var isInserted = false
-            while (!isInserted && reader.hasNext()) {
-                val id = reader.next()
+            fun localNextReader() {
+                if (reader.hasNext()) {
+                    id = reader.next()
+                } else {
+                    bufferIsInserted = true
+                }
+            }
+            localNextReader()
+            while (!dataIsInserted && !bufferIsInserted) {
                 if (data == buffer) {
                     onFound(buffer, id)
                     writer.write(id, buffer)
-                    if (hasNext()) {
-                        data = next()
-                    } else {
-                        isInserted = true
-                    }
+                    localNextData()
+                    localNextReader()
                 } else if (data < buffer) {
                     val res = onNotFound(data)
+                    SanityCheck.check { res != ValueKeyStore.ID_NULL }
                     writer.write(res, data)
-                    isInserted = true
-                    localloop@ while (hasNext()) {
-                        data = next()
-                        if (data < buffer) {
-                            val res2 = onNotFound(data)
-                            writer.write(res2, data)
-                        } else {
-                            isInserted = false
-                            break@localloop
-                        }
-                    }
-                    writer.write(id, buffer)
+                    localNextData()
                 } else {
                     writer.write(id, buffer)
+                    localNextReader()
                 }
             }
-            while (reader.hasNext()) {
-                val id = reader.next()
+            while (!bufferIsInserted) {
                 writer.write(id, buffer)
+                localNextReader()
             }
-            if (!isInserted) {
+            while (!dataIsInserted) {
                 val res = onNotFound(data)
                 SanityCheck.check { res != ValueKeyStore.ID_NULL }
                 writer.write(res, data)
-                while (hasNext()) {
-                    data = next()
-                    val res2 = onNotFound(data)
-                    SanityCheck.check { res2 != ValueKeyStore.ID_NULL }
-                    writer.write(res2, data)
-                }
+                localNextData()
             }
             reader.close()
             writer.close()
