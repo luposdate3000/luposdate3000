@@ -634,6 +634,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "COUNT10" to "Bug",
         "COUNT11" to "Bug",
         "COUNT9" to "Bug",
+        "COUNT5" to "Bug",
         "CREATESILENTiri" to "Bug",
         "DELETEINSERT3b" to "Bug",
         "DELETEINSERT3" to "Bug",
