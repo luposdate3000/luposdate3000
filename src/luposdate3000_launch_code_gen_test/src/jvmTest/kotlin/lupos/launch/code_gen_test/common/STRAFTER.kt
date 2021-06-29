@@ -30,8 +30,7 @@ public class STRAFTER {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRAFTER.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `STRAFTER}`() {
         val instance = LuposdateEndpoint.initialize()

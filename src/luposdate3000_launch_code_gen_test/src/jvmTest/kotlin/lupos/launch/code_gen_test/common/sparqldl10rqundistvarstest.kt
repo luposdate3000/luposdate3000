@@ -30,8 +30,7 @@ public class sparqldl10rqundistvarstest {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl10rqundistvarstest.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl10rq undist vars test}`() {
         val instance = LuposdateEndpoint.initialize()

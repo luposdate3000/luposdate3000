@@ -30,8 +30,7 @@ public class papersparqldlQ3 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/papersparqldlQ3.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `papersparqldlQ3}`() {
         val instance = LuposdateEndpoint.initialize()

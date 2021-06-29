@@ -29,8 +29,8 @@ public class SHA256 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SHA256.query").readAsString()
-
-    @Test fun `SHA256}`() {
+    @Test
+    fun `SHA256}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

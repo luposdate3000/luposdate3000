@@ -30,8 +30,7 @@ public class STRLANG {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRLANG.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `STRLANG}`() {
         val instance = LuposdateEndpoint.initialize()

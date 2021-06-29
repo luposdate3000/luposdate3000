@@ -30,8 +30,7 @@ public class CONCAT2 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/CONCAT2.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `CONCAT 2}`() {
         val instance = LuposdateEndpoint.initialize()

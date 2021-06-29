@@ -30,8 +30,7 @@ public class RDFSinferencetestdomain {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestdomain.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test domain}`() {
         val instance = LuposdateEndpoint.initialize()

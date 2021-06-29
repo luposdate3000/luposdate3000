@@ -30,8 +30,7 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp12Variablelengthpathandtwopathstosametargetnode.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp12 Variable length path and two paths to same target node}`() {
         val instance = LuposdateEndpoint.initialize()

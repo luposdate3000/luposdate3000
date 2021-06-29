@@ -30,8 +30,7 @@ public class Reuseaprojectexpressionvariableinselect {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Reuseaprojectexpressionvariableinselect.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Reuse a project expression variable in select}`() {
         val instance = LuposdateEndpoint.initialize()

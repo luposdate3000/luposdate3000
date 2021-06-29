@@ -29,8 +29,8 @@ public class bind02BIND {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/bind02BIND.query").readAsString()
-
-    @Test fun `bind02  BIND}`() {
+    @Test
+    fun `bind02  BIND}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

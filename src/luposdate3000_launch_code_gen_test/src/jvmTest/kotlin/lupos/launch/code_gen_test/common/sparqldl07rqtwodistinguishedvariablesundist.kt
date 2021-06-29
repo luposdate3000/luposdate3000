@@ -30,8 +30,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl07rqtwodistinguishedvariablesundist.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl07rq two distinguished variables  undist}`() {
         val instance = LuposdateEndpoint.initialize()

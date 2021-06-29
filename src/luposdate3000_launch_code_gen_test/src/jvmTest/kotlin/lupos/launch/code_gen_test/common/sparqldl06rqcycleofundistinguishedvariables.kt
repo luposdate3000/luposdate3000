@@ -30,8 +30,7 @@ public class sparqldl06rqcycleofundistinguishedvariables {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl06rqcycleofundistinguishedvariables.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl06rq cycle of undistinguished variables}`() {
         val instance = LuposdateEndpoint.initialize()

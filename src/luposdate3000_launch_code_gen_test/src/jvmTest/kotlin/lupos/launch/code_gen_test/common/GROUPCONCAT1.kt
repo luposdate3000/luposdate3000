@@ -30,8 +30,7 @@ public class GROUPCONCAT1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/GROUPCONCAT1.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `GROUPCONCAT 1}`() {
         val instance = LuposdateEndpoint.initialize()

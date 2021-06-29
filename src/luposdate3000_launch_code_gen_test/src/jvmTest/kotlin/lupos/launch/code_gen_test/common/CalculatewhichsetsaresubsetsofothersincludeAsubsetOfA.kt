@@ -30,8 +30,7 @@ public class CalculatewhichsetsaresubsetsofothersincludeAsubsetOfA {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/CalculatewhichsetsaresubsetsofothersincludeAsubsetOfA.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Calculate which sets are subsets of others include A subsetOf A}`() {
         val instance = LuposdateEndpoint.initialize()

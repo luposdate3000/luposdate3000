@@ -30,8 +30,7 @@ public class pp08Reversepath {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp08Reversepath.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp08 Reverse path}`() {
         val instance = LuposdateEndpoint.initialize()

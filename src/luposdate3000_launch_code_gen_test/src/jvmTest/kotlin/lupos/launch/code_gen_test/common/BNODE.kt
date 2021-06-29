@@ -30,8 +30,7 @@ public class BNODE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/BNODE.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `BNODE}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -30,8 +30,7 @@ public class STRBEFORE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRBEFORE.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `STRBEFORE}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -30,8 +30,7 @@ public class Nestedpositiveexists {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Nestedpositiveexists.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `Nested positive exists}`() {
         val instance = LuposdateEndpoint.initialize()

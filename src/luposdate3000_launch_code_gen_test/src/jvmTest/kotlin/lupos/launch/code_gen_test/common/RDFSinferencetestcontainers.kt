@@ -29,8 +29,8 @@ public class RDFSinferencetestcontainers {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestcontainers.query").readAsString()
-
-    @Test fun `RDFS inference test containers}`() {
+    @Test
+    fun `RDFS inference test containers}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

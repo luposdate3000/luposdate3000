@@ -29,8 +29,8 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PostqueryVALUESwithsubjobjvars2rowswithUNDEF.query").readAsString()
-
-    @Test fun `Postquery VALUES with subjobjvars 2 rows with UNDEF}`() {
+    @Test
+    fun `Postquery VALUES with subjobjvars 2 rows with UNDEF}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

@@ -31,8 +31,8 @@ public class DELETEINSERT6b {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/DELETEINSERT6b.query").readAsString()
-
-    @Test fun `DELETE INSERT 6b}`() {
+    @Test
+    fun `DELETE INSERT 6b}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

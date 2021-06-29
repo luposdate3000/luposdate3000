@@ -30,8 +30,7 @@ public class resourcesmyqueriesx4sparql4 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/resourcesmyqueriesx4sparql4.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >too slow<
     @Test
     fun `resourcesmyqueriesx4sparql4}`() {
         val instance = LuposdateEndpoint.initialize()

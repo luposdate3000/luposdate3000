@@ -30,8 +30,7 @@ public class RDFSinferencetestrdfssubPropertyOf {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestrdfssubPropertyOf.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test rdfssubPropertyOf}`() {
         val instance = LuposdateEndpoint.initialize()

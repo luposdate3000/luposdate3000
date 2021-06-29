@@ -29,8 +29,8 @@ public class Group5 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Group5.query").readAsString()
-
-    @Test fun `Group5}`() {
+    @Test
+    fun `Group5}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

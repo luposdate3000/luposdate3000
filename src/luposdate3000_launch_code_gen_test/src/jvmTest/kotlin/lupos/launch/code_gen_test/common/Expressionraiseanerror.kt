@@ -30,8 +30,7 @@ public class Expressionraiseanerror {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Expressionraiseanerror.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Expression raise an error}`() {
         val instance = LuposdateEndpoint.initialize()

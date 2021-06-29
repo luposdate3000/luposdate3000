@@ -30,8 +30,7 @@ public class STRDTTypeErrors {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRDTTypeErrors.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `STRDT TypeErrors}`() {
         val instance = LuposdateEndpoint.initialize()

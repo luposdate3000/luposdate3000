@@ -29,8 +29,8 @@ public class aggemptygroup {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/aggemptygroup.query").readAsString()
-
-    @Test fun `agg empty group}`() {
+    @Test
+    fun `agg empty group}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

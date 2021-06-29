@@ -29,8 +29,8 @@ public class STRLANGSTR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRLANGSTR.query").readAsString()
-
-    @Test fun `STRLANGSTR}`() {
+    @Test
+    fun `STRLANGSTR}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

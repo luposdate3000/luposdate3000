@@ -30,7 +30,6 @@ public class sq09NestedSubqueries {
     val targetType = ".srx"
     val inputType = ".rdf"
     val query = File("src/jvmTest/resources/sq09NestedSubqueries.query").readAsString()
-
     @Ignore
     @Test
     fun `sq09  Nested Subqueries}`() {

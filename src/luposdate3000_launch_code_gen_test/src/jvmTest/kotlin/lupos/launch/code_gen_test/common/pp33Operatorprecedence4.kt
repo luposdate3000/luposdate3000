@@ -30,8 +30,7 @@ public class pp33Operatorprecedence4 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp33Operatorprecedence4.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp33 Operator precedence 4}`() {
         val instance = LuposdateEndpoint.initialize()

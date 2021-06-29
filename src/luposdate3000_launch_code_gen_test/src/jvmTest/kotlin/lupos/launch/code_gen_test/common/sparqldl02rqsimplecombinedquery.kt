@@ -30,8 +30,7 @@ public class sparqldl02rqsimplecombinedquery {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl02rqsimplecombinedquery.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl02rq simple combined query}`() {
         val instance = LuposdateEndpoint.initialize()

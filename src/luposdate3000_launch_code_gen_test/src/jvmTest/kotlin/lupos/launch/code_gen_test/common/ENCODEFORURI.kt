@@ -30,8 +30,7 @@ public class ENCODEFORURI {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/ENCODEFORURI.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `ENCODEFORURI}`() {
         val instance = LuposdateEndpoint.initialize()

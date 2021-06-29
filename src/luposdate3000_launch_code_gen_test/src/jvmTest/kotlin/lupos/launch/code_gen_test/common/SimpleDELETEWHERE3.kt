@@ -31,8 +31,8 @@ public class SimpleDELETEWHERE3 {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SimpleDELETEWHERE3.query").readAsString()
-
-    @Test fun `Simple DELETE WHERE 3}`() {
+    @Test
+    fun `Simple DELETE WHERE 3}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

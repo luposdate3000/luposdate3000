@@ -30,8 +30,7 @@ public class COUNT7 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/COUNT7.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `COUNT 7}`() {
         val instance = LuposdateEndpoint.initialize()

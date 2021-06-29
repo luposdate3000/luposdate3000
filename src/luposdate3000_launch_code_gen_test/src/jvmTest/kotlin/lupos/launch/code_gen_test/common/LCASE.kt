@@ -29,8 +29,8 @@ public class LCASE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/LCASE.query").readAsString()
-
-    @Test fun `LCASE}`() {
+    @Test
+    fun `LCASE}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

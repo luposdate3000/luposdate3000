@@ -30,8 +30,7 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl03rqcombinedquerywithcomplexclassdescription.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl03rq combined query with complex class description}`() {
         val instance = LuposdateEndpoint.initialize()

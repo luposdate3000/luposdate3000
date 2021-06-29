@@ -30,8 +30,7 @@ public class PositiveEXISTS1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PositiveEXISTS1.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `Positive EXISTS 1}`() {
         val instance = LuposdateEndpoint.initialize()

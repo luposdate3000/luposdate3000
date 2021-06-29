@@ -30,8 +30,7 @@ public class pp16Duplicatepathsandcyclesthroughfoafknows {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp16Duplicatepathsandcyclesthroughfoafknows.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp16 Duplicate paths and cycles through foafknows}`() {
         val instance = LuposdateEndpoint.initialize()

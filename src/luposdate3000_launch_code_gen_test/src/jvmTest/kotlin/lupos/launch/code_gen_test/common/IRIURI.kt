@@ -30,8 +30,7 @@ public class IRIURI {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/IRIURI.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `IRIURI}`() {
         val instance = LuposdateEndpoint.initialize()

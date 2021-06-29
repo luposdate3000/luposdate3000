@@ -30,8 +30,7 @@ public class resourcesbsbmbiquery42553sparql2553 {
     val targetType = ".srx"
     val inputType = ".n3"
     val query = File("src/jvmTest/resources/resourcesbsbmbiquery42553sparql2553.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >too slow<
     @Test
     fun `resourcesbsbmbiquery42553sparql2553}`() {
         val instance = LuposdateEndpoint.initialize()

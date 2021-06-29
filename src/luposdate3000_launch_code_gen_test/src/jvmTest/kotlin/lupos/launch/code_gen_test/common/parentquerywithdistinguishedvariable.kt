@@ -30,8 +30,7 @@ public class parentquerywithdistinguishedvariable {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/parentquerywithdistinguishedvariable.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `parent query with distinguished variable}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -29,8 +29,8 @@ public class UCASE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/UCASE.query").readAsString()
-
-    @Test fun `UCASE}`() {
+    @Test
+    fun `UCASE}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

@@ -30,8 +30,7 @@ public class sparqldl13rqsameAs {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl13rqsameAs.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl13rq sameAs}`() {
         val instance = LuposdateEndpoint.initialize()

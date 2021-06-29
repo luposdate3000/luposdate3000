@@ -29,8 +29,8 @@ public class STRSTARTS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRSTARTS.query").readAsString()
-
-    @Test fun `STRSTARTS}`() {
+    @Test
+    fun `STRSTARTS}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

@@ -30,8 +30,7 @@ public class RDFSinferencetestcombiningsubPropertyOfanddomain {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/RDFSinferencetestcombiningsubPropertyOfanddomain.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test combining subPropertyOf and domain}`() {
         val instance = LuposdateEndpoint.initialize()

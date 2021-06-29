@@ -30,8 +30,7 @@ public class IFerrorpropogation {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/IFerrorpropogation.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `IF error propogation}`() {
         val instance = LuposdateEndpoint.initialize()

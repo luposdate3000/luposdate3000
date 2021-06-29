@@ -30,8 +30,7 @@ public class Expressionmayreturnnovalue {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Expressionmayreturnnovalue.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Expression may return no value}`() {
         val instance = LuposdateEndpoint.initialize()

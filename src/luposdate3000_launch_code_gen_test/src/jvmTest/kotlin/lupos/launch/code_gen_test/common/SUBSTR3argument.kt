@@ -30,8 +30,7 @@ public class SUBSTR3argument {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SUBSTR3argument.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `SUBSTR 3argument}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -30,8 +30,7 @@ public class COALESCE {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/COALESCE.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `COALESCE}`() {
         val instance = LuposdateEndpoint.initialize()

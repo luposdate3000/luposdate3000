@@ -30,8 +30,7 @@ public class PostqueryVALUESwithpredvar1row {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PostqueryVALUESwithpredvar1row.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Postquery VALUES with predvar 1 row}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -30,8 +30,7 @@ public class SHA256onUnicodedata {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SHA256onUnicodedata.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug in SHA256-Function<
     @Test
     fun `SHA256 on Unicode data}`() {
         val instance = LuposdateEndpoint.initialize()

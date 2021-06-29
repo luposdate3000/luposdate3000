@@ -30,8 +30,7 @@ public class SHA512onUnicodedata {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SHA512onUnicodedata.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `SHA512 on Unicode data}`() {
         val instance = LuposdateEndpoint.initialize()

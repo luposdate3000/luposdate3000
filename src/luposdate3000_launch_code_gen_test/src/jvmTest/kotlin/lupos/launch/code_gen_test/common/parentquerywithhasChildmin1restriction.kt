@@ -30,8 +30,7 @@ public class parentquerywithhasChildmin1restriction {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/parentquerywithhasChildmin1restriction.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `parent query with hasChild min 1 restriction}`() {
         val instance = LuposdateEndpoint.initialize()

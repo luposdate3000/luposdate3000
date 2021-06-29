@@ -30,8 +30,7 @@ public class SUM {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SUM.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `SUM}`() {
         val instance = LuposdateEndpoint.initialize()

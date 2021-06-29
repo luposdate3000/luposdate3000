@@ -29,8 +29,8 @@ public class COUNT5 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/COUNT5.query").readAsString()
-
-    @Test fun `COUNT 5}`() {
+    @Test
+    fun `COUNT 5}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

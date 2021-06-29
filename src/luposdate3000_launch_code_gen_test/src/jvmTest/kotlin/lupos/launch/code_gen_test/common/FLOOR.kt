@@ -29,8 +29,8 @@ public class FLOOR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/FLOOR.query").readAsString()
-
-    @Test fun `FLOOR}`() {
+    @Test
+    fun `FLOOR}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

@@ -30,8 +30,7 @@ public class pp10Pathwithnegation {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp10Pathwithnegation.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp10 Path with negation}`() {
         val instance = LuposdateEndpoint.initialize()

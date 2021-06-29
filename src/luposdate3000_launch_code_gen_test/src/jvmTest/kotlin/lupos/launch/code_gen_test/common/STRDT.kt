@@ -30,8 +30,7 @@ public class STRDT {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRDT.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `STRDT}`() {
         val instance = LuposdateEndpoint.initialize()

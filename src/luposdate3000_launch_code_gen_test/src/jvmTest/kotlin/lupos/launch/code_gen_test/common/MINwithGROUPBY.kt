@@ -30,8 +30,7 @@ public class MINwithGROUPBY {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/MINwithGROUPBY.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `MIN with GROUP BY}`() {
         val instance = LuposdateEndpoint.initialize()

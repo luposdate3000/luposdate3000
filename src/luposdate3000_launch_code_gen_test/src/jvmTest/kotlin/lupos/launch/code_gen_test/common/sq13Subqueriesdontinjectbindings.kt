@@ -30,8 +30,7 @@ public class sq13Subqueriesdontinjectbindings {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sq13Subqueriesdontinjectbindings.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sq13  Subqueries dont inject bindings}`() {
         val instance = LuposdateEndpoint.initialize()

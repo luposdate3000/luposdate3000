@@ -30,8 +30,7 @@ public class GROUPCONCATwithSEPARATOR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/GROUPCONCATwithSEPARATOR.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `GROUPCONCAT with SEPARATOR}`() {
         val instance = LuposdateEndpoint.initialize()

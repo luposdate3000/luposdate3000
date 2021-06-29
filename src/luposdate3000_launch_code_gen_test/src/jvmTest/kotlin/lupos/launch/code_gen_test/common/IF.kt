@@ -29,8 +29,8 @@ public class IF {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/IF.query").readAsString()
-
-    @Test fun `IF}`() {
+    @Test
+    fun `IF}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

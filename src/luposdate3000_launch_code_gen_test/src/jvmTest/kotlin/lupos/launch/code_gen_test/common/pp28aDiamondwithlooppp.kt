@@ -30,8 +30,7 @@ public class pp28aDiamondwithlooppp {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp28aDiamondwithlooppp.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp28a Diamond with loop  pp}`() {
         val instance = LuposdateEndpoint.initialize()

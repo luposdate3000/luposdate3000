@@ -30,8 +30,7 @@ public class pp23Diamondwithtailp {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/pp23Diamondwithtailp.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp23 Diamond with tail  p}`() {
         val instance = LuposdateEndpoint.initialize()

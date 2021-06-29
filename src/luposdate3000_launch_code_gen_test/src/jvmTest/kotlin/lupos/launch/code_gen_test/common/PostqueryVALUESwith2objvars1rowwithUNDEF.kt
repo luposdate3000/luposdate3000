@@ -30,8 +30,7 @@ public class PostqueryVALUESwith2objvars1rowwithUNDEF {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PostqueryVALUESwith2objvars1rowwithUNDEF.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Postquery VALUES with 2 objvars 1 row with UNDEF}`() {
         val instance = LuposdateEndpoint.initialize()

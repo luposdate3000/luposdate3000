@@ -30,8 +30,7 @@ public class Existswithgroundtriple {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Existswithgroundtriple.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `Exists with ground triple}`() {
         val instance = LuposdateEndpoint.initialize()

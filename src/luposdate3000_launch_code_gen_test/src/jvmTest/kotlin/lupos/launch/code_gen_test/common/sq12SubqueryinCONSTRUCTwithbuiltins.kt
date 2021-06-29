@@ -29,8 +29,8 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sq12SubqueryinCONSTRUCTwithbuiltins.query").readAsString()
-
-    @Test fun `sq12  Subquery in CONSTRUCT with builtins}`() {
+    @Test
+    fun `sq12  Subquery in CONSTRUCT with builtins}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

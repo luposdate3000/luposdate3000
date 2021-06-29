@@ -29,8 +29,8 @@ public class STRLEN {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRLEN.query").readAsString()
-
-    @Test fun `STRLEN}`() {
+    @Test
+    fun `STRLEN}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

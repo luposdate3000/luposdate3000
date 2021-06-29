@@ -29,8 +29,8 @@ public class YEAR {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/YEAR.query").readAsString()
-
-    @Test fun `YEAR}`() {
+    @Test
+    fun `YEAR}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

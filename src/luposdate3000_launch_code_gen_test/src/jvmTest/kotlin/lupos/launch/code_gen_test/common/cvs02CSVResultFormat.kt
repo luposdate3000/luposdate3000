@@ -30,8 +30,7 @@ public class cvs02CSVResultFormat {
     val targetType = ".csv"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/cvs02CSVResultFormat.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `cvs02  CSV Result Format}`() {
         val instance = LuposdateEndpoint.initialize()

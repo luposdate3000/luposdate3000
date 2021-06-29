@@ -32,8 +32,7 @@ public class SimpleDELETEDATA3 {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SimpleDELETEDATA3.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Simple DELETE DATA 3}`() {
         val instance = LuposdateEndpoint.initialize()

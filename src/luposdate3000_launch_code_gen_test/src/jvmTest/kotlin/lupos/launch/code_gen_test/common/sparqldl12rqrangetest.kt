@@ -30,8 +30,7 @@ public class sparqldl12rqrangetest {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/sparqldl12rqrangetest.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl12rq range test}`() {
         val instance = LuposdateEndpoint.initialize()

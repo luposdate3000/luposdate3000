@@ -29,8 +29,8 @@ public class COUNT8b {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/COUNT8b.query").readAsString()
-
-    @Test fun `COUNT 8b}`() {
+    @Test
+    fun `COUNT 8b}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

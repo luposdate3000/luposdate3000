@@ -30,8 +30,7 @@ public class UUIDpatternmatch {
     val targetType = ".srx"
     val inputType = ".nt"
     val query = File("src/jvmTest/resources/UUIDpatternmatch.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `UUID pattern match}`() {
         val instance = LuposdateEndpoint.initialize()

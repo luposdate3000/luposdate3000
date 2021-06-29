@@ -29,8 +29,8 @@ public class SHA1 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SHA1.query").readAsString()
-
-    @Test fun `SHA1}`() {
+    @Test
+    fun `SHA1}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

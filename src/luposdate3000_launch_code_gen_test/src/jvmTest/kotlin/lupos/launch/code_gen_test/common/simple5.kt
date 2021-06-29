@@ -30,8 +30,7 @@ public class simple5 {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/simple5.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `simple 5}`() {
         val instance = LuposdateEndpoint.initialize()

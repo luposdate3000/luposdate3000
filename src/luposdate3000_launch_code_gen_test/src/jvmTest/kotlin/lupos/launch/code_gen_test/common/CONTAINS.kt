@@ -29,8 +29,8 @@ public class CONTAINS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/CONTAINS.query").readAsString()
-
-    @Test fun `CONTAINS}`() {
+    @Test
+    fun `CONTAINS}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

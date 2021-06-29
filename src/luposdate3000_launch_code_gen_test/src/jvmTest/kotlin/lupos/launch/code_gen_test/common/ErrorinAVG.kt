@@ -30,8 +30,7 @@ public class ErrorinAVG {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/ErrorinAVG.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Error in AVG}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -29,8 +29,8 @@ public class bind10BINDscopingVariableinfilternotinscope {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/bind10BINDscopingVariableinfilternotinscope.query").readAsString()
-
-    @Test fun `bind10  BIND scoping  Variable in filter not in scope}`() {
+    @Test
+    fun `bind10  BIND scoping  Variable in filter not in scope}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

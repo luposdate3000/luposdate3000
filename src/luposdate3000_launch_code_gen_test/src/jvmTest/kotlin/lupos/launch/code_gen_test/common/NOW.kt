@@ -30,8 +30,7 @@ public class NOW {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/NOW.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `NOW}`() {
         val instance = LuposdateEndpoint.initialize()

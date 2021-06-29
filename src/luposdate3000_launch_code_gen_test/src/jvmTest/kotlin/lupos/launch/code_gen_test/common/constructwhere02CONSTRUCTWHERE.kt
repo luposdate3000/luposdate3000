@@ -29,8 +29,8 @@ public class constructwhere02CONSTRUCTWHERE {
     val targetType = ".ttl"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/constructwhere02CONSTRUCTWHERE.query").readAsString()
-
-    @Test fun `constructwhere02  CONSTRUCT WHERE}`() {
+    @Test
+    fun `constructwhere02  CONSTRUCT WHERE}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

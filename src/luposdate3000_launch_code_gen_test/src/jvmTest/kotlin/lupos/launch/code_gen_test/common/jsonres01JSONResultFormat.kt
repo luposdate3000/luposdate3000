@@ -30,8 +30,7 @@ public class jsonres01JSONResultFormat {
     val targetType = ".srj"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/jsonres01JSONResultFormat.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `jsonres01  JSON Result Format}`() {
         val instance = LuposdateEndpoint.initialize()

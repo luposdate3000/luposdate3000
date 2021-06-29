@@ -29,8 +29,8 @@ public class PostqueryVALUESwithsubjvar1row {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/PostqueryVALUESwithsubjvar1row.query").readAsString()
-
-    @Test fun `Postquery VALUES with subjvar 1 row}`() {
+    @Test
+    fun `Postquery VALUES with subjvar 1 row}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

@@ -30,8 +30,7 @@ public class Calculatewhichsetshavethesameelements {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/Calculatewhichsetshavethesameelements.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `Calculate which sets have the same elements}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -30,8 +30,7 @@ public class bind01BINDfixeddataforOWLDL {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/bind01BINDfixeddataforOWLDL.query").readAsString()
-
-    @Ignore
+    @Ignore // Reason: >Bug<
     @Test
     fun `bind01  BIND fixed data for OWL DL}`() {
         val instance = LuposdateEndpoint.initialize()

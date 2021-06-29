@@ -29,8 +29,8 @@ public class SUMwithGROUPBY {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/SUMwithGROUPBY.query").readAsString()
-
-    @Test fun `SUM with GROUP BY}`() {
+    @Test
+    fun `SUM with GROUP BY}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {

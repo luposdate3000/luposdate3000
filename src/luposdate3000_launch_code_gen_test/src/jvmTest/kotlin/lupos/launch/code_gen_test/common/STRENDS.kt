@@ -29,8 +29,8 @@ public class STRENDS {
     val targetType = ".srx"
     val inputType = ".ttl"
     val query = File("src/jvmTest/resources/STRENDS.query").readAsString()
-
-    @Test fun `STRENDS}`() {
+    @Test
+    fun `STRENDS}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         if (listOf(".n3", ".ttl", ".nt").contains(inputType)) {
