@@ -91,6 +91,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 println("executeTest $isLocal ${EDictionaryTypeExt.names[dictType]}--------------------------------------")
             }
             var dict = createDict(false)
+            if (!isLocal) {
+                instance.nodeGlobalDictionary = dict
+            }
             val values = mutableListOf<ByteArrayWrapper>(
                 DictionaryExt.booleanTrueValue3,
                 DictionaryExt.booleanFalseValue3,

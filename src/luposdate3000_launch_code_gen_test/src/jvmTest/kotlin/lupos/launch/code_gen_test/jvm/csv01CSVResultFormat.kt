@@ -41,7 +41,7 @@ public class csv01CSVResultFormat {
     internal val targetType = ".csv"
     internal val query = File("src/jvmTest/resources/csv01CSVResultFormat.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >Bug in CSV-Parser<
     @Test
     fun `csv01  CSV Result Format}`() {
         val instance = LuposdateEndpoint.initialize()

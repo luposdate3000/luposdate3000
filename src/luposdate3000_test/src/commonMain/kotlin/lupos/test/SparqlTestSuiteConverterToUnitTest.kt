@@ -627,23 +627,25 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     )
     private val ignoreListDueToBugsResolveLater = mapOf(
         "csv03CSVResultFormat" to "Bug in CSV-Parser",
+        "csv01CSVResultFormat" to "Bug in CSV-Parser",
+        "cvs02CSVResultFormat" to "Bug in CSV-Parser",
         "SHA256onUnicodedata" to "Bug in SHA256-Function",
         "constructwhere04CONSTRUCTWHERE" to "Bug in SparqlTestSuiteConverterToUnitTest",
         "syntaxconstructwhere02rq" to "Bug in SparqlTestSuiteConverterToUnitTest",
+        "bind01BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
+        "bind02BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
+        "bind03BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
+        "bind04BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
+        "bind05BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
+        "bind06BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
+        "bind07BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
+        "bind08BINDfixeddataforOWLDL" to "Bug in OWL-Inference",
     )
 
 // grep -rl "failure message" ./src/luposdate3000_launch_code_gen_test/build/test-results/jvmTest | sed "s/.xml$/\" to \"Bug\",/g" | sed "s/.*\./\"/g" | sort | uniq
     private val ignoreListDueToBugs = mapOf<String, String>(
         "AVG" to "Bug",
         "AVGwithGROUPBY" to "Bug",
-        "bind01BINDfixeddataforOWLDL" to "Bug",
-        "bind02BINDfixeddataforOWLDL" to "Bug",
-        "bind03BINDfixeddataforOWLDL" to "Bug",
-        "bind04BINDfixeddataforOWLDL" to "Bug",
-        "bind05BINDfixeddataforOWLDL" to "Bug",
-        "bind06BINDfixeddataforOWLDL" to "Bug",
-        "bind07BINDfixeddataforOWLDL" to "Bug",
-        "bind08BINDfixeddataforOWLDL" to "Bug",
         "bnodesarenotexistentials" to "Bug",
         "bnodesarenotexistentialswithanswer" to "Bug",
         "BNODEstr" to "Bug",
@@ -659,8 +661,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "COUNT10" to "Bug",
         "COUNT11" to "Bug",
         "COUNT9" to "Bug",
-        "csv01CSVResultFormat" to "Bug",
-        "cvs02CSVResultFormat" to "Bug",
         "DELETEINSERT1b" to "Bug",
         "DELETEINSERT1c" to "Bug",
         "DELETEINSERT1" to "Bug",
