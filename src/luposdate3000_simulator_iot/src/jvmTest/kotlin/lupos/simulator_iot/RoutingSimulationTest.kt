@@ -4,6 +4,7 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.routing.RPL
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -122,12 +123,15 @@ class RoutingSimulationTest {
         assertEquals(79, querySender.queryCounter)
     }
 
+    @Ignore
     @Test
     fun sensorFromStarSendOverMesh() {
         // Send data from one Sensor over Mesh to fixed node
         Configuration.parse("$prefix/sensorFromStarSendOverMesh.json")
         val fog = Configuration.getNamedDevice("Fog")
-
+        val starRoot = Configuration.randStarNetworks.getValue("1")
+        val child = starRoot.children[0]
+        assertTrue(child.linkManager.hasLink(starRoot.root))
         val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
