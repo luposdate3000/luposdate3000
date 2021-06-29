@@ -1,0 +1,2815 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="document"/>
+  <variable name="author"/>
+  <variable name="name"/>
+ </head>
+ <results>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b0</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shiko Seagroves</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article11</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b1</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Luzia Rahib</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b2</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yemena Knebel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article17</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b2</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yemena Knebel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article13</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b3</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Nik Reposa</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b4</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Faatin Bonn</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article16</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b5</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Helene Nik</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article19</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b6</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Safiyya Letchaw</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article13</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b7</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Korechika Mamer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article24</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b8</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shaakira Ricklefs</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b9</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Tatsukichi Gerstenberger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article26</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b10</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sebastiano Lockyer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article32</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Eligius Vanwechel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article15</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b12</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dianmu Aver</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b13</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Bia Klemme</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article15</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b14</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lecia Baumeister</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article18</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b15</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Clivia Kuriger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article11</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b16</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gennadi Schanck</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article21</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b17</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dena Mcentire</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b17</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dena Mcentire</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article26</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b18</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jace Ruotolo</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article12</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b19</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Erechtheus Muschick</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b20</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Tashiya Marrable</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b20</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Tashiya Marrable</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article28</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Aandranee Sakamaki</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Aandranee Sakamaki</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b22</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Satoru Beaumont</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b22</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Satoru Beaumont</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b23</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Olzhbeta Hasenberg</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article12</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b24</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Barsha Murrain</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b25</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fahroni Anglea</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b26</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Raaid Chrispen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b27</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Toku Synowiec</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b27</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Toku Synowiec</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b28</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ieshige Kosinski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b28</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ieshige Kosinski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lene Vosquez</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1943/Incollection1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b30</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ofelia Golde</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b30</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ofelia Golde</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article17</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Miles Manero</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shahaama Berum</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shahaama Berum</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article23</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Egor Braue</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lone Pavese</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Timun Silverstein</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article21</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Timun Silverstein</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Makhna Stabile</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Makhna Stabile</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b37</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fame Clarey</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article21</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b37</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fame Clarey</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article30</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b38</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Masakazu Lisko</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article30</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b39</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Coch Foulger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article11</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b39</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Coch Foulger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b40</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shaka Enget</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b40</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shaka Enget</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article33</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kazushige Goeppner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elif Gameros</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article31</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elif Gameros</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article21</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b43</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Notburg Towber</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b43</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Notburg Towber</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article15</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b44</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cathy Phebus</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article31</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b45</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Khadija Lagerquist</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b46</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Eupeithes Bevens</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b46</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Eupeithes Bevens</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Doppo Kieser</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Doppo Kieser</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b48</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Pilib Seu</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b48</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Pilib Seu</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b49</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ashley Kesselring</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article16</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b50</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Hilary Braddy</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article12</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b51</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Bibiane Eddens</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article17</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b52</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Tydeus Dyckman</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b53</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Martina Mcclary</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article21</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b54</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Booker Spiker</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b54</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Booker Spiker</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article16</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b55</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Mitsuo Neff</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article19</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b56</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Juriaan Schremp</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article24</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b57</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dmitreeva Ellsbury</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article27</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b58</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Taaliba Debrita</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b59</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Inejiro Javens</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article13</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b60</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Uqbah Oconnell</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b60</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Uqbah Oconnell</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b61</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Vasilista Hamic</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1941/Incollection1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b61</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Vasilista Hamic</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b62</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dewi Rappleyea</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b63</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Guido Genier</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article25</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b63</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Guido Genier</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article16</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b64</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Vedetta Pilkins</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article19</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b65</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Waatiq Perico</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article28</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b66</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Claudios Lemmert</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article35</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b67</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Takehide Gauna</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b68</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Caddock Stagowski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b69</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Prebrana Kekiwi</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article12</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b69</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Prebrana Kekiwi</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article25</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b70</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kaspar Reierson</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b71</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jenna Ovit</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article32</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b71</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jenna Ovit</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article21</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b72</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lilja Siwiec</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Phaethon Gearon</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b74</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Mya Swilley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article18</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b74</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Mya Swilley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b75</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Motoyasu Calligy</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b76</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Firdaus Casavez</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b77</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kichibei Opitz</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article36</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b78</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Evamarie Coraham</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article12</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b79</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gia Stonesifer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article33</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b80</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Davida Rho</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article23</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b81</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lexi Faulk</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article11</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b82</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dell Kosel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article19</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dama Leino</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dama Leino</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article26</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b84</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Juri Guzik</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b85</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Angel Delcarmen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kozue Efthimiou</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kozue Efthimiou</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1943/Incollection1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Maureo Benedict</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Maureo Benedict</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article29</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b88</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Charlette Negron</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b89</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kellie Frenner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article18</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b90</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Chasidy Hoop</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article22</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b91</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Oka Prock</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b91</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Oka Prock</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article16</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b92</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Trina Sjerven</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b92</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Trina Sjerven</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b93</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Atsumori Bloyer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article30</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b93</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Atsumori Bloyer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b94</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Diana Gulbranson</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article26</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b94</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Diana Gulbranson</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article12</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b95</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Letizia Madaras</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article11</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b96</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Erminia Damrell</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b97</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shinji Kapler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1942/Incollection1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b97</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shinji Kapler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article25</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b98</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Emina Yeeloy</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article18</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b99</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvera Zito</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article17</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b100</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Alexandros Lagazo</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article13</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b101</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Tarran Pointer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article29</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b102</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jaen Kerechanko</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b102</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jaen Kerechanko</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article18</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b103</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Loke Tuton</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b104</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Angha Bievenue</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article11</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b104</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Angha Bievenue</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b105</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Edmondo Rommelfanger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1944/Incollection1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b106</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Casswallawn Scheiblich</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article29</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b107</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Alona Lucario</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article15</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b108</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wava Goubeaux</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article18</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b109</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Rufio Guitard</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b110</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Solange Alson</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article32</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b111</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Breana Scheffler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article12</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b112</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Araceli Ertel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article13</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b113</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gulika Alipio</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article25</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b114</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sander Garriss</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article16</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b115</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Arcadia Granade</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b116</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Angela Hager</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article23</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b117</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Argos Cumings</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b117</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Argos Cumings</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article28</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b118</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jelawat Balletta</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b118</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jelawat Balletta</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article18</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b119</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Melisa Patriarco</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b119</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Melisa Patriarco</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article15</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b120</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Octave Diana</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article17</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b121</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Riddhi Colesar</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article23</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b122</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ernestine Barkan</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article13</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b123</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gustel Pitek</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article37</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b124</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kit Storrs</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article24</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b125</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Anbessa Gulde</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b125</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Anbessa Gulde</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b126</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Miranda Leinen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article23</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b126</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Miranda Leinen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b127</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Amalia Krajcik</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b128</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fedorav Solich</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article27</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b129</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gulielma Arce</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article24</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b130</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gorshedna Marone</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article17</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b131</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Caden Failing</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article16</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b132</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Joey Yarboro</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b133</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dorel Brandt</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b133</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dorel Brandt</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article21</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b134</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Demont Escalet</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article34</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b135</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Madaleno Bercier</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b136</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Akina Jang</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article23</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b137</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Igone Rader</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b137</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Igone Rader</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b138</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adamanta Schlitt</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b139</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Torah Giller</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article24</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b139</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Torah Giller</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article29</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b140</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Agpios Bia</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b140</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Agpios Bia</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b141</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cecil Kochler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article27</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b142</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Salaah Elio</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b142</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Salaah Elio</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article15</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b143</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yayang Kuczenski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article19</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b144</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Emiko Root</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article26</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b145</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Taliyah Jafari</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b145</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Taliyah Jafari</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article9</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article1</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article1</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article2</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article7</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article4</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article8</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article2</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article4</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article4</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article1</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article3</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article10</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article9</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article6</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article9</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article10</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article5</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article5</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article4</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article7</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article5</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article10</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article4</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article3</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article8</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article6</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article8</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article9</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article7</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article6</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article7</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article6</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article10</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article6</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article3</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article7</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article1</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article2</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article9</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article8</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article2</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article8</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article5</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article6</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article8</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article1</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article10</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article3</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article5</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article2</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article10</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article3</uri>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b146</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Heidelore Ruschmann</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article26</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b147</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Loreliese Aspri</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

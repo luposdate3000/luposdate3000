@@ -1,0 +1,18 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="article"/>
+ </head>
+ <results>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

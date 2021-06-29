@@ -41,6 +41,24 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationCOUNT && distinct == other.distinct && children.contentEquals(other.children)
     private class ColumnIteratorAggregateCOUNT(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        val myList = mutableSetOf<Int>()
+        private var counter = 0L
+
+        override fun evaluate() {
+            val i = child()
+            if (!myList.contains(i)) {
+                myList.add(i)
+                counter++
+            }
+        }
+
+        override fun evaluateFinish(): Int {
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.integerToByteArray(buffer, BigInteger.parseString(counter.toString(), 10))
+            return dictionary.createValue(buffer)
+        }
+    }
+    private class ColumnIteratorAggregateCOUNTNoChild(private val dictionary: IDictionary) : ColumnIteratorAggregate() {
         private var counter = 0L
 
         override fun evaluate() {
@@ -55,7 +73,11 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
     }
 
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-        return ColumnIteratorAggregateCOUNT((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+        if (children.size == 0 || !distinct) {
+            return ColumnIteratorAggregateCOUNTNoChild(query.getDictionary())
+        } else {
+            return ColumnIteratorAggregateCOUNT((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+        }
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {

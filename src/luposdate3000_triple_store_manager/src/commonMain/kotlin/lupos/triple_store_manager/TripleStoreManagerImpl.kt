@@ -664,7 +664,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             val query = Query(instance)
             createGraph(query, graphName)
         }
-        return metadata_[graphName]!!
+        val res = metadata_[graphName]
+        println("getGraph $graphName .. ${metadata_.keys} .. ${metadata_.size}")
+        return res!!
     }
 
     public override fun remoteCommit(query: IQuery, origin: Boolean) {

@@ -105,7 +105,6 @@ class CreateModuleArgs() {
     var args: MutableMap<String, String> = mutableMapOf()
     var dependenciesCommon: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJvm: MutableSet<String> = mutableSetOf<String>()
-    var dependenciesJvmRecoursive: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
     var disableJS = false
@@ -131,7 +130,6 @@ class CreateModuleArgs() {
         res.disableNative = disableNative
         res.dependenciesCommon.addAll(dependenciesCommon)
         res.dependenciesJvm.addAll(dependenciesJvm)
-        res.dependenciesJvmRecoursive.addAll(dependenciesJvmRecoursive)
         res.dependenciesJs.addAll(dependenciesJs)
         res.dependenciesNative.addAll(dependenciesNative)
         res.compilerVersion = compilerVersion
@@ -393,7 +391,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 allDep.addAll(jsDependencies)
                 allDep.addAll(jvmDependencies)
                 allDep.addAll(nativeDependencies)
-                allDep.addAll(moduleArgs.dependenciesJvmRecoursive)
+                allDep.addAll(moduleArgs.dependenciesJvm)
                 for (d in allDep) {
                     if (d.startsWith("luposdate3000")) {
                         var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
@@ -562,11 +560,11 @@ if(!onWindows){
                     out.println("            dependencies {")
                     printDependencies(jvmDependencies, out)
                     if (!buildLibrary && moduleArgs.codegenKAPT) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
+                        printDependencies(moduleArgs.dependenciesJvm, out)
                     }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
-                        for (dep in moduleArgs.dependenciesJvmRecoursive) {
+                        printDependencies(moduleArgs.dependenciesJvm, out)
+                        for (dep in moduleArgs.dependenciesJvm) {
                             if (dep.startsWith("luposdate")) {
                                 out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
                             } else {
