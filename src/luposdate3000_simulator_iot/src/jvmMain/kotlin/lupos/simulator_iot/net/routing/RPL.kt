@@ -172,8 +172,8 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     override fun toString(): String {
         val strBuilder = StringBuilder()
         strBuilder
-            .append("> ")
-            .append("Device ${device.address}").append(", ")
+            .append("> Device ${device.address}").append(", ")
+            .append("name ${Configuration.getDeviceName(device.deviceNameID)}").append(", ")
             .append("rank $rank").append(", ")
             .append(getParentString())
             .appendLine().append("  ")
