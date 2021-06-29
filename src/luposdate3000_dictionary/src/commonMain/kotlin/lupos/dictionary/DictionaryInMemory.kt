@@ -48,13 +48,16 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
 
     public override fun isInmemoryOnly(): Boolean = true
     public override fun close() {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
     }
 
     public override fun delete() {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         close()
     }
 
     public override fun createNewBNode(): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var res: Int = bNodeCounter++
         if (isLocal) {
             res = res or flagLocal
@@ -63,10 +66,12 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun createNewUUID(): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var res: Int = uuidCounter++
         return res
     }
     public override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit) {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var flag = flagNoBNode
         var flag2 = 0
         if (isLocal) {
@@ -91,6 +96,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         }
     }
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (value) {
             DictionaryExt.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
             DictionaryExt.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
@@ -115,6 +121,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
                 val tmp = if (buffer.size == 8) {
@@ -167,13 +174,17 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check { !isLocal }
         SanityCheck.check { type != ETripleComponentTypeExt.BLANK_NODE }
         SanityCheck.check { type != ETripleComponentTypeExt.BOOLEAN }
         SanityCheck.check { type != ETripleComponentTypeExt.ERROR }
         SanityCheck.check { type != ETripleComponentTypeExt.UNDEF }
-        val res = dataV2I[buffer] ?: return null
+        val res = dataV2I[buffer]
+        if (res == null) {
+            return null
+        }
         return res or flagNoBNode
     }
 }

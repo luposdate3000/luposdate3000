@@ -45,7 +45,17 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
     }
 
     override fun toString(): String {
-        return "$booleanResult - ${columns.map{it}} - ${data.map{it.map{it}}}"
+        val buffer = ByteArrayWrapper()
+        fun idToString(id: Int): String {
+            val q = query
+            if (q != null) {
+                q.getDictionary().getValue(buffer, id)
+                return "${DictionaryHelper.byteArrayToSparql(buffer)} ($buffer)"
+            } else {
+                return ""
+            }
+        }
+        return "$booleanResult - ${columns.map{it}} - ${data.map{it.map{"$it -> ${idToString(it)}"}}}"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -631,8 +631,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "constructwhere04CONSTRUCTWHERE" to "Bug in SparqlTestSuiteConverterToUnitTest",
         "syntaxconstructwhere02rq" to "Bug in SparqlTestSuiteConverterToUnitTest",
     )
+
+// grep -rl "failure message" ./src/luposdate3000_launch_code_gen_test/build/test-results/jvmTest | sed "s/.xml$/\" to \"Bug\",/g" | sed "s/.*\./\"/g" | sort | uniq
     private val ignoreListDueToBugs = mapOf<String, String>(
-        "ADD5" to "Bug",
         "AVG" to "Bug",
         "AVGwithGROUPBY" to "Bug",
         "bind01BINDfixeddataforOWLDL" to "Bug",

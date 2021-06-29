@@ -38,6 +38,7 @@ public abstract class ADictionary(
     @JvmField
     internal var isLocal: Boolean = false
     public override fun createNewBNode(s: String): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var res = bnodeMapLocal[s]
         if (res != null) {
             return res
@@ -56,10 +57,12 @@ public abstract class ADictionary(
     override fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
 
     public override fun isLocalValue(value: Int): Boolean {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         return (value and flagLocal) == flagLocal
     }
 
     override fun valueToGlobal(value: Int): Int {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val res: Int
         if ((value and flagLocal) != flagLocal) {
             res = value
@@ -83,8 +86,29 @@ public abstract class ADictionary(
 
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> {
+        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var mymapping = IntArray(0)
         var lastId = -1
+        fun addEntry(id: Int, i: Int) {
+            SanityCheck.check { lastId == id - 1 }
+            if (lastId != id - 1) {
+                throw Exception("ERROR !! $lastId -> $id")
+            }
+            lastId = id
+            if (lastId % 10000 == 0 && lastId != 0) {
+                println("imported $lastId dictionaryItems")
+            }
+            if (mymapping.size <= id) {
+                var newSize = 1
+                while (newSize <= id) {
+                    newSize *= 2
+                }
+                val tmp = mymapping
+                mymapping = IntArray(newSize)
+                tmp.copyInto(mymapping)
+            }
+            mymapping[id] = i
+        }
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
             if (lastId % 10000 == 0 && lastId != 0) {
@@ -100,18 +124,7 @@ public abstract class ADictionary(
                 }
                 res
             }
-            SanityCheck.check { lastId == id - 1 }
-            lastId = id
-            if (mymapping.size <= id) {
-                var newSize = 1
-                while (newSize <= id) {
-                    newSize *= 2
-                }
-                val tmp = mymapping
-                mymapping = IntArray(newSize)
-                tmp.copyInto(mymapping)
-            }
-            mymapping[id] = i
+            addEntry(id, i)
         }
         println("imported $lastId dictionaryItems")
         return Pair(mymapping, lastId + 1)
