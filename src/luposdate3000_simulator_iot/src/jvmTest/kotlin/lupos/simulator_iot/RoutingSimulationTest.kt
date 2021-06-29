@@ -123,23 +123,14 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun sensorFromStarSendDataOverMesh() {
-        // TODO zuerst star root
-//        //Send data from the leaf F to the leaf D
-//        Configuration.parse("$prefix/sensorFromStarSendDataOverMesh.json")
-//        val d = Configuration.getNamedDevice("D")
-//        val f = Configuration.getNamedDevice("F")
-//
-//        f.sensor!!.setDataSink(d.address)
-//
-//        val maxClock: Long = 100
-//        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
-//
-//        val sim = Simulation(Configuration.devices)
-//        sim.setLifeCycleCallback(Logger(sim))
-//        sim.setMaximalTime(maxClock)
-//        sim.start()
-//
-//        assertEquals(numberOfSamples, d.processedSensorDataPackages)
+    fun sensorFromStarSendOverMesh() {
+        // Send data from one Sensor over Mesh to fixed node
+        Configuration.parse("$prefix/sensorFromStarSendOverMesh.json")
+        val fog = Configuration.getNamedDevice("Fog")
+
+        val sim = Simulation(Configuration.devices, callback = Logger)
+        sim.startSimulation()
+
+        assertEquals(4, fog.processedSensorDataPackages)
     }
 }

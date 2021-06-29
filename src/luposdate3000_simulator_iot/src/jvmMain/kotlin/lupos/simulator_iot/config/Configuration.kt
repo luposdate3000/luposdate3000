@@ -39,6 +39,8 @@ internal object Configuration {
 
     private var dbDeviceCounter = 0
 
+    private var deviceNames: MutableList<String> = mutableListOf()
+
     internal fun parse(jsonObjects: JsonObjects) {
         resetVariables()
         this.jsonObjects = jsonObjects
@@ -65,6 +67,7 @@ internal object Configuration {
         namedAddresses = mutableMapOf()
         querySenders = mutableListOf()
         dbDeviceCounter = 0
+        deviceNames = mutableListOf()
     }
 
     internal fun readJsonFile(fileName: String): JsonObjects {
@@ -102,18 +105,19 @@ internal object Configuration {
         val origin = createMeshOriginDevice(network)
         val meshNetwork = MeshNetwork()
         meshNetwork.networkPrefix = network.networkPrefix
+        val nameID = addDeviceName("${network.networkPrefix}_member")
         val linkType = getLinkTypeByName(network.linkType)
         val deviceType = getDeviceTypeByName(network.deviceType)
 
-        var column = createSouthernDevices(origin, linkType, network, deviceType)
+        var column = createSouthernDevices(origin, linkType, network, deviceType, nameID)
         meshNetwork.mesh[0] = column
         var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
         var predecessor = origin
         while (restCoverageEast > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createEasternLocation(predecessor.location, distance)
-            predecessor = createDevice(deviceType, location)
-            column = createSouthernDevices(predecessor, linkType, network, deviceType)
+            predecessor = createDevice(deviceType, location, nameID)
+            column = createSouthernDevices(predecessor, linkType, network, deviceType, nameID)
             meshNetwork.mesh.add(column)
 
             restCoverageEast -= distance
@@ -122,7 +126,7 @@ internal object Configuration {
         randMeshNetworks[network.networkPrefix] = meshNetwork
     }
 
-    private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceType: DeviceType): MutableList<Device> {
+    private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceType: DeviceType, nameID: Int): MutableList<Device> {
         val column = mutableListOf<Device>()
         var restCoverageSouth = network.signalCoverageSouth - linkType.rangeInMeters
         column.add(origin)
@@ -130,7 +134,7 @@ internal object Configuration {
         while (restCoverageSouth > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createSouthernLocation(predecessor.location, distance)
-            predecessor = createDevice(deviceType, location)
+            predecessor = createDevice(deviceType, location, nameID)
             column.add(predecessor)
             restCoverageSouth -= distance
         }
@@ -147,7 +151,8 @@ internal object Configuration {
     private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
         val deviceType = getDeviceTypeByName(network.deviceType)
         val location = GeoLocation(network.originLatitude, network.originLongitude)
-        return createDevice(deviceType, location)
+        val nameID = addDeviceName("${network.networkPrefix}_origin")
+        return createDevice(deviceType, location, nameID)
     }
 
     internal fun getNamedDevice(name: String): Device {
@@ -155,17 +160,21 @@ internal object Configuration {
         return devices[index]
     }
 
+    internal fun getDeviceName(nameIndex: Int)
+        = deviceNames[nameIndex]
+
     internal fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.starRoot)
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
+        val childNameID = addDeviceName("${starNetwork.networkPrefix}_child")
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
-            val leaf = createDevice(deviceType, location)
+            val leaf = createDevice(deviceType, location, childNameID)
             root.linkManager.setLinkIfPossible(leaf)
             leaf.isStarNetworkChild = true
             starNetwork.children.add(leaf)
@@ -180,6 +189,11 @@ internal object Configuration {
             device.router.isRoot = true
             rootRouterAddress = device.address
         }
+    }
+
+    private fun addDeviceName(name: String): Int {
+        deviceNames.add(name)
+        return deviceNames.size - 1
     }
 
     private fun createFixedDevices() {
@@ -198,7 +212,8 @@ internal object Configuration {
     private fun createFixedLocatedDevice(fixedDevice: FixedDevice) {
         val deviceType = getDeviceTypeByName(fixedDevice.deviceType)
         val location = GeoLocation(fixedDevice.latitude, fixedDevice.longitude)
-        val created = createDevice(deviceType, location)
+        val nameID = addDeviceName(fixedDevice.name)
+        val created = createDevice(deviceType, location, nameID)
         require(!namedAddresses.containsKey(fixedDevice.name)) { "name ${fixedDevice.name} must be unique" }
         namedAddresses[fixedDevice.name] = created.address
     }
@@ -216,10 +231,10 @@ internal object Configuration {
         querySenders.add(querySender)
     }
 
-    private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
+    private fun createDevice(deviceType: DeviceType, location: GeoLocation, nameIndex: Int): Device {
         val linkTypes = getLinkTypeIndices(deviceType)
         require(deviceType.performance != 0.0) { "The performance level of a device can not be 0.0 %" }
-        val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes)
+        val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes, nameIndex)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         val database = getDatabase(deviceType, device)

@@ -21,7 +21,8 @@ internal class Device(
     internal var database: DatabaseAdapter?,
     internal var sensor: ISensor?,
     internal val performance: Double,
-    internal val supportedLinkTypes: IntArray
+    internal val supportedLinkTypes: IntArray,
+    internal val deviceNameID: Int,
 ) : Entity() {
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this)
@@ -125,11 +126,11 @@ internal class Device(
     internal fun hasDatabase(): Boolean = database != null
 
     private fun logReceivePackage(pck: NetworkPackage) {
-        Logger.log("> Device $address receives $pck at clock=${simulation.getCurrentClock()}")
+        Logger.log("> $this receives $pck at clock=${simulation.getCurrentClock()}")
     }
 
     private fun logSendPackage(pck: NetworkPackage) {
-        Logger.log("> Device $address sends $pck at clock=${simulation.getCurrentClock()}")
+        Logger.log("> $this sends $pck at clock=${simulation.getCurrentClock()}")
     }
 
     override fun equals(other: Any?): Boolean {
@@ -148,6 +149,10 @@ internal class Device(
         return address
     }
 
+    override fun toString(): String {
+        return "Device(addr=$address, name=${Configuration.getDeviceName(deviceNameID)})"
+    }
+
     internal companion object {
         internal var packageCounter: Int = 0
             private set
@@ -160,4 +165,6 @@ internal class Device(
             observationPackageCounter = 0
         }
     }
+
+
 }
