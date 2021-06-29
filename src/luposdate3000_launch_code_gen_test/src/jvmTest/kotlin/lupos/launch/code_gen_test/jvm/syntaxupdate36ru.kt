@@ -18,13 +18,11 @@ package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdate36ru {
     internal val query = File("src/jvmTest/resources/syntaxupdate36ru.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `syntaxupdate36ru}`() {
         val instance = LuposdateEndpoint.initialize()

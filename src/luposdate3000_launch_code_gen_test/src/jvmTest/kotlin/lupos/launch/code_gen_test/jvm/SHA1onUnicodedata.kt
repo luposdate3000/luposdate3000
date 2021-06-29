@@ -20,7 +20,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -38,7 +37,6 @@ public class SHA1onUnicodedata {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/SHA1onUnicodedata.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `SHA1 on Unicode data}`() {
         val instance = LuposdateEndpoint.initialize()

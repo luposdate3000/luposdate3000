@@ -20,7 +20,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -29,7 +28,6 @@ public class constructwhere04CONSTRUCTWHERE {
     internal val targetType = ".ttl"
     internal val query = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `constructwhere04  CONSTRUCT WHERE}`() {
         val instance = LuposdateEndpoint.initialize()

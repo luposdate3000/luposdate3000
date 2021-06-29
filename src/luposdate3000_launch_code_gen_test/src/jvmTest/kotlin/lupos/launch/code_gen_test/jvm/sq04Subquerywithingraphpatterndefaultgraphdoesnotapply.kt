@@ -41,7 +41,7 @@ public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sq04Subquerywithingraphpatterndefaultgraphdoesnotapply.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `sq04  Subquery within graph pattern default graph does not apply}`() {
         val instance = LuposdateEndpoint.initialize()

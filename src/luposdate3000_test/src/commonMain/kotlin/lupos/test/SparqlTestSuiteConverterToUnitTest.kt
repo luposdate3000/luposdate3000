@@ -608,8 +608,32 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "sq06Subquerywithgraphpatternfromnamedapplies" to "using not implemented feature",
         "sq10Subquerywithexists" to "using not implemented feature",
         "sq08Subquerywithaggregate" to "using not implemented feature",
+        "sq01Subquerywithingraphpattern" to "using not implemented feature",
+        "synppincollection" to "using not implemented feature",
+        "sq05Subquerywithingraphpatternfromnamedapplies" to "using not implemented feature",
+        "syntaxoneof03rq" to "using not implemented feature",
+        "pp07Pathwithonegraph" to "using not implemented feature",
+        "sq07Subquerywithfrom" to "using not implemented feature",
+        "pp06Pathwithtwographs" to "using not implemented feature",
+        "syntaxaggregate14rq" to "using not implemented feature",
+        "sq04Subquerywithingraphpatterndefaultgraphdoesnotapply" to "using not implemented feature",
+        "sq03Subquerywithingraphpatterngraphvariableisnotbound" to "using not implemented feature",
+        "syntaxpropertyPaths01rq" to "using not implemented feature",
+        "sq02Subquerywithingraphpatterngraphvariableisbound" to "using not implemented feature",
+        "syntaxaggregate13rq" to "using not implemented feature",
+        "pp34NamedGraph1" to "using not implemented feature",
+        "pp35NamedGraph2" to "using not implemented feature",
+        "syntaxselectexpr04rq" to "using not implemented feature",
+        "syntaxaggregate15rq" to "using not implemented feature",
     )
-    private val ignoreListDueToBugs = mapOf(
+    private val ignoreListDueToBugsResolveLater = mapOf(
+        "csv03CSVResultFormat" to "Bug in CSV-Parser",
+        "SHA256onUnicodedata" to "Bug in SHA256-Function",
+"constructwhere04CONSTRUCTWHERE" to "Bug in SparqlTestSuiteConverterToUnitTest",
+"syntaxconstructwhere02rq" to "Bug in SparqlTestSuiteConverterToUnitTest",
+    )
+    private val ignoreListDueToBugs = mapOf<String, String>()
+    private val ignoreListDueToBugs2 = mapOf(
         "ADD1" to "Bug",
         "ADD2" to "Bug",
         "ADD3" to "Bug",
@@ -753,7 +777,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "COUNT6" to "Bug",
         "COUNT7" to "Bug",
         "csv01CSVResultFormat" to "Bug",
-        "csv03CSVResultFormat" to "Bug in CSV-Parser",
         "cvs02CSVResultFormat" to "Bug",
         "DELETEINSERT1" to "Bug",
         "DELETEINSERT1b" to "Bug",
@@ -807,7 +830,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "Reuseaprojectexpressionvariableinselect" to "Bug",
         "SERVICEtest7" to "Bug",
         "SHA1onUnicodedata" to "Bug",
-        "SHA256onUnicodedata" to "Bug in SHA256-Function",
         "simple1" to "Bug",
         "simple2" to "Bug",
         "simple3" to "Bug",
@@ -851,7 +873,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         "TIMEZONE" to "Bug",
         "TZ" to "Bug",
     )
-    private val ignoreList = ignoreListDueToTooSlow + ignoreListDueToNotImplemented + ignoreListDueToBugs
+    private val ignoreList = ignoreListDueToTooSlow + ignoreListDueToNotImplemented + ignoreListDueToBugs + ignoreListDueToBugsResolveLater
     override fun parseSPARQLAndEvaluate( //
         executeJena: Boolean,
         testName: String, //

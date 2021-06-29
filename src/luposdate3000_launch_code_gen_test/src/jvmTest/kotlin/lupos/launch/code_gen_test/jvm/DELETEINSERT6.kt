@@ -18,14 +18,12 @@ package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class DELETEINSERT6 {
     internal val query = File("src/jvmTest/resources/DELETEINSERT6.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `DELETE INSERT 6}`() {
         val instance = LuposdateEndpoint.initialize()

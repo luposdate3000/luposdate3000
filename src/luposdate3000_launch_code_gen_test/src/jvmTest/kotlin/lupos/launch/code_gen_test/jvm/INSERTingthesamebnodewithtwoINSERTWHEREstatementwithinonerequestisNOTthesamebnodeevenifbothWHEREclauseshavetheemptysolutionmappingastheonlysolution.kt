@@ -22,7 +22,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -50,7 +49,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     )
     internal val query = File("src/jvmTest/resources/INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnodeevenifbothWHEREclauseshavetheemptysolutionmappingastheonlysolution.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution}`() {
         val instance = LuposdateEndpoint.initialize()

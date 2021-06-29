@@ -41,7 +41,7 @@ public class pp06Pathwithtwographs {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/pp06Pathwithtwographs.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp06 Path with two graphs}`() {
         val instance = LuposdateEndpoint.initialize()

@@ -20,7 +20,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -38,7 +37,6 @@ public class COUNT6 {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/COUNT6.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `COUNT 6}`() {
         val instance = LuposdateEndpoint.initialize()

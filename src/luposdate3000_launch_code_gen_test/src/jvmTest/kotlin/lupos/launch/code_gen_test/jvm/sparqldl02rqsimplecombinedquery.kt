@@ -20,7 +20,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -38,7 +37,6 @@ public class sparqldl02rqsimplecombinedquery {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sparqldl02rqsimplecombinedquery.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl02rq simple combined query}`() {
         val instance = LuposdateEndpoint.initialize()

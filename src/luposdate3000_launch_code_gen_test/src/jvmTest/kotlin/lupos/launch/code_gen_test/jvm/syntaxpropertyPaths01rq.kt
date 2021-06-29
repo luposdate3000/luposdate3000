@@ -24,7 +24,7 @@ import kotlin.test.Test
 public class syntaxpropertyPaths01rq {
     internal val query = File("src/jvmTest/resources/syntaxpropertyPaths01rq.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `syntaxpropertyPaths01rq}`() {
         val instance = LuposdateEndpoint.initialize()

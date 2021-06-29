@@ -20,7 +20,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -38,7 +37,6 @@ public class MedicaltemporalproximitybyexclusionNOTEXISTS {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/MedicaltemporalproximitybyexclusionNOTEXISTS.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `Medical temporal proximity by exclusion NOT EXISTS}`() {
         val instance = LuposdateEndpoint.initialize()

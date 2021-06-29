@@ -38,7 +38,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sq05Subquerywithingraphpatternfromnamedapplies.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `sq05  Subquery within graph pattern from named applies}`() {
         val instance = LuposdateEndpoint.initialize()

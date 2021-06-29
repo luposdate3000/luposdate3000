@@ -22,7 +22,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -53,7 +52,6 @@ public class ADD7 {
     )
     internal val query = File("src/jvmTest/resources/ADD7.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `ADD 7}`() {
         val instance = LuposdateEndpoint.initialize()

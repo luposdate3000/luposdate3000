@@ -20,7 +20,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -38,7 +37,6 @@ public class csv01CSVResultFormat {
     internal val targetType = ".csv"
     internal val query = File("src/jvmTest/resources/csv01CSVResultFormat.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `csv01  CSV Result Format}`() {
         val instance = LuposdateEndpoint.initialize()

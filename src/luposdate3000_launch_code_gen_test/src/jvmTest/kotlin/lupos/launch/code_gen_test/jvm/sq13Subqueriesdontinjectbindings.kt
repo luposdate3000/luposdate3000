@@ -20,7 +20,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -38,7 +37,6 @@ public class sq13Subqueriesdontinjectbindings {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sq13Subqueriesdontinjectbindings.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `sq13  Subqueries dont inject bindings}`() {
         val instance = LuposdateEndpoint.initialize()

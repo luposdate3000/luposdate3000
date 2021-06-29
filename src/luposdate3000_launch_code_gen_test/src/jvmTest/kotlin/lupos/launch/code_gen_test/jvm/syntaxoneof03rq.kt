@@ -24,7 +24,7 @@ import kotlin.test.Test
 public class syntaxoneof03rq {
     internal val query = File("src/jvmTest/resources/syntaxoneof03rq.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `syntaxoneof03rq}`() {
         val instance = LuposdateEndpoint.initialize()

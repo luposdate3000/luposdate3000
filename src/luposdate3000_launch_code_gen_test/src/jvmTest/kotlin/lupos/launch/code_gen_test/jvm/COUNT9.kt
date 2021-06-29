@@ -18,14 +18,12 @@ package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class COUNT9 {
     internal val query = File("src/jvmTest/resources/COUNT9.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `COUNT 9}`() {
         val instance = LuposdateEndpoint.initialize()

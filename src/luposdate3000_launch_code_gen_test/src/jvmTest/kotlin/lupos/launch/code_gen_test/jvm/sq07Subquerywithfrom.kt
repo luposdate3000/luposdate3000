@@ -38,7 +38,7 @@ public class sq07Subquerywithfrom {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sq07Subquerywithfrom.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `sq07  Subquery with from }`() {
         val instance = LuposdateEndpoint.initialize()

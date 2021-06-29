@@ -44,7 +44,7 @@ public class pp35NamedGraph2 {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/pp35NamedGraph2.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp35 Named Graph 2}`() {
         val instance = LuposdateEndpoint.initialize()

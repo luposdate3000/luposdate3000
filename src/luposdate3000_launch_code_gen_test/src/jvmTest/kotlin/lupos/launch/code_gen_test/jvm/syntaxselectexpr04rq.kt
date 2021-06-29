@@ -24,7 +24,7 @@ import kotlin.test.Test
 public class syntaxselectexpr04rq {
     internal val query = File("src/jvmTest/resources/syntaxselectexpr04rq.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `syntaxselectexpr04rq}`() {
         val instance = LuposdateEndpoint.initialize()

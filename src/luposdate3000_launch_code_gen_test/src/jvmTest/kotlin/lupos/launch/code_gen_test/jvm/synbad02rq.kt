@@ -18,14 +18,12 @@ package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbad02rq {
     internal val query = File("src/jvmTest/resources/synbad02rq.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `synbad02rq}`() {
         val instance = LuposdateEndpoint.initialize()

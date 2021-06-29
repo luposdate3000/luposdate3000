@@ -22,7 +22,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -59,7 +58,6 @@ public class CLEARALL {
     )
     internal val query = File("src/jvmTest/resources/CLEARALL.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `CLEAR ALL}`() {
         val instance = LuposdateEndpoint.initialize()

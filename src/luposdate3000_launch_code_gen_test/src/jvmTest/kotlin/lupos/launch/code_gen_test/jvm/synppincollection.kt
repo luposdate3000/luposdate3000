@@ -24,7 +24,7 @@ import kotlin.test.Test
 public class synppincollection {
     internal val query = File("src/jvmTest/resources/synppincollection.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `synppincollection}`() {
         val instance = LuposdateEndpoint.initialize()

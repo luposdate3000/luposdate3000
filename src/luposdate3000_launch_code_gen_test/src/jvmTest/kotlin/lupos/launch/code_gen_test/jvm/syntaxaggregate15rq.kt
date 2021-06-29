@@ -24,7 +24,7 @@ import kotlin.test.Test
 public class syntaxaggregate15rq {
     internal val query = File("src/jvmTest/resources/syntaxaggregate15rq.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `syntaxaggregate15rq}`() {
         val instance = LuposdateEndpoint.initialize()

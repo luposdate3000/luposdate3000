@@ -22,7 +22,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -56,7 +55,6 @@ public class DROPGRAPH {
     )
     internal val query = File("src/jvmTest/resources/DROPGRAPH.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `DROP GRAPH}`() {
         val instance = LuposdateEndpoint.initialize()

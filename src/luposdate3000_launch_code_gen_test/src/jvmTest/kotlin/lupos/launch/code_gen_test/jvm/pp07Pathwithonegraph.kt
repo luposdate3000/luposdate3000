@@ -38,7 +38,7 @@ public class pp07Pathwithonegraph {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/pp07Pathwithonegraph.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp07 Path with one graph}`() {
         val instance = LuposdateEndpoint.initialize()

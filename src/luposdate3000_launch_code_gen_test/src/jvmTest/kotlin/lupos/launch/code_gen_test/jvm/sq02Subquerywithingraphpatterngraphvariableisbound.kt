@@ -38,7 +38,7 @@ public class sq02Subquerywithingraphpatterngraphvariableisbound {
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sq02Subquerywithingraphpatterngraphvariableisbound.query").readAsString()
 
-    @Ignore // Reason: >Bug<
+    @Ignore // Reason: >using not implemented feature<
     @Test
     fun `sq02  Subquery within graph pattern graph variable is bound}`() {
         val instance = LuposdateEndpoint.initialize()

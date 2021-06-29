@@ -22,7 +22,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -56,7 +55,6 @@ public class DROPDEFAULT {
     )
     internal val query = File("src/jvmTest/resources/DROPDEFAULT.query").readAsString()
 
-    @Ignore // Reason: >Bug<
     @Test
     fun `DROP DEFAULT}`() {
         val instance = LuposdateEndpoint.initialize()
