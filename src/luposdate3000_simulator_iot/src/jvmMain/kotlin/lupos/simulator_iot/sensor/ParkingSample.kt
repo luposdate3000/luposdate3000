@@ -15,7 +15,7 @@ internal class ParkingSample(
     }
 
     override fun toString(): String {
-        return "ParkingSample(sampleID=$sampleID, sensorID=$sensorID, sampleTime='$sampleTime', isOccupied=$isOccupied, parkingSpotID=$parkingSpotID, area='$area')"
+        return "ParkingSample"
     }
 
 
