@@ -48,8 +48,52 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
     internal val bufferManager: IBufferManager
 
+    @JvmField public var debugSortOrder: IntArray = intArrayOf()
+
     @JvmField
     internal val rootPageID: Int
+
+    @JvmField
+    internal val nodeManager: NodeManager
+
+    @JvmField
+    internal var firstLeaf_: Int = NodeManager.nodeNullPointer
+
+    @JvmField
+    internal var root_: Int = NodeManager.nodeNullPointer
+
+    @JvmField
+    internal var countPrimary_: Int = 0
+
+    @JvmField
+    internal var distinctPrimary_: Int = 0
+
+    @JvmField
+    internal var rootNode: ByteArray? = null
+
+    @JvmField
+    internal var pendingImport: MutableList<Int?> = mutableListOf()
+
+    @JvmField
+    internal var lock = MyReadWriteLock()
+
+    @JvmField
+    internal var cachedHistograms1Size: Int = 0
+
+    @JvmField
+    internal var cachedHistograms1Cursor: Int = 0
+
+    @JvmField
+    internal val cachedHistograms1: IntArray = IntArray(300)
+
+    @JvmField
+    internal var cachedHistograms2Size: Int = 0
+
+    @JvmField
+    internal var cachedHistograms2Cursor: Int = 0
+
+    @JvmField
+    internal val cachedHistograms2: IntArray = IntArray(400)
 
     public override fun getRootPageID(): Int = rootPageID
 
@@ -89,12 +133,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:91", rootPageID)
     }
 
-    @JvmField
-    internal val nodeManager: NodeManager
-
-    @JvmField
-    internal var firstLeaf_: Int = NodeManager.nodeNullPointer
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setFirstLeaf(value: Int) {
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:103", rootPageID)
@@ -103,9 +141,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         bufferManager.flushPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:106", rootPageID)
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:107", rootPageID)
     }
-
-    @JvmField
-    internal var root_: Int = NodeManager.nodeNullPointer
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setRoot(value: Int) {
@@ -116,9 +151,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:119", rootPageID)
     }
 
-    @JvmField
-    internal var countPrimary_: Int = 0
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setCountPrimary(value: Int) {
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:127", rootPageID)
@@ -127,9 +159,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         bufferManager.flushPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:130", rootPageID)
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:131", rootPageID)
     }
-
-    @JvmField
-    internal var distinctPrimary_: Int = 0
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setDistinctPrimary(value: Int) {
@@ -140,33 +169,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:143", rootPageID)
     }
 
-    @JvmField
-    internal var rootNode: ByteArray? = null
-
-    @JvmField
-    internal var pendingImport: MutableList<Int?> = mutableListOf()
-
-    @JvmField
-    internal var lock = MyReadWriteLock()
-
-    @JvmField
-    internal var cachedHistograms1Size: Int = 0
-
-    @JvmField
-    internal var cachedHistograms1Cursor: Int = 0
-
-    @JvmField
-    internal val cachedHistograms1: IntArray = IntArray(300)
-
-    @JvmField
-    internal var cachedHistograms2Size: Int = 0
-
-    @JvmField
-    internal var cachedHistograms2Cursor: Int = 0
-
-    @JvmField
-    internal val cachedHistograms2: IntArray = IntArray(400)
-
     @Suppress("NOTHING_TO_INLINE")
     private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
@@ -174,8 +176,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         cachedHistograms1Cursor = 0
         cachedHistograms2Cursor = 0
     }
-
-    @JvmField public var debugSortOrder: IntArray = intArrayOf()
 
     private fun checkForCachedHistogram(filter: IntArray): Pair<Int, Int>? {
         var res: Pair<Int, Int>? = null
@@ -592,83 +592,16 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         setDistinctPrimary(iterator.distinct)
         clearCachedHistogram()
     }
-
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
-        SanityCheck {
-            if (debugSortOrder.size == 0) {
-                debugSortOrder = order
-            }
-            for (i in 0 until 3) {
-                SanityCheck.check { order[i] == debugSortOrder[i] }
-            }
-            if (dataSize> 0) {
-                SanityCheck.check_is_S(data[0])
-                SanityCheck.check_is_P(data[1])
-                SanityCheck.check_is_O(data[2])
-            }
-        }
-        flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], dataSize, order)
-        var iteratorStore2: TripleIterator? = null
-        if (firstLeaf_ == NodeManager.nodeNullPointer) {
-            iteratorStore2 = EmptyIterator()
-        } else {
-            nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:611", firstLeaf_) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf_, nodeManager)
-            }
-        }
-        val iteratorStore = iteratorStore2!!
-        val iterator = MergeIterator(iteratorStore, iteratorImport)
-        val oldroot = root_
-        rootNode = null
-        setRoot(NodeManager.nodeNullPointer)
-        setFirstLeaf(NodeManager.nodeNullPointer)
-        rebuildData(iterator)
-        if (oldroot != NodeManager.nodeNullPointer) {
-            nodeManager.freeNodeAndAllRelated("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:623", oldroot)
-        }
-        lock.writeUnlock()
+        insertAsBulkSorted(d[0], order, dataSize)
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
-        SanityCheck {
-            if (debugSortOrder.size == 0) {
-                debugSortOrder = order
-            }
-            for (i in 0 until 3) {
-                SanityCheck.check { order[i] == debugSortOrder[i] }
-            }
-            if (dataSize> 0) {
-                SanityCheck.check_is_S(data[0])
-                SanityCheck.check_is_P(data[1])
-                SanityCheck.check_is_O(data[2])
-            }
-        }
-        flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], dataSize, order)
-        var iteratorStore2: TripleIterator? = null
-        if (firstLeaf_ == NodeManager.nodeNullPointer) {
-            iteratorStore2 = EmptyIterator()
-        } else {
-            nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:642", firstLeaf_) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf_, nodeManager)
-            }
-        }
-        val iteratorStore = iteratorStore2!!
-        val iterator = MinusIterator(iteratorStore, iteratorImport)
-        val oldroot = root_
-        rootNode = null
-        setRoot(NodeManager.nodeNullPointer)
-        setFirstLeaf(NodeManager.nodeNullPointer)
-        rebuildData(iterator)
-        if (oldroot != NodeManager.nodeNullPointer) {
-            nodeManager.freeNodeAndAllRelated("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:654", oldroot)
-        }
-        lock.writeUnlock()
+        removeAsBulkSorted(d[0], order, dataSize)
     }
 
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
@@ -685,8 +618,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 SanityCheck.check_is_O(data[2])
             }
         }
-        flushContinueWithWriteLock()
         val iteratorImport = BulkImportIterator(data, dataSize, order)
+        flushContinueWithWriteLock()
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf_ == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()

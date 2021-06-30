@@ -27,7 +27,9 @@ import kotlin.jvm.JvmField
 
 public abstract class ADictionary(
     @JvmField
-    public val instance: Luposdate3000Instance
+    public val instance: Luposdate3000Instance,
+    @JvmField
+    internal var isLocal: Boolean,
 ) : IDictionary {
     @JvmField
     internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
@@ -35,8 +37,6 @@ public abstract class ADictionary(
     @JvmField
     internal val bnodeMapLocal = mutableMapOf<String, Int>()
 
-    @JvmField
-    internal var isLocal: Boolean = false
     public override fun createNewBNode(s: String): Int {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var res = bnodeMapLocal[s]
@@ -57,7 +57,7 @@ public abstract class ADictionary(
     override fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
 
     public override fun isLocalValue(value: Int): Boolean {
-        SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
+        SanityCheck.check({ isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
         return (value and flagLocal) == flagLocal
     }
 

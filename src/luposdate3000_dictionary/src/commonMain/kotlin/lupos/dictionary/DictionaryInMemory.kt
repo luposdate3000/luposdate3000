@@ -26,10 +26,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-public class DictionaryInMemory internal constructor(isLocal: Boolean, instance: Luposdate3000Instance) : ADictionary(instance) {
-    init {
-        this.isLocal = isLocal
-    }
+public class DictionaryInMemory internal constructor(isLocal: Boolean, instance: Luposdate3000Instance) : ADictionary(instance, isLocal) {
 
     @JvmField
     internal val uuid = UUID_Counter.getNextUUID()

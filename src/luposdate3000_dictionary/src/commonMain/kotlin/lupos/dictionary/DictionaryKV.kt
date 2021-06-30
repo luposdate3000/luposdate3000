@@ -38,7 +38,7 @@ public class DictionaryKV internal constructor(
     internal val rootPageID: Int,
     initFromRootPage: Boolean,
     instance: Luposdate3000Instance
-) : ADictionary(instance) {
+) : ADictionary(instance, false) {
     @JvmField
     internal val bufferManager: IBufferManager = bufferManager
 
@@ -100,7 +100,6 @@ public class DictionaryKV internal constructor(
         iter.close()
     }
     init {
-        isLocal = false
         rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:70", rootPageID)
         var kvPage: Int
         var vkPage: Int

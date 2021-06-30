@@ -63,7 +63,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             instance.bufferManager = BufferManager(instance)
             if (isLocal) {
                 instance.nodeGlobalDictionary?.close()
-                instance.nodeGlobalDictionary = object : ADictionary(instance) {
+                instance.nodeGlobalDictionary = object : ADictionary(instance, false) {
                     override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
                     override fun createNewUUID(): Int = TODO()
                     override fun close() {}

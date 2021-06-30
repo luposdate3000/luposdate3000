@@ -25,7 +25,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance) : ADictionary(instance) {
+internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance) : ADictionary(instance, true) {
     override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
     override fun isInmemoryOnly(): Boolean = true
     override fun delete() {
