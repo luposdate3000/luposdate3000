@@ -17,7 +17,7 @@
             "name": "park1",
             "dataSink": "Fog",
             "rateInSec": 60,
-            "maxSamples": 0
+            "maxSamples": 4
         }
     ],
     "deviceType": [{
