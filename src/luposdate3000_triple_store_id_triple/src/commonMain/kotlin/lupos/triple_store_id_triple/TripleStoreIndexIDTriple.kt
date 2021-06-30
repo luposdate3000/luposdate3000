@@ -397,44 +397,27 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     private fun importHelper(iterator: TripleIterator): Int {
-        println("importHelper.a")
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
-        println("importHelper.b")
         nodeManager.allocateNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:401") { n, i ->
             res = i
             node2 = n
-            println("importHelper.c")
         }
-        println("importHelper.d")
         var nodeid = res
-        println("importHelper.e")
         var node = node2!!
-        println("importHelper.f")
         NodeLeaf.initializeWith(node, iterator)
-        println("importHelper.g")
         while (iterator.hasNext()) {
-            println("importHelper.h")
             nodeManager.allocateNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:409") { n, i ->
-                println("importHelper.i")
                 NodeShared.setNextNode(node, i)
-                println("importHelper.j")
                 nodeManager.flushNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:411", nodeid)
-                println("importHelper.k")
                 nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:412", nodeid)
-                println("importHelper.l")
                 nodeid = i
                 node = n
             }
-            println("importHelper.m")
             NodeLeaf.initializeWith(node, iterator)
-            println("importHelper.n")
         }
-        println("importHelper.o")
         nodeManager.flushNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:418", nodeid)
-        println("importHelper.p")
         nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:419", nodeid)
-        println("importHelper.q")
         return res
     }
 
