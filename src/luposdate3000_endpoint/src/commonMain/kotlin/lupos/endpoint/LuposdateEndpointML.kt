@@ -283,7 +283,12 @@ public object LuposdateEndpointML {
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_b")
-    /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean, joinOrder: Int = 0): IOPBase {
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphB(
+        instance: Luposdate3000Instance,
+        query: String,
+        logOperatorGraph: Boolean,
+        joinOrder: Int = 0
+    ): IOPBase {
         val q = Query(instance)
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }

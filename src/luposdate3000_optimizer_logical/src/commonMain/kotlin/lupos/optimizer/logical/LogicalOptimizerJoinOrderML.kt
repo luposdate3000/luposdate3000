@@ -174,12 +174,12 @@ public class LogicalOptimizerJoinOrderML(query: Query, private val joinOrder: In
                 if (allChilds2.size > 2) {
                     var result: IOPBase? = null
                     if (result == null) {
-                        val allChilds3 = clusterizeChildren(allChilds2)
-                        val allChilds4 = mutableListOf<IOPBase>()
-                        for (child in allChilds3) {
-                            allChilds4.add(applyOptimisation(child, node))
-                        }
-                        result = applyOptimisation(allChilds4, node)
+//                        val allChilds3 = clusterizeChildren(allChilds2)
+//                        val allChilds4 = mutableListOf<IOPBase>()
+//                        for (child in allChilds3) {
+//                            allChilds4.add(applyOptimisation(child, node))
+//                        }
+//                        result = applyOptimisation(allChilds4, node)
                         result = buildJoinOrder(allChilds2, node, joinOrder)
                     }
                     if (result != res) {

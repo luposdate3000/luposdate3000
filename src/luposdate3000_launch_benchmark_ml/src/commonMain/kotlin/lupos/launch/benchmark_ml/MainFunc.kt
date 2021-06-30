@@ -22,6 +22,7 @@ import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import java.io.FileOutputStream
 
 internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout
@@ -34,7 +35,10 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         HttpEndpointLauncher.start(instance)
     }
     // Cast input string to internal data types
-    val queryFiles2 = queryFiles.split(";")
+    val bufferedReader = java.io.File(queryFiles).bufferedReader()
+    val inputString = bufferedReader.use { it.readText() }
+
+    val queryFiles2 = inputString.split(";")
     val minimumTime2 = minimumTime.toDouble()
     val numberOfTriples2 = numberOfTriples.toLong()
     var optimizerMode2: OptimizerMode
@@ -51,6 +55,21 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     LuposdateEndpointML.importTurtleFile(instance, datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
     //
+
+    val fileName = "$datasourceFiles.dictionaryML"
+    var dictionaryFile = java.io.File(fileName)
+
+//    val buffer = ByteArrayWrapper()
+//    instance.nodeGlobalDictionary?.forEachValue(buffer) { id -> println("$id -> ${DictionaryHelper.byteArrayToSparql(buffer)}") }
+
+//    val buffer = ByteArrayWrapper()
+//    var text = ""
+//    dictionaryFile.printWriter().use { out ->
+//        instance.nodeGlobalDictionary?.forEachValue(buffer) {
+//            out.println("${DictionaryHelper.byteArrayToSparql(buffer)}")
+//        }
+//    }
+
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples2,0,1,${numberOfTriples2 * 1000.0},${1.0 / time}")
     val groupSize = IntArray(queryFiles2.size) { 1 } // int array with a 1 for every input query file, used to measure time
 
@@ -85,21 +104,26 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         }
     }
 
+    val fileName2 = "/home/a/lupos/luposdate-testdata/sp2b/1024/complete.n3.bench"
+    var benchFile = java.io.File(fileName2)
+    benchFile.printWriter().use { it ->
+        it.print("")
+    }
+
     // Benchmark without Optimizer
     if (optimizerMode2 != OptimizerMode.OnlyWith) { // All or OnlyWithout
-        for (queryFileIdx in queryFiles2.indices) {
-            for (joinOrder in 0..2) {
+        for (queryFileIdx in queryFiles2.indices) { // for every query
+            for (joinOrder in 0..2) { // for every permutation
                 // Read in query file
                 val queryFile = queryFiles2[queryFileIdx]
                 val query = File(queryFile).readAsString()
                 // Optimize query and convert to operatorgraph
                 val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphB(instance, query, true, joinOrder)
                 val writer = MyPrintWriter(false)
-                // TODO: give back every permutation as operatorgraph
-
-                // val buffer = ByteArrayWrapper()
-                // instance.nodeGlobalDictionary?.forEachValue(buffer) { id ->
-                // println("$id -> ${DictionaryHelper.byteArrayToSparql(buffer)}") }
+//                for (a in node.getChildren()) {
+//                    if (a is lupos.triple_store_manager.POPTripleStoreIterator) {
+//                    }
+//                }
 
                 LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
                 // measure time for executing the query
@@ -123,6 +147,13 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                         break
                     }
                 }
+                FileOutputStream(benchFile, true).bufferedWriter().use { it ->
+                    it.appendLine("$queryFile $joinOrder ${counter / time}")
+                }
+
+//                benchFile.printWriter().use { it ->
+//                    it.println("$queryFile $joinOrder ${counter / time}")
+//                }
                 println("$queryFile,$numberOfTriples2,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
             }
         }
