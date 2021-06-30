@@ -22,35 +22,63 @@ import kotlin.jvm.JvmField
 
 internal actual class MyOutputStream : IMyOutputStream {
     @JvmField
-    val buf4 = ByteArray(4)
+    val buffer: ByteArray
+    var bufferPos = 0
 
     @JvmField
-    internal val it: OutputStream?
+    internal val stream: OutputStream?
 
     internal constructor(it: OutputStream) {
-        this.it = it
+        stream = it
+        buffer = ByteArray(8192)
     }
 
     internal actual constructor() {
-        it = null
+        stream = null
+        buffer = ByteArray(8192)
     }
 
     public actual override fun writeInt(value: Int) {
-        ByteArrayHelper.writeInt4(buf4, 0, value)
-        it!!.write(buf4, 0, 4)
+        if (bufferPos + 4> buffer.size) {
+            localFlush()
+        }
+        ByteArrayHelper.writeInt4(buffer, bufferPos, value)
+        bufferPos += 4
     }
 
     public actual override fun close() {
-        it!!.flush()
-        it.close()
+        flush()
+        stream!!.close()
+    }
+    private fun localFlush() {
+        if (bufferPos> 0) {
+            stream!!.write(buffer, 0, bufferPos)
+            bufferPos = 0
+        }
+    }
+    public actual override fun flush() {
+        localFlush()
+        stream!!.flush()
     }
 
-    public actual override fun flush(): Unit = it!!.flush()
-
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun _write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
-    public actual override fun write(buf: ByteArray): Unit = _write(buf, 0, buf.size)
-    public actual override fun write(buf: ByteArray, len: Int): Unit = _write(buf, 0, len)
+    internal inline fun _write(buf: ByteArray, off: Int, len: Int) {
+        if (bufferPos + len> buffer.size) {
+            localFlush()
+        }
+        if (len> buffer.size) {
+            stream!!.write(buf, off, len)
+        } else {
+            buf.copyInto(buffer, bufferPos, off, off + len)
+            bufferPos += len
+        }
+    }
+    public actual override fun write(buf: ByteArray) {
+        _write(buf, 0, buf.size)
+    }
+    public actual override fun write(buf: ByteArray, len: Int) {
+        _write(buf, 0, len)
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun _print(x: String) {
