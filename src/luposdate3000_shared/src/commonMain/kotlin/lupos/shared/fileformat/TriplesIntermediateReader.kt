@@ -30,6 +30,10 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
     private val i2: Int
     init {
         streamIn = File("$filename$filenameEnding").openInputStream()
+        val version = streamIn!!.readInt()
+        if (version != TriplesIntermediate.version) {
+            throw Exception("incompatible file format version in '$filename'. Expected ${TriplesIntermediate.version}, but found $version")
+        }
         writeOrder = streamIn!!.readInt()
         i0 = EIndexPatternHelper.tripleIndicees[writeOrder][0]
         i1 = EIndexPatternHelper.tripleIndicees[writeOrder][1]

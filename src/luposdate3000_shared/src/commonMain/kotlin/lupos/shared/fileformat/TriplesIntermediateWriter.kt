@@ -45,6 +45,7 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     public constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
         this.writeOrder = writeOrder
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
+        streamOut!!.writeInt(TriplesIntermediate.version)
         streamOut!!.writeInt(writeOrder)
     }
 

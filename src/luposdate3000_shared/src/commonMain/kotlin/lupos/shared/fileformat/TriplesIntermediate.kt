@@ -31,6 +31,7 @@ public abstract class TriplesIntermediate(@JvmField internal val filename: Strin
     public abstract fun close()
 
     public companion object {
+        internal const val version: Int = 1
         internal const val filenameEnding = ".triples"
         public fun delete(filename: String) {
             File("$filename$filenameEnding").deleteRecursively()

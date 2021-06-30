@@ -21,6 +21,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 public class DictionaryIntermediateWriter : DictionaryIntermediate {
     public constructor(filename: String) : super(filename) {
         streamOut = getFile().openOutputStream(false)
+        streamOut!!.writeInt(DictionaryIntermediate.version)
     }
 
     @Suppress("NOTHING_TO_INLINE")

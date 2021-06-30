@@ -23,6 +23,10 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
         streamIn = getFile().openInputStream()
+        val version = streamIn!!.readInt()
+        if (version != DictionaryIntermediate.version) {
+            throw Exception("incompatible file format version in '$filename'. Expected ${DictionaryIntermediate.version}, but found $version")
+        }
     }
 
     public inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {

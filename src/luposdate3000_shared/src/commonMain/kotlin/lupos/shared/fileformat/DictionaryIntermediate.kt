@@ -34,13 +34,24 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
     }
 
     public companion object {
+        internal val version: Int = 1
         internal const val filenameEnding = ".dictionary"
         internal fun getFile(filename: String): File {
             return File("$filename$filenameEnding")
         }
 
         public fun fileExists(filename: String): Boolean {
-            return getFile(filename).exists()
+            val f = File("$filename$filenameEnding")
+            var res = f.exists()
+            if (res) {
+                val streamIn = f.openInputStream()
+                val version = streamIn.readInt()
+                if (version != TriplesIntermediate.version) {
+                    res = false
+                }
+                streamIn.close()
+            }
+            return res
         }
 
         public fun delete(filename: String) {
