@@ -29,7 +29,7 @@ public class MemoryTableFromCsv : MemoryTableParser {
         val variables = mutableListOf<String>()
         val columns = lines.first().split(",")
         for (variableName in columns) {
-            variables.add(variableName.substring(1, variableName.length))
+            variables.add(variableName)
         }
         val res = MemoryTable(variables.toTypedArray())
         res.query = query
