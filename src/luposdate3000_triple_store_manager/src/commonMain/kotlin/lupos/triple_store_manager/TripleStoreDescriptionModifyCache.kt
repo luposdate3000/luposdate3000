@@ -70,7 +70,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     off = 0
                 }
                 buf[off++] = i
-            } else {
+            } else if (off> 0) {
                 if (mode == EModifyTypeExt.INSERT) {
                     store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                 } else {
@@ -129,7 +129,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     off = 0
                 }
                 buf[off++] = i
-            } else {
+            } else if (off> 0) {
                 if (mode == EModifyTypeExt.INSERT) {
                     store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                 } else {

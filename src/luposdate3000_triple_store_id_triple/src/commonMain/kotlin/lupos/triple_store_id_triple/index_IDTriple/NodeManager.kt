@@ -137,6 +137,38 @@ internal class NodeManager(bufferManager: IBufferManager) {
         }
     }
 
+    /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+    internal inline
+    fun freeAllInner(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.freeAllInner($nodeid) : $call_location" }
+        releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:111", nodeid)
+        freeAllInnerInternal("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:112", nodeid)
+    }
+
+    /*suspend*/ private fun freeAllInnerInternal(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.freeAllInnerInternal($nodeid) : $call_location" }
+        if (nodeid != nodeNullPointer) {
+            var node: ByteArray? = null
+            getNodeAny(
+                "/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:120",
+                nodeid,
+                {
+                },
+                { n ->
+                    node = n
+                }
+            )
+            if (node != null) {
+                NodeInner.forEachChild(node!!) {
+                    freeAllInnerInternal("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:130", it)
+                }
+                freeNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:133", nodeid)
+            } else {
+                releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:111", nodeid)
+            }
+        }
+    }
+
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun freeAllLeaves(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeAllLeaves($nodeid) : $call_location" }
