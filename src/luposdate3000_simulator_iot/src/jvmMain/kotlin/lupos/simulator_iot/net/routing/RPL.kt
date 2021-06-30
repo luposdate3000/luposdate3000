@@ -119,7 +119,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     }
 
     private fun objectiveFunction(pck: NetworkPackage): Int {
-        val link = device.linkManager.getLink(pck.sourceAddress)!!
+        val link = device.linkManager.links[pck.sourceAddress]!!
         val otherRank = (pck.payload as DIO).rank
         return otherRank + link.distanceInMeters
     }
@@ -193,7 +193,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         val strBuilder = StringBuilder()
         val separator = ", "
         for (children in routingTable.getHops()) {
-            val link = device.linkManager.getLink(children)!!
+            val link = device.linkManager.links[children]!!
             strBuilder.append("$link to $children").append(separator)
         }
         if (strBuilder.length >= separator.length) {

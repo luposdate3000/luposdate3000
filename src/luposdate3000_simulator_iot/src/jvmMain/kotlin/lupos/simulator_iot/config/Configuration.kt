@@ -8,7 +8,6 @@ import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.geo.GeoLocation
-import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.MeshNetwork
 import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
@@ -41,22 +40,28 @@ internal object Configuration {
 
     private var deviceNames: MutableList<String> = mutableListOf()
 
+    internal var linker = DeviceLinker()
+
     internal fun parse(jsonObjects: JsonObjects) {
         resetVariables()
-        this.jsonObjects = jsonObjects
-        createSortedLinkTypes()
+        initVariables(jsonObjects)
         createFixedDevices()
         setRootDevice()
         createQuerySenders()
         createFixedLinks()
         createRandomMeshNetworks()
         createRandomStarNetworks()
-        createAvailableLinks()
+        linker.createAvailableLinks(devices)
         createDbDeviceAddresses()
     }
 
     internal fun parse(fileName: String) {
         parse(readJsonFile(fileName))
+    }
+
+    private fun initVariables(jsonObjects: JsonObjects) {
+        this.jsonObjects = jsonObjects
+        linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
     }
 
     private fun resetVariables() {
@@ -68,6 +73,7 @@ internal object Configuration {
         querySenders = mutableListOf()
         dbDeviceCounter = 0
         deviceNames = mutableListOf()
+        linker = DeviceLinker()
     }
 
     internal fun readJsonFile(fileName: String): JsonObjects {
@@ -80,10 +86,6 @@ internal object Configuration {
         entities.addAll(devices)
         entities.addAll(querySenders)
         return entities
-    }
-
-    private fun createSortedLinkTypes() {
-        LinkManager.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
     }
 
     private fun createRandomMeshNetworks() {
@@ -175,7 +177,7 @@ internal object Configuration {
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val leaf = createDevice(deviceType, location, childNameID)
-            root.linkManager.setLinkIfPossible(leaf)
+            linker.linkIfPossible(root, leaf)
             leaf.isStarNetworkChild = true
             starNetwork.children.add(leaf)
         }
@@ -205,7 +207,7 @@ internal object Configuration {
         for (fixedLink in jsonObjects.fixedLink) {
             val a = getNamedDevice(fixedLink.fixedDeviceA)
             val b = getNamedDevice(fixedLink.fixedDeviceB)
-            a.linkManager.setLink(b, fixedLink.dataRateInKbps)
+            linker.link(a, b, fixedLink.dataRateInKbps)
         }
     }
 
@@ -232,7 +234,7 @@ internal object Configuration {
     }
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation, nameIndex: Int): Device {
-        val linkTypes = getLinkTypeIndices(deviceType)
+        val linkTypes = linker.getSortedLinkTypeIndices(deviceType.supportedLinkTypes)
         require(deviceType.performance != 0.0) { "The performance level of a device can not be 0.0 %" }
         val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes, nameIndex)
         val parkingSensor = getParkingSensor(deviceType, device)
@@ -241,14 +243,6 @@ internal object Configuration {
         device.database = database
         devices.add(device)
         return device
-    }
-
-    private fun getLinkTypeIndices(deviceType: DeviceType): IntArray {
-        val list = mutableListOf<LinkType>()
-        for (name in deviceType.supportedLinkTypes)
-            list.add(getLinkTypeByName(name))
-
-        return LinkManager.getSortedLinkTypeIndices(list)
     }
 
     private fun getDeviceTypeByName(typeName: String): DeviceType {
@@ -285,13 +279,6 @@ internal object Configuration {
         return null
     }
 
-    private fun createAvailableLinks() {
-        for (one in devices)
-            for (two in devices)
-                if (!one.isStarNetworkChild && !two.isStarNetworkChild) {
-                    one.linkManager.setLinkIfPossible(two)
-                }
-    }
 
     private fun createDbDeviceAddresses() {
         val addresses = devices.filter { it.hasDatabase() }.map { it.address }

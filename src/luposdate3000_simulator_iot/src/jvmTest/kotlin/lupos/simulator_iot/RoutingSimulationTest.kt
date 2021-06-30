@@ -123,7 +123,7 @@ class RoutingSimulationTest {
         assertEquals(79, querySender.queryCounter)
     }
 
-    @Ignore
+
     @Test
     fun sensorFromStarSendOverMesh() {
         // Send data from one Sensor over Mesh to fixed node

@@ -7,6 +7,7 @@ import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
+import lupos.simulator_iot.net.Link
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
 import lupos.simulator_iot.net.routing.IRoutingProtocol
@@ -21,12 +22,13 @@ internal class Device(
     internal var database: DatabaseAdapter?,
     internal var sensor: ISensor?,
     internal val performance: Double,
-    internal val supportedLinkTypes: IntArray,
+    supportedLinkTypes: IntArray,
     internal val deviceNameID: Int,
 ) : Entity() {
     internal val router: IRoutingProtocol = RPL(this)
-    internal val linkManager: LinkManager = LinkManager(this)
+    internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false
+
 
     internal var processedSensorDataPackages: Long = 0
         private set
