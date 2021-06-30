@@ -13,18 +13,17 @@ If you chose Windows, the compiler is about 25% slower compared to the linux ver
 
 ## Usage and Compilation
 
+You can compile the database in multiple different ways.
+
 You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
 
 [readme intelliJ-IDE](documentation/README-usage-compile-intellij.md)
 
-Or you may choose the commandline mode without IDE, which allows you to use all configurations.
-
-This describes how to compile the database itself (during development).
+Or you may choose the commandline mode without IDE support, which allows you to use all configurations.
 
 [readme-advanced](documentation/README-usage-compile-advanced.md)
 
-
-The compilation of the SPA-Client is described here:
+Or if you want to use the SPA-Client, than the usage is described here:
 
 [readme-spaclient](documentation/README-SPAClient.md)
 
