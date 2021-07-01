@@ -42,11 +42,12 @@ public class constructwhere04CONSTRUCTWHERE {
         val expected0 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err0 = MyPrintWriter()
         if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
-            fail(expected0.toString()+" .. "+actual0.toString()+" .. "+buf_err0.toString()+" .. "+operator0)
+            fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         LuposdateEndpoint.close(instance)
     }
 /*
+val pkg0 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 */
 
 }

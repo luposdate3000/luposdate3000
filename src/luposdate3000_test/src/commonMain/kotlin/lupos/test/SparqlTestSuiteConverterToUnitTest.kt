@@ -944,6 +944,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import kotlin.test.Test")
                 out.println("import kotlin.test.fail")
                 out.println("")
+                val inputGraphIsDefaultGraph = mutableListOf<Boolean>()
+                val outputGraphIsDefaultGraph = mutableListOf<Boolean>()
                 out.println("public class $testCaseName {")
                 if (inputGraphs.size> 0) {
                     out.println("    internal val inputData = arrayOf(")
@@ -954,6 +956,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("    internal val inputGraph = arrayOf(")
                     for ((k, v) in inputGraphs) {
                         out.println("        \"${v.first}\",")
+                        inputGraphIsDefaultGraph.add(v.first == "")
                     }
                     out.println("    )")
                     out.println("    internal val inputType = arrayOf(")
@@ -970,6 +973,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("    )")
                     out.println("    internal val outputGraph = arrayOf(")
                     for ((k, v) in outputGraphs) {
+                        outputGraphIsDefaultGraph.add(v.first == "")
                         out.println("        \"${v.first}\",")
                     }
                     out.println("    )")
@@ -1001,7 +1005,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     distributedTest.appendLine("val pkg$distributedTestCtr = $s")
                     distributedTestCtr++
                     if (distributedTestCtr> 1) {
-                        distributedTest.appendLine("pkg${distributedTestCtr - 1}.onFinish = pkg$distributedTestCtr")
+                        distributedTest.appendLine("pkg${distributedTestCtr - 2}.onFinish = pkg${distributedTestCtr - 1}")
                     }
                 }
                 var localCounter = 0
@@ -1022,21 +1026,25 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("            fail(expected$counter.toString() + \" .. \" + actual$counter.toString() + \" .. \" + buf_err$counter.toString() + \" .. \" + operator$counter)")
                     out.println("        }")
                 }
-fun myVerifyGraph(counter: Int, data: String, type: String, graph: String,query:String?){
-if(query==null){
-                    myActualDataOperatorGraph(c, graph)
-}
-                    myActualDataEvaluate(c)
-myExpectedData(c, data,type)
-                    myCompareData(c)
-val q:String
-if(query==null){
-q="if($graph==\"\"){SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\"}else{\"SELECT ?s ?p ?o WHERE { GRAPH \${$graph} { ?s ?p ?o . }}\"}"
-}else{
-q=query
-}
- appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
-}
+                fun myVerifyGraph(counter: Int, data: String, type: String, graph: String, query: String?, isDefaultGraph: Boolean) {
+                    if (query == null) {
+                        myActualDataOperatorGraph(counter, graph)
+                    }
+                    myActualDataEvaluate(counter)
+                    myExpectedData(counter, data, type)
+                    myCompareData(counter)
+                    val q: String
+                    if (query == null) {
+                        if (isDefaultGraph) {
+                            q = "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
+                        } else {
+                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH \${$graph} { ?s ?p ?o . }}\""
+                        }
+                    } else {
+                        q = query
+                    }
+                    appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
+                }
                 distributedTest.appendLine("/*")
                 out.println("    @Test")
                 out.println("    fun `$testCaseName2}`() {")
@@ -1053,7 +1061,7 @@ q=query
                 }
                 for (i in 0 until inputGraphs.size) {
                     val c = localCounter++
-                    myVerifyGraph(c,"inputData[$i]", "inputType[$i]","inputGraph[$i]",null)
+                    myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i])
                 }
                 val counter = localCounter++
                 val evaluateIt = outputGraphs.size> 0 || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
@@ -1064,10 +1072,11 @@ q=query
                         out.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
                     }
                     if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-myVerifyGraph(counter,"targetData", "targetType","",query)
+                        myVerifyGraph(counter, "targetData", "targetType", "", "query", false)
                     } else {
                         if (evaluateIt) {
-                            out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
+                            appendDistributedTest("MySimulatorTestingExecute(query)")
+                            out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                         }
                     }
                 } else {
@@ -1087,7 +1096,7 @@ myVerifyGraph(counter,"targetData", "targetType","",query)
                 }
                 for (i in 0 until outputGraphs.size) {
                     val c = localCounter++
-                    myVerifyGraph(c,"outputData[$i]", "outputType[$i]","outputGraph[$i]",null)
+                    myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i])
                 }
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")

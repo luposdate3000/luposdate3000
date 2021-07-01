@@ -108,6 +108,9 @@ public class DatabaseHandle : IDatabase {
     private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
         receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, pck.expectedResult)
     }
+    private fun receive(pck: MySimulatorTestingExecute) {
+        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, null)
+    }
 
     private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?) {
         val queryString = pck.query.decodeToString()
@@ -364,6 +367,7 @@ public class DatabaseHandle : IDatabase {
         when (pck) {
             is MySimulatorTestingImportPackage -> receive(pck)
             is MySimulatorTestingCompareGraphPackage -> receive(pck)
+            is MySimulatorTestingExecute -> receive(pck)
             is QueryPackage -> receive(pck, null, null)
             is MySimulatorAbstractPackage -> receive(pck)
             is MySimulatorOperatorGraphPackage -> receive(pck)
