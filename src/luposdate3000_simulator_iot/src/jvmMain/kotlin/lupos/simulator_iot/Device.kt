@@ -64,6 +64,7 @@ internal class Device(
         val pck = data as NetworkPackage
         deviceStart = Time.stamp()
         packageCounter++
+        networkLoad += pck.pckSize
         if (pck.destinationAddress == address) {
             logReceivePackage(pck)
             processPackage(pck)
@@ -158,6 +159,12 @@ internal class Device(
     internal companion object {
         internal var packageCounter: Int = 0
             private set
+
+        internal var networkLoad: Long = 0
+            private set
+
+        internal fun getNetworkLoadKBytes()
+            = networkLoad / 1000
 
         internal var observationPackageCounter: Int = 0
             private set

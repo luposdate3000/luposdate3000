@@ -1,6 +1,7 @@
 package lupos.simulator_iot.log
 
 import lupos.shared.inline.File
+import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
 
 internal class LoggerCollection {
@@ -21,7 +22,7 @@ internal class LoggerCollection {
     }
 
     private fun printHeaderLine() {
-        printLine("Nodes${delimiter}InitDuration${delimiter}SimDuration$delimiter")
+        printLine("Nodes${delimiter}InitDuration${delimiter}SimDuration${delimiter}Packages${delimiter}Load")
     }
 
     private fun printLine(str: String) {
@@ -31,7 +32,10 @@ internal class LoggerCollection {
     }
 
     internal fun add(logger: Logger, nodeCount: Int) {
-        val line = "$nodeCount$delimiter${logger.getInitDuration()}$delimiter${logger.getRealSimulationDuration()}"
+        val line = "$nodeCount$delimiter${logger.getInitDuration()}$delimiter" +
+            "${logger.getRealSimulationDuration()}$delimiter${Device.packageCounter}$delimiter${Device.getNetworkLoadKBytes()}"
         printLine(line)
     }
+
+
 }
