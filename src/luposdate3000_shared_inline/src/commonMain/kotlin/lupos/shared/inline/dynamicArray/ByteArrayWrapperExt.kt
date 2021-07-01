@@ -16,19 +16,16 @@
  */
 package lupos.shared.inline.dynamicArray
 
-import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 
 public object ByteArrayWrapperExt {
     @Suppress("NOTHING_TO_INLINE")
-    public fun getSize(data: ByteArrayWrapper): Int {
-        SanityCheck.check { data.size_ <= data.buf_.size }
+    public inline fun getSize(data: ByteArrayWrapper): Int {
         return data.size_
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public fun getBuf(data: ByteArrayWrapper): ByteArray {
-        SanityCheck.check { data.size_ <= data.buf_.size }
+    public inline fun getBuf(data: ByteArrayWrapper): ByteArray {
         return data.buf_
     }
 

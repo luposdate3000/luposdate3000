@@ -27,7 +27,6 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class DictionaryInMemory internal constructor(isLocal: Boolean, instance: Luposdate3000Instance) : ADictionary(instance, isLocal) {
-
     @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
 
@@ -102,12 +101,14 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
             DictionaryExt.nullValue -> throw Exception("invalid call")
             else -> {
                 if (isLocal == ((value and flagLocal) == flagLocal)) {
+                    SanityCheck.check({ (value and maskValue) >= 0 }, { " $value >= 0" })
                     if ((value and flagNoBNode) == flagNoBNode) {
                         val buf = dataI2V[value and maskValue]
                         ByteArrayWrapperExt.copyInto(buf, buffer)
+                        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= 4 }, { "xxx" + value })
+                        SanityCheck.check({ (value and maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
                     } else {
                         SanityCheck.check({ (value and maskValue) < bNodeCounter }, { "$value < $bNodeCounter" })
-                        SanityCheck.check({ (value and maskValue) >= 0 }, { " $value >= 0" })
                         DictionaryHelper.bnodeToByteArray(buffer, value and maskValue)
                     }
                 } else {
@@ -115,9 +116,11 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                 }
             }
         }
+        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= 4 }, { "" + value })
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
+        SanityCheck.check { ByteArrayWrapperExt.getSize(buffer) >= 4 }
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
@@ -171,6 +174,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
+        SanityCheck.check { ByteArrayWrapperExt.getSize(buffer) >= 4 }
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check { !isLocal }

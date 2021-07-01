@@ -154,9 +154,11 @@ public class DictionaryKV internal constructor(
                 }
             }
         }
+        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= 4 }, { "" + value })
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
+        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= 4 })
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
