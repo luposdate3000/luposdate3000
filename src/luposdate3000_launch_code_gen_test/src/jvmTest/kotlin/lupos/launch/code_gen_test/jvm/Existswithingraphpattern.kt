@@ -43,6 +43,7 @@ public class Existswithingraphpattern {
     internal val targetData = File("src/jvmTest/resources/Existswithingraphpattern.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/Existswithingraphpattern.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Exists within graph pattern}`() {
@@ -97,5 +98,4 @@ pkg2.onFinish = pkg3
 val pkg4 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg3.onFinish = pkg4
 */
-
 }

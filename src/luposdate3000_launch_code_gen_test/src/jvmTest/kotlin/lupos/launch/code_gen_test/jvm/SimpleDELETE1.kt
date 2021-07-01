@@ -47,6 +47,7 @@ public class SimpleDELETE1 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/SimpleDELETE1.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Simple DELETE 1}`() {
@@ -89,5 +90,4 @@ pkg1.onFinish = pkg2
 val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg2.onFinish = pkg3
 */
-
 }

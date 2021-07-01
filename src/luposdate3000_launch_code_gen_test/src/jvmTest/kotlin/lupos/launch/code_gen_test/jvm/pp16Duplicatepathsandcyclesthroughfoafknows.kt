@@ -40,6 +40,7 @@ public class pp16Duplicatepathsandcyclesthroughfoafknows {
     internal val targetData = File("src/jvmTest/resources/pp16Duplicatepathsandcyclesthroughfoafknows.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/pp16Duplicatepathsandcyclesthroughfoafknows.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp16 Duplicate paths and cycles through foafknows}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

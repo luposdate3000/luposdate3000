@@ -50,6 +50,7 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnode.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode}`() {
@@ -103,5 +104,4 @@ pkg2.onFinish = pkg3
 val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[1]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
 pkg3.onFinish = pkg4
 */
-
 }

@@ -63,18 +63,21 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
     }
 
     public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean, out: IMyOutputStream?): Boolean {
+        println("1")
         if (other !is MemoryTable) {
             if (verbose) {
                 out!!.println("other is not a MemoryTable")
             }
             return false
         }
+        println("2")
         if (columns.size != other.columns.size) {
             if (verbose) {
                 out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
             }
             return false
         }
+        println("3")
         for (i in 0 until columns.size) {
             if (columns[i] != other.columns[i]) {
                 if (verbose) {
@@ -83,6 +86,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 return false
             }
         }
+        println("4")
         if (booleanResult != null || other.booleanResult != null) {
             if (booleanResult == other.booleanResult) {
                 return true
@@ -93,12 +97,14 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 return false
             }
         }
+        println("5")
         val buffer1 = ByteArrayWrapper()
         val buffer2 = ByteArrayWrapper()
         var dict1 = query!!.getDictionary()
         var dict2 = other.query!!.getDictionary()
         var flags1 = IntArray(data.size) { -1 }
         var flags2 = IntArray(other.data.size) { -1 }
+        println("6")
         for (i in 0 until data.size) {
             loop2@ for (j in 0 until other.data.size) {
                 if (flags2[j] == -1) {
@@ -119,14 +125,21 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
             }
         }
+        println("7")
         var result = true
         if (ignoreOrder) {
             var i = 0
+            println("7.1")
             while (i < data.size || i < other.data.size) {
+                println("7.2")
                 if (i < data.size) {
+                    println("7.3")
                     if (flags1[i] == -1) {
+                        println("7.4")
                         result = false
+                        println("7.5")
                         if (verbose) {
+                            println("7.6")
                             out!!.println(
                                 "left has ${data[i].map { it }} : ${
                                 data[i].map { it ->
@@ -135,27 +148,45 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                                 }
                                 }"
                             )
+                            println("7.7")
                         }
+                        println("7.8")
                     }
+                    println("7.9")
                 }
+                println("7.10")
                 if (i < other.data.size) {
+                    println("7.11")
                     if (flags2[i] == -1) {
+                        println("7.12")
                         result = false
+                        println("7.13")
                         if (verbose) {
+                            println("7.14")
+                            println(other.data.size)
+                            println(i)
                             out!!.println(
                                 "right has ${other.data[i].map { it }} : ${
                                 other.data[i].map { it ->
+                                    println("7.15")
                                     dict2.getValue(buffer2, it)
+                                    println("7.16")
                                     DictionaryHelper.byteArrayToSparql(buffer2)
                                 }
                                 }"
                             )
+                            println("7.15")
                         }
+                        println("7.16")
                     }
+                    println("7.17")
                 }
+                println("7.18")
                 i++
             }
+            println("7.19")
         } else {
+            println("8")
             var i = 0
             while (i < data.size || i < other.data.size) {
                 if (i < data.size) {
@@ -191,6 +222,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 i++
             }
         }
+        println("9")
         return result
     }
 

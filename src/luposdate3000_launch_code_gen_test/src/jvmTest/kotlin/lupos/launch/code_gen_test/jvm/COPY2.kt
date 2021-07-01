@@ -50,6 +50,7 @@ public class COPY2 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/COPY2.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `COPY 2}`() {
@@ -103,5 +104,4 @@ pkg2.onFinish = pkg3
 val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[1]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
 pkg3.onFinish = pkg4
 */
-
 }

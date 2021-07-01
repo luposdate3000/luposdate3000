@@ -46,6 +46,7 @@ public class CLEARSILENTGRAPHiri {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/CLEARSILENTGRAPHiri.query").readAsString()
+
     @Test
     fun `CLEAR SILENT GRAPH iri}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -87,5 +88,4 @@ pkg1.onFinish = pkg2
 val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg2.onFinish = pkg3
 */
-
 }

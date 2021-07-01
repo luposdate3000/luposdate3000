@@ -40,6 +40,7 @@ public class cvs02CSVResultFormat {
     internal val targetData = File("src/jvmTest/resources/cvs02CSVResultFormat.output").readAsString()
     internal val targetType = ".csv"
     internal val query = File("src/jvmTest/resources/cvs02CSVResultFormat.query").readAsString()
+
     @Ignore // Reason: >Bug in CSV-Parser<
     @Test
     fun `cvs02  CSV Result Format}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

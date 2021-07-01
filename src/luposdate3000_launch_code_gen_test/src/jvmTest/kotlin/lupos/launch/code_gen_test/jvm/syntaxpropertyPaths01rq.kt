@@ -16,19 +16,14 @@
  */
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.Query
-import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
-import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.test.fail
 
 public class syntaxpropertyPaths01rq {
     internal val query = File("src/jvmTest/resources/syntaxpropertyPaths01rq.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `syntaxpropertyPaths01rq}`() {
@@ -40,5 +35,4 @@ public class syntaxpropertyPaths01rq {
     }
 /*
 */
-
 }

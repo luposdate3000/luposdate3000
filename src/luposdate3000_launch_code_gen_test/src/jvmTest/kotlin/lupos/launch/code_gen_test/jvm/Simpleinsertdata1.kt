@@ -37,6 +37,7 @@ public class Simpleinsertdata1 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/Simpleinsertdata1.query").readAsString()
+
     @Test
     fun `Simple insert data 1}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -60,5 +61,4 @@ val pkg0 = MySimulatorTestingExecute(query)
 val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg0.onFinish = pkg1
 */
-
 }

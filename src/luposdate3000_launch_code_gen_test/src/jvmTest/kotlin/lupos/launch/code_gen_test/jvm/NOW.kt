@@ -40,6 +40,7 @@ public class NOW {
     internal val targetData = File("src/jvmTest/resources/NOW.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/NOW.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `NOW}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

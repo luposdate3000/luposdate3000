@@ -52,6 +52,7 @@ public class DROPNAMED {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/DROPNAMED.query").readAsString()
+
     @Test
     fun `DROP NAMED}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -129,5 +130,4 @@ pkg5.onFinish = pkg6
 val pkg7 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg6.onFinish = pkg7
 */
-
 }

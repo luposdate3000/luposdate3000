@@ -39,6 +39,7 @@ public class MD5 {
     internal val targetData = File("src/jvmTest/resources/MD5.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/MD5.query").readAsString()
+
     @Test
     fun `MD5}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -74,5 +75,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

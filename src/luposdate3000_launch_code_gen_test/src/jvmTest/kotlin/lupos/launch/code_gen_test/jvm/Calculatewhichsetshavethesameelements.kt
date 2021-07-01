@@ -40,6 +40,7 @@ public class Calculatewhichsetshavethesameelements {
     internal val targetData = File("src/jvmTest/resources/Calculatewhichsetshavethesameelements.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/Calculatewhichsetshavethesameelements.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Calculate which sets have the same elements}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

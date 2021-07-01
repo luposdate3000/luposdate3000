@@ -46,6 +46,7 @@ public class pp35NamedGraph2 {
     internal val targetData = File("src/jvmTest/resources/pp35NamedGraph2.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/pp35NamedGraph2.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp35 Named Graph 2}`() {
@@ -118,5 +119,4 @@ pkg4.onFinish = pkg5
 val pkg6 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg5.onFinish = pkg6
 */
-
 }

@@ -40,6 +40,7 @@ public class resourcesbsbmbiquery32553sparql2553 {
     internal val targetData = File("src/jvmTest/resources/resourcesbsbmbiquery32553sparql2553.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/resourcesbsbmbiquery32553sparql2553.query").readAsString()
+
     @Ignore // Reason: >too slow<
     @Test
     fun `resourcesbsbmbiquery32553sparql2553}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

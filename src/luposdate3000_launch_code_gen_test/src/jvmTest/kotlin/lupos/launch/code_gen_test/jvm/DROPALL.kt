@@ -43,6 +43,7 @@ public class DROPALL {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/DROPALL.query").readAsString()
+
     @Test
     fun `DROP ALL}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -106,5 +107,4 @@ pkg3.onFinish = pkg4
 val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[2]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!)
 pkg4.onFinish = pkg5
 */
-
 }

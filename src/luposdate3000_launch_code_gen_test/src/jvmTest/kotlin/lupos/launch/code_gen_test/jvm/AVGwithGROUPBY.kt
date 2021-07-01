@@ -40,6 +40,7 @@ public class AVGwithGROUPBY {
     internal val targetData = File("src/jvmTest/resources/AVGwithGROUPBY.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/AVGwithGROUPBY.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `AVG with GROUP BY}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

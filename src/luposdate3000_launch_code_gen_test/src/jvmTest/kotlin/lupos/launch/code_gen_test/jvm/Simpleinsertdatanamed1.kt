@@ -38,6 +38,7 @@ public class Simpleinsertdatanamed1 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/Simpleinsertdatanamed1.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `Simple insert data named 1}`() {
@@ -62,5 +63,4 @@ val pkg0 = MySimulatorTestingExecute(query)
 val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg0.onFinish = pkg1
 */
-
 }

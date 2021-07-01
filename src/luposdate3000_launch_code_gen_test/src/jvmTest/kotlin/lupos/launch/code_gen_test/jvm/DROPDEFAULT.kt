@@ -55,6 +55,7 @@ public class DROPDEFAULT {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/DROPDEFAULT.query").readAsString()
+
     @Test
     fun `DROP DEFAULT}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -143,5 +144,4 @@ pkg6.onFinish = pkg7
 val pkg8 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[1]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
 pkg7.onFinish = pkg8
 */
-
 }

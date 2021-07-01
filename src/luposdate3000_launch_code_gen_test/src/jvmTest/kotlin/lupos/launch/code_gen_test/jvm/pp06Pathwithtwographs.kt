@@ -43,6 +43,7 @@ public class pp06Pathwithtwographs {
     internal val targetData = File("src/jvmTest/resources/pp06Pathwithtwographs.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/pp06Pathwithtwographs.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `pp06 Path with two graphs}`() {
@@ -97,5 +98,4 @@ pkg2.onFinish = pkg3
 val pkg4 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg3.onFinish = pkg4
 */
-
 }

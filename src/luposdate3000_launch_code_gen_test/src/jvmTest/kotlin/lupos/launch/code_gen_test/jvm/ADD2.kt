@@ -49,6 +49,7 @@ public class ADD2 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/ADD2.query").readAsString()
+
     @Test
     fun `ADD 2}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -101,5 +102,4 @@ pkg2.onFinish = pkg3
 val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[1]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
 pkg3.onFinish = pkg4
 */
-
 }

@@ -16,18 +16,13 @@
  */
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.Query
-import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
-import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
-import kotlin.test.fail
 
 public class syntaxupdate25ru {
     internal val query = File("src/jvmTest/resources/syntaxupdate25ru.query").readAsString()
+
     @Test
     fun `syntaxupdate25ru}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -38,5 +33,4 @@ public class syntaxupdate25ru {
     }
 /*
 */
-
 }

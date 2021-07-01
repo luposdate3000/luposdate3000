@@ -40,6 +40,7 @@ public class RDFSinferencetesttransitivityofsubPropertyOf {
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubPropertyOf.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubPropertyOf.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `RDFS inference test transitivity of subPropertyOf}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

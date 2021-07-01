@@ -16,11 +16,6 @@
  */
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.Query
-import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
-import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
@@ -29,24 +24,24 @@ import kotlin.test.fail
 
 public class DELETEINSERT6 {
     internal val query = File("src/jvmTest/resources/DELETEINSERT6.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `DELETE INSERT 6}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
-        var flag=false
-        try{
-        LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        }catch(e:Throwable) {
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
             flag = true
         }
-        if(!flag){
+        if (!flag) {
             fail("expected failure")
         }
         LuposdateEndpoint.close(instance)
     }
 /*
 */
-
 }

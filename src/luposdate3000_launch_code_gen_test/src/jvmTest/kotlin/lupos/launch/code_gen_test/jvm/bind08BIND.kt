@@ -39,6 +39,7 @@ public class bind08BIND {
     internal val targetData = File("src/jvmTest/resources/bind08BIND.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/bind08BIND.query").readAsString()
+
     @Test
     fun `bind08  BIND}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -74,5 +75,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

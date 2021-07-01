@@ -46,6 +46,7 @@ public class MOVESILENT {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/MOVESILENT.query").readAsString()
+
     @Test
     fun `MOVE SILENT}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -87,5 +88,4 @@ pkg1.onFinish = pkg2
 val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg2.onFinish = pkg3
 */
-
 }

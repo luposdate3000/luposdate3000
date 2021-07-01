@@ -46,6 +46,7 @@ public class SimpleDELETEWHERE3 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/SimpleDELETEWHERE3.query").readAsString()
+
     @Test
     fun `Simple DELETE WHERE 3}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -87,5 +88,4 @@ pkg1.onFinish = pkg2
 val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg2.onFinish = pkg3
 */
-
 }

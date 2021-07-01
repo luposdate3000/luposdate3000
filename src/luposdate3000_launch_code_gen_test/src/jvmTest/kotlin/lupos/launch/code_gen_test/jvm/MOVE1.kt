@@ -49,6 +49,7 @@ public class MOVE1 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/MOVE1.query").readAsString()
+
     @Test
     fun `MOVE 1}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -108,5 +109,4 @@ pkg3.onFinish = pkg4
 val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
 pkg4.onFinish = pkg5
 */
-
 }

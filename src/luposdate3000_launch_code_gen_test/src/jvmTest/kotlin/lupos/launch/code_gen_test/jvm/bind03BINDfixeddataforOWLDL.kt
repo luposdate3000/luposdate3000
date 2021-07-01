@@ -40,6 +40,7 @@ public class bind03BINDfixeddataforOWLDL {
     internal val targetData = File("src/jvmTest/resources/bind03BINDfixeddataforOWLDL.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/bind03BINDfixeddataforOWLDL.query").readAsString()
+
     @Ignore // Reason: >Bug in OWL-Inference<
     @Test
     fun `bind03  BIND fixed data for OWL DL}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }

@@ -16,10 +16,8 @@
  */
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
@@ -31,6 +29,7 @@ public class constructwhere04CONSTRUCTWHERE {
     internal val targetData = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.output").readAsString()
     internal val targetType = ".ttl"
     internal val query = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.query").readAsString()
+
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
     fun `constructwhere04  CONSTRUCT WHERE}`() {
@@ -49,5 +48,4 @@ public class constructwhere04CONSTRUCTWHERE {
 /*
 val pkg0 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 */
-
 }

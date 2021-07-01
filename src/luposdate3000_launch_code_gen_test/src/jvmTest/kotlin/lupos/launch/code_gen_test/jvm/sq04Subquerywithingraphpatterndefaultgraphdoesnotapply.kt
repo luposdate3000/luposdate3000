@@ -43,6 +43,7 @@ public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
     internal val targetData = File("src/jvmTest/resources/sq04Subquerywithingraphpatterndefaultgraphdoesnotapply.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sq04Subquerywithingraphpatterndefaultgraphdoesnotapply.query").readAsString()
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `sq04  Subquery within graph pattern default graph does not apply}`() {
@@ -97,5 +98,4 @@ pkg2.onFinish = pkg3
 val pkg4 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg3.onFinish = pkg4
 */
-
 }

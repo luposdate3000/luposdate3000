@@ -769,7 +769,8 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToIri(buffer: ByteArrayWrapper): String {
+    public fun byteArrayToIri(buffer: ByteArrayWrapper): String {
+        println(buffer.buf.map { it })
         val l1 = buffer.size - 4
         val buf = ByteArray(l1)
         buffer.buf.copyInto(buf, 0, 4, 4 + l1)

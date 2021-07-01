@@ -58,6 +58,7 @@ public class CLEARALL {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/CLEARALL.query").readAsString()
+
     @Test
     fun `CLEAR ALL}`() {
         val instance = LuposdateEndpoint.initialize()
@@ -157,5 +158,4 @@ pkg7.onFinish = pkg8
 val pkg9 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[2]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!)
 pkg8.onFinish = pkg9
 */
-
 }

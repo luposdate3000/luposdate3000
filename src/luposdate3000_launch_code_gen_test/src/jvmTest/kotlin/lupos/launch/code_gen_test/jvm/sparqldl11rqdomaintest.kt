@@ -40,6 +40,7 @@ public class sparqldl11rqdomaintest {
     internal val targetData = File("src/jvmTest/resources/sparqldl11rqdomaintest.output").readAsString()
     internal val targetType = ".srx"
     internal val query = File("src/jvmTest/resources/sparqldl11rqdomaintest.query").readAsString()
+
     @Ignore // Reason: >Bug<
     @Test
     fun `sparqldl11rq domain test}`() {
@@ -76,5 +77,4 @@ pkg0.onFinish = pkg1
 val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
 pkg1.onFinish = pkg2
 */
-
 }
