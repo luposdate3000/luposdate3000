@@ -16,4 +16,4 @@
  */
 package lupos.simulator_db.luposdate3000
 import lupos.shared.XMLElement
-internal class MySimulatorPendingWork(val operatorGraph: XMLElement, val destination: Int, val dependencies: Set<String>, val key: String)
+internal class MySimulatorPendingWork(val operatorGraph: XMLElement, val destination: Int, val dependencies: Set<String>, val key: String,val onFinish:IDatabasePackage?,val compareResult:MemoryTable?)

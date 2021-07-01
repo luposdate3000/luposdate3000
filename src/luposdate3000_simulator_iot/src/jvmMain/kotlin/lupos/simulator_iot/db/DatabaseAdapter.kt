@@ -105,7 +105,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     private fun receiveQuery(data: ByteArray) {
         db.activate()
-        db.receiveQuery(device.address, data)
+        db.receive(QueryPackage(device.address, data))
         db.deactivate()
     }
 
@@ -113,17 +113,17 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
         println("send $destinationAddress $pck")
-        device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
-    }
-
-    override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
-        if (device.address == destinationAddress) {
+if(pck is QueryResponsePackage){
+if (device.address == destinationAddress) {
             println("sendQueryResult deviceAddress == $destinationAddress")
-            useQueryResult(result)
+            useQueryResult(pck.result)
         } else {
             println("sendQueryResult route forward to $destinationAddress")
-            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(result))
+            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(pck.result))
         }
+}else{
+        device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
+}
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =

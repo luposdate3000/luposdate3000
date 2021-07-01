@@ -19,10 +19,9 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.simulator_db.IDatabasePackage
 
-public class MySimulatorTestingImportPackage(
-public val data:String,
-public val graph:String,
-public val type:String,
+public class MySimulatorTestingCompareGraphPackage(
+public val query:String,
+public val expectedResult:MemoryTable,
 ) : IDatabasePackage {
 public var onFinish:IDatabasePackage?=null
 }

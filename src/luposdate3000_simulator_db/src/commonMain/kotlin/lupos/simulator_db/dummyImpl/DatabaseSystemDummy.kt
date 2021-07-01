@@ -29,12 +29,14 @@ public class DatabaseSystemDummy : IDatabase {
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)
+is QueryPackage-> receive(pck)
+else -> TODO()
         }
     }
 
-    public override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
-        state.addressForQueryEndResult = sourceAddress
-        val queryString = query.decodeToString()
+    public override fun receive(pck:QueryPackage) {
+        state.addressForQueryEndResult = pck.sourceAddress
+        val queryString = pck.query.decodeToString()
         if (queryString.contains("INSERT DATA")) {
             saveData(queryString)
             return

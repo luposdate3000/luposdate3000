@@ -14,6 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+//onFinish:IDatabasePackage?,compareResult:MemoryTable?
+
 package lupos.simulator_db.luposdate3000
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
@@ -86,8 +89,23 @@ public class DatabaseHandle : IDatabase {
         LuposdateEndpoint.close(instance)
     }
 
-    override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
-        val queryString = query.decodeToString()
+private fun receive(pck: MySimulatorTestingImportPackage) {
+if (listOf(".n3", ".ttl", ".nt").contains(pck.ype)) {
+            LuposdateEndpoint.importTurtleString(instance, pck.data,pck.graph)
+        } else {
+            TODO()
+        }
+//TODO wait for all ack - or assume ordered messages
+if(pck.onFinish!=null){
+receive(pck.onFinish)
+}
+}
+private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
+receive(QueryPackage(ownAdress,query.encodeToByteArray()),pck.onFinish)
+}
+
+    private fun receive(pck:QueryPackage,onFinish:IDatabasePackage?=null) {
+        val queryString = pck.query.decodeToString()
         println("receive receiveQuery $queryString")
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
@@ -98,10 +116,14 @@ public class DatabaseHandle : IDatabase {
             val out = MyPrintWriter(true)
             QueryResultToXMLStream(q.getRoot(), out)
             val res = out.toString().encodeToByteArray()
-            println("sending the result AAA ::: $out")
-            router!!.sendQueryResult(sourceAddress, res)
+//TODO wait for all ack - or assume ordered messages
+if(onFinish!=null){
+receive(pck.onFinish)
+}else{
+            router!!.send(pck.sourceAddress,QueryResponsePackage(res))
+}
         } else {
-            val destinations = mutableMapOf("" to sourceAddress)
+            val destinations = mutableMapOf("" to pck.sourceAddress)
             receive(MySimulatorOperatorGraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown()))
         }
     }
@@ -132,9 +154,9 @@ public class DatabaseHandle : IDatabase {
         val nextHops = allHostAdresses
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in nextHops.toSet()) {
-            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(),pck.onFinish,pck.compareResult)
         }
-        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(),pck.onFinish,pck.compareResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
             packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
@@ -207,7 +229,9 @@ public class DatabaseHandle : IDatabase {
                     p.operatorGraph[k]!!,
                     p.destinations[k]!!,
                     p.dependenciesMapTopDown[k]!!,
-                    k
+                    k,
+pck.onFinish,
+pck.compareResult,
                 )
             )
         }
@@ -287,10 +311,22 @@ public class DatabaseHandle : IDatabase {
                             out.close()
                         }
                         is OPBaseCompound -> {
+if(w.compareResult!=null){
+val buf = MyPrintWriter(false)
+val result_a_0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+val buf_err = MyPrintWriter()
+        if (!input_a_0.equalsVerbose(w.compareResult, true, true, buf_err)) {
+            fail(buf_err.toString())
+        }
+if(w.onFinish!=null){
+receive(w.onFinish)
+}
+}else{
                             val buf = MyPrintWriter(true)
                             QueryResultToXMLStream(node, buf, false)
                             println("sending the result BBB ::: $buf")
-                            router!!.sendQueryResult(w.destination, buf.toString().encodeToByteArray())
+                            router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray()))
+}
                         }
                         else -> TODO(node.toString())
                     }
@@ -302,8 +338,12 @@ public class DatabaseHandle : IDatabase {
         }
     }
 
+
     override fun receive(pck: IDatabasePackage) {
         when (pck) {
+is MySimulatorTestingImportPackage -> receive(pck)
+is MySimulatorTestingCompareGraphPackage -> receive(pck)
+is QueryPackage ->receive(pck)
             is MySimulatorAbstractPackage -> receive(pck)
             is MySimulatorOperatorGraphPackage -> receive(pck)
             else -> TODO("$pck")
