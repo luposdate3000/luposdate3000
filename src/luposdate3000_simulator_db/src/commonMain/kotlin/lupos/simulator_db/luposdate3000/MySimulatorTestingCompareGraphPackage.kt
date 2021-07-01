@@ -16,12 +16,21 @@
  */
 package lupos.simulator_db.luposdate3000
 
-import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.MemoryTable
 import lupos.simulator_db.IDatabasePackage
 
 public class MySimulatorTestingCompareGraphPackage(
-public val query:String,
-public val expectedResult:MemoryTable,
+    public val query: String,
+    public val expectedResult: MemoryTable,
 ) : IDatabasePackage {
-public var onFinish:IDatabasePackage?=null
+    public var onFinish: IDatabasePackage? = null
+    override fun getPackageSizeInBytes(): Int {
+        return 0
+    }
+    override fun getContentLogString(): String {
+        return "MySimulatorTestingCompareGraphPackage($query)"
+    }
+    override fun toString(): String {
+        return getContentLogString()
+    }
 }

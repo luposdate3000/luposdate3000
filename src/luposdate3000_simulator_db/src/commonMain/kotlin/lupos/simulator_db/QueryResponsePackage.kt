@@ -1,10 +1,10 @@
 package lupos.simulator_db
 
-public class QueryResponsePackage (val result: ByteArray):IDatabasePackage{
-override    public fun getPackageSizeInBytes(): Int{
-return result.size
-}
-override    public fun getContentLogString(): String{
-return "QueryResponsePackage('${result.decodeToString()}')"
-}
+public class QueryResponsePackage(public val result: ByteArray) : IDatabasePackage {
+    public override fun getPackageSizeInBytes(): Int {
+        return result.size
+    }
+    public override fun getContentLogString(): String {
+        return "QueryResponsePackage('${result.decodeToString()}')"
+    }
 }

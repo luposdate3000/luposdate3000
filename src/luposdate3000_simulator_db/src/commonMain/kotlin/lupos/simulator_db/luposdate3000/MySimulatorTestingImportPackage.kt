@@ -16,13 +16,21 @@
  */
 package lupos.simulator_db.luposdate3000
 
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.simulator_db.IDatabasePackage
 
 public class MySimulatorTestingImportPackage(
-public val data:String,
-public val graph:String,
-public val type:String,
+    public val data: String,
+    public val graph: String,
+    public val type: String,
 ) : IDatabasePackage {
-public var onFinish:IDatabasePackage?=null
+    public var onFinish: IDatabasePackage? = null
+    override fun getPackageSizeInBytes(): Int {
+        return 0
+    }
+    override fun getContentLogString(): String {
+        return "MySimulatorTestingImportPackage($graph, $type)"
+    }
+    override fun toString(): String {
+        return getContentLogString()
+    }
 }

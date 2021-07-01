@@ -113,17 +113,17 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
         println("send $destinationAddress $pck")
-if(pck is QueryResponsePackage){
-if (device.address == destinationAddress) {
-            println("sendQueryResult deviceAddress == $destinationAddress")
-            useQueryResult(pck.result)
+        if (pck is QueryResponsePackage) {
+            if (device.address == destinationAddress) {
+                println("sendQueryResult deviceAddress == $destinationAddress")
+                useQueryResult(pck.result)
+            } else {
+                println("sendQueryResult route forward to $destinationAddress")
+                device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(pck.result))
+            }
         } else {
-            println("sendQueryResult route forward to $destinationAddress")
-            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(pck.result))
+            device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
         }
-}else{
-        device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
-}
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =

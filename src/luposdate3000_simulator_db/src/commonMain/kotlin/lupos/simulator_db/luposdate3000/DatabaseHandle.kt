@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-//onFinish:IDatabasePackage?,compareResult:MemoryTable?
+// onFinish:IDatabasePackage?,expectedResult:MemoryTable?
 
 package lupos.simulator_db.luposdate3000
 import lupos.endpoint.LuposdateEndpoint
@@ -26,10 +26,12 @@ import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPDistributedSendSingle
+import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.MemoryTable
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt
@@ -40,6 +42,8 @@ import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IRouter
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.QueryResponsePackage
 
 public class DatabaseHandle : IDatabase {
     private var ownAdress: Int = 0
@@ -89,22 +93,23 @@ public class DatabaseHandle : IDatabase {
         LuposdateEndpoint.close(instance)
     }
 
-private fun receive(pck: MySimulatorTestingImportPackage) {
-if (listOf(".n3", ".ttl", ".nt").contains(pck.ype)) {
-            LuposdateEndpoint.importTurtleString(instance, pck.data,pck.graph)
+    private fun receive(pck: MySimulatorTestingImportPackage) {
+        if (listOf(".n3", ".ttl", ".nt").contains(pck.type)) {
+            LuposdateEndpoint.importTurtleString(instance, pck.data, pck.graph)
         } else {
             TODO()
         }
-//TODO wait for all ack - or assume ordered messages
-if(pck.onFinish!=null){
-receive(pck.onFinish)
-}
-}
-private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
-receive(QueryPackage(ownAdress,query.encodeToByteArray()),pck.onFinish)
-}
+// TODO wait for all ack - or assume ordered messages
+        val onFinish = pck.onFinish
+        if (onFinish != null) {
+            receive(onFinish)
+        }
+    }
+    private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
+        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, pck.expectedResult)
+    }
 
-    private fun receive(pck:QueryPackage,onFinish:IDatabasePackage?=null) {
+    private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?) {
         val queryString = pck.query.decodeToString()
         println("receive receiveQuery $queryString")
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
@@ -113,18 +118,32 @@ receive(QueryPackage(ownAdress,query.encodeToByteArray()),pck.onFinish)
 
         val parts = q.getOperatorgraphParts()
         if (parts.size == 1) {
-            val out = MyPrintWriter(true)
-            QueryResultToXMLStream(q.getRoot(), out)
-            val res = out.toString().encodeToByteArray()
-//TODO wait for all ack - or assume ordered messages
-if(onFinish!=null){
-receive(pck.onFinish)
-}else{
-            router!!.send(pck.sourceAddress,QueryResponsePackage(res))
-}
+// TODO wait for all ack - or assume ordered messages
+            if (expectedResult != null) {
+                val buf = MyPrintWriter(false)
+                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, q.getRoot(), buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                val buf_err = MyPrintWriter()
+                if (!result.equalsVerbose(expectedResult, true, true, buf_err)) {
+                    throw Exception(buf_err.toString())
+                }
+                if (onFinish != null) {
+                    receive(onFinish)
+                } else {
+                    router!!.send(pck.sourceAddress, QueryResponsePackage("success".encodeToByteArray()))
+                }
+            } else {
+                val out = MyPrintWriter(true)
+                QueryResultToXMLStream(q.getRoot(), out)
+                val res = out.toString().encodeToByteArray()
+                if (onFinish != null) {
+                    receive(onFinish)
+                } else {
+                    router!!.send(pck.sourceAddress, QueryResponsePackage(res))
+                }
+            }
         } else {
             val destinations = mutableMapOf("" to pck.sourceAddress)
-            receive(MySimulatorOperatorGraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown()))
+            receive(MySimulatorOperatorGraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown(), onFinish, expectedResult))
         }
     }
 
@@ -154,9 +173,9 @@ receive(pck.onFinish)
         val nextHops = allHostAdresses
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in nextHops.toSet()) {
-            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(),pck.onFinish,pck.compareResult)
+            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         }
-        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(),pck.onFinish,pck.compareResult)
+        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
             packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
@@ -230,8 +249,8 @@ receive(pck.onFinish)
                     p.destinations[k]!!,
                     p.dependenciesMapTopDown[k]!!,
                     k,
-pck.onFinish,
-pck.compareResult,
+                    pck.onFinish,
+                    pck.expectedResult,
                 )
             )
         }
@@ -311,22 +330,28 @@ pck.compareResult,
                             out.close()
                         }
                         is OPBaseCompound -> {
-if(w.compareResult!=null){
-val buf = MyPrintWriter(false)
-val result_a_0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-val buf_err = MyPrintWriter()
-        if (!input_a_0.equalsVerbose(w.compareResult, true, true, buf_err)) {
-            fail(buf_err.toString())
-        }
-if(w.onFinish!=null){
-receive(w.onFinish)
-}
-}else{
-                            val buf = MyPrintWriter(true)
-                            QueryResultToXMLStream(node, buf, false)
-                            println("sending the result BBB ::: $buf")
-                            router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray()))
-}
+                            if (w.expectedResult != null) {
+                                val buf = MyPrintWriter(false)
+                                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                                val buf_err = MyPrintWriter()
+                                if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
+                                    throw Exception(buf_err.toString())
+                                }
+                                if (w.onFinish != null) {
+                                    receive(w.onFinish)
+                                } else {
+                                    router!!.send(w.destination, QueryResponsePackage("success".encodeToByteArray()))
+                                }
+                            } else {
+                                val buf = MyPrintWriter(true)
+                                QueryResultToXMLStream(node, buf, false)
+                                println("sending the result BBB ::: $buf")
+                                if (w.onFinish != null) {
+                                    receive(w.onFinish)
+                                } else {
+                                    router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray()))
+                                }
+                            }
                         }
                         else -> TODO(node.toString())
                     }
@@ -338,12 +363,11 @@ receive(w.onFinish)
         }
     }
 
-
     override fun receive(pck: IDatabasePackage) {
         when (pck) {
-is MySimulatorTestingImportPackage -> receive(pck)
-is MySimulatorTestingCompareGraphPackage -> receive(pck)
-is QueryPackage ->receive(pck)
+            is MySimulatorTestingImportPackage -> receive(pck)
+            is MySimulatorTestingCompareGraphPackage -> receive(pck)
+            is QueryPackage -> receive(pck)
             is MySimulatorAbstractPackage -> receive(pck)
             is MySimulatorOperatorGraphPackage -> receive(pck)
             else -> TODO("$pck")
