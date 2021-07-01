@@ -59,7 +59,7 @@ queries3=(
 mkdir -p src/luposdate3000_spa_client/dist
 ./launcher.main.kts --help
 pkill java
-if true
+if false
 then
 ./launcher.main.kts --run &
 sleep 5
@@ -77,7 +77,7 @@ curl "localhost:80/sparql/benchmark?query=$query" >> $benchmarkfile
 done
 fi
 pkill java
-if true
+if false
 then
 ./launcher.main.kts --run --partitionMode=Thread &
 sleep 5
