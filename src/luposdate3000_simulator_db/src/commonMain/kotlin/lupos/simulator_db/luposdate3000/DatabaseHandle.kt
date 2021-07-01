@@ -111,7 +111,6 @@ public class DatabaseHandle : IDatabase {
 
     private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?) {
         val queryString = pck.query.decodeToString()
-        println("receive receiveQuery $queryString")
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
         q.initialize(op)
@@ -148,7 +147,6 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
-        println("receive MySimulatorAbstractPackage $pck")
         when (pck.path) {
             "/distributed/query/dictionary/register",
             "/distributed/query/dictionary/remove" -> {
@@ -166,7 +164,6 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
-        println("receive MySimulatorOperatorGraphPackage ${pck.dependenciesMapTopDown} ${pck.operatorGraph}")
         val allHosts = pck.operatorGraphPartsToHostMap.values.toSet().toTypedArray()
         val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
 //        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
@@ -345,7 +342,6 @@ public class DatabaseHandle : IDatabase {
                             } else {
                                 val buf = MyPrintWriter(true)
                                 QueryResultToXMLStream(node, buf, false)
-                                println("sending the result BBB ::: $buf")
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
@@ -364,10 +360,11 @@ public class DatabaseHandle : IDatabase {
     }
 
     override fun receive(pck: IDatabasePackage) {
+        println("receive $pck")
         when (pck) {
             is MySimulatorTestingImportPackage -> receive(pck)
             is MySimulatorTestingCompareGraphPackage -> receive(pck)
-            is QueryPackage -> receive(pck)
+            is QueryPackage -> receive(pck, null, null)
             is MySimulatorAbstractPackage -> receive(pck)
             is MySimulatorOperatorGraphPackage -> receive(pck)
             else -> TODO("$pck")
