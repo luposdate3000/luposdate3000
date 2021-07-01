@@ -47,7 +47,6 @@ public class SimpleDELETEWHERE2 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/SimpleDELETEWHERE2.query").readAsString()
-
     @Ignore // Reason: >Bug<
     @Test
     fun `Simple DELETE WHERE 2}`() {
@@ -55,32 +54,34 @@ public class SimpleDELETEWHERE2 {
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
+            LuposdateEndpoint.importTurtleString(instance, inputData[0],inputGraph[0])
         } else {
             TODO()
         }
-
-        val query_a_0 = Query(instance)
-        val input_a_0 = MemoryTable.parseFromAny(inputData[0], inputType[0], query_a_0)!!
-        val graph_a_0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-        val op2_a_0 = graph_a_0.getIterator(query_a_0, arrayOf(AOPVariable(query_a_0, "s"), AOPVariable(query_a_0, "p"), AOPVariable(query_a_0, "o")), EIndexPatternExt.SPO)
-        val result_a_0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op2_a_0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-        val buf_err_a_0 = MyPrintWriter()
-        if (!input_a_0.equalsVerbose(result_a_0, true, true, buf_err_a_0)) {
-            fail(input_a_0.toString() + " .. " + result_a_0.toString() + " .. " + buf_err_a_0.toString() + " .. " + op2_a_0)
-        }
-        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-
-        val query_0 = Query(instance)
-        val output0 = MemoryTable.parseFromAny(outputData[0], outputType[0], query_0)!!
-        val graph0 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-        val op20 = graph0.getIterator(query_0, arrayOf(AOPVariable(query_0, "s"), AOPVariable(query_0, "p"), AOPVariable(query_0, "o")), EIndexPatternExt.SPO)
-        val result0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op20, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
+        val query0 = Query(instance)
+        val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
+        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val buf_err0 = MyPrintWriter()
-        if (!output0.equalsVerbose(result0, true, true, buf_err0)) {
-            fail(output0.toString() + " .. " + result0.toString() + " .. " + buf_err0.toString() + " .. " + op20 + " .. " + op)
+        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
+            fail(expected0.toString()+" .. "+actual0.toString()+" .. "+buf_err0.toString()+" .. "+operator0)
+        }
+        val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)
+        val expected2 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
+        val query2 = Query(instance)
+        val graph2 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
+        val operator2 = graph2.getIterator(query2, arrayOf(AOPVariable(query2, "s"), AOPVariable(query2, "p"), AOPVariable(query2, "o")), EIndexPatternExt.SPO)
+        val actual2 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val buf_err2 = MyPrintWriter()
+        if (!expected2.equalsVerbose(actual2, true, true, buf_err2)) {
+            fail(expected2.toString()+" .. "+actual2.toString()+" .. "+buf_err2.toString()+" .. "+operator2)
         }
         LuposdateEndpoint.close(instance)
     }
+/*
+val pkg0 = MySimulatorTestingImportPackage(inputData[0],inputGraph[0],inputType[0])
+*/
+
 }

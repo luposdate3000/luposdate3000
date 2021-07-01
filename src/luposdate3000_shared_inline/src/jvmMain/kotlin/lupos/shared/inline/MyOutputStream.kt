@@ -29,7 +29,7 @@ internal actual class MyOutputStream : IMyOutputStream {
     internal var stream: OutputStream?
 
     internal constructor(it: OutputStream) {
-        kotlin.io.println("MyOutputStream.constructor $this")
+        // kotlin.io.println("MyOutputStream.constructor $this")
         stream = it
         buffer = ByteArray(8192)
     }
@@ -48,27 +48,27 @@ internal actual class MyOutputStream : IMyOutputStream {
     }
 
     public actual override fun close() {
-        kotlin.io.println("MyOutputStream.close $this")
+        // kotlin.io.println("MyOutputStream.close $this")
         flush()
         stream!!.close()
         stream = null
     }
     private fun localFlush() {
-        kotlin.io.println("MyOutputStream.localFlush $this $bufferPos")
+        // kotlin.io.println("MyOutputStream.localFlush $this $bufferPos")
         if (bufferPos> 0) {
             stream!!.write(buffer, 0, bufferPos)
             bufferPos = 0
         }
     }
     public actual override fun flush() {
-        kotlin.io.println("MyOutputStream.flush $this")
+        // kotlin.io.println("MyOutputStream.flush $this")
         localFlush()
         stream!!.flush()
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun _write(buf: ByteArray, off: Int, len: Int) {
-        kotlin.io.println("MyOutputStream._write $this")
+        // kotlin.io.println("MyOutputStream._write $this")
         if (bufferPos + len> buffer.size) {
             localFlush()
         }

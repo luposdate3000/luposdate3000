@@ -16,8 +16,10 @@
  */
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
+import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
@@ -29,21 +31,22 @@ public class constructwhere04CONSTRUCTWHERE {
     internal val targetData = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.output").readAsString()
     internal val targetType = ".ttl"
     internal val query = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.query").readAsString()
-
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
     fun `constructwhere04  CONSTRUCT WHERE}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
-        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val query_target = Query(instance)
-        val target = MemoryTable.parseFromAny(targetData, targetType, query_target)!!
-        val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-        val buf_err = MyPrintWriter()
-        if (!target.equalsVerbose(result, true, true, buf_err)) {
-            fail(buf_err.toString())
+        val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected0 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
+        val buf_err0 = MyPrintWriter()
+        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
+            fail(expected0.toString()+" .. "+actual0.toString()+" .. "+buf_err0.toString()+" .. "+operator0)
         }
         LuposdateEndpoint.close(instance)
     }
+/*
+*/
+
 }

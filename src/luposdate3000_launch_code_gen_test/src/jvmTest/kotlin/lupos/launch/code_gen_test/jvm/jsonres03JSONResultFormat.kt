@@ -40,7 +40,6 @@ public class jsonres03JSONResultFormat {
     internal val targetData = File("src/jvmTest/resources/jsonres03JSONResultFormat.output").readAsString()
     internal val targetType = ".srj"
     internal val query = File("src/jvmTest/resources/jsonres03JSONResultFormat.query").readAsString()
-
     @Ignore // Reason: >using not implemented feature<
     @Test
     fun `jsonres03  JSON Result Format}`() {
@@ -48,28 +47,30 @@ public class jsonres03JSONResultFormat {
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
+            LuposdateEndpoint.importTurtleString(instance, inputData[0],inputGraph[0])
         } else {
             TODO()
         }
-
-        val query_a_0 = Query(instance)
-        val input_a_0 = MemoryTable.parseFromAny(inputData[0], inputType[0], query_a_0)!!
-        val graph_a_0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-        val op2_a_0 = graph_a_0.getIterator(query_a_0, arrayOf(AOPVariable(query_a_0, "s"), AOPVariable(query_a_0, "p"), AOPVariable(query_a_0, "o")), EIndexPatternExt.SPO)
-        val result_a_0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op2_a_0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-        val buf_err_a_0 = MyPrintWriter()
-        if (!input_a_0.equalsVerbose(result_a_0, true, true, buf_err_a_0)) {
-            fail(input_a_0.toString() + " .. " + result_a_0.toString() + " .. " + buf_err_a_0.toString() + " .. " + op2_a_0)
+        val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
+        val query0 = Query(instance)
+        val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
+        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val buf_err0 = MyPrintWriter()
+        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
+            fail(expected0.toString()+" .. "+actual0.toString()+" .. "+buf_err0.toString()+" .. "+operator0)
         }
-        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val query_target = Query(instance)
-        val target = MemoryTable.parseFromAny(targetData, targetType, query_target)!!
-        val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-        val buf_err = MyPrintWriter()
-        if (!target.equalsVerbose(result, true, true, buf_err)) {
-            fail(buf_err.toString())
+        val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
+        val buf_err1 = MyPrintWriter()
+        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
+            fail(expected1.toString()+" .. "+actual1.toString()+" .. "+buf_err1.toString()+" .. "+operator1)
         }
         LuposdateEndpoint.close(instance)
     }
+/*
+val pkg0 = MySimulatorTestingImportPackage(inputData[0],inputGraph[0],inputType[0])
+*/
+
 }

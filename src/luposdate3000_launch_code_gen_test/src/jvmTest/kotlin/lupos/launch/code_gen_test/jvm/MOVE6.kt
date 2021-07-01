@@ -49,54 +49,56 @@ public class MOVE6 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/MOVE6.query").readAsString()
-
     @Test
     fun `MOVE 6}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
+            LuposdateEndpoint.importTurtleString(instance, inputData[0],inputGraph[0])
         } else {
             TODO()
         }
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
+            LuposdateEndpoint.importTurtleString(instance, inputData[1],inputGraph[1])
         } else {
             TODO()
         }
-
-        val query_a_0 = Query(instance)
-        val input_a_0 = MemoryTable.parseFromAny(inputData[0], inputType[0], query_a_0)!!
-        val graph_a_0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-        val op2_a_0 = graph_a_0.getIterator(query_a_0, arrayOf(AOPVariable(query_a_0, "s"), AOPVariable(query_a_0, "p"), AOPVariable(query_a_0, "o")), EIndexPatternExt.SPO)
-        val result_a_0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op2_a_0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-        val buf_err_a_0 = MyPrintWriter()
-        if (!input_a_0.equalsVerbose(result_a_0, true, true, buf_err_a_0)) {
-            fail(input_a_0.toString() + " .. " + result_a_0.toString() + " .. " + buf_err_a_0.toString() + " .. " + op2_a_0)
-        }
-
-        val query_a_1 = Query(instance)
-        val input_a_1 = MemoryTable.parseFromAny(inputData[1], inputType[1], query_a_1)!!
-        val graph_a_1 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-        val op2_a_1 = graph_a_1.getIterator(query_a_1, arrayOf(AOPVariable(query_a_1, "s"), AOPVariable(query_a_1, "p"), AOPVariable(query_a_1, "o")), EIndexPatternExt.SPO)
-        val result_a_1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op2_a_1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-        val buf_err_a_1 = MyPrintWriter()
-        if (!input_a_1.equalsVerbose(result_a_1, true, true, buf_err_a_1)) {
-            fail(input_a_1.toString() + " .. " + result_a_1.toString() + " .. " + buf_err_a_1.toString() + " .. " + op2_a_1)
-        }
-        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-
-        val query_0 = Query(instance)
-        val output0 = MemoryTable.parseFromAny(outputData[0], outputType[0], query_0)!!
-        val graph0 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-        val op20 = graph0.getIterator(query_0, arrayOf(AOPVariable(query_0, "s"), AOPVariable(query_0, "p"), AOPVariable(query_0, "o")), EIndexPatternExt.SPO)
-        val result0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op20, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
+        val query0 = Query(instance)
+        val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
+        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val buf_err0 = MyPrintWriter()
-        if (!output0.equalsVerbose(result0, true, true, buf_err0)) {
-            fail(output0.toString() + " .. " + result0.toString() + " .. " + buf_err0.toString() + " .. " + op20 + " .. " + op)
+        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
+            fail(expected0.toString()+" .. "+actual0.toString()+" .. "+buf_err0.toString()+" .. "+operator0)
+        }
+        val expected1 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
+        val query1 = Query(instance)
+        val graph1 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
+        val operator1 = graph1.getIterator(query1, arrayOf(AOPVariable(query1, "s"), AOPVariable(query1, "p"), AOPVariable(query1, "o")), EIndexPatternExt.SPO)
+        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val buf_err1 = MyPrintWriter()
+        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
+            fail(expected1.toString()+" .. "+actual1.toString()+" .. "+buf_err1.toString()+" .. "+operator1)
+        }
+        val operator2 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)
+        val expected3 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
+        val query3 = Query(instance)
+        val graph3 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
+        val operator3 = graph3.getIterator(query3, arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPatternExt.SPO)
+        val actual3 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator3, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val buf_err3 = MyPrintWriter()
+        if (!expected3.equalsVerbose(actual3, true, true, buf_err3)) {
+            fail(expected3.toString()+" .. "+actual3.toString()+" .. "+buf_err3.toString()+" .. "+operator3)
         }
         LuposdateEndpoint.close(instance)
     }
+/*
+val pkg0 = MySimulatorTestingImportPackage(inputData[0],inputGraph[0],inputType[0])
+val pkg1 = MySimulatorTestingImportPackage(inputData[1],inputGraph[1],inputType[1])
+pkg1.onFinish = pkg2
+*/
+
 }

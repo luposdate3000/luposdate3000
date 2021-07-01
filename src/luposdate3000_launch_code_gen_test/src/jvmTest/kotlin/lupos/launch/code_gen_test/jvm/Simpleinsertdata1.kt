@@ -37,24 +37,25 @@ public class Simpleinsertdata1 {
         ".ttl",
     )
     internal val query = File("src/jvmTest/resources/Simpleinsertdata1.query").readAsString()
-
     @Test
     fun `Simple insert data 1}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
-        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-
-        val query_0 = Query(instance)
-        val output0 = MemoryTable.parseFromAny(outputData[0], outputType[0], query_0)!!
-        val graph0 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-        val op20 = graph0.getIterator(query_0, arrayOf(AOPVariable(query_0, "s"), AOPVariable(query_0, "p"), AOPVariable(query_0, "o")), EIndexPatternExt.SPO)
-        val result0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op20, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-        val buf_err0 = MyPrintWriter()
-        if (!output0.equalsVerbose(result0, true, true, buf_err0)) {
-            fail(output0.toString() + " .. " + result0.toString() + " .. " + buf_err0.toString() + " .. " + op20 + " .. " + op)
+        val expected1 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
+        val query1 = Query(instance)
+        val graph1 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
+        val operator1 = graph1.getIterator(query1, arrayOf(AOPVariable(query1, "s"), AOPVariable(query1, "p"), AOPVariable(query1, "o")), EIndexPatternExt.SPO)
+        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val buf_err1 = MyPrintWriter()
+        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
+            fail(expected1.toString()+" .. "+actual1.toString()+" .. "+buf_err1.toString()+" .. "+operator1)
         }
         LuposdateEndpoint.close(instance)
     }
+/*
+*/
+
 }

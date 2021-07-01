@@ -16,19 +16,27 @@
  */
 package lupos.launch.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.result_format.EQueryResultToStreamExt
+import lupos.shared.EIndexPatternExt
+import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
+import kotlin.test.fail
 
 public class syntaxnotexists03rq {
     internal val query = File("src/jvmTest/resources/syntaxnotexists03rq.query").readAsString()
-
     @Test
     fun `syntaxnotexists03rq}`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
-        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
+/*
+*/
+
 }
