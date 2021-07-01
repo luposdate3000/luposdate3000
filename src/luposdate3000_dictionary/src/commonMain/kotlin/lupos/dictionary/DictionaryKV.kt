@@ -149,8 +149,8 @@ public class DictionaryKV internal constructor(
                     SanityCheck.check { value < bNodeCounter }
                     SanityCheck.check { value >= 0 }
                     ByteArrayWrapperExt.setSize(buffer, 8)
-                    ByteArrayHelper.writeInt4(buffer.buf, 0, ETripleComponentTypeExt.BLANK_NODE)
-                    ByteArrayHelper.writeInt4(buffer.buf, 4, value and maskValue)
+                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.BLANK_NODE)
+                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 4, value and maskValue)
                 }
             }
         }
@@ -160,7 +160,7 @@ public class DictionaryKV internal constructor(
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
-                val res = if (buffer.size == 8) {
+                val res = if (ByteArrayWrapperExt.getSize(buffer) == 8) {
                     DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
                     createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))

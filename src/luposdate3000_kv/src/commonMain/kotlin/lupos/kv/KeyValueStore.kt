@@ -141,7 +141,7 @@ public class KeyValueStore public constructor(
             } else {
                 toread
             }
-            BufferManagerPage.copyInto(p, data.buf, bufoff, pageoff, pageoff + len)
+            BufferManagerPage.copyInto(p, ByteArrayWrapperExt.getBuf(data), bufoff, pageoff, pageoff + len)
             bufoff += len
             pageoff += len
             toread -= len
@@ -162,11 +162,11 @@ public class KeyValueStore public constructor(
         }
         val resPage = lastPage
         val resOff = lastPageOffset
-        BufferManagerPage.writeInt4(lastPageBuf, lastPageOffset, data.size)
+        BufferManagerPage.writeInt4(lastPageBuf, lastPageOffset, ByteArrayWrapperExt.getSize(data))
         lastPageOffset += 4
         BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
         var dataoff = 0
-        var towrite = data.size
+        var towrite = ByteArrayWrapperExt.getSize(data)
         while (towrite > 0) {
             var available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
             if (available == 0) {
@@ -185,7 +185,7 @@ public class KeyValueStore public constructor(
             } else {
                 towrite
             }
-            BufferManagerPage.copyFrom(lastPageBuf, data.buf, lastPageOffset, dataoff, dataoff + len)
+            BufferManagerPage.copyFrom(lastPageBuf, ByteArrayWrapperExt.getBuf(data), lastPageOffset, dataoff, dataoff + len)
             towrite -= len
             lastPageOffset += len
             BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)

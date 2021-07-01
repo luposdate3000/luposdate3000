@@ -95,7 +95,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         var res = ByteArrayWrapper()
         ByteArrayWrapperExt.setSize(res, len)
         for (i in 0 until len) {
-            res.buf[i] = (i + seed).toByte()
+            ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
         }
         action(res)
     }

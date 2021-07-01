@@ -121,7 +121,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
-                val tmp = if (buffer.size == 8) {
+                val tmp = if (ByteArrayWrapperExt.getSize(buffer) == 8) {
                     DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
                     createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))

@@ -80,7 +80,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                 2 -> {
                     val len = input.readInt()
                     ByteArrayWrapperExt.setSize(buffer, len)
-                    input.read(buffer.buf, len)
+                    input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = hasValue(buffer)
                     if (res == null) {
                         output.writeInt(DictionaryExt.nullValue)
@@ -95,15 +95,15 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                 5 -> {
                     val len = input.readInt()
                     ByteArrayWrapperExt.setSize(buffer, len)
-                    input.read(buffer.buf, len)
+                    input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = createValue(buffer)
                     output.writeInt(res)
                 }
                 6 -> {
                     val value = input.readInt()
                     getValue(buffer, value)
-                    output.writeInt(buffer.size)
-                    output.write(buffer.buf, buffer.size)
+                    output.writeInt(ByteArrayWrapperExt.getSize(buffer))
+                    output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
                 }
                 7 -> {
                     val res = createNewUUID()

@@ -17,6 +17,7 @@
 package lupos.simulator_db.luposdate3000
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IDatabasePackage
 
 internal class MySimulatorAbstractPackage(
@@ -26,7 +27,7 @@ internal class MySimulatorAbstractPackage(
 ) : IDatabasePackage {
 
     override fun getPackageSizeInBytes(): Int {
-        return path.encodeToByteArray().size + getParamsSizeInBytes() + data.buf.size
+        return path.encodeToByteArray().size + getParamsSizeInBytes() + ByteArrayWrapperExt.getSize(data)
     }
 
     override fun getContentLogString(): String {

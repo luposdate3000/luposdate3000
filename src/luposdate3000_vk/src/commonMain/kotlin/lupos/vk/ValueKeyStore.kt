@@ -306,7 +306,7 @@ internal class ValueKeyStoreWriter {
         var common = ByteArrayWrapperExt.commonBytes(buffer, lastBuffer)
         ByteArrayWrapperExt.copyInto(buffer, lastBuffer)
         BufferManagerPage.writeInt4(page, offset, id)
-        BufferManagerPage.writeInt4(page, offset + 4, buffer.size)
+        BufferManagerPage.writeInt4(page, offset + 4, ByteArrayWrapperExt.getSize(buffer))
         BufferManagerPage.writeInt4(page, offset + 8, common)
         offset += 12
         if (pageType == ValueKeyStore.PAGE_TYPE_INNER) {
@@ -314,13 +314,13 @@ internal class ValueKeyStoreWriter {
             offset += 4
         }
         lastPageID = pageid
-        val len = buffer.size
+        val len = ByteArrayWrapperExt.getSize(buffer)
         var bufferOffset = common
         var writeEntryPoint = false
         while (bufferOffset < len) {
             val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
             if (l1 > 0) {
-                BufferManagerPage.copyFrom(page, buffer.buf, offset, bufferOffset, bufferOffset + l1)
+                BufferManagerPage.copyFrom(page, ByteArrayWrapperExt.getBuf(buffer), offset, bufferOffset, bufferOffset + l1)
                 bufferOffset += l1
                 offset += l1
             }
@@ -384,7 +384,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
         while (bufferOffset < len) {
             val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
             if (l1 > 0) {
-                page.copyInto(buffer.buf, bufferOffset, offset, offset + l1)
+                page.copyInto(ByteArrayWrapperExt.getBuf(buffer), bufferOffset, offset, offset + l1)
                 bufferOffset += l1
                 offset += l1
             }
@@ -438,7 +438,7 @@ internal class ValueKeyStoreIteratorSearch {
                 while (bufferOffset < len) {
                     val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
                     if (l1 > 0) {
-                        page.copyInto(buffer.buf, bufferOffset, offset, offset + l1)
+                        page.copyInto(ByteArrayWrapperExt.getBuf(buffer), bufferOffset, offset, offset + l1)
                         bufferOffset += l1
                         offset += l1
                     }

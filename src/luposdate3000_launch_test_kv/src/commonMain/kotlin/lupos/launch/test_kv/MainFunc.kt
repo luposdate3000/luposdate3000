@@ -24,6 +24,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
@@ -119,11 +120,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         }
         val value = ByteArrayWrapper()
         kv.getValue(value, key)
-        if (value.size != data.size) {
+        if (ByteArrayWrapperExt.getSize(value) != data.size) {
             throw Exception("")
         }
-        for (i in 0 until value.size) {
-            if (value.buf[i] != data[i]) {
+        for (i in 0 until ByteArrayWrapperExt.getSize(value)) {
+            if (ByteArrayWrapperExt.getBuf(value)[i] != data[i]) {
                 throw Exception("")
             }
         }

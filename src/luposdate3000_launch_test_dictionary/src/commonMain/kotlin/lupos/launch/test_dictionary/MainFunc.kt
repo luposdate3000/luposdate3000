@@ -152,9 +152,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     val res = ByteArrayWrapper()
                     ByteArrayWrapperExt.setSize(res, len)
                     for (i in 0 until len) {
-                        res.buf[i] = (i + seed).toByte()
+                        ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }
-                    var x = ByteArrayHelper.readInt4(res.buf, 0)
+                    var x = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(res), 0)
                     var lastx = 0
                     while (x != lastx) {
                         lastx = x
@@ -163,7 +163,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len != 5) {
                             x++
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len == 5) {
-                            res.buf[4] = abs(res.buf[4] % 2).toByte()
+                            ByteArrayWrapperExt.getBuf(res)[4] = abs(ByteArrayWrapperExt.getBuf(res)[4] % 2).toByte()
                         } else if (x == ETripleComponentTypeExt.ERROR && len != 4) {
                             x++
                         } else if (x == ETripleComponentTypeExt.UNDEF && len != 4) {
@@ -172,7 +172,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                             x = abs(x % ETripleComponentTypeExt.values_size)
                         }
                     }
-                    ByteArrayHelper.writeInt4(res.buf, 0, x)
+                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(res), 0, x)
                     if (values.contains(res)) {
                         if (seed < 255) {
                             seed++
@@ -270,11 +270,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
                 val value = ByteArrayWrapper()
                 dict.getValue(value, key)
-                if (value.size != target.size) {
-                    throw Exception("${value.size} ${target.size} $value")
+                if (ByteArrayWrapperExt.getSize(value) != ByteArrayWrapperExt.getSize(target)) {
+                    throw Exception("${ByteArrayWrapperExt.getSize(value)} ${ByteArrayWrapperExt.getSize(target)} $value")
                 }
-                for (i in 0 until value.size) {
-                    if (value.buf[i] != target.buf[i]) {
+                for (i in 0 until ByteArrayWrapperExt.getSize(value)) {
+                    if (ByteArrayWrapperExt.getBuf(value)[i] != ByteArrayWrapperExt.getBuf(target)[i]) {
                         throw Exception("")
                     }
                 }

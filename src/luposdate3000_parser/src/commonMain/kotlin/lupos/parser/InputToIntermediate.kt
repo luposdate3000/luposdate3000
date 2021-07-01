@@ -210,7 +210,7 @@ public object InputToIntermediate {
                 val buf = ByteArrayWrapper()
                 ByteArrayWrapperExt.copyInto(data, buf)
                 dict[buf] = v2.toInt()
-                dictSizeEstimated += data.size + 8
+                dictSizeEstimated += ByteArrayWrapperExt.getSize(data) + 8
                 dicttotalcnt++
                 return v2.toInt()
             }

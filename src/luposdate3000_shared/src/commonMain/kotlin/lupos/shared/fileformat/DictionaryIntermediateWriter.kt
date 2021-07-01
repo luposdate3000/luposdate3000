@@ -17,6 +17,7 @@
 package lupos.shared.fileformat
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 public class DictionaryIntermediateWriter : DictionaryIntermediate {
     public constructor(filename: String) : super(filename) {
@@ -32,8 +33,8 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
     @Suppress("NOTHING_TO_INLINE")
     public inline fun writeAssumeOrdered(id: Int, data: ByteArrayWrapper) {
         streamOut!!.writeInt(id)
-        streamOut!!.writeInt(data.size)
-        streamOut!!.write(data.buf, data.size)
+        streamOut!!.writeInt(ByteArrayWrapperExt.getSize(data))
+        streamOut!!.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
     }
 
     @Suppress("NOTHING_TO_INLINE")

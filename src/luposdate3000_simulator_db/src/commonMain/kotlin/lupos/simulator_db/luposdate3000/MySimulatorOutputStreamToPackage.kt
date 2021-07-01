@@ -62,8 +62,8 @@ internal class MySimulatorOutputStreamToPackage(val target: Int, val path: Strin
     }
 
     override fun writeInt(value: Int) {
-        val offset = buffer.size
+        val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSizeCopy(buffer, offset + 4)
-        ByteArrayHelper.writeInt4(buffer.buf, offset, value)
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), offset, value)
     }
 }

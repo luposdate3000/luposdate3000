@@ -52,8 +52,8 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
 
     override fun hasValue(buffer: ByteArrayWrapper): Int? {
         output.writeInt(2)
-        output.writeInt(buffer.size)
-        output.write(buffer.buf, buffer.size)
+        output.writeInt(ByteArrayWrapperExt.getSize(buffer))
+        output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
         val res = input.readInt()
         if (res == DictionaryExt.nullValue) {
@@ -64,8 +64,8 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
 
     override fun createValue(buffer: ByteArrayWrapper): Int {
         output.writeInt(5)
-        output.writeInt(buffer.size)
-        output.write(buffer.buf, buffer.size)
+        output.writeInt(ByteArrayWrapperExt.getSize(buffer))
+        output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
         return input.readInt()
     }
@@ -76,7 +76,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         output.flush()
         val len = input.readInt()
         ByteArrayWrapperExt.setSize(buffer, len)
-        input.read(buffer.buf, len)
+        input.read(ByteArrayWrapperExt.getBuf(buffer), len)
     }
 
     override fun close() {
