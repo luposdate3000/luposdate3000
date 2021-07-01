@@ -1,4 +1,3 @@
-#!/usr/bin/env kotlin
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -15,29 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/IMyInputStream.kt")
-@file:Import("src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserGenerated.kt")
-@file:Import("src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserStateExt.kt")
-@file:Import("src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserState.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/Exceptions.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/File.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/File.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/IMyOutputStream.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyInputStream.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/MyInputStream.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/MyOutputStream.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyCharIterator.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/UUID_Counter.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/ByteArrayHelper.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/ByteArrayHelper.kt")
-
-@file:CompilerOptions("-Xmulti-platform")
+package tmp
 import lupos.shared.IMyInputStream
 import kotlin.system.measureNanoTime
 import kotlin.jvm.JvmField
 import lupos.shared.inline.File
 import lupos.parser.turtle.*
+fun main(){
 val cycles=15
 val time=measureNanoTime{
 for(i in 0 until cycles){
@@ -50,7 +33,7 @@ input.close()
 }
 }
 println("Benjamin: " + (time/(cycles*1000000)))
-
+}
 public abstract class Turtle2Parser(input: IMyInputStream) {
     @JvmField
     internal val context = ParserContext(input)
