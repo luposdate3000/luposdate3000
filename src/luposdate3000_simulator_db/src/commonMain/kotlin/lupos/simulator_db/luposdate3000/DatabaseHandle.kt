@@ -107,7 +107,7 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
-        println("receive MySimulatorAbstractPackage ${pck.path}")
+        println("receive MySimulatorAbstractPackage $pck")
         when (pck.path) {
             "/distributed/query/dictionary/register",
             "/distributed/query/dictionary/remove" -> {

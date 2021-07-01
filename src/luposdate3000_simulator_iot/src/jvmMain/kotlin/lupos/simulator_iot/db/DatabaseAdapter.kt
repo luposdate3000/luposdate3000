@@ -12,7 +12,6 @@ import lupos.simulator_iot.FilePaths
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
-
 internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
@@ -113,6 +112,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternPackage
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+        println("send $destinationAddress $pck")
         device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
     }
 

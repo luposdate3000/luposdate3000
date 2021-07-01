@@ -33,6 +33,9 @@ internal class MySimulatorAbstractPackage(
         return "AbstractPck(path '$path', params $params, data $data)"
     }
 
+    override fun toString(): String {
+        return getContentLogString()
+    }
     private fun getParamsSizeInBytes(): Int {
         var size = 0
         for ((key, value) in params)
