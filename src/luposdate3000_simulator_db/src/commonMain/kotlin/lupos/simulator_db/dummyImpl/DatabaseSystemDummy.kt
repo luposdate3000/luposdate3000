@@ -1,11 +1,9 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.shared.inline.File
-
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.DatabaseState
-
 
 public class DatabaseSystemDummy : IDatabase {
 

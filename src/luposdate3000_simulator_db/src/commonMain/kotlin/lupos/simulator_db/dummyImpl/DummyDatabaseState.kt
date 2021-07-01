@@ -7,9 +7,9 @@ public class DummyDatabaseState(
     ownAddress: Int,
     allAddresses: IntArray,
     sender: IRouter,
-    absolutePathToDataDirectory: String)
-    : DatabaseState(ownAddress, allAddresses, sender,absolutePathToDataDirectory) {
-
+    absolutePathToDataDirectory: String
+) :
+    DatabaseState(ownAddress, allAddresses, sender, absolutePathToDataDirectory) {
 
     public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
     public var addressForQueryEndResult: Int = -1

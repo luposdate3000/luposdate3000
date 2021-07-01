@@ -36,7 +36,6 @@ internal class MySimulatorOperatorGraphPackage(
         return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap, dependencies $dependenciesMapTopDown)"
     }
 
-
     private fun getOperatorGraphSizeInBytes(): Int {
         var size = 0
         for ((key, value) in operatorGraph)
@@ -72,5 +71,4 @@ internal class MySimulatorOperatorGraphPackage(
             size += str.encodeToByteArray().size
         return size
     }
-
 }

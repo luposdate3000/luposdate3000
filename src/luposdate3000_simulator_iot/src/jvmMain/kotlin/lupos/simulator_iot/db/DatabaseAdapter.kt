@@ -1,9 +1,9 @@
 package lupos.simulator_iot.db
 
 import lupos.shared.inline.File
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IRouter
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
@@ -128,7 +128,4 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         device.router.getNextDatabaseHops(destinationAddresses)
-
-
-
 }

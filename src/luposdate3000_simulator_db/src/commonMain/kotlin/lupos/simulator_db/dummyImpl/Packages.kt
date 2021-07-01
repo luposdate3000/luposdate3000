@@ -17,8 +17,6 @@ public class PreprocessingPackage(
     override fun getContentLogString(): String {
         return "PreprocessingPackage(dests=${destinationAddresses.contentToString()}, operatorGraphParts=${operatorGraphParts.contentToString()}, senderAddress=$senderAddress, queryID=$queryID)"
     }
-
-
 }
 
 public class ChoosenOperatorPackage(
@@ -37,7 +35,6 @@ public class ChoosenOperatorPackage(
     override fun getContentLogString(): String {
         return "ChoosenOperatorPackage(dests=$destinationAddress, senderAddress=$senderAddress, operators=${operators.contentToString()}, queryID=$queryID)"
     }
-
 }
 
 public class ResultPackage(
@@ -56,5 +53,4 @@ public class ResultPackage(
     override fun getContentLogString(): String {
         return "ResultPackage(result=${result.contentToString()}, destinationAddress=$destinationAddress, senderAddress=$senderAddress, queryID=$queryID, operatorID=$operatorID)"
     }
-
 }

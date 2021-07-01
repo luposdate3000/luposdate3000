@@ -7,7 +7,6 @@ import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
-import lupos.simulator_iot.net.Link
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
 import lupos.simulator_iot.net.routing.IRoutingProtocol
@@ -29,17 +28,17 @@ internal class Device(
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false
 
-
     internal var processedSensorDataPackages: Long = 0
         private set
 
     private lateinit var deviceStart: Instant
 
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
-        return if (destinationAddress == address)
+        return if (destinationAddress == address) {
             getProcessingDelay()
-         else
+        } else {
             linkManager.getTransmissionDelay(destinationAddress, pck.pckSize) + getProcessingDelay()
+        }
     }
 
     private fun getProcessingDelay(): Long {
@@ -167,6 +166,4 @@ internal class Device(
             observationPackageCounter = 0
         }
     }
-
-
 }

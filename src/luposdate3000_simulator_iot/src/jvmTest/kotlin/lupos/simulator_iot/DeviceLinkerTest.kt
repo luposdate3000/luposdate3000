@@ -4,7 +4,6 @@ import lupos.simulator_iot.config.DeviceLinker
 import lupos.simulator_iot.config.LinkType
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.net.Link
-import lupos.simulator_iot.net.LinkManager
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -13,7 +12,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class DeviceLinkerTest {
-
 
     @Test
     fun linkByLink() {
@@ -82,7 +80,6 @@ class DeviceLinkerTest {
         assertEquals(linkTypeY, deviceLinker.sortedLinkTypes[3])
     }
 
-
     @Test
     fun getSortedLinkTypeIndices() {
         val deviceLinker = DeviceLinker()
@@ -92,14 +89,13 @@ class DeviceLinkerTest {
         val linkTypeZ = LinkType("Z", 48, 40)
         deviceLinker.sortedLinkTypes = arrayOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ)
         val actual1 = deviceLinker.getSortedLinkTypeIndices(listOf("W"))
-        val actual2 = deviceLinker.getSortedLinkTypeIndices(listOf("W","Z"))
-        val actual3 = deviceLinker.getSortedLinkTypeIndices(listOf("Z","Y","X"))
+        val actual2 = deviceLinker.getSortedLinkTypeIndices(listOf("W", "Z"))
+        val actual3 = deviceLinker.getSortedLinkTypeIndices(listOf("Z", "Y", "X"))
 
         assertContentEquals(actual1, intArrayOf(2))
         assertContentEquals(actual2, intArrayOf(0, 2))
-        assertContentEquals(actual3, intArrayOf(0, 1, 3 ))
+        assertContentEquals(actual3, intArrayOf(0, 1, 3))
     }
-
 
     @Test
     fun deviceWithoutLinkTypeCanNotLink() {
@@ -114,7 +110,6 @@ class DeviceLinkerTest {
         deviceLinker.linkIfPossible(one, two)
         assertFalse(one.linkManager.hasLink(two))
     }
-
 
     @Test
     fun tooFarAwayToLink() {
@@ -168,9 +163,4 @@ class DeviceLinkerTest {
         assertEquals(actualLink1, actualLink2)
         assertEquals(8, actualLink1.dataRateInKbps)
     }
-
-
-
-
-
 }

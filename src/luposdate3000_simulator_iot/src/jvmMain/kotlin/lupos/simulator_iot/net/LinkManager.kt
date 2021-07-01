@@ -1,12 +1,12 @@
 package lupos.simulator_iot.net
 
 import lupos.simulator_iot.Device
-
 import kotlin.math.roundToLong
 
 internal class LinkManager(
     internal val device: Device,
-    internal val supportedLinkTypes: IntArray) {
+    internal val supportedLinkTypes: IntArray
+) {
 
     internal var links: MutableMap<Int, Link> = mutableMapOf()
 
@@ -22,7 +22,6 @@ internal class LinkManager(
     private fun bytesToKBits(b: Int): Double =
         // * 8 / 1000
         b.toDouble() / 125
-
 
     internal fun getLink(otherDevice: Device): Link? =
         links[otherDevice.address]
@@ -41,6 +40,5 @@ internal class LinkManager(
         internal fun resetCounter() {
             linkCounter = 0
         }
-
     }
 }

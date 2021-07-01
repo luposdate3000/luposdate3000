@@ -15,6 +15,4 @@ internal class NetworkPackage(
     override fun toString(): String {
         return "Pck(src $sourceAddress, dest $destinationAddress, size $pckSize, payload $payload)"
     }
-
-
 }

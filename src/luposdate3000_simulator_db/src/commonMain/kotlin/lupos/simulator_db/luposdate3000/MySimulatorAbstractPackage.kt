@@ -39,5 +39,4 @@ internal class MySimulatorAbstractPackage(
             size += key.encodeToByteArray().size + value.encodeToByteArray().size
         return size
     }
-
 }

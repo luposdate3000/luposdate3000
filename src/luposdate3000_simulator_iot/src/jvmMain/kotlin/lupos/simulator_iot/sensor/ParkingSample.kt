@@ -17,6 +17,4 @@ internal class ParkingSample(
     override fun toString(): String {
         return "ParkingSample"
     }
-
-
 }
