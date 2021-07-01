@@ -1,5 +1,7 @@
 #SPAClient
 
+First, move to the project directory.
+
 To Compile the SPAClient on Windows use
 
 ```gitbash
