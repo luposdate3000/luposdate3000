@@ -2,6 +2,7 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.RandomStarNetwork
+import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.test.Test
@@ -148,8 +149,8 @@ class ConfigurationTest {
 
         assertTrue(device1.linkManager.hasLink(device2))
         assertTrue(device2.linkManager.hasLink(device1))
-        assertEquals(1, device1.linkManager.getNumberOfLinks())
-        assertEquals(1, device2.linkManager.getNumberOfLinks())
+        assertEquals(1, device1.linkManager.links.size)
+        assertEquals(1, device2.linkManager.links.size)
         assertEquals(link1!!.distanceInMeters, link2!!.distanceInMeters)
     }
 
@@ -228,8 +229,8 @@ class ConfigurationTest {
         val neighbour = mesh[1][0]
         val neighbourNeighbour = mesh[2][0]
 
-        val distanceToNeighbour = device.linkManager.getDistanceInMeters(neighbour)
-        val distanceToNeighbourNeighbour = device.linkManager.getDistanceInMeters(neighbourNeighbour)
+        val distanceToNeighbour = Configuration.linker.getDistanceInMeters(device, neighbour)
+        val distanceToNeighbourNeighbour = Configuration.linker.getDistanceInMeters(device, neighbourNeighbour)
 
         assertTrue(distanceToNeighbour <= maxLinkRange)
         assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
@@ -246,7 +247,7 @@ class ConfigurationTest {
         val meshOrigin = mesh[0][0]
 
         assertTrue(fixedDevice.linkManager.hasLink(meshOrigin))
-        assertEquals(meshOrigin.linkManager.getNumberOfLinks(), fixedDevice.linkManager.getNumberOfLinks())
+        assertEquals(meshOrigin.linkManager.links.size, fixedDevice.linkManager.links.size)
     }
 
     @Test
@@ -260,7 +261,7 @@ class ConfigurationTest {
         val meshOrigin = mesh[0][0]
 
         assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
-        assertNotEquals(meshOrigin.linkManager.getNumberOfLinks(), fixedDevice.linkManager.getNumberOfLinks())
+        assertNotEquals(meshOrigin.linkManager.links.size, fixedDevice.linkManager.links.size)
     }
 
     @Test

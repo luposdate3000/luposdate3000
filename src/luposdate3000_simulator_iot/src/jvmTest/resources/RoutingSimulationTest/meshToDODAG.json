@@ -2,7 +2,7 @@
     "dummyDatabase": true,
     "linkType": [{
         "name": "WPAN",
-        "rangeInMeters": 10,
+        "rangeInMeters": 20,
         "dataRateInKbps": 250
     }],
     "sensorType": [

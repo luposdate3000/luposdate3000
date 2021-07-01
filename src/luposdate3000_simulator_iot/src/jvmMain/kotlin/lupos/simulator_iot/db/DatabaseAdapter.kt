@@ -1,12 +1,14 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.db
 
 import lupos.shared.inline.File
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.IDatabaseState
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IRouter
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_iot.Device
+import lupos.simulator_iot.FilePaths
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
@@ -20,7 +22,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     private val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
 
-    private lateinit var currentState: IDatabaseState
+    private lateinit var currentState: DatabaseState
 
     internal fun startUp() {
         createFiles()
@@ -29,18 +31,13 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         db.deactivate()
     }
 
-    private fun buildInitialStateObject(): IDatabaseState {
-        return object : IDatabaseState {
-            override val ownAddress: Int
-                get() = device.address
-            override var allAddresses: IntArray
-                get() = Configuration.dbDeviceAddresses
-                set(value) {}
-            override val sender: IRouter
-                get() = this@DatabaseAdapter
-            override val absolutePathToDataDirectory: String
-                get() = pathDevice
-        }
+    private fun buildInitialStateObject(): DatabaseState {
+        return object : DatabaseState(
+            ownAddress = device.address,
+            allAddresses = Configuration.dbDeviceAddresses,
+            sender = this@DatabaseAdapter,
+            absolutePathToDataDirectory = pathDevice,
+        ) {}
     }
 
     internal fun shutDown() {
@@ -54,8 +51,8 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     internal fun processPackage(payload: IPayload) {
         when (payload) {
-            is DBInternData -> receive(payload.content)
-            is DBQueryResult -> useQueryResult(payload.result)
+            is DBInternPackage -> receive(payload.content)
+            is DBQueryResultPackage -> useQueryResult(payload.result)
             else -> throw Exception("undefined payload")
         }
     }
@@ -113,10 +110,10 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         db.deactivate()
     }
 
-    internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternData
+    internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternPackage
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        device.sendRoutedPackage(device.address, destinationAddress, DBInternData(pck))
+        device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
     }
 
     override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
@@ -125,22 +122,13 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             useQueryResult(result)
         } else {
             println("sendQueryResult route forward to $destinationAddress")
-            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResult(result))
+            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(result))
         }
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         device.router.getNextDatabaseHops(destinationAddresses)
 
-    internal class DBInternData(internal val content: IDatabasePackage) : IPayload {
-        override fun getSizeInBytes(): Int {
-            return content.getPackageSizeInBytes()
-        }
-    }
 
-    internal class DBQueryResult(internal val result: ByteArray) : IPayload {
-        override fun getSizeInBytes(): Int {
-            return result.size
-        }
-    }
+
 }

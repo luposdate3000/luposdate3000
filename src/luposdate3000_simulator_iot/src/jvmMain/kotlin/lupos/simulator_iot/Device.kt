@@ -3,8 +3,11 @@ package lupos.simulator_iot
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
+import lupos.simulator_iot.net.Link
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
 import lupos.simulator_iot.net.routing.IRoutingProtocol
@@ -19,11 +22,13 @@ internal class Device(
     internal var database: DatabaseAdapter?,
     internal var sensor: ISensor?,
     internal val performance: Double,
-    internal val supportedLinkTypes: IntArray
+    supportedLinkTypes: IntArray,
+    internal val deviceNameID: Int,
 ) : Entity() {
     internal val router: IRoutingProtocol = RPL(this)
-    internal val linkManager: LinkManager = LinkManager(this)
+    internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false
+
 
     internal var processedSensorDataPackages: Long = 0
         private set
@@ -31,12 +36,10 @@ internal class Device(
     private lateinit var deviceStart: Instant
 
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
-        return if (destinationAddress == address) {
+        return if (destinationAddress == address)
             getProcessingDelay()
-        } else {
-            val size = NetworkPackage.headerSize + pck.payload.getSizeInBytes()
-            linkManager.getTransmissionDelay(destinationAddress, size) + getProcessingDelay()
-        }
+         else
+            linkManager.getTransmissionDelay(destinationAddress, pck.pckSize) + getProcessingDelay()
     }
 
     private fun getProcessingDelay(): Long {
@@ -62,6 +65,7 @@ internal class Device(
         deviceStart = Time.stamp()
         packageCounter++
         if (pck.destinationAddress == address) {
+            logReceivePackage(pck)
             processPackage(pck)
         } else {
             forwardPackage(pck)
@@ -107,11 +111,13 @@ internal class Device(
     internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
+        logSendPackage(pck)
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
+        logSendPackage(pck)
         forwardPackage(pck)
     }
 
@@ -120,6 +126,14 @@ internal class Device(
     }
 
     internal fun hasDatabase(): Boolean = database != null
+
+    private fun logReceivePackage(pck: NetworkPackage) {
+        Logger.log("> $this receives $pck at clock ${simulation.getCurrentClock()}")
+    }
+
+    private fun logSendPackage(pck: NetworkPackage) {
+        Logger.log("> $this sends $pck at clock ${simulation.getCurrentClock()}")
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other === this) {
@@ -137,6 +151,10 @@ internal class Device(
         return address
     }
 
+    override fun toString(): String {
+        return "Device(addr $address, name '${Configuration.getDeviceName(deviceNameID)}')"
+    }
+
     internal companion object {
         internal var packageCounter: Int = 0
             private set
@@ -149,4 +167,6 @@ internal class Device(
             observationPackageCounter = 0
         }
     }
+
+
 }

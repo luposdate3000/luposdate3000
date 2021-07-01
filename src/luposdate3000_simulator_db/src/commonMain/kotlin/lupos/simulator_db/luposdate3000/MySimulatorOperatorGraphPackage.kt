@@ -18,10 +18,10 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
 
-internal class MySimulatorOperatorgraphPackage(
+internal class MySimulatorOperatorGraphPackage(
     val operatorGraph: MutableMap<String, XMLElement>,
     val destinations: MutableMap<String, Int>,
-    val operatorgraphPartsToHostMap: MutableMap<String, String>,
+    val operatorGraphPartsToHostMap: MutableMap<String, String>,
     val dependenciesMapTopDown: MutableMap<String, Set<String>>,
 ) : IDatabasePackage {
 
@@ -31,6 +31,11 @@ internal class MySimulatorOperatorgraphPackage(
             getPartsToHostMapSizeInBytes() +
             getDependenciesMapTopDownSizeInBytes()
     }
+
+    override fun getContentLogString(): String {
+        return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap, dependencies $dependenciesMapTopDown)"
+    }
+
 
     private fun getOperatorGraphSizeInBytes(): Int {
         var size = 0
@@ -49,7 +54,7 @@ internal class MySimulatorOperatorgraphPackage(
 
     private fun getPartsToHostMapSizeInBytes(): Int {
         var size = 0
-        for ((key, value) in operatorgraphPartsToHostMap)
+        for ((key, value) in operatorGraphPartsToHostMap)
             size += key.encodeToByteArray().size + value.encodeToByteArray().size
         return size
     }
@@ -67,4 +72,5 @@ internal class MySimulatorOperatorgraphPackage(
             size += str.encodeToByteArray().size
         return size
     }
+
 }

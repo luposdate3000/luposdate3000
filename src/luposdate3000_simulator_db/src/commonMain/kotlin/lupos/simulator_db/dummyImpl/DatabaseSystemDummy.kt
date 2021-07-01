@@ -1,19 +1,18 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.shared.inline.File
-import lupos.simulator_db.ChoosenOperatorPackage
+
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.IDatabaseState
-import lupos.simulator_db.PreprocessingPackage
-import lupos.simulator_db.ResultPackage
+import lupos.simulator_db.DatabaseState
+
 
 public class DatabaseSystemDummy : IDatabase {
 
-    private lateinit var state: DatabaseState
+    private lateinit var state: DummyDatabaseState
 
-    public override fun start(initialState: IDatabaseState) {
-        state = DatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
+    public override fun start(initialState: DatabaseState) {
+        state = DummyDatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
         state.dataFile = "${initialState.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }

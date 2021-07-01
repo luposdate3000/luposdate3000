@@ -41,7 +41,7 @@ public actual class IoTSimulation {
         Logger.reset()
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         val jsonObjects = Configuration.readJsonFile(configFileName)
-        jsonObjects.randomStarNetwork[0].number = numberOfChilds - 1
+        jsonObjects.randomStarNetwork[0].number = numberOfChilds
         Configuration.parse(jsonObjects)
         val entities = Configuration.getEntities()
         val sim = Simulation(entities = entities, callback = Logger)

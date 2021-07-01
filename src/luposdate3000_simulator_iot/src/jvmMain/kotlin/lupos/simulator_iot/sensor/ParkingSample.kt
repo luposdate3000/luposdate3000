@@ -13,4 +13,10 @@ internal class ParkingSample(
     override fun getSizeInBytes(): Int {
         return 2 + 2 + sampleTime.encodeToByteArray().size + 2 + area.encodeToByteArray().size
     }
+
+    override fun toString(): String {
+        return "ParkingSample"
+    }
+
+
 }

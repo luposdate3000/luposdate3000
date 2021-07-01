@@ -99,12 +99,5 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "querySender": [
-        {
-            "name": "driver looking for parking 1",
-            "sendRateInSeconds": 2,
-            "maxNumberOfQueries": 0,
-            "sendStartClockInSec": 200,
-            "query": "SELECT * WHERE {?s ?p ?o . }"
-        }
     ]
 }

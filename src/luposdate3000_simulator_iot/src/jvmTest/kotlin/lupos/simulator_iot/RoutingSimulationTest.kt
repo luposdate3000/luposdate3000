@@ -4,6 +4,7 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.routing.RPL
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -122,24 +123,18 @@ class RoutingSimulationTest {
         assertEquals(79, querySender.queryCounter)
     }
 
+
     @Test
-    fun sensorFromStarSendDataOverMesh() {
-        // TODO zuerst star root
-//        //Send data from the leaf F to the leaf D
-//        Configuration.parse("$prefix/sensorFromStarSendDataOverMesh.json")
-//        val d = Configuration.getNamedDevice("D")
-//        val f = Configuration.getNamedDevice("F")
-//
-//        f.sensor!!.setDataSink(d.address)
-//
-//        val maxClock: Long = 100
-//        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
-//
-//        val sim = Simulation(Configuration.devices)
-//        sim.setLifeCycleCallback(Logger(sim))
-//        sim.setMaximalTime(maxClock)
-//        sim.start()
-//
-//        assertEquals(numberOfSamples, d.processedSensorDataPackages)
+    fun sensorFromStarSendOverMesh() {
+        // Send data from one Sensor over Mesh to fixed node
+        Configuration.parse("$prefix/sensorFromStarSendOverMesh.json")
+        val fog = Configuration.getNamedDevice("Fog")
+        val starRoot = Configuration.randStarNetworks.getValue("1")
+        val child = starRoot.children[0]
+        assertTrue(child.linkManager.hasLink(starRoot.root))
+        val sim = Simulation(Configuration.devices, callback = Logger)
+        sim.startSimulation()
+
+        assertEquals(4, fog.processedSensorDataPackages)
     }
 }

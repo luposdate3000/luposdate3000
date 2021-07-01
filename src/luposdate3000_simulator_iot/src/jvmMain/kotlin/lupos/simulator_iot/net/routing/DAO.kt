@@ -14,4 +14,10 @@ internal class DAO(
         val existingDatabaseHopsSize = existingDatabaseHops.size * ipv6InBytes
         return destinationsSize + existingDatabaseHopsSize
     }
+
+    override fun toString(): String {
+        return "DAO(isPath $isPath)"
+    }
+
+
 }

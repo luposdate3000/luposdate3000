@@ -1,4 +1,6 @@
-package lupos.simulator_db
+package lupos.simulator_db.dummyImpl
+
+import lupos.simulator_db.IDatabasePackage
 
 public class PreprocessingPackage(
     public val destinationAddresses: IntArray, // Richtung triple store
@@ -11,6 +13,12 @@ public class PreprocessingPackage(
         val dummySize = 20
         return dummySize
     }
+
+    override fun getContentLogString(): String {
+        return "PreprocessingPackage(dests=${destinationAddresses.contentToString()}, operatorGraphParts=${operatorGraphParts.contentToString()}, senderAddress=$senderAddress, queryID=$queryID)"
+    }
+
+
 }
 
 public class ChoosenOperatorPackage(
@@ -25,6 +33,11 @@ public class ChoosenOperatorPackage(
         val dummySize = 20
         return dummySize
     }
+
+    override fun getContentLogString(): String {
+        return "ChoosenOperatorPackage(dests=$destinationAddress, senderAddress=$senderAddress, operators=${operators.contentToString()}, queryID=$queryID)"
+    }
+
 }
 
 public class ResultPackage(
@@ -39,4 +52,9 @@ public class ResultPackage(
         val dummySize = 20
         return dummySize
     }
+
+    override fun getContentLogString(): String {
+        return "ResultPackage(result=${result.contentToString()}, destinationAddress=$destinationAddress, senderAddress=$senderAddress, queryID=$queryID, operatorID=$operatorID)"
+    }
+
 }
