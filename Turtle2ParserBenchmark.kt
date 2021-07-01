@@ -21,10 +21,10 @@ import kotlin.jvm.JvmField
 import lupos.shared.inline.File
 import lupos.parser.turtle.*
 fun main(){
-val cycles=15
+val cycles=1
 val time=measureNanoTime{
 for(i in 0 until cycles){
-val input=File("/src/kotlin-parser-generator/src/main/kotlin/lupos/testing/turtle/resources_myqueries_ygraphic.ttl").openInputStream()
+val input=File("/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.ttl").openInputStream()
 val iter=object:Turtle2Parser(input){
 override fun onTriple(){}
 }
