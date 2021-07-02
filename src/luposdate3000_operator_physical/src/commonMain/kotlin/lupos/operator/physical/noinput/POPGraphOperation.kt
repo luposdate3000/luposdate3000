@@ -386,4 +386,11 @@ public class POPGraphOperation public constructor(
         }
         return IteratorBundle(1)
     }
+    public open override fun usesDictionary(): Boolean {
+        var res = super.usesDictionary()
+        SanityCheck {
+            res = true
+        }
+        return res
+    }
 }

@@ -14,12 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.dictionary
+package lupos.shared.dictionary
 
-import lupos.shared.Luposdate3000Instance
 import lupos.shared.dynamicArray.ByteArrayWrapper
 
-public class DictionaryNotImplemented internal constructor(isLocal: Boolean, instance: Luposdate3000Instance) : ADictionary(instance, isLocal) {
+public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun isInmemoryOnly(): Boolean = TODO()
     override fun close(): Unit = TODO()
     override fun delete(): Unit = TODO()

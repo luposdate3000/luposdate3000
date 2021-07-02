@@ -34,6 +34,7 @@ import lupos.shared.ToSparqlNotImplementedException
 import lupos.shared.UUID_Counter
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
+import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.ILOPBase
@@ -137,6 +138,12 @@ public abstract class OPBase public constructor(
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
         val node = query.initialize(this)
+        SanityCheck {
+            val usesDictionary = node.usesDictionary()
+            if (!usesDictionary) {
+                query.setDictionaryServer(DictionaryNotImplemented())
+            }
+        }
         val res = node.evaluate(Partition())
         return res
     }

@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
-
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
@@ -27,6 +26,7 @@ import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
+import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.inline.MyInputStream
 import lupos.shared.inline.MyOutputStream
 import lupos.shared.inline.MyStringStream
@@ -172,6 +172,8 @@ public actual object HttpEndpointLauncher {
                                             val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
                                             val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance)
                                             query.setDictionaryServer(remoteDictionary)
+                                        } else {
+                                            query.setDictionaryServer(DictionaryNotImplemented())
                                         }
                                         query.setDictionaryUrl(dictionaryURL)
 // evaluate
