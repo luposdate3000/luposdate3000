@@ -157,19 +157,23 @@ public actual object HttpEndpointLauncher {
                                     }
                                     if (flag) {
 // only launch if all receivers are started
-// init dictionary
-                                        val idx2 = dictionaryURL.indexOf("/")
-                                        val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
-                                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance)
-                                        val query = Query(remoteDictionary, instance)
-                                        query.setDictionaryUrl(dictionaryURL)
 // init node
+                                        val query = Query(instance)
                                         var node = queryContainer.instance
                                         if (node == null) {
                                             node = XMLElementToOPBase(query, queryXML) as POPBase
                                             queryContainer.instance = node
                                         }
                                         query.root = node
+// init dictionary
+                                        val requireDictionary = node.usesDictionary()
+                                        if (requireDictionary) {
+                                            val idx2 = dictionaryURL.indexOf("/")
+                                            val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
+                                            val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance)
+                                            query.setDictionaryServer(remoteDictionary)
+                                        }
+                                        query.setDictionaryUrl(dictionaryURL)
 // evaluate
                                         when (node) {
                                             is POPDistributedSendSingle -> {
@@ -184,7 +188,9 @@ public actual object HttpEndpointLauncher {
                                             else -> throw Exception("unexpected node '${node.classname}'")
                                         }
 // release
-                                        remoteDictionary.close()
+                                        if (requireDictionary) {
+                                            query.getDictionary().close()
+                                        }
                                         for (c in queryContainer.outputStreams) {
                                             c!!.close()
                                         }

@@ -86,7 +86,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         }
         return IteratorBundle(iterator)
     }
-override open public fun usesDictionary():Boolean{ 
-return true
-}
+    public open override fun usesDictionary(): Boolean {
+        return true
+    }
 }

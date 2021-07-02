@@ -154,7 +154,7 @@ public class POPTripleStoreIterator(
         val filter = IntArray(filter2.size) { filter2[it] }
         return store.getIterator(query, filter, projection)
     }
-override open public fun usesDictionary():Boolean{ 
-return false
-}
+    public open override fun usesDictionary(): Boolean {
+        return false
+    }
 }

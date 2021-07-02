@@ -152,7 +152,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
             }
         }
     }
-override open public fun usesDictionary():Boolean{
-return  true
-}
+    public open override fun usesDictionary(): Boolean {
+        return true
+    }
 }

@@ -23,7 +23,7 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.iterator.IteratorBundle
 
 public interface IOPBase {
-public fun usesDictionary():Boolean
+    public fun usesDictionary(): Boolean
     public fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase
     public fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase
     public fun replaceVariableWithAnother(name: String, name2: String): IOPBase

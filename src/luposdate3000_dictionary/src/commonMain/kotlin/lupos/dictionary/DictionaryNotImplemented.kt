@@ -16,29 +16,22 @@
  */
 package lupos.dictionary
 
-import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.SanityCheck
-import lupos.shared.UUID_Counter
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryHelper
-import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import kotlin.jvm.JvmField
 
 public class DictionaryNotImplemented internal constructor(isLocal: Boolean, instance: Luposdate3000Instance) : ADictionary(instance, isLocal) {
-     override fun isInmemoryOnly(): Boolean = TODO()
-     override fun close() :Unit= TODO()  
-     override fun delete() :Unit= TODO()  
-     override fun createNewBNode(): Int = TODO()  
-     override fun createNewUUID(): Int = TODO()  
-     override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit) = TODO()  
-     override fun getValue(buffer: ByteArrayWrapper, value: Int) = TODO()  
-     override fun createValue(buffer: ByteArrayWrapper): Int = TODO()  
-     override fun hasValue(buffer: ByteArrayWrapper): Int? = TODO()  
-override fun createNewBNode(s: String): Int= TODO()
- override fun isBnode(value: Int): Boolean = TODO()
- override fun isLocalValue(value: Int): Boolean= TODO()
-override fun valueToGlobal(value: Int): Int= TODO()
-override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = TODO()
+    override fun isInmemoryOnly(): Boolean = TODO()
+    override fun close(): Unit = TODO()
+    override fun delete(): Unit = TODO()
+    override fun createNewBNode(): Int = TODO()
+    override fun createNewUUID(): Int = TODO()
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+    override fun getValue(buffer: ByteArrayWrapper, value: Int): Unit = TODO()
+    override fun createValue(buffer: ByteArrayWrapper): Int = TODO()
+    override fun hasValue(buffer: ByteArrayWrapper): Int? = TODO()
+    override fun createNewBNode(s: String): Int = TODO()
+    override fun isBnode(value: Int): Boolean = TODO()
+    override fun isLocalValue(value: Int): Boolean = TODO()
+    override fun valueToGlobal(value: Int): Int = TODO()
+    override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = TODO()
 }
