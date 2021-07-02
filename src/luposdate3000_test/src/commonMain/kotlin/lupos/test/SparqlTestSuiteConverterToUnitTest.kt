@@ -991,6 +991,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("    @CodeGenerationAnnotation")
                 }
                 out.println("    internal val query = File(\"src/jvmTest/resources/$testCaseName.query\").readAsString()")
+                out.println("")
                 if (ignored) {
                     val reason = ignoreList[testCaseName]
                     if (reason != null) {
@@ -1080,17 +1081,17 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         }
                     }
                 } else {
-                    out.println("        var flag=false")
-                    out.println("        try{")
+                    out.println("        var flag = false")
+                    out.println("        try {")
                     if (useCodeGen) {
                         out.println("            query_evaluate()")
                     } else {
-                        out.println("        LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                        out.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
                     }
-                    out.println("        }catch(e:Throwable) {")
+                    out.println("        } catch (e: Throwable) {")
                     out.println("            flag = true")
                     out.println("        }")
-                    out.println("        if(!flag){")
+                    out.println("        if (!flag) {")
                     out.println("            fail(\"expected failure\")")
                     out.println("        }")
                 }
@@ -1101,7 +1102,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
                 distributedTest.appendLine("*/")
-                out.println(distributedTest.toString())
+                out.print(distributedTest.toString())
                 out.println("}")
             }
         }
