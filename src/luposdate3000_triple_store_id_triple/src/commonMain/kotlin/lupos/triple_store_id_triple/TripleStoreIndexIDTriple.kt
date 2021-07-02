@@ -26,8 +26,8 @@ import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreBulkImportExt
 import lupos.shared.TripleStoreIndex
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
@@ -268,11 +268,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         var count = 0
                         var distinct = 0
                         var lastValue = iterator.next()
-                        if (lastValue != DictionaryExt.nullValue) {
+                        if (lastValue != DictionaryValueHelper.nullValue) {
                             distinct++
                             count++
                             var value = iterator.next()
-                            while (value != DictionaryExt.nullValue) {
+                            while (value != DictionaryValueHelper.nullValue) {
                                 count++
                                 if (value != lastValue) {
                                     distinct++
@@ -286,7 +286,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     2 -> {
                         val iterator = NodeInner.iterator2(node, filter, lock, nodeManager)
                         var count = 0
-                        while (iterator.next() != DictionaryExt.nullValue) {
+                        while (iterator.next() != DictionaryValueHelper.nullValue) {
                             count++
                         }
                         res = Pair(count, count)
@@ -328,7 +328,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             if (filter.size == 3) {
                 var count = 0
                 val it = NodeInner.iterator3(node, filter, lock, nodeManager)
-                while (it.next() != DictionaryExt.nullValue) {
+                while (it.next() != DictionaryValueHelper.nullValue) {
                     count++
                 }
                 res = IteratorBundle(count)
@@ -336,7 +336,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 if (projection[0] == "_") {
                     var count = 0
                     val it = NodeInner.iterator2(node, filter, lock, nodeManager)
-                    while (it.next() != DictionaryExt.nullValue) {
+                    while (it.next() != DictionaryValueHelper.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
@@ -353,7 +353,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
                     val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
-                    while (it.next() != DictionaryExt.nullValue) {
+                    while (it.next() != DictionaryValueHelper.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)

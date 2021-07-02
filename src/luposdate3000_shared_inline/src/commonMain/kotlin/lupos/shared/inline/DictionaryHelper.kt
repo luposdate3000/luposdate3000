@@ -721,16 +721,16 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: Int) {
-        ByteArrayWrapperExt.setSize(buffer, 8)
+    public inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: DictionaryValueType) {
+        ByteArrayWrapperExt.setSize(buffer, 4 + DictionaryValueHelper.getSize())
         ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.BLANK_NODE)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 4, value)
+        DictionaryValueHelper.toByteArray(buffer, 4, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToBnode_I(buffer: ByteArrayWrapper): Int {
-        if (ByteArrayWrapperExt.getSize(buffer) == 8) {
-            return ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 4)
+    public inline fun byteArrayToBnode_I(buffer: ByteArrayWrapper): DictionaryValueType {
+        if (ByteArrayWrapperExt.getSize(buffer) == 4 + DictionaryValueHelper.getSize()) {
+            return DictionaryValueHelper.fromByteArray(buffer, 4)
         } else {
             throw Exception("this is not ready to be used as instanciated value")
         }
@@ -969,7 +969,7 @@ internal object DictionaryHelper {
 
     public inline fun byteArrayToCallback(
         buffer: ByteArrayWrapper,
-        crossinline onBNode: (value: Int) -> Unit,
+        crossinline onBNode: (value: DictionaryValueType) -> Unit,
         crossinline onBoolean: (value: Boolean) -> Unit,
         crossinline onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
         crossinline onSimpleLiteral: (content: String) -> Unit,

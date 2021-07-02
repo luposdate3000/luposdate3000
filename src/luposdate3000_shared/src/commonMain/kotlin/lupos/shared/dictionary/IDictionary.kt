@@ -17,20 +17,22 @@
 package lupos.shared.dictionary
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryValueType
+import lupos.shared.inline.DictionaryValueTypeArray
 
 public interface IDictionary {
-    public fun importFromDictionaryFile(filename: String): Pair<IntArray, Int>
-    public fun createNewBNode(): Int
-    public fun createNewUUID(): Int
-    public fun createNewBNode(s: String): Int
-    public fun getValue(buffer: ByteArrayWrapper, value: Int)
-    public fun hasValue(buffer: ByteArrayWrapper): Int?
-    public fun createValue(buffer: ByteArrayWrapper): Int
-    public fun valueToGlobal(value: Int): Int
-    public fun isBnode(value: Int): Boolean
+    public fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int>
+    public fun createNewBNode(): DictionaryValueType
+    public fun createNewUUID(): DictionaryValueType
+    public fun createNewBNode(s: String): DictionaryValueType
+    public fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType)
+    public fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType?
+    public fun createValue(buffer: ByteArrayWrapper): DictionaryValueType
+    public fun valueToGlobal(value: DictionaryValueType): DictionaryValueType
+    public fun isBnode(value: DictionaryValueType): Boolean
     public fun close()
     public fun delete()
     public fun isInmemoryOnly(): Boolean
-    public fun isLocalValue(value: Int): Boolean
-    public fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit)
+    public fun isLocalValue(value: DictionaryValueType): Boolean
+    public fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit)
 }

@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
-
 import lupos.shared.MyReadWriteLock
 import kotlin.jvm.JvmField
 

@@ -15,7 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-
+import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.inline.DictionaryValueTypeArray
 import kotlin.jvm.JvmField
 
 public open class RowIterator {
@@ -23,7 +24,7 @@ public open class RowIterator {
     public var columns: Array<String> = arrayOf()
 
     @JvmField
-    public var buf: IntArray = IntArray(0)
+    public var buf: DictionaryValueTypeArray = DictionaryValueHelper.DictionaryValueTypeArray(0)
 
     @JvmField
     public var next: /*suspend*/ () -> Int = ::_next
@@ -36,5 +37,5 @@ public open class RowIterator {
         close = ::_close
     }
 
-    /*suspend*/ private fun _next() = -1
+    /*suspend*/ private fun _next(): Int = -1
 }

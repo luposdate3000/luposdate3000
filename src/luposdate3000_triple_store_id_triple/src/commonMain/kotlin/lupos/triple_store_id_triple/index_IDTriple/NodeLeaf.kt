@@ -19,13 +19,13 @@ package lupos.triple_store_id_triple.index_IDTriple
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
-
 internal object NodeLeaf {
     const val START_OFFSET = 12
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstTriple(node: ByteArray, b: IntArray) {
+    internal inline fun getFirstTriple(node: ByteArray, b: DictionaryValueTypeArray) {
         NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
             b[0] = v0
             b[1] = v1
@@ -108,9 +108,9 @@ internal object NodeLeaf {
             var remaining = NodeShared.getTripleCount(node)
             var offset2 = START_OFFSET
             var i = 0
-            var value0 = 0
-            var value1 = 0
-            var value2 = 0
+            var value0: DictionaryValueType = 0
+            var value1: DictionaryValueType = 0
+            var value2: DictionaryValueType = 0
             while (remaining > 0) {
                 offset2 += NodeShared.readTriple111(node, offset2, value0, value1, value2) { v0, v1, v2 ->
                     value0 = v0

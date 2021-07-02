@@ -18,15 +18,16 @@ package lupos.shared
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.DictionaryValueType
 import kotlin.jvm.JvmField
 
-public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparator<Int> {
+public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparator<DictionaryValueType> {
     @JvmField
     internal var bufferA = ByteArrayWrapper()
 
     @JvmField
     internal var bufferB = ByteArrayWrapper()
-    override fun compare(a: Int, b: Int): Int {
+    override fun compare(a: DictionaryValueType, b: DictionaryValueType): Int {
         query.getDictionary().getValue(bufferA, a)
         query.getDictionary().getValue(bufferB, b)
         return -DictionaryHelper.byteArrayCompareAny(bufferA, bufferB)

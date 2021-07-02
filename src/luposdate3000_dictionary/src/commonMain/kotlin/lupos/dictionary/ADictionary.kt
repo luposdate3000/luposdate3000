@@ -21,8 +21,10 @@ import lupos.shared.SanityCheck
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
-import lupos.shared.inline.DictionaryConstants
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.inline.DictionaryValueType
+import lupos.shared.inline.DictionaryValueTypeArray
 import kotlin.jvm.JvmField
 
 public abstract class ADictionary(
@@ -32,12 +34,12 @@ public abstract class ADictionary(
     internal var isLocal: Boolean,
 ) : IDictionary {
     @JvmField
-    internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
+    internal val bnodeMapToGlobal = mutableMapOf<DictionaryValueType, DictionaryValueType>()
 
     @JvmField
-    internal val bnodeMapLocal = mutableMapOf<String, Int>()
+    internal val bnodeMapLocal = mutableMapOf<String, DictionaryValueType>()
 
-    public override fun createNewBNode(s: String): Int {
+    public override fun createNewBNode(s: String): DictionaryValueType {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var res = bnodeMapLocal[s]
         if (res != null) {
@@ -48,20 +50,22 @@ public abstract class ADictionary(
         return res
     }
 
-    override fun isBnode(value: Int): Boolean = (value and DictionaryConstants.flagNoBNode) != DictionaryConstants.flagNoBNode
-
-    public override fun isLocalValue(value: Int): Boolean {
-        SanityCheck.check({ isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
-        return (value and DictionaryConstants.flagLocal) == DictionaryConstants.flagLocal
+    override fun isBnode(value: DictionaryValueType): Boolean {
+        return DictionaryValueHelper.isBnode(value)
     }
 
-    override fun valueToGlobal(value: Int): Int {
+    public override fun isLocalValue(value: DictionaryValueType): Boolean {
+        SanityCheck.check({ isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
+        return DictionaryValueHelper.isLocalValue(value)
+    }
+
+    override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
-        val res: Int
-        if ((value and DictionaryConstants.flagLocal) != DictionaryConstants.flagLocal) {
+        val res: DictionaryValueType
+        if ((value and DictionaryValueHelper.flagLocal) != DictionaryValueHelper.flagLocal) {
             res = value
         } else {
-            if ((value and DictionaryConstants.flagNoBNode) == DictionaryConstants.flagNoBNode) {
+            if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
                 val buffer = ByteArrayWrapper()
                 getValue(buffer, value)
                 res = instance.nodeGlobalDictionary!!.createValue(buffer)
@@ -79,11 +83,11 @@ public abstract class ADictionary(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> {
+    public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
-        var mymapping = IntArray(0)
-        var lastId = -1
-        fun addEntry(id: Int, i: Int) {
+        var mymapping = DictionaryValueTypeArray(0)
+        var lastId: Int = -1
+        fun addEntry(id: Int, i: DictionaryValueType) {
             SanityCheck.check { lastId == id - 1 }
             if (lastId != id - 1) {
                 throw Exception("ERROR !! $lastId -> $id")
@@ -98,7 +102,7 @@ public abstract class ADictionary(
                     newSize *= 2
                 }
                 val tmp = mymapping
-                mymapping = IntArray(newSize)
+                mymapping = DictionaryValueTypeArray(newSize)
                 tmp.copyInto(mymapping)
             }
             mymapping[id] = i
@@ -114,7 +118,7 @@ public abstract class ADictionary(
             } else {
                 var res = createValue(buffer)
                 if (isLocal) {
-                    res = res or DictionaryConstants.flagLocal
+                    res = res or DictionaryValueHelper.flagLocal
                 }
                 res
             }

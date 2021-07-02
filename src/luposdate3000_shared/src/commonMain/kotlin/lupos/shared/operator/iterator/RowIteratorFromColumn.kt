@@ -17,9 +17,8 @@
 package lupos.shared.operator.iterator
 
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.DictionaryValueHelper
 import kotlin.jvm.JvmField
-
 public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBundle) : RowIterator() {
     @JvmField
     public var iterators: Array<ColumnIterator>
@@ -29,12 +28,12 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
         val keys = bundle.columns.keys.toList()
         columns = Array<String>(bundle.columns.size) { keys[it] }
         iterators = Array<ColumnIterator>(bundle.columns.size) { bundle.columns[columns[it]]!! }
-        buf = IntArray(keys.size)
+        buf = DictionaryValueHelper.DictionaryValueTypeArray(keys.size)
         next = {
             var res = 0
             for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
-                if (tmp == DictionaryExt.nullValue) {
+                if (tmp == DictionaryValueHelper.nullValue) {
                     SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })
                     res = -1
                     close()

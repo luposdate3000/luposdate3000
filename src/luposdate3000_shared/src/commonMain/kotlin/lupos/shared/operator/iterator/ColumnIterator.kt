@@ -15,16 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-
+import lupos.shared.inline.DictionaryValueType
+import lupos.shared.inline.DictionaryValueTypeArray
 public abstract class ColumnIterator {
-    public abstract /*suspend*/ fun next(): Int
+    public abstract /*suspend*/ fun next(): DictionaryValueType
     public abstract /*suspend*/ fun close()
-    public open /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
+    public open /*suspend*/ fun nextSIP(minValue: DictionaryValueType, result: DictionaryValueTypeArray) {
         result[0] = 0
         result[1] = next()
     }
 
-    public open /*suspend*/ fun skipSIP(skipCount: Int): Int {
+    public open /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
         for (i in 0 until skipCount) {
             next()
         }

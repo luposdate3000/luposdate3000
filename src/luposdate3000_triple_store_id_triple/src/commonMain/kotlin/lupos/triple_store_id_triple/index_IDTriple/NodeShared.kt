@@ -18,8 +18,8 @@ package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.SanityCheck
 import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.DictionaryValueType
 import lupos.shared.inline.IntegerExt
-
 internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13
 
@@ -84,7 +84,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple111(node: ByteArray, offset: Int, d0: Int, d1: Int, d2: Int, crossinline action: (d0: Int, d1: Int, d2: Int) -> Unit): Int {
+    internal inline fun readTriple111(node: ByteArray, offset: Int, d0: Int, d1: Int, d2: Int, crossinline action: (d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -99,7 +99,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple010(node: ByteArray, offset: Int, d1: Int, crossinline action: (d1: Int) -> Unit): Int {
+    internal inline fun readTriple010(node: ByteArray, offset: Int, d1: Int, crossinline action: (d1: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -111,7 +111,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple001(node: ByteArray, offset: Int, d2: Int, crossinline action: (d2: Int) -> Unit): Int {
+    internal inline fun readTriple001(node: ByteArray, offset: Int, d2: Int, crossinline action: (d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -123,7 +123,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple100(node: ByteArray, offset: Int, d0: Int, crossinline action: (d0: Int) -> Unit): Int {
+    internal inline fun readTriple100(node: ByteArray, offset: Int, d0: Int, crossinline action: (d0: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -134,7 +134,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple110(node: ByteArray, offset: Int, d0: Int, d1: Int, crossinline action: (d0: Int, d1: Int) -> Unit): Int {
+    internal inline fun readTriple110(node: ByteArray, offset: Int, d0: Int, d1: Int, crossinline action: (d0: DictionaryValueType, d1: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -147,7 +147,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple101(node: ByteArray, offset: Int, d0: Int, d2: Int, crossinline action: (d0: Int, d2: Int) -> Unit): Int {
+    internal inline fun readTriple101(node: ByteArray, offset: Int, d0: Int, d2: Int, crossinline action: (d0: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->

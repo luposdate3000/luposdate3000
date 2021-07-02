@@ -19,6 +19,7 @@ package lupos.triple_store_id_triple.index_IDTriple
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 
 internal object NodeInner {
@@ -138,9 +139,9 @@ internal object NodeInner {
     /*suspend*/ internal inline fun findIteratorN(node: ByteArray, crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
-        var value0 = 0
-        var value1 = 0
-        var value2 = 0
+        var value0: DictionaryValueType = 0
+        var value1: DictionaryValueType = 0
+        var value2: DictionaryValueType = 0
         var lastChildPointer = getFirstChild(node)
         while (remaining > 0) {
             offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
@@ -311,9 +312,9 @@ internal object NodeInner {
             var lastChildPointer = getFirstChild(node)
             SanityCheck.check { lastChildPointer == writtenHeaders!![0] }
             var i = 0
-            var value0 = 0
-            var value1 = 0
-            var value2 = 0
+            var value0: DictionaryValueType = 0
+            var value1: DictionaryValueType = 0
+            var value2: DictionaryValueType = 0
             while (remaining > 0) {
                 offset2 += NodeShared.readTriple111(node, offset2, value0, value1, value2) { v0, v1, v2 ->
                     value0 = v0

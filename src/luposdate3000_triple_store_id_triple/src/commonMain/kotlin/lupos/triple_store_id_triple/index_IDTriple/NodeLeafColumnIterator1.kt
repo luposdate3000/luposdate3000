@@ -18,13 +18,13 @@ package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.inline.DictionaryValueType
 import kotlin.jvm.JvmField
-
 internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager) {
     @JvmField
-    var value = 0
-    override /*suspend*/ fun next(): Int {
+    var value: DictionaryValueType = 0
+    override /*suspend*/ fun next(): DictionaryValueType {
         if (label == 3) {
             label = 1
             __init()
@@ -40,7 +40,7 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
             updateRemaining()
             value
         } else {
-            DictionaryExt.nullValue
+            DictionaryValueHelper.nullValue
         }
     }
 
@@ -126,10 +126,10 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                 }
             }
             result[0] = 0
-            result[1] = DictionaryExt.nullValue
+            result[1] = DictionaryValueHelper.nullValue
         } else {
             result[0] = 0
-            result[1] = DictionaryExt.nullValue
+            result[1] = DictionaryValueHelper.nullValue
         }
     }
 
@@ -159,7 +159,7 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
             updateRemaining()
             return value
         } else {
-            return DictionaryExt.nullValue
+            return DictionaryValueHelper.nullValue
         }
     }
 }

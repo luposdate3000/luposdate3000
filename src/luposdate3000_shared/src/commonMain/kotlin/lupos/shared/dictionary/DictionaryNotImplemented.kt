@@ -15,24 +15,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.dictionary
-
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryConstants
+import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.inline.DictionaryValueType
+import lupos.shared.inline.DictionaryValueTypeArray
 public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun isInmemoryOnly(): Boolean = TODO()
     override fun close(): Unit = TODO()
     override fun delete(): Unit = TODO()
-    override fun createNewBNode(): Int = TODO()
-    override fun createNewUUID(): Int = TODO()
-    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
-    override fun getValue(buffer: ByteArrayWrapper, value: Int): Unit = TODO()
-    override fun createValue(buffer: ByteArrayWrapper): Int = TODO()
-    override fun hasValue(buffer: ByteArrayWrapper): Int? = TODO()
-    override fun createNewBNode(s: String): Int = TODO()
-    override fun isBnode(value: Int): Boolean = TODO()
-    override fun valueToGlobal(value: Int): Int = TODO()
-    override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = TODO()
-    override fun isLocalValue(value: Int): Boolean {
-        return (value and DictionaryConstants.flagLocal) == DictionaryConstants.flagLocal
+    override fun createNewBNode(): DictionaryValueType = TODO()
+    override fun createNewUUID(): DictionaryValueType = TODO()
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
+    override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType): Unit = TODO()
+    override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
+    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? = TODO()
+    override fun createNewBNode(s: String): DictionaryValueType = TODO()
+    override fun isBnode(value: DictionaryValueType): Boolean = TODO()
+    override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType = TODO()
+    override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> = TODO()
+    override fun isLocalValue(value: DictionaryValueType): Boolean {
+        return DictionaryValueHelper.isLocalValue(value)
     }
 }
