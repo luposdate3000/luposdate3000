@@ -23,7 +23,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -91,7 +90,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readInt()
             }
-            if (buffer[off] == DictionaryExt.nullValue) {
+            if (buffer[off] == DictionaryValueHelper.nullValue) {
                 conn.close()
             } else {
                 connections[openConnections] = conn to mapping
@@ -117,7 +116,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
                 for (i in 0 until variables.size) {
                     buffer[off + connMin.second[i]] = connMin.first.readInt()
                 }
-                if (buffer[off] == DictionaryExt.nullValue) {
+                if (buffer[off] == DictionaryValueHelper.nullValue) {
                     connMin.first.close()
                     val off2 = (openConnections - 1) * variables.size
                     if (off != off2) {

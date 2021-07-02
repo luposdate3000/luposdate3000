@@ -20,7 +20,6 @@ import lupos.dictionary.ADictionary
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
@@ -56,7 +55,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
         val res = input.readInt()
-        if (res == DictionaryExt.nullValue) {
+        if (res == DictionaryValueHelper.nullValue) {
             return null
         }
         return res

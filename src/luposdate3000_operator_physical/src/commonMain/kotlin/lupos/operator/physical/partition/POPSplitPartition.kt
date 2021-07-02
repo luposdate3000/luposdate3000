@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
 import lupos.operator.base.PartitionHelper
 import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -27,7 +27,6 @@ import lupos.shared.ParallelCondition
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -187,7 +186,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
                                 var cacheSize: Int
-                                if (q == DictionaryExt.undefValue) {
+                                if (q == DictionaryValueHelper.undefValue) {
                                     // broadcast undef to every partition
                                     SanityCheck.println { " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" }
                                     cacheSize = partitionCount

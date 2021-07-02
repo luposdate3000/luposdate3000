@@ -27,7 +27,6 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 
@@ -38,7 +37,7 @@ public object QueryResultToEmptyStream {
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == DictionaryExt.nullValue) {
+                if (valueID == DictionaryValueHelper.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID

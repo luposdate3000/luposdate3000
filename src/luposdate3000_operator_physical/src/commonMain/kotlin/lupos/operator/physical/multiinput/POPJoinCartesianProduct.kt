@@ -16,20 +16,21 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.POPBase
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
@@ -127,7 +128,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
+                    if (value == DictionaryValueHelper.nullValue) {
                         break@loopC
                     }
                     data[columnIndex].add(value)
@@ -156,12 +157,13 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                             }
 
                             override /*suspend*/ fun next(): Int {
-                                return nextHelper(
+                                return ColumnIteratorChildIteratorExt.nextHelper(
+                                    this,
                                     {
                                         var done = false
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
-                                            if (value == DictionaryExt.nullValue) {
+                                            if (value == DictionaryValueHelper.nullValue) {
                                                 SanityCheck.check { columnIndex == 0 }
                                                 done = true
                                                 for (v in childA.columns.values) {
@@ -173,7 +175,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                         }
                                         if (!done) {
                                             for (columnIndex in 0 until columnsINBO.size) {
-                                                outO[1][columnIndex].addChild(ColumnIteratorRepeatValue(1, DictionaryExt.undefValue))
+                                                outO[1][columnIndex].addChild(ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue))
                                             }
                                         }
                                     },
@@ -222,12 +224,13 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                         }
 
                         override /*suspend*/ fun next(): Int {
-                            return nextHelper(
+                            return ColumnIteratorChildIteratorExt.nextHelper(
+                                this,
                                 {
                                     var done = false
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
-                                        if (value == DictionaryExt.nullValue) {
+                                        if (value == DictionaryValueHelper.nullValue) {
                                             SanityCheck.check { columnIndex == 0 }
                                             done = true
                                             for (v in childA.columns.values) {

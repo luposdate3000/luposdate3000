@@ -80,7 +80,7 @@ public val generateByteArrayWrapperError: GenerateFuncOther = { indention, outpu
 }
 public val generateIDError: GenerateFuncOther = { indention, outputName, _, imports, target, _, onResult ->
     imports.add("lupos.shared.dictionary.DictionaryExt")
-    target.appendLine("$indention$outputName = DictionaryExt.errorValue")
+    target.appendLine("$indention$outputName = DictionaryValueHelper.errorValue")
     onResult(indention, ETripleComponentTypeExt.ERROR)
 }
 public val generateInstantiatedFalse: GenerateFuncOtherInstantiated = { indention, outputName, _, _, target, _ ->

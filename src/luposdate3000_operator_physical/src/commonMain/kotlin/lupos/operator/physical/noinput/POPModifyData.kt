@@ -21,6 +21,7 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -32,7 +33,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -101,14 +101,14 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
                 val s = iterator[0].next()
                 val p = iterator[1].next()
                 val o = iterator[2].next()
-                if (s == DictionaryExt.nullValue) {
+                if (s == DictionaryValueHelper.nullValue) {
                     break
                 }
                 cache.writeRow(s, p, o, query)
             }
             cache.close()
         }
-        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryExt.booleanTrueValue)))
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryValueHelper.booleanTrueValue)))
     }
     public open override fun usesDictionary(): Boolean {
         return true

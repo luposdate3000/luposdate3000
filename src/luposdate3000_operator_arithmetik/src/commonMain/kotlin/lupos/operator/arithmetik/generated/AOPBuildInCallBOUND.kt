@@ -14,14 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package lupos.operator.arithmetik.generated
 
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -50,7 +51,7 @@ public class AOPBuildInCallBOUND public constructor(query: IQuery, child0: AOPBa
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
-                    res = DictionaryExt.booleanTrueValue
+                    res = DictionaryValueHelper.booleanTrueValue
                 }
             }
             res

@@ -108,7 +108,7 @@ internal fun generatePOPBind(
             clazz.iteratorNextBody.println("                        row${variablename[i]} = column${variablename[i]}!!.iterator${operatorGraph.uuid}!!.next()")
         }
     }
-    clazz.iteratorNextBody.println("                        if (row${variablename[0]} == DictionaryExt.nullValue) {")
+    clazz.iteratorNextBody.println("                        if (row${variablename[0]} == DictionaryValueHelper.nullValue) {")
     for (i in 0 until variablename.size) {
         clazz.iteratorNextBody.println("                           ColumnIteratorQueueExt.closeOnEmptyQueue(column${variablename[i]}!!)")
     }
@@ -121,12 +121,12 @@ internal fun generatePOPBind(
     clazz.iteratorNextBody.println("                    }")
     clazz.iteratorNextBody.println("                    } catch (e: Throwable) {")
     clazz.iteratorNextBody.println("                    e.printStackTrace()")
-    clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = DictionaryExt.errorValue")
+    clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = DictionaryValueHelper.errorValue")
     clazz.iteratorNextBody.println("                    } ")
     if (inlineChild) {
         clazz.iteratorNextBodyEnd.println(childContainer!!.iteratorNextBodyEnd.toString())
     }
-    clazz.iteratorNextBodyResult.println("                        if (row${variablename[0]} != DictionaryExt.nullValue) {")
+    clazz.iteratorNextBodyResult.println("                        if (row${variablename[0]} != DictionaryValueHelper.nullValue) {")
     for (i in 0 until variablename.size) {
         clazz.iteratorNextBodyResult.println("                    column${variablename[i]}!!.queue.add(row${variablename[i]})")
     }

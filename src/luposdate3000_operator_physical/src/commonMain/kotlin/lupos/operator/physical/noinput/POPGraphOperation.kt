@@ -18,6 +18,7 @@ package lupos.operator.physical.noinput
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
 import lupos.shared.EGraphRefType
@@ -34,7 +35,6 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -146,7 +146,7 @@ public class POPGraphOperation public constructor(
             val s = iterator[0].next()
             val p = iterator[1].next()
             val o = iterator[2].next()
-            if (s == DictionaryExt.nullValue) {
+            if (s == DictionaryValueHelper.nullValue) {
                 break
             }
             cache.writeRow(s, p, o, query)
@@ -230,7 +230,7 @@ public class POPGraphOperation public constructor(
                         val s = iterator[0].next()
                         val p = iterator[1].next()
                         val o = iterator[2].next()
-                        if (s == DictionaryExt.nullValue) {
+                        if (s == DictionaryValueHelper.nullValue) {
                             break
                         }
                         cache.writeRow(s, p, o, query)

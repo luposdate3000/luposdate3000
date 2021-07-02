@@ -16,7 +16,7 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -42,9 +42,9 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                         while (head0 < head1) {
                             child0.nextSIP(head1, sipbuf)
                             val c = sipbuf[1]
-                            if (c == DictionaryExt.nullValue) {
+                            if (c == DictionaryValueHelper.nullValue) {
                                 _close()
-                                return DictionaryExt.nullValue
+                                return DictionaryValueHelper.nullValue
                             } else {
                                 head0 = c
                             }
@@ -53,9 +53,9 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                             change = true
                             child1.nextSIP(head0, sipbuf)
                             val c = sipbuf[1]
-                            if (c == DictionaryExt.nullValue) {
+                            if (c == DictionaryValueHelper.nullValue) {
                                 _close()
-                                return DictionaryExt.nullValue
+                                return DictionaryValueHelper.nullValue
                             } else {
                                 head1 = c
                             }
@@ -67,7 +67,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (head0 == value) {
                         count0++
                         val d = child0.next()
-                        if (d == DictionaryExt.nullValue) {
+                        if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
                         } else {
@@ -78,7 +78,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (head1 == value) {
                         count1++
                         val d = child1.next()
-                        if (d == DictionaryExt.nullValue) {
+                        if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
                         } else {
@@ -100,14 +100,14 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
             2 -> {
                 if (counter == 0) {
                     _close()
-                    return DictionaryExt.nullValue
+                    return DictionaryValueHelper.nullValue
                 } else {
                     counter--
                 }
                 return value
             }
             else -> {
-                return DictionaryExt.nullValue
+                return DictionaryValueHelper.nullValue
             }
         }
     }

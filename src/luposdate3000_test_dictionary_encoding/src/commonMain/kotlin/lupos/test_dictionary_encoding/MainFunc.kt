@@ -15,11 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test_dictionary_encoding
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper

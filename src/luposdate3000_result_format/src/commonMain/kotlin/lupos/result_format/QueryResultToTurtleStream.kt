@@ -27,7 +27,6 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
@@ -99,7 +98,7 @@ public object QueryResultToTurtleStream {
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == DictionaryExt.nullValue) {
+                if (valueID == DictionaryValueHelper.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID

@@ -17,13 +17,13 @@
 package lupos.operator.arithmetik
 
 import lupos.operator.base.OPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.ValueDefinition
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.HistogramResult
@@ -42,7 +42,7 @@ public abstract class AOPBase public constructor(
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)
             return {
-                tmp() == DictionaryExt.booleanTrueValue
+                tmp() == DictionaryValueHelper.booleanTrueValue
             }
         } else {
             val tmp = evaluate(row)

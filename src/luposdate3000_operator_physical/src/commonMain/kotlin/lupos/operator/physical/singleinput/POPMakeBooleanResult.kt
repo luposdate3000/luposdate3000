@@ -15,17 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
-
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -52,7 +51,7 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
         } else {
             val child = children[0].evaluate(parent)
             if (variables.isNotEmpty()) {
-                flag = child.columns[variables[0]]!!.next() != DictionaryExt.nullValue
+                flag = child.columns[variables[0]]!!.next() != DictionaryValueHelper.nullValue
                 for (variable in variables) {
                     child.columns[variable]!!.close()
                 }
@@ -62,9 +61,9 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
             }
         }
         val value = if (flag) {
-            DictionaryExt.booleanTrueValue
+            DictionaryValueHelper.booleanTrueValue
         } else {
-            DictionaryExt.booleanFalseValue
+            DictionaryValueHelper.booleanFalseValue
         }
         outMap["?boolean"] = ColumnIteratorRepeatValue(1, value)
         return IteratorBundle(outMap)

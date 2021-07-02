@@ -20,13 +20,13 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -67,7 +67,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         SanityCheck.check { mapping.isNotEmpty() }
         for (i in mapping.indices) {
             val tmp = iterators[i].next()
-            if (tmp == DictionaryExt.nullValue) {
+            if (tmp == DictionaryValueHelper.nullValue) {
                 done = true
                 for (element in iterators) {
                     element.close()
@@ -87,7 +87,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
                     loop@ while (!t && !done) {
                         for (i in mapping.indices) {
                             val tmp = iterators[i].next()
-                            if (tmp == DictionaryExt.nullValue) {
+                            if (tmp == DictionaryValueHelper.nullValue) {
                                 for (element in iterators) {
                                     element.close()
                                 }

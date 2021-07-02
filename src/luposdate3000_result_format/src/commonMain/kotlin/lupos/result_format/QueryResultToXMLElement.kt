@@ -22,7 +22,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -93,13 +92,13 @@ public object QueryResultToXMLElement {
                             val nodeResult = XMLElement("result")
                             for (variableIndex in variables.indices) {
                                 val valueID = columns[variableIndex].next()
-                                if (valueID == DictionaryExt.nullValue) {
+                                if (valueID == DictionaryValueHelper.nullValue) {
                                     for (element in columns) {
                                         element.close()
                                     }
                                     break@loop
                                 }
-                                if (valueID != DictionaryExt.undefValue && valueID != DictionaryExt.errorValue) {
+                                if (valueID != DictionaryValueHelper.undefValue && valueID != DictionaryValueHelper.errorValue) {
                                     query.getDictionary().getValue(buffer, valueID)
                                     val value = DictionaryHelper.byteArrayToSparql(buffer)
                                     val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])

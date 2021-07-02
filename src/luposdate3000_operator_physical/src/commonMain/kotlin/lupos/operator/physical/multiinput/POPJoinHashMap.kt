@@ -16,17 +16,17 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -117,16 +117,16 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                 0
             }
             loopB@ while (true) {
-                nextKey = IntArray(columnsINBJ.size) { DictionaryExt.undefValue }
+                nextKey = IntArray(columnsINBJ.size) { DictionaryValueHelper.undefValue }
                 nextMap = mapWithoutUndef
                 for (columnIndex in 0 until columnsINBJ.size) {
                     val value = columnsINBJ[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
+                    if (value == DictionaryValueHelper.nullValue) {
                         nextKey = null
                         break@loopB
                     }
                     nextKey!![columnIndex] = value
-                    if (value == DictionaryExt.undefValue) {
+                    if (value == DictionaryValueHelper.undefValue) {
                         nextMap = mapWithUndef
                     }
                 }
@@ -188,7 +188,8 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                 }
 
                 override /*suspend*/ fun next(): Int {
-                    return nextHelper(
+                    return ColumnIteratorChildIteratorExt.nextHelper(
+                        this,
                         {
                             var done = false
                             while (!done) {
@@ -198,17 +199,17 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     1
                                 }
                                 loopA@ while (true) {
-                                    nextKey = IntArray(columnsINAJ.size) { DictionaryExt.undefValue }
+                                    nextKey = IntArray(columnsINAJ.size) { DictionaryValueHelper.undefValue }
                                     nextMap = mapWithoutUndef
                                     for (columnIndex in 0 until columnsINAJ.size) {
                                         val value = columnsINAJ[columnIndex].next()
-                                        if (value == DictionaryExt.nullValue) {
+                                        if (value == DictionaryValueHelper.nullValue) {
                                             SanityCheck.check { columnIndex == 0 }
                                             nextKey = null
                                             break@loopA
                                         }
                                         nextKey!![columnIndex] = value
-                                        if (value == DictionaryExt.undefValue) {
+                                        if (value == DictionaryValueHelper.undefValue) {
                                             nextMap = mapWithUndef
                                         }
                                     }
@@ -253,7 +254,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
-                                            SanityCheck.check { tmp2 != DictionaryExt.nullValue }
+                                            SanityCheck.check { tmp2 != DictionaryValueHelper.nullValue }
                                             dataOA[columnIndex].add(tmp2)
                                         }
                                     }
@@ -263,14 +264,14 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                             done = true
                                             countB = 1
                                             val dataJ = IntArray(outJ.size) { currentKey!![it] }
-                                            POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(DictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
+                                            POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(DictionaryValueHelper.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
                                         }
                                     } else {
                                         done = true
                                         for (otherIndex in 0 until others.size) {
                                             countB = others[otherIndex].second.count
                                             val dataJ = IntArray(outJ.size) {
-                                                val res2: Int = if (currentKey!![it] != DictionaryExt.undefValue) {
+                                                val res2: Int = if (currentKey!![it] != DictionaryValueHelper.undefValue) {
                                                     currentKey!![it]
                                                 } else {
                                                     others[otherIndex].first.data[it]
@@ -316,7 +317,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
-                    return outJ[0].next() != DictionaryExt.nullValue
+                    return outJ[0].next() != DictionaryValueHelper.nullValue
                 }
 
                 override /*suspend*/ fun hasNext2Close() {

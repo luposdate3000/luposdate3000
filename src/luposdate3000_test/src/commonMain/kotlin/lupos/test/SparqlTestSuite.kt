@@ -51,7 +51,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownManifestException
 import lupos.shared.XMLElementFromXML
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
@@ -500,7 +499,7 @@ public open class SparqlTestSuite {
                             val s = iterator[0].next()
                             val p = iterator[1].next()
                             val o = iterator[2].next()
-                            if (s == DictionaryExt.nullValue) {
+                            if (s == DictionaryValueHelper.nullValue) {
                                 break
                             }
                             cache.writeRow(s, p, o, query)
@@ -546,7 +545,7 @@ public open class SparqlTestSuite {
                         val s = iterator[0].next()
                         val p = iterator[1].next()
                         val o = iterator[2].next()
-                        if (s == DictionaryExt.nullValue) {
+                        if (s == DictionaryValueHelper.nullValue) {
                             break
                         }
                         cache.writeRow(s, p, o, query)

@@ -17,6 +17,7 @@
 package lupos.operator.physical.partition
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -25,7 +26,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -148,7 +148,7 @@ public class POPDistributedReceiveMulti public constructor(
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.first.readInt()
             }
-            if (buffer[off] == DictionaryExt.nullValue) {
+            if (buffer[off] == DictionaryValueHelper.nullValue) {
                 conn.first.close()
                 conn.second.close()
             } else {
@@ -175,7 +175,7 @@ public class POPDistributedReceiveMulti public constructor(
                 for (i in 0 until variables.size) {
                     buffer[off + connMin.mapping[i]] = connMin.input.readInt()
                 }
-                if (buffer[off] == DictionaryExt.nullValue) {
+                if (buffer[off] == DictionaryValueHelper.nullValue) {
                     connMin.input.close()
                     connMin.output.close()
                     val off2 = (openConnections - 1) * variables.size

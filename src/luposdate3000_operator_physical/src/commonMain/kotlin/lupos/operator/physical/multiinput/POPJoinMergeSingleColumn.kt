@@ -15,15 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.multiinput
-
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
@@ -77,7 +76,7 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
         val outMap = mutableMapOf<String, ColumnIterator>()
         val a = child0.next()
         val b = child1.next()
-        if (a != DictionaryExt.nullValue && b != DictionaryExt.nullValue) {
+        if (a != DictionaryValueHelper.nullValue && b != DictionaryValueHelper.nullValue) {
             outMap[projectedVariables[0]] = POPJoinMergeSingleColumn_Iterator(child0, child1, a, b)
         } else {
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()

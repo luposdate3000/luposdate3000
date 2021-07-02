@@ -21,7 +21,6 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -83,7 +82,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                     input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = hasValue(buffer)
                     if (res == null) {
-                        output.writeInt(DictionaryExt.nullValue)
+                        output.writeInt(DictionaryValueHelper.nullValue)
                     } else {
                         output.writeInt(res)
                     }

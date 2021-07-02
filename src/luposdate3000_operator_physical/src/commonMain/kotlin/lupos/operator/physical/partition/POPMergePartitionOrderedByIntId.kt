@@ -17,6 +17,7 @@
 package lupos.operator.physical.partition
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
@@ -26,7 +27,6 @@ import lupos.shared.ParallelCondition
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -159,7 +159,7 @@ public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, p
                                         break@loop
                                     }
                                     val tmp = childIterator.next()
-                                    if (tmp == DictionaryExt.nullValue) {
+                                    if (tmp == DictionaryValueHelper.nullValue) {
                                         break@loop
                                     } else {
                                         ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
@@ -182,7 +182,7 @@ public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, p
                                         break@loop
                                     }
                                     val tmp = variableMapping[0].next()
-                                    if (tmp == DictionaryExt.nullValue) {
+                                    if (tmp == DictionaryValueHelper.nullValue) {
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
                                         }

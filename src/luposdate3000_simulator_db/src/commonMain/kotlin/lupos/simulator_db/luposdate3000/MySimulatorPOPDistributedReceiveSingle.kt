@@ -24,7 +24,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -85,7 +84,7 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
                 for (i in 0 until variables.size) {
                     iterator.buf[mapping[i]] = input.readInt()
                 }
-                if (iterator.buf[0] == DictionaryExt.nullValue) {
+                if (iterator.buf[0] == DictionaryValueHelper.nullValue) {
                     input.close()
                     closed = true
                 } else {

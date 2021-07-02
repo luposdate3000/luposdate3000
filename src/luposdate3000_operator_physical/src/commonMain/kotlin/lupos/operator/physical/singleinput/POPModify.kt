@@ -22,6 +22,7 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -30,7 +31,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -136,14 +136,14 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
-        val row = IntArray(variables.size) { DictionaryExt.undefValue }
+        val row = IntArray(variables.size) { DictionaryValueHelper.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
             if (variables.isNotEmpty()) {
                 for (columnIndex in variables.indices) {
                     val value = columns[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
+                    if (value == DictionaryValueHelper.nullValue) {
                         SanityCheck.check { columnIndex == 0 }
                         break@loop
                     }
@@ -207,7 +207,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                         val s = dict.valueToGlobal(iterator[0].next())
                         val p = dict.valueToGlobal(iterator[1].next())
                         val o = dict.valueToGlobal(iterator[2].next())
-                        if (s == DictionaryExt.nullValue) {
+                        if (s == DictionaryValueHelper.nullValue) {
                             break
                         }
                         cache.writeRow(s, p, o, query)
@@ -216,7 +216,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                 }
             }
         }
-        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryExt.booleanTrueValue)))
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryValueHelper.booleanTrueValue)))
     }
     public open override fun usesDictionary(): Boolean {
         return true

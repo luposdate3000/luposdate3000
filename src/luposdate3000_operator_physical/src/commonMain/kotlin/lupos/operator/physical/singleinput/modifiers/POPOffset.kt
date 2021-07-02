@@ -17,13 +17,13 @@
 package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -50,11 +50,11 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]] }
-        var tmp: Int = DictionaryExt.nullValue
+        var tmp: Int = DictionaryValueHelper.nullValue
         loop@ for (i in 0 until offset) {
             for (element in columns) {
                 tmp = element!!.next()
-                if (tmp == DictionaryExt.nullValue) {
+                if (tmp == DictionaryValueHelper.nullValue) {
                     for (element2 in columns) {
                         element2!!.close()
                     }
@@ -63,7 +63,7 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
             }
         }
         for (variable in variables) {
-            if (tmp == DictionaryExt.nullValue) {
+            if (tmp == DictionaryValueHelper.nullValue) {
                 child.columns[variable]!!.close()
             }
             outMap[variable] = child.columns[variable]!!

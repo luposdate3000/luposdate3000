@@ -17,6 +17,7 @@
 package lupos.operator.arithmetik.noinput
 
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
@@ -41,7 +42,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         val tmp = row.columns[name]
         return if (tmp == null) {
             {
-                DictionaryExt.undefValue
+                DictionaryValueHelper.undefValue
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }

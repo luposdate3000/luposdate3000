@@ -21,13 +21,13 @@ import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.ColumnIterator
@@ -57,7 +57,7 @@ public open class POPValues : POPBase {
             for (i in 0 until columns[0]!!.size) {
                 res += "("
                 for (v in variables.indices) {
-                    res += if (columns[v]!![i] == DictionaryExt.undefValue) {
+                    res += if (columns[v]!![i] == DictionaryValueHelper.undefValue) {
                         "UNDEF "
                     } else {
                         query.getDictionary().getValue(buffer, columns[v]!![i])

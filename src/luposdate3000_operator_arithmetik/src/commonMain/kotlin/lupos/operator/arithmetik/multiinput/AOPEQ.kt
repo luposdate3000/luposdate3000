@@ -17,10 +17,10 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Exception
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -35,24 +35,24 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
         val bufferA = ByteArrayWrapper()
         val bufferB = ByteArrayWrapper()
         return {
-            var res: Int = DictionaryExt.booleanTrueValue
+            var res: Int = DictionaryValueHelper.booleanTrueValue
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
                 if (query.getDictionary().isBnode(a1) || query.getDictionary().isBnode(b1)) {
-                    res = DictionaryExt.booleanFalseValue
+                    res = DictionaryValueHelper.booleanFalseValue
                 } else {
                     query.getDictionary().getValue(bufferA, a1)
                     query.getDictionary().getValue(bufferB, b1)
                     try {
                         if (DictionaryHelper.byteArrayCompareAny(bufferA, bufferB) != 0) {
-                            res = DictionaryExt.booleanFalseValue
+                            res = DictionaryValueHelper.booleanFalseValue
                         }
                     } catch (e: Luposdate3000Exception) {
-                        res = DictionaryExt.errorValue
+                        res = DictionaryValueHelper.errorValue
                     } catch (e: Throwable) {
                         e.printStackTrace()
-                        res = DictionaryExt.errorValue
+                        res = DictionaryValueHelper.errorValue
                     }
                 }
             }

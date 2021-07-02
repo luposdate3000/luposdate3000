@@ -19,10 +19,10 @@ package lupos.operator.arithmetik.singleinput
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -39,7 +39,7 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationSAMPLE && distinct == other.distinct && children.contentEquals(other.children)
     private class ColumnIteratorAggregateSAMPLE(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
-        private var value = DictionaryExt.undefValue
+        private var value = DictionaryValueHelper.undefValue
         private var isError = false
         private var hasInit = false
 

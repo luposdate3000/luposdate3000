@@ -17,10 +17,10 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -32,14 +32,14 @@ public class AOPLEQ public constructor(query: IQuery, childA: AOPBase, childB: A
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: Int = DictionaryExt.errorValue
+            var res: Int = DictionaryValueHelper.errorValue
             val a = childA()
             val b = childB()
             try {
                 res = if (a <= b) {
-                    DictionaryExt.booleanTrueValue
+                    DictionaryValueHelper.booleanTrueValue
                 } else {
-                    DictionaryExt.booleanFalseValue
+                    DictionaryValueHelper.booleanFalseValue
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {

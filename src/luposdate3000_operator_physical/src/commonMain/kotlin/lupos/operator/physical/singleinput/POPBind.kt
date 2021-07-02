@@ -22,13 +22,13 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -46,7 +46,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
     }
 
     override fun toSparql(): String {
-        if (children[1] is AOPConstant && (children[1] as AOPConstant).value == DictionaryExt.undefValue) {
+        if (children[1] is AOPConstant && (children[1] as AOPConstant).value == DictionaryValueHelper.undefValue) {
             return children[0].toSparql()
         }
         var res = "{SELECT "
@@ -72,7 +72,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
-        var expression: () -> Int = { DictionaryExt.errorValue }
+        var expression: () -> Int = { DictionaryValueHelper.errorValue }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().isEmpty()) {
             outMap[name.name] = ColumnIteratorRepeatValue(child.count(), expression())
@@ -99,7 +99,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                                 for (variableIndex2 in variablesLocal.indices) {
                                     if (boundIndex != variableIndex2) {
                                         val value = columnsIn[variableIndex2]!!.next()
-                                        if (value == DictionaryExt.nullValue) {
+                                        if (value == DictionaryValueHelper.nullValue) {
                                             SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])

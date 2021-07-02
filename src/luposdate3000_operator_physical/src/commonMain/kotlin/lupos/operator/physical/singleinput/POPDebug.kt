@@ -18,6 +18,7 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.physical.ITERATOR_DEBUG_MODE
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt
 import lupos.shared.ESortPriorityExt
@@ -25,7 +26,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -68,7 +68,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         val iterator = object : ColumnIterator() {
                             override /*suspend*/ fun next(): Int {
                                 val res = childIter.next()
-                                if (res != DictionaryExt.nullValue) {
+                                if (res != DictionaryValueHelper.nullValue) {
                                     if (!SanityCheck.ignoreTripleFlag) {
                                         when {
                                             columnName.startsWith("s") -> {
@@ -134,15 +134,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call" }
                                         val res = v.next()
-                                        if (res == DictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                        if (res == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
-                                        DictionaryExt.nullValue
+                                        DictionaryValueHelper.nullValue
                                     }
                                 }
 
@@ -151,15 +151,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                         SanityCheck.println { "$uuid $k next call minValue SIP" }
                                         v.nextSIP(minValue, result)
                                         val res = result[1]
-                                        if (res == DictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                        if (res == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                     } else {
                                         result[0] = 0
-                                        result[1] = DictionaryExt.nullValue
+                                        result[1] = DictionaryValueHelper.nullValue
                                     }
                                 }
 
@@ -167,15 +167,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call skip SIP" }
                                         val res = v.skipSIP(skipCount)
-                                        if (res == DictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                        if (res == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
-                                        DictionaryExt.nullValue
+                                        DictionaryValueHelper.nullValue
                                     }
                                 }
 
@@ -205,7 +205,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             val res = child.rows.next()
                             iterator.buf = child.rows.buf
                             if (res < 0) {
-                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                             } else {
                                 counter++
                                 SanityCheck.println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }

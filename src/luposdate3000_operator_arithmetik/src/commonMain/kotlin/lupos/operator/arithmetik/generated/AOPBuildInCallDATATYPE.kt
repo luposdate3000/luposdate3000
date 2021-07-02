@@ -17,11 +17,11 @@
 package lupos.operator.arithmetik.generated
 
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -85,7 +85,7 @@ public class AOPBuildInCallDATATYPE public constructor(query: IQuery, child0: AO
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
-                    res = DictionaryExt.errorValue
+                    res = DictionaryValueHelper.errorValue
                 }
             }
             res

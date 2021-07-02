@@ -27,6 +27,7 @@ import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
@@ -37,7 +38,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.inline.DictionaryHelper
@@ -225,7 +225,7 @@ public class POPGroup : POPBase {
                 loop2@ while (true) {
                     for (columnIndex in 0 until valueColumnNames.size) {
                         val value = valueColumns[columnIndex].next()
-                        if (value == DictionaryExt.nullValue) {
+                        if (value == DictionaryValueHelper.nullValue) {
                             SanityCheck.check { columnIndex == 0 }
                             for (closeIndex in 0 until valueColumnNames.size) {
                                 valueColumns[closeIndex].close()
@@ -260,13 +260,13 @@ public class POPGroup : POPBase {
                 }
             }
             if (canUseSortedInput) {
-                var currentKey = IntArray(keyColumnNames.size) { DictionaryExt.undefValue }
+                var currentKey = IntArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
                 var nextKey: IntArray? = null
                 // first row ->
                 var emptyResult = false
                 for (columnIndex in keyColumnNames.indices) {
                     val value = keyColumns[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
+                    if (value == DictionaryValueHelper.nullValue) {
                         for (element in keyColumns) {
                             element.close()
                         }
@@ -283,12 +283,12 @@ public class POPGroup : POPBase {
                     // there is no first row
                     for (v in keyColumnNames) {
                         if (projectedVariables.contains(v)) {
-                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                     }
                     for ((first) in bindings) {
                         if (projectedVariables.contains(first)) {
-                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                     }
                 } else {
@@ -347,7 +347,7 @@ public class POPGroup : POPBase {
                                             }
                                             for (columnIndex in keyColumnNames.indices) {
                                                 val value = keyColumns[columnIndex].next()
-                                                if (value == DictionaryExt.nullValue) {
+                                                if (value == DictionaryValueHelper.nullValue) {
                                                     for (element in keyColumns) {
                                                         element.close()
                                                     }
@@ -444,7 +444,7 @@ public class POPGroup : POPBase {
                     val map = mutableMapOf<Int, Int>()
                     while (true) {
                         val value = iterator.next()
-                        if (value == DictionaryExt.nullValue) {
+                        if (value == DictionaryValueHelper.nullValue) {
                             iterator.close()
                             break
                         }
@@ -470,10 +470,10 @@ public class POPGroup : POPBase {
                 } else {
                     val map = mutableMapOf<MapKey, POPGroup_Row>()
                     loop@ while (true) {
-                        val currentKey = IntArray(keyColumnNames.size) { DictionaryExt.undefValue }
+                        val currentKey = IntArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
                         for (columnIndex in keyColumnNames.indices) {
                             val value = keyColumns[columnIndex].next()
-                            if (value == DictionaryExt.nullValue) {
+                            if (value == DictionaryValueHelper.nullValue) {
                                 for (element in keyColumns) {
                                     element.close()
                                 }
@@ -516,10 +516,10 @@ public class POPGroup : POPBase {
                     }
                     if (map.isEmpty()) {
                         for (v in keyColumnNames) {
-                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                         for ((first) in bindings) {
-                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                     } else {
                         val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }

@@ -27,7 +27,6 @@ import lupos.shared.LuposHostname
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPConstant
@@ -138,7 +137,7 @@ public class POPTripleStoreIterator(
                     SanityCheck.check { filter2.size == ii }
                     val v = param.getValue()
                     if (query.getDictionary().isLocalValue(v)) {
-                        filter2.add(DictionaryExt.nullValue)
+                        filter2.add(DictionaryValueHelper.nullValue)
                     } else {
                         filter2.add(v)
                     }

@@ -21,6 +21,7 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.shared.AflCore
+import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
@@ -34,10 +35,6 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.abs
-
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
 import kotlin.math.max
 
 @JvmField

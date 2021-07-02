@@ -16,14 +16,13 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.iterator.ColumnIteratorMultiIterator
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
+import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
-
 internal object POPJoin {
     fun crossProduct(dataO0: Array<MutableList<Int>>, dataO1: Array<MutableList<Int>>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/

@@ -17,13 +17,13 @@
 package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -63,13 +63,13 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
                     return if (label != 0) {
                         if (count == limit) {
                             _close()
-                            DictionaryExt.nullValue
+                            DictionaryValueHelper.nullValue
                         } else {
                             count++
                             iterator.next()
                         }
                     } else {
-                        DictionaryExt.nullValue
+                        DictionaryValueHelper.nullValue
                     }
                 }
 

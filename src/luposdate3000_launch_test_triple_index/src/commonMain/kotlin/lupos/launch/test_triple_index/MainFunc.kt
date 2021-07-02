@@ -20,18 +20,13 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
 import lupos.shared.AflCore
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.TripleStoreIndex
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
-
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
-
 import kotlin.math.abs
 
 @JvmField

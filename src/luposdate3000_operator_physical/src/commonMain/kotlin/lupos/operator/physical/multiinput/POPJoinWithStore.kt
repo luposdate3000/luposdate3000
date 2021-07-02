@@ -23,6 +23,7 @@ import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -118,8 +119,8 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         }
         SanityCheck.check { variablINBO.size > 0 }
         val distributedStore = query.getInstance().tripleStoreManager!!.getGraph(childB.graph)
-        val valuesAO = IntArray(columnsINAO.size) { DictionaryExt.nullValue }
-        val valuesAJ = IntArray(columnsINAJ.size) { DictionaryExt.nullValue }
+        val valuesAO = IntArray(columnsINAO.size) { DictionaryValueHelper.nullValue }
+        val valuesAJ = IntArray(columnsINAJ.size) { DictionaryValueHelper.nullValue }
         var count = 0
         val params = Array<IAOPBase>(3) {
             if (childB.children[it] is AOPConstant) {
@@ -148,7 +149,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         for (i in 0 until columnsINAJ.size) {
             valuesAJ[i] = columnsINAJ[i].next()
         }
-        if (valuesAJ[0] != DictionaryExt.nullValue) {
+        if (valuesAJ[0] != DictionaryValueHelper.nullValue) {
 // there is at least one value in A
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
@@ -187,7 +188,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                                     var done = true
                                     loopB@ for (i in 0 until variablINBO.size) {
                                         val value = columnsInB[i].next()
-                                        if (value == DictionaryExt.nullValue) {
+                                        if (value == DictionaryValueHelper.nullValue) {
                                             for (element in columnsInB) {
                                                 element.close()
                                             }
@@ -213,7 +214,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                                         for (i in 0 until columnsINAJ.size) {
                                             valuesAJ[i] = columnsINAJ[i].next()
                                         }
-                                        if (valuesAJ[0] != DictionaryExt.nullValue) {
+                                        if (valuesAJ[0] != DictionaryValueHelper.nullValue) {
                                             for (i in 0 until indicesINBJ.size) {
                                                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
                                             }

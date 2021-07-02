@@ -16,8 +16,8 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.physical.POPBase
+import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery

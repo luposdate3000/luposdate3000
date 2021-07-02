@@ -18,12 +18,12 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -64,7 +64,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
                 val column = child.columns[variables2[0]]!!
                 return object : IteratorBundle(0) {
                     override /*suspend*/ fun hasNext2(): Boolean {
-                        return column.next() != DictionaryExt.nullValue
+                        return column.next() != DictionaryValueHelper.nullValue
                     }
 
                     override /*suspend*/ fun hasNext2Close() {

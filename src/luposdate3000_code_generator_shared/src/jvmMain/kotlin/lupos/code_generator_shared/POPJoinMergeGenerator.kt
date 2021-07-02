@@ -131,7 +131,7 @@ internal fun generatePOPJoinMerge(
     clazz.header.println(
         """
         override /*suspend*/ fun hasNext2(): Boolean {
-            val tmp = columnsOUTJ.next() != DictionaryExt.nullValue
+            val tmp = columnsOUTJ.next() != DictionaryValueHelper.nullValue
             if (!tmp) {
                 _hasNext2Close()
             }
@@ -345,7 +345,7 @@ internal fun generatePOPJoinMerge(
     )
     clazz.iteratorNextBody.println(
         """
-                    if (key0${variablesJoin[0]} != DictionaryExt.nullValue && key1${variablesJoin[0]} != DictionaryExt.nullValue) {
+                    if (key0${variablesJoin[0]} != DictionaryValueHelper.nullValue && key1${variablesJoin[0]} != DictionaryValueHelper.nullValue) {
                         loop@ while (true) {
                             if (key0${variablesJoin[0]} != key1${variablesJoin[0]}) {
                                 var skip0 = 0
@@ -358,7 +358,7 @@ internal fun generatePOPJoinMerge(
                                         skipO0 += sipbuf[0]
                                         skip0++
                                         skipO0++
-                                        if (key0${variablesJoin[0]} == DictionaryExt.nullValue) {
+                                        if (key0${variablesJoin[0]} == DictionaryValueHelper.nullValue) {
                                             __close()
                                             break@loop
                                         }
@@ -370,7 +370,7 @@ internal fun generatePOPJoinMerge(
                                         skipO1 += sipbuf[0]
                                         skip1++
                                         skipO1++
-                                        if (key1${variablesJoin[0]} == DictionaryExt.nullValue) {
+                                        if (key1${variablesJoin[0]} == DictionaryValueHelper.nullValue) {
                                             __close()
                                             break@loop
                                         }
@@ -397,7 +397,7 @@ internal fun generatePOPJoinMerge(
         clazz.iteratorNextBody.println("                                skipO0++ ")
         for (variable2 in variablesJoin) {
             clazz.iteratorNextBody.println("                                key0$variable2 = columnsInJ0$variable2.next()")
-            clazz.iteratorNextBody.println("                                if(key0$variable2 == DictionaryExt.nullValue){")
+            clazz.iteratorNextBody.println("                                if(key0$variable2 == DictionaryValueHelper.nullValue){")
             clazz.iteratorNextBody.println("                                    __close()")
             clazz.iteratorNextBody.println("                                    break@loop")
             clazz.iteratorNextBody.println("                                }")
@@ -408,7 +408,7 @@ internal fun generatePOPJoinMerge(
         clazz.iteratorNextBody.println("                                skipO1++")
         for (variable2 in variablesJoin) {
             clazz.iteratorNextBody.println("                                key1$variable2 = columnsInJ1$variable2.next()")
-            clazz.iteratorNextBody.println("                                if(key1$variable2 == DictionaryExt.nullValue){")
+            clazz.iteratorNextBody.println("                                if(key1$variable2 == DictionaryValueHelper.nullValue){")
             clazz.iteratorNextBody.println("                                    __close()")
             clazz.iteratorNextBody.println("                                    break@loop")
             clazz.iteratorNextBody.println("                                }")

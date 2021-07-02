@@ -17,6 +17,7 @@
 package lupos.operator.physical.partition
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
@@ -24,7 +25,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -145,7 +145,7 @@ public class POPDistributedSendMulti public constructor(
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
-        while (buf != DictionaryExt.nullValue) {
+        while (buf != DictionaryValueHelper.nullValue) {
 // the partition column
             val connectionOut = data[buf % partitionCount]
             connectionOut!!.writeInt(buf)

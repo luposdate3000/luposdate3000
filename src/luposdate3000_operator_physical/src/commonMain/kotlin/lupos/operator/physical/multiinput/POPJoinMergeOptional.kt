@@ -16,16 +16,17 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.physical.POPBase
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.ColumnIteratorChildIteratorEmpty
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -147,7 +148,8 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                     }
 
                     override /*suspend*/ fun next(): Int {
-                        return nextHelper(
+                        return ColumnIteratorChildIteratorExt.nextHelper(
+                            this,
                             {
                                 for (i in 0 until columnsINJ[0].size) {
                                     keyCopy[i] = key[0][i]
@@ -199,7 +201,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
-                    return columnsOUTJ[0].next() != DictionaryExt.nullValue
+                    return columnsOUTJ[0].next() != DictionaryValueHelper.nullValue
                 }
 
                 override /*suspend*/ fun hasNext2Close() {
@@ -219,12 +221,12 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
-        SanityCheck.check { keyCopy[0] != DictionaryExt.nullValue }
+        SanityCheck.check { keyCopy[0] != DictionaryValueHelper.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
                 /* this is an optional element without a match */
                 for (j in 0 until columnsINO.size) {
-                    data[j].add(DictionaryExt.undefValue)
+                    data[j].add(DictionaryValueHelper.undefValue)
                 }
                 return 1
             }
@@ -238,7 +240,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
-                SanityCheck.check { key[i] != DictionaryExt.undefValue }
+                SanityCheck.check { key[i] != DictionaryValueHelper.undefValue }
             }
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
@@ -251,7 +253,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
-        if (key[0][0] != DictionaryExt.nullValue && key[1][0] != DictionaryExt.nullValue) {
+        if (key[0][0] != DictionaryValueHelper.nullValue && key[1][0] != DictionaryValueHelper.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
                     val a = key[0][i]
@@ -262,8 +264,8 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                         }
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
-                            SanityCheck.check { key[1][j] != DictionaryExt.undefValue }
-                            if (key[1][j] == DictionaryExt.nullValue) {
+                            SanityCheck.check { key[1][j] != DictionaryValueHelper.undefValue }
+                            if (key[1][j] == DictionaryValueHelper.nullValue) {
                                 SanityCheck.check { j == 0 }
                                 break@loop
                             }
@@ -274,7 +276,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                 break@loop
             }
         }
-        return key[0][0] == DictionaryExt.nullValue
+        return key[0][0] == DictionaryValueHelper.nullValue
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("optional", "" + optional)

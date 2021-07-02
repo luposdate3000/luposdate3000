@@ -27,7 +27,6 @@ import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPBind
 import lupos.shared.EPartitionModeExt
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 
@@ -92,7 +91,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val iterator = columns[variables[0]]!!
                     while (i < data.size) {
                         val t = iterator.next()
-                        if (t != DictionaryExt.nullValue) {
+                        if (t != DictionaryValueHelper.nullValue) {
                             data[i] = t
                             i++
                         } else {

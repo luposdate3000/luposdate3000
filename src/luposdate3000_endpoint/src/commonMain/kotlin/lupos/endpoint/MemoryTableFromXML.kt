@@ -20,7 +20,6 @@ import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
 import lupos.shared.XMLElementFromXML
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 
@@ -44,7 +43,7 @@ public class MemoryTableFromXML : MemoryTableParser {
                 val buffer = ByteArrayWrapper()
                 for (xmlResult in xmlResults.childs) {
                     if (xmlResult.tag == "result") {
-                        val row = IntArray(variables.size) { DictionaryExt.undefValue }
+                        val row = IntArray(variables.size) { DictionaryValueHelper.undefValue }
                         res.data.add(row)
                         for (xmlBinding in xmlResult.childs) {
                             if (xmlBinding.tag == "binding") {
