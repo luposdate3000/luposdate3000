@@ -14,3 +14,12 @@
 
 5. E: gradle is executing only 1 Tasks  
    A: You skipped the step with "./launcher.main.kts" as described in the Readmes [spaclient](README-SPAClient.md)[advanced](README-usage-compile-advanced.md)[intellij](README-usage-compile-intellij.md).
+
+6. E: java.io.FileNotFoundException: src/luposdate3000_shared/build.gradle.kts (Permission denied)  
+   A: Please check, that you have the permission to read/write that File.  
+   Does the parent directory exist?  
+   Do you have permissions on the parent directory chain?  
+   Do you have available space on your storage device? (remember, that a few percent are reserved for root)  
+   Especially on Windows: Is there some Program, which has openend that File? Close that Program.  
+   Do you own that file?  
+   Does the file itself exist? Do you own it?
