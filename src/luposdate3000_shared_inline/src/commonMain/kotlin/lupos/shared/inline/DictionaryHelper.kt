@@ -19,6 +19,8 @@ package lupos.shared.inline
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import com.ionspin.kotlin.bignum.integer.Sign
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck

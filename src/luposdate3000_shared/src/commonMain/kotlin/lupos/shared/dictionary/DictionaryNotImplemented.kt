@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.dictionary
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
 public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun isInmemoryOnly(): Boolean = TODO()
     override fun close(): Unit = TODO()

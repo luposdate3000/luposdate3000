@@ -16,6 +16,8 @@
  */
 package lupos.shared.inline
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 internal object ColumnIteratorQueueExt {
     @Suppress("NOTHING_TO_INLINE")

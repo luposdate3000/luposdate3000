@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
+import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ColumnIteratorQueueExt
-import lupos.shared.inline.DictionaryValueType
 
 public object ColumnIteratorFromRow {
     public operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {

@@ -16,8 +16,8 @@
  */
 package lupos.shared.operator.iterator
 
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 
 public open class ColumnIteratorEmpty : ColumnIterator() {
     override /*suspend*/ fun next(): DictionaryValueType {

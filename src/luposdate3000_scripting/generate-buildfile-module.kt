@@ -770,6 +770,15 @@ if(!onWindows){
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
+if(true){
+typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperInt")
+typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Int")
+typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","IntArray")
+}else{
+typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperLong")
+typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Long")
+typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","LongArray")
+}
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
         } else {

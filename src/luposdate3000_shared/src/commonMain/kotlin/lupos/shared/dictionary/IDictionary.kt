@@ -16,9 +16,9 @@
  */
 package lupos.shared.dictionary
 
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
 
 public interface IDictionary {
     public fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int>

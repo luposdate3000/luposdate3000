@@ -35,9 +35,9 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import kotlin.math.max
 
 @JvmField

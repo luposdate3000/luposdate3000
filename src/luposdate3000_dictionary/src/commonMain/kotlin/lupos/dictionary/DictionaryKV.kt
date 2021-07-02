@@ -16,6 +16,9 @@
  */
 package lupos.dictionary
 import lupos.kv.KeyValueStore
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
@@ -24,9 +27,6 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.inline.BufferManagerPage
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore

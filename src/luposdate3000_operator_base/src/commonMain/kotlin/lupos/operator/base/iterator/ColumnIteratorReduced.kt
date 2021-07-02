@@ -16,7 +16,7 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 public class ColumnIteratorReduced(@JvmField public val child: ColumnIterator) : ColumnIterator() {

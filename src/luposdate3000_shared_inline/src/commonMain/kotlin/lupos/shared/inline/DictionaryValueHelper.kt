@@ -18,18 +18,10 @@ package lupos.shared.inline
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
-internal typealias DictionaryValueType = Int
-internal typealias DictionaryValueTypeArray = IntArray
-internal typealias DictionaryValueHelper = DictionaryValueHelperInt
-
-// internal typealias DictionaryValueType = Long
-// internal typealias DictionaryValueTypeArray = LongArray
-// internal typealias DictionaryValueHelper=DictionaryValueHelperLong
 /*
-
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 
 */
 

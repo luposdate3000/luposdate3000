@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import kotlin.jvm.JvmField
 
 public abstract class ColumnIteratorQueue : ColumnIterator() {

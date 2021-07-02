@@ -15,6 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
@@ -22,9 +25,6 @@ import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
 import kotlin.jvm.JvmField
 
 public abstract class ADictionary(

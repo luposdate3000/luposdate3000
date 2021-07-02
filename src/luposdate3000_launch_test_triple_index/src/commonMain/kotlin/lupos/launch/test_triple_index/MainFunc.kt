@@ -27,6 +27,11 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
+
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
+
 import kotlin.math.abs
 
 @JvmField
@@ -271,7 +276,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         val actual = mutableListOf<Int>()
         var value = iter.next()
-        while (value != DictionaryExt.nullValue) {
+        while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
             value = iter.next()
         }
@@ -292,7 +297,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         val actual = mutableListOf<Int>()
         var value = iter.next()
-        while (value != DictionaryExt.nullValue) {
+        while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
             value = iter.next()
         }
@@ -313,7 +318,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         val actual = mutableListOf<Int>()
         var value = iter.next()
-        while (value != DictionaryExt.nullValue) {
+        while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
             value = iter.next()
         }

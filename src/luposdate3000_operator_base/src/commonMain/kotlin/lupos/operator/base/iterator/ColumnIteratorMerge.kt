@@ -17,8 +17,8 @@
 package lupos.operator.base.iterator
 
 import lupos.operator.base.MERGE_SORT_MIN_ROWS
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
-import lupos.shared.inline.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 
 public object ColumnIteratorMerge {

@@ -17,9 +17,6 @@
 package lupos.shared
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
 import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
