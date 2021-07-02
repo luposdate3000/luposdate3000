@@ -25,7 +25,7 @@ public class syntaxbindings09rq {
     internal val query = File("src/jvmTest/resources/syntaxbindings09rq.query").readAsString()
 
     @Test
-    fun `syntaxbindings09rq}`() {
+    fun `syntaxbindings09rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -40,6 +40,4 @@ public class syntaxbindings09rq {
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

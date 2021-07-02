@@ -24,13 +24,11 @@ public class syntaxbindings02arqwithVALUESclause {
     internal val query = File("src/jvmTest/resources/syntaxbindings02arqwithVALUESclause.query").readAsString()
 
     @Test
-    fun `syntaxbindings02arq with VALUES clause}`() {
+    fun `syntaxbindings02arq with VALUES clause`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

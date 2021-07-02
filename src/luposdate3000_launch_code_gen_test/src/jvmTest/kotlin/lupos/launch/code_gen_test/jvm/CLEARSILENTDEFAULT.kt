@@ -24,13 +24,11 @@ public class CLEARSILENTDEFAULT {
     internal val query = File("src/jvmTest/resources/CLEARSILENTDEFAULT.query").readAsString()
 
     @Test
-    fun `CLEAR SILENT DEFAULT}`() {
+    fun `CLEAR SILENT DEFAULT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

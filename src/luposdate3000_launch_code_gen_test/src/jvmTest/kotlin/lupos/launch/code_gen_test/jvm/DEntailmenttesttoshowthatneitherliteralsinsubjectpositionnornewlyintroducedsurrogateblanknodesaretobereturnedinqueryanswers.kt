@@ -23,6 +23,8 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -41,7 +43,7 @@ public class DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyin
     internal val query = File("src/jvmTest/resources/DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.query").readAsString()
 
     @Test
-    fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers}`() {
+    fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -68,11 +70,18 @@ public class DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyin
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
-val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
-pkg0.onFinish = pkg1
-val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
-pkg1.onFinish = pkg2
-*/
+
+    @Test
+    fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator`() {
+        // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
+        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
+        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        pkg0.onFinish = pkg1
+        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
+        pkg1.onFinish = pkg2
+        // TODO send the package pkg0 to the selected database instance
+        // TODO wait for the simulation to finish sending ALL messages
+        // TODO verify that the test is finished
+    }
 }

@@ -24,13 +24,11 @@ public class synpname05 {
     internal val query = File("src/jvmTest/resources/synpname05.query").readAsString()
 
     @Test
-    fun `synpname05}`() {
+    fun `synpname05`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

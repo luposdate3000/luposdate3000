@@ -23,6 +23,9 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -56,7 +59,7 @@ public class SimpleDELETE4WITH {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Simple DELETE 4 WITH}`() {
+    fun `Simple DELETE 4 WITH`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -110,19 +113,27 @@ public class SimpleDELETE4WITH {
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
-val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
-pkg0.onFinish = pkg1
-val pkg2 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[0]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
-pkg1.onFinish = pkg2
-val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[1]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
-pkg2.onFinish = pkg3
-val pkg4 = MySimulatorTestingExecute(query)
-pkg3.onFinish = pkg4
-val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
-pkg4.onFinish = pkg5
-val pkg6 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[1]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
-pkg5.onFinish = pkg6
-*/
+
+    @Ignore // Reason: >Bug<
+    @Test
+    fun `Simple DELETE 4 WITH - in simulator`() {
+        // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
+        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
+        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
+        val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
+        pkg0.onFinish = pkg1
+        val pkg2 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        pkg1.onFinish = pkg2
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[1]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
+        pkg2.onFinish = pkg3
+        val pkg4 = MySimulatorTestingExecute(query)
+        pkg3.onFinish = pkg4
+        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        pkg4.onFinish = pkg5
+        val pkg6 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[1]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
+        pkg5.onFinish = pkg6
+        // TODO send the package pkg0 to the selected database instance
+        // TODO wait for the simulation to finish sending ALL messages
+        // TODO verify that the test is finished
+    }
 }

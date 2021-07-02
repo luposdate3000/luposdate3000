@@ -23,6 +23,8 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -41,7 +43,7 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode}`() {
+    fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -58,9 +60,17 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-val pkg0 = MySimulatorTestingExecute(query)
-val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
-pkg0.onFinish = pkg1
-*/
+
+    @Ignore // Reason: >Bug<
+    @Test
+    fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator`() {
+        // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
+        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
+        val pkg0 = MySimulatorTestingExecute(query)
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        pkg0.onFinish = pkg1
+        // TODO send the package pkg0 to the selected database instance
+        // TODO wait for the simulation to finish sending ALL messages
+        // TODO verify that the test is finished
+    }
 }

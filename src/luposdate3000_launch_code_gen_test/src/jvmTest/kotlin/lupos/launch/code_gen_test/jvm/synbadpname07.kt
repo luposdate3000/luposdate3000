@@ -25,7 +25,7 @@ public class synbadpname07 {
     internal val query = File("src/jvmTest/resources/synbadpname07.query").readAsString()
 
     @Test
-    fun `synbadpname07}`() {
+    fun `synbadpname07`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -40,6 +40,4 @@ public class synbadpname07 {
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

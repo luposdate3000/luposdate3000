@@ -24,13 +24,11 @@ public class COPYSILENTTODEFAULT {
     internal val query = File("src/jvmTest/resources/COPYSILENTTODEFAULT.query").readAsString()
 
     @Test
-    fun `COPY SILENT TO DEFAULT}`() {
+    fun `COPY SILENT TO DEFAULT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

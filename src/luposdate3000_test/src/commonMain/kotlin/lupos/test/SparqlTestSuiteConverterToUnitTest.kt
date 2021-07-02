@@ -910,6 +910,52 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 filenamePart = "_CodeGen"
             }
             File("$outputFolderTestJvm/$testCaseName$filenamePart.kt").withOutputStream { out ->
+                val distributedTest = StringBuilder()
+                var distributedTestCtr = 0
+                fun appendDistributedTest(s: String) {
+                    distributedTest.appendLine("val pkg$distributedTestCtr = $s")
+                    distributedTestCtr++
+                    if (distributedTestCtr> 1) {
+                        distributedTest.appendLine("pkg${distributedTestCtr - 2}.onFinish = pkg${distributedTestCtr - 1}")
+                    }
+                }
+                var localCounter = 0
+                fun myExpectedData(counter: Int, data: String, type: String) {
+                    out.println("        val expected$counter = MemoryTable.parseFromAny($data, $type, Query(instance))!!")
+                }
+                fun myActualDataOperatorGraph(counter: Int, graph: String) {
+                    out.println("        val query$counter = Query(instance)")
+                    out.println("        val graph$counter = instance.tripleStoreManager!!.getGraph($graph)")
+                    out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
+                }
+                fun myActualDataEvaluate(counter: Int) {
+                    out.println("        val actual$counter = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
+                }
+                fun myCompareData(counter: Int) {
+                    out.println("        val buf_err$counter = MyPrintWriter()")
+                    out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, buf_err$counter)) {")
+                    out.println("            fail(expected$counter.toString() + \" .. \" + actual$counter.toString() + \" .. \" + buf_err$counter.toString() + \" .. \" + operator$counter)")
+                    out.println("        }")
+                }
+                fun myVerifyGraph(counter: Int, data: String, type: String, graph: String, query: String?, isDefaultGraph: Boolean) {
+                    if (query == null) {
+                        myActualDataOperatorGraph(counter, graph)
+                    }
+                    myActualDataEvaluate(counter)
+                    myExpectedData(counter, data, type)
+                    myCompareData(counter)
+                    val q: String
+                    if (query == null) {
+                        if (isDefaultGraph) {
+                            q = "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
+                        } else {
+                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH \${$graph} { ?s ?p ?o . }}\""
+                        }
+                    } else {
+                        q = query
+                    }
+                    appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
+                }
                 out.println("/*")
                 out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
                 out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
@@ -938,6 +984,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.shared.MemoryTable")
                 out.println("import lupos." + "shared.inline.File")
                 out.println("import lupos." + "shared.inline.MyPrintWriter")
+                out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage")
+                out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage")
+                out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute")
                 if (ignored) {
                     out.println("import kotlin.test.Ignore")
                 }
@@ -1000,55 +1049,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         out.println("    @Ignore")
                     }
                 }
-                val distributedTest = StringBuilder()
-                var distributedTestCtr = 0
-                fun appendDistributedTest(s: String) {
-                    distributedTest.appendLine("val pkg$distributedTestCtr = $s")
-                    distributedTestCtr++
-                    if (distributedTestCtr> 1) {
-                        distributedTest.appendLine("pkg${distributedTestCtr - 2}.onFinish = pkg${distributedTestCtr - 1}")
-                    }
-                }
-                var localCounter = 0
-                fun myExpectedData(counter: Int, data: String, type: String) {
-                    out.println("        val expected$counter = MemoryTable.parseFromAny($data, $type, Query(instance))!!")
-                }
-                fun myActualDataOperatorGraph(counter: Int, graph: String) {
-                    out.println("        val query$counter = Query(instance)")
-                    out.println("        val graph$counter = instance.tripleStoreManager!!.getGraph($graph)")
-                    out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
-                }
-                fun myActualDataEvaluate(counter: Int) {
-                    out.println("        val actual$counter = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
-                }
-                fun myCompareData(counter: Int) {
-                    out.println("        val buf_err$counter = MyPrintWriter()")
-                    out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, buf_err$counter)) {")
-                    out.println("            fail(expected$counter.toString() + \" .. \" + actual$counter.toString() + \" .. \" + buf_err$counter.toString() + \" .. \" + operator$counter)")
-                    out.println("        }")
-                }
-                fun myVerifyGraph(counter: Int, data: String, type: String, graph: String, query: String?, isDefaultGraph: Boolean) {
-                    if (query == null) {
-                        myActualDataOperatorGraph(counter, graph)
-                    }
-                    myActualDataEvaluate(counter)
-                    myExpectedData(counter, data, type)
-                    myCompareData(counter)
-                    val q: String
-                    if (query == null) {
-                        if (isDefaultGraph) {
-                            q = "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
-                        } else {
-                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH \${$graph} { ?s ?p ?o . }}\""
-                        }
-                    } else {
-                        q = query
-                    }
-                    appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
-                }
-                distributedTest.appendLine("/*")
                 out.println("    @Test")
-                out.println("    fun `$testCaseName2}`() {")
+                out.println("    fun `$testCaseName2`() {")
                 out.println("        val instance = LuposdateEndpoint.initialize()")
                 out.println("        instance.LUPOS_BUFFER_SIZE = 128")
                 out.println("        val buf = MyPrintWriter(false)")
@@ -1101,8 +1103,26 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 }
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
-                distributedTest.appendLine("*/")
-                out.print(distributedTest.toString())
+                val str = distributedTest.toString()
+                if (str.length> 0) {
+                    if (ignored) {
+                        val reason = ignoreList[testCaseName]
+                        if (reason != null) {
+                            out.println("    @Ignore // Reason: >$reason<")
+                        } else {
+                            out.println("    @Ignore")
+                        }
+                    }
+                    out.println("    @Test")
+                    out.println("    fun `$testCaseName2 - in simulator`() {")
+                    out.println("        //TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready")
+                    out.println("        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead")
+                    out.print(str)
+                    out.println("        //TODO send the package pkg0 to the selected database instance")
+                    out.println("        //TODO wait for the simulation to finish sending ALL messages")
+                    out.println("        //TODO verify that the test is finished")
+                    out.println("    }")
+                }
                 out.println("}")
             }
         }

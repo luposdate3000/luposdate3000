@@ -24,13 +24,11 @@ public class syntaxupdate25ru {
     internal val query = File("src/jvmTest/resources/syntaxupdate25ru.query").readAsString()
 
     @Test
-    fun `syntaxupdate25ru}`() {
+    fun `syntaxupdate25ru`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

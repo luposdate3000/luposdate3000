@@ -24,13 +24,11 @@ public class LOADSILENTINTO {
     internal val query = File("src/jvmTest/resources/LOADSILENTINTO.query").readAsString()
 
     @Test
-    fun `LOAD SILENT INTO}`() {
+    fun `LOAD SILENT INTO`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

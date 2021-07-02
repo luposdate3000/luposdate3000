@@ -24,13 +24,11 @@ public class syntaxBINDscope5rq {
     internal val query = File("src/jvmTest/resources/syntaxBINDscope5rq.query").readAsString()
 
     @Test
-    fun `syntaxBINDscope5rq}`() {
+    fun `syntaxBINDscope5rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

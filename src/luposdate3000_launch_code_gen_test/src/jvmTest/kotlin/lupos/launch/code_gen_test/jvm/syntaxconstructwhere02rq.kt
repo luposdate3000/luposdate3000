@@ -26,13 +26,11 @@ public class syntaxconstructwhere02rq {
 
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
-    fun `syntaxconstructwhere02rq}`() {
+    fun `syntaxconstructwhere02rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

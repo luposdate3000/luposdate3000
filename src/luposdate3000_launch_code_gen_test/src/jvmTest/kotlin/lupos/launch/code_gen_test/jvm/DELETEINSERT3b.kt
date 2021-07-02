@@ -27,7 +27,7 @@ public class DELETEINSERT3b {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `DELETE INSERT 3b}`() {
+    fun `DELETE INSERT 3b`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -42,6 +42,4 @@ public class DELETEINSERT3b {
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

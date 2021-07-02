@@ -27,7 +27,7 @@ public class syntaxupdatebad12ru {
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    fun `syntaxupdatebad12ru}`() {
+    fun `syntaxupdatebad12ru`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -42,6 +42,4 @@ public class syntaxupdatebad12ru {
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

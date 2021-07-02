@@ -24,13 +24,11 @@ public class syntaxexists02rq {
     internal val query = File("src/jvmTest/resources/syntaxexists02rq.query").readAsString()
 
     @Test
-    fun `syntaxexists02rq}`() {
+    fun `syntaxexists02rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

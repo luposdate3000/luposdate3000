@@ -26,13 +26,11 @@ public class syntaxaggregate14rq {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `syntaxaggregate14rq}`() {
+    fun `syntaxaggregate14rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

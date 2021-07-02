@@ -24,13 +24,11 @@ public class syntaxaggregate04rq {
     internal val query = File("src/jvmTest/resources/syntaxaggregate04rq.query").readAsString()
 
     @Test
-    fun `syntaxaggregate04rq}`() {
+    fun `syntaxaggregate04rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

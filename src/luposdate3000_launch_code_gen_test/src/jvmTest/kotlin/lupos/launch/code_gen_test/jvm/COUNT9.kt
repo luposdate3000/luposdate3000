@@ -27,7 +27,7 @@ public class COUNT9 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `COUNT 9}`() {
+    fun `COUNT 9`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -42,6 +42,4 @@ public class COUNT9 {
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }

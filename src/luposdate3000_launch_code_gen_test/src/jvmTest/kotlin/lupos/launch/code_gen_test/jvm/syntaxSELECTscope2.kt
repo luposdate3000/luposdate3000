@@ -27,7 +27,7 @@ public class syntaxSELECTscope2 {
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    fun `syntaxSELECTscope2}`() {
+    fun `syntaxSELECTscope2`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -42,6 +42,4 @@ public class syntaxSELECTscope2 {
         }
         LuposdateEndpoint.close(instance)
     }
-/*
-*/
 }
