@@ -28,6 +28,8 @@ internal actual class MyOutputStream : IMyOutputStream {
     @JvmField
     internal var stream: OutputStream?
 
+    private var closedBy: MutableList<Throwable>? = null
+
     internal constructor(it: OutputStream) {
         // kotlin.io.println("MyOutputStream.constructor $this")
         stream = it
@@ -48,6 +50,20 @@ internal actual class MyOutputStream : IMyOutputStream {
     }
 
     public actual override fun close() {
+        try {
+            throw Exception()
+        } catch (e: Throwable) {
+            if (closedBy == null) {
+                closedBy = mutableListOf(e)
+            } else {
+                closedBy!!.add(e)
+            }
+        }
+        if (stream == null) {
+            for (e in closedBy!!) {
+                e.printStackTrace()
+            }
+        }
         // kotlin.io.println("MyOutputStream.close $this")
         flush()
         stream!!.close()

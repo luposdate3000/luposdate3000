@@ -129,7 +129,7 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
             // the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
-            val elementsPerRing = Partition.queue_size * variables.size
+            val elementsPerRing = query.getInstance().queue_size * variables.size
             val ringbuffer = IntArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
             val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required

@@ -185,8 +185,6 @@ public actual object HttpEndpointLauncher {
                                         }
 // release
                                         remoteDictionary.close()
-                                        conn.first.close()
-                                        conn.second.close()
                                         for (c in queryContainer.outputStreams) {
                                             c!!.close()
                                         }
