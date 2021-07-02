@@ -14,31 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator.base.iterator
+package lupos.shared.inline
 
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.operator.iterator.ColumnIterator
-import kotlin.jvm.JvmField
-public class ColumnIteratorMultiValue3(@JvmField public val values: DictionaryValueTypeArray, @JvmField public var size: Int) : ColumnIterator() {
-    @JvmField
-    public var index: Int = 0
-
-    public fun reset(newsize: Int) {
-        index = 0
-        size = newsize
-    }
-
-    public /*suspend*/ override fun close() {
-        index = size
-    }
-
-    public /*suspend*/ override fun next(): DictionaryValueType {
-        return if (index == size) {
-            DictionaryValueHelper.nullValue
-        } else {
-            values[index++]
-        }
+internal actual object LongExt {
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun numberOfLeadingZeros(value: Long): Int {
+        return Long.numberOfLeadingZeros(value)
     }
 }

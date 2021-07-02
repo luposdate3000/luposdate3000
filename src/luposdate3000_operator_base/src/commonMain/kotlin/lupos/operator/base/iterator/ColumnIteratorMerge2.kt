@@ -17,6 +17,7 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -25,10 +26,10 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
     public var label: Int = 3
 
     @JvmField
-    public var aBuf: Int = DictionaryValueHelper.nullValue
+    public var aBuf: DictionaryValueType = DictionaryValueHelper.nullValue
 
     @JvmField
-    public var bBuf: Int = DictionaryValueHelper.nullValue
+    public var bBuf: DictionaryValueType = DictionaryValueHelper.nullValue
     override /*suspend*/ fun close() {
         if (label != 0) {
             label = 0
@@ -37,8 +38,8 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
         }
     }
 
-    override /*suspend*/ fun next(): Int {
-        var res: Int = DictionaryValueHelper.nullValue
+    override /*suspend*/ fun next(): DictionaryValueType {
+        var res: DictionaryValueType = DictionaryValueHelper.nullValue
         when (label) {
             1 -> { // call next on a, b is empty
                 res = a.next()

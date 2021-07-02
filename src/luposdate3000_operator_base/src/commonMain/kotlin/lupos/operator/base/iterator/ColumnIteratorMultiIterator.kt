@@ -17,9 +17,9 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-
 public class ColumnIteratorMultiIterator(@JvmField public val childs: List<ColumnIterator>) : ColumnIterator() {
     @JvmField
     public var index: Int = 0
@@ -41,7 +41,7 @@ public class ColumnIteratorMultiIterator(@JvmField public val childs: List<Colum
         _close()
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return if (label == 1) {
             var res = childs[index].next()
             while (res == DictionaryValueHelper.nullValue && ++index < childs.size) {

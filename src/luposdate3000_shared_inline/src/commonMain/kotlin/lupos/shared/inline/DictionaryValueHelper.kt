@@ -21,6 +21,10 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 /*
 
 
+DictionaryValueHelper.DictionaryValueTypeArray
+
+DictionaryValueType
+
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -54,8 +58,17 @@ internal object DictionaryValueHelperInt {
     internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Int) {
         ByteArrayHelper.writeInt4(buffer, off, value)
     }
+internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int,count:Int) {
+        ByteArrayHelper.writeIntX(ByteArrayWrapperExt.getBuf(buffer), off, value,count)
+    }
+internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Int,count:Int) {
+        ByteArrayHelper.writeIntX(buffer, off, value,count)
+    }
     internal inline fun fromByteArray(buffer: ByteArray, off: Int): Int {
         return ByteArrayHelper.readInt4(buffer, off)
+    }
+    internal inline fun fromByteArrayX(buffer: ByteArray, off: Int, bytes: Int): Int {
+        return ByteArrayHelper.readIntX(buffer, off, bytes)
     }
     internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) {
         ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, value)
@@ -76,6 +89,9 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromInt(value: Int): Int {
         // adapter for places, where always Int are used
         return value
+    }
+    internal inline fun numberOfBytesUsed(value: Int): Int {
+        return (((32 + 7 - IntegerExt.numberOfLeadingZeros(value))) shr 3)
     }
 }
 internal object DictionaryValueHelperLong {
@@ -110,6 +126,12 @@ internal object DictionaryValueHelperLong {
     internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long) {
         ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), off, value)
     }
+    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Long,count:Int) {
+        ByteArrayHelper.writeLongX(ByteArrayWrapperExt.getBuf(buffer), off, value,count)
+    }
+    internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Long,count:Int) {
+        ByteArrayHelper.writeLongX(buffer, off, value,count)
+    }
     internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Long {
         return ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), off)
     }
@@ -126,5 +148,8 @@ internal object DictionaryValueHelperLong {
     internal inline fun fromInt(value: Int): Long {
         // adapter for places, where always Int are used
         return value.toLong()
+    }
+    internal inline fun numberOfBytesUsed(value: Long): Int {
+        return (((64 + 7 - LongExt.numberOfLeadingZeros(value))) shr 3)
     }
 }

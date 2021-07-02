@@ -30,6 +30,7 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -191,7 +192,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
             }
 
-            fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
+            fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: DictionaryValueType) {
                 if (verbose) {
                     println("testCreateValueExistingOk $targetKey $data")
                 }

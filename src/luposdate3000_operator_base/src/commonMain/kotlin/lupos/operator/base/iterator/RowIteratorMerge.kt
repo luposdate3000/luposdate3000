@@ -17,6 +17,7 @@
 package lupos.operator.base.iterator
 
 import lupos.operator.base.MERGE_SORT_MIN_ROWS
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
@@ -25,8 +26,8 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<Int>, compCount: Int, columns: Array<String>): RowIterator {
             SanityCheck.check { columns.size == a.columns.size }
-            var buf1 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
-            var buf2 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
+            var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
+            var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var done = false
             val resultList = mutableListOf<RowIterator?>()
             val columnMapping = IntArray(columns.size)

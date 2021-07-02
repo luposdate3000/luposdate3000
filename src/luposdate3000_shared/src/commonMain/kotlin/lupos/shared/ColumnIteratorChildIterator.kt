@@ -18,7 +18,6 @@ package lupos.shared
 
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-
 public abstract class ColumnIteratorChildIterator : ColumnIterator() {
     @JvmField
     public var queue: Array<ColumnIterator> = Array<ColumnIterator>(100) { this }
@@ -33,7 +32,7 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
     public var label: Int = 1
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun addChildColumnIteratorValue(value: Int) {
+    public inline fun addChildColumnIteratorValue(value: DictionaryValueType) {
         val res = ColumnIteratorValue()
         res.value = value
         res.done = false

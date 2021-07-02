@@ -17,11 +17,12 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 public class ColumnIteratorReduced(@JvmField public val child: ColumnIterator) : ColumnIterator() {
     @JvmField
-    public var last: Int = DictionaryValueHelper.nullValue
+    public var last: DictionaryValueType = DictionaryValueHelper.nullValue
 
     @JvmField
     public var label: Int = 1

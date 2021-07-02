@@ -17,9 +17,9 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-
 public class ColumnIteratorRepeatValue(@JvmField public val count: Int, @JvmField public val value: Int) : ColumnIterator() {
     @JvmField
     public var index: Int = 0
@@ -27,7 +27,7 @@ public class ColumnIteratorRepeatValue(@JvmField public val count: Int, @JvmFiel
         index = count
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return if (index == count) {
             DictionaryValueHelper.nullValue
         } else {

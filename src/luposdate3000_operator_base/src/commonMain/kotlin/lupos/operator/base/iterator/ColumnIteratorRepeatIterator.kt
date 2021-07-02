@@ -29,7 +29,7 @@ public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmF
     public var index2: Int = 0
 
     @JvmField
-    public val data: MutableList<Int> = mutableListOf()
+    public val data: MutableList<DictionaryValueType> = mutableListOf()
 
     @JvmField
     public var label: Int = 1

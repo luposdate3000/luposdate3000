@@ -16,6 +16,8 @@
  */
 package lupos.operator.base.iterator
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
@@ -25,7 +27,7 @@ public open class RowIteratorReduced(@JvmField public val child: RowIterator) : 
 
     init {
         columns = child.columns
-        buf = IntArray(columns.size)
+        buf = DictionaryValueHelper.DictionaryValueTypeArray(columns.size)
         close = {
             child.close()
             _close()

@@ -22,7 +22,7 @@ import kotlin.jvm.JvmField
 public class ColumnIteratorValue : ColumnIterator() {
     public companion object {
         @Suppress("NOTHING_TO_INLINE")
-        internal inline operator fun invoke(value: Int): ColumnIteratorValue {
+        internal inline operator fun invoke(value: DictionaryValueType): ColumnIteratorValue {
             val res = ColumnIteratorValue()
             res.value = value
             res.done = false
@@ -31,7 +31,7 @@ public class ColumnIteratorValue : ColumnIterator() {
     }
 
     @JvmField
-    public var value: Int = DictionaryValueHelper.nullValue
+    public var value: DictionaryValueType = DictionaryValueHelper.nullValue
 
     @JvmField
     public var done: Boolean = false
@@ -39,7 +39,7 @@ public class ColumnIteratorValue : ColumnIterator() {
         done = true
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return if (done) {
             DictionaryValueHelper.nullValue
         } else {

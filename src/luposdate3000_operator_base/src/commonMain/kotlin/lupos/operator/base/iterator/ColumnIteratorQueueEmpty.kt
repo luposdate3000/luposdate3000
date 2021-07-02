@@ -16,15 +16,15 @@
  */
 package lupos.operator.base.iterator
 
+import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.iterator.ColumnIteratorQueue
-
 public class ColumnIteratorQueueEmpty : ColumnIteratorQueue() {
     override /*suspend*/ fun close() {
         ColumnIteratorQueueExt._close(this)
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return ColumnIteratorQueueExt.nextHelper(this, {}, { ColumnIteratorQueueExt._close(this) })
     }
 }
