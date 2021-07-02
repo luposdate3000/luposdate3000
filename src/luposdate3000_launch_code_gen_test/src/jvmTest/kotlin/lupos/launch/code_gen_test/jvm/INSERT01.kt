@@ -67,10 +67,8 @@ public class INSERT01 {
             fail(input_a_0.toString() + " .. " + result_a_0.toString() + " .. " + buf_err_a_0.toString() + " .. " + op2_a_0)
         }
 
-
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, op, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-
 
         val query_0 = Query(instance)
         println("query_0.dict ${query_0!!.getDictionary()}")

@@ -197,15 +197,16 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             child.hasNext2Close()
         }
         for ((graphName, iterator) in data) {
+            val dict = query.getDictionary()
             val store = query.getInstance().tripleStoreManager!!.getGraph(graphName)
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
                     val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                     val iterator = Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }
                     while (true) {
-                        val s = iterator[0].next()
-                        val p = iterator[1].next()
-                        val o = iterator[2].next()
+                        val s = dict.valueToGlobal(iterator[0].next())
+                        val p = dict.valueToGlobal(iterator[1].next())
+                        val o = dict.valueToGlobal(iterator[2].next())
                         if (s == DictionaryExt.nullValue) {
                             break
                         }

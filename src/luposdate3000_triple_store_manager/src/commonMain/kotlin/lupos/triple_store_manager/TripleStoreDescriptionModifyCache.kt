@@ -189,6 +189,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         }
     }
     public override fun writeRow(s: Int, p: Int, o: Int, query: IQuery) {
+        SanityCheck.check { !query.getDictionary().isLocalValue(s) }
+        SanityCheck.check { !query.getDictionary().isLocalValue(p) }
+        SanityCheck.check { !query.getDictionary().isLocalValue(o) }
         for (i in 0 until allConn.size) {
             row[0] = s
             row[1] = p
