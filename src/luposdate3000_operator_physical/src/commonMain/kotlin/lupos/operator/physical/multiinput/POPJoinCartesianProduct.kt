@@ -18,7 +18,6 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
-import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.multiinput.LOPJoin_Helper
@@ -31,6 +30,7 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty

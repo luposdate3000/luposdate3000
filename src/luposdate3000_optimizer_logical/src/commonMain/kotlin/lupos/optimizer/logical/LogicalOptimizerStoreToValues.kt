@@ -25,6 +25,7 @@ import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPBind
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EPartitionModeExt
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IAOPBase

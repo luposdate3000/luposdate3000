@@ -38,7 +38,8 @@ internal fun generatePOPJoinMerge(
     imports.add("lupos.shared.operator.IOPBase")
     imports.add("lupos.shared.IQuery")
     imports.add("lupos.shared.operator.iterator.ColumnIterator")
-    imports.add("lupos.operator.base.iterator.ColumnIteratorChildIterator")
+    imports.add("lupos.shared.ColumnIteratorChildIterator")
+    imports.add("lupos.shared.inline.ColumnIteratorChildIteratorExt")
     imports.add("lupos.shared.operator.iterator.IteratorBundle")
     imports.add("lupos.operator.physical.POPBase")
     imports.add("kotlin.jvm.JvmField")
@@ -340,7 +341,7 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorNextHeader.println(
         """
         override /*suspend*/ fun next(): Int {
-            return nextHelper(
+            return ColumnIteratorChildIteratorExt.nextHelper(this,
                 {"""
     )
     clazz.iteratorNextBody.println(

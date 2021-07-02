@@ -17,7 +17,6 @@
 package lupos.result_format
 
 import kotlin.jvm.JvmField
-
 public object EQueryResultToStreamExt {
     public const val DEFAULT_STREAM: EQueryResultToStream = 0
     public const val EMPTYDICTIONARY_STREAM: EQueryResultToStream = 1

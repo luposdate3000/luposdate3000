@@ -16,6 +16,7 @@
  */
 package lupos.endpoint
 
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser

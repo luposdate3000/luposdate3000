@@ -17,6 +17,7 @@
 package lupos.endpoint_launcher
 
 import lupos.dictionary.ADictionary
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance

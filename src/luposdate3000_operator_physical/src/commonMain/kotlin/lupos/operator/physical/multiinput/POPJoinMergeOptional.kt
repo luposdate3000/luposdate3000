@@ -19,7 +19,6 @@ package lupos.operator.physical.multiinput
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
-import lupos.shared.ColumnIteratorChildIteratorEmpty
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -27,6 +26,7 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle

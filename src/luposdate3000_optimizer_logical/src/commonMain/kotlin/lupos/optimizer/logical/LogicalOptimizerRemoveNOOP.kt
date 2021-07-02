@@ -27,7 +27,7 @@ import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPMakeBooleanResult
 import lupos.operator.logical.singleinput.LOPSubGroup
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemoveNOOPID, "LogicalOptimizerRemoveNOOP") {
@@ -70,7 +70,7 @@ public class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOp
                 res = node.getChildren()[0]
                 onChange()
             }
-        } else if (node is LOPFilter && node.getChildren()[1] is AOPConstant && (node.getChildren()[1] as AOPConstant).value == DictionaryExt.booleanFalseValue) {
+        } else if (node is LOPFilter && node.getChildren()[1] is AOPConstant && (node.getChildren()[1] as AOPConstant).value == DictionaryValueHelper.booleanFalseValue) {
             res = OPNothing(query, node.getProvidedVariableNames())
             onChange()
         } else if (node is LOPMinus) {
