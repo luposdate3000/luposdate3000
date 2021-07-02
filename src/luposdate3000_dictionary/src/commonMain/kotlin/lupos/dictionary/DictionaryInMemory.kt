@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
-
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryConstants
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
@@ -56,7 +56,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var res: Int = bNodeCounter++
         if (isLocal) {
-            res = res or flagLocal
+            res = res or DictionaryConstants.flagLocal
         }
         return res
     }
@@ -68,11 +68,11 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
     public override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit) {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
-        var flag = flagNoBNode
+        var flag = DictionaryConstants.flagNoBNode
         var flag2 = 0
         if (isLocal) {
-            flag = flag or flagLocal
-            flag2 = flag2 or flagLocal
+            flag = flag or DictionaryConstants.flagLocal
+            flag2 = flag2 or DictionaryConstants.flagLocal
         }
         DictionaryHelper.booleanToByteArray(buffer, true)
         action(DictionaryExt.booleanTrueValue)
@@ -100,16 +100,16 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
             DictionaryExt.undefValue -> DictionaryHelper.undefToByteArray(buffer)
             DictionaryExt.nullValue -> throw Exception("invalid call")
             else -> {
-                if (isLocal == ((value and flagLocal) == flagLocal)) {
-                    SanityCheck.check({ (value and maskValue) >= 0 }, { " $value >= 0" })
-                    if ((value and flagNoBNode) == flagNoBNode) {
-                        val buf = dataI2V[value and maskValue]
+                if (isLocal == ((value and DictionaryConstants.flagLocal) == DictionaryConstants.flagLocal)) {
+                    SanityCheck.check({ (value and DictionaryConstants.maskValue) >= 0 }, { " $value >= 0" })
+                    if ((value and DictionaryConstants.flagNoBNode) == DictionaryConstants.flagNoBNode) {
+                        val buf = dataI2V[value and DictionaryConstants.maskValue]
                         ByteArrayWrapperExt.copyInto(buf, buffer)
                         SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= 4 }, { "xxx" + value })
-                        SanityCheck.check({ (value and maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
+                        SanityCheck.check({ (value and DictionaryConstants.maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
                     } else {
-                        SanityCheck.check({ (value and maskValue) < bNodeCounter }, { "$value < $bNodeCounter" })
-                        DictionaryHelper.bnodeToByteArray(buffer, value and maskValue)
+                        SanityCheck.check({ (value and DictionaryConstants.maskValue) < bNodeCounter }, { "$value < $bNodeCounter" })
+                        DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryConstants.maskValue)
                     }
                 } else {
                     instance.nodeGlobalDictionary!!.getValue(buffer, value)
@@ -166,9 +166,9 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                     dataI2V[res] = bufferCopy
                 }
                 if (isLocal) {
-                    res = res or flagLocal
+                    res = res or DictionaryConstants.flagLocal
                 }
-                return res or flagNoBNode
+                return res or DictionaryConstants.flagNoBNode
             }
         }
     }
@@ -186,6 +186,6 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         if (res == null) {
             return null
         }
-        return res or flagNoBNode
+        return res or DictionaryConstants.flagNoBNode
     }
 }

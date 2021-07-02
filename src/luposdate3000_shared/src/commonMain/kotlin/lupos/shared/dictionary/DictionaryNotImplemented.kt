@@ -17,7 +17,7 @@
 package lupos.shared.dictionary
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-
+import lupos.shared.inline.DictionaryConstants
 public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun isInmemoryOnly(): Boolean = TODO()
     override fun close(): Unit = TODO()
@@ -30,7 +30,9 @@ public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun hasValue(buffer: ByteArrayWrapper): Int? = TODO()
     override fun createNewBNode(s: String): Int = TODO()
     override fun isBnode(value: Int): Boolean = TODO()
-    override fun isLocalValue(value: Int): Boolean = TODO()
     override fun valueToGlobal(value: Int): Int = TODO()
     override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = TODO()
+    override fun isLocalValue(value: Int): Boolean {
+        return (value and DictionaryConstants.flagLocal) == DictionaryConstants.flagLocal
+    }
 }

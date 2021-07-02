@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
-
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
+import lupos.shared.inline.DictionaryConstants
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
@@ -48,26 +48,20 @@ public abstract class ADictionary(
         return res
     }
 
-    internal companion object {
-        internal const val flagLocal = 0x40000000
-        internal const val flagNoBNode = 0x20000000
-        internal const val maskValue = 0x1FFFFFFF
-    }
-
-    override fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
+    override fun isBnode(value: Int): Boolean = (value and DictionaryConstants.flagNoBNode) != DictionaryConstants.flagNoBNode
 
     public override fun isLocalValue(value: Int): Boolean {
         SanityCheck.check({ isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
-        return (value and flagLocal) == flagLocal
+        return (value and DictionaryConstants.flagLocal) == DictionaryConstants.flagLocal
     }
 
     override fun valueToGlobal(value: Int): Int {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val res: Int
-        if ((value and flagLocal) != flagLocal) {
+        if ((value and DictionaryConstants.flagLocal) != DictionaryConstants.flagLocal) {
             res = value
         } else {
-            if ((value and flagNoBNode) == flagNoBNode) {
+            if ((value and DictionaryConstants.flagNoBNode) == DictionaryConstants.flagNoBNode) {
                 val buffer = ByteArrayWrapper()
                 getValue(buffer, value)
                 res = instance.nodeGlobalDictionary!!.createValue(buffer)
@@ -120,7 +114,7 @@ public abstract class ADictionary(
             } else {
                 var res = createValue(buffer)
                 if (isLocal) {
-                    res = res or flagLocal
+                    res = res or DictionaryConstants.flagLocal
                 }
                 res
             }

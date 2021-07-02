@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
-
 import lupos.kv.KeyValueStore
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IBufferManager
@@ -26,6 +25,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.inline.BufferManagerPage
 import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.DictionaryConstants
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -74,11 +74,11 @@ public class DictionaryKV internal constructor(
     public override fun isInmemoryOnly(): Boolean = false
     public override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit) {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
-        var flag = flagNoBNode
+        var flag = DictionaryConstants.flagNoBNode
         var flag2 = 0
         if (isLocal) {
-            flag = flag or flagLocal
-            flag2 = flag2 or flagLocal
+            flag = flag or DictionaryConstants.flagLocal
+            flag2 = flag2 or DictionaryConstants.flagLocal
         }
         DictionaryHelper.booleanToByteArray(buffer, true)
         action(DictionaryExt.booleanTrueValue)
@@ -143,14 +143,14 @@ public class DictionaryKV internal constructor(
             DictionaryExt.undefValue -> DictionaryHelper.undefToByteArray(buffer)
             DictionaryExt.nullValue -> throw Exception("invalid call")
             else -> {
-                if ((value and flagNoBNode) == flagNoBNode) {
-                    kv.getValue(buffer, value and maskValue)
+                if ((value and DictionaryConstants.flagNoBNode) == DictionaryConstants.flagNoBNode) {
+                    kv.getValue(buffer, value and DictionaryConstants.maskValue)
                 } else {
                     SanityCheck.check { value < bNodeCounter }
                     SanityCheck.check { value >= 0 }
                     ByteArrayWrapperExt.setSize(buffer, 8)
                     ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.BLANK_NODE)
-                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 4, value and maskValue)
+                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 4, value and DictionaryConstants.maskValue)
                 }
             }
         }
@@ -186,7 +186,7 @@ public class DictionaryKV internal constructor(
                         kv.createValue(buffer)
                     }
                 )
-                return res or flagNoBNode
+                return res or DictionaryConstants.flagNoBNode
             }
         }
     }
@@ -244,11 +244,11 @@ public class DictionaryKV internal constructor(
             },
             onNotFound = {
                 val id = kv.createValue(it)
-                addEntry(originalID, id or flagNoBNode)
+                addEntry(originalID, id or DictionaryConstants.flagNoBNode)
                 id
             },
             onFound = { _, id ->
-                addEntry(originalID, id or flagNoBNode)
+                addEntry(originalID, id or DictionaryConstants.flagNoBNode)
             }
         )
         SanityCheck.check { !ready }
@@ -267,6 +267,6 @@ public class DictionaryKV internal constructor(
         if (res == ValueKeyStore.ID_NULL) {
             return null
         }
-        return res or flagNoBNode
+        return res or DictionaryConstants.flagNoBNode
     }
 }

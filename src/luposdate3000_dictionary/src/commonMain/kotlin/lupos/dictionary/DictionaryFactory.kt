@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
-
 import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
