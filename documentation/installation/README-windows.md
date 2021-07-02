@@ -88,4 +88,18 @@ to
 C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0
 because of an bug in node-gyp, which uses the wrong path
 
+#usage
 
+You can now compile the database in multiple different ways.
+
+You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
+
+[readme intelliJ-IDE](../README-usage-compile-intellij.md)
+
+Or you may choose the commandline mode without IDE support, which allows you to use all configurations.
+
+[readme-advanced](../README-usage-compile-advanced.md)
+
+Or if you want to use the SPA-Client, than the usage is described here:
+
+[readme-spaclient](../README-SPAClient.md)

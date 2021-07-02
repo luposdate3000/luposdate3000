@@ -443,9 +443,14 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                     done = true
                     break
                 }
+                val b = stream.readInt()
+                val c = stream.readInt()
+                SanityCheck.check { !query.getDictionary().isLocalValue(a) }
+                SanityCheck.check { !query.getDictionary().isLocalValue(b) }
+                SanityCheck.check { !query.getDictionary().isLocalValue(c) }
                 buf[i++] = a
-                buf[i++] = stream.readInt()
-                buf[i++] = stream.readInt()
+                buf[i++] = b
+                buf[i++] = c
                 SanityCheck.check_is_S(buf[i - 3])
                 SanityCheck.check_is_P(buf[i - 2])
                 SanityCheck.check_is_O(buf[i - 1])
