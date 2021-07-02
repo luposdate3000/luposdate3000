@@ -16,6 +16,7 @@
  */
 package lupos.operator.base.iterator
 import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.inline.DictionaryValueType
 public class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
     override /*suspend*/ fun close() {
@@ -23,6 +24,6 @@ public class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
     }
 
     override /*suspend*/ fun next(): DictionaryValueType {
-        return nextHelper({}, { _close() })
+        return ColumnIteratorChildIteratorExt.nextHelper({}, { _close() })
     }
 }

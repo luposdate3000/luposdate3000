@@ -19,7 +19,7 @@ package lupos.shared.inline
 import lupos.shared.ColumnIteratorChildIterator
 
 internal object ColumnIteratorChildIteratorExt {
-/*suspend*/ public inline fun nextHelper(iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
+/*suspend*/ public inline fun nextHelper(iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
         when (iterator.label) {
             1 -> {
                 while (iterator.queueRead < iterator.queueWrite) {
