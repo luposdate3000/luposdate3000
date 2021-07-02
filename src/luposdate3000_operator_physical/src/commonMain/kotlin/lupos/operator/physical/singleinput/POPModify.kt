@@ -218,4 +218,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryExt.booleanTrueValue)))
     }
+override open public fun usesDictionary():Boolean{ 
+return true
+}
 }

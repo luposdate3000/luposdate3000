@@ -188,6 +188,13 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             allConn.add(l)
         }
     }
+override open public fun usesDictionary():Boolean{
+var res=super.usesDictionary()
+SanityCheck{
+res=true
+}
+return res
+}
     public override fun writeRow(s: Int, p: Int, o: Int, query: IQuery) {
         SanityCheck.check { !query.getDictionary().isLocalValue(s) }
         SanityCheck.check { !query.getDictionary().isLocalValue(p) }

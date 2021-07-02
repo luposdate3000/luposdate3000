@@ -82,4 +82,5 @@ public abstract class AOPBase public constructor(
     public open fun enforcesBooleanOrError(): Boolean = false
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
+override open public fun usesDictionary():Boolean=true
 }

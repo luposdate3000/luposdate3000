@@ -522,10 +522,11 @@ public abstract class OPBase public constructor(
 
     public open override fun changePartitionID(idFrom: Int, idTo: Int): Unit = throw Exception("this should be unreachable")
 override open public fun usesDictionary():Boolean{
-var res=false
 for(c in children){
-res=res or c.usesDictionary()
+if(c.usesDictionary()){
+return true
 }
-return res
+}
+return false
 }
 }

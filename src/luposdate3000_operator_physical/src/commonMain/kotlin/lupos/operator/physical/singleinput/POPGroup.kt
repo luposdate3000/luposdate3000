@@ -559,4 +559,7 @@ public class POPGroup : POPBase {
         }
         return res
     }
+override open public fun usesDictionary():Boolean{ 
+return true
+}
 }
