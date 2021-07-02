@@ -29,7 +29,7 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     internal val uuid = UUID_Counter.getNextUUID()
 
     init {
-        kotlin.io.println("MyInputStream.constructor $this")
+        //kotlin.io.println("MyInputStream.constructor $this")
     }
 
     public actual override fun read(buf: ByteArray): Int {
@@ -75,7 +75,7 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     }
 
     public actual override fun close() {
-        kotlin.io.println("MyInputStream.close $this")
+        //kotlin.io.println("MyInputStream.close $this")
         stream.close()
     }
 

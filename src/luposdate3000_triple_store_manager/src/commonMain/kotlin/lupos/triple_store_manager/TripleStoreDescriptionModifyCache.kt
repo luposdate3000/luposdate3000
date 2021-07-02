@@ -207,9 +207,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         for (i in 0 until allConn.size) {
             for (j in 0 until allConn[i].size) {
                 val conn = allConn[i][j]
-                conn.first?.close()
                 conn.second.writeInt(-1)
                 conn.second.close()
+                conn.first?.close()
             }
         }
     }
