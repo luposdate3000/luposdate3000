@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator.base.iterator
+package lupos.shared
 
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -79,49 +78,6 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
             label = 0
             for (i in queueRead until queueWrite) {
                 releaseValue(queue[i])
-            }
-        }
-    }
-
-    /*suspend*/ public inline fun nextHelper(crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
-        when (label) {
-            1 -> {
-                while (queueRead < queueWrite) {
-                    val res = queue[queueRead].next()
-                    if (res == DictionaryExt.nullValue) {
-                        releaseValue(queue[queueRead])
-                        queueRead++
-                    } else {
-                        return res
-                    }
-                }
-                onNoMoreElements()
-                return if (queueRead == queueWrite) {
-                    onClose()
-                    DictionaryExt.nullValue
-                } else {
-                    val res = queue[queueRead].next()
-                    if (res == DictionaryExt.nullValue) {
-                        onClose()
-                    }
-                    res
-                }
-            }
-            2 -> {
-                while (queueRead < queueWrite) {
-                    val res = queue[queueRead].next()
-                    if (res == DictionaryExt.nullValue) {
-                        releaseValue(queue[queueRead])
-                        queueRead++
-                    } else {
-                        return res
-                    }
-                }
-                onClose()
-                return DictionaryExt.nullValue
-            }
-            else -> {
-                return DictionaryExt.nullValue
             }
         }
     }

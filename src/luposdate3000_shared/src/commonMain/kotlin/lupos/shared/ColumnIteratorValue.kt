@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator.base.iterator
+package lupos.shared
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -32,7 +32,7 @@ public class ColumnIteratorValue : ColumnIterator() {
     }
 
     @JvmField
-    public var value: Int = DictionaryExt.nullValue
+    public var value: Int = DictionaryValueHelper.nullValue
 
     @JvmField
     public var done: Boolean = false
@@ -42,7 +42,7 @@ public class ColumnIteratorValue : ColumnIterator() {
 
     override /*suspend*/ fun next(): Int {
         return if (done) {
-            DictionaryExt.nullValue
+            DictionaryValueHelper.nullValue
         } else {
             done = true
             value

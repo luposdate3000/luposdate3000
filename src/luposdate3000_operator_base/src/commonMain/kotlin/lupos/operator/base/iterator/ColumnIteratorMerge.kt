@@ -18,7 +18,7 @@ package lupos.operator.base.iterator
 
 import lupos.operator.base.MERGE_SORT_MIN_ROWS
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 
 public object ColumnIteratorMerge {
@@ -31,7 +31,7 @@ public object ColumnIteratorMerge {
             var i = 0
             while (i < buf1.size) {
                 val next = a.next()
-                if (next == DictionaryExt.nullValue) {
+                if (next == DictionaryValueHelper.nullValue) {
                     done = true
                     a.close()
                     break
@@ -133,7 +133,7 @@ public object ColumnIteratorMerge {
             var i = 0
             while (i < buf1.size) {
                 val next = a.next()
-                if (next == DictionaryExt.nullValue) {
+                if (next == DictionaryValueHelper.nullValue) {
                     done = true
                     a.close()
                     break

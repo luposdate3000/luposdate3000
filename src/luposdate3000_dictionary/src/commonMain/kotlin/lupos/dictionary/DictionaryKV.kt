@@ -23,7 +23,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.inline.BufferManagerPage
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.DictionaryValueHelper
 import lupos.shared.inline.DictionaryValueType
@@ -53,7 +52,7 @@ public class DictionaryKV internal constructor(
     internal var bNodeCounter = DictionaryValueHelper.FIRST_BNODE
 
     @JvmField
-    internal var uuidCounter = 0
+    internal var uuidCounter: DictionaryValueType = 0
 
     @JvmField
     internal val rootPage: ByteArray
@@ -100,9 +99,9 @@ public class DictionaryKV internal constructor(
         }
         iter.close()
     }
-    companion object {
+    internal companion object {
         internal val offsetBNodeCounter = 0
-        internal val offsetkvPage = offsetBNode + DictionaryValueHelper.getSize()
+        internal val offsetkvPage = offsetBNodeCounter + DictionaryValueHelper.getSize()
         internal val offsetvkPage = offsetkvPage + 4
         internal val offsetuuidCounter = offsetvkPage + 4
     }
@@ -130,14 +129,14 @@ public class DictionaryKV internal constructor(
     public override fun createNewBNode(): DictionaryValueType {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val res: DictionaryValueType = bNodeCounter++
-        BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
+        DictionaryValueHelper.toByteArray(rootPage, offsetBNodeCounter, bNodeCounter)
         return res
     }
 
     public override fun createNewUUID(): DictionaryValueType {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val res: DictionaryValueType = uuidCounter++
-        BufferManagerPage.writeInt4(rootPage, 12, uuidCounter)
+        DictionaryValueHelper.toByteArray(rootPage, offsetuuidCounter, uuidCounter)
         return res
     }
 
@@ -151,13 +150,11 @@ public class DictionaryKV internal constructor(
             DictionaryValueHelper.nullValue -> throw Exception("invalid call")
             else -> {
                 if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
-                    kv.getValue(buffer, value and DictionaryValueHelper.maskValue)
+                    kv.getValue(buffer, DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue))
                 } else {
                     SanityCheck.check { value < bNodeCounter }
                     SanityCheck.check { value >= 0 }
-                    ByteArrayWrapperExt.setSize(buffer, 8)
-                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.BLANK_NODE)
-                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 4, value and DictionaryValueHelper.maskValue)
+                    DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
                 }
             }
         }
@@ -193,7 +190,7 @@ public class DictionaryKV internal constructor(
                         kv.createValue(buffer)
                     }
                 )
-                return res or DictionaryValueHelper.flagNoBNode
+                return DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
             }
         }
     }
@@ -203,7 +200,7 @@ public class DictionaryKV internal constructor(
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var mymapping = DictionaryValueTypeArray(0)
         var lastId = -1
-        fun addEntry(id: Int, i: Int) {
+        fun addEntry(id: Int, i: DictionaryValueType) {
             SanityCheck.check { lastId == id - 1 }
             if (lastId != id - 1) {
                 throw Exception("ERROR !! $lastId -> $id")
@@ -251,11 +248,11 @@ public class DictionaryKV internal constructor(
             },
             onNotFound = {
                 val id = kv.createValue(it)
-                addEntry(originalID, id or DictionaryValueHelper.flagNoBNode)
+                addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode)
                 id
             },
             onFound = { _, id ->
-                addEntry(originalID, id or DictionaryValueHelper.flagNoBNode)
+                addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode)
             }
         )
         SanityCheck.check { !ready }
@@ -274,6 +271,6 @@ public class DictionaryKV internal constructor(
         if (res == ValueKeyStore.ID_NULL) {
             return null
         }
-        return res or DictionaryValueHelper.flagNoBNode
+        return DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
     }
 }

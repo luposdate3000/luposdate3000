@@ -34,6 +34,10 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.abs
+
+import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.inline.DictionaryValueType
+import lupos.shared.inline.DictionaryValueTypeArray
 import kotlin.math.max
 
 @JvmField
@@ -64,14 +68,14 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (isLocal) {
                 instance.nodeGlobalDictionary?.close()
                 instance.nodeGlobalDictionary = object : ADictionary(instance, false) {
-                    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
-                    override fun createNewUUID(): Int = TODO()
+                    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
+                    override fun createNewUUID(): DictionaryValueType = TODO()
                     override fun close() {}
                     override fun delete() {}
-                    override fun createNewBNode(): Int = TODO()
-                    override fun createValue(buffer: ByteArrayWrapper): Int = TODO()
-                    override fun getValue(buffer: ByteArrayWrapper, value: Int) = TODO()
-                    override fun hasValue(buffer: ByteArrayWrapper): Int? = null
+                    override fun createNewBNode(): DictionaryValueType = TODO()
+                    override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
+                    override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) = TODO()
+                    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? = null
                     override fun isInmemoryOnly(): Boolean = true
                 }
             }

@@ -17,31 +17,100 @@
 package lupos.shared.inline
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-internal typealias DictionaryValueType = Long
-internal typealias DictionaryValueTypeArray = LongArray
 
-internal object DictionaryValueHelper {
-    internal const val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
-    internal const val booleanFalseValue: Long = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
-    internal const val errorValue: Long = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
-    internal const val undefValue: Long = (0x00000003) /*lowest 5 values*/
-    internal const val nullValue: Long = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
-    internal const val flagLocal: Long = 0x40000000
-    internal const val flagNoBNode: Long = 0x20000000
-    internal const val maskValue: Long = 0x1FFFFFFF
-    internal const val NULL: Long = 0L
-    internal const val FIRST_BNODE: Long = 5L
-    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> DictionaryValueType): DictionaryValueTypeArray {
-        return LongArray(size) { init(it) }
+internal typealias DictionaryValueType = Int
+internal typealias DictionaryValueTypeArray = IntArray
+internal typealias DictionaryValueHelper = DictionaryValueHelperInt
+
+// internal typealias DictionaryValueType = Long
+// internal typealias DictionaryValueTypeArray = LongArray
+// internal typealias DictionaryValueHelper=DictionaryValueHelperLong
+/*
+
+import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.inline.DictionaryValueType
+import lupos.shared.inline.DictionaryValueTypeArray
+
+*/
+
+internal object DictionaryValueHelperInt {
+    public const val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+    public const val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+    public const val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+    public const val undefValue: Int = (0x00000003) /*lowest 5 values*/
+    public const val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+    public const val flagLocal: Int = 0x40000000.toInt()
+    public const val flagNoBNode: Int = 0x20000000.toInt()
+    public const val maskValue: Int = 0x1FFFFFFF.toInt()
+    public const val NULL: Int = 0
+    public const val FIRST_BNODE: Int = 5
+    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Int): IntArray {
+        return IntArray(size) { init(it) }
     }
-    internal inline fun DictionaryValueTypeArray(size: Int): DictionaryValueTypeArray {
-        return LongArray(size)
+    internal inline fun DictionaryValueTypeArray(size: Int): IntArray {
+        return IntArray(size)
     }
-    internal inline fun isLocalValue(value: DictionaryValueType): Boolean {
+    internal inline fun isLocalValue(value: Int): Boolean {
         return (value and flagLocal) == flagLocal
     }
-    internal inline fun isBnode(value: DictionaryValueType): Boolean {
+    internal inline fun isBnode(value: Int): Boolean {
         return (value and flagNoBNode) != flagNoBNode
+    }
+    internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Int) {
+        ByteArrayHelper.writeInt4(buffer, off, value)
+    }
+    internal inline fun fromByteArray(buffer: ByteArray, off: Int): Int {
+        return ByteArrayHelper.readInt4(buffer, off)
+    }
+    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) {
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, value)
+    }
+    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Int {
+        return ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+    }
+    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Int {
+        return ByteArrayHelper.readIntX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
+    }
+    internal inline fun getSize(): Int {
+        return 8
+    }
+    internal inline fun toInt(value: Int): Int {
+        // adapter for places, where always Int are used
+        return value
+    }
+    internal inline fun fromInt(value: Int): Int {
+        // adapter for places, where always Int are used
+        return value
+    }
+}
+internal object DictionaryValueHelperLong {
+    public const val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+    public const val booleanFalseValue: Long = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+    public const val errorValue: Long = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+    public const val undefValue: Long = (0x00000003) /*lowest 5 values*/
+    public const val nullValue: Long = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+    public const val flagLocal: Long = 0x40000000
+    public const val flagNoBNode: Long = 0x20000000
+    public const val maskValue: Long = 0x1FFFFFFF
+    public const val NULL: Long = 0L
+    public const val FIRST_BNODE: Long = 5L
+    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Long): LongArray {
+        return LongArray(size) { init(it) }
+    }
+    internal inline fun DictionaryValueTypeArray(size: Int): LongArray {
+        return LongArray(size)
+    }
+    internal inline fun isLocalValue(value: Long): Boolean {
+        return (value and flagLocal) == flagLocal
+    }
+    internal inline fun isBnode(value: Long): Boolean {
+        return (value and flagNoBNode) != flagNoBNode
+    }
+    internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Long) {
+        ByteArrayHelper.writeLong8(buffer, off, value)
+    }
+    internal inline fun fromByteArray(buffer: ByteArray, off: Int): Long {
+        return ByteArrayHelper.readLong8(buffer, off)
     }
     internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long) {
         ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), off, value)
@@ -56,19 +125,11 @@ internal object DictionaryValueHelper {
         return 8
     }
     internal inline fun toInt(value: Long): Int {
-// adapter for places, where always Int are used
+        // adapter for places, where always Int are used
         return value.toInt()
     }
     internal inline fun fromInt(value: Int): Long {
-// adapter for places, where always Int are used
+        // adapter for places, where always Int are used
         return value.toLong()
     }
 }
-
-/*
-
-import lupos.shared.inline.DictionaryValueHelper
-import lupos.shared.inline.DictionaryValueType
-import lupos.shared.inline.DictionaryValueTypeArray
-
-*/

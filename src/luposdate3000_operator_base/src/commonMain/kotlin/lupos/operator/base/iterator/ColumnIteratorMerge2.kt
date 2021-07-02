@@ -16,7 +16,7 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -25,10 +25,10 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
     public var label: Int = 3
 
     @JvmField
-    public var aBuf: Int = DictionaryExt.nullValue
+    public var aBuf: Int = DictionaryValueHelper.nullValue
 
     @JvmField
-    public var bBuf: Int = DictionaryExt.nullValue
+    public var bBuf: Int = DictionaryValueHelper.nullValue
     override /*suspend*/ fun close() {
         if (label != 0) {
             label = 0
@@ -38,25 +38,25 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
     }
 
     override /*suspend*/ fun next(): Int {
-        var res: Int = DictionaryExt.nullValue
+        var res: Int = DictionaryValueHelper.nullValue
         when (label) {
             1 -> { // call next on a, b is empty
                 res = a.next()
-                if (res == DictionaryExt.nullValue) {
+                if (res == DictionaryValueHelper.nullValue) {
                     a.close()
                     label = 0
                 }
             }
             2 -> { // call next on b, a is empty
                 res = b.next()
-                if (res == DictionaryExt.nullValue) {
+                if (res == DictionaryValueHelper.nullValue) {
                     b.close()
                     label = 0
                 }
             }
             4 -> { // call next on a, b is not empty
                 aBuf = a.next()
-                if (aBuf == DictionaryExt.nullValue) {
+                if (aBuf == DictionaryValueHelper.nullValue) {
                     a.close()
                     res = bBuf
                     label = 2
@@ -72,7 +72,7 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
             }
             5 -> { // call next on b, a is not empty
                 bBuf = b.next()
-                if (bBuf == DictionaryExt.nullValue) {
+                if (bBuf == DictionaryValueHelper.nullValue) {
                     b.close()
                     res = aBuf
                     label = 1
@@ -89,15 +89,15 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
             3 -> { // call next on both
                 aBuf = a.next()
                 bBuf = b.next()
-                if (aBuf == DictionaryExt.nullValue && bBuf == DictionaryExt.nullValue) {
+                if (aBuf == DictionaryValueHelper.nullValue && bBuf == DictionaryValueHelper.nullValue) {
                     a.close()
                     b.close()
                     label = 0
-                } else if (bBuf == DictionaryExt.nullValue) {
+                } else if (bBuf == DictionaryValueHelper.nullValue) {
                     b.close()
                     res = aBuf
                     label = 1
-                } else if (aBuf == DictionaryExt.nullValue) {
+                } else if (aBuf == DictionaryValueHelper.nullValue) {
                     a.close()
                     res = bBuf
                     label = 2

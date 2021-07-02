@@ -15,13 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base.iterator
-
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.inline.DictionaryValueType
 public class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
     override /*suspend*/ fun close() {
         _close()
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return nextHelper({}, { _close() })
     }
 }

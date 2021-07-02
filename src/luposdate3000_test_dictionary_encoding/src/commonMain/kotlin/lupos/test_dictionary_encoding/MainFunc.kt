@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test_dictionary_encoding
-
+import lupos.shared.inline.DictionaryValueHelper
+import lupos.shared.inline.DictionaryValueType
+import lupos.shared.inline.DictionaryValueTypeArray
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.shared.ETripleComponentTypeExt
@@ -203,7 +205,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
     fun bnodeToByteArray_1() {
         resetRandom()
         if (hasNextRandom() > 0) {
-            val v = nextRandom()
+            val v = DictionaryValueHelper.fromInt(nextRandom())
             DictionaryHelper.bnodeToByteArray(buffer, v)
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_I(buffer) }, { v })
