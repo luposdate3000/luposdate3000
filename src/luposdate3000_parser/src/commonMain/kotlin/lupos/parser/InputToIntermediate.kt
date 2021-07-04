@@ -249,13 +249,6 @@ public object InputToIntermediate {
                         for (i in 0 until 3) {
                             row[i] = DictionaryValueHelper.fromInt(addToDict(triple[i]))
                         }
-                        SanityCheck {
-                            if (!SanityCheck.ignoreTripleFlag) {
-                                row[0] = row[0] + SanityCheck.TRIPLE_FLAG_S
-                                row[1] = row[1] + SanityCheck.TRIPLE_FLAG_P
-                                row[2] = row[2] + SanityCheck.TRIPLE_FLAG_O
-                            }
-                        }
                         outTriples.write(row[0], row[1], row[2])
                         cnt++
                         if (cnt % 10000L == 0L) {
@@ -278,13 +271,6 @@ public object InputToIntermediate {
                         override fun onTriple() {
                             for (i in 0 until 3) {
                                 row[i] = DictionaryValueHelper.fromInt(addToDict(triple[i]))
-                            }
-                            SanityCheck {
-                                if (!SanityCheck.ignoreTripleFlag) {
-                                    row[0] = row[0] + SanityCheck.TRIPLE_FLAG_S
-                                    row[1] = row[1] + SanityCheck.TRIPLE_FLAG_P
-                                    row[2] = row[2] + SanityCheck.TRIPLE_FLAG_O
-                                }
                             }
                             outTriples.write(row[0], row[1], row[2])
                             cnt++
@@ -312,13 +298,6 @@ public object InputToIntermediate {
                 override fun onQuad() {
                     for (i in 0 until 3) {
                         row[i] = DictionaryValueHelper.fromInt(addToDict(quad[i]))
-                    }
-                    SanityCheck {
-                        if (!SanityCheck.ignoreTripleFlag) {
-                            row[0] = row[0] + SanityCheck.TRIPLE_FLAG_S
-                            row[1] = row[1] + SanityCheck.TRIPLE_FLAG_P
-                            row[2] = row[2] + SanityCheck.TRIPLE_FLAG_O
-                        }
                     }
                     outTriples.write(row[0], row[1], row[2])
                     cnt++
@@ -469,25 +448,12 @@ public object InputToIntermediate {
                 val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type", EIndexPatternExt.SPO)
                 val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf", EIndexPatternExt.SPO)
                 inTriples.readAll { it ->
-                    SanityCheck {
-                        if (!SanityCheck.ignoreTripleFlag) {
-                            SanityCheck.check_is_S(it[0])
-                            SanityCheck.check_is_P(it[1])
-                            SanityCheck.check_is_O(it[2])
-                        }
-                    }
                     val t_s: DictionaryValueType
                     val t_p: DictionaryValueType
                     val t_o: DictionaryValueType
-                    if (SanityCheck.ignoreTripleFlag) {
                         t_s = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[0])])
                         t_p = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[1])])
                         t_o = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[2])])
-                    } else {
-                        t_s = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[0] - SanityCheck.TRIPLE_FLAG_S)] + SanityCheck.TRIPLE_FLAG_S)
-                        t_p = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[1] - SanityCheck.TRIPLE_FLAG_P)] + SanityCheck.TRIPLE_FLAG_P)
-                        t_o = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[2] - SanityCheck.TRIPLE_FLAG_O)] + SanityCheck.TRIPLE_FLAG_O)
-                    }
                     outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {
                         when (t_p) {

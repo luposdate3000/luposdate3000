@@ -170,14 +170,7 @@ public object LuposdateEndpoint {
                 val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                 val fileTriples = TriplesIntermediateReader("$fileName.spo")
                 fileTriples.readAll {
-                    if (SanityCheck.ignoreTripleFlag) {
                         cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
-                    } else {
-                        SanityCheck.check_is_S(it[0])
-                        SanityCheck.check_is_P(it[1])
-                        SanityCheck.check_is_O(it[2])
-                        cache.writeRow(mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S, mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P, mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O, query)
-                    }
                     counter++
                     if (counter % 10000 == 0L) {
                         println("imported $counter triples without sorting")
@@ -219,14 +212,7 @@ public object LuposdateEndpoint {
                     val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
                     fileTriples.readAll {
-                        if (SanityCheck.ignoreTripleFlag) {
                             cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
-                        } else {
-                            SanityCheck.check_is_S(it[0])
-                            SanityCheck.check_is_P(it[1])
-                            SanityCheck.check_is_O(it[2])
-                            cache.writeRow(mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S, mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P, mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O, query)
-                        }
                         counter++
                         if (counter % 10000 == 0L) {
                             println("imported $counter triples for index $orderName")

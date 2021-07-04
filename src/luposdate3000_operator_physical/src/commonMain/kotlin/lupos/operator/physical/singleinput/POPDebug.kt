@@ -68,24 +68,6 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         val iterator = object : ColumnIterator() {
                             override /*suspend*/ fun next(): Int {
                                 val res = childIter.next()
-                                if (res != DictionaryValueHelper.nullValue) {
-                                    if (!SanityCheck.ignoreTripleFlag) {
-                                        when {
-                                            columnName.startsWith("s") -> {
-                                                SanityCheck.check_is_S(res)
-                                            }
-                                            columnName.startsWith("p") -> {
-                                                SanityCheck.check_is_P(res)
-                                            }
-                                            columnName.startsWith("o") -> {
-                                                SanityCheck.check_is_O(res)
-                                            }
-                                            else -> {
-                                                println(columnName)
-                                            }
-                                        }
-                                    }
-                                }
                                 return res
                             }
                             override /*suspend*/ fun nextSIP(minValue: Int, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {

@@ -52,9 +52,6 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
 
     public fun getCount(): Long = count
     public fun write(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType) {
-        SanityCheck.check_is_S(s)
-        SanityCheck.check_is_P(p)
-        SanityCheck.check_is_O(o)
         val l0: DictionaryValueType
         val l1: DictionaryValueType
         val l2: DictionaryValueType

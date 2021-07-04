@@ -22,52 +22,6 @@ import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
-    public val TRIPLE_FLAG_S: DictionaryValueType = 0x00010000
-    public val TRIPLE_FLAG_P: DictionaryValueType = 0x00020000
-    public val TRIPLE_FLAG_O: DictionaryValueType = 0x00030000
-    public val TRIPLE_FLAG_All: DictionaryValueType = TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
-    public val TRIPLE_FLAG_NONE: DictionaryValueType = Int.MAX_VALUE - TRIPLE_FLAG_All
-    public val ignoreTripleFlag = true
-
-    internal inline fun check_is_S(i: DictionaryValueType) {
-        this {
-            if (!ignoreTripleFlag) {
-                val flag = i and TRIPLE_FLAG_All
-                when (flag) {
-                    TRIPLE_FLAG_S -> {}
-                    TRIPLE_FLAG_P -> TODO("expected subject but found predicate $i")
-                    TRIPLE_FLAG_O -> TODO("expected subject but found object $i")
-                    else -> TODO("expected subject but found undefined $i")
-                }
-            }
-        }
-    }
-    internal inline fun check_is_P(i: DictionaryValueType) {
-        this {
-            if (!ignoreTripleFlag) {
-                val flag = i and TRIPLE_FLAG_All
-                when (flag) {
-                    TRIPLE_FLAG_S -> TODO("expected predicate but found subject $i")
-                    TRIPLE_FLAG_P -> {}
-                    TRIPLE_FLAG_O -> TODO("expected predicate but found object $i")
-                    else -> TODO("expected predicate but found undefined $i")
-                }
-            }
-        }
-    }
-    internal inline fun check_is_O(i: DictionaryValueType) {
-        this {
-            if (!ignoreTripleFlag) {
-                val flag = i and TRIPLE_FLAG_All
-                when (flag) {
-                    TRIPLE_FLAG_S -> TODO("expected object but found subject $i")
-                    TRIPLE_FLAG_P -> TODO("expected object but found predicate $i")
-                    TRIPLE_FLAG_O -> {}
-                    else -> TODO("expected object but found undefined $i")
-                }
-            }
-        }
-    }
     public val enabled = true
     internal const val SANITYCHECK_PRINTING = false
     internal const val SANITYCHECK_PRINTING_NODEMANAGER = false

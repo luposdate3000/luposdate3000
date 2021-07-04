@@ -78,13 +78,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 }
                 off = 0
             }
-            SanityCheck {
-                if (off >= 3 && off % 3 == 0) {
-                    SanityCheck.check_is_S(buf[off - 3])
-                    SanityCheck.check_is_P(buf[off - 2])
-                    SanityCheck.check_is_O(buf[off - 1])
-                }
-            }
         }
     }
     private class LocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
@@ -136,13 +129,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
                 }
                 off = 0
-            }
-            SanityCheck {
-                if (off >= 3 && off % 3 == 0) {
-                    SanityCheck.check_is_S(buf[off - 3])
-                    SanityCheck.check_is_P(buf[off - 2])
-                    SanityCheck.check_is_O(buf[off - 1])
-                }
             }
         }
     }

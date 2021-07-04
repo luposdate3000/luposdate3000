@@ -637,11 +637,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 for (i in 0 until 3) {
                     SanityCheck.check { order[i] == debugSortOrder[i] }
                 }
-                if (dataSize> 0) {
-                    SanityCheck.check_is_S(data[0])
-                    SanityCheck.check_is_P(data[1])
-                    SanityCheck.check_is_O(data[2])
-                }
             }
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
@@ -665,11 +660,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 }
                 for (i in 0 until 3) {
                     SanityCheck.check { order[i] == debugSortOrder[i] }
-                }
-                if (dataSize> 0) {
-                    SanityCheck.check_is_S(data[0])
-                    SanityCheck.check_is_P(data[1])
-                    SanityCheck.check_is_O(data[2])
                 }
             }
             lock.writeLock()

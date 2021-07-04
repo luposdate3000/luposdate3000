@@ -74,9 +74,6 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
             buffer[i0] = buffer[i0] xor b0
             buffer[i1] = buffer[i1] xor b1
             buffer[i2] = buffer[i2] xor b2
-            SanityCheck.check_is_S(buffer[0])
-            SanityCheck.check_is_P(buffer[1])
-            SanityCheck.check_is_O(buffer[2])
             return buffer
         }
     }

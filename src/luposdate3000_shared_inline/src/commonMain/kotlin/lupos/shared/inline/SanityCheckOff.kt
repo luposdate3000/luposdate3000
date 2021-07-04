@@ -24,18 +24,6 @@ import kotlin.contracts.contract
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOff {
     public val enabled = false
-    public val TRIPLE_FLAG_S: DictionaryValueType = 0x00010000
-    public val TRIPLE_FLAG_P: DictionaryValueType = 0x00020000
-    public val TRIPLE_FLAG_O: DictionaryValueType = 0x00030000
-    public val TRIPLE_FLAG_All: DictionaryValueType = TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
-    public val TRIPLE_FLAG_NONE: DictionaryValueType = Int.MAX_VALUE - TRIPLE_FLAG_All
-    public val ignoreTripleFlag = true
-    internal inline fun check_is_S(i: DictionaryValueType) {
-    }
-    internal inline fun check_is_P(i: DictionaryValueType) {
-    }
-    internal inline fun check_is_O(i: DictionaryValueType) {
-    }
     internal inline fun println_buffermanager(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
     }
