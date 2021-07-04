@@ -16,16 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -50,14 +46,15 @@ public class constructwhere04CONSTRUCTWHERE {
         }
         LuposdateEndpoint.close(instance)
     }
+
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
     fun `constructwhere04  CONSTRUCT WHERE - in simulator`() {
-        //TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
+        // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
-val pkg0 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
-        //TODO send the package pkg0 to the selected database instance
-        //TODO wait for the simulation to finish sending ALL messages
-        //TODO verify that the test is finished
+        val pkg0 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
+        // TODO send the package pkg0 to the selected database instance
+        // TODO wait for the simulation to finish sending ALL messages
+        // TODO verify that the test is finished
     }
 }

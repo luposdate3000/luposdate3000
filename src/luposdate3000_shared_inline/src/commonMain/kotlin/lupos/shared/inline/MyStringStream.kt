@@ -16,9 +16,9 @@
  */
 package lupos.shared.inline
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
-
 internal class MyStringStream(str: String) : IMyInputStream {
 
     @JvmField
@@ -72,7 +72,7 @@ internal class MyStringStream(str: String) : IMyInputStream {
         read(buf8, 4)
         return ByteArrayHelper.readInt4(buf8, 0)
     }
-    override fun readDictionaryValueType(): Int {
+    override fun readDictionaryValueType(): DictionaryValueType {
         read(buf8, DictionaryValueHelper.getSize())
         return DictionaryValueHelper.fromByteArray(buf8, 0)
     }

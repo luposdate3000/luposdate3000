@@ -96,11 +96,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (!isLocal) {
                 instance.nodeGlobalDictionary = dict
             }
-            val values = mutableListOf<ByteArrayWrapper>(
-                DictionaryExt.booleanTrueValue3,
-                DictionaryExt.booleanFalseValue3,
-                DictionaryExt.errorValue3,
-                DictionaryExt.undefValue3,
+            val values = mutableMapOf<DictionaryValueType,ByteArrayWrapper>(
+DictionaryValueHelper.fromInt(0) to                DictionaryExt.booleanTrueValue3,
+DictionaryValueHelper.fromInt(1) to                DictionaryExt.booleanFalseValue3,
+DictionaryValueHelper.fromInt(2) to                DictionaryExt.errorValue3,
+DictionaryValueHelper.fromInt(3) to                DictionaryExt.undefValue3,
             )
             val mapping = mutableMapOf<DictionaryValueType, DictionaryValueType>(
                 DictionaryValueHelper.fromInt(0) to DictionaryValueHelper.fromInt(0),
@@ -116,7 +116,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 ids.addAll(mapping.keys)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
-                    action(values[mapping[key]!!], key)
+                    action(values[mapping[key]!!]!!, key)
                 }
             }
 
@@ -175,7 +175,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                         }
                     }
                     ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(res), 0, x)
-                    if (values.contains(res)) {
+                    if (values.values.contains(res)) {
                         if (seed < 255) {
                             seed++
                         } else {
@@ -210,8 +210,8 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (mapping[key] != null) {
                     throw Exception("$key")
                 }
-                mapping[key] = values.size
-                values.add(data)
+                mapping[key] = DictionaryValueHelper.fromInt(values.size)
+                values[DictionaryValueHelper.fromInt(values.size)]=data
             }
 
             fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: DictionaryValueType) {
@@ -314,7 +314,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
             }
             for ((k, v) in mapping) {
-                testGetValueOk(values[v], k)
+                testGetValueOk(values[v]!!, k)
             }
             if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
                 dict.close()
@@ -324,7 +324,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 dict = createDict(true)
             }
             for ((k, v) in mapping) {
-                testGetValueOk(values[v], k)
+                testGetValueOk(values[v]!!, k)
             }
             dict.delete()
             if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {

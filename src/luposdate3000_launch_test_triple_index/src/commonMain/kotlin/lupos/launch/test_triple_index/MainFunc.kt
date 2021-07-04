@@ -66,7 +66,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000.toInt()), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x00007f00.toInt()) shl 16)), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x0000007f.toInt()) shl 24)))
     }
     fun filterArrToFun(filter: DictionaryValueTypeArray): (Int) -> Boolean {
-        var res: (Int) -> Boolean = { true }
+        var res: (DictionaryValueTypeArray) -> Boolean = { true }
         when (filter.size) {
             1 -> {
                 res = { it ->
