@@ -21,7 +21,7 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
-internal abstract class DictionaryIntermediate(internal val filename: String) {
+internal abstract class DictionaryIntermediate(@JvmField internal val filename: String) {
     @JvmField
     internal var streamOut: IMyOutputStream? = null
 
