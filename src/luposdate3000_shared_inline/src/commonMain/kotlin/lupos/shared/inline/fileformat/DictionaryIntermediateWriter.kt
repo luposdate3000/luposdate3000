@@ -19,6 +19,7 @@ package lupos.shared.inline.fileformat
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.fileformat.DictionaryIntermediateRow
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 internal class DictionaryIntermediateWriter : DictionaryIntermediate {
