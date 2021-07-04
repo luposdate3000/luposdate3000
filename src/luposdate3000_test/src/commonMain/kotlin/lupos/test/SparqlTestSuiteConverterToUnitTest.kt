@@ -31,13 +31,13 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     internal val folderPathCoponent = "code_gen_test"
 
     @JvmField
-    internal val outputFolderRoot = "src/luposdate3000_launch_$folderPathCoponent/"
+    internal val outputFolderRoot = "src/luposdate3000_$folderPathCoponent/"
 
     @JvmField
-    internal val outputFolderSrcJvm = "${outputFolderRoot}src/jvmMain/kotlin/lupos/launch/$folderPathCoponent/"
+    internal val outputFolderSrcJvm = "${outputFolderRoot}src/jvmMain/kotlin/lupos/$folderPathCoponent/"
 
     @JvmField
-    internal val outputFolderTestJvm = "${outputFolderRoot}src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/"
+    internal val outputFolderTestJvm = "${outputFolderRoot}src/jvmTest/kotlin/lupos/$folderPathCoponent/"
 
     @JvmField
     internal val outputFolderTestResourcesJvm = "${outputFolderRoot}src/jvmTest/resources/"
@@ -53,13 +53,11 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         File(outputFolderTestJvm).mkdirs()
         File(outputFolderTestResourcesJvm).mkdirs()
         File(outputFolderRoot + "/module_config").withOutputStream { out ->
-            out.println("package=Luposdate3000_Main")
             out.println("disableJS=true")
             if (withCodeGen) {
                 out.println("codegenKAPT=true")
             }
         }
-        File(outputFolderRoot + "/runOptions").withOutputStream {}
     }
 
     public fun finish() {
@@ -80,7 +78,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             out.println(" * You should have received a copy of the GNU General Public License")
             out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
             out.println(" */")
-            out.println("package lupos.launch.$folderPathCoponent")
+            out.println("package lupos.$folderPathCoponent")
             out.println("import lupos.shared.Parallel")
             out.println("")
             out.println("internal fun mainFunc(): Unit = Parallel.runBlocking {")
@@ -249,7 +247,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println(" * You should have received a copy of the GNU General Public License")
                 out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
                 out.println(" */")
-                out.println("package lupos.launch.$folderPathCoponent")
+                out.println("package lupos.$folderPathCoponent")
                 out.println("import lupos.endpoint.LuposdateEndpoint")
                 out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
                 out.println("import lupos.operator.base.Query")
