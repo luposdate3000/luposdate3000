@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.test_buffermanager
+package lupos.buffer_manager.persistent.cached
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
