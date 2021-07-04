@@ -60,7 +60,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
         return res
     }
 
-    internal override fun close() {
+    internal inline fun close() {
         streamIn?.close()
         streamIn = null
     }

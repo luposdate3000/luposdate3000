@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_db.luposdate3000
+package lupos.shared
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -24,7 +24,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.math.min
-internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : IMyInputStream {
+internal class MyInputStreamFromByteArray(val data: ByteArrayWrapper) : IMyInputStream {
     private var offset = 0
     override fun close() {}
     override fun read(buf: ByteArray): Int {

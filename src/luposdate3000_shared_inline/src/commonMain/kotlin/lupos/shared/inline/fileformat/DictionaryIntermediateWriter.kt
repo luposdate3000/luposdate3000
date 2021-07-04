@@ -51,7 +51,7 @@ internal class DictionaryIntermediateWriter : DictionaryIntermediate {
         close()
     }
 
-    internal override fun close() {
+    internal inline fun close() {
         if (streamOut != null) {
             if (DictionaryValueHelper.getSize() == 8) {
                 streamOut!!.writeLong(-1)

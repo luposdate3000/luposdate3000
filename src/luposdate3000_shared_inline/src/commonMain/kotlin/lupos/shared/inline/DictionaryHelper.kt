@@ -740,7 +740,7 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun byteArrayToBnode_S(buffer: ByteArrayWrapper): String {
-        if (ByteArrayWrapperExt.getSize(buffer) == 8) {
+        if (ByteArrayWrapperExt.getSize(buffer) == 4 + DictionaryValueHelper.getSize()) {
             throw Exception("this is not ready to be used as import value")
         } else {
             val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 4)
@@ -752,8 +752,8 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun byteArrayToBnode_A(buffer: ByteArrayWrapper): String {
-        if (ByteArrayWrapperExt.getSize(buffer) == 8) {
-            return "_:" + ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 4).toString()
+        if (ByteArrayWrapperExt.getSize(buffer) == 4 + DictionaryValueHelper.getSize()) {
+            return "_:" + DictionaryValueHelper.fromByteArray(buffer, 4).toString()
         } else {
             val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 4)
             val buf = ByteArray(l1)
