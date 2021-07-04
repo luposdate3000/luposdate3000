@@ -18,6 +18,7 @@
 // onFinish:IDatabasePackage?,expectedResult:MemoryTable?
 
 package lupos.simulator_db.luposdate3000
+import lupos.shared.MyInputStreamFromByteArray
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
 import lupos.operator.base.OPBaseCompound
@@ -156,7 +157,7 @@ public class DatabaseHandle : IDatabase {
                 // dont use dictionaries right now
             }
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
-            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MySimulatorInputStreamFromPackage(pck.data!!))
+            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MyInputStreamFromByteArray(pck.data!!))
             "simulator-intermediate-result" -> {
                 SanityCheck.check { myPendingWorkData[pck.params["key"]!!] == null }
                 myPendingWorkData[pck.params["key"]!!] = pck.data!!
@@ -271,7 +272,7 @@ public class DatabaseHandle : IDatabase {
             SanityCheck.check { keys.size == 1 }
             val key = keys.first()!!
             SanityCheck.check { myPendingWorkData.contains(key) }
-            val input = MySimulatorInputStreamFromPackage(myPendingWorkData[key]!!)
+            val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = MySimulatorPOPDistributedReceiveSingle(
                 query,
@@ -294,7 +295,7 @@ public class DatabaseHandle : IDatabase {
                 }
             }
             val inputs = keys.map { key ->
-                val input = MySimulatorInputStreamFromPackage(myPendingWorkData[key]!!)
+                val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
                 input as IMyInputStream
             }.toTypedArray()
