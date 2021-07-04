@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.shared.inline.fileformat
-
+package lupos.shared.fileformat
+import kotlin.jvm.JvmField
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 
-internal class DictionaryIntermediateRow(internal val id: DictionaryValueType, internal val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
+internal class DictionaryIntermediateRow(@JvmField internal val id: DictionaryValueType, @JvmField internal val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
     override operator fun compareTo(other: DictionaryIntermediateRow): Int {
         return data.compareTo(other.data)
     }

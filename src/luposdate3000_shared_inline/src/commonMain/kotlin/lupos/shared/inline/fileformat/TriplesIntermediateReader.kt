@@ -54,7 +54,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
     @JvmField
     internal val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)
 
-    internal fun next(): DictionaryValueTypeArray? {
+    internal inline fun next(): DictionaryValueTypeArray? {
         val header = streamIn!!.readByte()
         if (header == 125.toByte()) {
             close()
@@ -77,7 +77,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
         }
     }
 
-    internal override fun close() {
+    internal inline fun close() {
         streamIn?.close()
         streamIn = null
     }
