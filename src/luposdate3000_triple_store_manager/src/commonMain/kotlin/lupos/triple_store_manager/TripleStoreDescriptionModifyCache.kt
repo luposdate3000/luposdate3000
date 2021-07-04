@@ -16,6 +16,9 @@
  */
 package lupos.triple_store_manager
 import lupos.shared.EIndexPattern
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
@@ -30,7 +33,7 @@ import lupos.shared.SanityCheck
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
     private class LocalSortedInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
         var off = 0
-        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - (buf.size % 3)
         val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
         override fun flush() {}
@@ -59,7 +62,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
         override fun write(buf: ByteArray, len: Int) {
         }
-        override fun writeInt(i: Int) {
+        override fun writeInt(i: Int) {}
+        override fun writeLong(value: Long) {}
+        override fun writeDictionaryValueType(value: DictionaryValueType) {
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
@@ -82,7 +87,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
     private class LocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
         var off = 0
-        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - (buf.size % 3)
         val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
         override fun flush() {}
@@ -111,7 +116,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
         override fun write(buf: ByteArray, len: Int) {
         }
-        override fun writeInt(i: Int) {
+        override fun writeInt(i: Int) {}
+        override fun writeLong(value: Long) {}
+        override fun writeDictionaryValueType(value: DictionaryValueType) {
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {

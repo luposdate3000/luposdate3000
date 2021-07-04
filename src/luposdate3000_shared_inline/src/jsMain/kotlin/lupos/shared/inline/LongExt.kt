@@ -21,7 +21,7 @@ internal actual object LongExt {
     internal actual inline fun numberOfLeadingZeros(value: Long): Int {
         var i = 63
         while (i >= 0) {
-            if (value and (1 shl i) != 0) {
+            if (value and (1L shl i) != 0L) {
                 return 63 - i
             }
             i--

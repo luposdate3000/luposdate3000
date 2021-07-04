@@ -22,6 +22,7 @@ internal actual class MyOutputStream : IMyOutputStream {
     internal actual constructor() {}
 
     public actual override fun writeInt(value: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun writeLong(value: Long): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun close(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun flush(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun write(buf: ByteArray): Unit = write(buf, buf.size)

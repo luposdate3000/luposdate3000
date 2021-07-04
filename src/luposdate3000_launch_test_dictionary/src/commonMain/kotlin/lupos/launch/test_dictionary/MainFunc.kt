@@ -22,6 +22,7 @@ import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.shared.AflCore
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
@@ -30,7 +31,6 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -102,11 +102,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 DictionaryExt.errorValue3,
                 DictionaryExt.undefValue3,
             )
-            val mapping = mutableMapOf<DictionaryValueType, Int>(
-                DictionaryValueHelper.fromInt(0) to 0,
-                DictionaryValueHelper.fromInt(1) to 1,
-                DictionaryValueHelper.fromInt(2) to 2,
-                DictionaryValueHelper.fromInt(3) to 3,
+            val mapping = mutableMapOf<DictionaryValueType, DictionaryValueType>(
+                DictionaryValueHelper.fromInt(0) to DictionaryValueHelper.fromInt(0),
+                DictionaryValueHelper.fromInt(1) to DictionaryValueHelper.fromInt(1),
+                DictionaryValueHelper.fromInt(2) to DictionaryValueHelper.fromInt(2),
+                DictionaryValueHelper.fromInt(3) to DictionaryValueHelper.fromInt(3),
             ) // dict.id -> values.index
 
             var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
@@ -121,7 +121,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
 
             fun getNotExistingKey(rng: Int, action: (DictionaryValueType) -> Unit) {
-                val ids = MutableList<Int>(1000) {it}
+                val ids = MutableList<DictionaryValueType>(1000) { DictionaryValueHelper.fromInt(it) }
                 ids.removeAll(mapping.values)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]

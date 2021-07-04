@@ -17,6 +17,7 @@
 package lupos.operator.physical.multiinput
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 

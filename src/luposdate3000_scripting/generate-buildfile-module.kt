@@ -770,7 +770,7 @@ if(!onWindows){
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
-if(false){
+if(true){
 typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperInt")
 typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Int")
 typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","IntArray")

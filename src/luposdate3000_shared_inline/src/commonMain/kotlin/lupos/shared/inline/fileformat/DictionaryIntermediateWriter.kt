@@ -34,7 +34,7 @@ internal class DictionaryIntermediateWriter : DictionaryIntermediate {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeAssumeOrdered(id: DictionaryValueType, data: ByteArrayWrapper) {
-        DictionaryValueHelper.toStream(streamOut!!, id)
+        streamOut!!.writeDictionaryValueType(id)
         streamOut!!.writeInt(ByteArrayWrapperExt.getSize(data))
         streamOut!!.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
     }
@@ -53,7 +53,11 @@ internal class DictionaryIntermediateWriter : DictionaryIntermediate {
 
     internal override fun close() {
         if (streamOut != null) {
-            DictionaryValueHelper.toStream(streamOut!!, DictionaryValueHelper.fromInt(-1))
+            if (DictionaryValueHelper.getSize() == 8) {
+                streamOut!!.writeLong(-1)
+            } else {
+                streamOut!!.writeInt(-1)
+            }
             streamOut!!.close()
             streamOut = null
         }

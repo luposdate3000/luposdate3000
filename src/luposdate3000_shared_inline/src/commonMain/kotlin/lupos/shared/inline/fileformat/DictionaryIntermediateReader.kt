@@ -16,7 +16,6 @@
  */
 
 package lupos.shared.inline.fileformat
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -42,7 +41,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
     }
 
     internal inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
-        val id = DictionaryValueHelper.fromStream(streamIn!!)
+        val id = streamIn!!.readDictionaryValueType()
         if (id < 0) {
             close()
         } else {

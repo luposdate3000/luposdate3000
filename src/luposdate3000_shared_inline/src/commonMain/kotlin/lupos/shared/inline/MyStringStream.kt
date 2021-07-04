@@ -15,13 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
 
 internal class MyStringStream(str: String) : IMyInputStream {
-    @JvmField
-    val buf4 = ByteArray(4)
 
     @JvmField
     val buf8 = ByteArray(8)
@@ -71,8 +69,12 @@ internal class MyStringStream(str: String) : IMyInputStream {
     }
 
     override fun readInt(): Int {
-        read(buf4, 4)
-        return ByteArrayHelper.readInt4(buf4, 0)
+        read(buf8, 4)
+        return ByteArrayHelper.readInt4(buf8, 0)
+    }
+    override fun readDictionaryValueType(): Int {
+        read(buf8, DictionaryValueHelper.getSize())
+        return DictionaryValueHelper.fromByteArray(buf8, 0)
     }
     override fun readLong(): Long {
         read(buf8, 8)
@@ -80,8 +82,8 @@ internal class MyStringStream(str: String) : IMyInputStream {
     }
 
     override fun readByte(): Byte {
-        read(buf4, 1)
-        return buf4[0]
+        read(buf8, 1)
+        return buf8[0]
     }
 
     public override fun readLine(): String? {

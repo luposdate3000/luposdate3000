@@ -20,9 +20,9 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
 import lupos.shared.AflCore
-import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.TripleStoreIndex
@@ -63,7 +63,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         return DictionaryValueHelper.fromInt((DictionaryValueHelper.toInt(s) and 0x7fff0000.toInt()) or ((DictionaryValueHelper.toInt(p) and 0x7f000000.toInt()) shr 16) or ((DictionaryValueHelper.toInt(o) and 0x7f000000.toInt()) shr 24))
     }
     fun splitSPO(v: DictionaryValueType, action: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit) {
-        action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000.toInt()),DictionaryValueHelper.fromInt( ((DictionaryValueHelper.toInt(v) and 0x00007f00.toInt()) shl 16)),DictionaryValueHelper.fromInt( ((DictionaryValueHelper.toInt(v) and 0x0000007f.toInt()) shl 24)))
+        action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000.toInt()), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x00007f00.toInt()) shl 16)), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x0000007f.toInt()) shl 24)))
     }
     fun filterArrToFun(filter: DictionaryValueTypeArray): (Int) -> Boolean {
         var res: (Int) -> Boolean = { true }
@@ -182,9 +182,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         } else {
             rng
         }
-        var myS :DictionaryValueType= 0
-        var myP :DictionaryValueType= 0
-        var myO :DictionaryValueType= 0
+        var myS: DictionaryValueType = 0
+        var myP: DictionaryValueType = 0
+        var myO: DictionaryValueType = 0
         splitSPO(myRng) { s, p, o ->
             myS = s
             myP = p

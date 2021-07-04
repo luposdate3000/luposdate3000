@@ -37,7 +37,7 @@ import lupos.shared.operator.iterator.ColumnIterator
 
 public object QueryResultToXMLStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
-            dictionary.getValue(buffer, valueID)
+        dictionary.getValue(buffer, valueID)
         DictionaryHelper.byteArrayToCallback(
             buffer,
             { value ->
