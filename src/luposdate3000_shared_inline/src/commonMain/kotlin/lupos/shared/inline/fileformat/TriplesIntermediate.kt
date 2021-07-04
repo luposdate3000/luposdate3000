@@ -15,25 +15,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.shared.fileformat
+package lupos.shared.inline.fileformat
 
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
-public abstract class TriplesIntermediate(@JvmField internal val filename: String) {
+internal abstract class TriplesIntermediate(@JvmField internal val filename: String) {
     @JvmField
-    public var streamOut: IMyOutputStream? = null
+    internal var streamOut: IMyOutputStream? = null
 
     @JvmField
-    public var streamIn: IMyInputStream? = null
-    public abstract fun close()
+    internal var streamIn: IMyInputStream? = null
+    internal abstract fun close()
 
-    public companion object {
+    internal companion object {
         internal const val version: Int = 1
         internal const val filenameEnding = ".triples"
-        public fun delete(filename: String) {
+        internal fun delete(filename: String) {
             File("$filename$filenameEnding").deleteRecursively()
         }
     }

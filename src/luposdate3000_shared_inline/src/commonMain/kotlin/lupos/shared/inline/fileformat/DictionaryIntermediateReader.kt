@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.shared.fileformat
+package lupos.shared.inline.fileformat
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
-public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
+internal class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
         streamIn = getFile().openInputStream()
         val version = streamIn!!.readInt()
@@ -61,7 +61,7 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         return res
     }
 
-    public override fun close() {
+    internal override fun close() {
         streamIn?.close()
         streamIn = null
     }

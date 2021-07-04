@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.shared.fileformat
+package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
@@ -23,7 +23,7 @@ import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
-public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
+internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     private val writeOrder: EIndexPattern
     private val i0: Int
     private val i1: Int
@@ -40,7 +40,7 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
         i2 = EIndexPatternHelper.tripleIndicees[writeOrder][2]
     }
 
-    public inline fun readAll(crossinline action: (DictionaryValueTypeArray) -> Unit) {
+    internal inline fun readAll(crossinline action: (DictionaryValueTypeArray) -> Unit) {
         var tmp = next()
         while (tmp != null) {
             action(tmp)
@@ -54,7 +54,7 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
     @JvmField
     internal val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)
 
-    public fun next(): DictionaryValueTypeArray? {
+    internal fun next(): DictionaryValueTypeArray? {
         val header = streamIn!!.readByte()
         if (header == 125.toByte()) {
             close()
@@ -77,7 +77,7 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
         }
     }
 
-    public override fun close() {
+    internal override fun close() {
         streamIn?.close()
         streamIn = null
     }

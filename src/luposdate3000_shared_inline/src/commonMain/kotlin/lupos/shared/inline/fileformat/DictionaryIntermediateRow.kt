@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.shared.fileformat
+package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 
-public class DictionaryIntermediateRow(public val id: DictionaryValueType, public val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
-    public override operator fun compareTo(other: DictionaryIntermediateRow): Int {
+internal class DictionaryIntermediateRow(internal val id: DictionaryValueType, internal val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
+    override operator fun compareTo(other: DictionaryIntermediateRow): Int {
         return data.compareTo(other.data)
     }
 

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.fileformat
+package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -24,7 +24,7 @@ import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
-public class TriplesIntermediateWriter : TriplesIntermediate {
+internal class TriplesIntermediateWriter : TriplesIntermediate {
 
     @JvmField
     internal var count = 0L
@@ -42,15 +42,15 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     internal val buf: ByteArray = ByteArray(13)
     private val writeOrder: EIndexPattern
 
-    public constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
+    internal constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
         this.writeOrder = writeOrder
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
         streamOut!!.writeInt(TriplesIntermediate.version)
         streamOut!!.writeInt(writeOrder)
     }
 
-    public fun getCount(): Long = count
-    public fun write(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType) {
+    internal fun getCount(): Long = count
+    internal fun write(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType) {
         val l0: DictionaryValueType
         val l1: DictionaryValueType
         val l2: DictionaryValueType
@@ -110,7 +110,7 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
         }
     }
 
-    public override fun close() {
+    internal override fun close() {
         buf[0] = 125
         streamOut?.write(buf, 1)
         streamOut?.close()

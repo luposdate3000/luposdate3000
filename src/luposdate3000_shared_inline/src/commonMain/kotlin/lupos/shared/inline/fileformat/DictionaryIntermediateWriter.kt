@@ -14,33 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.fileformat
+package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
-public class DictionaryIntermediateWriter : DictionaryIntermediate {
-    public constructor(filename: String) : super(filename) {
+internal class DictionaryIntermediateWriter : DictionaryIntermediate {
+    internal constructor(filename: String) : super(filename) {
         streamOut = getFile().openOutputStream(false)
         streamOut!!.writeInt(DictionaryIntermediate.version)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
+    internal inline fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
         writeAssumeOrdered(row.id, row.data)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeAssumeOrdered(id: DictionaryValueType, data: ByteArrayWrapper) {
+    internal inline fun writeAssumeOrdered(id: DictionaryValueType, data: ByteArrayWrapper) {
         DictionaryValueHelper.toStream(streamOut!!, id)
         streamOut!!.writeInt(ByteArrayWrapperExt.getSize(data))
         streamOut!!.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun write(dict: MutableMap<ByteArrayWrapper, DictionaryValueType>) {
+    internal inline fun write(dict: MutableMap<ByteArrayWrapper, DictionaryValueType>) {
         val rows = dict.toList().map {
             DictionaryIntermediateRow(it.second, it.first)
         }.sorted()
@@ -51,7 +51,7 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
         close()
     }
 
-    public override fun close() {
+    internal override fun close() {
         if (streamOut != null) {
             DictionaryValueHelper.toStream(streamOut!!, DictionaryValueHelper.fromInt(-1))
             streamOut!!.close()

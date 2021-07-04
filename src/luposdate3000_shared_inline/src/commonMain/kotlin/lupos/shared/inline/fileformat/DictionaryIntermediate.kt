@@ -15,31 +15,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.shared.fileformat
+package lupos.shared.inline.fileformat
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
-public abstract class DictionaryIntermediate(internal val filename: String) {
+internal abstract class DictionaryIntermediate(internal val filename: String) {
     @JvmField
-    public var streamOut: IMyOutputStream? = null
+    internal var streamOut: IMyOutputStream? = null
 
     @JvmField
-    public var streamIn: IMyInputStream? = null
-    public abstract fun close()
+    internal var streamIn: IMyInputStream? = null
+    internal abstract fun close()
     internal fun getFile(): File {
         return getFile(filename)
     }
 
-    public companion object {
+    internal companion object {
         internal val version: Int = 1
         internal const val filenameEnding = ".dictionary"
         internal fun getFile(filename: String): File {
             return File("$filename$filenameEnding")
         }
 
-        public fun fileExists(filename: String): Boolean {
+        internal fun fileExists(filename: String): Boolean {
             val f = File("$filename$filenameEnding")
             var res = f.exists()
             if (res) {
@@ -53,7 +53,7 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
             return res
         }
 
-        public fun delete(filename: String) {
+        internal fun delete(filename: String) {
             DictionaryIntermediateReader(filename).getFile().deleteRecursively()
         }
     }
