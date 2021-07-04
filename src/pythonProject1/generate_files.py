@@ -84,7 +84,7 @@ def generate_queries():
                         query.write("    " + s2 + " " + unique_predicates[k] + " " + o2 + " .\n")
                         query.write("}\n")
 
-                    with open(output_directory + "q" + join_on + str(file_index) + ".ml", "w") as python_q_file:
+                    with open(output_directory + "q" + join_on + str(file_index) + ".mlq", "w") as python_q_file:
                         bucket_list = [[s0]]
                         for a in [s1, s2, o0, o1, o2]:
                             for b in bucket_list:
@@ -99,11 +99,11 @@ def generate_queries():
                             for variable in bucket:
                                 ids[variable] = -(idx + 1)
 
-                        python_q_file.write(str(ids[s0]) + " " + str(i) + " " + str(ids[o0]) + ";")
-                        python_q_file.write(str(ids[s1]) + " " + str(j) + " " + str(ids[o1]) + ";")
-                        python_q_file.write(str(ids[s2]) + " " + str(k) + " " + str(ids[o2]) + ";" + "\n")
+                        python_q_file.write(str(ids[s0]) + "," + str(i) + "," + str(ids[o0]) + ";")
+                        python_q_file.write(str(ids[s1]) + "," + str(j) + "," + str(ids[o1]) + ";")
+                        python_q_file.write(str(ids[s2]) + "," + str(k) + "," + str(ids[o2]) + ";" + "\n")
 
-                    python_ml_params += output_directory + "q" + join_on + str(file_index) + ".ml" + ";"
+                    python_ml_params += output_directory + "q" + join_on + str(file_index) + ".mlq" + ";"
                     lupos3000_query_params += output_directory + "q" + join_on + str(file_index) + ".sparql" + ";"
 
                     file_index += 1
@@ -124,7 +124,7 @@ def generate_train_file():
                 tmp = line.split(" ")
                 ml_query_file_string = tmp[0].split("/")
                 tmp2 = ml_query_file_string[-1].split(".")[0]
-                tmp3 = tmp2 + ".ml"
+                tmp3 = tmp2 + ".mlq"
                 ml_query_file_string = ml_query_file_string[:-1]
                 ml_query_file_string.append(tmp3)
                 ml_query_file_string = "/".join(ml_query_file_string)
