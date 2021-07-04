@@ -18,6 +18,7 @@ package lupos.operator.arithmetik
 
 import lupos.operator.base.OPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
@@ -71,7 +72,7 @@ public abstract class AOPBase public constructor(
         }
     }
 
-    public open fun evaluateID(row: IteratorBundle): () -> Int {
+    public open fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val buffer = ByteArrayWrapper()
         return {
             DictionaryHelper.valueDefinitionToByteArray(buffer, evaluate(row)())

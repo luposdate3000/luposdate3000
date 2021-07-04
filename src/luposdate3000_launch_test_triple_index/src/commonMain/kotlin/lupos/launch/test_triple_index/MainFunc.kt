@@ -20,6 +20,8 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
 import lupos.shared.AflCore
+import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
@@ -53,9 +55,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, false)
     val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
-    val insertBuffer = IntArray(3000)
+    val insertBuffer = DictionaryValueTypeArray(3000)
     var insertBufferSize = 0
-    val deleteBuffer = IntArray(3000)
+    val deleteBuffer = DictionaryValueTypeArray(3000)
     var deleteBufferSize = 0
     fun mergeSPO(s: Int, p: Int, o: Int): Int {
         return (s and 0x7fff0000.toInt()) or ((p and 0x7f000000.toInt()) shr 16) or ((o and 0x7f000000.toInt()) shr 24)
@@ -63,7 +65,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) {
         action(v and 0x7fff0000.toInt(), ((v and 0x00007f00.toInt()) shl 16), ((v and 0x0000007f.toInt()) shl 24))
     }
-    fun filterArrToFun(filter: IntArray): (Int) -> Boolean {
+    fun filterArrToFun(filter: DictionaryValueTypeArray): (Int) -> Boolean {
         var res: (Int) -> Boolean = { true }
         when (filter.size) {
             1 -> {
@@ -217,7 +219,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun verifyH(a: List<Int>, b: List<Int>) {
+    fun verifyH(a: List<DictionaryValueType>, b: List<DictionaryValueType>) {
         var ai = 0
         var bi = 0
         var flag = a.size != b.size
@@ -257,7 +259,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun verifyS(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyS(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyS")
         }
@@ -269,7 +271,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
             res
         }
-        val actual = mutableListOf<Int>()
+        val actual = mutableListOf<DictionaryValueType>()
         var value = iter.next()
         while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
@@ -278,7 +280,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         verifyH(actual, target)
     }
 
-    fun verifyP(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyP(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyP")
         }
@@ -299,7 +301,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         verifyH(actual, target)
     }
 
-    fun verifyO(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyO(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyO")
         }
@@ -320,7 +322,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         verifyH(actual, target)
     }
 
-    fun verifyCount(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyCount(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyCount")
         }
@@ -338,7 +340,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_sxx_Ok(filter: IntArray) {
+    fun testGetIterator_sxx_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_sxx_Ok ${filter.map { it }}")
         }
@@ -355,7 +357,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_spx_Ok(filter: IntArray) {
+    fun testGetIterator_spx_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_spx_Ok ${filter.map { it }}")
         }
@@ -379,7 +381,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_spo_Ok(filter: IntArray) {
+    fun testGetIterator_spo_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_spo_Ok ${filter.map { it }}")
         }
@@ -411,7 +413,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_xxx_Ok(filter: IntArray) {
+    fun testGetIterator_xxx_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_xxx_Ok ${filter.map { it }}")
         }
@@ -420,7 +422,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         verifyCount(bundle, filter)
     }
 
-    fun getFilter(mode: Int, rng: Int, action: (IntArray) -> Unit) {
+    fun getFilter(mode: Int, rng: Int, action: (DictionaryValueTypeArray) -> Unit) {
         if (dataBuffer.size == 0) {
             action(intArrayOf())
         } else {

@@ -80,7 +80,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
         }
     }
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
             tmp.evaluateFinish()

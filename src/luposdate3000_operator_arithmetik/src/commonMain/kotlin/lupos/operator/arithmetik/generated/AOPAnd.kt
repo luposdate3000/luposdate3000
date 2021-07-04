@@ -31,7 +31,7 @@ public class AOPAnd public constructor(query: IQuery, child0: AOPBase, child1: A
     override fun toSparql(): String = "And(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPAnd && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPAnd(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_1: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_4: ByteArrayWrapper = ByteArrayWrapper()

@@ -66,7 +66,7 @@ public class AOPConstant : AOPBase, IAOPConstant {
 
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         return {
             value
         }

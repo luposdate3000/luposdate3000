@@ -76,7 +76,7 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
         return ColumnIteratorAggregateMAX((children[0] as AOPBase).evaluateID(row), query.getDictionary())
     }
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
             tmp.evaluateFinish()

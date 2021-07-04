@@ -21,7 +21,7 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.shared.AflCore
-
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
@@ -116,12 +116,12 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 ids.addAll(mapping.keys)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
-                    action(values[mapping[DictionaryValueHelper.toInt(key)]!!], key)
+                    action(values[mapping[key]!!], key)
                 }
             }
 
             fun getNotExistingKey(rng: Int, action: (DictionaryValueType) -> Unit) {
-                val ids = MutableList<DictionaryValueType>(1000) { it }
+                val ids = MutableList<DictionaryValueType>(1000) { DictionaryValueHelper.fromInt(it) }
                 ids.removeAll(mapping.values)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
@@ -207,10 +207,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("testCreateValueNotExistingOk $key $data")
                 }
-                if (mapping[DictionaryValueHelper.toInt(key)] != null) {
+                if (mapping[key] != null) {
                     throw Exception("$key")
                 }
-                mapping[DictionaryValueHelper.toInt(key)] = values.size
+                mapping[key] = values.size
                 values.add(data)
             }
 

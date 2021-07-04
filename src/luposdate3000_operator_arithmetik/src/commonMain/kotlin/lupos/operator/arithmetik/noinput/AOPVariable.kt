@@ -38,7 +38,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     override fun cloneOP(): IOPBase = AOPVariable(query, this.getName())
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp = row.columns[name]
         return if (tmp == null) {
             {

@@ -29,7 +29,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 public class AOPNEQ public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPNEQID, "AOPNEQ", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " != " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPNEQ && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
         val bufferA = ByteArrayWrapper()

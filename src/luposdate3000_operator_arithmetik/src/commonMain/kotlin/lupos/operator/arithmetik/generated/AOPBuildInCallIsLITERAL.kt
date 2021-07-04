@@ -31,7 +31,7 @@ public class AOPBuildInCallIsLITERAL public constructor(query: IQuery, child0: A
     override fun toSparql(): String = "IsLITERAL(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallIsLITERAL && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallIsLITERAL(query, children[0].cloneOP() as AOPBase)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)

@@ -33,7 +33,7 @@ public class AOPBuildInCallMINUTES public constructor(query: IQuery, child0: AOP
     override fun toSparql(): String = "MINUTES(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallMINUTES && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallMINUTES(query, children[0].cloneOP() as AOPBase)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)

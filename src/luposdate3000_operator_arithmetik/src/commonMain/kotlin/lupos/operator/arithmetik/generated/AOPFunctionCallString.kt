@@ -33,7 +33,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
     override fun toSparql(): String = "<http://www.w3.org/2001/XMLSchema#string>(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPFunctionCallString && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPFunctionCallString(query, children[0].cloneOP() as AOPBase)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)

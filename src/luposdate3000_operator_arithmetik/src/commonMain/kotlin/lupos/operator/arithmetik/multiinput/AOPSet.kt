@@ -38,7 +38,7 @@ public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : A
     }
 
     override fun equals(other: Any?): Boolean = other is AOPSet && children.contentEquals(other.children)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         throw SparqlFeatureNotImplementedException("AOPSet")
     }
 

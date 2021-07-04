@@ -38,7 +38,7 @@ public class AOPValue public constructor(query: IQuery, childs: List<AOPConstant
     }
 
     override fun equals(other: Any?): Boolean = other is AOPValue && children.contentEquals(other.children)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         SanityCheck.checkUnreachable()
     }
 

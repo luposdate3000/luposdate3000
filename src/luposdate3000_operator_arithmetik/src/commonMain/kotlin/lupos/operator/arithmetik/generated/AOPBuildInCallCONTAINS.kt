@@ -31,7 +31,7 @@ public class AOPBuildInCallCONTAINS public constructor(query: IQuery, child0: AO
     override fun toSparql(): String = "CONTAINS(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallCONTAINS && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPBuildInCallCONTAINS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_1: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_4: ByteArrayWrapper = ByteArrayWrapper()
