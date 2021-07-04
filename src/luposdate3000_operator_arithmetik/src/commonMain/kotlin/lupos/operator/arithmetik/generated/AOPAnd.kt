@@ -35,8 +35,8 @@ public class AOPAnd public constructor(query: IQuery, child0: AOPBase, child1: A
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_1: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_4: ByteArrayWrapper = ByteArrayWrapper()
-        val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)
-        val child1: () -> Int = (children[1] as AOPBase).evaluateID(row)
+        val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
+        val child1: () -> DictionaryValueType = (children[1] as AOPBase).evaluateID(row)
         return {
             var res: Int
             val childIn0: Int = child0()

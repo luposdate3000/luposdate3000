@@ -34,7 +34,7 @@ public class AOPBuildInCallIsLITERAL public constructor(query: IQuery, child0: A
     override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
-        val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)
+        val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
             var res: Int
             val childIn0: Int = child0()
