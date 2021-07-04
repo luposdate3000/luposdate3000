@@ -16,10 +16,11 @@
  */
 package lupos.shared.inline
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import java.io.OutputStream
 import kotlin.jvm.JvmField
-
 internal actual class MyOutputStream : IMyOutputStream {
     @JvmField
     val buffer: ByteArray
@@ -39,6 +40,9 @@ internal actual class MyOutputStream : IMyOutputStream {
     internal actual constructor() {
         stream = null
         buffer = ByteArray(8192)
+    }
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType) {
+        DictionaryValueHelper.sendToStream(value)
     }
 
     public actual override fun writeInt(value: Int) {

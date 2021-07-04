@@ -15,10 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-import lupos.shared.EIndexPattern
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
@@ -64,7 +63,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         }
         override fun writeInt(i: Int) {}
         override fun writeLong(value: Long) {}
-        override fun writeDictionaryValueType(value: DictionaryValueType) {
+        override fun writeDictionaryValueType(i: DictionaryValueType) {
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
@@ -118,7 +117,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         }
         override fun writeInt(i: Int) {}
         override fun writeLong(value: Long) {}
-        override fun writeDictionaryValueType(value: DictionaryValueType) {
+        override fun writeDictionaryValueType(i: DictionaryValueType) {
             if (i != -1) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {

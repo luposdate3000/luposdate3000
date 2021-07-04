@@ -49,7 +49,6 @@ internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : I
         offset += 4
         return res
     }
-
     override fun readLine(): String? {
         TODO()
     }

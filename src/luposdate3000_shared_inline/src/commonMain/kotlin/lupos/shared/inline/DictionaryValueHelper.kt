@@ -15,14 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 /*
 
 
-DictionaryValueHelper.DictionaryValueTypeArray
-
-DictionaryValueType
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -101,6 +100,12 @@ internal object DictionaryValueHelperInt {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Int): Int = (((32 + 7 - IntegerExt.numberOfLeadingZeros(value))) shr 3)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun sendToStream(stream: IMyOutputStream, value: Int) = stream.writeInt(value)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readFromStream(stream: IMyInputStream) = stream.readInt()
 }
 internal object DictionaryValueHelperLong {
     public const val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
@@ -173,4 +178,10 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int = (((64 + 7 - LongExt.numberOfLeadingZeros(value))) shr 3)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun sendToStream(stream: IMyOutputStream, value: Long) = stream.writeLong(value)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readFromStream(stream: IMyInputStream) = stream.readLong()
 }

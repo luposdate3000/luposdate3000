@@ -16,6 +16,7 @@
  */
 package lupos.shared.inline
 
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyPrintWriterMode
 import lupos.shared.MyPrintWriterModeExt
