@@ -130,6 +130,7 @@ import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
@@ -316,7 +317,7 @@ public object XMLElementToOPBase {
             AOPConstant(query, ValueUndef())
         }
         operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
+            AOPConstant(query, DictionaryValueHelper.fromString(node.attributes["dictvalue"]!!))
         }
         operatorMap["AOPVariable"] = { query, node, mapping, recursionFunc ->
             AOPVariable(query, node.attributes["name"]!!)

@@ -23,6 +23,7 @@ import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.DateHelperRelative
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyInputStream
@@ -355,9 +356,9 @@ public object RestEndpoint {
         }
         paths["/distributed/query/histogram"] = PathMappingHelper(false, mapOf(Pair("tag", "") to ::inputElement)) {
             var cnt = connectionInMy.readInt()
-            val filter = IntArray(cnt)
+            val filter = DictionaryValueTypeArray(cnt)
             for (i in 0 until cnt) {
-                filter[i] = connectionInMy.readInt()
+                filter[i] = connectionInMy.readDictionaryValueType()
             }
             val tmp = instance.tripleStoreManager!!.remoteHistogram(params["tag"]!!, filter)
             connectionOutMy.writeInt(tmp.first)

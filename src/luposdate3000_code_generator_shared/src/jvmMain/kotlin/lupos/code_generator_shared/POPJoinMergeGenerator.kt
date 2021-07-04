@@ -341,7 +341,7 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorBody.println("        }")
     clazz.iteratorNextHeader.println(
         """
-        override /*suspend*/ fun next(): Int {
+        override /*suspend*/ fun next(): DictionaryValueType {
             return ColumnIteratorChildIteratorExt.nextHelper(this,
                 {"""
     )

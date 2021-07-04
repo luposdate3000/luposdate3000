@@ -91,7 +91,7 @@ internal fun generatePOPBind(
     if (inlineChild) {
         clazz.iteratorClassVariables.addAll(childContainer!!.iteratorClassVariables)
     }
-    clazz.iteratorNextHeader.println("        override /*suspend*/ fun next(): Int {")
+    clazz.iteratorNextHeader.println("        override /*suspend*/ fun next(): DictionaryValueType {")
     clazz.iteratorNextHeader.println("            return ColumnIteratorQueueExt.nextHelper(")
     clazz.iteratorNextHeader.println("                this,")
     clazz.iteratorNextHeader.println("                {")

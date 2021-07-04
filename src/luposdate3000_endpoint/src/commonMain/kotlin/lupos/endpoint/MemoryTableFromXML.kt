@@ -17,6 +17,7 @@
 package lupos.endpoint
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
@@ -44,7 +45,7 @@ public class MemoryTableFromXML : MemoryTableParser {
                 val buffer = ByteArrayWrapper()
                 for (xmlResult in xmlResults.childs) {
                     if (xmlResult.tag == "result") {
-                        val row = IntArray(variables.size) { DictionaryValueHelper.undefValue }
+                        val row = DictionaryValueTypeArray(variables.size) { DictionaryValueHelper.undefValue }
                         res.data.add(row)
                         for (xmlBinding in xmlResult.childs) {
                             if (xmlBinding.tag == "binding") {

@@ -39,6 +39,7 @@ import lupos.result_format.QueryResultToTurtleStream
 import lupos.result_format.QueryResultToXMLElement
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.DateHelperRelative
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
@@ -170,7 +171,7 @@ public object LuposdateEndpoint {
                 val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                 val fileTriples = TriplesIntermediateReader("$fileName.spo")
                 fileTriples.readAll {
-                    cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
+                    cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                     counter++
                     if (counter % 10000 == 0L) {
                         println("imported $counter triples without sorting")
@@ -212,7 +213,7 @@ public object LuposdateEndpoint {
                     val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
                     fileTriples.readAll {
-                        cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
+                        cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         counter++
                         if (counter % 10000 == 0L) {
                             println("imported $counter triples for index $orderName")

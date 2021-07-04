@@ -17,6 +17,7 @@
 package lupos.simulator_db.luposdate3000
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -67,7 +68,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
             variables.remove(partitionVariable)
             variables.add(0, partitionVariable)
         }
-        var buffer = IntArray(partitionCount * variables.size)
+        var buffer = DictionaryValueTypeArray(partitionCount * variables.size)
         var connections = Array<Pair<IMyInputStream, IntArray>?>(partitionCount) { null }
         var openConnections = 0
         SanityCheck.check { inputs.size == partitionCount }
@@ -89,7 +90,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
             SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
-                buffer[off + mapping[i]] = conn.readInt()
+                buffer[off + mapping[i]] = conn.readDictionaryValueType()
             }
             if (buffer[off] == DictionaryValueHelper.nullValue) {
                 conn.close()
@@ -100,7 +101,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
         }
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
+        iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
             var res = -1
             if (openConnections > 0) {
@@ -115,7 +116,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
                 val connMin = connections[min]!!
                 buffer.copyInto(iterator.buf, 0, off, off + variables.size)
                 for (i in 0 until variables.size) {
-                    buffer[off + connMin.second[i]] = connMin.first.readInt()
+                    buffer[off + connMin.second[i]] = connMin.first.readDictionaryValueType()
                 }
                 if (buffer[off] == DictionaryValueHelper.nullValue) {
                     connMin.first.close()

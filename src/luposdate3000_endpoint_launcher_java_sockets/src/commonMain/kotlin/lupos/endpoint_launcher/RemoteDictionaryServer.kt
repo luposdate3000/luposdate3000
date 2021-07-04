@@ -18,6 +18,7 @@ package lupos.endpoint_launcher
 
 import lupos.dictionary.ADictionary
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
@@ -28,7 +29,7 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, instance: Luposdate3000Instance) : ADictionary(instance, true) {
-    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
     override fun isInmemoryOnly(): Boolean = true
     override fun delete() {
     }
@@ -38,23 +39,23 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
 
     @JvmField
     internal val lock = MyReadWriteLock()
-    override fun valueToGlobal(value: Int): Int {
-        var res: Int = 0
+    override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
+        var res: DictionaryValueType = 0
         lock.withWriteLock {
             res = dictionary.valueToGlobal(value)
         }
         return res
     }
 
-    override fun createValue(buffer: ByteArrayWrapper): Int {
+    override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         return dictionary.createValue(buffer)
     }
 
-    override fun getValue(buffer: ByteArrayWrapper, value: Int) {
+    override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         dictionary.getValue(buffer, value)
     }
 
-    override fun createNewBNode(): Int {
+    override fun createNewBNode(): DictionaryValueType {
         return dictionary.createNewBNode()
     }
 
@@ -62,7 +63,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
         return dictionary.createNewUUID()
     }
 
-    override fun hasValue(buffer: ByteArrayWrapper): Int? {
+    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {
         return dictionary.hasValue(buffer)
     }
 
@@ -75,7 +76,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                 }
                 1 -> {
                     val res = createNewBNode()
-                    output.writeInt(res)
+                    output.writeDictionaryValueType(res)
                 }
                 2 -> {
                     val len = input.readInt()
@@ -83,24 +84,24 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                     input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = hasValue(buffer)
                     if (res == null) {
-                        output.writeInt(DictionaryValueHelper.nullValue)
+                        output.writeDictionaryValueType(DictionaryValueHelper.nullValue)
                     } else {
-                        output.writeInt(res)
+                        output.writeDictionaryValueType(res)
                     }
                 }
                 3 -> {
-                    val value = input.readInt()
-                    output.writeInt(valueToGlobal(value))
+                    val value = input.readDictionaryValueType()
+                    output.writeDictionaryValueType(valueToGlobal(value))
                 }
                 5 -> {
                     val len = input.readInt()
                     ByteArrayWrapperExt.setSize(buffer, len)
                     input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = createValue(buffer)
-                    output.writeInt(res)
+                    output.writeDictionaryValueType(res)
                 }
                 6 -> {
-                    val value = input.readInt()
+                    val value = input.readDictionaryValueType()
                     getValue(buffer, value)
                     output.writeInt(ByteArrayWrapperExt.getSize(buffer))
                     output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))

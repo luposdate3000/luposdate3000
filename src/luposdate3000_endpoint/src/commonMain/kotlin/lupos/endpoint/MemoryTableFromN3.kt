@@ -21,6 +21,7 @@ import lupos.parser.LookAheadTokenIterator
 import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
@@ -37,7 +38,7 @@ public class MemoryTableFromN3 : MemoryTableParser {
             val inputstream = MyStringStream(data)
             val parser = object : Turtle2Parser(inputstream) {
                 override fun onTriple() {
-                    val row = IntArray(3)
+                    val row = DictionaryValueTypeArray(3)
                     res.data.add(row)
                     for (i in 0 until 3) {
                         row[i] = dictionary.createValue(triple[i])
@@ -56,7 +57,7 @@ public class MemoryTableFromN3 : MemoryTableParser {
             val buffer = ByteArrayWrapper()
             val x = object : TurtleParserWithStringTriples() {
                 /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                    val row = IntArray(3)
+                    val row = DictionaryValueTypeArray(3)
                     res.data.add(row)
                     DictionaryHelper.sparqlToByteArray(buffer, s)
                     row[0] = dictionary.createValue(buffer)

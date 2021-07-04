@@ -18,6 +18,7 @@ package lupos.simulator_db.luposdate3000
 
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -66,7 +67,7 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
         var mapping = IntArray(variables.size)
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
+        iterator.buf = DictionaryValueTypeArray(variables.size)
         val cnt = input.readInt()
         SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
         for (i in 0 until variables.size) {
@@ -83,7 +84,7 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
             var res = -1
             if (!closed) {
                 for (i in 0 until variables.size) {
-                    iterator.buf[mapping[i]] = input.readInt()
+                    iterator.buf[mapping[i]] = input.readDictionaryValueType()
                 }
                 if (iterator.buf[0] == DictionaryValueHelper.nullValue) {
                     input.close()

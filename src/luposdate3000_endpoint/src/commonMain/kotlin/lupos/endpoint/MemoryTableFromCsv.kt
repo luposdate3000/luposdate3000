@@ -16,6 +16,7 @@
  */
 package lupos.endpoint
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
@@ -45,7 +46,7 @@ public class MemoryTableFromCsv : MemoryTableParser {
             }
             val values = line.split(",")
             var i = 0
-            val row = IntArray(variables.size) { DictionaryValueHelper.undefValue }
+            val row = DictionaryValueTypeArray(variables.size) { DictionaryValueHelper.undefValue }
             res.data.add(row)
             while (i < variables.size && i < values.size) {
                 when {

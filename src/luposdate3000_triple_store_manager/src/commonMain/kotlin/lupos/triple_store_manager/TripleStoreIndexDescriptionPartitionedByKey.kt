@@ -17,6 +17,7 @@
 package lupos.triple_store_manager
 
 import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt

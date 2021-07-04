@@ -94,6 +94,9 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always Int are used
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Int): Int {
         SanityCheck.check { value >= 0 }
         if (value> 0xFFFF) {
@@ -183,6 +186,9 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromInt(value: Int): Long = value.toLong() // adapter for places, where always Int are used
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun fromString(value: String): Long = value.toLong() // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int {
