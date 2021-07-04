@@ -43,56 +43,22 @@ internal object DictionaryValueHelperInt {
     public const val maskValue: Int = 0x1FFFFFFF.toInt()
     public const val NULL: Int = 0
     public const val FIRST_BNODE: Int = 5
-    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Int): IntArray {
-        return IntArray(size) { init(it) }
-    }
-    internal inline fun DictionaryValueTypeArray(size: Int): IntArray {
-        return IntArray(size)
-    }
-    internal inline fun isLocalValue(value: Int): Boolean {
-        return (value and flagLocal) == flagLocal
-    }
-    internal inline fun isBnode(value: Int): Boolean {
-        return (value and flagNoBNode) != flagNoBNode
-    }
-    internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Int) {
-        ByteArrayHelper.writeInt4(buffer, off, value)
-    }
-internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int,count:Int) {
-        ByteArrayHelper.writeIntX(ByteArrayWrapperExt.getBuf(buffer), off, value,count)
-    }
-internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Int,count:Int) {
-        ByteArrayHelper.writeIntX(buffer, off, value,count)
-    }
-    internal inline fun fromByteArray(buffer: ByteArray, off: Int): Int {
-        return ByteArrayHelper.readInt4(buffer, off)
-    }
-    internal inline fun fromByteArrayX(buffer: ByteArray, off: Int, bytes: Int): Int {
-        return ByteArrayHelper.readIntX(buffer, off, bytes)
-    }
-    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) {
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, value)
-    }
-    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Int {
-        return ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
-    }
-    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Int {
-        return ByteArrayHelper.readIntX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
-    }
-    internal inline fun getSize(): Int {
-        return 8
-    }
-    internal inline fun toInt(value: Int): Int {
-        // adapter for places, where always Int are used
-        return value
-    }
-    internal inline fun fromInt(value: Int): Int {
-        // adapter for places, where always Int are used
-        return value
-    }
-    internal inline fun numberOfBytesUsed(value: Int): Int {
-        return (((32 + 7 - IntegerExt.numberOfLeadingZeros(value))) shr 3)
-    }
+    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Int): IntArray = IntArray(size) { init(it) }
+    internal inline fun DictionaryValueTypeArray(size: Int): IntArray = IntArray(size)
+    internal inline fun isLocalValue(value: Int): Boolean = (value and flagLocal) == flagLocal
+    internal inline fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
+    internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Int) = ByteArrayHelper.writeInt4(buffer, off, value)
+    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int) = ByteArrayHelper.writeIntX(ByteArrayWrapperExt.getBuf(buffer), off, value, count)
+    internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Int, count: Int) = ByteArrayHelper.writeIntX(buffer, off, value, count)
+    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) = ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, value)
+    internal inline fun fromByteArray(buffer: ByteArray, off: Int): Int = ByteArrayHelper.readInt4(buffer, off)
+    internal inline fun fromByteArrayX(buffer: ByteArray, off: Int, bytes: Int): Int = ByteArrayHelper.readIntX(buffer, off, bytes)
+    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Int = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Int = ByteArrayHelper.readIntX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
+    internal inline fun getSize(): Int = 8
+    internal inline fun toInt(value: Int): Int = value // adapter for places, where always Int are used
+    internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
+    internal inline fun numberOfBytesUsed(value: Int): Int = (((32 + 7 - IntegerExt.numberOfLeadingZeros(value))) shr 3)
 }
 internal object DictionaryValueHelperLong {
     public const val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
@@ -105,51 +71,20 @@ internal object DictionaryValueHelperLong {
     public const val maskValue: Long = 0x1FFFFFFF
     public const val NULL: Long = 0L
     public const val FIRST_BNODE: Long = 5L
-    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Long): LongArray {
-        return LongArray(size) { init(it) }
-    }
-    internal inline fun DictionaryValueTypeArray(size: Int): LongArray {
-        return LongArray(size)
-    }
-    internal inline fun isLocalValue(value: Long): Boolean {
-        return (value and flagLocal) == flagLocal
-    }
-    internal inline fun isBnode(value: Long): Boolean {
-        return (value and flagNoBNode) != flagNoBNode
-    }
-    internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Long) {
-        ByteArrayHelper.writeLong8(buffer, off, value)
-    }
-    internal inline fun fromByteArray(buffer: ByteArray, off: Int): Long {
-        return ByteArrayHelper.readLong8(buffer, off)
-    }
-    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long) {
-        ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), off, value)
-    }
-    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Long,count:Int) {
-        ByteArrayHelper.writeLongX(ByteArrayWrapperExt.getBuf(buffer), off, value,count)
-    }
-    internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Long,count:Int) {
-        ByteArrayHelper.writeLongX(buffer, off, value,count)
-    }
-    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Long {
-        return ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), off)
-    }
-    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Long {
-        return ByteArrayHelper.readLongX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
-    }
-    internal inline fun getSize(): Int {
-        return 8
-    }
-    internal inline fun toInt(value: Long): Int {
-        // adapter for places, where always Int are used
-        return value.toInt()
-    }
-    internal inline fun fromInt(value: Int): Long {
-        // adapter for places, where always Int are used
-        return value.toLong()
-    }
-    internal inline fun numberOfBytesUsed(value: Long): Int {
-        return (((64 + 7 - LongExt.numberOfLeadingZeros(value))) shr 3)
-    }
+    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Long): LongArray = LongArray(size) { init(it) }
+    internal inline fun DictionaryValueTypeArray(size: Int): LongArray = LongArray(size)
+    internal inline fun isLocalValue(value: Long): Boolean = (value and flagLocal) == flagLocal
+    internal inline fun isBnode(value: Long): Boolean = (value and flagNoBNode) != flagNoBNode
+    internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Long) = ByteArrayHelper.writeLong8(buffer, off, value)
+    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long) = ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), off, value)
+    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Long, count: Int) = ByteArrayHelper.writeLongX(ByteArrayWrapperExt.getBuf(buffer), off, value, count)
+    internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Long, count: Int) = ByteArrayHelper.writeLongX(buffer, off, value, count)
+    internal inline fun fromByteArray(buffer: ByteArray, off: Int): Long = ByteArrayHelper.readLong8(buffer, off)
+    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Long = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), off)
+    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Long = ByteArrayHelper.readLongX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
+    internal inline fun fromByteArrayX(buffer: ByteArray, off: Int, bytes: Int): Long = ByteArrayHelper.readLongX(buffer, off, bytes)
+    internal inline fun getSize(): Int = 8
+    internal inline fun toInt(value: Long): Int = value.toInt() // adapter for places, where always Int are used
+    internal inline fun fromInt(value: Int): Long = value.toLong() // adapter for places, where always Int are used
+    internal inline fun numberOfBytesUsed(value: Long): Int = (((64 + 7 - LongExt.numberOfLeadingZeros(value))) shr 3)
 }

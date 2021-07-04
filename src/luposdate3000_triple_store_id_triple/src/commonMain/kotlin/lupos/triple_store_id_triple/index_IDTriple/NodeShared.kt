@@ -18,10 +18,9 @@ package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.SanityCheck
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.SanityCheck
 import lupos.shared.inline.BufferManagerPage
-import lupos.shared.inline.IntegerExt
 internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13
 
@@ -70,7 +69,6 @@ internal object NodeShared {
             }
         }
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readTriple000(node: ByteArray, offset: Int): Int {

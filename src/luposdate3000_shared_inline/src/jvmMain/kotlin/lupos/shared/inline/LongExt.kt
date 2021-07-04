@@ -19,6 +19,12 @@ package lupos.shared.inline
 internal actual object LongExt {
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun numberOfLeadingZeros(value: Long): Int {
-        return Long.numberOfLeadingZeros(value)
+        val a = ((value shr 32)and 0xFFFF).toInt()
+        val b = (value and 0xFFFF).toInt()
+        if (a == 0) {
+            return Integer.numberOfLeadingZeros(b) + 32
+        } else {
+            return Integer.numberOfLeadingZeros(a)
+        }
     }
 }

@@ -17,9 +17,9 @@
 package lupos.triple_store_id_triple.index_IDTriple
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
 import kotlin.jvm.JvmField
-
 internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
     @JvmField
     var value0: DictionaryValueType = 0

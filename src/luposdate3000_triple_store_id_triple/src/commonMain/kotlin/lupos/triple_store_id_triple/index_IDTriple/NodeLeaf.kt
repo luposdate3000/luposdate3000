@@ -85,7 +85,7 @@ internal object NodeLeaf {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun initializeWith(node: ByteArray, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
-        var writtenTriples: MutableList<Int>? = null
+        var writtenTriples: MutableList<DictionaryValueType>? = null
         SanityCheck {
             writtenTriples = mutableListOf()
         }

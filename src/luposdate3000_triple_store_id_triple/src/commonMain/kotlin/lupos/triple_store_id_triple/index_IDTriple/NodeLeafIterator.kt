@@ -17,8 +17,10 @@
 package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
+
 internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField internal val nodeManager: NodeManager) : TripleIterator() {
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
@@ -29,7 +31,7 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
     @JvmField
     var needsReset = true
     override fun hasNext() = remaining > 0
-    override fun next(component: Int): Int {
+    override fun next(component: Int): DictionaryValueType {
         if (needsReset) {
             needsReset = false
             value[0] = DictionaryValueHelper.NULL

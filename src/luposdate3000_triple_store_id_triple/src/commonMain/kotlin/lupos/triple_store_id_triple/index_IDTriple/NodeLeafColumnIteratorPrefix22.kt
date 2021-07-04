@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
@@ -227,7 +227,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
         }
     }
 
-    override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+    override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
         if (label == 3) {
             label = 2
             __init()
