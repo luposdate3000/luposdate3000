@@ -42,7 +42,7 @@ internal actual class MyOutputStream : IMyOutputStream {
         buffer = ByteArray(8192)
     }
     public actual override fun writeDictionaryValueType(value: DictionaryValueType) {
-        DictionaryValueHelper.sendToStream(value)
+        DictionaryValueHelper.sendToStream(this, value)
     }
 
     public actual override fun writeInt(value: Int) {

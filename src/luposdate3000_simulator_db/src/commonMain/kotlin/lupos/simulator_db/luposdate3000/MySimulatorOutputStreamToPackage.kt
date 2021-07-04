@@ -16,6 +16,8 @@
  */
 package lupos.simulator_db.luposdate3000
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
@@ -60,7 +62,16 @@ internal class MySimulatorOutputStreamToPackage(val target: Int, val path: Strin
     override fun write(buf: ByteArray, len: Int) {
         TODO()
     }
-
+    override fun writeDictionaryValueType(value: DictionaryValueType) {
+        val offset = ByteArrayWrapperExt.getSize(buffer)
+        ByteArrayWrapperExt.setSizeCopy(buffer, offset + DictionaryValueHelper.getSize())
+        DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+    }
+    override fun writeLong(value: Long) {
+        val offset = ByteArrayWrapperExt.getSize(buffer)
+        ByteArrayWrapperExt.setSizeCopy(buffer, offset + 8)
+        ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+    }
     override fun writeInt(value: Int) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSizeCopy(buffer, offset + 4)

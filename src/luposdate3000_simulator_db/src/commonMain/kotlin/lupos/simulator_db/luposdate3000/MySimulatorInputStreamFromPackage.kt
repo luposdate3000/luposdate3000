@@ -16,6 +16,8 @@
  */
 package lupos.simulator_db.luposdate3000
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -43,6 +45,18 @@ internal class MySimulatorInputStreamFromPackage(val data: ByteArrayWrapper) : I
         TODO()
     }
 
+    override fun readDictionaryValueType(): DictionaryValueType {
+        SanityCheck.check { offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) }
+        val res = DictionaryValueHelper.fromByteArray(ByteArrayWrapperExt.getBuf(data), offset)
+        offset += DictionaryValueHelper.getSize()
+        return res
+    }
+    override fun readLong(): Long {
+        SanityCheck.check { offset + 8 <= ByteArrayWrapperExt.getSize(data) }
+        val res = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(data), offset)
+        offset += 8
+        return res
+    }
     override fun readInt(): Int {
         SanityCheck.check { offset + 4 <= ByteArrayWrapperExt.getSize(data) }
         val res = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(data), offset)
