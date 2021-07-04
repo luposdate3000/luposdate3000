@@ -17,14 +17,15 @@
 package lupos.operator.base.iterator
 
 import lupos.operator.base.MERGE_SORT_MIN_ROWS
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
-public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<Int>, @JvmField public val compCount: Int) : RowIterator() {
+public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<DictionaryValueType>, @JvmField public val compCount: Int) : RowIterator() {
     public companion object {
-        public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<Int>, compCount: Int, columns: Array<String>): RowIterator {
+        public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<DictionaryValueType>, compCount: Int, columns: Array<String>): RowIterator {
             SanityCheck.check { columns.size == a.columns.size }
             var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
@@ -96,14 +97,15 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                                     }
                                     j++
                                 }
+                                var cmp2: DictionaryValueType
                                 while (j < columns.size) {
-                                    cmp = buf1[a2 + l] - buf1[b + l]
-                                    if (cmp < 0) {
+                                    cmp2 = buf1[a2 + l] - buf1[b + l]
+                                    if (cmp2 < 0) {
                                         for (k in columns.indices) {
                                             buf2[c++] = buf1[a2++]
                                         }
                                         continue@loop
-                                    } else if (cmp > 0) {
+                                    } else if (cmp2 > 0) {
                                         for (k in columns.indices) {
                                             buf2[c++] = buf1[b++]
                                         }
@@ -156,7 +158,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                         }
                     }
                 }
-                buf1 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
+                buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             }
             var j = 1
             while (j < resultList.size) {

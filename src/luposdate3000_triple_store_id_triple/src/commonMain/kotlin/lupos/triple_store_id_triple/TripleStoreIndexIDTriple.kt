@@ -18,6 +18,7 @@ package lupos.triple_store_id_triple
 
 import lupos.ProguardTestAnnotation
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleIndexTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.IQuery
@@ -86,7 +87,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     internal var cachedHistograms1Cursor: Int = 0
 
     @JvmField
-    internal val cachedHistograms1: IntArray = IntArray(300)
+    internal val cachedHistograms1Values: DictionaryValueTypeArray = DictionaryValueTypeArray(100)
+
+    @JvmField
+    internal val cachedHistograms1Response: IntArray = IntArray(200)
 
     @JvmField
     internal var cachedHistograms2Size: Int = 0
@@ -95,7 +99,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     internal var cachedHistograms2Cursor: Int = 0
 
     @JvmField
-    internal val cachedHistograms2: IntArray = IntArray(400)
+    internal val cachedHistograms2Values: DictionaryValueTypeArray = DictionaryValueTypeArray(200)
+
+    @JvmField
+    internal val cachedHistograms2Response: IntArray = IntArray(200)
 
     public override fun getRootPageID(): Int = rootPageID
 
@@ -179,7 +186,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         cachedHistograms2Cursor = 0
     }
 
-    private fun checkForCachedHistogram(filter: IntArray): Pair<Int, Int>? {
+    private fun checkForCachedHistogram(filter: DictionaryValueTypeArray): Pair<Int, Int>? {
         var res: Pair<Int, Int>? = null
         when (filter.size) {
             0 -> {
@@ -187,16 +194,16 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             1 -> {
                 for (i in 0 until cachedHistograms1Size) {
-                    if (cachedHistograms1[i * 3] == filter[0]) {
-                        res = Pair(cachedHistograms1[i * 3 + 1], cachedHistograms1[i * 3 + 2])
+                    if (cachedHistograms1Values[i] == filter[0]) {
+                        res = Pair(cachedHistograms1Response[i * 2 + 0], cachedHistograms1Response[i * 2 + 1])
                         break
                     }
                 }
             }
             2 -> {
                 for (i in 0 until cachedHistograms2Size) {
-                    if (cachedHistograms2[i * 4] == filter[0] && cachedHistograms2[i * 4 + 1] == filter[1]) {
-                        res = Pair(cachedHistograms2[i * 4 + 2], cachedHistograms2[i * 4 + 3])
+                    if (cachedHistograms2Values[i * 2] == filter[0] && cachedHistograms2Values[i * 2 + 1] == filter[1]) {
+                        res = Pair(cachedHistograms2Response[i * 2], cachedHistograms2Response[i * 2 + 1])
                         break
                     }
                 }
@@ -208,14 +215,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         return res
     }
 
-    private fun updateCachedHistogram(filter: IntArray, data: Pair<Int, Int>) {
+    private fun updateCachedHistogram(filter: DictionaryValueTypeArray, data: Pair<Int, Int>) {
         when (filter.size) {
             1 -> {
                 if (cachedHistograms1Size < 100) {
                     val i = cachedHistograms1Size
-                    cachedHistograms1[i * 3] = filter[0]
-                    cachedHistograms1[i * 3 + 1] = data.first
-                    cachedHistograms1[i * 3 + 2] = data.second
+                    cachedHistograms1Values[i ] = filter[0]
+                    cachedHistograms1Response[i * 2 + 0] = data.first
+                    cachedHistograms1Response[i * 2 + 1] = data.second
                     cachedHistograms1Size++
                     cachedHistograms1Cursor = cachedHistograms1Size
                 } else {
@@ -223,19 +230,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         cachedHistograms1Cursor = 0
                     }
                     val i = cachedHistograms1Cursor
-                    cachedHistograms1[i * 3] = filter[0]
-                    cachedHistograms1[i * 3 + 1] = data.first
-                    cachedHistograms1[i * 3 + 2] = data.second
+                    cachedHistograms1Values[i ] = filter[0]
+                    cachedHistograms1Response[i * 2 + 0] = data.first
+                    cachedHistograms1Response[i * 2 + 1] = data.second
                     cachedHistograms1Cursor++
                 }
             }
             2 -> {
                 if (cachedHistograms2Size < 100) {
                     val i = cachedHistograms2Size
-                    cachedHistograms2[i * 4] = filter[0]
-                    cachedHistograms2[i * 4 + 1] = filter[1]
-                    cachedHistograms2[i * 4 + 2] = data.first
-                    cachedHistograms2[i * 4 + 3] = data.second
+                    cachedHistograms2Values[i * 2] = filter[0]
+                    cachedHistograms2Values[i * 2 + 1] = filter[1]
+                    cachedHistograms2Response[i * 2 + 0] = data.first
+                    cachedHistograms2Response[i * 2 + 1] = data.second
                     cachedHistograms2Size++
                     cachedHistograms2Cursor = cachedHistograms2Size
                 } else {
@@ -243,17 +250,17 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         cachedHistograms2Cursor = 0
                     }
                     val i = cachedHistograms2Cursor
-                    cachedHistograms2[i * 4] = filter[0]
-                    cachedHistograms2[i * 4 + 1] = filter[1]
-                    cachedHistograms2[i * 4 + 2] = data.first
-                    cachedHistograms2[i * 4 + 3] = data.second
+                    cachedHistograms2Values[i * 2] = filter[0]
+                    cachedHistograms2Values[i * 2 + 1] = filter[1]
+                    cachedHistograms2Response[i * 2 + 0] = data.first
+                    cachedHistograms2Response[i * 2 + 1] = data.second
                     cachedHistograms2Cursor++
                 }
             }
         }
     }
 
-    override fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int> {
+    override fun getHistogram(query: IQuery, filter: DictionaryValueTypeArray): Pair<Int, Int> {
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
             lock.readLock()
@@ -307,7 +314,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         return res
     }
 
-    override fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
+    override fun getIterator(query: IQuery, filter: DictionaryValueTypeArray, projection: List<String>): IteratorBundle {
         var res: IteratorBundle
         SanityCheck.check { filter.size in 0..3 }
         SanityCheck.check { projection.size + filter.size == 3 }
@@ -609,19 +616,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         setDistinctPrimary(iterator.distinct)
         clearCachedHistogram()
     }
-    override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
-        val d = arrayOf(data, IntArray(dataSize))
+    override fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
+        val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
         insertAsBulkSorted(d[0], order, dataSize)
     }
 
-    override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
-        val d = arrayOf(data, IntArray(dataSize))
+    override fun removeAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
+        val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
         removeAsBulkSorted(d[0], order, dataSize)
     }
 
-    override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
+    override fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck {
                 if (debugSortOrder.size == 0) {
@@ -650,7 +657,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             lock.writeUnlock()
         }
     }
-    override fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
+    override fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck {
                 if (debugSortOrder.size == 0) {

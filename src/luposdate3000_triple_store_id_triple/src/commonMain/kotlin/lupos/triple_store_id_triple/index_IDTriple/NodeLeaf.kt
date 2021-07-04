@@ -58,17 +58,17 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         return when (component) {
             1 -> {
                 NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock, nodeManager)
@@ -89,7 +89,7 @@ internal object NodeLeaf {
         SanityCheck {
             writtenTriples = mutableListOf()
         }
-        val tripleLast = IntArray(3)
+        val tripleLast = DictionaryValueTypeArray(3)
         var offset = START_OFFSET
         val offsetEnd = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - NodeShared.MAX_TRIPLE_SIZE
         var triples = 0

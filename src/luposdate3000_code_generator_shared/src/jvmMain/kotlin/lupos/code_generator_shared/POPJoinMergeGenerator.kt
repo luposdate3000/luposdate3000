@@ -213,7 +213,8 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorClassVariables.add("var localCloseI = 0")
     clazz.iteratorClassVariables.add("var skipO0 = 0")
     clazz.iteratorClassVariables.add("var skipO1 = 0")
-    clazz.iteratorClassVariables.add("var sipbuf = IntArray(2)")
+    clazz.iteratorClassVariables.add("var sipbufSkip = IntArray(1)")
+    clazz.iteratorClassVariables.add("var sipbufValue=DictionaryValueTypeArray(1)")
 
     clazz.iteratorBody.println("@Suppress(\"NOTHING_TO_INLINE\") /*suspend*/ private inline fun __close() {")
 
@@ -353,10 +354,10 @@ internal fun generatePOPJoinMerge(
                                 var skip1 = 0
                                 while (key0${variablesJoin[0]} != key1${variablesJoin[0]}) {
                                     if (key0${variablesJoin[0]} < key1${variablesJoin[0]}) {
-                                        columnsInJ0${variablesJoin[0]}.nextSIP(key1${variablesJoin[0]}, sipbuf)
-                                        key0${variablesJoin[0]} = sipbuf[1]
-                                        skip0 += sipbuf[0]
-                                        skipO0 += sipbuf[0]
+                                        columnsInJ0${variablesJoin[0]}.nextSIP(key1${variablesJoin[0]}, sipbufValue,sipbufSkip)
+                                        key0${variablesJoin[0]} = sipbufValue[0]
+                                        skip0 += sipbufSkip[0]
+                                        skipO0 += sipbufSkip[0]
                                         skip0++
                                         skipO0++
                                         if (key0${variablesJoin[0]} == DictionaryValueHelper.nullValue) {
@@ -365,10 +366,10 @@ internal fun generatePOPJoinMerge(
                                         }
                                     }
                                     else {
-                                        columnsInJ1${variablesJoin[0]}.nextSIP(key0${variablesJoin[0]}, sipbuf)
-                                        key1${variablesJoin[0]} = sipbuf[1]
-                                        skip1 += sipbuf[0]
-                                        skipO1 += sipbuf[0]
+                                        columnsInJ1${variablesJoin[0]}.nextSIP(key0${variablesJoin[0]}, sipbufValue,sipbufSkip)
+                                        key1${variablesJoin[0]} = sipbufValue[0]
+                                        skip1 += sipbufSkip[0]
+                                        skipO1 += sipbufSkip[0]
                                         skip1++
                                         skipO1++
                                         if (key1${variablesJoin[0]} == DictionaryValueHelper.nullValue) {

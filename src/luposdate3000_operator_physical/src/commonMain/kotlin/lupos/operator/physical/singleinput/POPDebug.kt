@@ -88,10 +88,10 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                 }
                                 return res
                             }
-                            override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
-                                childIter.nextSIP(minValue, result)
+                            override /*suspend*/ fun nextSIP(minValue: Int, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
+                                childIter.nextSIP(minValue, resultValue, resultSkip)
                             }
-                            override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+                            override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
                                 val res = childIter.skipSIP(skipCount)
                                 return res
                             }
@@ -146,11 +146,11 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                     }
                                 }
 
-                                override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
+                                override /*suspend*/ fun nextSIP(minValue: Int, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
                                     if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call minValue SIP" }
-                                        v.nextSIP(minValue, result)
-                                        val res = result[1]
+                                        v.nextSIP(minValue, resultValue, resultSkip)
+                                        val res = resultValue[0]
                                         if (res == DictionaryValueHelper.nullValue) {
                                             SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
@@ -158,12 +158,12 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                     } else {
-                                        result[0] = 0
-                                        result[1] = DictionaryValueHelper.nullValue
+                                        resultSkip[0] = 0
+                                        resultValue[0] = DictionaryValueHelper.nullValue
                                     }
                                 }
 
-                                override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+                                override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call skip SIP" }
                                         val res = v.skipSIP(skipCount)

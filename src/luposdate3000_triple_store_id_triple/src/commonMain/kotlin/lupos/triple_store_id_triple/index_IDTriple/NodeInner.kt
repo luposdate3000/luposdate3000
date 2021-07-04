@@ -267,7 +267,7 @@ internal object NodeInner {
     internal inline fun initializeWith(node: ByteArray, childs: MutableList<Int>, nodeManager: NodeManager) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
-        var writtenTriples: MutableList<Int>? = null
+        var writtenTriples: MutableList<DictionaryValueType>? = null
         SanityCheck {
             writtenHeaders = mutableListOf()
             writtenTriples = mutableListOf()
@@ -275,8 +275,8 @@ internal object NodeInner {
         var offset = START_OFFSET
         val offsetEnd = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - START_OFFSET - MAX_POINTER_SIZE
         var triples = 0
-        val tripleLast = IntArray(3)
-        val tripleCurrent = IntArray(3)
+        val tripleLast = DictionaryValueTypeArray(3)
+        val tripleCurrent = DictionaryValueTypeArray(3)
         var current = childs.removeAt(0)
         SanityCheck {
             writtenHeaders!!.add(current)

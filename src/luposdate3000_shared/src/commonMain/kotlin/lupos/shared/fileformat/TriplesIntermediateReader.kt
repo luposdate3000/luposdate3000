@@ -17,10 +17,11 @@
 
 package lupos.shared.fileformat
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.SanityCheck
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
@@ -40,7 +41,7 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
         i2 = EIndexPatternHelper.tripleIndicees[writeOrder][2]
     }
 
-    public inline fun readAll(crossinline action: (IntArray) -> Unit) {
+    public inline fun readAll(crossinline action: (DictionaryValueTypeArray) -> Unit) {
         var tmp = next()
         while (tmp != null) {
             action(tmp)
@@ -52,9 +53,9 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
     internal val buf: ByteArray = ByteArray(12)
 
     @JvmField
-    internal val buffer: IntArray = IntArray(3)
+    internal val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)
 
-    public fun next(): IntArray? {
+    public fun next(): DictionaryValueTypeArray? {
         val header = streamIn!!.readByte()
         if (header == 125.toByte()) {
             close()
@@ -67,9 +68,9 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
             streamIn!!.read(buf, rel2)
-            val b0 = ByteArrayHelper.readIntX(buf, 0, counter0)
-            val b1 = ByteArrayHelper.readIntX(buf, rel0, counter1)
-            val b2 = ByteArrayHelper.readIntX(buf, rel1, counter2)
+            val b0 = DictionaryValueHelper.fromByteArrayX(buf, 0, counter0)
+            val b1 = DictionaryValueHelper.fromByteArrayX(buf, rel0, counter1)
+            val b2 = DictionaryValueHelper.fromByteArrayX(buf, rel1, counter2)
             buffer[i0] = buffer[i0] xor b0
             buffer[i1] = buffer[i1] xor b1
             buffer[i2] = buffer[i2] xor b2

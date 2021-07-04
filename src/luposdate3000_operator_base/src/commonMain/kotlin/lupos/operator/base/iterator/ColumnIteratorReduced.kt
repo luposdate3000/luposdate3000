@@ -39,7 +39,7 @@ public class ColumnIteratorReduced(@JvmField public val child: ColumnIterator) :
         _close()
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return if (label == 1) {
             var res = child.next()
             while (res != DictionaryValueHelper.nullValue && last == res) {

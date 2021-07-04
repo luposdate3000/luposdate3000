@@ -45,7 +45,7 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
         }
     }
 
-    override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, result: DictionaryValueTypeArray) {
+    override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
         if (label == 3) {
             label = 1
             __init()
@@ -64,8 +64,8 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 if (value >= minValue) {
                     updateRemaining()
-                    result[0] = counter - 1
-                    result[1] = value
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value
                     return
                 } else {
                     remaining--
@@ -73,7 +73,7 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
             }
             // look at the next pages
             val nodeidTmp = NodeShared.getNextNode(node)
-            var valueTmp = 0
+            var valueTmp: DictionaryValueType = 0
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
@@ -121,20 +121,20 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 updateRemaining()
                 if (value >= minValue) {
-                    result[0] = counter - 1
-                    result[1] = value
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value
                     return
                 }
             }
-            result[0] = 0
-            result[1] = DictionaryValueHelper.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         } else {
-            result[0] = 0
-            result[1] = DictionaryValueHelper.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         }
     }
 
-    override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+    override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
         if (label == 3) {
             label = 1
             __init()

@@ -65,7 +65,10 @@ internal class POPJoinMerge_Iterator(
     internal var skipO1 = 0
 
     @JvmField
-    internal var sipbuf = IntArray(2)
+    internal var sipbufSkip = IntArray(1)
+
+    @JvmField
+    internal var sipbufValue = DictionaryValueTypeArray(1)
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun __close() {
@@ -126,10 +129,10 @@ internal class POPJoinMerge_Iterator(
                             var skip1 = 0
                             while (key0[0] != key1[0]) {
                                 if (key0[0] < key1[0]) {
-                                    columnsINJ0[0].nextSIP(key1[0], sipbuf)
-                                    key0[0] = sipbuf[1]
-                                    skip0 += sipbuf[0]
-                                    skipO0 += sipbuf[0]
+                                    columnsINJ0[0].nextSIP(key1[0], sipbufValue, sipbufSkip)
+                                    key0[0] = sipbufValue[0]
+                                    skip0 += sipbufSkip[0]
+                                    skipO0 += sipbufSkip[0]
                                     skip0++
                                     skipO0++
                                     SanityCheck.check { key0[0] != DictionaryValueHelper.undefValue }
@@ -138,10 +141,10 @@ internal class POPJoinMerge_Iterator(
                                         break@loop
                                     }
                                 } else {
-                                    columnsINJ1[0].nextSIP(key0[0], sipbuf)
-                                    key1[0] = sipbuf[1]
-                                    skip1 += sipbuf[0]
-                                    skipO1 += sipbuf[0]
+                                    columnsINJ1[0].nextSIP(key0[0], sipbufValue, sipbufSkip)
+                                    key1[0] = sipbufValue[0]
+                                    skip1 += sipbufSkip[0]
+                                    skipO1 += sipbufSkip[0]
                                     skip1++
                                     skipO1++
                                     SanityCheck.check { key1[0] != DictionaryValueHelper.undefValue }

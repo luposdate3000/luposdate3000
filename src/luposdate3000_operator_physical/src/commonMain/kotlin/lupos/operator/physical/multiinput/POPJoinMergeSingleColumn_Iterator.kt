@@ -31,7 +31,10 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
     internal var label = 1
 
     @JvmField
-    internal var sipbuf = IntArray(2)
+    internal var sipbufSkip = IntArray(1)
+
+    @JvmField
+    internal var sipbufValue = DictionaryValueTypeArray(1)
     override /*suspend*/ fun next(): Int {
         when (label) {
             1 -> {
@@ -40,8 +43,8 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (change) {
                         change = false
                         while (head0 < head1) {
-                            child0.nextSIP(head1, sipbuf)
-                            val c = sipbuf[1]
+                            child0.nextSIP(head1, sipbufValue, sipbufSkip)
+                            val c = sipbufValue[0]
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -51,8 +54,8 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                         }
                         while (head1 < head0) {
                             change = true
-                            child1.nextSIP(head0, sipbuf)
-                            val c = sipbuf[1]
+                            child1.nextSIP(head0, sipbufValue, sipbufSkip)
+                            val c = sipbufValue[0]
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue

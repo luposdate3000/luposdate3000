@@ -16,12 +16,13 @@
  */
 package lupos.shared.fileformat
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
-import lupos.shared.inline.IntegerExt
 import kotlin.jvm.JvmField
 
 public class TriplesIntermediateWriter : TriplesIntermediate {
@@ -30,13 +31,13 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     internal var count = 0L
 
     @JvmField
-    internal var last0: Int = 0
+    internal var last0: DictionaryValueType = 0
 
     @JvmField
-    internal var last1: Int = 0
+    internal var last1: DictionaryValueType = 0
 
     @JvmField
-    internal var last2: Int = 0
+    internal var last2: DictionaryValueType = 0
 
     @JvmField
     internal val buf: ByteArray = ByteArray(13)
@@ -50,13 +51,13 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     }
 
     public fun getCount(): Long = count
-    public fun write(s: Int, p: Int, o: Int) {
+    public fun write(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType) {
         SanityCheck.check_is_S(s)
         SanityCheck.check_is_P(p)
         SanityCheck.check_is_O(o)
-        val l0: Int
-        val l1: Int
-        val l2: Int
+        val l0: DictionaryValueType
+        val l1: DictionaryValueType
+        val l2: DictionaryValueType
         when (writeOrder) {
             EIndexPatternExt.SPO -> {
                 l0 = s
@@ -93,9 +94,9 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
         val b0 = last0 xor l0
         val b1 = last1 xor l1
         val b2 = last2 xor l2
-        val counter0 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b0))) shr 3)
-        val counter1 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b1))) shr 3)
-        val counter2 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b2))) shr 3)
+        val counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
+        val counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
+        val counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
         val header = counter0 + counter1 * 5 + counter2 * 25
         if (header != 0) {
             count++
@@ -103,9 +104,9 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
             ByteArrayHelper.writeInt1(buf, 0, header)
-            ByteArrayHelper.writeIntX(buf, 1, b0, counter0)
-            ByteArrayHelper.writeIntX(buf, rel0, b1, counter1)
-            ByteArrayHelper.writeIntX(buf, rel1, b2, counter2)
+            DictionaryValueHelper.toByteArrayX(buf, 1, b0, counter0)
+            DictionaryValueHelper.toByteArrayX(buf, rel0, b1, counter1)
+            DictionaryValueHelper.toByteArrayX(buf, rel1, b2, counter2)
             streamOut!!.write(buf, rel2)
             last0 = l0
             last1 = l1

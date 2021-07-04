@@ -15,21 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.DictionaryValueType
 import lupos.shared.UnreachableException
 import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
-    public val TRIPLE_FLAG_S = 0x00010000
-    public val TRIPLE_FLAG_P = 0x00020000
-    public val TRIPLE_FLAG_O = 0x00030000
-    public val TRIPLE_FLAG_All = TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
-    public val TRIPLE_FLAG_NONE = Int.MAX_VALUE - TRIPLE_FLAG_All
+    public val TRIPLE_FLAG_S: DictionaryValueType = 0x00010000
+    public val TRIPLE_FLAG_P: DictionaryValueType = 0x00020000
+    public val TRIPLE_FLAG_O: DictionaryValueType = 0x00030000
+    public val TRIPLE_FLAG_All: DictionaryValueType = TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
+    public val TRIPLE_FLAG_NONE: DictionaryValueType = Int.MAX_VALUE - TRIPLE_FLAG_All
     public val ignoreTripleFlag = true
 
-    internal inline fun check_is_S(i: Int) {
+    internal inline fun check_is_S(i: DictionaryValueType) {
         this {
             if (!ignoreTripleFlag) {
                 val flag = i and TRIPLE_FLAG_All
@@ -42,7 +42,7 @@ internal object SanityCheckOn {
             }
         }
     }
-    internal inline fun check_is_P(i: Int) {
+    internal inline fun check_is_P(i: DictionaryValueType) {
         this {
             if (!ignoreTripleFlag) {
                 val flag = i and TRIPLE_FLAG_All
@@ -55,7 +55,7 @@ internal object SanityCheckOn {
             }
         }
     }
-    internal inline fun check_is_O(i: Int) {
+    internal inline fun check_is_O(i: DictionaryValueType) {
         this {
             if (!ignoreTripleFlag) {
                 val flag = i and TRIPLE_FLAG_All

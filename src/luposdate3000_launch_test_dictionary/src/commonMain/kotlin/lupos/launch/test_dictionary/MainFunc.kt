@@ -21,7 +21,7 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.shared.AflCore
-import lupos.shared.DictionaryValueType
+
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
@@ -102,26 +102,26 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 DictionaryExt.errorValue3,
                 DictionaryExt.undefValue3,
             )
-            val mapping = mutableMapOf<Int, Int>(
-                0 to 0,
-                1 to 1,
-                2 to 2,
-                3 to 3,
+            val mapping = mutableMapOf<DictionaryValueType, Int>(
+                DictionaryValueHelper.fromInt(0) to 0,
+                DictionaryValueHelper.fromInt(1) to 1,
+                DictionaryValueHelper.fromInt(2) to 2,
+                DictionaryValueHelper.fromInt(3) to 3,
             ) // dict.id -> values.index
 
             var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
 
-            fun getExistingData(rng: Int, action: (ByteArrayWrapper, Int) -> Unit) {
-                val ids = mutableListOf<Int>()
+            fun getExistingData(rng: Int, action: (ByteArrayWrapper, DictionaryValueType) -> Unit) {
+                val ids = mutableListOf<DictionaryValueType>()
                 ids.addAll(mapping.keys)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
-                    action(values[mapping[key]!!], key)
+                    action(values[mapping[DictionaryValueHelper.toInt(key)]!!], key)
                 }
             }
 
-            fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
-                val ids = MutableList<Int>(1000) { it }
+            fun getNotExistingKey(rng: Int, action: (DictionaryValueType) -> Unit) {
+                val ids = MutableList<DictionaryValueType>(1000) { it }
                 ids.removeAll(mapping.values)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
@@ -207,18 +207,18 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("testCreateValueNotExistingOk $key $data")
                 }
-                if (mapping[key] != null) {
+                if (mapping[DictionaryValueHelper.toInt(key)] != null) {
                     throw Exception("$key")
                 }
-                mapping[key] = values.size
+                mapping[DictionaryValueHelper.toInt(key)] = values.size
                 values.add(data)
             }
 
-            fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
+            fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: DictionaryValueType) {
                 if (verbose) {
                     println("testHasValueYesOk $targetKey $data")
                 }
-                var res: Int? = null
+                var res: DictionaryValueType? = null
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
                 val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
@@ -244,7 +244,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("testHasValueNoOk $data")
                 }
-                var res: Int? = null
+                var res: DictionaryValueType? = null
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
                 val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
@@ -266,7 +266,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
             }
 
-            fun testGetValueOk(target: ByteArrayWrapper, key: Int) {
+            fun testGetValueOk(target: ByteArrayWrapper, key: DictionaryValueType) {
                 if (verbose) {
                     println("testGetValueOk $key ${key.toString(2)} $target")
                 }
@@ -282,7 +282,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
             }
 
-            fun testGetValueFail(key: Int) {
+            fun testGetValueFail(key: DictionaryValueType) {
                 if (verbose) {
                     println("testGetValueFail $key")
                 }

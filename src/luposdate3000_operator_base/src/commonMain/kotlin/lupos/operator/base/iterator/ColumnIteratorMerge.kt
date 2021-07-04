@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base.iterator
-
 import lupos.operator.base.MERGE_SORT_MIN_ROWS
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 
@@ -110,7 +110,7 @@ public object ColumnIteratorMerge {
                     }
                 }
             }
-            buf1 = IntArray(MERGE_SORT_MIN_ROWS)
+            buf1 = DictionaryValueTypeArray(MERGE_SORT_MIN_ROWS)
         }
         var j = 1
         while (j < resultList.size) {
@@ -126,8 +126,8 @@ public object ColumnIteratorMerge {
     }
 
     public /*suspend*/ operator fun invoke(a: ColumnIterator): ColumnIterator {
-        var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
-        var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
+        var buf1 = DictionaryValueTypeArray(MERGE_SORT_MIN_ROWS)
+        var buf2 = DictionaryValueTypeArray(MERGE_SORT_MIN_ROWS)
         var done = false
         val resultList = mutableListOf<ColumnIterator?>()
         while (!done) {
@@ -212,7 +212,7 @@ public object ColumnIteratorMerge {
                     }
                 }
             }
-            buf1 = IntArray(MERGE_SORT_MIN_ROWS)
+            buf1 = DictionaryValueTypeArray(MERGE_SORT_MIN_ROWS)
         }
         var j = 1
         while (j < resultList.size) {

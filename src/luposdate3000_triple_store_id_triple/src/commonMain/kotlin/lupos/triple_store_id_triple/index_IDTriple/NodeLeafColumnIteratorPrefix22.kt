@@ -100,7 +100,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
         }
     }
 
-    override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, result: DictionaryValueTypeArray) {
+    override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
         if (label == 3) {
             label = 2
             __init()
@@ -109,8 +109,8 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
         if (label == 2) {
             next()
             if (value2 >= minValue) {
-                result[0] = 0
-                result[1] = value2
+                resultSkip[0] = 0
+                resultValue[0] = value2
                 return
             }
             counter++
@@ -132,14 +132,14 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                     _close()
-                    result[0] = 0
-                    result[1] = DictionaryValueHelper.nullValue
+                    resultSkip[0] = 0
+                    resultValue[0] = DictionaryValueHelper.nullValue
                     return
                 }
                 if (value2 >= minValue) {
                     updateRemaining()
-                    result[0] = counter - 1
-                    result[1] = value2
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value2
                     return
                 } else {
                     remaining--
@@ -147,9 +147,9 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             }
             // look at the next pages
             var nodeidTmp = NodeShared.getNextNode(node)
-            var value0Tmp = 0
-            var value1Tmp = 0
-            var value2Tmp = 0
+            var value0Tmp: DictionaryValueType = 0
+            var value1Tmp: DictionaryValueType = 0
+            var value2Tmp: DictionaryValueType = 0
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
@@ -206,24 +206,24 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                     _close()
-                    result[0] = 0
-                    result[1] = DictionaryValueHelper.nullValue
+                    resultSkip[0] = 0
+                    resultValue[0] = DictionaryValueHelper.nullValue
                     return
                 } else {
                     updateRemaining()
                 }
                 if (value2 >= minValue) {
-                    result[0] = counter - 1
-                    result[1] = value2
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value2
                     return
                 }
             }
             _close()
-            result[0] = 0
-            result[1] = DictionaryValueHelper.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         } else {
-            result[0] = 0
-            result[1] = DictionaryValueHelper.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         }
     }
 

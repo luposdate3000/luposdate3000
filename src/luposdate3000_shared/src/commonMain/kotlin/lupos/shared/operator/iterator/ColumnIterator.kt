@@ -20,9 +20,9 @@ import lupos.shared.DictionaryValueTypeArray
 public abstract class ColumnIterator {
     public abstract /*suspend*/ fun next(): DictionaryValueType
     public abstract /*suspend*/ fun close()
-    public open /*suspend*/ fun nextSIP(minValue: DictionaryValueType, result: DictionaryValueTypeArray) {
-        result[0] = 0
-        result[1] = next()
+    public open /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
+        resultSkip[0] = 0
+        resultValue[0] = next()
     }
 
     public open /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {

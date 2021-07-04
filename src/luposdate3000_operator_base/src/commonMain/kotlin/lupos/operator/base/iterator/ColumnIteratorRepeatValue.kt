@@ -20,7 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-public class ColumnIteratorRepeatValue(@JvmField public val count: Int, @JvmField public val value: Int) : ColumnIterator() {
+public class ColumnIteratorRepeatValue(@JvmField public val count: Int, @JvmField public val value: DictionaryValueType) : ColumnIterator() {
     @JvmField
     public var index: Int = 0
     override /*suspend*/ fun close() {
