@@ -18,7 +18,6 @@ package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 internal class BulkImportIterator(@JvmField val data: DictionaryValueTypeArray, @JvmField val count: Int, @JvmField val order: IntArray) : TripleIterator() {
     @JvmField

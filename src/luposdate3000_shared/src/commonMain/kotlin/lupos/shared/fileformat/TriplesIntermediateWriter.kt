@@ -20,7 +20,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
-import lupos.shared.SanityCheck
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField

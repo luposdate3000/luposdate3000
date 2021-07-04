@@ -18,11 +18,13 @@ package lupos.parser
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
+import lupos.shared.DictionaryValueType
 import lupos.parser.turtle.TurtleScanner
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -387,8 +389,8 @@ public object InputToIntermediate {
                 EIndexPatternExt.OPS,
             )
             val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
-            val tripleBufA = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
-            val tripleBufB = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufA = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufB = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
             fun sortBlockMain() {
                 for (o in 0 until 6) {
                     val order = orders[o]
@@ -438,8 +440,8 @@ public object InputToIntermediate {
                 offset = 0
             }
 
-            val inference_Type_ID = mapping[inferenceOriginal_Type_ID]
-            val inference_SubClassOf_ID = mapping[inferenceOriginal_SubClassOf_ID]
+            val inference_Type_ID = mapping[DictionaryValueHelper.toInt(inferenceOriginal_Type_ID)]
+            val inference_SubClassOf_ID = mapping[DictionaryValueHelper.toInt(inferenceOriginal_SubClassOf_ID)]
             var triplePrefix = 0
             if (true) { // apply dictionary mapping
                 val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
@@ -470,17 +472,17 @@ public object InputToIntermediate {
                 triplePrefix++
             }
             if (inference_enabled) {
-                var subclassMappingSingle = IntArray(currentValue) { -1 } // -1 undefined, -2 multi, otherwise the mapping
-                var subclassMappingMulti = mutableMapOf<Int, MutableSet<Int>>()
+                var subclassMappingSingle = DictionaryValueTypeArray(currentValue) { -1 } // -1 undefined, -2 multi, otherwise the mapping
+                var subclassMappingMulti = mutableMapOf<DictionaryValueType, MutableSet<DictionaryValueType>>()
                 var inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.subClassOf")
                 inTriples.readAll { it ->
                     val tmp = subclassMappingSingle[DictionaryValueHelper.toInt(it[0])]
                     when (tmp) {
                         -1 -> subclassMappingSingle[DictionaryValueHelper.toInt(it[0])] = it[2]
-                        -2 -> subclassMappingMulti[DictionaryValueHelper.toInt(it[0])]!!.add(it[2])
+                        -2 -> subclassMappingMulti[it[0]]!!.add(it[2])
                         else -> {
                             if (tmp != it[2]) {
-                                subclassMappingMulti[DictionaryValueHelper.toInt(it[0])] = mutableSetOf(tmp, it[2])
+                                subclassMappingMulti[it[0]] = mutableSetOf(tmp, it[2])
                                 subclassMappingSingle[DictionaryValueHelper.toInt(it[0])] = -2
                             }
                         }
@@ -541,7 +543,7 @@ public object InputToIntermediate {
                 val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}", indexPatterns[o])
                 val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
                 val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }
-                val smallest = IntArray(3)
+                val smallest = DictionaryValueTypeArray(3)
                 var valid = true
                 while (valid) {
                     valid = false

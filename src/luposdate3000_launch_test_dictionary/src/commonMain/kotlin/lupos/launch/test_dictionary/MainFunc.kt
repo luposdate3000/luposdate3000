@@ -121,7 +121,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
 
             fun getNotExistingKey(rng: Int, action: (DictionaryValueType) -> Unit) {
-                val ids = MutableList<DictionaryValueType>(1000) { DictionaryValueHelper.fromInt(it) }
+                val ids = MutableList<Int>(1000) {it}
                 ids.removeAll(mapping.values)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]

@@ -21,7 +21,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
-import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
