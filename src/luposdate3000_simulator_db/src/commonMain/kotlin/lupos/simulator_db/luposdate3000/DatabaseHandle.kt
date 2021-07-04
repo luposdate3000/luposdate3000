@@ -18,7 +18,6 @@
 // onFinish:IDatabasePackage?,expectedResult:MemoryTable?
 
 package lupos.simulator_db.luposdate3000
-import lupos.shared.MyInputStreamFromByteArray
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
 import lupos.operator.base.OPBaseCompound
@@ -33,6 +32,7 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
+import lupos.shared.MyInputStreamFromByteArray
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt

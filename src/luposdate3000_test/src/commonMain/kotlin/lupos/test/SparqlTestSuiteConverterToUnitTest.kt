@@ -37,7 +37,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     internal val outputFolderSrcJvm = "${outputFolderRoot}src/jvmMain/kotlin/lupos/launch/$folderPathCoponent/"
 
     @JvmField
-    internal val outputFolderTestJvm = "${outputFolderRoot}src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/jvm/"
+    internal val outputFolderTestJvm = "${outputFolderRoot}src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/"
 
     @JvmField
     internal val outputFolderTestResourcesJvm = "${outputFolderRoot}src/jvmTest/resources/"

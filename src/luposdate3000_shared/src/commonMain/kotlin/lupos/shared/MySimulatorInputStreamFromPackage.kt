@@ -16,15 +16,12 @@
  */
 package lupos.shared
 
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.IMyInputStream
-import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import kotlin.jvm.JvmField
 import kotlin.math.min
-internal class MyInputStreamFromByteArray(val data: ByteArrayWrapper) : IMyInputStream {
+public class MyInputStreamFromByteArray public constructor(@JvmField public val data: ByteArrayWrapper) : IMyInputStream {
     private var offset = 0
     override fun close() {}
     override fun read(buf: ByteArray): Int {
