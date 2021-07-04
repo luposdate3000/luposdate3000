@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBundle) : RowIterator() {
@@ -28,7 +28,7 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
         val keys = bundle.columns.keys.toList()
         columns = Array<String>(bundle.columns.size) { keys[it] }
         iterators = Array<ColumnIterator>(bundle.columns.size) { bundle.columns[columns[it]]!! }
-        buf = DictionaryValueHelper.DictionaryValueTypeArray(keys.size)
+        buf = DictionaryValueTypeArray(keys.size)
         next = {
             var res = 0
             for (columnIndex in columns.indices) {

@@ -34,7 +34,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         if (j < 0) {
             return null
         }
-        var res = DictionaryValueHelper.DictionaryValueTypeArray(data.size)
+        var res = DictionaryValueTypeArray(data.size)
         var i = 0
         for (row in data) {
             res[i] = row[j]

@@ -16,7 +16,6 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Parallel
 import lupos.shared.operator.iterator.RowIterator
@@ -63,7 +62,7 @@ public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmFiel
                 }
             }
         }
-        buf = DictionaryValueHelper.DictionaryValueTypeArray(mapping.size)
+        buf = DictionaryValueTypeArray(mapping.size)
         Parallel.runBlocking {
             bIdx = b.next()
             if (bIdx < 0) {

@@ -19,6 +19,8 @@ package lupos.triple_store_manager
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EOperatorIDExt
@@ -129,7 +131,7 @@ public class POPTripleStoreIterator(
         val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
         SanityCheck.check { target.first == manager.localhost }
         val store = manager.localStoresGet()[target.second]!!
-        val filter2 = mutableListOf<Int>()
+        val filter2 = mutableListOf<DictionaryValueType>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
             val i = EIndexPatternHelper.tripleIndicees[index.idx_set[0]][ii]
@@ -151,7 +153,7 @@ public class POPTripleStoreIterator(
                 }
             }
         }
-        val filter = IntArray(filter2.size) { filter2[it] }
+        val filter = DictionaryValueTypeArray(filter2.size) { filter2[it] }
         return store.getIterator(query, filter, projection)
     }
     public open override fun usesDictionary(): Boolean {

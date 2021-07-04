@@ -18,6 +18,8 @@ package lupos.triple_store_manager
 
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -340,7 +342,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         for ((k, v) in localStores_) {
             File("${localhost.replace(":", "_")}_$k.store").withOutputStream { out ->
                 val query = Query(instance)
-                val iter = v.getIterator(query, IntArray(0), listOf("s", "p", "o"))
+                val iter = v.getIterator(query, DictionaryValueTypeArray(0), listOf("s", "p", "o"))
                 val rowiter = iter.rows
                 var off = rowiter.next()
                 while (off > -1) {
@@ -425,14 +427,14 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
     }
 
-    public override fun remoteHistogram(tag: String, filter: IntArray): Pair<Int, Int> {
+    public override fun remoteHistogram(tag: String, filter: DictionaryValueTypeArray): Pair<Int, Int> {
         return localStoresGet()[tag]!!.getHistogram(Query(instance), filter)
     }
 
     public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         println("TripleStoreManagerImpl.remoteModify $key")
         val store = localStores_[key]!!
-        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - 3
         var done = false
         while (!done) {
@@ -462,7 +464,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - 3
         var done = false
         while (!done) {

@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -77,8 +77,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         return byteArray2
     }
 
-    internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
-        return triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount
+    internal override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
+        return DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount)
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {

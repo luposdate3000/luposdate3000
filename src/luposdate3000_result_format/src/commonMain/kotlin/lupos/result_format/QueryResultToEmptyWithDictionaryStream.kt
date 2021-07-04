@@ -21,6 +21,8 @@ import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
@@ -34,11 +36,11 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 
 public object QueryResultToEmptyWithDictionaryStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary) {
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: DictionaryValueType, dictionary: IDictionary) {
         dictionary.getValue(buffer, valueID)
     }
 
-    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
         for (variableIndex in variables.indices) {
             writeValue(buffer, rowBuf[variableIndex], dictionary)
         }
@@ -46,7 +48,7 @@ public object QueryResultToEmptyWithDictionaryStream {
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, output: IMyOutputStream) {
-        val rowBuf = IntArray(variables.size)
+        val rowBuf = DictionaryValueTypeArray(variables.size)
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
             for (variableIndex in variables.indices) {

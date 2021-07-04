@@ -26,6 +26,7 @@ import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPBind
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IAOPBase
@@ -87,7 +88,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     }
                     val columns = tmp2.columns
                     SanityCheck.check { columns.size == 1 }
-                    val data = IntArray(5)
+                    val data = DictionaryValueTypeArray(5)
                     var i = 0
                     val iterator = columns[variables[0]]!!
                     while (i < data.size) {

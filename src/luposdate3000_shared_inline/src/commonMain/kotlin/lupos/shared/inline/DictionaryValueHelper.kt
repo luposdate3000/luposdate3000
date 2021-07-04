@@ -43,12 +43,6 @@ internal object DictionaryValueHelperInt {
     public const val FIRST_BNODE: Int = 5
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Int): IntArray = IntArray(size) { init(it) }
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArray(size: Int): IntArray = IntArray(size)
-
-    @Suppress("NOTHING_TO_INLINE")
     internal inline fun DictionaryValueTypeArrayOf() = intArrayOf()
 
     @Suppress("NOTHING_TO_INLINE")
@@ -138,12 +132,6 @@ internal object DictionaryValueHelperLong {
     public const val maskValue: Long = 0x1FFFFFFF
     public const val NULL: Long = 0L
     public const val FIRST_BNODE: Long = 5L
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Long): LongArray = LongArray(size) { init(it) }
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArray(size: Int): LongArray = LongArray(size)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun DictionaryValueTypeArrayOf() = longArrayOf()

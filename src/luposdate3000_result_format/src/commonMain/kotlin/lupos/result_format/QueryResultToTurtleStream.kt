@@ -21,6 +21,8 @@ import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
@@ -34,9 +36,8 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-
 public object QueryResultToTurtleStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary): String? {
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: DictionaryValueType, dictionary: IDictionary): String? {
         var res: String? = null
         dictionary.getValue(buffer, valueID)
         DictionaryHelper.byteArrayToCallback(
@@ -77,7 +78,7 @@ public object QueryResultToTurtleStream {
         return res
     }
 
-    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variablesIndices: IntArray, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variablesIndices: IntArray, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
         var line = Array<String>(3) { "" }
         for (i in 0 until 3) {
             val tmp = writeValue(buffer, rowBuf[i], dictionary)
@@ -93,7 +94,7 @@ public object QueryResultToTurtleStream {
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
         val variablesIndices = intArrayOf(variables.indexOf("s"), variables.indexOf("p"), variables.indexOf("o"))
-        val rowBuf = IntArray(variables.size)
+        val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()
         loop@ while (true) {

@@ -21,6 +21,8 @@ import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
@@ -34,9 +36,8 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-
 public object QueryResultToXMLStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: DictionaryValueType, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
         dictionary.getValue(buffer, valueID)
         DictionaryHelper.byteArrayToCallback(
             buffer,
@@ -44,14 +45,14 @@ public object QueryResultToXMLStream {
                 output.print("   <binding name=\"")
                 output.print(columnName)
                 output.print("\">\n    <bnode>")
-                output.print(value)
+                output.print(value.toString())
                 output.print("</bnode>\n   </binding>\n")
             },
             { value ->
                 output.print("   <binding name=\"")
                 output.print(columnName)
                 output.print("\">\n    <literal>")
-                output.print(value)
+                output.print(value.toString())
                 output.print("</literal>\n   </binding>\n")
             },
             { content, lang ->
@@ -118,7 +119,7 @@ public object QueryResultToXMLStream {
         )
     }
 
-    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
         output.print("  <result>\n")
         for (variableIndex in variables.indices) {
             writeValue(buffer, rowBuf[variableIndex], variables[variableIndex], dictionary, output)
@@ -128,7 +129,7 @@ public object QueryResultToXMLStream {
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
-        val rowBuf = IntArray(variables.size)
+        val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()
         loop@ while (true) {

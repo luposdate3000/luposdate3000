@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
@@ -142,7 +143,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 // list of all indices, containing list of all distributed instances
     private val allConn: MutableList<MutableList<Pair<IMyInputStream?, IMyOutputStream>>>
     private val allIndices = mutableListOf<TripleStoreIndexDescription>()
-    private val row = IntArray(3)
+    private val row = DictionaryValueTypeArray(3)
 
     public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
