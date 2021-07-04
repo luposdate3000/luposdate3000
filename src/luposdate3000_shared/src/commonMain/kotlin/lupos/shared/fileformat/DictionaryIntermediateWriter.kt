@@ -16,6 +16,8 @@
  */
 package lupos.shared.fileformat
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
@@ -31,14 +33,14 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeAssumeOrdered(id: Int, data: ByteArrayWrapper) {
-        streamOut!!.writeInt(id)
+    public inline fun writeAssumeOrdered(id: DictionaryValueType, data: ByteArrayWrapper) {
+        DictionaryValueHelper.toStream(streamOut!!, id)
         streamOut!!.writeInt(ByteArrayWrapperExt.getSize(data))
         streamOut!!.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun write(dict: MutableMap<ByteArrayWrapper, Int>) {
+    public inline fun write(dict: MutableMap<ByteArrayWrapper, DictionaryValueType>) {
         val rows = dict.toList().map {
             DictionaryIntermediateRow(it.second, it.first)
         }.sorted()
@@ -50,8 +52,10 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
     }
 
     public override fun close() {
-        streamOut?.writeInt(-1)
-        streamOut?.close()
-        streamOut = null
+        if (streamOut != null) {
+            DictionaryValueHelper.toStream(streamOut!!, DictionaryValueHelper.fromInt(-1))
+            streamOut!!.close()
+            streamOut = null
+        }
     }
 }

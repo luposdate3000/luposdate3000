@@ -24,6 +24,9 @@ internal class MyStringStream(str: String) : IMyInputStream {
     val buf4 = ByteArray(4)
 
     @JvmField
+    val buf8 = ByteArray(8)
+
+    @JvmField
     public val data = str.encodeToByteArray()
 
     @JvmField
@@ -70,6 +73,10 @@ internal class MyStringStream(str: String) : IMyInputStream {
     override fun readInt(): Int {
         read(buf4, 4)
         return ByteArrayHelper.readInt4(buf4, 0)
+    }
+    override fun readLong(): Long {
+        read(buf8, 8)
+        return ByteArrayHelper.readLong8(buf8, 0)
     }
 
     override fun readByte(): Byte {

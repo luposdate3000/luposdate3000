@@ -116,6 +116,7 @@ internal actual open class MyPrintWriter : IMyOutputStream {
     actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not supported")
     actual override fun write(buf: ByteArray): Unit = throw Exception("not supported")
     public actual override fun writeInt(value: Int): Unit = throw Exception("not supported")
+    public actual override fun writeLong(value: Long): Unit = throw Exception("not supported")
     actual override fun close(): Unit = throw Exception("not supported")
     actual override fun flush(): Unit = throw Exception("not supported")
 }

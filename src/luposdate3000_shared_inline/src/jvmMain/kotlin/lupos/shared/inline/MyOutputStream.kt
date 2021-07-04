@@ -48,6 +48,13 @@ internal actual class MyOutputStream : IMyOutputStream {
         ByteArrayHelper.writeInt4(buffer, bufferPos, value)
         bufferPos += 4
     }
+    public actual override fun writeLong(value: Long) {
+        if (bufferPos + 8> buffer.size) {
+            localFlush()
+        }
+        ByteArrayHelper.writeLong8(buffer, bufferPos, value)
+        bufferPos += 8
+    }
 
     public actual override fun close() {
         try {

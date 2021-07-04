@@ -26,6 +26,9 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     internal val buf4: ByteArray = ByteArray(4)
 
     @JvmField
+    internal val buf8: ByteArray = ByteArray(8)
+
+    @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
 
     init {
@@ -67,6 +70,10 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     public actual override fun readInt(): Int {
         read(buf4, 4)
         return ByteArrayHelper.readInt4(buf4, 0)
+    }
+    public actual override fun readLong(): Long {
+        read(buf8, 8)
+        return ByteArrayHelper.readLong8(buf8, 0)
     }
 
     public actual override fun readByte(): Byte {

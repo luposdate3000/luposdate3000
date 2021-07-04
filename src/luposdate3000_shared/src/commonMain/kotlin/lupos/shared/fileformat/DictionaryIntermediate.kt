@@ -16,7 +16,6 @@
  */
 
 package lupos.shared.fileformat
-
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.inline.File

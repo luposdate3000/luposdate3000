@@ -29,6 +29,15 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
+    public override fun readLong(): Long {
+        if (remainingBytes >= 8) {
+            remainingBytes -= 8
+            return stream.readLong()
+        } else {
+            throw Exception("not enough bytes available $remainingBytes")
+        }
+    }
+
     public override fun readByte(): Byte {
         if (remainingBytes >= 1) {
             remainingBytes -= 1

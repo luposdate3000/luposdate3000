@@ -15,9 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-
 /*
 
 
@@ -25,7 +26,6 @@ DictionaryValueHelper.DictionaryValueTypeArray
 
 DictionaryValueType
 
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
@@ -63,6 +63,8 @@ internal object DictionaryValueHelperInt {
     internal inline fun toInt(value: Int): Int = value // adapter for places, where always Int are used
     internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
     internal inline fun numberOfBytesUsed(value: Int): Int = (((32 + 7 - IntegerExt.numberOfLeadingZeros(value))) shr 3)
+    internal inline fun fromStream(stream: IMyInputStream): Int = stream.readInt()
+    internal inline fun toStream(stream: IMyOutputStream, value: Int) = stream.writeInt(value)
 }
 internal object DictionaryValueHelperLong {
     public const val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
@@ -95,4 +97,6 @@ internal object DictionaryValueHelperLong {
     internal inline fun toInt(value: Long): Int = value.toInt() // adapter for places, where always Int are used
     internal inline fun fromInt(value: Int): Long = value.toLong() // adapter for places, where always Int are used
     internal inline fun numberOfBytesUsed(value: Long): Int = (((64 + 7 - LongExt.numberOfLeadingZeros(value))) shr 3)
+    internal inline fun fromStream(stream: IMyInputStream): Long = stream.readLong()
+    internal inline fun toStream(stream: IMyOutputStream, value: Long) = stream.writeLong(value)
 }

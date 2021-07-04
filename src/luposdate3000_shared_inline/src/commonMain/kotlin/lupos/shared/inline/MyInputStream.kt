@@ -20,6 +20,7 @@ import lupos.shared.IMyInputStream
 
 internal expect class MyInputStream : IMyInputStream {
     public override fun readInt(): Int
+    public override fun readLong(): Long
     public override fun readByte(): Byte
     public override fun read(buf: ByteArray): Int
     public override fun read(buf: ByteArray, len: Int): Int

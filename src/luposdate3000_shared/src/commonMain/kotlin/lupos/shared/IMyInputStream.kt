@@ -21,6 +21,7 @@ public interface IMyInputStream {
     public fun read(buf: ByteArray, len: Int): Int
     public fun read(buf: ByteArray, off: Int, len: Int): Int
     public fun readInt(): Int
+    public fun readLong(): Long
     public fun readByte(): Byte
     public fun close(): Unit
     public fun readLine(): String?

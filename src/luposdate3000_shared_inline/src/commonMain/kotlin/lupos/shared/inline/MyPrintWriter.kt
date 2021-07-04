@@ -33,6 +33,7 @@ internal expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyOutputStream
     override fun close()
     override fun flush()
     override fun writeInt(value: Int): Unit
+    override fun writeLong(value: Long): Unit
     override fun write(buf: ByteArray): Unit
     override fun write(buf: ByteArray, len: Int): Unit
 }

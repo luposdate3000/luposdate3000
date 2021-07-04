@@ -16,7 +16,8 @@
  */
 
 package lupos.shared.fileformat
-
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
@@ -29,19 +30,19 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         }
     }
 
-    public inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
+    internal inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
         while (hasNext()) {
             next(buffer, action)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun hasNext(): Boolean {
+    internal inline fun hasNext(): Boolean {
         return streamIn != null
     }
 
-    public inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
-        val id = streamIn!!.readInt()
+    internal inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
+        val id = DictionaryValueHelper.fromStream(streamIn!!)
         if (id < 0) {
             close()
         } else {
@@ -52,8 +53,7 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         }
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun next(buffer: ByteArrayWrapper): DictionaryIntermediateRow? {
+    internal inline fun next(buffer: ByteArrayWrapper): DictionaryIntermediateRow? {
         var res: DictionaryIntermediateRow? = null
         next(buffer) { id ->
             res = DictionaryIntermediateRow(id, buffer)

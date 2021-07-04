@@ -61,7 +61,7 @@ public object InputToIntermediate {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun cmp(a: IntArray, b: IntArray): Int {
+    private inline fun cmp(a: DictionaryValueTypeArray, b: DictionaryValueTypeArray): DictionaryValueType {
         var res = a[0] - b[0]
         if (res != 0) {
             return res
@@ -74,7 +74,7 @@ public object InputToIntermediate {
         return res
     }
 
-    private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> DictionaryValueType, crossinline cmpBtoB: (Int, Int) -> Int, step: Int) {
+    private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> DictionaryValueType, crossinline cmpBtoB: (Int, Int) -> DictionaryValueType, step: Int) {
         var size = 1
         while (size < n) {
             var lstart = 0
@@ -336,7 +336,7 @@ public object InputToIntermediate {
             val dictionariesHead = Array(chunc) { dictionaries[it].next(dictionariesHeadBuffer[it]) }
             var buffer = ByteArrayWrapper()
             var current: ByteArrayWrapper? = null
-            var currentValue: Int = 0
+            var currentValue :DictionaryValueType= DictionaryValueHelper.NULL
             var changed = true
             loop@ while (changed) {
                 changed = false
@@ -453,9 +453,9 @@ public object InputToIntermediate {
                     val t_s: DictionaryValueType
                     val t_p: DictionaryValueType
                     val t_o: DictionaryValueType
-                    t_s = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[0])])
-                    t_p = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[1])])
-                    t_o = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[2])])
+                    t_s = mapping[DictionaryValueHelper.toInt(it[0])]
+                    t_p = mapping[DictionaryValueHelper.toInt(it[1])]
+                    t_o = mapping[DictionaryValueHelper.toInt(it[2])]
                     outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {
                         when (t_p) {
@@ -472,7 +472,7 @@ public object InputToIntermediate {
                 triplePrefix++
             }
             if (inference_enabled) {
-                var subclassMappingSingle = DictionaryValueTypeArray(currentValue) { -1 } // -1 undefined, -2 multi, otherwise the mapping
+                var subclassMappingSingle = DictionaryValueTypeArray(currentValue) { DictionaryValueHelper.fromInt(-1) } // -1 undefined, -2 multi, otherwise the mapping
                 var subclassMappingMulti = mutableMapOf<DictionaryValueType, MutableSet<DictionaryValueType>>()
                 var inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.subClassOf")
                 inTriples.readAll { it ->
