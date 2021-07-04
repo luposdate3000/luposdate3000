@@ -23,8 +23,8 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.fileformat.DictionaryIntermediateReader
 import kotlin.jvm.JvmField
 
 public abstract class ADictionary(
@@ -86,14 +86,14 @@ public abstract class ADictionary(
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var mymapping = DictionaryValueTypeArray(0)
-        var lastId: Int = -1
-        fun addEntry(id: Int, i: DictionaryValueType) {
+        var lastId: DictionaryValueType = -1
+        fun addEntry(id: DictionaryValueType, i: DictionaryValueType) {
             SanityCheck.check { lastId == id - 1 }
             if (lastId != id - 1) {
                 throw Exception("ERROR !! $lastId -> $id")
             }
             lastId = id
-            if (lastId % 10000 == 0 && lastId != 0) {
+            if (lastId % 10000 == DictionaryValueHelper.NULL && lastId != DictionaryValueHelper.NULL) {
                 println("imported $lastId dictionaryItems")
             }
             if (mymapping.size <= id) {
@@ -105,11 +105,11 @@ public abstract class ADictionary(
                 mymapping = DictionaryValueTypeArray(newSize)
                 tmp.copyInto(mymapping)
             }
-            mymapping[id] = i
+            mymapping[DictionaryValueHelper.toInt(id)] = i
         }
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            if (lastId % 10000 == 0 && lastId != 0) {
+            if (lastId % 10000 == DictionaryValueHelper.NULL && lastId != DictionaryValueHelper.NULL) {
                 println("imported $lastId dictionaryItems")
             }
             val type = DictionaryHelper.byteArrayToType(buffer)
@@ -125,6 +125,6 @@ public abstract class ADictionary(
             addEntry(id, i)
         }
         println("imported $lastId dictionaryItems")
-        return Pair(mymapping, lastId + 1)
+        return Pair(mymapping, DictionaryValueHelper.toInt(lastId + 1))
     }
 }

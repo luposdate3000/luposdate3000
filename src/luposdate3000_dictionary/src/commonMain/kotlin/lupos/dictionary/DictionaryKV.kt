@@ -24,11 +24,11 @@ import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.inline.BufferManagerPage
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.fileformat.DictionaryIntermediateReader
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 
@@ -199,14 +199,14 @@ public class DictionaryKV internal constructor(
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         var mymapping = DictionaryValueTypeArray(0)
-        var lastId = -1
-        fun addEntry(id: Int, i: DictionaryValueType) {
+        var lastId: DictionaryValueType = -1
+        fun addEntry(id: DictionaryValueType, i: DictionaryValueType) {
             SanityCheck.check { lastId == id - 1 }
             if (lastId != id - 1) {
                 throw Exception("ERROR !! $lastId -> $id")
             }
             lastId = id
-            if (lastId % 10000 == 0 && lastId != 0) {
+            if (lastId % 10000 == DictionaryValueHelper.NULL && lastId != DictionaryValueHelper.NULL) {
                 println("imported $lastId dictionaryItems")
             }
             if (mymapping.size <= id) {
@@ -218,13 +218,13 @@ public class DictionaryKV internal constructor(
                 mymapping = DictionaryValueTypeArray(newSize)
                 tmp.copyInto(mymapping)
             }
-            mymapping[id] = i
+            mymapping[DictionaryValueHelper.toInt(id)] = i
         }
 
         val buffer = ByteArrayWrapper()
         val reader = DictionaryIntermediateReader(filename)
         var ready = false
-        var originalID = 0
+        var originalID: DictionaryValueType = 0
         vk.createValues(
             hasNext = {
                 loop@ while (!ready && reader.hasNext()) {
@@ -257,7 +257,7 @@ public class DictionaryKV internal constructor(
         )
         SanityCheck.check { !ready }
         println("imported $lastId dictionaryItems")
-        return Pair(mymapping, lastId + 1)
+        return Pair(mymapping, DictionaryValueHelper.toInt(lastId + 1))
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {

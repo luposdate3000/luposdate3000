@@ -54,12 +54,12 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElementFromXML
-import lupos.shared.fileformat.DictionaryIntermediate
-import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.Platform
+import lupos.shared.inline.fileformat.DictionaryIntermediate
+import lupos.shared.inline.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
