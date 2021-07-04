@@ -32,7 +32,7 @@ public class AOPLT public constructor(query: IQuery, childA: AOPBase, childB: AO
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: Int = DictionaryValueHelper.errorValue
+            var res: DictionaryValueType = DictionaryValueHelper.errorValue
             val a = childA()
             val b = childB()
             try {

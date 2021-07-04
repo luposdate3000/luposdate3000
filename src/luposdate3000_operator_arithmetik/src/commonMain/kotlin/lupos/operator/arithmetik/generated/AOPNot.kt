@@ -36,7 +36,7 @@ public class AOPNot public constructor(query: IQuery, child0: AOPBase) : AOPBase
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: Int
+            var res: DictionaryValueType
             val childIn0: Int = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)

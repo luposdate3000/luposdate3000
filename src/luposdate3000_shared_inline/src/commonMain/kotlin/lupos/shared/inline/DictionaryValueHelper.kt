@@ -45,10 +45,10 @@ internal object DictionaryValueHelperInt {
     public const val FIRST_BNODE: Int = 5
     internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Int): IntArray = IntArray(size) { init(it) }
     internal inline fun DictionaryValueTypeArray(size: Int): IntArray = IntArray(size)
-    internal inline fun DictionaryValueTypeArrayOf()=intArrayOf()
-    internal inline fun DictionaryValueTypeArrayOf(a:Int)=intArrayOf(a)
-    internal inline fun DictionaryValueTypeArrayOf(a:Int,b:Int)=intArrayOf(a,b)
-    internal inline fun DictionaryValueTypeArrayOf(a:Int,b:Int,c:Int)=intArrayOf(a,b,c)
+    internal inline fun DictionaryValueTypeArrayOf() = intArrayOf()
+    internal inline fun DictionaryValueTypeArrayOf(a: Int) = intArrayOf(a)
+    internal inline fun DictionaryValueTypeArrayOf(a: Int, b: Int) = intArrayOf(a, b)
+    internal inline fun DictionaryValueTypeArrayOf(a: Int, b: Int, c: Int) = intArrayOf(a, b, c)
     internal inline fun isLocalValue(value: Int): Boolean = (value and flagLocal) == flagLocal
     internal inline fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
     internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Int) = ByteArrayHelper.writeInt4(buffer, off, value)
@@ -77,10 +77,10 @@ internal object DictionaryValueHelperLong {
     public const val FIRST_BNODE: Long = 5L
     internal inline fun DictionaryValueTypeArray(size: Int, init: (Int) -> Long): LongArray = LongArray(size) { init(it) }
     internal inline fun DictionaryValueTypeArray(size: Int): LongArray = LongArray(size)
-    internal inline fun DictionaryValueTypeArrayOf()=longArrayOf()
-    internal inline fun DictionaryValueTypeArrayOf(a:Long)=longArrayOf(a)
-    internal inline fun DictionaryValueTypeArrayOf(a:Long,b:Long)=longArrayOf(a,b)
-    internal inline fun DictionaryValueTypeArrayOf(a:Long,b:Long,c:Long)=longArrayOf(a,b,c)
+    internal inline fun DictionaryValueTypeArrayOf() = longArrayOf()
+    internal inline fun DictionaryValueTypeArrayOf(a: Long) = longArrayOf(a)
+    internal inline fun DictionaryValueTypeArrayOf(a: Long, b: Long) = longArrayOf(a, b)
+    internal inline fun DictionaryValueTypeArrayOf(a: Long, b: Long, c: Long) = longArrayOf(a, b, c)
     internal inline fun isLocalValue(value: Long): Boolean = (value and flagLocal) == flagLocal
     internal inline fun isBnode(value: Long): Boolean = (value and flagNoBNode) != flagNoBNode
     internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Long) = ByteArrayHelper.writeLong8(buffer, off, value)

@@ -38,7 +38,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         val child1: () -> DictionaryValueType = (children[1] as AOPBase).evaluateID(row)
         return {
-            var res: Int
+            var res: DictionaryValueType
             val childIn0: Int = child0()
             val childIn1: Int = child1()
             query.getDictionary().getValue(tmp_0, childIn0)

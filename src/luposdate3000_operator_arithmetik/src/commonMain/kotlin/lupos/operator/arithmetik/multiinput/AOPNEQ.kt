@@ -35,7 +35,7 @@ public class AOPNEQ public constructor(query: IQuery, childA: AOPBase, childB: A
         val bufferA = ByteArrayWrapper()
         val bufferB = ByteArrayWrapper()
         return {
-            var res: Int = DictionaryValueHelper.booleanFalseValue
+            var res: DictionaryValueType = DictionaryValueHelper.booleanFalseValue
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {

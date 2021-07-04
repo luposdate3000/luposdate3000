@@ -18,13 +18,13 @@ package lupos.parser
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
-import lupos.shared.DictionaryValueType
 import lupos.parser.turtle.TurtleScanner
 import lupos.shared.DateHelperRelative
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -74,7 +74,7 @@ public object InputToIntermediate {
         return res
     }
 
-    private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> Int, crossinline cmpBtoB: (Int, Int) -> Int, step: Int) {
+    private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> DictionaryValueType, crossinline cmpBtoB: (Int, Int) -> Int, step: Int) {
         var size = 1
         while (size < n) {
             var lstart = 0
@@ -330,7 +330,7 @@ public object InputToIntermediate {
             val parseTime = DateHelperRelative.elapsedSeconds(startTime)
 // merge dictionaries
             val outDictionary = DictionaryIntermediateWriter(inputFileName)
-            val mapping = IntArray(dictCounter.toInt())
+            val mapping = DictionaryValueTypeArray(dictCounter.toInt())
             val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
             val dictionariesHeadBuffer = Array(chunc) { ByteArrayWrapper() }
             val dictionariesHead = Array(chunc) { dictionaries[it].next(dictionariesHeadBuffer[it]) }
@@ -408,9 +408,9 @@ public object InputToIntermediate {
                         },
                         cmpAtoA = { a, b ->
                             var res = tripleBufA[a + order[0]] - tripleBufA[b + order[0]]
-                            if (res == 0) {
+                            if (res == DictionaryValueHelper.NULL) {
                                 res = tripleBufA[a + order[1]] - tripleBufA[b + order[1]]
-                                if (res == 0) {
+                                if (res == DictionaryValueHelper.NULL) {
                                     res = tripleBufA[a + order[2]] - tripleBufA[b + order[2]]
                                 }
                             }
@@ -418,9 +418,9 @@ public object InputToIntermediate {
                         },
                         cmpBtoB = { a, b ->
                             var res = tripleBufB[a + order[0]] - tripleBufB[b + order[0]]
-                            if (res == 0) {
+                            if (res == DictionaryValueHelper.NULL) {
                                 res = tripleBufB[a + order[1]] - tripleBufB[b + order[1]]
-                                if (res == 0) {
+                                if (res == DictionaryValueHelper.NULL) {
                                     res = tripleBufB[a + order[2]] - tripleBufB[b + order[2]]
                                 }
                             }
@@ -453,9 +453,9 @@ public object InputToIntermediate {
                     val t_s: DictionaryValueType
                     val t_p: DictionaryValueType
                     val t_o: DictionaryValueType
-                        t_s = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[0])])
-                        t_p = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[1])])
-                        t_o = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[2])])
+                    t_s = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[0])])
+                    t_p = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[1])])
+                    t_o = DictionaryValueHelper.fromInt(mapping[DictionaryValueHelper.toInt(it[2])])
                     outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {
                         when (t_p) {
@@ -497,11 +497,11 @@ public object InputToIntermediate {
                 inTriples.close()
                 inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.type")
                 inTriples.readAll { it ->
-                    val tmp = subclassMappingSingle[it[2]]
+                    val tmp = subclassMappingSingle[DictionaryValueHelper.toInt(it[2])]
                     when (tmp) {
-                        -1 -> {
+                        DictionaryValueHelper.fromInt(-1) -> {
                         }
-                        -2 -> {
+                        DictionaryValueHelper.fromInt(-2) -> {
                             for (i in subclassMappingMulti[it[2]]!!) {
                                 outTriples2.write(it[0], inference_Type_ID, i)
                                 inferredTriples++
