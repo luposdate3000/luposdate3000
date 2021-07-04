@@ -59,11 +59,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     var insertBufferSize = 0
     val deleteBuffer = DictionaryValueTypeArray(3000)
     var deleteBufferSize = 0
-    fun mergeSPO(s: Int, p: Int, o: Int): Int {
-        return (s and 0x7fff0000.toInt()) or ((p and 0x7f000000.toInt()) shr 16) or ((o and 0x7f000000.toInt()) shr 24)
+    fun mergeSPO(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType): DictionaryValueType {
+        return DictionaryValueHelper.fromInt((DictionaryValueHelper.toInt(s) and 0x7fff0000.toInt()) or ((DictionaryValueHelper.toInt(p) and 0x7f000000.toInt()) shr 16) or ((DictionaryValueHelper.toInt(o) and 0x7f000000.toInt()) shr 24))
     }
-    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) {
-        action(v and 0x7fff0000.toInt(), ((v and 0x00007f00.toInt()) shl 16), ((v and 0x0000007f.toInt()) shl 24))
+    fun splitSPO(v: DictionaryValueType, action: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit) {
+        action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000.toInt()),DictionaryValueHelper.fromInt( ((DictionaryValueHelper.toInt(v) and 0x00007f00.toInt()) shl 16)),DictionaryValueHelper.fromInt( ((DictionaryValueHelper.toInt(v) and 0x0000007f.toInt()) shl 24)))
     }
     fun filterArrToFun(filter: DictionaryValueTypeArray): (Int) -> Boolean {
         var res: (Int) -> Boolean = { true }
@@ -182,9 +182,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         } else {
             rng
         }
-        var myS = 0
-        var myP = 0
-        var myO = 0
+        var myS :DictionaryValueType= 0
+        var myP :DictionaryValueType= 0
+        var myO :DictionaryValueType= 0
         splitSPO(myRng) { s, p, o ->
             myS = s
             myP = p
@@ -429,21 +429,21 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             val tmp = dataBuffer.toList()[abs(rng % dataBuffer.size)]
             when (mode) {
                 0 -> {
-                    action(intArrayOf())
+                    action(DictionaryValueHelper.DictionaryValueTypeArrayOf(0))
                 }
                 1 -> {
                     splitSPO(tmp) { s, p, o ->
-                        action(intArrayOf(s))
+                        action(DictionaryValueHelper.DictionaryValueTypeArrayOf(s))
                     }
                 }
                 2 -> {
                     splitSPO(tmp) { s, p, o ->
-                        action(intArrayOf(s, p))
+                        action(DictionaryValueHelper.DictionaryValueTypeArrayOf(s, p))
                     }
                 }
                 3 -> {
                     splitSPO(tmp) { s, p, o ->
-                        action(intArrayOf(s, p, o))
+                        action(DictionaryValueHelper.DictionaryValueTypeArrayOf(s, p, o))
                     }
                 }
             }

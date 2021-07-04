@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.singleinput
-
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.XMLElement
