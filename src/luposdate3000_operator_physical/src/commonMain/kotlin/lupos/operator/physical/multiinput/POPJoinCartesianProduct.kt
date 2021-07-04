@@ -24,6 +24,7 @@ import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -124,7 +125,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             }
             res = IteratorBundle(outMap)
         } else {
-            val data = Array(columnsINBO.size) { mutableListOf<Int>() }
+            val data: Array<MutableList<DictionaryValueType>> = Array(columnsINBO.size) { mutableListOf<DictionaryValueType>() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()
@@ -156,7 +157,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                 }
                             }
 
-                            override /*suspend*/ fun next(): Int {
+                            override /*suspend*/ fun next(): DictionaryValueType {
                                 return ColumnIteratorChildIteratorExt.nextHelper(
                                     this,
                                     {
@@ -223,7 +224,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                             }
                         }
 
-                        override /*suspend*/ fun next(): Int {
+                        override /*suspend*/ fun next(): DictionaryValueType {
                             return ColumnIteratorChildIteratorExt.nextHelper(
                                 this,
                                 {

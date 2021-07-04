@@ -19,6 +19,7 @@ import lupos.operator.base.PartitionHelper
 import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -142,7 +143,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 SanityCheck.check { variables.containsAll(variables0) }
                 SanityCheck.check { variables.contains(partitionVariable) }
                 val elementsPerRing = query.getInstance().queue_size * variables.size
-                val ringbuffer = IntArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
+                val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
@@ -193,7 +194,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                     cacheArr[0] = 0
                                 } else {
                                     cacheSize = 1
-                                    cacheArr[0] = q % partitionCount
+                                    cacheArr[0] = DictionaryValueHelper.toInt(q % partitionCount)
                                 }
                                 loopcache@ for (i in 0 until cacheSize) {
                                     val p = cacheArr[i]
@@ -229,7 +230,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 for (p in 0 until partitionCount) {
                     val iterator = RowIterator()
                     iterator.columns = variables.toTypedArray()
-                    iterator.buf = IntArray(variables.size)
+                    iterator.buf = DictionaryValueTypeArray(variables.size)
                     iterator.next = {
                         var res = -1
                         loop@ while (true) {

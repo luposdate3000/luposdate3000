@@ -31,8 +31,8 @@ import kotlin.jvm.JvmField
 
 public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
-    public val value: Int
-    override fun getValue(): Int = value
+    public val value: DictionaryValueType
+    override fun getValue(): DictionaryValueType = value
 
     public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         val buffer = ByteArrayWrapper()
@@ -44,7 +44,7 @@ public class AOPConstant : AOPBase, IAOPConstant {
         value = query.getDictionary().createValue(buffer)
     }
 
-    public constructor(query: IQuery, value2: Int) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: DictionaryValueType) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         value = value2
     }
 

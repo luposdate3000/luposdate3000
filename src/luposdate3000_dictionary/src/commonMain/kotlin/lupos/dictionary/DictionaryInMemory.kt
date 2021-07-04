@@ -40,7 +40,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     internal var bNodeCounter: DictionaryValueType = DictionaryValueHelper.FIRST_BNODE
 
     @JvmField
-    internal var uuidCounter: DictionaryValueType = 0
+    internal var uuidCounter: Int = 0
 
     public override fun isInmemoryOnly(): Boolean = true
     public override fun close() {
@@ -61,9 +61,9 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         return res
     }
 
-    public override fun createNewUUID(): DictionaryValueType {
+    public override fun createNewUUID(): Int {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
-        var res: DictionaryValueType = uuidCounter++
+        var res: Int = uuidCounter++
         return res
     }
     public override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {

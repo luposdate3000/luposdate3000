@@ -144,7 +144,7 @@ public class POPDistributedSendSingle public constructor(
         while (buf != DictionaryValueHelper.nullValue) {
             for (j in 0 until variables.size) {
                 buf = columns[j].next()
-                connectionOut.writeInt(buf)
+                connectionOut.writeDictionaryValueType(buf)
             }
         }
         connectionOut.flush()

@@ -37,7 +37,7 @@ public class AOPBuildInCallDATATYPE public constructor(query: IQuery, child0: AO
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
             var res: DictionaryValueType
-            val childIn0: Int = child0()
+            val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {

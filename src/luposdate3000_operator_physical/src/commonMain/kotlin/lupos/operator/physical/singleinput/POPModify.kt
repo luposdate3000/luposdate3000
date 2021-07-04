@@ -23,6 +23,8 @@ import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -136,8 +138,8 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
-        val row = IntArray(variables.size) { DictionaryValueHelper.undefValue }
-        val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
+        val row = DictionaryValueTypeArray(variables.size) { DictionaryValueHelper.undefValue }
+        val data = mutableMapOf<String, Array<Array<MutableList<DictionaryValueType>>>>()
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
             if (variables.isNotEmpty()) {

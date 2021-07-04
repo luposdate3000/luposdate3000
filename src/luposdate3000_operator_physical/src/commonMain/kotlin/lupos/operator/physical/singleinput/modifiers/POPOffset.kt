@@ -18,6 +18,7 @@ package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -50,7 +51,7 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]] }
-        var tmp: Int = DictionaryValueHelper.nullValue
+        var tmp: DictionaryValueType = DictionaryValueHelper.nullValue
         loop@ for (i in 0 until offset) {
             for (element in columns) {
                 tmp = element!!.next()

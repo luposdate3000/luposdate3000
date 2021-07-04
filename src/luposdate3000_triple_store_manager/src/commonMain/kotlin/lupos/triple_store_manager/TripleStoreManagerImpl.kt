@@ -438,13 +438,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         while (!done) {
             var i = 0
             while (i <limit) {
-                val a = stream.readInt()
-                if (a == -1) {
+                val a = stream.readDictionaryValueType()
+                if (a == DictionaryValueHelper.nullValue) {
                     done = true
                     break
                 }
-                val b = stream.readInt()
-                val c = stream.readInt()
+                val b = stream.readDictionaryValueType()
+                val c = stream.readDictionaryValueType()
                 SanityCheck.check { !query.getDictionary().isLocalValue(a) }
                 SanityCheck.check { !query.getDictionary().isLocalValue(b) }
                 SanityCheck.check { !query.getDictionary().isLocalValue(c) }
@@ -468,14 +468,14 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         while (!done) {
             var i = 0
             while (i <limit) {
-                val a = stream.readInt()
-                if (a == -1) {
+                val a = stream.readDictionaryValueType()
+                if (a == DictionaryValueHelper.nullValue) {
                     done = true
                     break
                 }
                 buf[i++] = a
-                buf[i++] = stream.readInt()
-                buf[i++] = stream.readInt()
+                buf[i++] = stream.readDictionaryValueType()
+                buf[i++] = stream.readDictionaryValueType()
             }
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)

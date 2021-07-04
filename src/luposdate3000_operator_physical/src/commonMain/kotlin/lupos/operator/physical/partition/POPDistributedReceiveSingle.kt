@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -136,12 +136,12 @@ public class POPDistributedReceiveSingle public constructor(
         }
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
+        iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
             var res = -1
             if (connection != null) {
                 for (i in 0 until variables.size) {
-                    iterator.buf[mapping[i]] = connection!!.input.readInt()
+                    iterator.buf[mapping[i]] = connection!!.input.readDictionaryValueType()
                 }
                 if (iterator.buf[0] == DictionaryValueHelper.nullValue) {
                     connection!!.input.close()

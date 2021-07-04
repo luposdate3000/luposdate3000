@@ -52,7 +52,7 @@ public class DictionaryKV internal constructor(
     internal var bNodeCounter = DictionaryValueHelper.FIRST_BNODE
 
     @JvmField
-    internal var uuidCounter: DictionaryValueType = 0
+    internal var uuidCounter: Int = 0
 
     @JvmField
     internal val rootPage: ByteArray
@@ -113,14 +113,14 @@ public class DictionaryKV internal constructor(
             bNodeCounter = DictionaryValueHelper.fromByteArray(rootPage, offsetBNodeCounter)
             kvPage = BufferManagerPage.readInt4(rootPage, offsetkvPage)
             vkPage = BufferManagerPage.readInt4(rootPage, offsetvkPage)
-            uuidCounter = DictionaryValueHelper.fromByteArray(rootPage, offsetuuidCounter)
+            uuidCounter = BufferManagerPage.readInt4(rootPage, offsetuuidCounter)
         } else {
             kvPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:79")
             vkPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:80")
             DictionaryValueHelper.toByteArray(rootPage, offsetBNodeCounter, bNodeCounter)
             BufferManagerPage.writeInt4(rootPage, offsetkvPage, kvPage)
             BufferManagerPage.writeInt4(rootPage, offsetvkPage, vkPage)
-            DictionaryValueHelper.toByteArray(rootPage, offsetuuidCounter, uuidCounter)
+            BufferManagerPage.writeInt4(rootPage, offsetuuidCounter, uuidCounter)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage, instance)
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
@@ -133,10 +133,10 @@ public class DictionaryKV internal constructor(
         return res
     }
 
-    public override fun createNewUUID(): DictionaryValueType {
+    public override fun createNewUUID(): Int {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
-        val res: DictionaryValueType = uuidCounter++
-        DictionaryValueHelper.toByteArray(rootPage, offsetuuidCounter, uuidCounter)
+        val res: Int = uuidCounter++
+        BufferManagerPage.writeInt4(rootPage, offsetuuidCounter, uuidCounter)
         return res
     }
 

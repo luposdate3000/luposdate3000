@@ -18,6 +18,7 @@ package lupos.operator.physical.partition
 
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
@@ -144,7 +145,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         SanityCheck.check { variables.containsAll(variables0) }
         // the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
         val elementsPerRing = query.getInstance().queue_size * variables.size
-        val ringbuffer = IntArray(elementsPerRing * partitionCountSrc) // only modified by writer, reader just modifies its pointer
+        val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCountSrc) // only modified by writer, reader just modifies its pointer
         val ringbufferStart = IntArray(partitionCountSrc) { it * elementsPerRing } // constant
         val ringbufferReadHead = IntArray(partitionCountSrc) { 0 } // owned by read-thread - no locking required
         val ringbufferWriteHead = IntArray(partitionCountSrc) { 0 } // owned by write thread - no locking required
@@ -269,7 +270,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         }
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
+        iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
             var res = -1
             loop@ while (true) {

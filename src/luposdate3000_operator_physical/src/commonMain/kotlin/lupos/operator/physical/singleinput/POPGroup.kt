@@ -28,6 +28,8 @@ import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
@@ -260,8 +262,8 @@ public class POPGroup : POPBase {
                 }
             }
             if (canUseSortedInput) {
-                var currentKey = IntArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
-                var nextKey: IntArray? = null
+                var currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
+                var nextKey: DictionaryValueTypeArray? = null
                 // first row ->
                 var emptyResult = false
                 for (columnIndex in keyColumnNames.indices) {
@@ -335,7 +337,7 @@ public class POPGroup : POPBase {
                                 }
                             }
 
-                            override /*suspend*/ fun next(): Int {
+                            override /*suspend*/ fun next(): DictionaryValueType {
                                 return ColumnIteratorQueueExt.nextHelper(
                                     this,
                                     {
@@ -373,7 +375,7 @@ public class POPGroup : POPBase {
                                                 if (nextKey != null) {
                                                     nextKey!![columnIndex] = value
                                                 } else if (currentKey[columnIndex] != value) {
-                                                    nextKey = IntArray(keyColumnNames.size) { currentKey[it] }
+                                                    nextKey = DictionaryValueTypeArray(keyColumnNames.size) { currentKey[it] }
                                                     nextKey!![columnIndex] = value
                                                     changedKey = true
                                                 }
@@ -441,7 +443,7 @@ public class POPGroup : POPBase {
 // <- simplicity
                 ) {
                     val iterator = keyColumns[0]
-                    val map = mutableMapOf<Int, Int>()
+                    val map = mutableMapOf<DictionaryValueType, Int>()
                     while (true) {
                         val value = iterator.next()
                         if (value == DictionaryValueHelper.nullValue) {
@@ -455,8 +457,8 @@ public class POPGroup : POPBase {
                             map[value] = v + 1
                         }
                     }
-                    val arrK = IntArray(map.size)
-                    val arrV = IntArray(map.size)
+                    val arrK = DictionaryValueTypeArray(map.size)
+                    val arrV = DictionaryValueTypeArray(map.size)
                     var i = 0
                     val dict = query.getDictionary()
                     for ((k, v) in map) {
@@ -470,7 +472,7 @@ public class POPGroup : POPBase {
                 } else {
                     val map = mutableMapOf<MapKey, POPGroup_Row>()
                     loop@ while (true) {
-                        val currentKey = IntArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
+                        val currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
                         for (columnIndex in keyColumnNames.indices) {
                             val value = keyColumns[columnIndex].next()
                             if (value == DictionaryValueHelper.nullValue) {
@@ -522,8 +524,8 @@ public class POPGroup : POPBase {
                             outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                     } else {
-                        val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }
-                        val outValues = Array(bindings.size) { mutableListOf<Int>() }
+                        val outKeys = Array(keyColumnNames.size) { mutableListOf<DictionaryValueType>() }
+                        val outValues = Array(bindings.size) { mutableListOf<DictionaryValueType>() }
                         for ((k, v) in map) {
                             for (columnIndex in keyColumnNames.indices) {
                                 outKeys[columnIndex].add(k.data[columnIndex])

@@ -18,6 +18,7 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -93,8 +94,8 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val key0 = IntArray(columnsINJ0.size)
-        val key1 = IntArray(columnsINJ1.size)
+        val key0 = DictionaryValueTypeArray(columnsINJ0.size)
+        val key1 = DictionaryValueTypeArray(columnsINJ1.size)
         for ((first, second) in outIterators) {
             val iterator = POPJoinMerge_Iterator(columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
             when (second) {

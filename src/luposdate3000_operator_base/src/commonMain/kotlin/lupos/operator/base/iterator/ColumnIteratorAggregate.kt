@@ -16,9 +16,9 @@
  */
 package lupos.operator.base.iterator
 
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
-
 public abstract class ColumnIteratorAggregate : ColumnIteratorEmpty() {
     public abstract fun evaluate()
-    public abstract fun evaluateFinish(): Int
+    public abstract fun evaluateFinish(): DictionaryValueType
 }

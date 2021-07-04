@@ -18,6 +18,7 @@ package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -59,7 +60,7 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
 
                 @JvmField
                 var label = 1
-                override /*suspend*/ fun next(): Int {
+                override /*suspend*/ fun next(): DictionaryValueType {
                     return if (label != 0) {
                         if (count == limit) {
                             _close()

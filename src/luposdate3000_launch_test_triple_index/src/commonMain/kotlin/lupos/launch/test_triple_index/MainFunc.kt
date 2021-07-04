@@ -54,7 +54,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, false)
-    val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
+    val dataBuffer = mutableSetOf<DictionaryValueType>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
     val insertBuffer = DictionaryValueTypeArray(3000)
     var insertBufferSize = 0
     val deleteBuffer = DictionaryValueTypeArray(3000)
@@ -65,8 +65,8 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     fun splitSPO(v: DictionaryValueType, action: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit) {
         action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000.toInt()), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x00007f00.toInt()) shl 16)), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x0000007f.toInt()) shl 24)))
     }
-    fun filterArrToFun(filter: DictionaryValueTypeArray): (Int) -> Boolean {
-        var res: (DictionaryValueTypeArray) -> Boolean = { true }
+    fun filterArrToFun(filter: DictionaryValueTypeArray): (DictionaryValueType) -> Boolean {
+        var res: (DictionaryValueType) -> Boolean = { true }
         when (filter.size) {
             1 -> {
                 res = { it ->
@@ -126,10 +126,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (insertBufferSize + 3 > insertBuffer.size) {
             testInsertOk()
         }
-        var myRng = abs(rng % 2147483647) // prevent sign extension - and mapping from "-2147483648" to itself
-        var myS = 0
-        var myP = 0
-        var myO = 0
+        var myRng = DictionaryValueHelper.fromInt(abs(rng % 2147483647)) // prevent sign extension - and mapping from "-2147483648" to itself
+        var myS: DictionaryValueType = 0
+        var myP: DictionaryValueType = 0
+        var myO: DictionaryValueType = 0
         splitSPO(myRng) { s, p, o ->
             myS = s
             myP = p
@@ -175,13 +175,15 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (deleteBufferSize + 3 > deleteBuffer.size) {
             testDeleteOk()
         }
-        var myRng = if (rng == 0) {
-            1
-        } else if (rng < 0) {
-            -rng
-        } else {
-            rng
-        }
+        var myRng = DictionaryValueHelper.fromInt(
+            if (rng == 0) {
+                1
+            } else if (rng < 0) {
+                -rng
+            } else {
+                rng
+            }
+        )
         var myS: DictionaryValueType = 0
         var myP: DictionaryValueType = 0
         var myO: DictionaryValueType = 0
@@ -265,7 +267,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         val iter = bundle.columns["s"]!!
         val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
-            var res = 0
+            var res: DictionaryValueType = 0
             splitSPO(it) { s, p, o ->
                 res = s
             }
@@ -286,13 +288,13 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         val iter = bundle.columns["p"]!!
         val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
-            var res = 0
+            var res: DictionaryValueType = 0
             splitSPO(it) { s, p, o ->
                 res = p
             }
             res
         }
-        val actual = mutableListOf<Int>()
+        val actual = mutableListOf<DictionaryValueType>()
         var value = iter.next()
         while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
@@ -307,13 +309,13 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         val iter = bundle.columns["o"]!!
         val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
-            var res = 0
+            var res: DictionaryValueType = 0
             splitSPO(it) { s, p, o ->
                 res = o
             }
             res
         }
-        val actual = mutableListOf<Int>()
+        val actual = mutableListOf<DictionaryValueType>()
         var value = iter.next()
         while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
@@ -424,12 +426,12 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
 
     fun getFilter(mode: Int, rng: Int, action: (DictionaryValueTypeArray) -> Unit) {
         if (dataBuffer.size == 0) {
-            action(intArrayOf())
+            action(DictionaryValueHelper.DictionaryValueTypeArrayOf())
         } else {
             val tmp = dataBuffer.toList()[abs(rng % dataBuffer.size)]
             when (mode) {
                 0 -> {
-                    action(DictionaryValueHelper.DictionaryValueTypeArrayOf(0))
+                    action(DictionaryValueHelper.DictionaryValueTypeArrayOf())
                 }
                 1 -> {
                     splitSPO(tmp) { s, p, o ->

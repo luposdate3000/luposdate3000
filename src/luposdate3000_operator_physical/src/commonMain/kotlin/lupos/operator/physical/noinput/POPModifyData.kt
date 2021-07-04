@@ -22,6 +22,7 @@ import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -81,13 +82,13 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val iteratorDataMap = mutableMapOf<String, Array<MutableList<Int>>>()
+        val iteratorDataMap = mutableMapOf<String, Array<MutableList<DictionaryValueType>>>()
         val dictionary = query.getDictionary()
         for (t in data) {
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = Array<MutableList<Int>>(3) { mutableListOf() }
+                    tmp = Array<MutableList<DictionaryValueType>>(3) { mutableListOf() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add(dictionary.valueToGlobal((t.children[i] as AOPConstant).value))

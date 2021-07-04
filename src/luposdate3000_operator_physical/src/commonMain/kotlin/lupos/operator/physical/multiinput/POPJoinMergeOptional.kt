@@ -20,6 +20,8 @@ import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -107,7 +109,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val key = Array(2) { i -> IntArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
+        val key = Array(2) { i -> DictionaryValueTypeArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
         if (done) {
             for (closeIndex2 in 0 until 2) {
@@ -140,21 +142,21 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                 }
             }
         } else {
-            val keyCopy = IntArray(columnsINJ[0].size) { key[0][it] }
+            val keyCopy = DictionaryValueTypeArray(columnsINJ[0].size) { key[0][it] }
             for ((first, second) in outIterators) {
                 val iterator = object : ColumnIteratorChildIterator() {
                     override /*suspend*/ fun close() {
                         _close()
                     }
 
-                    override /*suspend*/ fun next(): Int {
+                    override /*suspend*/ fun next(): DictionaryValueType {
                         return ColumnIteratorChildIteratorExt.nextHelper(
                             this,
                             {
                                 for (i in 0 until columnsINJ[0].size) {
                                     keyCopy[i] = key[0][i]
                                 }
-                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<Int>() } }
+                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<DictionaryValueType>() } }
                                 val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                                 val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                                 done = findNextKey(key, columnsINJ, columnsINO)
@@ -220,7 +222,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
+    /*suspend*/ internal inline fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
         SanityCheck.check { keyCopy[0] != DictionaryValueHelper.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -252,7 +254,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    /*suspend*/ internal inline fun findNextKey(key: Array<DictionaryValueTypeArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != DictionaryValueHelper.nullValue && key[1][0] != DictionaryValueHelper.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

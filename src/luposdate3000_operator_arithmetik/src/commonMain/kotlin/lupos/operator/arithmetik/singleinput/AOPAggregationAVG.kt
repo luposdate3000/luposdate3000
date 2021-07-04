@@ -42,7 +42,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
-    private class ColumnIteratorAggregateAVG(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+    private class ColumnIteratorAggregateAVG(private val child: () -> DictionaryValueType, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
         private val buffer = ByteArrayWrapper()
         private val bufferCurrent = ByteArrayWrapper()
         private var isError = false
@@ -70,7 +70,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
             }
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             if (counter == 0) {
                 return dictionary.createValue(buffer)
             } else {

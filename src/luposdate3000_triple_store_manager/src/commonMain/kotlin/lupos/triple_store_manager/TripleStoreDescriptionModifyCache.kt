@@ -64,7 +64,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         override fun writeInt(i: Int) {}
         override fun writeLong(value: Long) {}
         override fun writeDictionaryValueType(i: DictionaryValueType) {
-            if (i != -1) {
+            if (i != DictionaryValueHelper.nullValue) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
                         store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
@@ -118,7 +118,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         override fun writeInt(i: Int) {}
         override fun writeLong(value: Long) {}
         override fun writeDictionaryValueType(i: DictionaryValueType) {
-            if (i != -1) {
+            if (i != DictionaryValueHelper.nullValue) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
                         store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
@@ -180,7 +180,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             allConn.add(l)
         }
     }
-    public override fun writeRow(s: Int, p: Int, o: Int, query: IQuery) {
+    public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
         SanityCheck.check { !query.getDictionary().isLocalValue(s) }
         SanityCheck.check { !query.getDictionary().isLocalValue(p) }
         SanityCheck.check { !query.getDictionary().isLocalValue(o) }
@@ -190,16 +190,16 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             row[2] = o
             val j = allIndices[i].findPartitionFor(query, row)
             val conn = allConn[i][j]
-            conn.second.writeInt(s)
-            conn.second.writeInt(p)
-            conn.second.writeInt(o)
+            conn.second.writeDictionaryValueType(s)
+            conn.second.writeDictionaryValueType(p)
+            conn.second.writeDictionaryValueType(o)
         }
     }
     public override fun close() {
         for (i in 0 until allConn.size) {
             for (j in 0 until allConn[i].size) {
                 val conn = allConn[i][j]
-                conn.second.writeInt(-1)
+                conn.second.writeDictionaryValueType(DictionaryValueHelper.nullValue)
                 conn.second.close()
                 conn.first?.close()
             }

@@ -23,6 +23,7 @@ import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -72,7 +73,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
-        var expression: () -> Int = { DictionaryValueHelper.errorValue }
+        var expression: () -> DictionaryValueType = { DictionaryValueHelper.errorValue }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().isEmpty()) {
             outMap[name.name] = ColumnIteratorRepeatValue(child.count(), expression())
@@ -91,7 +92,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                         ColumnIteratorQueueExt._close(this)
                     }
 
-                    override /*suspend*/ fun next(): Int {
+                    override /*suspend*/ fun next(): DictionaryValueType {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,
                             {

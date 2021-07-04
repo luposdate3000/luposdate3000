@@ -64,7 +64,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         return this
     }
 
-    public override fun replaceVariableWithConstant(name: String, value: Int): IOPBase {
+    public override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
         if (this.name == name) {
             return AOPConstant(query, value)
         }

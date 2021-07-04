@@ -38,7 +38,7 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationSAMPLE && distinct == other.distinct && children.contentEquals(other.children)
-    private class ColumnIteratorAggregateSAMPLE(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+    private class ColumnIteratorAggregateSAMPLE(private val child: () -> DictionaryValueType, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
         private var value = DictionaryValueHelper.undefValue
         private var isError = false
         private var hasInit = false
@@ -50,7 +50,7 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
             }
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             return value
         }
     }

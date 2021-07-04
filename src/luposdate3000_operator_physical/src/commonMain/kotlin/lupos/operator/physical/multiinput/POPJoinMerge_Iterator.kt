@@ -18,6 +18,7 @@ package lupos.operator.physical.multiinput
 
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
@@ -32,14 +33,14 @@ internal class POPJoinMerge_Iterator(
     @JvmField internal val columnsOUT0: List<ColumnIteratorChildIterator>,
     @JvmField internal val columnsOUT1: List<ColumnIteratorChildIterator>,
     @JvmField internal val columnsOUTJ: List<ColumnIteratorChildIterator>,
-    @JvmField internal val key0: IntArray,
-    @JvmField internal val key1: IntArray
+    @JvmField internal val key0: DictionaryValueTypeArray,
+    @JvmField internal val key1: DictionaryValueTypeArray
 ) : ColumnIteratorChildIterator() {
     @JvmField
-    internal val data0 = Array<IntArray>(columnsINO0.size) { IntArray(100) }
+    internal val data0 = Array<DictionaryValueTypeArray>(columnsINO0.size) { DictionaryValueTypeArray(100) }
 
     @JvmField
-    internal val data1 = Array<IntArray>(columnsINO1.size) { IntArray(100) }
+    internal val data1 = Array<DictionaryValueTypeArray>(columnsINO1.size) { DictionaryValueTypeArray(100) }
 
     @JvmField
     internal var localNextI = 0
@@ -54,7 +55,7 @@ internal class POPJoinMerge_Iterator(
     internal var localNextCountb = 0
 
     @JvmField
-    internal val localNextKeycopy = IntArray(columnsINJ0.size)
+    internal val localNextKeycopy = DictionaryValueTypeArray(columnsINJ0.size)
 
     @JvmField
     internal var localCloseI = 0
@@ -117,7 +118,7 @@ internal class POPJoinMerge_Iterator(
         __close()
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return ColumnIteratorChildIteratorExt.nextHelper(
             this,
             {
@@ -222,7 +223,7 @@ internal class POPJoinMerge_Iterator(
                                     localNextI = 0
                                     while (localNextI < data0.size) {
                                         val x = data0[localNextI]
-                                        val d = IntArray(localNextCounta * 2)
+                                        val d = DictionaryValueTypeArray(localNextCounta * 2)
                                         localNextJ = 0
                                         while (localNextJ < localNextCounta) {
                                             d[localNextJ] = x[localNextJ]
@@ -262,7 +263,7 @@ internal class POPJoinMerge_Iterator(
                                     localNextI = 0
                                     while (localNextI < data1.size) {
                                         val x = data1[localNextI]
-                                        val d = IntArray(localNextCountb * 2)
+                                        val d = DictionaryValueTypeArray(localNextCountb * 2)
                                         localNextJ = 0
                                         while (localNextJ < localNextCountb) {
                                             d[localNextJ] = x[localNextJ]

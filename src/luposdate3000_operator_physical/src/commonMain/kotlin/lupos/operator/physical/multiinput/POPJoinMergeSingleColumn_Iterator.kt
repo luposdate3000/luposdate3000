@@ -17,16 +17,17 @@
 package lupos.operator.physical.multiinput
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: Int, @JvmField internal var head1: Int) : ColumnIterator() {
+internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
     @JvmField
     internal var counter: Int = 0
 
     @JvmField
-    internal var value: Int = head0
+    internal var value: DictionaryValueType = head0
 
     @JvmField
     internal var label = 1
@@ -36,7 +37,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
 
     @JvmField
     internal var sipbufValue = DictionaryValueTypeArray(1)
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         when (label) {
             1 -> {
                 if (counter == 0) {

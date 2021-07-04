@@ -20,6 +20,7 @@ import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -99,8 +100,8 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         }
         val mapWithoutUndef = mutableMapOf<MapKey, POPJoinHashMap_Row>()
         val mapWithUndef = mutableMapOf<MapKey, POPJoinHashMap_Row>()
-        var currentKey: IntArray? = null
-        var nextKey: IntArray?
+        var currentKey: DictionaryValueTypeArray? = null
+        var nextKey: DictionaryValueTypeArray?
         var map: MutableMap<MapKey, POPJoinHashMap_Row> = mapWithUndef
         var nextMap: MutableMap<MapKey, POPJoinHashMap_Row>
         var key: MapKey
@@ -117,7 +118,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                 0
             }
             loopB@ while (true) {
-                nextKey = IntArray(columnsINBJ.size) { DictionaryValueHelper.undefValue }
+                nextKey = DictionaryValueTypeArray(columnsINBJ.size) { DictionaryValueHelper.undefValue }
                 nextMap = mapWithoutUndef
                 for (columnIndex in 0 until columnsINBJ.size) {
                     val value = columnsINBJ[columnIndex].next()

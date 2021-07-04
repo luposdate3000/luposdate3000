@@ -39,18 +39,18 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPB
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
             var res: DictionaryValueType
-            val childIn0: Int = child0()
+            val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
                 ETripleComponentTypeExt.BLANK_NODE -> {
-                    val tmp_3: Int = DictionaryHelper.byteArrayToBnode_I(tmp_0)
-                    val tmp_4: Int = query.getDictionary().createNewBNode("BLANK_NODE_$tmp_3")
+                    val tmp_3: DictionaryValueType = DictionaryHelper.byteArrayToBnode_I(tmp_0)
+                    val tmp_4: DictionaryValueType = query.getDictionary().createNewBNode("BLANK_NODE_$tmp_3")
                     res = tmp_4
                 }
                 ETripleComponentTypeExt.BOOLEAN -> {
                     val tmp_6: Boolean = DictionaryHelper.byteArrayToBoolean(tmp_0)
-                    val tmp_7: Int = query.getDictionary().createNewBNode("BOOLEAN_$tmp_6")
+                    val tmp_7: DictionaryValueType = query.getDictionary().createNewBNode("BOOLEAN_$tmp_6")
                     res = tmp_7
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
@@ -59,52 +59,52 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPB
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_10: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                    val tmp_11: Int = query.getDictionary().createNewBNode("DECIMAL_$tmp_10")
+                    val tmp_11: DictionaryValueType = query.getDictionary().createNewBNode("DECIMAL_$tmp_10")
                     res = tmp_11
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
                     val tmp_13: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
-                    val tmp_14: Int = query.getDictionary().createNewBNode("DOUBLE_$tmp_13")
+                    val tmp_14: DictionaryValueType = query.getDictionary().createNewBNode("DOUBLE_$tmp_13")
                     res = tmp_14
                 }
                 ETripleComponentTypeExt.ERROR -> {
-                    val tmp_17: Int = query.getDictionary().createNewBNode("ERROR_ERROR")
+                    val tmp_17: DictionaryValueType = query.getDictionary().createNewBNode("ERROR_ERROR")
                     res = tmp_17
                 }
                 ETripleComponentTypeExt.FLOAT -> {
                     val tmp_19: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
-                    val tmp_20: Int = query.getDictionary().createNewBNode("FLOAT_$tmp_19")
+                    val tmp_20: DictionaryValueType = query.getDictionary().createNewBNode("FLOAT_$tmp_19")
                     res = tmp_20
                 }
                 ETripleComponentTypeExt.INTEGER -> {
                     val tmp_22: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
-                    val tmp_23: Int = query.getDictionary().createNewBNode("INTEGER_$tmp_22")
+                    val tmp_23: DictionaryValueType = query.getDictionary().createNewBNode("INTEGER_$tmp_22")
                     res = tmp_23
                 }
                 ETripleComponentTypeExt.IRI -> {
                     val tmp_25: String = DictionaryHelper.byteArrayToIri(tmp_0)
-                    val tmp_26: Int = query.getDictionary().createNewBNode("IRI_$tmp_25")
+                    val tmp_26: DictionaryValueType = query.getDictionary().createNewBNode("IRI_$tmp_25")
                     res = tmp_26
                 }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp_28: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_29: Int = query.getDictionary().createNewBNode("STRING_$tmp_28")
+                    val tmp_29: DictionaryValueType = query.getDictionary().createNewBNode("STRING_$tmp_28")
                     res = tmp_29
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
                     val tmp_31_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
                     val tmp_31_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_32: Int = query.getDictionary().createNewBNode("STRING_LANG_${tmp_31_content}_$tmp_31_lang")
+                    val tmp_32: DictionaryValueType = query.getDictionary().createNewBNode("STRING_LANG_${tmp_31_content}_$tmp_31_lang")
                     res = tmp_32
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     val tmp_34_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
                     val tmp_34_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_35: Int = query.getDictionary().createNewBNode("STRING_TYPED_${tmp_34_content}_$tmp_34_type")
+                    val tmp_35: DictionaryValueType = query.getDictionary().createNewBNode("STRING_TYPED_${tmp_34_content}_$tmp_34_type")
                     res = tmp_35
                 }
                 ETripleComponentTypeExt.UNDEF -> {
-                    val tmp_38: Int = query.getDictionary().createNewBNode("UNDEF_UNDEF")
+                    val tmp_38: DictionaryValueType = query.getDictionary().createNewBNode("UNDEF_UNDEF")
                     res = tmp_38
                 }
                 else -> {

@@ -21,10 +21,12 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 internal object POPJoin {
-    fun crossProduct(dataO0: Array<MutableList<Int>>, dataO1: Array<MutableList<Int>>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
+    fun crossProduct(dataO0: Array<MutableList<DictionaryValueType>>, dataO1: Array<MutableList<DictionaryValueType>>, dataJ: DictionaryValueTypeArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
         SanityCheck.check { count > 0 }
@@ -42,7 +44,7 @@ internal object POPJoin {
             }
             count < 100 -> {
                 for (columnIndex in outO0.indices) {
-                    val d = IntArray(count)
+                    val d = DictionaryValueTypeArray(count)
                     for (i in 0 until countA) {
                         val x = dataO0[columnIndex][i]
                         for (j in 0 until countB) {
@@ -52,7 +54,7 @@ internal object POPJoin {
                     outO0[columnIndex].addChild(ColumnIteratorMultiValue(d, count))
                 }
                 for (columnIndex in outO1.indices) {
-                    val d = IntArray(count)
+                    val d = DictionaryValueTypeArray(count)
                     for (j in 0 until countB) {
                         val x = dataO1[columnIndex][j]
                         for (i in 0 until countA) {
@@ -78,7 +80,7 @@ internal object POPJoin {
                     }
                 }
                 for (columnIndex in outO1.indices) {
-                    val d = IntArray(countB) { dataO1[columnIndex][it] }
+                    val d = DictionaryValueTypeArray(countB) { dataO1[columnIndex][it] }
                     if (countA == 1) {
                         outO1[columnIndex].addChild(ColumnIteratorMultiValue(d, countB))
                     } else {
@@ -92,7 +94,7 @@ internal object POPJoin {
         }
     }
 
-    fun crossProduct(dataO0: Array<IntArray>, dataO1: Array<IntArray>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
+    fun crossProduct(dataO0: Array<DictionaryValueTypeArray>, dataO1: Array<DictionaryValueTypeArray>, dataJ: DictionaryValueTypeArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
         SanityCheck.check { count > 0 }
@@ -110,7 +112,7 @@ internal object POPJoin {
             }
             count < 100 -> {
                 for (columnIndex in outO0.indices) {
-                    val d = IntArray(count)
+                    val d = DictionaryValueTypeArray(count)
                     for (i in 0 until countA) {
                         val x = dataO0[columnIndex][i]
                         for (j in 0 until countB) {
@@ -120,7 +122,7 @@ internal object POPJoin {
                     outO0[columnIndex].addChild(ColumnIteratorMultiValue(d, count))
                 }
                 for (columnIndex in outO1.indices) {
-                    val d = IntArray(count)
+                    val d = DictionaryValueTypeArray(count)
                     for (j in 0 until countB) {
                         val x = dataO1[columnIndex][j]
                         for (i in 0 until countA) {
@@ -146,7 +148,7 @@ internal object POPJoin {
                     }
                 }
                 for (columnIndex in outO1.indices) {
-                    val d = IntArray(countB) { dataO1[columnIndex][it] }
+                    val d = DictionaryValueTypeArray(countB) { dataO1[columnIndex][it] }
                     if (countA == 1) {
                         outO1[columnIndex].addChild(ColumnIteratorMultiValue(d, countB))
                     } else {

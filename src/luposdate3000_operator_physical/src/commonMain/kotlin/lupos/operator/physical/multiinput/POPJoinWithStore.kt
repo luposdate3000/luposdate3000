@@ -24,6 +24,8 @@ import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -119,8 +121,8 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         }
         SanityCheck.check { variablINBO.size > 0 }
         val distributedStore = query.getInstance().tripleStoreManager!!.getGraph(childB.graph)
-        val valuesAO = IntArray(columnsINAO.size) { DictionaryValueHelper.nullValue }
-        val valuesAJ = IntArray(columnsINAJ.size) { DictionaryValueHelper.nullValue }
+        val valuesAO = DictionaryValueTypeArray(columnsINAO.size) { DictionaryValueHelper.nullValue }
+        val valuesAJ = DictionaryValueTypeArray(columnsINAJ.size) { DictionaryValueHelper.nullValue }
         var count = 0
         val params = Array<IAOPBase>(3) {
             if (childB.children[it] is AOPConstant) {
@@ -180,7 +182,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                         }
                     }
 
-                    override /*suspend*/ fun next(): Int {
+                    override /*suspend*/ fun next(): DictionaryValueType {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,
                             {

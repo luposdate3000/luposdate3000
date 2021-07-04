@@ -23,7 +23,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 public interface IDictionary {
     public fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int>
     public fun createNewBNode(): DictionaryValueType
-    public fun createNewUUID(): DictionaryValueType
+    public fun createNewUUID(): Int
     public fun createNewBNode(s: String): DictionaryValueType
     public fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType)
     public fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType?

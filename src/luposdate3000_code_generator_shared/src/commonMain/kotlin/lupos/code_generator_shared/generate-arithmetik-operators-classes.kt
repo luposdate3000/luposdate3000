@@ -1137,7 +1137,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.shared.inline.DictionaryHelper")
-            target.appendLine("${indention}val $outputName: Int = DictionaryHelper.byteArrayToBnode_I($inputName)")
+            target.appendLine("${indention}val $outputName: DictionaryValueType = DictionaryHelper.byteArrayToBnode_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(

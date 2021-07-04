@@ -17,10 +17,10 @@
 package lupos.operator.physical
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
-
-internal class MapKey(@JvmField val data: IntArray) {
+internal class MapKey(@JvmField val data: DictionaryValueTypeArray) {
     override fun hashCode(): Int {
         var res = 0
         for (element in data) {

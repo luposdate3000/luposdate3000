@@ -19,6 +19,7 @@ package lupos.operator.base
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.base.singleinput.LOPNOOP
 import lupos.shared.BugException
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.ESortPriorityExt
@@ -395,7 +396,7 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    public open override fun replaceVariableWithConstant(name: String, value: Int): IOPBase {
+    public open override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithConstant(name, value)
         }

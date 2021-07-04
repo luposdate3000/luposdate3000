@@ -40,8 +40,8 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationCOUNT && distinct == other.distinct && children.contentEquals(other.children)
-    private class ColumnIteratorAggregateCOUNT(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
-        val myList = mutableSetOf<Int>()
+    private class ColumnIteratorAggregateCOUNT(private val child: () -> DictionaryValueType, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        val myList = mutableSetOf<DictionaryValueType>()
         private var counter = 0L
 
         override fun evaluate() {
@@ -52,7 +52,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
             }
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             val buffer = ByteArrayWrapper()
             DictionaryHelper.integerToByteArray(buffer, BigInteger.parseString(counter.toString(), 10))
             return dictionary.createValue(buffer)
@@ -65,7 +65,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
             counter++
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             val buffer = ByteArrayWrapper()
             DictionaryHelper.integerToByteArray(buffer, BigInteger.parseString(counter.toString(), 10))
             return dictionary.createValue(buffer)

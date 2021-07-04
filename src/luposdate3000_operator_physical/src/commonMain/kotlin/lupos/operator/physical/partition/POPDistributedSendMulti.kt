@@ -147,18 +147,18 @@ public class POPDistributedSendMulti public constructor(
         var buf = columns[0].next()
         while (buf != DictionaryValueHelper.nullValue) {
 // the partition column
-            val connectionOut = data[buf % partitionCount]
-            connectionOut!!.writeInt(buf)
+            val connectionOut = data[DictionaryValueHelper.toInt(buf % partitionCount)]
+            connectionOut!!.writeDictionaryValueType(buf)
 // all other columns
             for (j in 1 until variables.size) {
                 buf = columns[j].next()
-                connectionOut.writeInt(buf)
+                connectionOut.writeDictionaryValueType(buf)
             }
             buf = columns[0].next()
         }
         for (connectionOut in data) {
             for (j in 0 until variables.size) {
-                connectionOut!!.writeInt(buf)
+                connectionOut!!.writeDictionaryValueType(buf)
             }
         }
         for (connectionOut in data) {

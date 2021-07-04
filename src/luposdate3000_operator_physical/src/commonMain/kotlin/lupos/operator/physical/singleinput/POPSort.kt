@@ -20,6 +20,7 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorMerge
 import lupos.operator.base.iterator.RowIteratorMerge
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
@@ -114,7 +115,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()
-        val comparator: Comparator<Int> = if (sortOrder) {
+        val comparator: Comparator<DictionaryValueType> = if (sortOrder) {
             ValueComparatorASC(query)
         } else {
             ValueComparatorDESC(query)

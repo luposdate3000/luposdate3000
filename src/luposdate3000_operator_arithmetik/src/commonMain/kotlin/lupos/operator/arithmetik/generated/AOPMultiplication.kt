@@ -41,8 +41,8 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
         val child1: () -> DictionaryValueType = (children[1] as AOPBase).evaluateID(row)
         return {
             var res: DictionaryValueType
-            val childIn0: Int = child0()
-            val childIn1: Int = child1()
+            val childIn0: DictionaryValueType = child0()
+            val childIn1: DictionaryValueType = child1()
             query.getDictionary().getValue(tmp_0, childIn0)
             query.getDictionary().getValue(tmp_1, childIn1)
             val tmp_2: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)

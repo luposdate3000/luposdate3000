@@ -22,6 +22,7 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -33,7 +34,6 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-
 public open class POPValues : POPBase {
     override fun getPartitionCount(variable: String): Int = 1
 
@@ -41,7 +41,7 @@ public open class POPValues : POPBase {
     public val variables: List<String>
 
     @JvmField
-    public val data: Map<String, MutableList<Int>>
+    public val data: Map<String, MutableList<DictionaryValueType>>
 
     @JvmField
     public val rows: Int
@@ -119,7 +119,7 @@ public open class POPValues : POPBase {
 
     public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
         variables = v
-        val columns = Array(variables.size) { mutableListOf<Int>() }
+        val columns = Array(variables.size) { mutableListOf<DictionaryValueType>() }
         data = mutableMapOf()
         val buffer = ByteArrayWrapper()
         if (projectedVariables.isEmpty()) {
@@ -138,7 +138,7 @@ public open class POPValues : POPBase {
         }
     }
 
-    public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Int>>) : super(query, projectedVariables, EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
+    public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<DictionaryValueType>>) : super(query, projectedVariables, EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
         variables = v
         data = d
         rows = -1
@@ -155,7 +155,7 @@ public open class POPValues : POPBase {
                 tmpVariables.add(name.name)
             }
             variables = tmpVariables
-            val columns = Array(variables.size) { mutableListOf<Int>() }
+            val columns = Array(variables.size) { mutableListOf<DictionaryValueType>() }
             data = mutableMapOf()
             for (variableIndex in variables.indices) {
                 data[variables[variableIndex]] = columns[variableIndex]

@@ -40,7 +40,7 @@ public class AOPAggregationMIN public constructor(query: IQuery, @JvmField publi
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationMIN && distinct == other.distinct && children.contentEquals(other.children)
-    private class ColumnIteratorAggregateMIN(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+    private class ColumnIteratorAggregateMIN(private val child: () -> DictionaryValueType, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
         private val buffer = ByteArrayWrapper()
         private val bufferCurrent = ByteArrayWrapper()
         private var isError = false
@@ -67,7 +67,7 @@ public class AOPAggregationMIN public constructor(query: IQuery, @JvmField publi
             }
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             return dictionary.createValue(buffer)
         }
     }

@@ -68,11 +68,11 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     val outMap = mutableMapOf<String, ColumnIterator>()
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
-                            override /*suspend*/ fun next(): Int {
+                            override /*suspend*/ fun next(): DictionaryValueType {
                                 val res = childIter.next()
                                 return res
                             }
-                            override /*suspend*/ fun nextSIP(minValue: Int, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
+                            override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
                                 childIter.nextSIP(minValue, resultValue, resultSkip)
                             }
                             override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
@@ -114,7 +114,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             val iterator = object : ColumnIterator() {
                                 @JvmField
                                 var label = 1
-                                override /*suspend*/ fun next(): Int {
+                                override /*suspend*/ fun next(): DictionaryValueType {
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call" }
                                         val res = v.next()
@@ -130,7 +130,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                     }
                                 }
 
-                                override /*suspend*/ fun nextSIP(minValue: Int, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
+                                override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
                                     if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call minValue SIP" }
                                         v.nextSIP(minValue, resultValue, resultSkip)

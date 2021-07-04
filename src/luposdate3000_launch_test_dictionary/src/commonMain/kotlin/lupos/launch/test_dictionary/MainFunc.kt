@@ -67,7 +67,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 instance.nodeGlobalDictionary?.close()
                 instance.nodeGlobalDictionary = object : ADictionary(instance, false) {
                     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
-                    override fun createNewUUID(): DictionaryValueType = TODO()
+                    override fun createNewUUID(): Int = TODO()
                     override fun close() {}
                     override fun delete() {}
                     override fun createNewBNode(): DictionaryValueType = TODO()
@@ -96,11 +96,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (!isLocal) {
                 instance.nodeGlobalDictionary = dict
             }
-            val values = mutableMapOf<DictionaryValueType,ByteArrayWrapper>(
-DictionaryValueHelper.fromInt(0) to                DictionaryExt.booleanTrueValue3,
-DictionaryValueHelper.fromInt(1) to                DictionaryExt.booleanFalseValue3,
-DictionaryValueHelper.fromInt(2) to                DictionaryExt.errorValue3,
-DictionaryValueHelper.fromInt(3) to                DictionaryExt.undefValue3,
+            val values = mutableMapOf<DictionaryValueType, ByteArrayWrapper>(
+                DictionaryValueHelper.fromInt(0) to DictionaryExt.booleanTrueValue3,
+                DictionaryValueHelper.fromInt(1) to DictionaryExt.booleanFalseValue3,
+                DictionaryValueHelper.fromInt(2) to DictionaryExt.errorValue3,
+                DictionaryValueHelper.fromInt(3) to DictionaryExt.undefValue3,
             )
             val mapping = mutableMapOf<DictionaryValueType, DictionaryValueType>(
                 DictionaryValueHelper.fromInt(0) to DictionaryValueHelper.fromInt(0),
@@ -211,7 +211,7 @@ DictionaryValueHelper.fromInt(3) to                DictionaryExt.undefValue3,
                     throw Exception("$key")
                 }
                 mapping[key] = DictionaryValueHelper.fromInt(values.size)
-                values[DictionaryValueHelper.fromInt(values.size)]=data
+                values[DictionaryValueHelper.fromInt(values.size)] = data
             }
 
             fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: DictionaryValueType) {

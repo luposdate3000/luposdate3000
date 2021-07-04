@@ -24,7 +24,7 @@ public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun close(): Unit = TODO()
     override fun delete(): Unit = TODO()
     override fun createNewBNode(): DictionaryValueType = TODO()
-    override fun createNewUUID(): DictionaryValueType = TODO()
+    override fun createNewUUID(): Int = TODO()
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType): Unit = TODO()
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
