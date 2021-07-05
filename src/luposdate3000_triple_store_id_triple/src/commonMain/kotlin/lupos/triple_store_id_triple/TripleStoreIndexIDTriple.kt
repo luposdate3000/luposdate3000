@@ -113,7 +113,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         nodeManager = NodeManager(bufferManager)
-        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:115"/*SOURCE_FILE_END*/, rootPageID)
         if (initFromRootPage) {
             root_ = BufferManagerPage.readInt4(rootPage, 4)
             countPrimary_ = BufferManagerPage.readInt4(rootPage, 8)
@@ -121,7 +121,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             firstLeaf_ = BufferManagerPage.readInt4(rootPage, 16)
             if (root_ != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeAny(
-                    /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/,
+                    /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:123"/*SOURCE_FILE_END*/,
                     root_,
                     {
                         SanityCheck.checkUnreachable()
@@ -137,45 +137,45 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             BufferManagerPage.writeInt4(rootPage, 8, countPrimary_)
             BufferManagerPage.writeInt4(rootPage, 12, distinctPrimary_)
             BufferManagerPage.writeInt4(rootPage, 16, firstLeaf_)
-            bufferManager.flushPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+            bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:139"/*SOURCE_FILE_END*/, rootPageID)
         }
-        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:141"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setFirstLeaf(value: Int) {
-        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:146"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 16, value)
         firstLeaf_ = value
-        bufferManager.flushPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:149"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:150"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setRoot(value: Int) {
-        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:155"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 4, value)
         root_ = value
-        bufferManager.flushPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:158"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:159"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setCountPrimary(value: Int) {
-        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:164"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 8, value)
         countPrimary_ = value
-        bufferManager.flushPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:167"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:168"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setDistinctPrimary(value: Int) {
-        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:173"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 12, value)
         distinctPrimary_ = value
-        bufferManager.flushPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:176"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:177"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -316,8 +316,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun getIterator(query: IQuery, filter: DictionaryValueTypeArray, projection: List<String>): IteratorBundle {
         var res: IteratorBundle
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { filter.size in 0..3 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection.size + filter.size == 3 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:318"/*SOURCE_FILE_END*/ }, { filter.size in 0..3 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:319"/*SOURCE_FILE_END*/ }, { projection.size + filter.size == 3 })
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
@@ -357,7 +357,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager)
                     }
                 } else {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[1] == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:359"/*SOURCE_FILE_END*/ }, { projection[1] == "_" })
                     var count = 0
                     val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     while (it.next() != DictionaryValueHelper.nullValue) {
@@ -366,7 +366,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     res = IteratorBundle(count)
                 }
             } else {
-                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { filter.isEmpty() })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:368"/*SOURCE_FILE_END*/ }, { filter.isEmpty() })
                 if (projection[0] != "_") {
                     columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager)
                     if (projection[1] != "_") {
@@ -375,11 +375,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                             columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
                         }
                     } else {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:377"/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
                     }
                 } else {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[1] == "_" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:380"/*SOURCE_FILE_END*/ }, { projection[1] == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:381"/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
                     res = IteratorBundle(countPrimary_)
                 }
             }
@@ -391,22 +391,22 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private inline fun importHelper(a: Int, b: Int, crossinline combinator: (TripleIterator, TripleIterator) -> TripleIterator): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
-        nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, a) {
+        nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:393"/*SOURCE_FILE_END*/, a) {
             nodeA = it
         }
-        nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, b) {
+        nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:396"/*SOURCE_FILE_END*/, b) {
             nodeB = it
         }
         val res = importHelper(combinator(NodeLeaf.iterator(nodeA!!, a, nodeManager), NodeLeaf.iterator(nodeB!!, b, nodeManager)))
-        nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, a)
-        nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, b)
+        nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:400"/*SOURCE_FILE_END*/, a)
+        nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:401"/*SOURCE_FILE_END*/, b)
         return res
     }
 
     private fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
-        nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/) { n, i ->
+        nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:408"/*SOURCE_FILE_END*/) { n, i ->
             res = i
             node2 = n
         }
@@ -414,22 +414,22 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         var node = node2!!
         NodeLeaf.initializeWith(node, iterator)
         while (iterator.hasNext()) {
-            nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/) { n, i ->
+            nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:416"/*SOURCE_FILE_END*/) { n, i ->
                 NodeShared.setNextNode(node, i)
-                nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:418"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:419"/*SOURCE_FILE_END*/, nodeid)
                 nodeid = i
                 node = n
             }
             NodeLeaf.initializeWith(node, iterator)
         }
-        nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-        nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
+        nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:425"/*SOURCE_FILE_END*/, nodeid)
+        nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:426"/*SOURCE_FILE_END*/, nodeid)
         return res
     }
 
     override fun flush() {
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:431"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
         if (pendingImport.size > 0) {
             lock.writeLock()
             flushAssumeLocks()
@@ -446,7 +446,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @Suppress("NOTHING_TO_INLINE")
     private inline fun flushContinueWithReadLock() {
         var hasLock = false
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:448"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
         while (pendingImport.size > 0) {
             if (lock.tryWriteLock()) {
                 flushAssumeLocks()
@@ -476,14 +476,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             j++
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { l.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:478"/*SOURCE_FILE_END*/ }, { l.size > 0 })
         val res = l[l.size - 1]!!
         l.clear()
         return res
     }
 
     private fun flushAssumeLocks() {
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:485"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
         if (pendingImport.size > 0) {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             val insertID = collapseList(pendingImport)
@@ -497,7 +497,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             var node: ByteArray? = null
             var flag = false
             nodeManager.getNodeAny(
-                /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/,
+                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:499"/*SOURCE_FILE_END*/,
                 firstLeaf2,
                 {
                     flag = true
@@ -507,9 +507,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     node = it
                 }
             )
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { rootNode == null })
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { root_ == NodeManager.nodeNullPointer })
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { firstLeaf_ == NodeManager.nodeNullPointer })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:509"/*SOURCE_FILE_END*/ }, { rootNode == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:510"/*SOURCE_FILE_END*/ }, { root_ == NodeManager.nodeNullPointer })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:511"/*SOURCE_FILE_END*/ }, { firstLeaf_ == NodeManager.nodeNullPointer })
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -518,7 +518,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             } else {
                 rebuildData(NodeInner.iterator(node!!, nodeManager))
             }
-            nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, firstLeaf2)
+            nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:520"/*SOURCE_FILE_END*/, firstLeaf2)
         }
     }
 
@@ -528,7 +528,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
-            nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/) { n, i ->
+            nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:530"/*SOURCE_FILE_END*/) { n, i ->
                 setFirstLeaf(i)
                 node2 = n
                 currentLayer.add(i)
@@ -537,25 +537,25 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             var nodeid = firstLeaf_
             NodeLeaf.initializeWith(node, iterator)
             while (iterator.hasNext()) {
-                nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/) { n, i ->
+                nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:539"/*SOURCE_FILE_END*/) { n, i ->
                     NodeShared.setNextNode(node, i)
-                    nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-                    nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
+                    nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:541"/*SOURCE_FILE_END*/, nodeid)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:542"/*SOURCE_FILE_END*/, nodeid)
                     nodeid = i
                     node = n
                     currentLayer.add(i)
                 }
                 NodeLeaf.initializeWith(node, iterator)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { currentLayer.size > 0 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:549"/*SOURCE_FILE_END*/ }, { currentLayer.size > 0 })
             val codeSection1 = {
 // work around the crossinline here, because the method would be too large
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
                     var prev2: ByteArray? = null
-                    nodeManager.allocateNodeInner(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/) { n, i ->
-                        nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-                        nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
+                    nodeManager.allocateNodeInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:555"/*SOURCE_FILE_END*/) { n, i ->
+                        nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:556"/*SOURCE_FILE_END*/, nodeid)
+                        nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:557"/*SOURCE_FILE_END*/, nodeid)
                         nodeid = i
                         tmp.add(i)
                         NodeInner.initializeWith(n, currentLayer, nodeManager)
@@ -563,9 +563,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     }
                     var prev = prev2!!
                     while (currentLayer.size > 0) {
-                        nodeManager.allocateNodeInner(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/) { n, i ->
-                            nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-                            nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
+                        nodeManager.allocateNodeInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:565"/*SOURCE_FILE_END*/) { n, i ->
+                            nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:566"/*SOURCE_FILE_END*/, nodeid)
+                            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:567"/*SOURCE_FILE_END*/, nodeid)
                             nodeid = i
                             tmp.add(i)
                             NodeInner.initializeWith(n, currentLayer, nodeManager)
@@ -577,13 +577,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 }
             }
             codeSection1()
-            nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
+            nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:579"/*SOURCE_FILE_END*/, nodeid)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:580"/*SOURCE_FILE_END*/, nodeid)
             var rootNodeIsLeaf = false
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { rootNode == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:582"/*SOURCE_FILE_END*/ }, { rootNode == null })
             val codeSection2 = {
                 nodeManager.getNodeAny(
-                    /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/,
+                    /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:585"/*SOURCE_FILE_END*/,
                     currentLayer[0],
                     {
                         rootNodeIsLeaf = true
@@ -594,20 +594,20 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     }
                 )
                 if (rootNodeIsLeaf) {
-                    nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-                    nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
-                    nodeManager.allocateNodeInner(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/) { n, i ->
+                    nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:596"/*SOURCE_FILE_END*/, nodeid)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:597"/*SOURCE_FILE_END*/, nodeid)
+                    nodeManager.allocateNodeInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:598"/*SOURCE_FILE_END*/) { n, i ->
                         NodeInner.initializeWith(n, mutableListOf(currentLayer[0]), nodeManager)
                         rootNode = n
                         setRoot(i)
-                        nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, root_)
+                        nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:602"/*SOURCE_FILE_END*/, root_)
                     }
                 }
             }
             codeSection2()
         } else {
 // this index is cleared completely
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { rootNode == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:609"/*SOURCE_FILE_END*/ }, { rootNode == null })
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -631,13 +631,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck(
-                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:633"/*SOURCE_FILE_END*/ },
                 {
                     if (debugSortOrder.size == 0) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:639"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
                     }
                 }
             )
@@ -647,7 +647,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             pendingImport.add(importHelper(BulkImportIterator(data, dataSize, order)))
             if (root_ != NodeManager.nodeNullPointer) {
-                nodeManager.freeAllInner(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, root_)
+                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:649"/*SOURCE_FILE_END*/, root_)
             }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
@@ -658,13 +658,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck(
-                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:660"/*SOURCE_FILE_END*/ },
                 {
                     if (debugSortOrder.size == 0) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:666"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
                     }
                 }
             )
@@ -672,12 +672,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:674"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
             if (pendingImport.size> 0) {
                 pendingRemove.add(importHelper(BulkImportIterator(data, dataSize, order)))
             }
             if (root_ != NodeManager.nodeNullPointer) {
-                nodeManager.freeAllInner(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, root_)
+                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:679"/*SOURCE_FILE_END*/, root_)
             }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
@@ -689,7 +689,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun clear() {
         flushContinueWithWriteLock()
         if (root_ != NodeManager.nodeNullPointer) {
-            nodeManager.freeNodeAndAllRelated(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, root_)
+            nodeManager.freeNodeAndAllRelated(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:691"/*SOURCE_FILE_END*/, root_)
             setRoot(NodeManager.nodeNullPointer)
         }
         setFirstLeaf(NodeManager.nodeNullPointer)
@@ -700,14 +700,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun delete() {
         clear()
-        bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.deletePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:702"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:703"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     override fun close() {
         flush()
         if (root_ != NodeManager.nodeNullPointer) {
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, root_)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:709"/*SOURCE_FILE_END*/, root_)
         }
     }
 }

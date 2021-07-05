@@ -29,7 +29,7 @@ import kotlin.jvm.JvmField
 
 public class POPSplitPartitionFromStore public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionFromStoreID, "POPSplitPartitionFromStore", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionFromStore.kt:31"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {

@@ -307,17 +307,20 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         parse_triple_end_or_object_string_typed_iri(
             context,
             onPN_LOCAL = {
-                val v = context.getValue()
-                if (v.endsWith(".")) {
+                val action = {
+                    val v = context.getValue()
+                    if (v.endsWith(".")) {
 // TODO fix the underlying bug in the parser
-                    DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v.substring(0, v.length - 1), false))
-                    onTriple()
-                    state = Turtle2ParserStateExt.STATEMENT
-                } else {
-                    DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v, false))
-                    parse_ws(context) {}
-                    state = Turtle2ParserStateExt.TRIPLE_END
+                        DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v.substring(0, v.length - 1), false))
+                        onTriple()
+                        state = Turtle2ParserStateExt.STATEMENT
+                    } else {
+                        DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v, false))
+                        parse_ws(context) {}
+                        state = Turtle2ParserStateExt.TRIPLE_END
+                    }
                 }
+                action()
             },
             onSKIP_WS_FORCED = {
                 DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))

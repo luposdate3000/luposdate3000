@@ -31,7 +31,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }, { "$uuid $variable  ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()} :: ${children[0].getPartitionCount(variable)} vs ${children[1].getPartitionCount(variable)} --- ${this.toXMLElement(false).toPrettyString()}" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:33"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }, { "$uuid $variable  ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()} :: ${children[0].getPartitionCount(variable)} vs ${children[1].getPartitionCount(variable)} --- ${this.toXMLElement(false).toPrettyString()}" })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -51,7 +51,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         SanityCheck(
-            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:53"/*SOURCE_FILE_END*/ },
             {
                 for (v in children[0].getProvidedVariableNames()) {
                     getPartitionCount(v)
@@ -61,8 +61,8 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
                 }
             }
         )
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames().containsAll(variables) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames().containsAll(variables) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:63"/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames().containsAll(variables) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:64"/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames().containsAll(variables) })
         val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
@@ -72,7 +72,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
             }
             return IteratorBundle(outMap)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { childA.hasCountMode() && childB.hasCountMode() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:74"/*SOURCE_FILE_END*/ }, { childA.hasCountMode() && childB.hasCountMode() })
             return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()

@@ -391,8 +391,11 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.sparqlToByteArray(buffer2, v)
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
-        DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
-        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        val action = {
+            DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        }
+        action()
     }
 
     fun decimalToByteArray() {
@@ -435,8 +438,11 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.sparqlToByteArray(buffer2, v)
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
-        DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
-        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        val action = {
+            DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        }
+        action()
     }
 
     fun floatToByteArray() {
@@ -483,12 +489,15 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                 AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
             }
         }
-        if (v.contains("e") || v.contains("E")) {
-            DictionaryHelper.sparqlToByteArray(buffer2, v)
+        val action = {
+            if (v.contains("e") || v.contains("E")) {
+                DictionaryHelper.sparqlToByteArray(buffer2, v)
+                AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+            }
+            DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
             AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         }
-        DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
-        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        action()
     }
 
     fun errorToByteArray() {

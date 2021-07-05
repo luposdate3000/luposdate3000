@@ -31,9 +31,9 @@ public class RowIteratorBuf(buf: DictionaryValueTypeArray, columns: Array<String
         if (size == 0) {
             offset = -1
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { size >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { size <= buf.size })
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { (buf.size % columns.size) == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorBuf.kt:33"/*SOURCE_FILE_END*/ }, { size >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorBuf.kt:34"/*SOURCE_FILE_END*/ }, { size <= buf.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorBuf.kt:35"/*SOURCE_FILE_END*/ }, { (buf.size % columns.size) == 0 })
         next = {
             val res = offset
             val tmp = offset + columns.size

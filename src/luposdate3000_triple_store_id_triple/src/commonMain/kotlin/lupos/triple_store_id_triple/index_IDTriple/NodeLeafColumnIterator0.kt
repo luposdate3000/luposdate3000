@@ -78,22 +78,22 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { node != it })
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:80"/*SOURCE_FILE_END*/, nodeidTmp) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:81"/*SOURCE_FILE_END*/ }, { node != it })
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:85"/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple100(nodeTmp, offsetTmp, 0) { v ->
                     valueTmp = v
                 }
                 if (valueTmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:92"/*SOURCE_FILE_END*/, nodeidTmp)
                     break
                 }
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:95"/*SOURCE_FILE_END*/, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp

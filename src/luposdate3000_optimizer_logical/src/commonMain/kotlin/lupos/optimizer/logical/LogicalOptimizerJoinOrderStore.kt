@@ -23,13 +23,13 @@ import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderStore {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { allChilds.size > 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderStore.kt:25"/*SOURCE_FILE_END*/ }, { allChilds.size > 2 })
         if (root.onlyExistenceRequired) {
             SanityCheck(
-                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderStore.kt:28"/*SOURCE_FILE_END*/ },
                 {
                     for (c in allChilds) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { c.getOnlyExistenceRequired() })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderStore.kt:31"/*SOURCE_FILE_END*/ }, { c.getOnlyExistenceRequired() })
                     }
                 }
             )

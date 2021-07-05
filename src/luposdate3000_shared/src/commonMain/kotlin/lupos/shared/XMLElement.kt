@@ -312,19 +312,19 @@ public class XMLElement(tag: String) {
     }
 
     public fun addContent(content: String): XMLElement {
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { childs.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/XMLElement.kt:314"/*SOURCE_FILE_END*/ }, { childs.isEmpty() })
         this.content += decodeText(content)
         return this
     }
 
     public fun addContent(childs: Collection<XMLElement>): XMLElement {
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { content.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/XMLElement.kt:320"/*SOURCE_FILE_END*/ }, { content.isEmpty() })
         this.childs.addAll(childs)
         return this
     }
 
     public fun addContent(child: XMLElement): XMLElement {
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { content.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/XMLElement.kt:326"/*SOURCE_FILE_END*/ }, { content.isEmpty() })
         childs.add(child)
         return this
     }

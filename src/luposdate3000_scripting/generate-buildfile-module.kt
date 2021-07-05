@@ -66,7 +66,7 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
                 }
             }
         }
-        s = s.replace("SOURCE_FILE_START.*SOURCE_FILE_END", "SOURCE_FILE_START*/\"${fixPathNames(src.absolutePath)}:$line\"/*SOURCE_FILE_END")
+        s = s.replace("SOURCE_FILE_START.*SOURCE_FILE_END".toRegex(), "SOURCE_FILE_START*/\"${fixPathNames(src.absolutePath)}:$line\"/*SOURCE_FILE_END")
         out.println(s)
         line++
     }
@@ -643,6 +643,15 @@ if(!onWindows){
 if(!onWindows){
                 out.println("    dependsOn(\"ktlintFormat\")")
 }
+                out.println("    fun fixPathNames(s: String): String {")
+                out.println("        var res = s.trim()")
+                out.println("        var back = \"\"")
+                out.println("        while (back != res) {")
+                out.println("            back = res")
+                out.println("            res = res.replace(\"\\\\\", \"/\").replace(\"/./\", \"/\").replace(\"//\", \"/\")")
+                out.println("        }")
+                out.println("        return res")
+                out.println("    }")
                 out.println("    val regexDisableNoInline = \"(^|[^a-zA-Z])noinline \".toRegex()")
                 out.println("    val regexDisableInline = \"(^|[^a-zA-Z])inline \".toRegex()")
                 out.println("    val regexDisableCrossInline = \"(^|[^a-zA-Z])crossinline \".toRegex()")
@@ -655,7 +664,7 @@ if(!onWindows){
                 out.println("                    var line = 0")
                 out.println("                    ff.forEachLine { line2 ->")
                 out.println("                        var s = line2")
-                out.println("                        s = s.replace(\"SOURCE_FILE_START.*SOURCE_FILE_END\", \"SOURCE_FILE_START*/\\\"${fixPathNames(src.absolutePath)}:$line\\\"/*SOURCE_FILE_END\")")
+                out.println("                        s = s.replace(\"SOURCE_FILE_START.*SOURCE_FILE_END\".toRegex(), \"SOURCE_FILE_START*/\\\"\${fixPathNames(ff.absolutePath)}:\$line\\\"/*SOURCE_FILE_END\")")
 //                out.println("                        s = s.replace(\" public \", \" @lupos.ProguardKeepAnnotation public \")")
                 if (moduleArgs.inlineMode == InlineMode.Enable) {
                     out.println("                        s = s.replace(\"/*NOINLINE*/\", \"noinline \")")

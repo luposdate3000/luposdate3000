@@ -40,13 +40,13 @@ import launcher.IntellijMode
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
-import launcher.EDictionaryValueMode
+import launcher.EDictionaryValueMode 
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
 import launcher.fixPathNames
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
-import lupos.shared.EOperatingSystemExt
+import lupos.shared.EOperatingSystemExt 
 import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.inline.Platform
@@ -79,7 +79,7 @@ var dictionaryValueMode=EDictionaryValueMode.Long
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
-var intellijMode = IntellijMode.Enable
+var intellijMode = IntellijMode.Enable 
 var execMode = ExecMode.UNKNOWN
 
 fun makeUppercaseStart(s: String): String {

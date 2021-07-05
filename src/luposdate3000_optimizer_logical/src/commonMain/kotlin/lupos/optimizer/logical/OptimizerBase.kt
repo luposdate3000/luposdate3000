@@ -25,7 +25,7 @@ public abstract class OptimizerBase public constructor(@JvmField public val quer
     public abstract /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
     public /*suspend*/ fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         SanityCheck(
-            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerBase.kt:27"/*SOURCE_FILE_END*/ },
             {
                 if (parent != null) {
                     var found = false
@@ -35,7 +35,7 @@ public abstract class OptimizerBase public constructor(@JvmField public val quer
                             break
                         }
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { found })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerBase.kt:37"/*SOURCE_FILE_END*/ }, { found })
                 }
             }
         )

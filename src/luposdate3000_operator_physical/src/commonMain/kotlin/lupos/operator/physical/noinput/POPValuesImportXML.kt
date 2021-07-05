@@ -23,7 +23,7 @@ import lupos.shared.XMLElement
 public class POPValuesImportXML public constructor(query: IQuery, projectedVariables: List<String>, data: XMLElement) : POPValuesImportBase(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
     init {
         val variables = data["head"]!!.childs.map { it.attributes["name"]!! }
-        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { data.tag == "sparql" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValuesImportXML.kt:25"/*SOURCE_FILE_END*/ }, { data.tag == "sparql" })
         for (node in data["results"]!!.childs) {
             val row = arrayOfNulls<String>(variables.size)
             for (v in node.childs) {
@@ -32,7 +32,7 @@ public class POPValuesImportXML public constructor(query: IQuery, projectedVaria
                 val content = child.content
                 val datatype = child.attributes["datatype"]
                 val lang = child.attributes["xml:lang"]
-                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !((datatype != null) && (lang != null)) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValuesImportXML.kt:34"/*SOURCE_FILE_END*/ }, { !((datatype != null) && (lang != null)) })
                 when {
                     child.tag == "uri" -> {
                         row[variables.indexOf(name)] = "<$content>"

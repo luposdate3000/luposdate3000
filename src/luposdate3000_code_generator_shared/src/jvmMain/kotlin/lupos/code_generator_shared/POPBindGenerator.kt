@@ -63,7 +63,7 @@ internal fun generatePOPBind(
     clazz.header.println(" arrayOf(child),")
     clazz.header.println(" ESortPriorityExt.SAME_AS_CHILD) {")
     clazz.header.println("    override fun getPartitionCount(variable: String): Int {")
-    clazz.header.println("       SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getPartitionCount(variable) == 1 }"))
+    clazz.header.println("       SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/POPBindGenerator.kt:65"/*SOURCE_FILE_END*/},{ children[0].getPartitionCount(variable) == 1 }"))
     clazz.header.println("       return 1")
     clazz.header.println("    }")
     clazz.header.println("    override fun toSparql(): String {")

@@ -81,7 +81,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
+                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:83"/*SOURCE_FILE_END*/)
                         }
                         return DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
@@ -155,22 +155,21 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     for (i in 0 until len) {
                         ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }
-                    var x = DictionaryHelper.byteArrayToType(res)
+                    var x = DictionaryHelper.headerDecodeType(res)
                     val flg = DictionaryHelper.headerDecodeFlag(res)
-                    var lastx = 0
-                    while (x != lastx) {
-                        lastx = x
                         if (x == ETripleComponentTypeExt.BLANK_NODE) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.BOOLEAN && ByteArrayWrapperExt.getSize(res) != DictionaryHelper.headerSize()) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.ERROR && ByteArrayWrapperExt.getSize(res) != DictionaryHelper.headerSize()) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.UNDEF && ByteArrayWrapperExt.getSize(res) != DictionaryHelper.headerSize()) {
-                            x++
-                        }
+                            DictionaryHelper.errorToByteArray(res)
+                        } else if (x == ETripleComponentTypeExt.BOOLEAN) {
+                            DictionaryHelper.booleanToByteArray(res, DictionaryHelper.byteArrayToBoolean(res))
+                        } else if (x == ETripleComponentTypeExt.ERROR) {
+                            DictionaryHelper.errorToByteArray(res)
+                        } else if (x == ETripleComponentTypeExt.UNDEF) {
+                            DictionaryHelper.undefToByteArray(res)
+                        } else if (x < ETripleComponentTypeExt.values_size) {
+                            DictionaryHelper.headerEncode(res, x, flg)
+                        }else{
+                        DictionaryHelper.errorToByteArray(res)
                     }
-                    DictionaryHelper.headerEncode(res, x, flg)
                     if (values.values.contains(res)) {
                         if (seed < 255) {
                             seed++
