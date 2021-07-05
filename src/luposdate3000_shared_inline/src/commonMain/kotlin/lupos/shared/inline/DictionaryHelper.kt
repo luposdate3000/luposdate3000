@@ -41,6 +41,30 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 internal object DictionaryHelper {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun headerSize(): Int = 1
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun headerEncode(buffer: ByteArrayWrapper, type: ETripleComponentType, flag: Int) {
+        SanityCheck.check({ (type and ETripleComponentTypeExt.values_mask) == type }, { "DictionaryHelper.headerEncode type is bad ${type.toString(16)} ... ${ETripleComponentTypeExt.values_mask.toString(16)} " })
+        SanityCheck.check({ (flag and ETripleComponentTypeExt.values_mask_inversed) == flag }, { "DictionaryHelper.headerEncode flag is bad" })
+        SanityCheck.check({ (type or flag) <= 0xff }, { "DictionaryHelper.headerEncode can not be encoded in 1 byte" })
+        ByteArrayHelper.writeInt1(ByteArrayWrapperExt.getBuf(buffer), 0, type or flag)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun headerDecodeType(buffer: ByteArrayWrapper): ETripleComponentType {
+        val res = ByteArrayHelper.readInt1(ByteArrayWrapperExt.getBuf(buffer), 0) and ETripleComponentTypeExt.values_mask
+        return res
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun headerDecodeFlag(buffer: ByteArrayWrapper): Int {
+        val res = ByteArrayHelper.readInt1(ByteArrayWrapperExt.getBuf(buffer), 0) and ETripleComponentTypeExt.values_mask_inversed
+        return res
+    }
+
     /* encoding ::
      *
      * ETripleComponentTypeExt.UNDEF
@@ -82,19 +106,21 @@ internal object DictionaryHelper {
      * -> timezoneMinutes.Int
      */
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun errorToByteArray(buffer: ByteArrayWrapper) {
-        ByteArrayWrapperExt.setSize(buffer, 4)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.ERROR)
+    internal inline fun errorToByteArray(buffer: ByteArrayWrapper) {
+        ByteArrayWrapperExt.setSize(buffer, headerSize())
+        println("headerEncode 1")
+        headerEncode(buffer, ETripleComponentTypeExt.ERROR, 0)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun undefToByteArray(buffer: ByteArrayWrapper) {
-        ByteArrayWrapperExt.setSize(buffer, 4)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.UNDEF)
+    internal inline fun undefToByteArray(buffer: ByteArrayWrapper) {
+        ByteArrayWrapperExt.setSize(buffer, headerSize())
+        println("headerEncode 2")
+        headerEncode(buffer, ETripleComponentTypeExt.UNDEF, 0)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, str: String) {
+    internal inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, str: String) {
         val year: String
         val month: Int
         val day: Int
@@ -229,13 +255,13 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper) {
+    internal inline fun dateTimeToByteArray(buffer: ByteArrayWrapper) {
         val dateNow = DateHelper()
         dateTimeToByteArray(buffer, BigInteger.parseString(dateNow.year().toString(), 10), dateNow.month(), dateNow.day(), dateNow.hours(), dateNow.minutes(), BigDecimal.parseString(dateNow.seconds().toString(), 10), -99, -99, false)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int, hasTimeZone: Boolean) {
+    internal inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int, hasTimeZone: Boolean) {
         SanityCheck.check({ month >= 0 }, { "dateTimeToByteArray.month : $month" })
         SanityCheck.check({ month <= 99 }, { "dateTimeToByteArray.month : $month" })
         SanityCheck.check({ day >= 0 }, { "dateTimeToByteArray.day : $day" })
@@ -252,10 +278,11 @@ internal object DictionaryHelper {
         val buf2 = seconds.significand.toByteArray()
         val l1 = buf1.size
         val l2 = buf2.size
-        ByteArrayWrapperExt.setSize(buffer, 42 + l1 + l2)
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + 38 + l1 + l2)
         var off = 0
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, ETripleComponentTypeExt.DATE_TIME)
-        off += 4
+        println("headerEncode 3")
+        headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0)
+        off += headerSize()
         ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, l1)
         off += 4
         ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, month)
@@ -291,9 +318,9 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_Year(buffer: ByteArrayWrapper): BigInteger {
+    internal inline fun byteArrayToDateTime_Year(buffer: ByteArrayWrapper): BigInteger {
         var off = 0
-        off += 4
+        off += headerSize()
         val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
         off += 4
         off += 4
@@ -321,18 +348,18 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_Month(buffer: ByteArrayWrapper): BigInteger {
+    internal inline fun byteArrayToDateTime_Month(buffer: ByteArrayWrapper): BigInteger {
         var off = 0
-        off += 4
+        off += headerSize()
         off += 4
         val month = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
         return BigInteger(month)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_Day(buffer: ByteArrayWrapper): BigInteger {
+    internal inline fun byteArrayToDateTime_Day(buffer: ByteArrayWrapper): BigInteger {
         var off = 0
-        off += 4
+        off += headerSize()
         off += 4
         off += 4
         val day = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
@@ -340,9 +367,9 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_Hours(buffer: ByteArrayWrapper): BigInteger {
+    internal inline fun byteArrayToDateTime_Hours(buffer: ByteArrayWrapper): BigInteger {
         var off = 0
-        off += 4
+        off += headerSize()
         off += 4
         off += 4
         off += 4
@@ -351,9 +378,9 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_Minutes(buffer: ByteArrayWrapper): BigInteger {
+    internal inline fun byteArrayToDateTime_Minutes(buffer: ByteArrayWrapper): BigInteger {
         var off = 0
-        off += 4
+        off += headerSize()
         off += 4
         off += 4
         off += 4
@@ -363,9 +390,9 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_Seconds(buffer: ByteArrayWrapper): BigDecimal {
+    internal inline fun byteArrayToDateTime_Seconds(buffer: ByteArrayWrapper): BigDecimal {
         var off = 0
-        off += 4
+        off += headerSize()
         val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
         off += 4
         off += 4
@@ -395,9 +422,9 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
         var off = 0
-        off += 4
+        off += headerSize()
         val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
         off += 4
         val month = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
@@ -464,9 +491,9 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_TZ(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToDateTime_TZ(buffer: ByteArrayWrapper): String {
         var off = 0
-        off += 4
+        off += headerSize()
         off += 4
         off += 4
         off += 4
@@ -485,9 +512,9 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): String {
         var off = 0
-        off += 4
+        off += headerSize()
         off += 4
         off += 4
         off += 4
@@ -506,84 +533,101 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun booleanToByteArray(buffer: ByteArrayWrapper, value: Boolean) {
-        ByteArrayWrapperExt.setSize(buffer, 5)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.BOOLEAN)
+    internal inline fun booleanToByteArray(buffer: ByteArrayWrapper, value: Boolean) {
+        ByteArrayWrapperExt.setSize(buffer, headerSize())
         if (value) {
-            ByteArrayWrapperExt.getBuf(buffer)[4] = 1
+            println("headerEncode 4")
+            headerEncode(buffer, ETripleComponentTypeExt.BOOLEAN, 0x80)
         } else {
-            ByteArrayWrapperExt.getBuf(buffer)[4] = 0
+            println("headerEncode 5")
+            headerEncode(buffer, ETripleComponentTypeExt.BOOLEAN, 0x00)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToBoolean(buffer: ByteArrayWrapper): Boolean {
-        return ByteArrayWrapperExt.getBuf(buffer)[4] != 0.toByte()
+    internal inline fun byteArrayToBoolean(buffer: ByteArrayWrapper): Boolean {
+        return headerDecodeFlag(buffer) == 0x80
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun integerToByteArray(buffer: ByteArrayWrapper, value: String) {
+    internal inline fun integerToByteArray(buffer: ByteArrayWrapper, value: String) {
         integerToByteArray(buffer, BigInteger.parseString(value, 10))
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun integerToByteArray(buffer: ByteArrayWrapper, value: BigInteger) {
+    internal inline fun integerToByteArray(buffer: ByteArrayWrapper, value: BigInteger) {
         val buf1 = value.toByteArray()
-        ByteArrayWrapperExt.setSize(buffer, 5 + buf1.size)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.INTEGER)
-        ByteArrayWrapperExt.getBuf(buffer)[4] = value.signum().toByte()
-        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), 5)
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + buf1.size)
+        if (value.signum() <0) {
+            println("headerEncode 6")
+            headerEncode(buffer, ETripleComponentTypeExt.INTEGER, 0x80)
+        } else if (value.signum()> 0) {
+            println("headerEncode 7")
+            headerEncode(buffer, ETripleComponentTypeExt.INTEGER, 0x40)
+        } else {
+            println("headerEncode 8")
+            headerEncode(buffer, ETripleComponentTypeExt.INTEGER, 0)
+        }
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToInteger_S(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToInteger_S(buffer: ByteArrayWrapper): String {
         return byteArrayToInteger_I(buffer).toString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToInteger_I(buffer: ByteArrayWrapper): BigInteger {
-        val l1 = ByteArrayWrapperExt.getSize(buffer) - 5
+    internal inline fun byteArrayToInteger_I(buffer: ByteArrayWrapper): BigInteger {
+        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize()
         val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 5, 5 + l1)
-        val sign = when (ByteArrayWrapperExt.getBuf(buffer)[4]) {
-            (-1).toByte() -> Sign.NEGATIVE
-            1.toByte() -> Sign.POSITIVE
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize() + 1, headerSize() + l1)
+        val sign = when (headerDecodeFlag(buffer)) {
+            0x80 -> Sign.NEGATIVE
+            0x40 -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         return BigInteger.fromByteArray(buf, sign)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: String) {
+    internal inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: String) {
         decimalToByteArray(buffer, BigDecimal.parseString(value, 10))
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: BigDecimal) {
+    internal inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: BigDecimal) {
         val buf1 = value.significand.toByteArray()
-        ByteArrayWrapperExt.setSize(buffer, 13 + buf1.size)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.DECIMAL)
-        ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), 4, value.exponent)
-        ByteArrayWrapperExt.getBuf(buffer)[12] = value.signum().toByte()
-        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), 13)
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + 9 + buf1.size)
+        if (value.signum() <0) {
+            println("headerEncode 9")
+            headerEncode(buffer, ETripleComponentTypeExt.DECIMAL, 0x80)
+        } else if (value.signum()> 0) {
+            println("headerEncode 10")
+            headerEncode(buffer, ETripleComponentTypeExt.DECIMAL, 0x40)
+        } else {
+            println("headerEncode 11")
+            headerEncode(buffer, ETripleComponentTypeExt.DECIMAL, 0)
+        }
+        ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), headerSize(), value.exponent)
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + 8)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDecimal_I(buffer: ByteArrayWrapper): BigDecimal {
-        val l1 = ByteArrayWrapperExt.getSize(buffer) - 13
+    internal inline fun byteArrayToDecimal_I(buffer: ByteArrayWrapper): BigDecimal {
+        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize() - 8
         val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 13, 13 + l1)
-        val exponent = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), 4)
-        val sign = when (ByteArrayWrapperExt.getBuf(buffer)[12]) {
-            (-1).toByte() -> Sign.NEGATIVE
-            1.toByte() -> Sign.POSITIVE
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize() + 8, headerSize() + 8 + l1)
+        val exponent = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+        val sign = when (headerDecodeFlag(buffer)) {
+            0x80 -> Sign.NEGATIVE
+            0x40 -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         return BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf, sign), exponent)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDecimal_S(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToDecimal_S(buffer: ByteArrayWrapper): String {
         val tmp = byteArrayToDecimal_I(buffer).toStringExpanded()
         if (tmp.contains('.')) {
             return tmp
@@ -592,84 +636,82 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun doubleToByteArray(buffer: ByteArrayWrapper, value: Double) {
-        ByteArrayWrapperExt.setSize(buffer, 12)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.DOUBLE)
-        ByteArrayHelper.writeDouble8(ByteArrayWrapperExt.getBuf(buffer), 4, value)
+    internal inline fun doubleToByteArray(buffer: ByteArrayWrapper, value: Double) {
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + 8)
+        println("headerEncode 12")
+        headerEncode(buffer, ETripleComponentTypeExt.DOUBLE, 0)
+        ByteArrayHelper.writeDouble8(ByteArrayWrapperExt.getBuf(buffer), headerSize(), value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun doubleToByteArray(buffer: ByteArrayWrapper, value: String) {
-        ByteArrayWrapperExt.setSize(buffer, 12)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.DOUBLE)
-        ByteArrayHelper.writeDouble8(ByteArrayWrapperExt.getBuf(buffer), 4, value.toDouble())
+    internal inline fun doubleToByteArray(buffer: ByteArrayWrapper, value: String) {
+        doubleToByteArray(buffer, value.toDouble())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDouble_I(buffer: ByteArrayWrapper): Double {
-        return ByteArrayHelper.readDouble8(ByteArrayWrapperExt.getBuf(buffer), 4)
+    internal inline fun byteArrayToDouble_I(buffer: ByteArrayWrapper): Double {
+        return ByteArrayHelper.readDouble8(ByteArrayWrapperExt.getBuf(buffer), headerSize())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDouble_S(buffer: ByteArrayWrapper): String {
-        return ByteArrayHelper.readDouble8(ByteArrayWrapperExt.getBuf(buffer), 4).toString()
+    internal inline fun byteArrayToDouble_S(buffer: ByteArrayWrapper): String {
+        return byteArrayToDouble_I(buffer).toString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun floatToByteArray(buffer: ByteArrayWrapper, value: Double) {
-        ByteArrayWrapperExt.setSize(buffer, 12)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.FLOAT)
-        ByteArrayHelper.writeDouble8(ByteArrayWrapperExt.getBuf(buffer), 4, value)
+    internal inline fun floatToByteArray(buffer: ByteArrayWrapper, value: Double) {
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + 8)
+        println("headerEncode 13")
+        headerEncode(buffer, ETripleComponentTypeExt.FLOAT, 0)
+        ByteArrayHelper.writeDouble8(ByteArrayWrapperExt.getBuf(buffer), headerSize(), value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun floatToByteArray(buffer: ByteArrayWrapper, value: String) {
-        ByteArrayWrapperExt.setSize(buffer, 12)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.FLOAT)
-        ByteArrayHelper.writeDouble8(ByteArrayWrapperExt.getBuf(buffer), 4, value.toDouble())
+    internal inline fun floatToByteArray(buffer: ByteArrayWrapper, value: String) {
+        floatToByteArray(buffer, value.toDouble())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToFloat_I(buffer: ByteArrayWrapper): Double {
-        return ByteArrayHelper.readDouble8(ByteArrayWrapperExt.getBuf(buffer), 4)
+    internal inline fun byteArrayToFloat_I(buffer: ByteArrayWrapper): Double {
+        return ByteArrayHelper.readDouble8(ByteArrayWrapperExt.getBuf(buffer), headerSize())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToFloat_S(buffer: ByteArrayWrapper): String {
-        return ByteArrayHelper.readDouble8(ByteArrayWrapperExt.getBuf(buffer), 4).toString()
+    internal inline fun byteArrayToFloat_S(buffer: ByteArrayWrapper): String {
+        return byteArrayToFloat_I(buffer).toString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun langToByteArray(buffer: ByteArrayWrapper, content: String, lang: String) {
+    internal inline fun langToByteArray(buffer: ByteArrayWrapper, content: String, lang: String) {
         val buf1 = lang.encodeToByteArray()
         val buf2 = content.encodeToByteArray()
-        ByteArrayWrapperExt.setSize(buffer, 9 + buf1.size + buf2.size)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.STRING_LANG)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 5 + buf1.size + buf2.size, buf1.size)
-        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), 4)
-        ByteArrayWrapperExt.getBuf(buffer)[4 + buf1.size] = 0
-        buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), 5 + buf1.size)
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + 4 + buf1.size + buf2.size)
+        println("headerEncode 14")
+        headerEncode(buffer, ETripleComponentTypeExt.STRING_LANG, 0)
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size + buf2.size, buf1.size)
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+        buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToLang_Content(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToLang_Content(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer) - 4)
-        val l2 = ByteArrayWrapperExt.getSize(buffer) - 9 - l1
+        val l2 = ByteArrayWrapperExt.getSize(buffer) - headerSize() - 4 - l1
         val buf = ByteArray(l2)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 5 + l1, 5 + l1 + l2)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize() + l1, headerSize() + l1 + l2)
         return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToLang_Lang(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToLang_Lang(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer) - 4)
         val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 4, 4 + l1)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize(), headerSize() + l1)
         return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun typedToByteArray(buffer: ByteArrayWrapper, content: String, type: String) {
+    internal inline fun typedToByteArray(buffer: ByteArrayWrapper, content: String, type: String) {
         try {
             when (type) {
                 "http://www.w3.org/2001/XMLSchema#integer" -> integerToByteArray(buffer, content)
@@ -681,12 +723,12 @@ internal object DictionaryHelper {
                 else -> {
                     val buf1 = type.encodeToByteArray()
                     val buf2 = content.encodeToByteArray()
-                    ByteArrayWrapperExt.setSize(buffer, 9 + buf1.size + buf2.size)
-                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.STRING_TYPED)
-                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 5 + buf1.size + buf2.size, buf1.size)
-                    buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), 4)
-                    ByteArrayWrapperExt.getBuf(buffer)[4 + buf1.size] = 0
-                    buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), 5 + buf1.size)
+                    ByteArrayWrapperExt.setSize(buffer, headerSize() + 4 + buf1.size + buf2.size)
+                    println("headerEncode 15")
+                    headerEncode(buffer, ETripleComponentTypeExt.STRING_TYPED, 0)
+                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size + buf2.size, buf1.size)
+                    buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+                    buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
                 }
             }
         } catch (e: Exception) {
@@ -696,107 +738,109 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToTyped_Content(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToTyped_Content(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer) - 4)
-        val l2 = ByteArrayWrapperExt.getSize(buffer) - 9 - l1
+        val l2 = ByteArrayWrapperExt.getSize(buffer) - headerSize() - 4 - l1
         val buf = ByteArray(l2)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 5 + l1, 5 + l1 + l2)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize() + l1, headerSize() + l1 + l2)
         return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToTyped_Type(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToTyped_Type(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer) - 4)
         val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 4, 4 + l1)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize(), headerSize() + l1)
         return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: String) {
-        SanityCheck.check { value.length > 0 }
+    internal inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: String) {
         val buf1 = value.encodeToByteArray()
-        ByteArrayWrapperExt.setSize(buffer, 8 + buf1.size)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.BLANK_NODE)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 4, buf1.size)
-        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), 8)
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + 4 + buf1.size)
+        println("headerEncode 16")
+        headerEncode(buffer, ETripleComponentTypeExt.BLANK_NODE, 0)
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize(), buf1.size)
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + 4)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        ByteArrayWrapperExt.setSize(buffer, 4 + DictionaryValueHelper.getSize())
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.BLANK_NODE)
-        DictionaryValueHelper.toByteArray(buffer, 4, value)
+    internal inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: DictionaryValueType) {
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + DictionaryValueHelper.getSize())
+        println("headerEncode 17")
+        headerEncode(buffer, ETripleComponentTypeExt.BLANK_NODE, 0x80)
+        DictionaryValueHelper.toByteArray(buffer, headerSize(), value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToBnode_I(buffer: ByteArrayWrapper): DictionaryValueType {
-        if (ByteArrayWrapperExt.getSize(buffer) == 4 + DictionaryValueHelper.getSize()) {
-            return DictionaryValueHelper.fromByteArray(buffer, 4)
+    internal inline fun byteArrayToBnode_I(buffer: ByteArrayWrapper): DictionaryValueType {
+        if (headerDecodeFlag(buffer) == 0x80) {
+            return DictionaryValueHelper.fromByteArray(buffer, headerSize())
         } else {
             throw Exception("this is not ready to be used as instanciated value")
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToBnode_S(buffer: ByteArrayWrapper): String {
-        if (ByteArrayWrapperExt.getSize(buffer) == 4 + DictionaryValueHelper.getSize()) {
+    internal inline fun byteArrayToBnode_S(buffer: ByteArrayWrapper): String {
+        if (headerDecodeFlag(buffer) == 0x80) {
             throw Exception("this is not ready to be used as import value")
         } else {
-            val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 4)
+            val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             val buf = ByteArray(l1)
-            ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 8, 8 + l1)
+            ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize() + 4, headerSize() + 4 + l1)
             return buf.decodeToString()
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToBnode_A(buffer: ByteArrayWrapper): String {
-        if (ByteArrayWrapperExt.getSize(buffer) == 4 + DictionaryValueHelper.getSize()) {
-            return "_:" + DictionaryValueHelper.fromByteArray(buffer, 4).toString()
+    internal inline fun byteArrayToBnode_A(buffer: ByteArrayWrapper): String {
+        if (headerDecodeFlag(buffer) == 0x80) {
+            return "_:" + DictionaryValueHelper.fromByteArray(buffer, headerSize()).toString()
         } else {
-            val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 4)
+            val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             val buf = ByteArray(l1)
-            ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 8, 8 + l1)
+            ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize() + 4, headerSize() + 4 + l1)
             return buf.decodeToString()
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun iriToByteArray(buffer: ByteArrayWrapper, value: String) {
+    internal inline fun iriToByteArray(buffer: ByteArrayWrapper, value: String) {
         val buf1 = value.encodeToByteArray()
-        ByteArrayWrapperExt.setSize(buffer, 4 + buf1.size)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.IRI)
-        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), 4)
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + buf1.size)
+        println("headerEncode 18")
+        headerEncode(buffer, ETripleComponentTypeExt.IRI, 0)
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToIri(buffer: ByteArrayWrapper): String {
-        val l1 = ByteArrayWrapperExt.getSize(buffer) - 4
-        SanityCheck.check({ l1 >= 0 }, { "byteArrayToIri $l1" })
+    internal inline fun byteArrayToIri(buffer: ByteArrayWrapper): String {
+        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize()
         val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 4, 4 + l1)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize(), headerSize() + l1)
         return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToString(buffer: ByteArrayWrapper): String {
-        val l1 = ByteArrayWrapperExt.getSize(buffer) - 4
+    internal inline fun byteArrayToString(buffer: ByteArrayWrapper): String {
+        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize()
         val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, 4, 4 + l1)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize(), headerSize() + l1)
         return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun stringToByteArray(buffer: ByteArrayWrapper, value: String) {
+    internal inline fun stringToByteArray(buffer: ByteArrayWrapper, value: String) {
         val buf1 = value.encodeToByteArray()
-        ByteArrayWrapperExt.setSize(buffer, 4 + buf1.size)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), 0, ETripleComponentTypeExt.STRING)
-        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), 4)
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + buf1.size)
+        println("headerEncode 19")
+        headerEncode(buffer, ETripleComponentTypeExt.STRING, 0)
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun sparqlToByteArray(buffer: ByteArrayWrapper, value: String?) {
+    internal inline fun sparqlToByteArray(buffer: ByteArrayWrapper, value: String?) {
         if (value == null || value.isEmpty() || value.lowercase() == "undef") {
             undefToByteArray(buffer)
             return
@@ -862,7 +906,7 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun removeQuotesFromString(s: String): String {
+    internal inline fun removeQuotesFromString(s: String): String {
         var c = s[0]
         var cntLeft = 1
         var cntRight = 0
@@ -882,20 +926,20 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun valueDefinitionToByteArray(buffer: ByteArrayWrapper, value: ValueDefinition) {
+    internal inline fun valueDefinitionToByteArray(buffer: ByteArrayWrapper, value: ValueDefinition) {
         sparqlToByteArray(buffer, value.valueToString())
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
-        val res = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 0)
+    internal inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
+        val res = headerDecodeType(buffer)
         SanityCheck.check({ res >= 0 }, { "$res" })
         SanityCheck.check({ res < ETripleComponentTypeExt.values_size }, { "$res" })
         return res
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToXMLElement(buffer: ByteArrayWrapper): XMLElement {
+    internal inline fun byteArrayToXMLElement(buffer: ByteArrayWrapper): XMLElement {
         val type = byteArrayToType(buffer)
         return when (type) {
             ETripleComponentTypeExt.BLANK_NODE -> XMLElement("ValueBnode").addAttribute("dictvalue", byteArrayToBnode_I(buffer).toString())
@@ -916,7 +960,7 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToSparql(buffer: ByteArrayWrapper): String {
+    internal inline fun byteArrayToSparql(buffer: ByteArrayWrapper): String {
         val type = byteArrayToType(buffer)
         return when (type) {
             ETripleComponentTypeExt.UNDEF -> "UNDEF"
@@ -943,7 +987,7 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToValueDefinition(buffer: ByteArrayWrapper): ValueDefinition {
+    internal inline fun byteArrayToValueDefinition(buffer: ByteArrayWrapper): ValueDefinition {
         val type = byteArrayToType(buffer)
         return when (type) {
             ETripleComponentTypeExt.UNDEF -> DictionaryExt.undefValue2
@@ -969,7 +1013,7 @@ internal object DictionaryHelper {
         }
     }
 
-    public inline fun byteArrayToCallback(
+    internal inline fun byteArrayToCallback(
         buffer: ByteArrayWrapper,
         crossinline onBNode: (value: DictionaryValueType) -> Unit,
         crossinline onBoolean: (value: Boolean) -> Unit,
@@ -984,7 +1028,7 @@ internal object DictionaryHelper {
         crossinline onError: () -> Unit,
         crossinline onUndefined: () -> Unit
     ) {
-        val type = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), 0)
+        val type = byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.FLOAT -> onFloat(byteArrayToFloat_I(buffer))
             ETripleComponentTypeExt.DOUBLE -> onDouble(byteArrayToDouble_I(buffer))
@@ -1004,7 +1048,7 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayCompareAny(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
+    internal inline fun byteArrayCompareAny(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         val typeA = byteArrayToType(a)
         val typeB = byteArrayToType(b)
         if (typeA != typeB) {
@@ -1035,13 +1079,9 @@ internal object DictionaryHelper {
             if (typeA == ETripleComponentTypeExt.UNDEF || typeA == ETripleComponentTypeExt.ERROR) {
                 return 0
             } else if (typeA == ETripleComponentTypeExt.BLANK_NODE) {
-                if (ByteArrayWrapperExt.getSize(a) == 8 && ByteArrayWrapperExt.getSize(b) == 8) {
-                    return ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(a), 4) - ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(b), 4)
-                } else {
-                    return a.compareTo(b)
-                }
+                return a.compareTo(b)
             } else if (typeA == ETripleComponentTypeExt.BOOLEAN) {
-                return ByteArrayWrapperExt.getBuf(a)[4] - ByteArrayWrapperExt.getBuf(b)[4]
+                return a.compareTo(b)
             } else if (typeA == ETripleComponentTypeExt.DATE_TIME) {
                 return a.compareTo(b)
             } else if (typeA == ETripleComponentTypeExt.DECIMAL) {

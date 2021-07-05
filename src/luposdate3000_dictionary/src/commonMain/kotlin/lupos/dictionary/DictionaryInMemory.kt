@@ -105,7 +105,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                     if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
                         val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
                         ByteArrayWrapperExt.copyInto(buf, buffer)
-                        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= 4 }, { "xxx" + value })
+                        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "xxx" + value })
                         SanityCheck.check({ (value and DictionaryValueHelper.maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
                     } else {
                         SanityCheck.check({ (value and DictionaryValueHelper.maskValue) < bNodeCounter }, { "$value < $bNodeCounter" })
@@ -116,11 +116,11 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                 }
             }
         }
-        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= 4 }, { "" + value })
+        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "" + value })
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        SanityCheck.check { ByteArrayWrapperExt.getSize(buffer) >= 4 }
+        SanityCheck.check { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
@@ -174,7 +174,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {
-        SanityCheck.check { ByteArrayWrapperExt.getSize(buffer) >= 4 }
+        SanityCheck.check { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check { !isLocal }

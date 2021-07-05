@@ -19,14 +19,16 @@ package lupos.shared
 import kotlin.jvm.JvmField
 
 public object EGraphOperationTypeExt {
-    public const val ADD: EGraphOperationType = 0
-    public const val CLEAR: EGraphOperationType = 1
-    public const val COPY: EGraphOperationType = 2
-    public const val CREATE: EGraphOperationType = 3
-    public const val DROP: EGraphOperationType = 4
-    public const val LOAD: EGraphOperationType = 5
-    public const val MOVE: EGraphOperationType = 6
+    public const val ADD: EGraphOperationType = 0 // 0x00000000
+    public const val CLEAR: EGraphOperationType = 1 // 0x00000001
+    public const val COPY: EGraphOperationType = 2 // 0x00000002
+    public const val CREATE: EGraphOperationType = 3 // 0x00000003
+    public const val DROP: EGraphOperationType = 4 // 0x00000004
+    public const val LOAD: EGraphOperationType = 5 // 0x00000005
+    public const val MOVE: EGraphOperationType = 6 // 0x00000006
     public const val values_size: Int = 7
+    public const val values_mask: Int = 7 // 0x00000007
+    public const val values_mask_inversed: Int = 2147483640 // 0x7ffffff8
 
     @JvmField
     public val names: Array<String> = arrayOf(

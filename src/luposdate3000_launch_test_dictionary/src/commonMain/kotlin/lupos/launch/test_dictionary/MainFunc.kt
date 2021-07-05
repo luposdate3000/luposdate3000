@@ -156,25 +156,16 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     for (i in 0 until len) {
                         ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }
-                    var x = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(res), 0)
+                    var x = DictionaryHelper.byteArrayToType(res)
+val flg=DictionaryHelper.headerDecodeFlag(res)
                     var lastx = 0
                     while (x != lastx) {
                         lastx = x
                         if (x == ETripleComponentTypeExt.BLANK_NODE) {
                             x++
-                        } else if (x == ETripleComponentTypeExt.BOOLEAN && len != 5) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.BOOLEAN && len == 5) {
-                            ByteArrayWrapperExt.getBuf(res)[4] = abs(ByteArrayWrapperExt.getBuf(res)[4] % 2).toByte()
-                        } else if (x == ETripleComponentTypeExt.ERROR && len != 4) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.UNDEF && len != 4) {
-                            x++
-                        } else {
-                            x = abs(x % ETripleComponentTypeExt.values_size)
                         }
                     }
-                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(res), 0, x)
+DictionaryHelper.encodeHeader(res,x,flg)
                     if (values.values.contains(res)) {
                         if (seed < 255) {
                             seed++

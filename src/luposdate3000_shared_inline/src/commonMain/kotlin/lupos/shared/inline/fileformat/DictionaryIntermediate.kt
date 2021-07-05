@@ -32,7 +32,7 @@ internal abstract class DictionaryIntermediate(@JvmField internal val filename: 
     }
 
     internal companion object {
-        internal val version: Int = 1
+        internal val version: Int = 2
         internal const val filenameEnding = ".dictionary"
         internal inline fun getFile(filename: String): File {
             return File("$filename$filenameEnding")

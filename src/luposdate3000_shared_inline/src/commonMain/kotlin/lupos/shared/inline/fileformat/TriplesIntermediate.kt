@@ -30,7 +30,7 @@ internal abstract class TriplesIntermediate(@JvmField internal val filename: Str
     internal var streamIn: IMyInputStream? = null
 
     internal companion object {
-        internal const val version: Int = 1
+        internal const val version: Int = 2
         internal const val filenameEnding = ".triples"
         internal inline fun delete(filename: String) {
             File("$filename$filenameEnding").deleteRecursively()
