@@ -44,16 +44,16 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
 
     public override fun isInmemoryOnly(): Boolean = true
     public override fun close() {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
     }
 
     public override fun delete() {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         close()
     }
 
     public override fun createNewBNode(): DictionaryValueType {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var res: DictionaryValueType = bNodeCounter++
         if (isLocal) {
             res = res or DictionaryValueHelper.flagLocal
@@ -62,12 +62,12 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun createNewUUID(): Int {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var res: Int = uuidCounter++
         return res
     }
     public override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var flag: DictionaryValueType = DictionaryValueHelper.flagNoBNode
         var flag2: DictionaryValueType = 0
         if (isLocal) {
@@ -92,7 +92,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         }
     }
     public override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         when (value) {
             DictionaryValueHelper.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
             DictionaryValueHelper.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
@@ -120,8 +120,8 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
                 val tmp = if (ByteArrayWrapperExt.getSize(buffer) == 8) {
@@ -174,14 +174,14 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         val type = DictionaryHelper.byteArrayToType(buffer)
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !isLocal })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ type != ETripleComponentTypeExt.BLANK_NODE })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ type != ETripleComponentTypeExt.BOOLEAN })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ type != ETripleComponentTypeExt.ERROR })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ type != ETripleComponentTypeExt.UNDEF })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !isLocal })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.BLANK_NODE })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.BOOLEAN })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.ERROR })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.UNDEF })
         val res = dataV2I[buffer]
         if (res == null) {
             return null

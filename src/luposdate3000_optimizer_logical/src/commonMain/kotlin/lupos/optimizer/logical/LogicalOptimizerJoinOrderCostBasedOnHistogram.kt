@@ -27,7 +27,7 @@ import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ allChilds.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { allChilds.isNotEmpty() })
         try {
             val nodes = mutableListOf<IOPBase>()
             nodes.addAll(allChilds)

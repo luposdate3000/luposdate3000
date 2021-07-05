@@ -180,7 +180,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ localStores_[key] == null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { localStores_[key] == null })
         localStores_[key] = tripleStore
     }
 
@@ -193,13 +193,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ metadata_[name] == null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { metadata_[name] == null })
         metadata_[name] = tripleStore
     }
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun metadataRemove(name: LuposGraphName) {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
         metadata_.remove(name)
     }
 
@@ -447,9 +447,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 }
                 val b = stream.readDictionaryValueType()
                 val c = stream.readDictionaryValueType()
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !query.getDictionary().isLocalValue(a) })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !query.getDictionary().isLocalValue(b) })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !query.getDictionary().isLocalValue(c) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(a) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(b) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(c) })
                 buf[i++] = a
                 buf[i++] = b
                 buf[i++] = c

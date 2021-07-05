@@ -29,7 +29,7 @@ internal object POPJoin {
     fun crossProduct(dataO0: Array<MutableList<DictionaryValueType>>, dataO1: Array<MutableList<DictionaryValueType>>, dataJ: DictionaryValueTypeArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ count > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { count > 0 })
         when {
             count == 1 -> {
                 for (columnIndex in outO0.indices) {
@@ -97,7 +97,7 @@ internal object POPJoin {
     fun crossProduct(dataO0: Array<DictionaryValueTypeArray>, dataO1: Array<DictionaryValueTypeArray>, dataJ: DictionaryValueTypeArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ count > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { count > 0 })
         when {
             count == 1 -> {
                 for (columnIndex in outO0.indices) {

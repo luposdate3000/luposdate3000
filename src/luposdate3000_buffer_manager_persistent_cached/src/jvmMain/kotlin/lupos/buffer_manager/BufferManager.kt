@@ -94,28 +94,34 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
 
     actual override fun flushPage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         lock.withWriteLock {
-            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pageid < counter })
-                for (i in 0 until freeArrayLength) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ freeArray[i] != pageid })
+            SanityCheck(
+                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter })
+                    for (i in 0 until freeArrayLength) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { freeArray[i] != pageid })
+                    }
                 }
-            })
+            )
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ openPagesRefcounters[openId] >= 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { openPagesRefcounters[openId] >= 1 })
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.write(openPages[openId], 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                    SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                        val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                        datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
-                        datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                        for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
-                            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ cmp[i] == openPages[openId][i] })
+                    SanityCheck(
+                        { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                        {
+                            val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                            datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
+                            datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                            for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
+                                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { cmp[i] == openPages[openId][i] })
+                            }
                         }
-                    })
+                    )
                 },
                 onNotFound = {
                     SanityCheck.checkUnreachable()
@@ -126,31 +132,37 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
 
     actual override fun releasePage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         lock.withWriteLock {
-            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pageid < counter })
-                for (i in 0 until freeArrayLength) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ freeArray[i] != pageid })
+            SanityCheck(
+                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter })
+                    for (i in 0 until freeArrayLength) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { freeArray[i] != pageid })
+                    }
                 }
-            })
+            )
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ openPagesRefcounters[openId] >= 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { openPagesRefcounters[openId] >= 1 })
                     if (openPagesRefcounters[openId] == 1) {
                         datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                         datafile.write(openPages[openId], 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                            val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                            datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
-                            datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                            for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
-                                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ cmp[i] == openPages[openId][i] })
+                        SanityCheck(
+                            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                            {
+                                val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                                datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
+                                datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                                for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { cmp[i] == openPages[openId][i] })
+                                }
                             }
-                        })
+                        )
                         SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
-                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ openPagesLastUseCounter >= 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { openPagesLastUseCounter >= 0 })
                         openPagesLastUseCounters[openId] = openPagesLastUseCounter++
                         if (openPagesLastUseCounter >= Int.MAX_VALUE - 10) {
                             openPagesLastUseCounter = 0
@@ -167,16 +179,19 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
 
     actual override fun getPage(call_location: String, pageid: Int): ByteArray {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         var openId2 = -1
         lock.withWriteLock {
-            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pageid < counter })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pageid >= 0 })
-                for (i in 0 until freeArrayLength) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ freeArray[i] != pageid })
+            SanityCheck(
+                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid >= 0 })
+                    for (i in 0 until freeArrayLength) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { freeArray[i] != pageid })
+                    }
                 }
-            })
+            )
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
@@ -205,19 +220,19 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.readFully(openPages[openId2], 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     openPagesMapping[openId2] = pageid
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.getPageID(openPages[openId2]) == -1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId2]) == -1 })
                     BufferManagerPage.setPageID(openPages[openId2], pageid)
                 }
             )
             openPagesRefcounters[openId2]++
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.getPageID(openPages[openId2]) == pageid })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId2]) == pageid })
         }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ openId2 != -1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { openId2 != -1 })
         return openPages[openId2]
     }
 
     actual /*suspend*/ override fun allocPage(call_location: String): Int {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         var pageid: Int = -1
         lock.withWriteLock {
             if (freeArrayLength > 0) {
@@ -236,12 +251,15 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                     datafilelength = minlen
                 }
             }
-            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pageid < counter })
-                for (i in 0 until freeArrayLength) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ freeArray[i] != pageid })
+            SanityCheck(
+                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter })
+                    for (i in 0 until freeArrayLength) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { freeArray[i] != pageid })
+                    }
                 }
-            })
+            )
         }
         SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
         return pageid
@@ -249,18 +267,21 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
 
     actual /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
-        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pageid < counter })
-            for (i in 0 until freeArrayLength) {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ freeArray[i] != pageid })
+        SanityCheck(
+            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+            {
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter })
+                for (i in 0 until freeArrayLength) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { freeArray[i] != pageid })
+                }
             }
-        })
+        )
         findOpenID(
             pageid = pageid,
             onFound = { openId ->
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ openPagesRefcounters[openId] == 1 })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.getPageID(openPages[openId]) == pageid })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { openPagesRefcounters[openId] == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId]) == pageid })
                 BufferManagerPage.setPageID(openPages[openId], -1)
                 openPagesRefcounters[openId]--
                 openPagesMapping[openId] = -1
@@ -284,13 +305,16 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
 
     @ProguardTestAnnotation
     actual override fun close() {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         closed = true
-        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-            for (i in 0 until cacheSize) {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ openPagesRefcounters[i] == 0 })
+        SanityCheck(
+            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+            {
+                for (i in 0 until cacheSize) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { openPagesRefcounters[i] == 0 })
+                }
             }
-        })
+        )
         datafile.close()
         freelistfile.close()
     }

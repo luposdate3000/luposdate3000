@@ -42,7 +42,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -66,15 +66,18 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
     override fun equals(other: Any?): Boolean = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
-        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-            for (v in children[0].getProvidedVariableNames()) {
-                getPartitionCount(v)
+        SanityCheck(
+            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+            {
+                for (v in children[0].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
+                for (v in children[1].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
             }
-            for (v in children[1].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-        })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columns[0].size == 0 })
+        )
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { columns[0].size == 0 })
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
@@ -165,7 +168,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
                                             if (value == DictionaryValueHelper.nullValue) {
-                                                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columnIndex == 0 })
+                                                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                                 done = true
                                                 for (v in childA.columns.values) {
                                                     v.close()
@@ -232,7 +235,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             done = true
                                             for (v in childA.columns.values) {
                                                 v.close()

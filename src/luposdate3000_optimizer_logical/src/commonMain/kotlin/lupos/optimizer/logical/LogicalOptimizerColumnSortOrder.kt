@@ -25,18 +25,21 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         val res: IOPBase = node
         var hadChange = false
-        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-            if (parent != null) {
-                var found = false
-                for (c in parent.getChildren()) {
-                    if (c === node) {
-                        found = true
-                        break
+        SanityCheck(
+            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+            {
+                if (parent != null) {
+                    var found = false
+                    for (c in parent.getChildren()) {
+                        if (c === node) {
+                            found = true
+                            break
+                        }
                     }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { found })
                 }
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ found })
             }
-        })
+        )
         var done = node.initializeSortPriorities {
             hadChange = true
             onChange()
@@ -46,7 +49,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                 val tmp = node.getSortPriorities()
                 if (tmp.size > 1) {
                     node.selectSortPriority(tmp.first())
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node.getSortPriorities().size == 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { node.getSortPriorities().size == 1 })
                     onChange()
                 }
             } else {
@@ -61,7 +64,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                         val tmp3 = node.getSortPriorities()
                         if (tmp3.size > 1) {
                             node.selectSortPriority(tmp3.first())
-                            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node.getSortPriorities().size == 1 })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { node.getSortPriorities().size == 1 })
                             onChange()
                         }
                     }

@@ -30,13 +30,16 @@ public class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimi
         var res = node
         when (node) {
             !is POPDebug -> {
-                SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                    // this code is intended to be debugging only - even if it changes the resulting operator-graph
-                    if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
-                        res = POPDebug(query, node.projectedVariables, node)
-                        onChange()
+                SanityCheck(
+                    { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                    {
+                        // this code is intended to be debugging only - even if it changes the resulting operator-graph
+                        if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
+                            res = POPDebug(query, node.projectedVariables, node)
+                            onChange()
+                        }
                     }
-                })
+                )
             }
         }
         return res

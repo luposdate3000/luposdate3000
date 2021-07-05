@@ -83,8 +83,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ partition.data.size == 1 }, { "${partition.limit} ${partition.data}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { partition.data.size == 1 }, { "${partition.limit} ${partition.data}" })
         for (v in partition.data.values) {
             return Pair(hostnames[v], keys[v])
         }
@@ -106,8 +106,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     internal override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ hostnames[i] == "" })
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ keys[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { keys[i] == "" })
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

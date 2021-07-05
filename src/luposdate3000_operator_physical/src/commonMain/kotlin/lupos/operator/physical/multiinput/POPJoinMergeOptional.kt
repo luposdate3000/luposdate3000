@@ -38,7 +38,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -61,15 +61,18 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-            for (v in children[0].getProvidedVariableNames()) {
-                getPartitionCount(v)
+        SanityCheck(
+            { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+            {
+                for (v in children[0].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
+                for (v in children[1].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
             }
-            for (v in children[1].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-        })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ optional })
+        )
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { optional })
 // setup columns
         val child = Array(2) { children[it].evaluate(parent) }
         val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
@@ -103,8 +106,8 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
             outIterators.add(Pair(name, 2))
             columnsINO[1].add(child[1].columns[name]!!)
         }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columnsINJ[0].size > 0 })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columnsINJ[0].size == columnsINJ[1].size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { columnsINJ[0].size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { columnsINJ[0].size == columnsINJ[1].size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
@@ -223,7 +226,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ keyCopy[0] != DictionaryValueHelper.nullValue })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { keyCopy[0] != DictionaryValueHelper.nullValue })
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
                 /* this is an optional element without a match */
@@ -242,7 +245,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ key[i] != DictionaryValueHelper.undefValue })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { key[i] != DictionaryValueHelper.undefValue })
             }
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
@@ -266,9 +269,9 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                         }
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
-                            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ key[1][j] != DictionaryValueHelper.undefValue })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { key[1][j] != DictionaryValueHelper.undefValue })
                             if (key[1][j] == DictionaryValueHelper.nullValue) {
-                                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ j == 0 })
+                                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { j == 0 })
                                 break@loop
                             }
                         }

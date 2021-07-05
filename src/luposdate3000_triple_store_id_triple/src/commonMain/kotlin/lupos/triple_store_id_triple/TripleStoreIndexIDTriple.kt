@@ -316,8 +316,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun getIterator(query: IQuery, filter: DictionaryValueTypeArray, projection: List<String>): IteratorBundle {
         var res: IteratorBundle
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ filter.size in 0..3 })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projection.size + filter.size == 3 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { filter.size in 0..3 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection.size + filter.size == 3 })
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
@@ -357,7 +357,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager)
                     }
                 } else {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projection[1] == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[1] == "_" })
                     var count = 0
                     val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     while (it.next() != DictionaryValueHelper.nullValue) {
@@ -366,7 +366,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     res = IteratorBundle(count)
                 }
             } else {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ filter.isEmpty() })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { filter.isEmpty() })
                 if (projection[0] != "_") {
                     columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager)
                     if (projection[1] != "_") {
@@ -375,11 +375,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                             columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
                         }
                     } else {
-                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projection[2] == "_" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
                     }
                 } else {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projection[1] == "_" })
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projection[2] == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[1] == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
                     res = IteratorBundle(countPrimary_)
                 }
             }
@@ -429,7 +429,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun flush() {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
         if (pendingImport.size > 0) {
             lock.writeLock()
             flushAssumeLocks()
@@ -446,7 +446,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @Suppress("NOTHING_TO_INLINE")
     private inline fun flushContinueWithReadLock() {
         var hasLock = false
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
         while (pendingImport.size > 0) {
             if (lock.tryWriteLock()) {
                 flushAssumeLocks()
@@ -476,14 +476,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             j++
         }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ l.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { l.size > 0 })
         val res = l[l.size - 1]!!
         l.clear()
         return res
     }
 
     private fun flushAssumeLocks() {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
         if (pendingImport.size > 0) {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             val insertID = collapseList(pendingImport)
@@ -507,9 +507,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     node = it
                 }
             )
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ rootNode == null })
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ root_ == NodeManager.nodeNullPointer })
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ firstLeaf_ == NodeManager.nodeNullPointer })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { rootNode == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { root_ == NodeManager.nodeNullPointer })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { firstLeaf_ == NodeManager.nodeNullPointer })
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -547,7 +547,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 }
                 NodeLeaf.initializeWith(node, iterator)
             }
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentLayer.size > 0 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { currentLayer.size > 0 })
             val codeSection1 = {
 // work around the crossinline here, because the method would be too large
                 while (currentLayer.size > 1) {
@@ -580,7 +580,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             nodeManager.flushNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
             nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
             var rootNodeIsLeaf = false
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ rootNode == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { rootNode == null })
             val codeSection2 = {
                 nodeManager.getNodeAny(
                     /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/,
@@ -607,7 +607,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             codeSection2()
         } else {
 // this index is cleared completely
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ rootNode == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { rootNode == null })
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -630,14 +630,17 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
-            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                if (debugSortOrder.size == 0) {
-                    debugSortOrder = order
+            SanityCheck(
+                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                {
+                    if (debugSortOrder.size == 0) {
+                        debugSortOrder = order
+                    }
+                    for (i in 0 until 3) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                    }
                 }
-                for (i in 0 until 3) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ order[i] == debugSortOrder[i] })
-                }
-            })
+            )
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
@@ -654,19 +657,22 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
     override fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
-            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
-                if (debugSortOrder.size == 0) {
-                    debugSortOrder = order
+            SanityCheck(
+                { /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },
+                {
+                    if (debugSortOrder.size == 0) {
+                        debugSortOrder = order
+                    }
+                    for (i in 0 until 3) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                    }
                 }
-                for (i in 0 until 3) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ order[i] == debugSortOrder[i] })
-                }
-            })
+            )
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
             }
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
             if (pendingImport.size> 0) {
                 pendingRemove.add(importHelper(BulkImportIterator(data, dataSize, order)))
             }

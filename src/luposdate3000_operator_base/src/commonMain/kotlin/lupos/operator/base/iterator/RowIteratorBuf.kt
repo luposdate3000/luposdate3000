@@ -31,9 +31,9 @@ public class RowIteratorBuf(buf: DictionaryValueTypeArray, columns: Array<String
         if (size == 0) {
             offset = -1
         }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ size >= 0 })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ size <= buf.size })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ (buf.size % columns.size) == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { size >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { size <= buf.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { (buf.size % columns.size) == 0 })
         next = {
             val res = offset
             val tmp = offset + columns.size

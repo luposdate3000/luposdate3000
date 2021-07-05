@@ -84,7 +84,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
             }
             // than sort order
             for (s in sortPriority) {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ s != "_" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { s != "_" })
                 if (c0 is AOPVariable && c0.name == s) {
                     resString += "S"
                 } else if (c1 is AOPVariable && c1.name == s) {
@@ -113,7 +113,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
             if (!resString.contains("O")) {
                 resString += "O"
             }
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "$resString ${children.map { it.toSparql() }} $sortPriority" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "$resString ${children.map { it.toSparql() }} $sortPriority" })
             return EIndexPatternExt.names.indexOf(resString)
         }
     }
@@ -148,7 +148,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
         if (res.count == -1) {
             res.count = 0
         }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ res.count != -1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { res.count != -1 })
         return res
     }
 }

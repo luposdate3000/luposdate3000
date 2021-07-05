@@ -40,7 +40,7 @@ public abstract class ADictionary(
     internal val bnodeMapLocal = mutableMapOf<String, DictionaryValueType>()
 
     public override fun createNewBNode(s: String): DictionaryValueType {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var res = bnodeMapLocal[s]
         if (res != null) {
             return res
@@ -60,7 +60,7 @@ public abstract class ADictionary(
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         val res: DictionaryValueType
         if ((value and DictionaryValueHelper.flagLocal) != DictionaryValueHelper.flagLocal) {
             res = value
@@ -84,11 +84,11 @@ public abstract class ADictionary(
 
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var mymapping = DictionaryValueTypeArray(0)
         var lastId: DictionaryValueType = -1
         fun addEntry(id: DictionaryValueType, i: DictionaryValueType) {
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ lastId == id - 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { lastId == id - 1 })
             if (lastId != id - 1) {
                 throw Exception("ERROR !! $lastId -> $id")
             }

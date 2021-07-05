@@ -82,18 +82,18 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         val hash: Int
         when (key_size) {
             1 -> {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]])
             }
             2 -> {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]])
             }
             3 -> {
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 })
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]])
             }
             else -> throw Exception("unreachable")
@@ -106,8 +106,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ partition.limit.size == 0 })
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ partition.data.size == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { partition.limit.size == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { partition.data.size == 0 })
         val triple = DictionaryValueTypeArray(3) { -1 }
         var counter = 0
         for (i in 0 until 3) {
@@ -117,7 +117,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
                 counter++
             }
         }
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ counter == key_size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { counter == key_size })
         val partitionToUse = findPartitionFor(query, triple)
         return Pair(hostnames[partitionToUse], keys[partitionToUse])
     }
@@ -159,8 +159,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ hostnames[i] == "" })
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ keys[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { keys[i] == "" })
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

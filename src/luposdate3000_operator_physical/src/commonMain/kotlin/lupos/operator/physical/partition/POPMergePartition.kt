@@ -38,7 +38,7 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
     }
 
     init {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -126,8 +126,8 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
             var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables0.containsAll(variables) })
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables.containsAll(variables0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
             // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
             val elementsPerRing = query.getInstance().queue_size * variables.size
             val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer

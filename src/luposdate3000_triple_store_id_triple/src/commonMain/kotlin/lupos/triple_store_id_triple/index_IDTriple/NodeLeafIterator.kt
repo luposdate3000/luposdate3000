@@ -58,7 +58,7 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
             nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node != it })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { node != it })
                     node = it
                     remaining = NodeShared.getTripleCount(node)
                 }

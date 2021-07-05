@@ -145,11 +145,11 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node != it })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { node != it })
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ remainingTmp > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple101(nodeTmp, offsetTmp, 0, 0) { v0, v2 ->
                     value0Tmp = v0
@@ -234,9 +234,9 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
             while (toSkip > remaining) {
                 toSkip -= remaining
                 val nodeidTmp = NodeShared.getNextNode(node)
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ nodeidTmp != NodeManager.nodeNullPointer })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { nodeidTmp != NodeManager.nodeNullPointer })
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp) {
-                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node != it })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { node != it })
                     node = it
                 }
                 remaining = NodeShared.getTripleCount(node)
@@ -244,8 +244,8 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 nodeid = nodeidTmp
                 needsReset = true
                 offset = NodeLeaf.START_OFFSET
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ remaining > 0 })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ label != 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { remaining > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { label != 0 })
             }
             if (needsReset) {
                 needsReset = false
@@ -253,8 +253,8 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 value2 = 0
             }
             remaining -= toSkip
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ remaining >= 0 })
-            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ toSkip > 0 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { remaining >= 0 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { toSkip > 0 })
             while (toSkip > 0) {
                 offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                     value0 = v0
@@ -266,7 +266,7 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 val nodeidTmp = NodeShared.getNextNode(node)
                 if (nodeidTmp != NodeManager.nodeNullPointer) {
                     nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp) {
-                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node != it })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { node != it })
                         node = it
                     }
                     remaining = NodeShared.getTripleCount(node)

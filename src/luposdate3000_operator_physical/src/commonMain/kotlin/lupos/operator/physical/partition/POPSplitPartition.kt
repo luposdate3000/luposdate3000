@@ -35,7 +35,7 @@ import kotlin.jvm.JvmField
 
 public class POPSplitPartition public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -139,9 +139,9 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables0.containsAll(variables) })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables.containsAll(variables0) })
-                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
                 val elementsPerRing = query.getInstance().queue_size * variables.size
                 val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
@@ -169,7 +169,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                 }
                             }
                         }
-                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ hashVariableIndex != -1 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()
