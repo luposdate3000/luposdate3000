@@ -40,6 +40,7 @@ import launcher.IntellijMode
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
+import launcher.EDictionaryValueMode
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
 import launcher.fixPathNames
@@ -73,6 +74,7 @@ var runArgs = mutableListOf<String>()
 var skipArgs = false
 var threadCount = 1
 var processUrls = ""
+var dictionaryValueMode=EDictionaryValueMode.Int
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
@@ -95,6 +97,7 @@ fun makeUppercaseStart(s: String): String {
 
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     val localArgs = CreateModuleArgs()
+.ssetDictionaryValueMode(dictionaryValueMode)
         .ssetReleaseMode(releaseMode)
         .ssetSuspendMode(suspendMode)
         .ssetInlineMode(inlineMode)
@@ -377,7 +380,7 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
         return res
     }
 
-    class ParamClass {
+    class ParamClass :Comparable<ParamClass>{
         val name: String
         val default: String
         val values: Map<String, () -> Unit>
@@ -412,7 +415,9 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
             this.action = {}
             this.mode = ParamClassMode.FREE_VALUE
         }
-
+override fun compareTo(other:ParamClass):Int{
+return name.compareTo(other.name)
+}
         fun setAdditionalHelp(additionalHelp: (String) -> Unit): ParamClass {
             this.additionalHelp = additionalHelp
             return this
@@ -520,6 +525,11 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
             {
                 processUrls = Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(",")
             }
+        ),
+        ParamClass(
+            "--dictionaryValueMode",
+            EDictionaryValueMode.Int.toString(),
+            EDictionaryValueMode.values().map { it -> it.toString() to { dictionaryValueMode = it } }.toMap()
         ),
         ParamClass(
             "--releaseMode",
@@ -654,7 +664,7 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
         ParamClass(
             "--mainClass",
             "Endpoint",
-            optionsForPackages["Main"]!!.map { it.substring("Launch_".length) to { mainClass = "Luposdate3000_$it" } }.toMap()
+            optionsForPackages["Main"]!!.sorted().map { it.substring("Launch_".length) to { mainClass = "Luposdate3000_$it" } }.toMap()
         ),
     )
     enableParams(mainclassParams)
@@ -710,7 +720,7 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
     fun onHelp() {
         println("Usage ./launcher.main.kts <options>")
         println("where possible options include:")
-        for (param in defaultParams) {
+        for (param in defaultParams.sorted()) {
             param.help()
         }
         for (param in mainclassParams) {

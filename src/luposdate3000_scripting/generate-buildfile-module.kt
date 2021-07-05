@@ -19,6 +19,7 @@ package launcher
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.inline.Platform
 import java.io.File
+import launcher.EDictionaryValueMode
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Paths
@@ -95,6 +96,7 @@ class CreateModuleArgs() {
     var moduleFolder: String = ""
     var modulePrefix: String = ""
     var platform: String = "linuxX64"
+var dictionaryValueMode:EDictionaryValueMode=EDictionaryValueMode.Int
     var releaseMode: ReleaseMode = ReleaseMode.Disable
     var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
@@ -123,6 +125,7 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
+res.dictionaryValueMode=dictionaryValueMode
         res.disableJS = disableJS
         res.disableJSNode = disableJSNode
         res.disableJSBrowser = disableJSBrowser
@@ -149,6 +152,12 @@ class CreateModuleArgs() {
         res.args = args
         return res
     }
+
+fun ssetDictionaryValueMode(mode:EDictionaryValueMode):CreateModuleArgs{
+val res = clone()
+res.dictionaryValueMode=mode
+return res
+}
 
     fun ssetCompilerVersion(compilerVersion: String): CreateModuleArgs {
         val res = clone()
@@ -770,14 +779,18 @@ if(!onWindows){
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
-if(false){
+when(moduleArgs.dictionaryValueMode){
+EDictionaryValueMode.Int->{
 typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperInt")
 typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Int")
 typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","IntArray")
-}else{
+}
+EDictionaryValueMode.Long->{
 typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperLong")
 typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Long")
 typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","LongArray")
+}
+else -> TODO()
 }
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
