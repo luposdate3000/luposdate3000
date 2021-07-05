@@ -80,7 +80,7 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Int = ByteArrayHelper.readIntX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getSize(): Int = 8
+    internal inline fun getSize(): Int = 4
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toInt(value: Int): Int = value // adapter for places, where always Int are used
@@ -89,7 +89,7 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always Int are used
+    internal inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always String are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Int): Int {
@@ -186,7 +186,7 @@ internal object DictionaryValueHelperLong {
     internal inline fun fromInt(value: Int): Long = value.toLong() // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromString(value: String): Long = value.toLong() // adapter for places, where always Int are used
+    internal inline fun fromString(value: String): Long = value.toLong() // adapter for places, where always String are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int {
