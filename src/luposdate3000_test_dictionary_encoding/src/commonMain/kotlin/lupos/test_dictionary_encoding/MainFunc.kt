@@ -218,15 +218,11 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         for (i in 0 until hasNextRandom()) {
             v += AssertionFunctions.randomPrintableChar(nextRandom())
         }
-        if (v.length == 0) {
-            AssertionFunctions.assumeException({ DictionaryHelper.bnodeToByteArray(buffer, v) })
-        } else {
-            DictionaryHelper.bnodeToByteArray(buffer, v)
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
-            AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_I(buffer) })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_S(buffer) }, { v })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { v })
-        }
+        DictionaryHelper.bnodeToByteArray(buffer, v)
+        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
+        AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_I(buffer) })
+        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_S(buffer) }, { v })
+        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { v })
     }
 
     fun booleanToByteArray1() {

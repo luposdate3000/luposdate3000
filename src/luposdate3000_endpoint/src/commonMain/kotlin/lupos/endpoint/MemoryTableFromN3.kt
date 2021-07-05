@@ -55,16 +55,17 @@ public class MemoryTableFromN3 : MemoryTableParser {
             val tit = TurtleScanner(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
             val buffer = ByteArrayWrapper()
+            val action: (DictionaryValueTypeArray, Int, String) -> Unit = { row, i, v ->
+                DictionaryHelper.sparqlToByteArray(buffer, v)
+                row[i] = dictionary.createValue(buffer)
+            }
             val x = object : TurtleParserWithStringTriples() {
                 /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                     val row = DictionaryValueTypeArray(3)
+                    action(row, 0, s)
+                    action(row, 1, p)
+                    action(row, 2, o)
                     res.data.add(row)
-                    DictionaryHelper.sparqlToByteArray(buffer, s)
-                    row[0] = dictionary.createValue(buffer)
-                    DictionaryHelper.sparqlToByteArray(buffer, p)
-                    row[1] = dictionary.createValue(buffer)
-                    DictionaryHelper.sparqlToByteArray(buffer, o)
-                    row[2] = dictionary.createValue(buffer)
                 }
             }
             x.ltit = ltit

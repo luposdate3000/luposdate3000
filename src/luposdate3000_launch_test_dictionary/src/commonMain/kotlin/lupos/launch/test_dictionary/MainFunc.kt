@@ -157,17 +157,17 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     }
                     var x = DictionaryHelper.headerDecodeType(res)
                     val flg = DictionaryHelper.headerDecodeFlag(res)
-                        if (x == ETripleComponentTypeExt.BLANK_NODE) {
-                            DictionaryHelper.errorToByteArray(res)
-                        } else if (x == ETripleComponentTypeExt.BOOLEAN) {
-                            DictionaryHelper.booleanToByteArray(res, DictionaryHelper.byteArrayToBoolean(res))
-                        } else if (x == ETripleComponentTypeExt.ERROR) {
-                            DictionaryHelper.errorToByteArray(res)
-                        } else if (x == ETripleComponentTypeExt.UNDEF) {
-                            DictionaryHelper.undefToByteArray(res)
-                        } else if (x < ETripleComponentTypeExt.values_size) {
-                            DictionaryHelper.headerEncode(res, x, flg)
-                        }else{
+                    if (x == ETripleComponentTypeExt.BLANK_NODE) {
+                        DictionaryHelper.errorToByteArray(res)
+                    } else if (x == ETripleComponentTypeExt.BOOLEAN) {
+                        DictionaryHelper.booleanToByteArray(res, flg % 2 == 0)
+                    } else if (x == ETripleComponentTypeExt.ERROR) {
+                        DictionaryHelper.errorToByteArray(res)
+                    } else if (x == ETripleComponentTypeExt.UNDEF) {
+                        DictionaryHelper.undefToByteArray(res)
+                    } else if (x < ETripleComponentTypeExt.values_size) {
+                        DictionaryHelper.headerEncode(res, x, flg)
+                    } else {
                         DictionaryHelper.errorToByteArray(res)
                     }
                     if (values.values.contains(res)) {

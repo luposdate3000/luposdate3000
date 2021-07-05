@@ -124,7 +124,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:123"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
-                val tmp = if (ByteArrayWrapperExt.getSize(buffer) == 8) {
+                val tmp = if (DictionaryHelper.headerDecodeFlag(buffer) == 0x80) {
                     DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
                     createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))

@@ -38,7 +38,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: DictionaryValueType
+            var res: DictionaryValueType = 0
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
@@ -101,27 +101,36 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp_24: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_25_content: String = tmp_24
-                    val tmp_25_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_25_content, tmp_25_type)
-                    res = query.getDictionary().createValue(tmp_2)
+                    val action = {
+                        val tmp_24: String = DictionaryHelper.byteArrayToString(tmp_0)
+                        val tmp_25_content: String = tmp_24
+                        val tmp_25_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_25_content, tmp_25_type)
+                        res = query.getDictionary().createValue(tmp_2)
+                    }
+                    action()
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
-                    val tmp_27_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
-                    val tmp_27_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_28_content: String = tmp_27_content
-                    val tmp_28_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_28_content, tmp_28_type)
-                    res = query.getDictionary().createValue(tmp_2)
+                    val action = {
+                        val tmp_27_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
+                        val tmp_27_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
+                        val tmp_28_content: String = tmp_27_content
+                        val tmp_28_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_28_content, tmp_28_type)
+                        res = query.getDictionary().createValue(tmp_2)
+                    }
+                    action()
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp_30_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                    val tmp_30_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_31_content: String = tmp_30_content
-                    val tmp_31_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_31_content, tmp_31_type)
-                    res = query.getDictionary().createValue(tmp_2)
+                    val action = {
+                        val tmp_30_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                        val tmp_30_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                        val tmp_31_content: String = tmp_30_content
+                        val tmp_31_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_31_content, tmp_31_type)
+                        res = query.getDictionary().createValue(tmp_2)
+                    }
+                    action()
                 }
                 else -> {
                     res = DictionaryValueHelper.errorValue
