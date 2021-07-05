@@ -50,7 +50,7 @@ public class ValueKeyStore {
     public constructor(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
-        val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:52", rootPageID)
+        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
         if (initFromRootPage) {
             firstLeafID = BufferManagerPage.readInt4(rootPage, 0)
             firstInnerID = BufferManagerPage.readInt4(rootPage, 4)
@@ -66,14 +66,14 @@ public class ValueKeyStore {
             BufferManagerPage.writeInt4(rootPage, 0, firstLeafID)
             BufferManagerPage.writeInt4(rootPage, 4, firstInnerID)
         }
-        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:68", rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
     }
 
     @ProguardTestAnnotation
     public fun delete() {
         deleteContent(firstInnerID)
-        bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:74", rootPageID)
-        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:75", rootPageID)
+        bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.deletePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
     }
 
     public fun deleteContent(root: Int) {
@@ -82,7 +82,7 @@ public class ValueKeyStore {
             var node = nextStage
             var first = true
             while (node != ValueKeyStore.PAGEID_NULL_PTR) {
-                val page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:85", node)
+                val page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, node)
                 val nextPageID = BufferManagerPage.readInt4(page, 4)
                 if (first) {
                     first = false
@@ -92,7 +92,7 @@ public class ValueKeyStore {
                         nextStage = ValueKeyStore.PAGEID_NULL_PTR
                     }
                 }
-                bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:95", node)
+                bufferManager.deletePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, node)
                 node = nextPageID
             }
         }
@@ -151,10 +151,10 @@ public class ValueKeyStore {
             parent = parent.parentLayer!!
         }
         firstInnerID = parent.firstLeafID
-        val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:154", rootPageID)
+        val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 0, firstLeafID)
         BufferManagerPage.writeInt4(rootPage, 4, firstInnerID)
-        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:157", rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
         return res
     }
 
@@ -218,10 +218,10 @@ public class ValueKeyStore {
                 parent = parent.parentLayer!!
             }
             firstInnerID = parent.firstLeafID
-            val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:221", rootPageID)
+            val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
             BufferManagerPage.writeInt4(rootPage, 0, firstLeafID)
             BufferManagerPage.writeInt4(rootPage, 4, firstInnerID)
-            bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:224", rootPageID)
+            bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
         }
     }
 }
@@ -277,8 +277,8 @@ internal class ValueKeyStoreWriter {
     internal constructor(bufferManager: IBufferManager, pageType: Int, childPageID: Int) {
         this.bufferManager = bufferManager
         this.pageType = pageType
-        pageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:282")
-        page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:283", pageid)
+        pageid = bufferManager.allocPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
+        page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
         firstLeafID = pageid
         lastChildPageID = childPageID
         writeHeader()
@@ -325,11 +325,11 @@ internal class ValueKeyStoreWriter {
                 offset += l1
             }
             if (offset > BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
-                var nextpageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:331")
+                var nextpageid = bufferManager.allocPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                 BufferManagerPage.writeInt4(page, 4, nextpageid)
-                bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:334", pageid)
+                bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
                 pageid = nextpageid
-                page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:336", nextpageid)
+                page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nextpageid)
                 writeHeader()
                 writeEntryPoint = true
             }
@@ -348,7 +348,7 @@ internal class ValueKeyStoreWriter {
         if (offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
             BufferManagerPage.writeInt4(page, offset, ValueKeyStore.ID_NULL)
         }
-        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:355", pageid)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
         parentLayer?.close()
     }
 }
@@ -358,7 +358,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
     internal var pageid = startPageID
 
     @JvmField
-    internal var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:365", pageid)
+    internal var page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
 
     @JvmField
     internal var nextPageID = BufferManagerPage.readInt4(page, 4)
@@ -389,12 +389,12 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
                 offset += l1
             }
             if (offset > BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
-                bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:396", pageid)
+                bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
                 pageid = nextPageID
                 if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
                     SanityCheck.check { bufferOffset == len }
                 } else {
-                    page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:401", pageid)
+                    page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
                     SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
                     nextPageID = BufferManagerPage.readInt4(page, 4)
                     offset = 12
@@ -407,7 +407,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
     public fun close() {
         if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {
             SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
-            bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:414", pageid)
+            bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
         }
     }
 }
@@ -418,7 +418,7 @@ internal class ValueKeyStoreIteratorSearch {
     internal inline fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: IBufferManager, buffer: ByteArrayWrapper): Int {
         var pageid = startpageid
         while (true) {
-            var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:428", pageid)
+            var page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
             var nextPageID = BufferManagerPage.readInt4(page, 4)
             var offset = BufferManagerPage.readInt4(page, 8)
             var pageType = BufferManagerPage.readInt4(page, 0)
@@ -443,12 +443,12 @@ internal class ValueKeyStoreIteratorSearch {
                         offset += l1
                     }
                     if (offset > BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
-                        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:453", pageid)
+                        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
                         pageid = nextPageID
                         if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
                             SanityCheck.check { bufferOffset == len }
                         } else {
-                            page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:459", pageid)
+                            page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
                             SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
                             nextPageID = BufferManagerPage.readInt4(page, 4)
                             offset = 12
@@ -462,7 +462,7 @@ internal class ValueKeyStoreIteratorSearch {
                 }
             }
             if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {
-                bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:473", pageid)
+                bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
             }
             if (pageType == ValueKeyStore.PAGE_TYPE_INNER) {
                 pageid = childPageID

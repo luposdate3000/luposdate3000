@@ -81,7 +81,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:74")
+                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                         }
                         return DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }

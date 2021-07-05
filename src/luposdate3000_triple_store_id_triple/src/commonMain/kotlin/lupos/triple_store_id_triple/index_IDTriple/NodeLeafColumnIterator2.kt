@@ -77,7 +77,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:83", nodeidTmp) {
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp) {
                     SanityCheck.check { node != it }
                     nodeTmp = it
                 }
@@ -89,10 +89,10 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 if (valueTmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:95", nodeidTmp)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp)
                     break
                 }
-                nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:98", nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp

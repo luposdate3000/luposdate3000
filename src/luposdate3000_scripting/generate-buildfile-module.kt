@@ -66,9 +66,7 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
                 }
             }
         }
-        s = s.replace("${'$'}lupos.SOURCE_FILE", "${fixPathNames(src.absolutePath)}:$line")
-        s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${fixPathNames(src.absolutePath)}:$line")
-        s = s.replace("lupos.SOURCE_FILE", "\"${fixPathNames(src.absolutePath)}:$line\"")
+        s = s.replace("SOURCE_FILE_START.*SOURCE_FILE_END", "SOURCE_FILE_START*/\"${fixPathNames(src.absolutePath)}:$line\"/*SOURCE_FILE_END")
         out.println(s)
         line++
     }
@@ -657,7 +655,7 @@ if(!onWindows){
                 out.println("                    var line = 0")
                 out.println("                    ff.forEachLine { line2 ->")
                 out.println("                        var s = line2")
-                out.println("                        s = s.replace(\"lupos.SOURCE_FILE\", \"\\\"\${ff.absolutePath.replace(\"\\\\\", \"/\")}:\$line\\\"\")")
+                out.println("                        s = s.replace(\"SOURCE_FILE_START.*SOURCE_FILE_END\", \"SOURCE_FILE_START*/\\\"${fixPathNames(src.absolutePath)}:$line\\\"/*SOURCE_FILE_END\")")
 //                out.println("                        s = s.replace(\" public \", \" @lupos.ProguardKeepAnnotation public \")")
                 if (moduleArgs.inlineMode == InlineMode.Enable) {
                     out.println("                        s = s.replace(\"/*NOINLINE*/\", \"noinline \")")

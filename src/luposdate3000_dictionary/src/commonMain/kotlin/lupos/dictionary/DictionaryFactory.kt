@@ -48,7 +48,7 @@ public object DictionaryFactory {
                             pageId = it.readInt()
                         }
                     } else {
-                        pageId = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryFactory.kt:52")
+                        pageId = bufferManager.allocPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                         if (BufferManagerExt.allowInitFromDisk) {
                             File(instance.BUFFER_HOME + fileName).withOutputStream {
                                 it.writeInt(pageId)

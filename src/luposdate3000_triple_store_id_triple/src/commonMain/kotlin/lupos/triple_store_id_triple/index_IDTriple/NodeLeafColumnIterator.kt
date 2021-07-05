@@ -46,12 +46,12 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
 /* "__init" was never called*/
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:48", nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
             }
         } else if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:53", nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
             }
             lock.readUnlock()
         }
@@ -68,10 +68,10 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             val nextnodeid = NodeShared.getNextNode(node)
-            nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:70", nodeid)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid)
             nodeid = nextnodeid
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:73", nodeid) {
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid) {
                     SanityCheck.check { node != it }
                     node = it
                 }

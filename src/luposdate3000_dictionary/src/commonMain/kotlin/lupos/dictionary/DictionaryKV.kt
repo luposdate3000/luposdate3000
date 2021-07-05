@@ -60,14 +60,14 @@ public class DictionaryKV internal constructor(
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         kv.close()
         vk.close()
-        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:55", rootPageID)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
     }
 
     public override fun delete() {
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         kv.delete()
         vk.delete()
-        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:61", rootPageID)
+        bufferManager.deletePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
         File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
@@ -106,7 +106,7 @@ public class DictionaryKV internal constructor(
         internal val offsetuuidCounter = offsetvkPage + 4
     }
     init {
-        rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:70", rootPageID)
+        rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, rootPageID)
         var kvPage: Int
         var vkPage: Int
         if (initFromRootPage) {
@@ -115,8 +115,8 @@ public class DictionaryKV internal constructor(
             vkPage = BufferManagerPage.readInt4(rootPage, offsetvkPage)
             uuidCounter = BufferManagerPage.readInt4(rootPage, offsetuuidCounter)
         } else {
-            kvPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:79")
-            vkPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:80")
+            kvPage = bufferManager.allocPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
+            vkPage = bufferManager.allocPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
             DictionaryValueHelper.toByteArray(rootPage, offsetBNodeCounter, bNodeCounter)
             BufferManagerPage.writeInt4(rootPage, offsetkvPage, kvPage)
             BufferManagerPage.writeInt4(rootPage, offsetvkPage, vkPage)
