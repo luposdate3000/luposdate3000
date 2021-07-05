@@ -149,3 +149,4 @@ venv.bak/
 dmypy.json
 
 *.zip
+*.ppo_model

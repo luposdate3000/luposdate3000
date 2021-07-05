@@ -34,10 +34,11 @@ def train_model():
 
     env = gym.make('gym_database:Database-v0')
     model = PPO("MlpPolicy", env, verbose=2)
-    for i in range(len(benched_queries)):
+    # for i in range(len(benched_queries)):
+    for i in range(10):
         env.set_training_data([benched_queries[i]])
         model.learn(total_timesteps=50000, log_interval=1)
-        model.save(param_file + ".ppo_model")
+    model.save(param_file + ".ppo_model")
         # env = model.get_env()
         # del model
         # model = PPO.load("ppo_gym_database")
@@ -46,8 +47,51 @@ def train_model():
 
 
 def optimize_query():
-    None
+    env = gym.make('gym_database:Database-v0')
+    model = PPO.load(param_file)
+    benched_queries = []
+    with open(param_file2, "r") as p_file:
+        counter = 0  # all join orders of one query
+        counter2 = 0  # index for one query
+        for line in p_file:
+            if counter == 0:
+                tmp = line.split(" ")
+                tmp[-1] = tmp[-1][:-1]
+                benched_queries.append([tmp])
+            else:
+                tmp = line.split(" ")
+                tmp[-1] = tmp[-1][:-1]
+                benched_queries[counter2].append(tmp)
 
+            if counter == N_JOIN_ORDERS-1:
+                counter = 0
+                counter2 += 1
+            else:
+                counter += 1
+
+
+    for i in range(10):
+        print("---------------Query: ----------- " + str(i))
+        env.set_training_data([benched_queries[i]])
+        obs = env.reset()
+        print("Observation: ")
+        print(obs)
+        action, _states = model.predict(obs, deterministic=True)
+        print(f"Action: {action}")
+        obs, reward, done, info = env.step(action)
+#     print(f"Action taken: {info}")
+        print("Observation: ")
+#     print(obs)
+#     # env.render()
+        print(obs)
+#     print(f"Reward: {reward}")
+#     print(f"Done: {done}")
+#     # print(info)
+        if done:
+            obs = env.reset()
+            print("Observation: ")
+            print(obs)
+    
 
 if __name__ == '__main__':
 
@@ -67,6 +111,12 @@ if __name__ == '__main__':
         train_model()
 
     elif train_or_opti == "opti":
+        try:
+            param_file = sys.argv[2]
+            param_file2 = sys.argv[3]
+        except:
+            print("Param 2: train: full path for input file")
+            sys.exit()
         optimize_query()
 
     else:
