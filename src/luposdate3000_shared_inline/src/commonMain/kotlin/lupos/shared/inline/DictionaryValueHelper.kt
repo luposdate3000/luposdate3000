@@ -20,27 +20,28 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-/*
-
-
-
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
-
-*/
+import kotlin.jvm.JvmField
 
 internal object DictionaryValueHelperInt {
-    public const val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
-    public const val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
-    public const val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
-    public const val undefValue: Int = (0x00000003) /*lowest 5 values*/
-    public const val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
-    public const val flagLocal: Int = 0x40000000.toInt()
-    public const val flagNoBNode: Int = 0x20000000.toInt()
-    public const val maskValue: Int = 0x1FFFFFFF.toInt()
-    public const val NULL: Int = 0
-    public const val FIRST_BNODE: Int = 5
+    @JvmField internal val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+
+    @JvmField internal val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+
+    @JvmField internal val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+
+    @JvmField internal val undefValue: Int = (0x00000003) /*lowest 5 values*/
+
+    @JvmField internal val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+
+    @JvmField internal val flagLocal: Int = 0x40000000.toInt()
+
+    @JvmField internal val flagNoBNode: Int = 0x20000000.toInt()
+
+    @JvmField internal val maskValue: Int = 0x1FFFFFFF.toInt()
+
+    @JvmField internal val NULL: Int = 0
+
+    @JvmField internal val FIRST_BNODE: Int = 5
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun DictionaryValueTypeArrayOf() = intArrayOf()
@@ -53,12 +54,6 @@ internal object DictionaryValueHelperInt {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun DictionaryValueTypeArrayOf(a: Int, b: Int, c: Int) = intArrayOf(a, b, c)
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun isLocalValue(value: Int): Boolean = (value and flagLocal) == flagLocal
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Int) = ByteArrayHelper.writeInt4(buffer, off, value)
@@ -125,16 +120,25 @@ internal object DictionaryValueHelperInt {
     internal inline fun readFromStream(stream: IMyInputStream) = stream.readInt()
 }
 internal object DictionaryValueHelperLong {
-    public const val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
-    public const val booleanFalseValue: Long = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
-    public const val errorValue: Long = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
-    public const val undefValue: Long = (0x00000003) /*lowest 5 values*/
-    public const val nullValue: Long = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
-    public const val flagLocal: Long = 0x40000000
-    public const val flagNoBNode: Long = 0x20000000
-    public const val maskValue: Long = 0x1FFFFFFF
-    public const val NULL: Long = 0L
-    public const val FIRST_BNODE: Long = 5L
+    @JvmField internal val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+
+    @JvmField internal val booleanFalseValue: Long = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+
+    @JvmField internal val errorValue: Long = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+
+    @JvmField internal val undefValue: Long = (0x00000003) /*lowest 5 values*/
+
+    @JvmField internal val nullValue: Long = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+
+    @JvmField internal val flagLocal: Long = 0x40000000
+
+    @JvmField internal val flagNoBNode: Long = 0x20000000
+
+    @JvmField internal val maskValue: Long = 0x1FFFFFFF
+
+    @JvmField internal val NULL: Long = 0L
+
+    @JvmField internal val FIRST_BNODE: Long = 5L
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun DictionaryValueTypeArrayOf() = longArrayOf()
@@ -147,12 +151,6 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun DictionaryValueTypeArrayOf(a: Long, b: Long, c: Long) = longArrayOf(a, b, c)
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun isLocalValue(value: Long): Boolean = (value and flagLocal) == flagLocal
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun isBnode(value: Long): Boolean = (value and flagNoBNode) != flagNoBNode
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Long) = ByteArrayHelper.writeLong8(buffer, off, value)

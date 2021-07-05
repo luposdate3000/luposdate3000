@@ -51,12 +51,12 @@ public abstract class ADictionary(
     }
 
     override fun isBnode(value: DictionaryValueType): Boolean {
-        return DictionaryValueHelper.isBnode(value)
+        return (value and DictionaryValueHelper.flagNoBNode) != DictionaryValueHelper.flagNoBNode
     }
 
     public override fun isLocalValue(value: DictionaryValueType): Boolean {
         SanityCheck.check({ isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
-        return DictionaryValueHelper.isLocalValue(value)
+        return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {

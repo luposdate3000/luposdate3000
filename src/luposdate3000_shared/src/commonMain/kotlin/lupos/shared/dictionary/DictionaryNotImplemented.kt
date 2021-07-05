@@ -34,6 +34,6 @@ public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType = TODO()
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> = TODO()
     override fun isLocalValue(value: DictionaryValueType): Boolean {
-        return DictionaryValueHelper.isLocalValue(value)
+        return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal
     }
 }
