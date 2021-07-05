@@ -51,6 +51,7 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.inline.Platform
 import java.io.File
+import kotlin.math.abs
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect
@@ -74,7 +75,7 @@ var runArgs = mutableListOf<String>()
 var skipArgs = false
 var threadCount = 1
 var processUrls = ""
-var dictionaryValueMode=EDictionaryValueMode.Int
+var dictionaryValueMode=EDictionaryValueMode.Long
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
@@ -528,7 +529,7 @@ return name.compareTo(other.name)
         ),
         ParamClass(
             "--dictionaryValueMode",
-            EDictionaryValueMode.Int.toString(),
+            EDictionaryValueMode.Long.toString(),
             EDictionaryValueMode.values().map { it -> it.toString() to { dictionaryValueMode = it } }.toMap()
         ),
         ParamClass(
@@ -1063,10 +1064,14 @@ return name.compareTo(other.name)
             out.println("import kotlin.jvm.JvmField")
             out.println("")
             out.println("$modifier object ${enumName}Ext {")
+var mask=0
             for (i in 0 until mapping.size) {
-                out.println("    $modifier const val ${mapping[i]}: $enumName = $i")
+                out.println("    $modifier const val ${mapping[i]}: $enumName = $i // 0x${i.toString(16).padStart(8,'0')}")
+mask=mask or i
             }
             out.println("    $modifier const val values_size: Int = ${mapping.size}")
+            out.println("    $modifier const val values_mask: Int = $mask // 0x${mask.toString(16).padStart(8,'0')}")
+            out.println("    $modifier const val values_mask_inversed: Int = ${mask.toLong().inv() and 0x7FFFFFFF} // 0x${(mask.toLong().inv() and 0x7FFFFFFF).toString(16).padStart(8,'0')}")
             out.println("")
             out.println("    @JvmField")
             out.println("    $modifier val names: Array<String> = arrayOf(")

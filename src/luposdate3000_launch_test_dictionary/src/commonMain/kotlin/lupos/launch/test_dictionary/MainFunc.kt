@@ -31,7 +31,6 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
@@ -157,15 +156,21 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                         ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }
                     var x = DictionaryHelper.byteArrayToType(res)
-val flg=DictionaryHelper.headerDecodeFlag(res)
+                    val flg = DictionaryHelper.headerDecodeFlag(res)
                     var lastx = 0
                     while (x != lastx) {
                         lastx = x
                         if (x == ETripleComponentTypeExt.BLANK_NODE) {
                             x++
+                        } else if (x == ETripleComponentTypeExt.BOOLEAN && ByteArrayWrapperExt.getSize(res) != DictionaryHelper.headerSize()) {
+                            x++
+                        } else if (x == ETripleComponentTypeExt.ERROR && ByteArrayWrapperExt.getSize(res) != DictionaryHelper.headerSize()) {
+                            x++
+                        } else if (x == ETripleComponentTypeExt.UNDEF && ByteArrayWrapperExt.getSize(res) != DictionaryHelper.headerSize()) {
+                            x++
                         }
                     }
-DictionaryHelper.encodeHeader(res,x,flg)
+                    DictionaryHelper.headerEncode(res, x, flg)
                     if (values.values.contains(res)) {
                         if (seed < 255) {
                             seed++
@@ -199,7 +204,7 @@ DictionaryHelper.encodeHeader(res,x,flg)
                     println("testCreateValueNotExistingOk $key $data")
                 }
                 if (mapping[key] != null) {
-                    throw Exception("$key")
+                    throw Exception("luposdate3000_launch_test_dictionary.MainFunc.testCreateValueNotExistingOk $key")
                 }
                 mapping[key] = DictionaryValueHelper.fromInt(values.size)
                 values[DictionaryValueHelper.fromInt(values.size)] = data
