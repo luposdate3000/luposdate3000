@@ -144,7 +144,7 @@ public class POPDistributedReceiveMulti public constructor(
                 SanityCheck.check { j >= 0 && j < variables.size }
                 mapping[i] = j
             }
-            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.first.readDictionaryValueType()

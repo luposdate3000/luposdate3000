@@ -174,7 +174,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             outMap[k] = iterator
                         }
                         SanityCheck.check { columnMode.containsAll(target) }
-                        SanityCheck.check({ target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
                         return IteratorBundle(outMap)
                     }
                     child.hasRowMode() -> {

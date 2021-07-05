@@ -122,7 +122,7 @@ public class POPDistributedReceiveSingle public constructor(
             SanityCheck.check { connection == null }
             val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
             val cnt = conn.first.readInt()
-            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ cnt == variables.size }, { "$cnt vs ${variables.size}" })
             for (i in 0 until variables.size) {
                 val len = conn.first.readInt()
                 val buf = ByteArray(len)

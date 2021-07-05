@@ -606,7 +606,7 @@ public open class SparqlTestSuite {
             File("log/$testName2-Logical-Operator-Graph.tex").withOutputStream {
                 it.println(OperatorGraphToLatex(lopNode.toString(), testName2))
             }
-            SanityCheck.check({ lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
                 SanityCheck.println { x }
@@ -624,7 +624,7 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.check({ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
             SanityCheck { popNode.toSparqlQuery() }
             File("log/$testName2-Physical-Operator-Graph.tex").withOutputStream {
                 it.println(OperatorGraphToLatex(popNode.toString(), testName2))

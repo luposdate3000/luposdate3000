@@ -55,7 +55,7 @@ public abstract class ADictionary(
     }
 
     public override fun isLocalValue(value: DictionaryValueType): Boolean {
-        SanityCheck.check({ isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
         return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal
     }
 

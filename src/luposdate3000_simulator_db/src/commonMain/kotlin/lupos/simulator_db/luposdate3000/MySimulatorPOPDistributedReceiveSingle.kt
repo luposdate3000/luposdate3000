@@ -69,14 +69,14 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)
         val cnt = input.readInt()
-        SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ cnt == variables.size }, { "$cnt vs ${variables.size}" })
         for (i in 0 until variables.size) {
             val len = input.readInt()
             val buf = ByteArray(len)
             input.read(buf, len)
             val name = buf.decodeToString()
             val j = variables.indexOf(name)
-            SanityCheck.check({ j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
             mapping[i] = j
         }
         var closed = false

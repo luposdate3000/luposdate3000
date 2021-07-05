@@ -135,7 +135,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
             val conn = allConnections[k]!!
             var mapping = IntArray(variables.size)
             val cnt = conn.first.readInt()
-            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ cnt == variables.size }, { "$cnt vs ${variables.size}" })
             for (i in 0 until variables.size) {
                 val len = conn.first.readInt()
                 val buf = ByteArray(len)

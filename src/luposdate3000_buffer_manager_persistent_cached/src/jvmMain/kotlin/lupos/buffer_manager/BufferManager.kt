@@ -149,7 +149,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                                 SanityCheck.check { cmp[i] == openPages[openId][i] }
                             }
                         }
-                        SanityCheck.check({ BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
                         SanityCheck.check { openPagesLastUseCounter >= 0 }
                         openPagesLastUseCounters[openId] = openPagesLastUseCounter++
                         if (openPagesLastUseCounter >= Int.MAX_VALUE - 10) {

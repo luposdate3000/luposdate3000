@@ -141,7 +141,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                             }
                         }
                         openPagesMapping[openId] = -1
-                        SanityCheck.check({ BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
                         BufferManagerPage.setPageID(openPages[openId], -1)
                         SanityCheck {
                             openPages[openId] = BufferManagerPage.create()
@@ -162,10 +162,10 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         var openId2 = -1
         lock.withWriteLock {
             SanityCheck {
-                SanityCheck.check({ pageid < counter }, { "pageid < counter :: $pageid < $counter" })
-                SanityCheck.check({ pageid >= 0 }, { "pageid >= 0 :: $pageid >= 0" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter }, { "pageid < counter :: $pageid < $counter" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid >= 0 }, { "pageid >= 0 :: $pageid >= 0" })
                 for (i in 0 until freeArrayLength) {
-                    SanityCheck.check({ freeArray[i] != pageid }, { "freeArray[$i] != pageid :: ${freeArray[i]} != $pageid" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { freeArray[i] != pageid }, { "freeArray[$i] != pageid :: ${freeArray[i]} != $pageid" })
                 }
             }
             findOpenID(
@@ -187,7 +187,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.readFully(openPages[openId2], 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     openPagesMapping[openId2] = pageid
-                    SanityCheck.check({ BufferManagerPage.getPageID(openPages[openId2]) == -1 }, { "BufferManagerPage.getPageID(openPages[openId2]) :: ${BufferManagerPage.getPageID(openPages[openId2])}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId2]) == -1 }, { "BufferManagerPage.getPageID(openPages[openId2]) :: ${BufferManagerPage.getPageID(openPages[openId2])}" })
                     BufferManagerPage.setPageID(openPages[openId2], pageid)
                 }
             )

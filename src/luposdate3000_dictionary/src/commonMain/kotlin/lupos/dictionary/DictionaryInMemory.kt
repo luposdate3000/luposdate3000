@@ -101,14 +101,14 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
             DictionaryValueHelper.nullValue -> throw Exception("invalid call")
             else -> {
                 if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
-                    SanityCheck.check({ (value and DictionaryValueHelper.maskValue) >= 0 }, { " $value >= 0" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { (value and DictionaryValueHelper.maskValue) >= 0 }, { " $value >= 0" })
                     if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
                         val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
                         ByteArrayWrapperExt.copyInto(buf, buffer)
-                        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "xxx" + value })
-                        SanityCheck.check({ (value and DictionaryValueHelper.maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "xxx" + value })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { (value and DictionaryValueHelper.maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
                     } else {
-                        SanityCheck.check({ (value and DictionaryValueHelper.maskValue) < bNodeCounter }, { "$value < $bNodeCounter" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { (value and DictionaryValueHelper.maskValue) < bNodeCounter }, { "$value < $bNodeCounter" })
                         DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
                     }
                 } else {
@@ -116,7 +116,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                 }
             }
         }
-        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "" + value })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "" + value })
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {

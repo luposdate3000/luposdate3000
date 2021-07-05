@@ -77,7 +77,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
 
     public override fun releasePage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
-        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
         allPagesRefcounters[pageid]--
     }
 
@@ -85,8 +85,8 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
-            SanityCheck.check({ pageid < counter }, { "$pageid < $counter" })
-            SanityCheck.check({ pageid >= 0 }, { "$pageid >= 0" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter }, { "$pageid < $counter" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid >= 0 }, { "$pageid >= 0" })
             for (i in 0 until freeListSize) {
                 SanityCheck.check { freeList[i] != pageid }
             }
@@ -122,7 +122,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                 }
                 pageid = counter++
             }
-            SanityCheck.check({ BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])} $pageid" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])} $pageid" })
             BufferManagerPage.setPageID(allPages[pageid], pageid)
         }
         SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
@@ -136,7 +136,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                 SanityCheck.check { freeList[i] != pageid }
             }
         }
-        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
         allPagesRefcounters[pageid] = 0
         SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
         BufferManagerPage.setPageID(allPages[pageid], -1)
@@ -160,7 +160,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                     allErrors[i] = allPagesRefcounters[i]
                 }
             }
-            SanityCheck.check({ allErrors.size == 0 }, { "$allErrors" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { allErrors.size == 0 }, { "$allErrors" })
         }
     }
 }

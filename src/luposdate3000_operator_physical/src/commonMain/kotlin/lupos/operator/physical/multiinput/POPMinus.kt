@@ -57,8 +57,8 @@ public class POPMinus public constructor(query: IQuery, projectedVariables: List
                 getPartitionCount(v)
             }
         }
-        SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(variables) }, { toString() })
-        SanityCheck.check({ children[1].getProvidedVariableNames().containsAll(variables) }, { toString() })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getProvidedVariableNames().containsAll(variables) }, { toString() })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[1].getProvidedVariableNames().containsAll(variables) }, { toString() })
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
         val rowA = childA.rows

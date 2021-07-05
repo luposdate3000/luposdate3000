@@ -131,8 +131,8 @@ public abstract class OPBase public constructor(
         SanityCheck {
             val v1 = getProvidedVariableNames()
             val v2 = histogramResult!!.values.keys
-            SanityCheck.check({ v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
-            SanityCheck.check({ v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
         }
         return histogramResult!!
     }
@@ -249,7 +249,7 @@ public abstract class OPBase public constructor(
                 }
             }
         }
-        SanityCheck.check({ getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
 

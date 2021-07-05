@@ -34,7 +34,7 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
             for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
                 if (tmp == DictionaryValueHelper.nullValue) {
-                    SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { columnIndex == 0 }, { "" + iterators[columnIndex] })
                     res = -1
                     close()
                     break

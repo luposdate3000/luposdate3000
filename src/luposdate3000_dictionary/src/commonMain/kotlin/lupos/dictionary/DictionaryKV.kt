@@ -158,11 +158,11 @@ public class DictionaryKV internal constructor(
                 }
             }
         }
-        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "" + value })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "" + value })
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        SanityCheck.check({ ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() })
         SanityCheck.check { isLocal != (instance.nodeGlobalDictionary == this) }
         when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
