@@ -1047,18 +1047,7 @@ internal object DictionaryHelper {
                 val bv = byteArrayToInteger_I(b)
                 return av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.STRING_LANG || typeA == ETripleComponentTypeExt.STRING_TYPED || typeA == ETripleComponentTypeExt.IRI || typeA == ETripleComponentTypeExt.STRING) {
-                val lenA = ByteArrayWrapperExt.getSize(a)
-                val lenB = ByteArrayWrapperExt.getSize(b)
-                var i = 4
-                var res = 0
-                while (i < lenA && i < lenB && res == 0) {
-                    res = ByteArrayWrapperExt.getBuf(a)[i] - ByteArrayWrapperExt.getBuf(b)[i]
-                    i++
-                }
-                if (res == 0) {
-                    res = lenA - lenB
-                }
-                return res
+                return a.compareTo(b)
             }
         }
         throw Exception("can not compare $typeA $typeB")
