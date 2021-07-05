@@ -968,7 +968,7 @@ return tmp
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 3 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 3 })
         return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, TripleStoreManager.DEFAULT_GRAPH_NAME, false)
     }
 
@@ -986,7 +986,7 @@ return tmp
     }
 
     override fun visit(node: ASTOr, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size > 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -999,7 +999,7 @@ return tmp
     }
 
     override fun visit(node: ASTAnd, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size > 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -1012,47 +1012,47 @@ return tmp
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPNEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPLEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPGEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPLT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPGT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return AOPNotIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTAddition, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size > 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -1065,7 +1065,7 @@ return tmp
     }
 
     override fun visit(node: ASTSubtraction, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size > 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (i in childrenValues.indices) {
             val v = childrenValues[childrenValues.size - 1 - i]
@@ -1079,7 +1079,7 @@ return tmp
     }
 
     override fun visit(node: ASTMultiplication, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size > 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -1092,7 +1092,7 @@ return tmp
     }
 
     override fun visit(node: ASTDivision, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size > 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (i in childrenValues.indices) {
             val v = childrenValues[childrenValues.size - 1 - i]
@@ -1106,22 +1106,22 @@ return tmp
     }
 
     override fun visit(node: ASTNot, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
         return AOPNot(query, childrenValues[0] as AOPBase)
     }
 
     override fun visit(node: ASTBase, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         return LOPPrefix(query, "", node.iri)
     }
 
     override fun visit(node: ASTPrefix, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         return LOPPrefix(query, node.name, node.iri)
     }
 
     override fun visit(node: ASTAs, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name)) {
@@ -1131,7 +1131,7 @@ return tmp
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         return AOPVariable(query, query.getUniqueVariableName(node.name))
 // blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
     }
@@ -1139,31 +1139,31 @@ return tmp
     override fun visit(node: ASTBuiltInCall, childrenValues: List<IOPBase>): IOPBase {
         when (node.function) {
             BuiltInFunctionsExt.STR -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallSTR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.LANG -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallLANG(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.LANGMATCHES -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallLANGMATCHES(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.DATATYPE -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallDATATYPE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.BOUND -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallBOUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.IRI -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase, "")
             }
             BuiltInFunctionsExt.URI -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallURI(query, childrenValues[0] as AOPBase, "")
             }
             BuiltInFunctionsExt.BNODE -> {
@@ -1173,23 +1173,23 @@ return tmp
                 return AOPBuildInCallBNODE0(query)
             }
             BuiltInFunctionsExt.ABS -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallABS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.CEIL -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallCEIL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.FLOOR -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallFLOOR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.ROUND -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.CONCAT -> {
-                SanityCheck.check { childrenValues.isNotEmpty() }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isNotEmpty() })
                 var res = childrenValues[0] as AOPBase
                 for (i in 1 until childrenValues.size) {
                     res = AOPBuildInCallCONCAT(query, res, childrenValues[i] as AOPBase)
@@ -1200,115 +1200,115 @@ return tmp
                 return AOPBuildInCallCOALESCE(query, childrenValues.map { it as AOPBase })
             }
             BuiltInFunctionsExt.STRLEN -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.UCASE -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallUCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.LCASE -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallLCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.CONTAINS -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallCONTAINS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRSTARTS -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallSTRSTARTS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRENDS -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallSTRENDS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.YEAR -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallYEAR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.MONTH -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallMONTH(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.DAY -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallDAY(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.HOURS -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallHOURS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.MINUTES -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallMINUTES(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.SECONDS -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallSECONDS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.TIMEZONE -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallTIMEZONE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.TZ -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.NOW -> {
-                SanityCheck.check { childrenValues.isEmpty() }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
                 return AOPConstant(query, queryExecutionStartTime)
             }
             BuiltInFunctionsExt.UUID -> {
-                SanityCheck.check { childrenValues.isEmpty() }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
                 return AOPBuildInCallUUID(query)
             }
             BuiltInFunctionsExt.STRUUID -> {
-                SanityCheck.check { childrenValues.isEmpty() }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
                 return AOPBuildInCallSTRUUID(query)
             }
             BuiltInFunctionsExt.MD5 -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallMD5(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.SHA1 -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallSHA1(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.SHA256 -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallSHA256(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.IF -> {
-                SanityCheck.check { childrenValues.size == 3 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 3 })
                 return AOPBuildInCallIF(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
             }
             BuiltInFunctionsExt.STRLANG -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRAFTER -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallSTRAFTER(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRBEFORE -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallSTRBEFORE(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRDT -> {
-                SanityCheck.check { childrenValues.size == 2 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
                 return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.isLITERAL -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallIsLITERAL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.isIRI -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallIsIri(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.isNUMERIC -> {
-                SanityCheck.check { childrenValues.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.NotExists -> {
@@ -1357,7 +1357,7 @@ return tmp
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size >= 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size >= 2 })
         val tmplist = mutableListOf<IOPBase>()
         for (v in childrenValues) {
             tmplist.add(v)
@@ -1372,7 +1372,7 @@ return tmp
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
         val child = childrenValues.first() as AOPBase
         if (containsAggregate(node.children.first())) {
             throw AggregateNotAllowedSyntaxException()
@@ -1381,7 +1381,7 @@ return tmp
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 1 })
         val tmp = childrenValues.first() as AOPBase
         if (tmp is AOPVariable) {
             return LOPSort(query, node.asc, tmp)
@@ -1391,7 +1391,7 @@ return tmp
     }
 
     override fun visit(node: ASTVar, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         return AOPVariable(query, node.name)
     }
 
@@ -1522,40 +1522,40 @@ return tmp
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationTypeExt.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTMove, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationTypeExt.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationTypeExt.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTClear, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationTypeExt.CLEAR, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationTypeExt.DROP, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationTypeExt.CREATE, node.silent, g1.first, g1.second)
     }
@@ -1788,7 +1788,7 @@ return tmp
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childrenValues.size == 2 })
         return LOPMinus(query, childrenValues[0], childrenValues[1], listOf())
     }
 

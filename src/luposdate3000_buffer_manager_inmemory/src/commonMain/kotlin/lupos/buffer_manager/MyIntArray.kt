@@ -52,9 +52,9 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
     public fun getSize(): Int = _size
 
     public operator fun get(idx: Int): Int {
-        SanityCheck.check { !closed }
-        SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < _size }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ idx >= 0 })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ idx < _size })
         var res = 0
         lock.withReadLock {
             res = data[idx]
@@ -63,16 +63,16 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
     }
 
     public operator fun set(idx: Int, value: Int) {
-        SanityCheck.check { !closed }
-        SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < _size }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ idx >= 0 })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ idx < _size })
         lock.withWriteLock {
             data[idx] = value
         }
     }
 
     public fun setSize(size: Int, clean: Boolean) {
-        SanityCheck.check { !closed }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
         if (size != _size) {
             lock.withWriteLock {
                 if (data.size < size) {
@@ -98,7 +98,7 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
     }
 
     public fun setSize(size: Int) {
-        SanityCheck.check { !closed }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
         if (size != _size) {
             lock.withWriteLock {
                 if (data.size < size) {
@@ -120,12 +120,12 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
     }
 
     public fun close() {
-        SanityCheck.check { !closed }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
         closed = true
     }
 
     public fun delete() {
-        SanityCheck.check { !closed }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !closed })
         close()
         if (bufferManagerPage != null) {
             bufferManager?.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, bufferManagerPage!!)

@@ -84,28 +84,28 @@ internal object NodeLeaf {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun initializeWith(node: ByteArray, iterator: TripleIterator) {
-        SanityCheck.check { iterator.hasNext() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ iterator.hasNext() })
         var writtenTriples: MutableList<DictionaryValueType>? = null
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             writtenTriples = mutableListOf()
-        }
+        })
         val tripleLast = DictionaryValueTypeArray(3)
         var offset = START_OFFSET
         val offsetEnd = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - NodeShared.MAX_TRIPLE_SIZE
         var triples = 0
         while (iterator.hasNext() && offset <= offsetEnd) {
             val tripleCurrent = iterator.next()
-            SanityCheck {
+            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
                 writtenTriples!!.add(tripleCurrent[0])
                 writtenTriples!!.add(tripleCurrent[1])
                 writtenTriples!!.add(tripleCurrent[2])
-            }
+            })
             offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)
             triples++
         }
         NodeShared.setTripleCount(node, triples)
         NodeShared.setNextNode(node, NodeManager.nodeNullPointer)
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             var remaining = NodeShared.getTripleCount(node)
             var offset2 = START_OFFSET
             var i = 0
@@ -118,12 +118,12 @@ internal object NodeLeaf {
                     value1 = v1
                     value2 = v2
                 }
-                SanityCheck.check { value0 == writtenTriples!![i * 3] }
-                SanityCheck.check { value1 == writtenTriples!![i * 3 + 1] }
-                SanityCheck.check { value2 == writtenTriples!![i * 3 + 2] }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ value0 == writtenTriples!![i * 3] })
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ value1 == writtenTriples!![i * 3 + 1] })
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ value2 == writtenTriples!![i * 3 + 2] })
                 remaining--
                 i++
             }
-        }
+        })
     }
 }

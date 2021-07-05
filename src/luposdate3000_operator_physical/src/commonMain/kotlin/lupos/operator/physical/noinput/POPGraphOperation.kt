@@ -388,9 +388,9 @@ public class POPGraphOperation public constructor(
     }
     public open override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             res = true
-        }
+        })
         return res
     }
 }

@@ -43,19 +43,19 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
     }
 
     override fun readDictionaryValueType(): DictionaryValueType {
-        SanityCheck.check { offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) })
         val res = DictionaryValueHelper.fromByteArray(ByteArrayWrapperExt.getBuf(data), offset)
         offset += DictionaryValueHelper.getSize()
         return res
     }
     override fun readLong(): Long {
-        SanityCheck.check { offset + 8 <= ByteArrayWrapperExt.getSize(data) }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { offset + 8 <= ByteArrayWrapperExt.getSize(data) })
         val res = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(data), offset)
         offset += 8
         return res
     }
     override fun readInt(): Int {
-        SanityCheck.check { offset + 4 <= ByteArrayWrapperExt.getSize(data) }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { offset + 4 <= ByteArrayWrapperExt.getSize(data) })
         val res = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(data), offset)
         offset += 4
         return res

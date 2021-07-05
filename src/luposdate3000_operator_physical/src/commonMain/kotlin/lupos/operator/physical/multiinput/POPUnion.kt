@@ -50,16 +50,16 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             for (v in children[0].getProvidedVariableNames()) {
                 getPartitionCount(v)
             }
             for (v in children[1].getProvidedVariableNames()) {
                 getPartitionCount(v)
             }
-        }
-        SanityCheck.check { children[0].getProvidedVariableNames().containsAll(variables) }
-        SanityCheck.check { children[1].getProvidedVariableNames().containsAll(variables) }
+        })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getProvidedVariableNames().containsAll(variables) })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[1].getProvidedVariableNames().containsAll(variables) })
         val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
@@ -69,7 +69,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
             }
             return IteratorBundle(outMap)
         } else {
-            SanityCheck.check { childA.hasCountMode() && childB.hasCountMode() }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ childA.hasCountMode() && childB.hasCountMode() })
             return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()

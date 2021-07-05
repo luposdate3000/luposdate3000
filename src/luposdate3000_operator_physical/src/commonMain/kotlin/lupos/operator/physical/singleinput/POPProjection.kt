@@ -55,12 +55,12 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
             }
             variables.isEmpty() -> {
                 val variables2 = children[0].getProvidedVariableNames()
-                SanityCheck {
-                    SanityCheck.check { variables2.isNotEmpty() }
+                SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables2.isNotEmpty() })
                     for (variable in variables2) {
-                        SanityCheck.check { child.columns[variable] != null }
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ child.columns[variable] != null })
                     }
-                }
+                })
                 val column = child.columns[variables2[0]]!!
                 return object : IteratorBundle(0) {
                     override /*suspend*/ fun hasNext2(): Boolean {
@@ -74,7 +74,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
             }
             else -> {
                 for (variable in variables) {
-                    SanityCheck.check { child.columns[variable] != null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ child.columns[variable] != null })
                     outMap[variable] = child.columns[variable]!!
                 }
                 return IteratorBundle(outMap)

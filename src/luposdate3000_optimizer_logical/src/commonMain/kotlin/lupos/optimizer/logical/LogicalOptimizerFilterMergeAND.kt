@@ -38,8 +38,8 @@ public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query,
                     res = LOPFilter(query, AOPAnd(query, node.getChildren()[1] as AOPBase, child.getChildren()[1] as AOPBase), child.getChildren()[0])
                     onChange()
                 } else {
-                    SanityCheck.check { node.dontSplitFilter == 0 || child.dontSplitFilter == 0 }
-                    SanityCheck.check { node.dontSplitFilter == 1 || child.dontSplitFilter == 1 }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node.dontSplitFilter == 0 || child.dontSplitFilter == 0 })
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node.dontSplitFilter == 1 || child.dontSplitFilter == 1 })
                     val a: AOPBase
                     val b: AOPBase
                     if (node.dontSplitFilter < child.dontSplitFilter) {
@@ -49,11 +49,11 @@ public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query,
                         a = child.getChildren()[1] as AOPBase
                         b = node.getChildren()[1] as AOPBase
                     }
-                    SanityCheck.check { b is AOPOr }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ b is AOPOr })
                     val c = b.getChildren()[0] as AOPBase
-                    SanityCheck.check { c is AOPAnd }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ c is AOPAnd })
                     val d = c.getChildren()[1] as AOPBase
-                    SanityCheck.check { d is AOPBuildInCallCOALESCE }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ d is AOPBuildInCallCOALESCE })
                     if (a is AOPBuildInCallBOUND) {
                         // TODO check if that bound is one of the options for this optional block
                         res = LOPFilter(query, c, child.getChildren()[0])

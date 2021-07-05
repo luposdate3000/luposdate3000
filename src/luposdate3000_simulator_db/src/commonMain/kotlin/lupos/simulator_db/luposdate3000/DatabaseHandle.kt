@@ -159,7 +159,7 @@ public class DatabaseHandle : IDatabase {
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
             "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MyInputStreamFromByteArray(pck.data!!))
             "simulator-intermediate-result" -> {
-                SanityCheck.check { myPendingWorkData[pck.params["key"]!!] == null }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ myPendingWorkData[pck.params["key"]!!] == null })
                 myPendingWorkData[pck.params["key"]!!] = pck.data!!
                 doWork()
             }
@@ -186,7 +186,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check { v.size >= 1 }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ v.size >= 1 })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -236,7 +236,7 @@ public class DatabaseHandle : IDatabase {
                 p.destinations[k] = ownAdress
             }
         }
-        SanityCheck.check { packageMap.size == pck.operatorGraph.size }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ packageMap.size == pck.operatorGraph.size })
         for ((k, v) in packages) {
             if (k != ownAdress) {
                 router!!.send(k, v)
@@ -269,9 +269,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check { keys.size == 1 }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ keys.size == 1 })
             val key = keys.first()!!
-            SanityCheck.check { myPendingWorkData.contains(key) }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = MySimulatorPOPDistributedReceiveSingle(

@@ -136,7 +136,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 return res
             }
             else -> {
-                SanityCheck.check { nodes.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ nodes.size == 1 })
                 return nodes[0]
             }
         }

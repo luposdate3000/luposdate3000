@@ -59,7 +59,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     @ProguardTestAnnotation
     override fun getNumberOfReferencedPages(): Int {
         val res = allPagesRefcounters.sum()
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             val tmp = mutableMapOf<Int, Int>()
             for (i in 0 until counter) {
                 if (allPagesRefcounters[i] != 0) {
@@ -67,7 +67,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                 }
             }
             SanityCheck.println_buffermanager { "getNumberOfReferencedPages = $tmp" }
-        }
+        })
         return res
     }
 
@@ -84,14 +84,14 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     public override fun getPage(call_location: String, pageid: Int): ByteArray {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid < counter }, { "$pageid < $counter" })
             SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { pageid >= 0 }, { "$pageid >= 0" })
             for (i in 0 until freeListSize) {
-                SanityCheck.check { freeList[i] != pageid }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ freeList[i] != pageid })
             }
-        }
-        SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
+        })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.getPageID(allPages[pageid]) == pageid })
         allPagesRefcounters[pageid]++
         return allPages[pageid]
     }
@@ -131,18 +131,18 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
 
     public /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             for (i in 0 until freeListSize) {
-                SanityCheck.check { freeList[i] != pageid }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ freeList[i] != pageid })
             }
-        }
+        })
         SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
         allPagesRefcounters[pageid] = 0
-        SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.getPageID(allPages[pageid]) == pageid })
         BufferManagerPage.setPageID(allPages[pageid], -1)
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             allPages[pageid] = BufferManagerPage.create()
-        }
+        })
         if (freeListSize == freeList.size) {
             val tmp = IntArray(freeListSize * 2)
             freeList.copyInto(tmp)
@@ -153,7 +153,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
 
     @ProguardTestAnnotation
     public override fun close() {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             val allErrors = mutableMapOf<Int, Int>()
             for (i in 0 until counter) {
                 if (allPagesRefcounters[i] != 0) {
@@ -161,6 +161,6 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                 }
             }
             SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { allErrors.size == 0 }, { "$allErrors" })
-        }
+        })
     }
 }

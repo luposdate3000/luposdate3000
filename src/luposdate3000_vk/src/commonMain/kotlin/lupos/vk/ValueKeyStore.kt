@@ -124,11 +124,11 @@ public class ValueKeyStore {
             if (data == buffer) {
                 res = id
                 dataIsInserted = true
-                SanityCheck.check { res != ValueKeyStore.ID_NULL }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ res != ValueKeyStore.ID_NULL })
             } else if (data < buffer) {
                 res = value()
                 dataIsInserted = true
-                SanityCheck.check { res != ValueKeyStore.ID_NULL }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ res != ValueKeyStore.ID_NULL })
                 writer.write(res, data)
             }
             writer.write(id, buffer)
@@ -139,7 +139,7 @@ public class ValueKeyStore {
         }
         if (!dataIsInserted) {
             res = value()
-            SanityCheck.check { res != ValueKeyStore.ID_NULL }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ res != ValueKeyStore.ID_NULL })
             writer.write(res, data)
         }
         reader.close()
@@ -191,7 +191,7 @@ public class ValueKeyStore {
                     localNextReader()
                 } else if (data < buffer) {
                     val res = onNotFound(data)
-                    SanityCheck.check { res != ValueKeyStore.ID_NULL }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ res != ValueKeyStore.ID_NULL })
                     writer.write(res, data)
                     localNextData()
                 } else {
@@ -205,7 +205,7 @@ public class ValueKeyStore {
             }
             while (!dataIsInserted) {
                 val res = onNotFound(data)
-                SanityCheck.check { res != ValueKeyStore.ID_NULL }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ res != ValueKeyStore.ID_NULL })
                 writer.write(res, data)
                 localNextData()
             }
@@ -300,8 +300,8 @@ internal class ValueKeyStoreWriter {
     }
 
     internal inline fun write(childPageID: Int, id: Int, buffer: ByteArrayWrapper, onNextEntryPoint: () -> Unit) {
-        SanityCheck.check { offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE }
-        SanityCheck.check { id != ValueKeyStore.ID_NULL }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ id != ValueKeyStore.ID_NULL })
         counter++
         var common = ByteArrayWrapperExt.commonBytes(buffer, lastBuffer)
         ByteArrayWrapperExt.copyInto(buffer, lastBuffer)
@@ -369,13 +369,13 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
         if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
             return false
         } else {
-            SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
             return BufferManagerPage.readInt4(page, offset) != ValueKeyStore.ID_NULL
         }
     }
 
     public fun next(): Int {
-        SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
         val id = BufferManagerPage.readInt4(page, offset)
         val len = BufferManagerPage.readInt4(page, offset + 4)
         var bufferOffset = BufferManagerPage.readInt4(page, offset + 8)
@@ -392,10 +392,10 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
                 bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
                 pageid = nextPageID
                 if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
-                    SanityCheck.check { bufferOffset == len }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ bufferOffset == len })
                 } else {
                     page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
-                    SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
                     nextPageID = BufferManagerPage.readInt4(page, 4)
                     offset = 12
                 }
@@ -406,7 +406,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
 
     public fun close() {
         if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {
-            SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
             bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
         }
     }
@@ -446,10 +446,10 @@ internal class ValueKeyStoreIteratorSearch {
                         bufferManager.releasePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
                         pageid = nextPageID
                         if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
-                            SanityCheck.check { bufferOffset == len }
+                            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ bufferOffset == len })
                         } else {
                             page = bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, pageid)
-                            SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
+                            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
                             nextPageID = BufferManagerPage.readInt4(page, 4)
                             offset = 12
                         }

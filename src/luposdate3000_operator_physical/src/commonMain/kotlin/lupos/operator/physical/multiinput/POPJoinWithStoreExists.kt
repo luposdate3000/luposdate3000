@@ -44,9 +44,9 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
 
     override fun equals(other: Any?): Boolean = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check { !optional }
-        SanityCheck.check { !childB.graphVar }
-        SanityCheck.check { projectedVariables.isEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !optional })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !childB.graphVar })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.isEmpty() })
         val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
         val params = Array<IAOPBase>(3) { childB.children[it] as IAOPBase }
@@ -64,7 +64,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
-        SanityCheck.check { mapping.isNotEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ mapping.isNotEmpty() })
         for (i in mapping.indices) {
             val tmp = iterators[i].next()
             if (tmp == DictionaryValueHelper.nullValue) {
@@ -72,7 +72,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
                 for (element in iterators) {
                     element.close()
                 }
-                SanityCheck.check { i == 0 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ i == 0 })
                 break
             } else {
                 params[mapping[i]] = AOPConstant(query, tmp)
@@ -92,7 +92,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
                                     element.close()
                                 }
                                 done = true
-                                SanityCheck.check { i == 0 }
+                                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ i == 0 })
                                 break@loop
                             } else {
                                 params[mapping[i]] = AOPConstant(query, tmp)

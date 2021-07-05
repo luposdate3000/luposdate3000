@@ -42,7 +42,7 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
     private val input: IMyInputStream,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveSingleID, "POPDistributedReceiveSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int = TODO()

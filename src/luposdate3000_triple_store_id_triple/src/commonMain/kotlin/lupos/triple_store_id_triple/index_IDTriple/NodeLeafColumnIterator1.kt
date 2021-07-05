@@ -78,11 +78,11 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeidTmp) {
-                    SanityCheck.check { node != it }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node != it })
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-                SanityCheck.check { remainingTmp > 0 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ remainingTmp > 0 })
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple010(nodeTmp, offsetTmp, 0) { v ->
                     valueTmp = v

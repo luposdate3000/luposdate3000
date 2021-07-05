@@ -133,7 +133,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check { !tmp.contains(uuid) }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !tmp.contains(uuid) })
             tmp.add(uuid)
         }
     }
@@ -141,7 +141,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check { tmp.contains(uuid) }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ tmp.contains(uuid) })
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

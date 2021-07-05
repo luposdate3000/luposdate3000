@@ -63,8 +63,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     for (k in child.columns.keys) {
                         columnMode.add(k)
                     }
-                    SanityCheck.check { columnMode.containsAll(target) }
-                    SanityCheck.check { target.containsAll(columnMode) }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columnMode.containsAll(target) })
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ target.containsAll(columnMode) })
                     val outMap = mutableMapOf<String, ColumnIterator>()
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
@@ -88,8 +88,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
-                    SanityCheck.check { rowMode.containsAll(target) }
-                    SanityCheck.check { target.containsAll(rowMode) }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ rowMode.containsAll(target) })
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ target.containsAll(rowMode) })
                 }
                 return child
             }
@@ -173,14 +173,14 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             }
                             outMap[k] = iterator
                         }
-                        SanityCheck.check { columnMode.containsAll(target) }
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columnMode.containsAll(target) })
                         SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
                         return IteratorBundle(outMap)
                     }
                     child.hasRowMode() -> {
                         val rowMode = child.rows.columns.toMutableList()
-                        SanityCheck.check { rowMode.containsAll(target) }
-                        SanityCheck.check { target.containsAll(rowMode) }
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ rowMode.containsAll(target) })
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ target.containsAll(rowMode) })
                         val iterator = RowIterator()
                         var counter = 0
                         iterator.columns = child.rows.columns

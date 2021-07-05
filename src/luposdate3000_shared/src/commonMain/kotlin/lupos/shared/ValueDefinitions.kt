@@ -118,7 +118,7 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
                 return if (tmp.endsWith(">") && typeIdx > 0) {
                     ValueTypedLiteral("" + tmp[0], tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
                 } else {
-                    SanityCheck.check { langIdx > 0 }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { langIdx > 0 })
                     ValueLanguageTaggedLiteral("" + tmp[0], tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                 }
             }

@@ -36,17 +36,17 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
         val ids = mutableListOf<Int>()
         when (node) {
             is POPMergePartitionCount -> {
-                SanityCheck.check { !currentPartitions.contains(node.partitionVariable) }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !currentPartitions.contains(node.partitionVariable) })
                 currentPartitions[node.partitionVariable] = node.partitionCount
                 ids.add(node.partitionID)
             }
             is POPMergePartition -> {
-                SanityCheck.check { !currentPartitions.contains(node.partitionVariable) }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !currentPartitions.contains(node.partitionVariable) })
                 currentPartitions[node.partitionVariable] = node.partitionCount
                 ids.add(node.partitionID)
             }
             is POPMergePartitionOrderedByIntId -> {
-                SanityCheck.check { !currentPartitions.contains(node.partitionVariable) }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !currentPartitions.contains(node.partitionVariable) })
                 currentPartitions[node.partitionVariable] = node.partitionCount
                 ids.add(node.partitionID)
             }
@@ -108,7 +108,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                         }
                         nextStep(tmp)
                     }
-                    SanityCheck {
+                    SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
                         val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
                         verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(), tmp)
                         for ((k, v1) in allPartitionOperators) {
@@ -122,7 +122,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                         if (query.filtersMovedUpFromOptionals) {
                             tmp.syntaxVerifyAllVariableExists(listOf(), false)
                         }
-                    }
+                    })
                 }
             }
         }

@@ -31,64 +31,64 @@ internal actual class MyThreadReadWriteLock {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun downgradeToReadLock() {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             if (!lockedWrite) {
                 throw Exception("something went wrong 1")
             }
             lockedRead = 1
             lockedWrite = false
-        }
+        })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readLock() {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             if (lockedWrite) {
                 throw Exception("something went wrong 2")
             }
             lockedRead++
-        }
+        })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readUnlock() {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             if (lockedRead <= 0) {
                 throw Exception("something went wrong 3")
             }
             lockedRead--
-        }
+        })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeLock() {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             if (lockedRead > 0 || lockedWrite) {
                 throw Exception("something went wrong 4 $lockedRead $lockedWrite")
             }
             lockedWrite = true
-        }
+        })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun tryWriteLock(): Boolean {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             if (lockedRead > 0 || lockedWrite) {
                 throw Exception("something went wrong 5 $lockedRead $lockedWrite")
             }
             lockedWrite = true
-        }
+        })
         return true
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeUnlock() {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             if (!lockedWrite) {
                 throw Exception("something went wrong 6")
             }
             lockedWrite = false
-        }
+        })
     }
 
     internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {

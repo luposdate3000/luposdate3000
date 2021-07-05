@@ -122,7 +122,7 @@ public class POPDistributedSendSingleCount public constructor(
                 }
             }
         }
-        SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ partitionNumber >= 0 && partitionNumber < partitionCount })
         var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
         connectionOut.writeInt(bundle.count())

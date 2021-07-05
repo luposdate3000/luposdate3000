@@ -71,7 +71,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 }
             }
             if (node is POPSplitPartitionFromStore) {
-                SanityCheck.check { allIdx.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ allIdx.size == 1 })
                 var n: IOPBase = node
                 while (n !is POPTripleStoreIterator) {
                     n = n.getChildren()[0]
@@ -81,11 +81,11 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                     partition = Partition(partition, allNames[i], allIdx[i], allSize[i])
                 }
                 val target = n.getDesiredHostnameFor(partition)
-                SanityCheck.check { !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target })
                 query.operatorgraphPartsToHostMap[key] = target
             }
             if (node is POPSplitPartitionFromStoreCount) {
-                SanityCheck.check { allIdx.size == 1 }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ allIdx.size == 1 })
                 var n: IOPBase = node
                 while (n !is POPTripleStoreIterator) {
                     n = n.getChildren()[0]
@@ -95,7 +95,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                     partition = Partition(partition, allNames[i], allIdx[i], allSize[i])
                 }
                 val target = n.getDesiredHostnameFor(partition)
-                SanityCheck.check { !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target })
                 query.operatorgraphPartsToHostMap[key] = target
             }
             query.operatorgraphParts[key] = xml
@@ -114,33 +114,33 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
             currentPartitionsCopy.putAll(currentPartitions)
             when (node) {
                 is POPMergePartition -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] == null })
                     currentPartitionsCopy[node.partitionVariable] = node.partitionCount
                 }
                 is POPMergePartitionCount -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] == null })
                     currentPartitionsCopy[node.partitionVariable] = node.partitionCount
                 }
                 is POPMergePartitionOrderedByIntId -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] == null })
                     currentPartitionsCopy[node.partitionVariable] = node.partitionCount
                 }
                 is POPChangePartitionOrderedByIntId -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCountTo }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] == node.partitionCountTo })
                     currentPartitionsCopy[node.partitionVariable] = node.partitionCountFrom
                 }
                 is POPSplitPartition -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] != null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] != null })
                     currentPartitionsCopy.remove(node.partitionVariable)
                 }
                 is POPSplitPartitionFromStore -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] == node.partitionCount })
                 }
                 is POPSplitPartitionFromStoreCount -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] == node.partitionCount })
                 }
                 is POPSplitPartitionPassThrough -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ currentPartitionsCopy[node.partitionVariable] == node.partitionCount })
                 }
             }
             for (ci in 0 until (node as OPBase).childrenToVerifyCount()) {

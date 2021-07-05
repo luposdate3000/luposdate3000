@@ -32,7 +32,7 @@ import kotlin.jvm.JvmField
 
 public class POPOffset public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val offset: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPOffsetID, "POPOffset", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 

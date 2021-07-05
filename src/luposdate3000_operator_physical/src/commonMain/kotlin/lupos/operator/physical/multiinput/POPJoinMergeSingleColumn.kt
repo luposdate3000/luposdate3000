@@ -33,7 +33,7 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -57,20 +57,20 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             for (v in children[0].getProvidedVariableNames()) {
                 getPartitionCount(v)
             }
             for (v in children[1].getProvidedVariableNames()) {
                 getPartitionCount(v)
             }
-        }
-        SanityCheck.check { !optional }
-        SanityCheck.check { projectedVariables.size == 1 }
-        SanityCheck.check { children[0].getProvidedVariableNames().size == 1 }
-        SanityCheck.check { children[0].getProvidedVariableNames()[0] == projectedVariables[0] }
-        SanityCheck.check { children[1].getProvidedVariableNames().size == 1 }
-        SanityCheck.check { children[1].getProvidedVariableNames()[0] == projectedVariables[0] }
+        })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ !optional })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.size == 1 })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getProvidedVariableNames().size == 1 })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getProvidedVariableNames()[0] == projectedVariables[0] })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[1].getProvidedVariableNames().size == 1 })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[1].getProvidedVariableNames()[0] == projectedVariables[0] })
         val child0 = children[0].evaluate(parent).columns[projectedVariables[0]]!!
         val child1 = children[1].evaluate(parent).columns[projectedVariables[0]]!!
         val outMap = mutableMapOf<String, ColumnIterator>()

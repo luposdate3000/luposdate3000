@@ -29,10 +29,10 @@ public object XMLParser {
                 parse_element_tag(
                     context,
                     onTAG = {
-                        SanityCheck {
+                        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
                             val tag = context.getValue()
-                            SanityCheck.check { stack[stack.size - 1].tag == tag }
-                        }
+                            SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { stack[stack.size - 1].tag == tag })
+                        })
                         stack.removeAt(stack.size - 1)
                         parse_ws(context, {})
                         parse_element_close(context, {})

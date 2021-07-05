@@ -101,7 +101,7 @@ public class KeyValueStore public constructor(
                 pageid = nextPage
             }
         }
-        SanityCheck.check { pageid == lastPage }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ pageid == lastPage })
         bufferManager.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, lastPage)
         bufferManager.deletePage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, lastPage)
         mappingID2Page.delete()
@@ -209,8 +209,8 @@ public class KeyValueStore public constructor(
     }
 
     public fun getValue(data: ByteArrayWrapper, value: Int) {
-        SanityCheck.check { value < nextID }
-        SanityCheck.check { value >= 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ value < nextID })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ value >= 0 })
         readData(data, mappingID2Page[value], mappingID2Off[value])
     }
 }

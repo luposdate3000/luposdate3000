@@ -43,7 +43,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     @JvmField public val hosts: Map<String, String>, // key -> hostname
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, "POPDistributedReceiveMultiOrdered", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -125,7 +125,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         var buffer = DictionaryValueTypeArray(partitionCount * variables.size)
         var connections = Array<MyConnection?>(partitionCount) { null }
         var openConnections = 0
-        SanityCheck.check { hosts.size == partitionCount }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ hosts.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {
@@ -142,7 +142,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                 conn.first.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check { j >= 0 && j < variables.size }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ j >= 0 && j < variables.size })
                 mapping[i] = j
             }
             val off = openConnections * variables.size

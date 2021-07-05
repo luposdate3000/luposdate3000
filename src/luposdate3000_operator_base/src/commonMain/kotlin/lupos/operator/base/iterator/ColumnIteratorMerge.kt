@@ -121,7 +121,7 @@ public object ColumnIteratorMerge {
             }
             j++
         }
-        SanityCheck.check { resultList.size > 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ resultList.size > 0 })
         return resultList[resultList.size - 1]!!
     }
 
@@ -223,7 +223,7 @@ public object ColumnIteratorMerge {
             }
             j++
         }
-        SanityCheck.check { resultList.size > 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ resultList.size > 0 })
         return resultList[resultList.size - 1]!!
     }
 }

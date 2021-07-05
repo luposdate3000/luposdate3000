@@ -24,7 +24,7 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
     public var iterators: Array<ColumnIterator>
 
     init {
-        SanityCheck.check { bundle.hasColumnMode() }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { bundle.hasColumnMode() })
         val keys = bundle.columns.keys.toList()
         columns = Array<String>(bundle.columns.size) { keys[it] }
         iterators = Array<ColumnIterator>(bundle.columns.size) { bundle.columns[columns[it]]!! }

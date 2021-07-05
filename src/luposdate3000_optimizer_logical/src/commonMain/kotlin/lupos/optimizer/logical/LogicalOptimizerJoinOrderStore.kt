@@ -23,13 +23,13 @@ import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderStore {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
-        SanityCheck.check { allChilds.size > 2 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ allChilds.size > 2 })
         if (root.onlyExistenceRequired) {
-            SanityCheck {
+            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
                 for (c in allChilds) {
-                    SanityCheck.check { c.getOnlyExistenceRequired() }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ c.getOnlyExistenceRequired() })
                 }
-            }
+            })
             val queue = mutableListOf<IOPBase>()
             queue.addAll(allChilds)
             var lastVariable = 0

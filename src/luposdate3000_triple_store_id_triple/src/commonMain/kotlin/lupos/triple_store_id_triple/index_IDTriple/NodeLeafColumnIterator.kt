@@ -62,7 +62,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
     }
 
     /*suspend*/ internal inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
-        SanityCheck.check { remaining > 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ remaining > 0 })
         remaining--
         if (remaining == 0) {
             needsReset = true
@@ -72,7 +72,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
             nodeid = nextnodeid
             if (nodeid != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, nodeid) {
-                    SanityCheck.check { node != it }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node != it })
                     node = it
                 }
                 remaining = NodeShared.getTripleCount(node)
@@ -81,6 +81,6 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
                 setDone()
             }
         }
-        SanityCheck.check { remaining > 0 || label == 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ remaining > 0 || label == 0 })
     }
 }

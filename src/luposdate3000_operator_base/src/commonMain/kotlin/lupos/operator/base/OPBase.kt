@@ -128,23 +128,23 @@ public abstract class OPBase public constructor(
                 histogramResult = calculateHistogram()
             }
         }
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             val v1 = getProvidedVariableNames()
             val v2 = histogramResult!!.values.keys
             SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
             SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
-        }
+        })
         return histogramResult!!
     }
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
         val node = query.initialize(this)
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             val usesDictionary = node.usesDictionary()
             if (!usesDictionary) {
                 query.setDictionaryServer(DictionaryNotImplemented())
             }
-        }
+        })
         val res = node.evaluate(Partition())
         return res
     }
@@ -183,7 +183,7 @@ public abstract class OPBase public constructor(
                     if (idx == c.size) {
                         target.remove(c)
                     } else {
-                        SanityCheck.check { idx == data.size }
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ idx == data.size })
                         needToAdd = false
                     }
                     break@loop
@@ -292,7 +292,7 @@ public abstract class OPBase public constructor(
                         res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                     }
                     else -> {
-                        SanityCheck.check { provided.isEmpty() }
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ provided.isEmpty() })
                     }
                 }
             }
@@ -372,7 +372,7 @@ public abstract class OPBase public constructor(
 
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check { i < children.size }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ i < children.size })
         children[i] = child
     }
 
@@ -389,7 +389,7 @@ public abstract class OPBase public constructor(
     }
 
     public open override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check { parent.getChildren()[parentIdx] == this }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -516,7 +516,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check { children.isNotEmpty() }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children.isNotEmpty() })
         this.getChildren()[0] = child
         return child
     }

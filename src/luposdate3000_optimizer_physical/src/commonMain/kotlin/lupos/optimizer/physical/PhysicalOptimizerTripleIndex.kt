@@ -53,18 +53,18 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
             val store = (query.getInstance().tripleStoreManager!!).getGraph(node.graph)
             val params = Array<IAOPBase>(3) {
                 val res2 = node.children[it] as AOPBase
-                SanityCheck {
+                SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
                     if (res2 is AOPVariable) {
-                        SanityCheck.check { projectedVariables.contains(res2.name) || res2.name == "_" }
+                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.contains(res2.name) || res2.name == "_" })
                     }
-                }
+                })
                 res2
             }
-            SanityCheck {
+            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
                 for (i in 0 until node.mySortPriority.size) {
-                    SanityCheck.check { node.mySortPriority[i].sortType == ESortTypeExt.FAST }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ node.mySortPriority[i].sortType == ESortTypeExt.FAST })
                 }
-            }
+            })
             val targetIdx = LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName })
             res = store.getIterator(query, params, targetIdx)
             if (res is POPTripleStoreIterator) {

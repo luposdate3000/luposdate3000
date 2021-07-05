@@ -62,9 +62,9 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual operator fun get(idx: Int): Int {
-        SanityCheck.check { !closed }
-        SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < _size }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { idx >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { idx < _size })
         var res = 0
         lock.withWriteLock {
             datafile.seek(idx * 4L + 4L)
@@ -74,9 +74,9 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual operator fun set(idx: Int, value: Int) {
-        SanityCheck.check { !closed }
-        SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < _size }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { idx >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { idx < _size })
         lock.withWriteLock {
             datafile.seek(idx * 4L + 4L)
             datafile.writeInt(value)
@@ -84,7 +84,7 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual fun setSize(size: Int, clean: Boolean) {
-        SanityCheck.check { !closed }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         if (size != _size) {
             if (clean) {
                 datafile.seek(_size * 4L + 4L)
@@ -99,7 +99,7 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual fun setSize(size: Int) {
-        SanityCheck.check { !closed }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         if (size != _size) {
             datafile.seek(_size * 4L + 4L)
             for (i in _size until size) {
@@ -112,13 +112,13 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual fun close() {
-        SanityCheck.check { !closed }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         closed = true
         datafile.close()
     }
 
     public actual fun delete() {
-        SanityCheck.check { !closed }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { !closed })
         close()
         if (bufferManagerPage != null) {
             bufferManager?.getPage(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/, bufferManagerPage!!)

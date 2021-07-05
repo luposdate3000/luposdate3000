@@ -212,7 +212,7 @@ public open class SparqlTestSuite {
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
                         Dictionary[second] is IRI -> {
-                            SanityCheck.check { resultFile == null }
+                            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ resultFile == null })
                             resultFile = prefix + (Dictionary[second] as IRI).iri
                         }
                         Dictionary[second] is BlankNode -> {
@@ -264,11 +264,11 @@ public open class SparqlTestSuite {
                             data.s(second).forEach { (first, second) ->
                                 when ((Dictionary[first] as IRI).iri) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                        SanityCheck.check { inputDataFile == null }
+                                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ inputDataFile == null })
                                         inputDataFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                                        SanityCheck.check { queryFile == null }
+                                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ queryFile == null })
                                         queryFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
@@ -303,11 +303,11 @@ public open class SparqlTestSuite {
                                         }
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                                        SanityCheck.check { queryFile == null }
+                                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ queryFile == null })
                                         queryFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        SanityCheck.check { inputDataFile == null }
+                                        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ inputDataFile == null })
                                         inputDataFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
@@ -339,7 +339,7 @@ public open class SparqlTestSuite {
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    SanityCheck.check { testType == null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ testType == null })
                     testType = (Dictionary[second] as IRI).iri
                     when ((Dictionary[second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
@@ -374,7 +374,7 @@ public open class SparqlTestSuite {
                     features.add((Dictionary[second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    SanityCheck.check { comment == null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ comment == null })
                     comment = (Dictionary[second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
@@ -390,7 +390,7 @@ public open class SparqlTestSuite {
                     SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[second] as IRI).iri }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    SanityCheck.check { description == null }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ description == null })
                     description = (Dictionary[second] as SimpleLiteral).content
                 }
                 else -> {
@@ -613,7 +613,7 @@ public open class SparqlTestSuite {
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-            SanityCheck.check { lopNode2 == lopNode2.cloneOP() }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ lopNode2 == lopNode2.cloneOP() })
             File("log/$testName2-Logical-Operator-Graph-Optimized.tex").withOutputStream {
                 it.println(OperatorGraphToLatex(lopNode2.toString(), testName2))
             }
@@ -625,7 +625,7 @@ public open class SparqlTestSuite {
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-            SanityCheck { popNode.toSparqlQuery() }
+            SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{ popNode.toSparqlQuery() })
             File("log/$testName2-Physical-Operator-Graph.tex").withOutputStream {
                 it.println(OperatorGraphToLatex(popNode.toString(), testName2))
             }

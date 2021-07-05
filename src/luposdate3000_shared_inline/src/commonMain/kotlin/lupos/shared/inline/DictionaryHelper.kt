@@ -311,7 +311,7 @@ internal object DictionaryHelper {
         off += l1
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
         off += l2
-        SanityCheck.check { off == ByteArrayWrapperExt.getSize(buffer) }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -339,7 +339,7 @@ internal object DictionaryHelper {
         off += l1
         val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - 42
         off += l2
-        SanityCheck.check { off == ByteArrayWrapperExt.getSize(buffer) }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
         val year = BigInteger.fromByteArray(buf1, yearSignum)
         return year
     }
@@ -413,7 +413,7 @@ internal object DictionaryHelper {
         ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
         off += l2
-        SanityCheck.check { off == ByteArrayWrapperExt.getSize(buffer) }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
         val seconds = BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf2, secondsSignum), secondsExponent)
         return seconds
     }
@@ -458,7 +458,7 @@ internal object DictionaryHelper {
         ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
         off += l2
-        SanityCheck.check { off == ByteArrayWrapperExt.getSize(buffer) }
+        SanityCheck.check({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
         val year = BigInteger.fromByteArray(buf1, yearSignum)
         val seconds = BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf2, secondsSignum), secondsExponent)
         val secondsString2 = seconds.toStringExpanded().split(".")

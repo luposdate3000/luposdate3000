@@ -66,7 +66,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
-                    SanityCheck.check { tmp2.hasCountMode() }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ tmp2.hasCountMode() })
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
                         OPEmptyRow(query)
                     } else {
@@ -87,7 +87,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     val columns = tmp2.columns
-                    SanityCheck.check { columns.size == 1 }
+                    SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columns.size == 1 })
                     val data = DictionaryValueTypeArray(5)
                     var i = 0
                     val iterator = columns[variables[0]]!!

@@ -36,14 +36,14 @@ import kotlin.jvm.JvmField
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCountFrom: Int, @JvmField public var partitionCountTo: Int, @JvmField public var partitionIDFrom: Int, @JvmField public var partitionIDTo: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPChangePartitionOrderedByIntIdID, "POPChangePartitionOrderedByIntId", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ projectedVariables.size > 0 })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         if (partitionIDFrom == idFrom) {
             partitionIDFrom = idTo
         } else {
-            SanityCheck.check { partitionIDTo == idFrom }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ partitionIDTo == idFrom })
             partitionIDTo = idTo
         }
     }
@@ -136,14 +136,14 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPChangePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check { partitionCountTo < partitionCountFrom }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ partitionCountTo < partitionCountFrom })
         val partitionCountSrc = partitionCountFrom / partitionCountTo
         var error: Throwable? = null
         val variables = getProvidedVariableNames()
         val variables0 = children[0].getProvidedVariableNames()
-        SanityCheck.check { variables0.containsAll(variables) }
-        SanityCheck.check { variables.containsAll(variables0) }
-        // the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables0.containsAll(variables) })
+        SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables.containsAll(variables0) })
+        // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
         val elementsPerRing = query.getInstance().queue_size * variables.size
         val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCountSrc) // only modified by writer, reader just modifies its pointer
         val ringbufferStart = IntArray(partitionCountSrc) { it * elementsPerRing } // constant
@@ -262,12 +262,12 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
             }
         }
         val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
-        SanityCheck {
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
             for (x in sortColumns.indices) {
-                SanityCheck.check { sortColumns[x] >= 0 }
-                SanityCheck.check { mySortPriority[x].sortType == ESortTypeExt.FAST }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ sortColumns[x] >= 0 })
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ mySortPriority[x].sortType == ESortTypeExt.FAST })
             }
-        }
+        })
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)

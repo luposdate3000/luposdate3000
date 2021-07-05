@@ -28,7 +28,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     buffer.println("    val operator${operatorGraph.uuid} = Operator${operatorGraph.uuid}(query,operator${operatorGraph.children[0].getUUID()})")
     clazz.header.println("public class Operator${operatorGraph.uuid} public constructor(query: IQuery, child: IOPBase) : POPBase(query, $projectedVariables, EOperatorIDExt.POPGenerated, \"Operator${operatorGraph.uuid}\", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {")
     clazz.header.println("    override fun getPartitionCount(variable: String): Int {")
-    clazz.header.println("       SanityCheck.check { children[0].getPartitionCount(variable) == 1 }")
+    clazz.header.println("       SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ children[0].getPartitionCount(variable) == 1 }"))
     clazz.header.println("       return 1")
     clazz.header.println("    }")
     clazz.header.println("    override fun toSparql(): String {")

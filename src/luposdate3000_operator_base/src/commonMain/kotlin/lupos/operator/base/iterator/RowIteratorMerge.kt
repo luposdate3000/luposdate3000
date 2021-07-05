@@ -26,7 +26,7 @@ import kotlin.jvm.JvmField
 public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<DictionaryValueType>, @JvmField public val compCount: Int) : RowIterator() {
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<DictionaryValueType>, compCount: Int, columns: Array<String>): RowIterator {
-            SanityCheck.check { columns.size == a.columns.size }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ columns.size == a.columns.size })
             var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var done = false
@@ -169,7 +169,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                 }
                 j++
             }
-            SanityCheck.check { resultList.size > 0 }
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ resultList.size > 0 })
             return resultList[resultList.size - 1]!!
         }
     }
@@ -184,12 +184,12 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
     public var bIdx: Int = -1
 
     init {
-        SanityCheck {
-            SanityCheck.check { a.columns.size == b.columns.size }
+        SanityCheck ({ /*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ },{
+            SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ a.columns.size == b.columns.size })
             for (i in a.columns.indices) {
-                SanityCheck.check { a.columns[i] == b.columns[i] }
+                SanityCheck.check({/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/},{ a.columns[i] == b.columns[i] })
             }
-        }
+        })
         columns = a.columns
         close = {
             a.close()
