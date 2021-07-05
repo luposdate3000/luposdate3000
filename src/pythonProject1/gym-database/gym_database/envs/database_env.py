@@ -61,6 +61,8 @@ class DatabaseEnv(gym.Env):
     # TODO: reward_range
     def __init__(self):
 
+        self.debug = False
+
         self.conn = None
         """Socket to establish connection to client database."""
 
@@ -95,7 +97,7 @@ class DatabaseEnv(gym.Env):
         self.join_order_h: Dict = None
         """TODO"""
 
-        self.threshold = -3
+        self.threshold = 1
         """Threshold for the reward. Under this value, the episode has to be redone."""
 
         self.redo = False
@@ -103,14 +105,20 @@ class DatabaseEnv(gym.Env):
 
         self.reward_invalid_action = -1
 
+        self.training_data: List[List[List[str]]] = None
+
+        self.networking = None
+
+        self.query_counter = 0
+
 
     # TODO: DOC!!
     def step(self, action: int):
 
         # TODO: eliminate invalid actions
         # assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
-        err_msg = "%r (%s) invalid" % (action, type(action))
-        assert self.action_space.contains(action), err_msg
+        # err_msg = "%r (%s) invalid" % (action, type(action))
+        # assert self.action_space.contains(action), err_msg
 
         # 1. choose action from action_space
         left = self.action_list[action][0]
@@ -131,37 +139,50 @@ class DatabaseEnv(gym.Env):
         left = temp_one
         right = temp_two
 
-        print(f"Action Left: {left}. Action Right: {right}")
+        if self.debug:
+            print(f"Action Left: {left}. Action Right: {right}")
 
         # 2. Execute action & 3. update observation_space & 4. remember join order
-        start = default_timer()
+        if self.debug:
+            start = default_timer()
         hf.perform_join(left, right, self.observation_matrix)
         hf.update_join_order(left, right, self.join_order, self.join_order_h)
-        end = default_timer()
-        print(f"Perform Join: {end - start}")
+        if self.debug:
+            end = default_timer()
+            print(f"Perform Join: {end - start}")
 
         # 5. Check if episode is done (all bgps joined)
-        start = default_timer()
+        if self.debug:
+            start = default_timer()
         done = hf.check_if_done(self.observation_matrix)
-        end = default_timer()
-        print(f"Check if done: {end - start}")
+        if self.debug:
+            end = default_timer()
+            print(f"Check if done: {end - start}")
 
         # 6. Calculate reward - send join order over socket to database and calculate reward there
         if done:
-            # Encode join order in utf-8 and send to client
-            self.conn.sendall(hf.join_order_to_string(self.join_order).encode("UTF-8"))
-
-            # Receive reward for episode
-            data = conn.recv(1024)
-            reward = float(data.decode("UTF-8")) # Reward for episode
+            if self.networking:
+                # Encode join order in utf-8 and send to client
+                self.conn.sendall(hf.join_order_to_string(self.join_order).encode("UTF-8"))
+                # Receive reward for episode
+                data = conn.recv(1024)
+                reward = float(data.decode("UTF-8")) # Reward for episode
+            else:
+                if self.debug:
+                    print("Query counter: " + str(self.query_counter))
+                reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
 
             # Evaluate reward
             if reward < self.threshold: # If join order is not good enough
                 self.redo = True # Redo this join task
             else: # If join order is good enough
                 self.redo = False # Continue with next join episode with new triples
+            reward = 0.1
         else:
-            reward = 0 # Reward for valid action
+            # Reward for valid action
+            reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
+
+
 
         # 7. Return observation_space, reward, done, {}
         return self.observation_matrix, reward, done, {}
@@ -169,13 +190,20 @@ class DatabaseEnv(gym.Env):
     # TODO: DOC!!
     def reset(self):
         if not self.redo: # If episode has not to be redone
-            # Notify client to start transmitting a new query
-            self.conn.sendall(b'start')
-            data = self.conn.recv(1024)
-            query_string = data.decode("UTF-8")
-
-            # Load new query
-            self.query = hf.load_query(query_string)
+            if self.networking:
+                # Notify client to start transmitting a new query
+                self.conn.sendall(b'start')
+                data = self.conn.recv(1024)
+                query_string = data.decode("UTF-8")
+                self.query_counter += 1
+            else:
+                # Load new query
+                query_string = self.training_data[self.query_counter][0][0]
+                self.query = hf.load_query(query_string)
+                if self.query_counter < len(self.training_data)-1:
+                    self.query_counter += 1
+                else:
+                    self.query_counter = 0
 
         # Create initial observation matrix, in this state no joins have happened
         self.observation_matrix = hf.fill_matrix(self.query,
@@ -195,3 +223,9 @@ class DatabaseEnv(gym.Env):
     def set_connection(self, conn):
         """Set a socket object with an active connection to the client."""
         self.conn = conn
+        self.networking = True
+
+    def set_training_data(self, training_data):
+        """Set training data."""
+        self.training_data = training_data
+        self.networking = False

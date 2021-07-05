@@ -95,7 +95,12 @@ def perform_join(index_a: int, index_b: int, observation_matrix: np.ndarray):
 
     for i, v in enumerate(observation_matrix[index_b, :]):
         if v[0] != 0:
-            if observation_matrix[index_a, i, 0] == -1 or observation_matrix[index_a, i, 0] == 0:
+            if observation_matrix[index_a, i, 0] == -1 and \
+                    observation_matrix[index_a, i, 1] == -1 and \
+                    observation_matrix[index_a, i, 2] == -1 or \
+                    observation_matrix[index_a, i, 0] == 0 and \
+                    observation_matrix[index_a, i, 1] == 0 and \
+                    observation_matrix[index_a, i, 2] == 0:
                 observation_matrix[index_a, i] = v  # overwrite value with the value from b row
             else:
                 None    # dont overwrite bgps
@@ -168,7 +173,7 @@ def check_if_done(observation_matrix: np.ndarray) -> bool:
     # search if there are joins possible, if yes -> episode is not done, if not -> episode is done
     for row in observation_matrix:
         for triple in row:
-            if triple[0] == -1: # if there are possible joins left
+            if triple[0] == -1 and triple[1] == -1 and triple[2] == -1: # if there are possible joins left
                 return False
     else:
         return True
@@ -222,7 +227,7 @@ def _query_from_string(query_string: str) -> List[List[Tuple[int, int, int]]]:
 
     # Build query list from string
     query = []
-    join_variables = query_string.split(";")
+    join_variables = query_string.split(";")[:-1]
     for i in join_variables:
         query.append([tuple(map(int, i.split(",")))])
     # Add join candidates to each triple
@@ -313,3 +318,41 @@ def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dic
     else:
         join_order[index] = [left, right]
         join_order_h[left] = index
+
+
+def calculate_reward(benched_query, join_order):
+    # print(benched_query)
+    # get number of join order
+    join_order_n = _join_order_to_number(join_order)
+    # calculate max
+    execution_times = []
+    execution_times.append(int(float(benched_query[0][2])))
+    execution_times.append(int(float(benched_query[1][2])))
+    execution_times.append(int(float(benched_query[2][2])))
+    best_execution_t = max(execution_times)  # executions/sec
+
+    # calculate % of max for given join order
+    reward0 = execution_times[join_order_n]/best_execution_t
+
+    # normalize to -1 .. 0 .. 1
+    if reward0 < 0.5:
+        reward1 = -1 + 4 * pow(reward0, 2)
+    else:
+        reward1 = 4 * pow(reward0, 2) - 4 * reward0 + 1
+
+
+    # if join_order_n == np.argmax(execution_times):
+    #     reward1 = 1
+    # else:
+    #     reward1 = -1
+    # print(reward1)
+
+    return reward1
+
+def _join_order_to_number(join_order):
+    if join_order[-1] == [0, 1]:
+        return 0
+    elif join_order[-1] == [0, 2]:
+        return 1
+    elif join_order[-1] == [1, 2]:
+        return 2
