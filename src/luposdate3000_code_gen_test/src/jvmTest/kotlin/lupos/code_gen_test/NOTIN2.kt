@@ -41,7 +41,10 @@ public class NOTIN2 {
     )
     internal val targetData = File("src/jvmTest/resources/NOTIN2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/NOTIN2.query").readAsString()
+    internal val query = "ASK { \n" +
+        " FILTER(2 NOT IN (1/0, 2)) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

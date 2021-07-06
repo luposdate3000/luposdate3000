@@ -49,7 +49,22 @@ public class DELETEINSERT4 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DELETEINSERT4.query").readAsString()
+    internal val query = "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?Var_B . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  { ?a foaf:name \"Alan\" } \n" +
+        "  { SELECT DISTINCT ?Var_B  \n" +
+        "            {  { ?Var_B ?Var_B1 ?Var_B2 } UNION  \n" +
+        "               { ?Var_B1 ?Var_B ?Var_B2 } UNION  \n" +
+        "               { ?Var_B1 ?Var_B2 ?Var_B } UNION  \n" +
+        "               { GRAPH ?Var_Bg {?Var_B ?Var_B1 ?Var_B2 } } UNION \n" +
+        "               { GRAPH ?Var_Bg {?Var_B1 ?Var_B ?Var_B2 } } UNION \n" +
+        "               { GRAPH ?Var_Bg {?Var_B1 ?Var_B2 ?Var_B } } } } \n" +
+        "}"
 
     @Ignore // Reason: >Bug<
     @Test

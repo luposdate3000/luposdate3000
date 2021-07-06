@@ -61,7 +61,19 @@ public class GraphspecificDELETE1USING {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/GraphspecificDELETE1USING.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  GRAPH <http://example.org/g1> { ?s ?p ?o } \n" +
+        "} \n" +
+        "USING <http://example.org/g1> \n" +
+        "WHERE  \n" +
+        "{  \n" +
+        "  ?s foaf:knows :b . \n" +
+        "  ?s ?p ?o  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

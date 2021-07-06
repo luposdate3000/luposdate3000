@@ -40,7 +40,17 @@ public class PostsubqueryVALUES {
     )
     internal val targetData = File("src/jvmTest/resources/PostsubqueryVALUES.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostsubqueryVALUES.query").readAsString()
+    internal val query = "# bindings with one element and one value in the object variable \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?o { \n" +
+        " { \n" +
+        "  SELECT * WHERE { \n" +
+        "   ?s ?p ?o . \n" +
+        "  } \n" +
+        "  VALUES (?o) { (:b) } \n" +
+        " } \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `Postsubquery VALUES`() {

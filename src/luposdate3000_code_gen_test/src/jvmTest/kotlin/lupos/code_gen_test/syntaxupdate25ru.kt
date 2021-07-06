@@ -16,12 +16,17 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate25ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate25ru.query").readAsString()
+    internal val query = "INSERT DATA {  \n" +
+        "  <s1> <p1> <o1> \n" +
+        "  GRAPH <G> { <s> <p1> 'o1'; <p2> <o2> }  \n" +
+        "  GRAPH <G1> { <s> <p1> 'o1'; <p2> <o2> }  \n" +
+        "  <s1> <p1> <o1> \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `syntaxupdate25ru`() {

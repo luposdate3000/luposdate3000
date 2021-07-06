@@ -41,7 +41,12 @@ public class SUM {
     )
     internal val targetData = File("src/jvmTest/resources/SUM.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SUM.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT (SUM(?o) AS ?sum) \n" +
+        "WHERE { \n" +
+        " ?s :dec ?o \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -16,14 +16,19 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class DELETEINSERT8 {
-    internal val query = File("src/jvmTest/resources/DELETEINSERT8.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "DELETE \n" +
+        " { _:a :p 12 . \n" +
+        "   _:a :q ?o . \n" +
+        " } \n" +
+        "WHERE {?s :r ?q OPTIONAL { ?q :s ?o } } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

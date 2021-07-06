@@ -16,13 +16,13 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbad05rq {
-    internal val query = File("src/jvmTest/resources/synbad05rq.query").readAsString()
+    internal val query = "SELECT COUNT(*) {} \n" +
+        ""
 
     @Test
     public fun `synbad05rq`() {

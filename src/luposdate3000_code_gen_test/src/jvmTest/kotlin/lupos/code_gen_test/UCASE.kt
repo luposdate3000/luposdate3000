@@ -40,7 +40,11 @@ public class UCASE {
     )
     internal val targetData = File("src/jvmTest/resources/UCASE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/UCASE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (UCASE(?str) AS ?ustr) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `UCASE`() {

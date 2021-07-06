@@ -41,7 +41,20 @@ public class COALESCE {
     )
     internal val targetData = File("src/jvmTest/resources/COALESCE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/COALESCE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT \n" +
+        " (COALESCE(?x, -1) AS ?cx)     # error when ?x is unbound -> -1 \n" +
+        " (COALESCE(?o/?x, -2) AS ?div) # error when ?x is unbound or zero -> -2 \n" +
+        " (COALESCE(?z, -3) AS ?def)    # always unbound -> -3 \n" +
+        " (COALESCE(?z) AS ?err)        # always an error -> unbound \n" +
+        "WHERE { \n" +
+        " ?s :p ?o . \n" +
+        " OPTIONAL { \n" +
+        "  ?s :q ?x \n" +
+        " } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

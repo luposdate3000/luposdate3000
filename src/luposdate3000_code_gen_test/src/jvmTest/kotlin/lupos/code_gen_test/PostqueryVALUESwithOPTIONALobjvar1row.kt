@@ -41,7 +41,17 @@ public class PostqueryVALUESwithOPTIONALobjvar1row {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwithOPTIONALobjvar1row.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwithOPTIONALobjvar1row.query").readAsString()
+    internal val query = "# bindings with two variables and two sets of values \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "SELECT ?s ?o1 ?o2 \n" +
+        "{ \n" +
+        "  ?s ?p1 ?o1  \n" +
+        "  OPTIONAL { ?s foaf:knows ?o2 } \n" +
+        "} VALUES (?o2) { \n" +
+        " (:b) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -41,7 +41,12 @@ public class sparqldl12rqrangetest {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl12rqrangetest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl12rqrangetest.query").readAsString()
+    internal val query = "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "prefix owl: <http://www.w3.org/2002/07/owl#> \n" +
+        "prefix : <foo://bla/names#> \n" +
+        "select ?C \n" +
+        "where {:child rdfs:domain ?C} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

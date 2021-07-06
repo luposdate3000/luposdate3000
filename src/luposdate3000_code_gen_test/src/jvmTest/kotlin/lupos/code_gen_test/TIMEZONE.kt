@@ -41,7 +41,11 @@ public class TIMEZONE {
     )
     internal val targetData = File("src/jvmTest/resources/TIMEZONE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/TIMEZONE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (TIMEZONE(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

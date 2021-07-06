@@ -40,7 +40,12 @@ public class ROUND {
     )
     internal val targetData = File("src/jvmTest/resources/ROUND.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/ROUND.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s ?num (ROUND(?num) AS ?round) WHERE { \n" +
+        " ?s :num ?num \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `ROUND`() {

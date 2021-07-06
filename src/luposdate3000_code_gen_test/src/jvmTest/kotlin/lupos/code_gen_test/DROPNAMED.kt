@@ -54,7 +54,9 @@ public class DROPNAMED {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DROPNAMED.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "DROP NAMED \n" +
+        ""
 
     @Test
     public fun `DROP NAMED`() {

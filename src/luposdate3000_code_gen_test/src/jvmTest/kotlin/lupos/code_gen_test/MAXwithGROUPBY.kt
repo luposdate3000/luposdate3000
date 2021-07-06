@@ -41,7 +41,13 @@ public class MAXwithGROUPBY {
     )
     internal val targetData = File("src/jvmTest/resources/MAXwithGROUPBY.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MAXwithGROUPBY.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ?s (MAX(?o) AS ?max) \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        "GROUP BY ?s \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

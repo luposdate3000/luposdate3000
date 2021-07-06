@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxaggregate11rq {
-    internal val query = File("src/jvmTest/resources/syntaxaggregate11rq.query").readAsString()
+    internal val query = "SELECT (AVG(?x) AS ?y) {} \n" +
+        ""
 
     @Test
     public fun `syntaxaggregate11rq`() {

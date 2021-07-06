@@ -16,13 +16,16 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class synppincollection {
-    internal val query = File("src/jvmTest/resources/synppincollection.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT * WHERE { \n" +
+        " ?s ?p ( [:p*/:q 123 ] [ ^:r \"hello\"] ) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

@@ -41,7 +41,18 @@ public class sparqldl06rqcycleofundistinguishedvariables {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl06rqcycleofundistinguishedvariables.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl06rqcycleofundistinguishedvariables.query").readAsString()
+    internal val query = "# Query6 - cycle with undistinguished variables \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "ASK \n" +
+        "WHERE \n" +
+        "{ \n" +
+        ":a :p _:aa. \n" +
+        "_:aa :r _:dd. \n" +
+        "_:dd :t _:bb. \n" +
+        "_:bb :s :a. \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

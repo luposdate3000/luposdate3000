@@ -41,7 +41,16 @@ public class PostqueryVALUESwith2objvars1row {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwith2objvars1row.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwith2objvars1row.query").readAsString()
+    internal val query = "# bindings with two variables and one set of values \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?o1 ?o2 \n" +
+        "{ \n" +
+        "  ?s ?p1 ?o1 . \n" +
+        "  ?s ?p2 ?o2 . \n" +
+        "} VALUES (?o1 ?o2) { \n" +
+        " (\"Alan\" \"alan@example.org\") \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

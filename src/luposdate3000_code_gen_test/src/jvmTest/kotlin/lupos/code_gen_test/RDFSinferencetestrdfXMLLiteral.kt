@@ -40,7 +40,13 @@ public class RDFSinferencetestrdfXMLLiteral {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetestrdfXMLLiteral.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetestrdfXMLLiteral.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "SELECT ?x \n" +
+        "WHERE { \n" +
+        "  ex:d rdfs:range ?x . \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `RDFS inference test rdfXMLLiteral`() {

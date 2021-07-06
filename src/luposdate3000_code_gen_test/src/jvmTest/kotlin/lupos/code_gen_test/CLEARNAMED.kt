@@ -60,7 +60,9 @@ public class CLEARNAMED {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CLEARNAMED.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "CLEAR NAMED \n" +
+        ""
 
     @Test
     public fun `CLEAR NAMED`() {

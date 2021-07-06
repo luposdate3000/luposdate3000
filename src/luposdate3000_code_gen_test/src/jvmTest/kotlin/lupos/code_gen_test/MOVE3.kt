@@ -57,7 +57,8 @@ public class MOVE3 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/MOVE3.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "MOVE :g1 TO :g2"
 
     @Test
     public fun `MOVE 3`() {

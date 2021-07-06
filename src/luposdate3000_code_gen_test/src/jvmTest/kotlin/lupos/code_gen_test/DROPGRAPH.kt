@@ -57,7 +57,9 @@ public class DROPGRAPH {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DROPGRAPH.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "DROP GRAPH :g1 \n" +
+        ""
 
     @Test
     public fun `DROP GRAPH`() {

@@ -41,7 +41,10 @@ public class IN1 {
     )
     internal val targetData = File("src/jvmTest/resources/IN1.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/IN1.query").readAsString()
+    internal val query = "ASK { \n" +
+        " FILTER(2 IN (1, 2, 3)) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

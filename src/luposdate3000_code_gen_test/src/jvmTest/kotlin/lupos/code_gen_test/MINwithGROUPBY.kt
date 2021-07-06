@@ -41,7 +41,13 @@ public class MINwithGROUPBY {
     )
     internal val targetData = File("src/jvmTest/resources/MINwithGROUPBY.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MINwithGROUPBY.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ?s (MIN(?o) AS ?min) \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        "GROUP BY ?s \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

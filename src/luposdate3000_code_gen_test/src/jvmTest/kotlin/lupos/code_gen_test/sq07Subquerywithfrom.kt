@@ -41,7 +41,12 @@ public class sq07Subquerywithfrom {
     )
     internal val targetData = File("src/jvmTest/resources/sq07Subquerywithfrom.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq07Subquerywithfrom.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x \n" +
+        "where { \n" +
+        "{select * where {graph ?g {?x ?p ?y}}} \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

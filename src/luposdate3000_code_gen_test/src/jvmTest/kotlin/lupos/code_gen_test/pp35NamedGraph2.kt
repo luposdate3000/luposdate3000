@@ -47,7 +47,13 @@ public class pp35NamedGraph2 {
     )
     internal val targetData = File("src/jvmTest/resources/pp35NamedGraph2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp35NamedGraph2.query").readAsString()
+    internal val query = "prefix :  <http://www.example.org/> \n" +
+        "select ?t \n" +
+        "where { \n" +
+        "  GRAPH ?g { \n" +
+        "    ?s :p1* ?t } \n" +
+        "  FILTER (?g = <ng-01.ttl>) \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

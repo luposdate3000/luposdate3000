@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxoneof01rq {
-    internal val query = File("src/jvmTest/resources/syntaxoneof01rq.query").readAsString()
+    internal val query = "SELECT * { ?s ?p ?o FILTER(?o NOT IN(1,2,?s+57)) } \n" +
+        ""
 
     @Test
     public fun `syntaxoneof01rq`() {

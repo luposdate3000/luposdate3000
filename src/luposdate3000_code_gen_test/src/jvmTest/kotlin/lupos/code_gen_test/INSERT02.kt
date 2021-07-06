@@ -52,7 +52,15 @@ public class INSERT02 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERT02.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "INSERT { \n" +
+        " GRAPH :g1 { \n" +
+        "  ?s ?p \"q\" \n" +
+        " } \n" +
+        "} WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

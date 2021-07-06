@@ -41,7 +41,16 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl03rqcombinedquerywithcomplexclassdescription.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl03rqcombinedquerywithcomplexclassdescription.query").readAsString()
+    internal val query = "PREFIX     :  <http://example.org/x/> \n" +
+        "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "SELECT ?x ?c \n" +
+        "WHERE {  \n" +
+        "?x rdf:type ?c .  \n" +
+        "?c rdfs:subClassOf :c .  \n" +
+        "?x :p _:y . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -41,7 +41,16 @@ public class PostqueryVALUESwithpredvar1row {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwithpredvar1row.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwithpredvar1row.query").readAsString()
+    internal val query = "# bindings with two variables and two sets of values \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "SELECT ?s ?p1 ?o1 \n" +
+        "{ \n" +
+        "  ?s ?p1 ?o1 . \n" +
+        "} VALUES ?p1 { \n" +
+        " foaf:knows \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

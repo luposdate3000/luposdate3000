@@ -16,14 +16,17 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxSELECTscope2 {
-    internal val query = File("src/jvmTest/resources/syntaxSELECTscope2.query").readAsString()
+    internal val query = "SELECT (1 AS ?X )  \n" +
+        "  { \n" +
+        "    SELECT (2 AS ?X ) {}  \n" +
+        "  } \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test

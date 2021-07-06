@@ -61,7 +61,13 @@ public class GraphspecificDELETEWHERE2 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/GraphspecificDELETEWHERE2.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE WHERE  \n" +
+        "{ \n" +
+        "  GRAPH <http://example.org/g2> { ?c foaf:name \"Chris\" } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -41,7 +41,34 @@ public class CalculatewhichsetsaresubsetsofothersexcludeAsubsetOfA {
     )
     internal val targetData = File("src/jvmTest/resources/CalculatewhichsetsaresubsetsofothersexcludeAsubsetOfA.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/CalculatewhichsetsaresubsetsofothersexcludeAsubsetOfA.query").readAsString()
+    internal val query = "PREFIX :    <http://example/> \n" +
+        "PREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "SELECT (?s1 AS ?subset) (?s2 AS ?superset) \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "    # All pairs of sets \n" +
+        "    ?s2 rdf:type :Set . \n" +
+        "    ?s1 rdf:type :Set . \n" +
+        "    MINUS { \n" +
+        "        ?s1 rdf:type :Set . \n" +
+        "        ?s2 rdf:type :Set . \n" +
+        "        # Assumes ?s1 has at least one member  \n" +
+        "        ?s1 :member ?x . \n" +
+        "        # If we want to exclude A as a subset of A. \n" +
+        "        # This is not perfect as \"?s1 = ?s2\" is not a \n" +
+        "        # contents based comparison. \n" +
+        "        FILTER ( ?s1 = ?s2 || NOT EXISTS { ?s2 :member ?x . } ) \n" +
+        "    } \n" +
+        "    MINUS { \n" +
+        "        # If we don't want the empty set being a subset of itself. \n" +
+        "        ?s1 rdf:type :Set . \n" +
+        "        ?s2 rdf:type :Set . \n" +
+        "        # Choose the pair (empty set, empty set) \n" +
+        "        FILTER ( NOT EXISTS { ?s1 :member ?y . } ) \n" +
+        "        FILTER ( NOT EXISTS { ?s2 :member ?y . } ) \n" +
+        "    } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -60,7 +60,8 @@ public class ADD3 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/ADD3.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "ADD :g1 TO :g2"
 
     @Test
     public fun `ADD 3`() {

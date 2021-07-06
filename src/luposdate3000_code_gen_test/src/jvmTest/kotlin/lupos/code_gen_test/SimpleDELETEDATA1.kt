@@ -49,7 +49,13 @@ public class SimpleDELETEDATA1 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETEDATA1.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE DATA  \n" +
+        "{ \n" +
+        "  :a foaf:knows :b . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

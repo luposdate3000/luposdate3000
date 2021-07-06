@@ -49,7 +49,9 @@ public class Simpleinsertdatanamed3 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/Simpleinsertdatanamed3.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/ns#> \n" +
+        "INSERT DATA { GRAPH <http://example.org/g1> { :s :p :o } } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

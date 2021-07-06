@@ -16,12 +16,13 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate39ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate39ru.query").readAsString()
+    internal val query = "BASE <http://example/> \n" +
+        "# Otherwise empty \n" +
+        ""
 
     @Test
     public fun `syntaxupdate39ru`() {

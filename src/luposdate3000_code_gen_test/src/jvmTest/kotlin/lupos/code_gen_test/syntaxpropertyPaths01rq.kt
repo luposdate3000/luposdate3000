@@ -16,13 +16,17 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxpropertyPaths01rq {
-    internal val query = File("src/jvmTest/resources/syntaxpropertyPaths01rq.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ?X WHERE \n" +
+        "{  \n" +
+        "  [ :p|:q|:r ?X ] \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

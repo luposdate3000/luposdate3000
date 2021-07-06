@@ -41,7 +41,11 @@ public class pp28aDiamondwithlooppp {
     )
     internal val targetData = File("src/jvmTest/resources/pp28aDiamondwithlooppp.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp28aDiamondwithlooppp.query").readAsString()
+    internal val query = "prefix : <http://example/>  \n" +
+        "select * where { \n" +
+        "    :a (:p/:p)? ?t \n" +
+        "}  \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

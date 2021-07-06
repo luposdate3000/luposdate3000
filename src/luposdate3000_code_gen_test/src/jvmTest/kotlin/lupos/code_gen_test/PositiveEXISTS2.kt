@@ -41,7 +41,18 @@ public class PositiveEXISTS2 {
     )
     internal val targetData = File("src/jvmTest/resources/PositiveEXISTS2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PositiveEXISTS2.query").readAsString()
+    internal val query = "PREFIX :    <http://example/> \n" +
+        "PREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "# SPARQL 1.1 \n" +
+        "SELECT * \n" +
+        "WHERE \n" +
+        "{ \n" +
+        " ?set a :Set . \n" +
+        " FILTER EXISTS { \n" +
+        "  ?set :member 7 \n" +
+        " } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

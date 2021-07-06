@@ -40,7 +40,12 @@ public class Expressionisequality {
     )
     internal val targetData = File("src/jvmTest/resources/Expressionisequality.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Expressionisequality.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x ?y ?z ((?y = ?z) as ?eq) where { \n" +
+        "  ?x ex:p ?y . \n" +
+        "  ?x ex:q ?z \n" +
+        "}"
 
     @Test
     public fun `Expression is equality`() {

@@ -41,7 +41,19 @@ public class sparqldl10rqundistvarstest {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl10rqundistvarstest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl10rqundistvarstest.query").readAsString()
+    internal val query = "# Query6 - articulation simplification test \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX owl:  <http://www.w3.org/2002/07/owl#>  \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT ?X ?Y \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?X :p ?a. \n" +
+        "  ?a owl:sameAs ?b. \n" +
+        "  ?b owl:sameAs ?Y. \n" +
+        "  ?Y :q ?c. \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

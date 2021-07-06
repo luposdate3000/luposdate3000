@@ -41,7 +41,12 @@ public class STRLANG {
     )
     internal val targetData = File("src/jvmTest/resources/STRLANG.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRLANG.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (STRLANG(?str,\"en-US\") AS ?s2) WHERE { \n" +
+        " ?s :str ?str \n" +
+        " FILTER(LANGMATCHES(LANG(?str), \"en\")) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

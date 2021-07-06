@@ -41,7 +41,18 @@ public class bind03BINDfixeddataforOWLDL {
     )
     internal val targetData = File("src/jvmTest/resources/bind03BINDfixeddataforOWLDL.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/bind03BINDfixeddataforOWLDL.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" +
+        "SELECT ?z ?s1 \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "  ?p a owl:DatatypeProperty .  \n" +
+        "  BIND(?o+1 AS ?z) \n" +
+        "  ?s1 ?p1 ?z . \n" +
+        "  ?p1 a owl:DatatypeProperty .  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug in OWL-Inference<
     @Test

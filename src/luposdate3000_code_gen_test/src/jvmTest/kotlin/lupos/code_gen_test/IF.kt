@@ -40,7 +40,13 @@ public class IF {
     )
     internal val targetData = File("src/jvmTest/resources/IF.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/IF.query").readAsString()
+    internal val query = "BASE <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?o (IF(lang(?o) = \"ja\", true, false) AS ?integer) \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `IF`() {

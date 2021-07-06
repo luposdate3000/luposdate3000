@@ -41,7 +41,14 @@ public class AVGwithGROUPBY {
     )
     internal val targetData = File("src/jvmTest/resources/AVGwithGROUPBY.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/AVGwithGROUPBY.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ?s (AVG(?o) AS ?avg) \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        "GROUP BY ?s \n" +
+        "HAVING (AVG(?o) <= 2.0) \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

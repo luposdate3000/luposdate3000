@@ -40,7 +40,15 @@ public class Group4 {
     )
     internal val targetData = File("src/jvmTest/resources/Group4.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Group4.query").readAsString()
+    internal val query = "PREFIX :        <http://example/> \n" +
+        "PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?X (SAMPLE(?v) AS ?S) \n" +
+        "{ \n" +
+        "  ?s :p ?v . \n" +
+        "  OPTIONAL { ?s :q ?w } \n" +
+        "} \n" +
+        "GROUP BY (COALESCE(?w, \"1605-11-05\"^^xsd:date) AS ?X)  \n" +
+        ""
 
     @Test
     public fun `Group4`() {

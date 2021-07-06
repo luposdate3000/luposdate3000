@@ -41,7 +41,12 @@ public class REPLACEwithcapturedsubstring {
     )
     internal val targetData = File("src/jvmTest/resources/REPLACEwithcapturedsubstring.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/REPLACEwithcapturedsubstring.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT (REPLACE(?str,\"(ab)|(a)\", \"[1=$1][2=$2]\") AS ?new) WHERE { \n" +
+        " :s9 :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

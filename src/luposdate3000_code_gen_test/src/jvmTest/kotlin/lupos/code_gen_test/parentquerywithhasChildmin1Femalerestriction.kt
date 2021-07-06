@@ -41,7 +41,16 @@ public class parentquerywithhasChildmin1Femalerestriction {
     )
     internal val targetData = File("src/jvmTest/resources/parentquerywithhasChildmin1Femalerestriction.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/parentquerywithhasChildmin1Femalerestriction.query").readAsString()
+    internal val query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT *  \n" +
+        "WHERE { ?parent a [ \n" +
+        "       a owl:Restriction ; \n" +
+        "       owl:onProperty :hasChild ; \n" +
+        "       owl:minQualifiedCardinality \"1\"^^xsd:nonNegativeInteger ; \n" +
+        "       owl:onClass :Female ] . } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

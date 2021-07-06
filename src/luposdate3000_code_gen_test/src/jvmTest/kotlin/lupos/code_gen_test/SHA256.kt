@@ -40,7 +40,11 @@ public class SHA256 {
     )
     internal val targetData = File("src/jvmTest/resources/SHA256.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SHA256.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (SHA256(?l) AS ?hash) WHERE { \n" +
+        " :s1 :str ?l \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `SHA256`() {

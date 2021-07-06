@@ -57,7 +57,9 @@ public class DROPDEFAULT {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DROPDEFAULT.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "DROP DEFAULT \n" +
+        ""
 
     @Test
     public fun `DROP DEFAULT`() {

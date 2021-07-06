@@ -52,7 +52,8 @@ public class COPY2 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/COPY2.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "COPY DEFAULT TO :g1"
 
     @Ignore // Reason: >Bug<
     @Test

@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate29ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate29ru.query").readAsString()
+    internal val query = "DELETE DATA { <s> <p> 'o1', 'o2', 'o3' } \n" +
+        ""
 
     @Test
     public fun `syntaxupdate29ru`() {

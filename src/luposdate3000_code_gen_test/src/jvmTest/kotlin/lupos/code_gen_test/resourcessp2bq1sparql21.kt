@@ -41,7 +41,18 @@ public class resourcessp2bq1sparql21 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq1sparql21.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq1sparql21.query").readAsString()
+    internal val query = "PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n" +
+        "PREFIX dc:      <http://purl.org/dc/elements/1.1/>  \n" +
+        "PREFIX dcterms: <http://purl.org/dc/terms/>  \n" +
+        "PREFIX bench:   <http://localhost/vocabulary/bench/>  \n" +
+        "PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>  \n" +
+        "SELECT ?yr  \n" +
+        "WHERE {  \n" +
+        "  ?journal rdf:type bench:Journal .  \n" +
+        "  ?journal dc:title \"Journal 1 (1940)\"^^xsd:string .  \n" +
+        "  ?journal dcterms:issued ?yr .  \n" +
+        "}  \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

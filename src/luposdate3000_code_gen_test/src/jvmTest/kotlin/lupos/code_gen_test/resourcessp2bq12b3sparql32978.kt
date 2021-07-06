@@ -41,7 +41,17 @@ public class resourcessp2bq12b3sparql32978 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq12b3sparql32978.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq12b3sparql32978.query").readAsString()
+    internal val query = "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>  \n" +
+        "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
+        "PREFIX dc:   <http://purl.org/dc/elements/1.1/> \n" +
+        "SELECT * { \n" +
+        "    ?document dc:creator ?erdoes . \n" +
+        "    ?document dc:creator ?author . \n" +
+        "    ?author foaf:name ?name . \n" +
+        "    FILTER (?author!=?erdoes) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

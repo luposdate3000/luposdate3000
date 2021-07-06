@@ -16,13 +16,14 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class constructwhere05CONSTRUCTWHERE {
-    internal val query = File("src/jvmTest/resources/constructwhere05CONSTRUCTWHERE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "CONSTRUCT  \n" +
+        "WHERE { ?s ?p ?o FILTER ( ?o = :o1) }"
 
     @Test
     public fun `constructwhere05  CONSTRUCT WHERE`() {

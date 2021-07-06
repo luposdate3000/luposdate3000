@@ -40,7 +40,12 @@ public class DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyin
     )
     internal val targetData = File("src/jvmTest/resources/DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.query").readAsString()
+    internal val query = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?L \n" +
+        "WHERE { \n" +
+        "  ?L a xsd:integer \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers`() {

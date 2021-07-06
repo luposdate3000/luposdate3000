@@ -16,13 +16,13 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxbindings09rq {
-    internal val query = File("src/jvmTest/resources/syntaxbindings09rq.query").readAsString()
+    internal val query = "SELECT * { } BINDINGS ?x ?y { (1 2) (3) } \n" +
+        ""
 
     @Test
     public fun `syntaxbindings09rq`() {

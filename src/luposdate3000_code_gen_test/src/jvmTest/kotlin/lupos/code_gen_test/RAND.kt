@@ -41,7 +41,12 @@ public class RAND {
     )
     internal val targetData = File("src/jvmTest/resources/RAND.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RAND.query").readAsString()
+    internal val query = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "ASK { \n" +
+        " BIND(RAND() AS ?r) \n" +
+        " FILTER(DATATYPE(?r) = xsd:double && ?r >= 0.0 && ?r < 1.0) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

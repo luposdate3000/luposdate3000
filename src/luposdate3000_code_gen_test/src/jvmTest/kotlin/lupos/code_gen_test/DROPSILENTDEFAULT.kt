@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class DROPSILENTDEFAULT {
-    internal val query = File("src/jvmTest/resources/DROPSILENTDEFAULT.query").readAsString()
+    internal val query = "DROP DEFAULT \n" +
+        ""
 
     @Test
     public fun `DROP SILENT DEFAULT`() {

@@ -41,7 +41,12 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
     )
     internal val targetData = File("src/jvmTest/resources/pp12Variablelengthpathandtwopathstosametargetnode.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp12Variablelengthpathandtwopathstosametargetnode.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select * where { \n" +
+        "in:a (ex:p1/ex:p2)+ ?x \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

@@ -16,14 +16,29 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class Group7 {
-    internal val query = File("src/jvmTest/resources/Group7.query").readAsString()
+    internal val query = "prefix lode: <http://linkedevents.org/ontology/> \n" +
+        "prefix dc: <http://purl.org/dc/elements/1.1/> \n" +
+        "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "select ?event ?eventName ?venue ?photo \n" +
+        "where { \n" +
+        "   ?photo lode:illustrate ?event . \n" +
+        "   { \n" +
+        "   select ?event ?eventName ?venue \n" +
+        "   where { \n" +
+        "         ?event dc:title ?eventName . \n" +
+        "         ?event lode:atPlace ?venue . \n" +
+        "         ?venue rdfs:label \"Live Music Hall\" . \n" +
+        "         } \n" +
+        "   } \n" +
+        "} \n" +
+        "GROUP BY ?event \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

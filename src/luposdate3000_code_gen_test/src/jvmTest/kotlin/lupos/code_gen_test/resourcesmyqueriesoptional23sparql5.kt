@@ -41,7 +41,18 @@ public class resourcesmyqueriesoptional23sparql5 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesmyqueriesoptional23sparql5.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesmyqueriesoptional23sparql5.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s ?o1 (COALESCE(BOUND(?o2) && (?o2 != ?o1),!BOUND(?o2)) AS ?t1) (BOUND(?o2) && (?o2 != ?o1) AS ?t2) (?o2 != ?o1 AS ?t3) WHERE { \n" +
+        " ?s :b1 ?o1 . \n" +
+        " OPTIONAL { \n" +
+        "  { \n" +
+        "   ?s :b2 ?o2 . \n" +
+        "  } UNION { \n" +
+        "   ?s :b2 ?o2 . \n" +
+        "  } \n" +
+        " } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

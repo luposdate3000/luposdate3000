@@ -51,7 +51,8 @@ public class MOVE1 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/MOVE1.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "MOVE DEFAULT TO :g1"
 
     @Test
     public fun `MOVE 1`() {

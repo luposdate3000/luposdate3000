@@ -48,7 +48,8 @@ public class DROPSILENTGRAPHiri {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DROPSILENTGRAPHiri.query").readAsString()
+    internal val query = "DROP SILENT GRAPH <http://www.example.org> \n" +
+        ""
 
     @Test
     public fun `DROP SILENT GRAPH iri`() {

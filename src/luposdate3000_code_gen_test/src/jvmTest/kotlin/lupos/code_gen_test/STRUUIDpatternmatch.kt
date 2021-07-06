@@ -41,7 +41,14 @@ public class STRUUIDpatternmatch {
     )
     internal val targetData = File("src/jvmTest/resources/STRUUIDpatternmatch.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRUUIDpatternmatch.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT (STRLEN(?uuid) AS ?length) \n" +
+        "WHERE { \n" +
+        " BIND(STRUUID() AS ?uuid) \n" +
+        " FILTER(ISLITERAL(?uuid) && REGEX(?uuid, \"^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$\", \"i\")) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

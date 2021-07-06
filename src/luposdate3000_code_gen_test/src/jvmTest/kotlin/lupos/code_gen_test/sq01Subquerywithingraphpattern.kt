@@ -41,7 +41,13 @@ public class sq01Subquerywithingraphpattern {
     )
     internal val targetData = File("src/jvmTest/resources/sq01Subquerywithingraphpattern.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq01Subquerywithingraphpattern.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select  ?x ?p where { \n" +
+        "graph ?g { \n" +
+        "{select * where {?x ?p ?y}} \n" +
+        "} \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

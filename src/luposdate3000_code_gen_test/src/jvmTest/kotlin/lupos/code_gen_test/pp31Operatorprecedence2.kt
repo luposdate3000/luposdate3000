@@ -41,7 +41,11 @@ public class pp31Operatorprecedence2 {
     )
     internal val targetData = File("src/jvmTest/resources/pp31Operatorprecedence2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp31Operatorprecedence2.query").readAsString()
+    internal val query = "prefix :  <http://www.example.org/> \n" +
+        "select ?t \n" +
+        "where { \n" +
+        "  :a (:p1|:p2)/(:p3|:p4) ?t \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

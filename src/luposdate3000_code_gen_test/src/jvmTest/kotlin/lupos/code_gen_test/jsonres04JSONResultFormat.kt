@@ -41,7 +41,8 @@ public class jsonres04JSONResultFormat {
     )
     internal val targetData = File("src/jvmTest/resources/jsonres04JSONResultFormat.output").readAsString()
     internal val targetType = ".srj"
-    internal val query = File("src/jvmTest/resources/jsonres04JSONResultFormat.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "ASK WHERE { :s1 :p1 :o1 }"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

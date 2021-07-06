@@ -41,7 +41,14 @@ public class parentquerywithhasChildsomeThingrestriction {
     )
     internal val targetData = File("src/jvmTest/resources/parentquerywithhasChildsomeThingrestriction.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/parentquerywithhasChildsomeThingrestriction.query").readAsString()
+    internal val query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT *  \n" +
+        "WHERE { ?parent a [ \n" +
+        "       a owl:Restriction ; \n" +
+        "       owl:onProperty :hasChild ; \n" +
+        "       owl:someValuesFrom owl:Thing ] . } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -41,7 +41,16 @@ public class papersparqldlQ4 {
     )
     internal val targetData = File("src/jvmTest/resources/papersparqldlQ4.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/papersparqldlQ4.query").readAsString()
+    internal val query = "PREFIX   ex:  <http://example.org/> \n" +
+        "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "SELECT ?x ?c \n" +
+        "WHERE {  \n" +
+        " ?x rdf:type ex:Student .  \n" +
+        " ?x rdf:type ?c . \n" +
+        " ?c rdfs:subClassOf ex:Employee . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

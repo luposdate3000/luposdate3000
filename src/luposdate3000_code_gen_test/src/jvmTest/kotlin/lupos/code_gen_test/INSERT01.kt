@@ -48,7 +48,13 @@ public class INSERT01 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERT01.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "INSERT { \n" +
+        " ?s ?p \"q\" \n" +
+        "} WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `INSERT 01`() {

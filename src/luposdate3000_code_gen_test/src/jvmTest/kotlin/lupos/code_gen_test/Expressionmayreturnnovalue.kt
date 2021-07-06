@@ -41,7 +41,11 @@ public class Expressionmayreturnnovalue {
     )
     internal val targetData = File("src/jvmTest/resources/Expressionmayreturnnovalue.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Expressionmayreturnnovalue.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x ?l (datatype(?l) as ?dt) where { \n" +
+        "  ?x ex:p ?l \n" +
+        "}"
 
     @Ignore // Reason: >Bug<
     @Test

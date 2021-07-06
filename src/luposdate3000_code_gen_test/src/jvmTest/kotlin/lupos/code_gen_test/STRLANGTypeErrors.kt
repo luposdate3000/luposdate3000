@@ -41,7 +41,11 @@ public class STRLANGTypeErrors {
     )
     internal val targetData = File("src/jvmTest/resources/STRLANGTypeErrors.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRLANGTypeErrors.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (STRLANG(?o,\"en-US\") AS ?str1) WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

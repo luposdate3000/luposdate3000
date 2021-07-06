@@ -41,7 +41,25 @@ public class resourcessp2bq4sparql973 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq4sparql973.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq4sparql973.query").readAsString()
+    internal val query = "PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX bench:   <http://localhost/vocabulary/bench/> \n" +
+        "PREFIX dc:      <http://purl.org/dc/elements/1.1/> \n" +
+        "PREFIX dcterms: <http://purl.org/dc/terms/> \n" +
+        "PREFIX foaf:    <http://xmlns.com/foaf/0.1/> \n" +
+        "PREFIX swrc:    <http://swrc.ontoware.org/ontology#> \n" +
+        "SELECT DISTINCT ?name1 ?name2  \n" +
+        "WHERE { \n" +
+        "  ?article1 rdf:type bench:Article . \n" +
+        "  ?article2 rdf:type bench:Article . \n" +
+        "  ?article1 dc:creator ?author1 . \n" +
+        "  ?author1 foaf:name ?name1 . \n" +
+        "  ?article2 dc:creator ?author2 . \n" +
+        "  ?author2 foaf:name ?name2 . \n" +
+        "  ?article1 swrc:journal ?journal . \n" +
+        "  ?article2 swrc:journal ?journal . \n" +
+        "  FILTER ( ?name1 < ?name2 ) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

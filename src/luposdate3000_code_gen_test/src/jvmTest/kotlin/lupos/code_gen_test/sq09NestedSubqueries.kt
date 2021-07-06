@@ -41,7 +41,15 @@ public class sq09NestedSubqueries {
     )
     internal val targetData = File("src/jvmTest/resources/sq09NestedSubqueries.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq09NestedSubqueries.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select * where { \n" +
+        "{select * where {  \n" +
+        "  {select ?x where {?x ex:q ?t}} \n" +
+        "}} \n" +
+        "?x ex:p ?y  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

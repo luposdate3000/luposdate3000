@@ -40,7 +40,11 @@ public class STRLEN {
     )
     internal val targetData = File("src/jvmTest/resources/STRLEN.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRLEN.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?str (STRLEN(?str) AS ?len) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `STRLEN`() {

@@ -16,13 +16,19 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxupdatebad05ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdatebad05ru.query").readAsString()
+    internal val query = "# Nested GRAPH \n" +
+        "DELETE DATA {  \n" +
+        "  GRAPH <G> {  \n" +
+        "    <s> <p> <o> . \n" +
+        "    GRAPH <G1> { <s> <p1> 'o1' } \n" +
+        "  } \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `syntaxupdatebad05ru`() {

@@ -48,7 +48,8 @@ public class MOVESILENT {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/MOVESILENT.query").readAsString()
+    internal val query = "MOVE SILENT GRAPH <http://www.example.com/g1> TO GRAPH <http://www.example.com/g2> \n" +
+        ""
 
     @Test
     public fun `MOVE SILENT`() {

@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxbind02rq {
-    internal val query = File("src/jvmTest/resources/syntaxbind02rq.query").readAsString()
+    internal val query = "SELECT ?Z { ?s ?p ?o . BIND(?o+1 AS ?Z) BIND(?Z/2 AS ?Zby2) } \n" +
+        ""
 
     @Test
     public fun `syntaxbind02rq`() {

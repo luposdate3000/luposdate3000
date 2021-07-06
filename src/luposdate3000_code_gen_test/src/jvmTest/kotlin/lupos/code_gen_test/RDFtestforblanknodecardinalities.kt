@@ -40,7 +40,12 @@ public class RDFtestforblanknodecardinalities {
     )
     internal val targetData = File("src/jvmTest/resources/RDFtestforblanknodecardinalities.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFtestforblanknodecardinalities.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "SELECT ?x \n" +
+        "WHERE { \n" +
+        "  ?x ex:b1 _:c . \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `RDF test for blank node cardinalities`() {

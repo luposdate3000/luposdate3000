@@ -40,7 +40,11 @@ public class YEAR {
     )
     internal val targetData = File("src/jvmTest/resources/YEAR.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/YEAR.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (YEAR(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `YEAR`() {

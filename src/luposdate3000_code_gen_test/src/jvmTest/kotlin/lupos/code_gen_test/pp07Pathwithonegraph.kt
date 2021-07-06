@@ -41,7 +41,11 @@ public class pp07Pathwithonegraph {
     )
     internal val targetData = File("src/jvmTest/resources/pp07Pathwithonegraph.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp07Pathwithonegraph.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x where { \n" +
+        "graph ?g {in:a ex:p1/ex:p2 ?x} \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

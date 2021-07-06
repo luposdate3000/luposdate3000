@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxsubquery01rq {
-    internal val query = File("src/jvmTest/resources/syntaxsubquery01rq.query").readAsString()
+    internal val query = "SELECT * { SELECT * { ?s ?p ?o } } \n" +
+        ""
 
     @Test
     public fun `syntaxsubquery01rq`() {

@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxservice01rq {
-    internal val query = File("src/jvmTest/resources/syntaxservice01rq.query").readAsString()
+    internal val query = "SELECT * { SERVICE <g> { ?s ?p ?o } } \n" +
+        ""
 
     @Test
     public fun `syntaxservice01rq`() {

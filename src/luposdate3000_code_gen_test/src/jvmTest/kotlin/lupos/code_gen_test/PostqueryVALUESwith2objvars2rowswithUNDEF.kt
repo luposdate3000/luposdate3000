@@ -41,7 +41,16 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwith2objvars2rowswithUNDEF.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwith2objvars2rowswithUNDEF.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?o1 ?o2 \n" +
+        "{ \n" +
+        "  ?s ?p1 ?o1 . \n" +
+        "  ?s ?p2 ?o2 . \n" +
+        "} VALUES (?o1 ?o2) { \n" +
+        " (UNDEF \"Alan\") \n" +
+        " (:b UNDEF) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -38,7 +38,9 @@ public class Simpleinsertdata1 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/Simpleinsertdata1.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/ns#> \n" +
+        "INSERT DATA { :s :p :o } \n" +
+        ""
 
     @Test
     public fun `Simple insert data 1`() {

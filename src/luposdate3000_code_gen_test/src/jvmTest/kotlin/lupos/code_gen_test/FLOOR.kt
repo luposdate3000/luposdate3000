@@ -40,7 +40,12 @@ public class FLOOR {
     )
     internal val targetData = File("src/jvmTest/resources/FLOOR.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/FLOOR.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s ?num (FLOOR(?num) AS ?floor) WHERE { \n" +
+        " ?s :num ?num \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `FLOOR`() {

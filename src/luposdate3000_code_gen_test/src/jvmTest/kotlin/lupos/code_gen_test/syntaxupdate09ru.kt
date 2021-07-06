@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate09ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate09ru.query").readAsString()
+    internal val query = "DROP SILENT NAMED \n" +
+        ""
 
     @Test
     public fun `syntaxupdate09ru`() {

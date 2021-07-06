@@ -40,7 +40,11 @@ public class MINUTES {
     )
     internal val targetData = File("src/jvmTest/resources/MINUTES.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MINUTES.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (MINUTES(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `MINUTES`() {

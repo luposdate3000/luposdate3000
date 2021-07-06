@@ -41,7 +41,11 @@ public class SUBSTR3argument {
     )
     internal val targetData = File("src/jvmTest/resources/SUBSTR3argument.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SUBSTR3argument.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s ?str (SUBSTR(?str,1,1) AS ?substr) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

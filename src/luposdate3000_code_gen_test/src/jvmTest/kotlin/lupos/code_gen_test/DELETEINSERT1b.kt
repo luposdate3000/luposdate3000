@@ -49,7 +49,26 @@ public class DELETEINSERT1b {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DELETEINSERT1b.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?b . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?b . \n" +
+        "} \n" +
+        "; \n" +
+        "INSERT \n" +
+        "{ \n" +
+        "  ?b foaf:knows ?a . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?b . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

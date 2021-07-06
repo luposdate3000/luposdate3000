@@ -40,7 +40,13 @@ public class STRSTARTS {
     )
     internal val targetData = File("src/jvmTest/resources/STRSTARTS.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRSTARTS.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s ?str WHERE { \n" +
+        " ?s ?p ?str \n" +
+        " FILTER STRSTARTS(STR(?str), \"1\") \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `STRSTARTS`() {

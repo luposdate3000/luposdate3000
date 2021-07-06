@@ -40,7 +40,17 @@ public class SAMPLE {
     )
     internal val targetData = File("src/jvmTest/resources/SAMPLE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SAMPLE.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "ASK { \n" +
+        " { \n" +
+        "  SELECT (SAMPLE(?o) AS ?sample) \n" +
+        "  WHERE { \n" +
+        "   ?s :dec ?o \n" +
+        "  } \n" +
+        " } \n" +
+        " FILTER(?sample = 1.0 || ?sample = 2.2 || ?sample = 3.5) \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `SAMPLE`() {

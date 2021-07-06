@@ -41,7 +41,26 @@ public class resourcessp2bq71sparql973 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq71sparql973.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq71sparql973.query").readAsString()
+    internal val query = "PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "PREFIX foaf:    <http://xmlns.com/foaf/0.1/> \n" +
+        "PREFIX dc:      <http://purl.org/dc/elements/1.1/> \n" +
+        "PREFIX dcterms: <http://purl.org/dc/terms/> \n" +
+        "SELECT DISTINCT ?title \n" +
+        "WHERE { \n" +
+        "  ?class rdfs:subClassOf foaf:Document . \n" +
+        "  ?doc rdf:type ?class . \n" +
+        "  ?doc dc:title ?title . \n" +
+        "  ?bag2 ?member2 ?doc . \n" +
+        "  ?doc2 dcterms:references ?bag2 . \n" +
+        "  OPTIONAL { \n" +
+        "    ?class3 rdfs:subClassOf foaf:Document . \n" +
+        "    ?doc3 rdf:type ?class3 . \n" +
+        "    ?doc3 dcterms:references ?bag3 . \n" +
+        "    ?bag3 ?member3 ?doc . \n" +
+        "  } FILTER (!bound(?doc3)) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

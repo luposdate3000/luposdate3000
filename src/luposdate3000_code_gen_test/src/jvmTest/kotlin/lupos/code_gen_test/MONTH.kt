@@ -40,7 +40,11 @@ public class MONTH {
     )
     internal val targetData = File("src/jvmTest/resources/MONTH.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MONTH.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (MONTH(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `MONTH`() {

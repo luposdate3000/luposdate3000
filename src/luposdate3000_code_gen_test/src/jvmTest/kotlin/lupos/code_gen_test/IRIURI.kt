@@ -41,7 +41,10 @@ public class IRIURI {
     )
     internal val targetData = File("src/jvmTest/resources/IRIURI.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/IRIURI.query").readAsString()
+    internal val query = "BASE <http://example.org/> \n" +
+        "SELECT (URI(\"uri\") AS ?uri) (IRI(\"iri\") AS ?iri) \n" +
+        "WHERE {} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

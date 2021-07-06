@@ -41,7 +41,20 @@ public class MedicaltemporalproximitybyexclusionNOTEXISTS {
     )
     internal val targetData = File("src/jvmTest/resources/MedicaltemporalproximitybyexclusionNOTEXISTS.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MedicaltemporalproximitybyexclusionNOTEXISTS.query").readAsString()
+    internal val query = "PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#> \n" +
+        "PREFIX dc: <http://purl.org/dc/elements/1.1/> \n" +
+        "# The closest pre-operative physical examination \n" +
+        "SELECT ?exam ?date {  \n" +
+        "  ?exam a ex:PhysicalExamination;  \n" +
+        "        dc:date ?date; \n" +
+        "        ex:precedes ex:operation1 . \n" +
+        "  ?op   a ex:SurgicalProcedure; dc:date ?opDT . \n" +
+        "  FILTER NOT EXISTS { \n" +
+        "    ?otherExam a ex:PhysicalExamination;  \n" +
+        "               ex:follows ?exam; \n" +
+        "               ex:precedes ex:operation1 \n" +
+        "  }  \n" +
+        "}"
 
     @Ignore // Reason: >Bug<
     @Test

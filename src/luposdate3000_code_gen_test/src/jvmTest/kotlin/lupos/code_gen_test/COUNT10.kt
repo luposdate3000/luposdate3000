@@ -16,14 +16,16 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class COUNT10 {
-    internal val query = File("src/jvmTest/resources/COUNT10.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ?P (COUNT(?O) AS ?C) \n" +
+        "WHERE { ?S ?P ?O } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

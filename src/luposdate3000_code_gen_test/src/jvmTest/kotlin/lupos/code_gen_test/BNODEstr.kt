@@ -41,7 +41,17 @@ public class BNODEstr {
     )
     internal val targetData = File("src/jvmTest/resources/BNODEstr.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/BNODEstr.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s1 ?s2 \n" +
+        "(BNODE(?s1) AS ?b1) (BNODE(?s2) AS ?b2) \n" +
+        "WHERE { \n" +
+        " ?a :str ?s1 . \n" +
+        " ?b :str ?s2 . \n" +
+        " FILTER (?a = :s1 || ?a = :s3) \n" +
+        " FILTER (?b = :s1 || ?b = :s3) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

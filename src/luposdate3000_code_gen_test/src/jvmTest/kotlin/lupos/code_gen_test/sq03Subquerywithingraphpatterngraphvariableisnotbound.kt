@@ -41,7 +41,13 @@ public class sq03Subquerywithingraphpatterngraphvariableisnotbound {
     )
     internal val targetData = File("src/jvmTest/resources/sq03Subquerywithingraphpatterngraphvariableisnotbound.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq03Subquerywithingraphpatterngraphvariableisnotbound.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x where { \n" +
+        "graph ?g { \n" +
+        "  {select ?x where {?x ?p ?g}} \n" +
+        "} \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

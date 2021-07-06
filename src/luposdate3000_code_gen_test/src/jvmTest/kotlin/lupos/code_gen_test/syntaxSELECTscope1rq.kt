@@ -16,12 +16,19 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxSELECTscope1rq {
-    internal val query = File("src/jvmTest/resources/syntaxSELECTscope1rq.query").readAsString()
+    internal val query = "SELECT * \n" +
+        "WHERE { \n" +
+        "  {SELECT (1 AS ?X ) {} \n" +
+        "  } \n" +
+        "  UNION \n" +
+        "  {SELECT (2 AS ?X ) {} \n" +
+        "  } \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `syntaxSELECTscope1rq`() {

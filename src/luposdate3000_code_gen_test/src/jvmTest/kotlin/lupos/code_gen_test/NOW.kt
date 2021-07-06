@@ -41,7 +41,12 @@ public class NOW {
     )
     internal val targetData = File("src/jvmTest/resources/NOW.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/NOW.query").readAsString()
+    internal val query = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "ASK { \n" +
+        " BIND(NOW() AS ?n) \n" +
+        " FILTER(DATATYPE(?n) = xsd:dateTime) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

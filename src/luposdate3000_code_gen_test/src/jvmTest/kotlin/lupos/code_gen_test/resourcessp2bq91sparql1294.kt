@@ -41,7 +41,19 @@ public class resourcessp2bq91sparql1294 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq91sparql1294.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq91sparql1294.query").readAsString()
+    internal val query = "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
+        "SELECT ?predicate \n" +
+        "WHERE { \n" +
+        "  { \n" +
+        "    ?person rdf:type foaf:Person . \n" +
+        "    ?subject ?predicate ?person \n" +
+        "  } UNION { \n" +
+        "    ?person rdf:type foaf:Person . \n" +
+        "    ?person ?predicate ?object \n" +
+        "  } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

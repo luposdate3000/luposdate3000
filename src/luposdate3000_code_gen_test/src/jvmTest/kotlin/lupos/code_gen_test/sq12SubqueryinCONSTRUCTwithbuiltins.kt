@@ -40,7 +40,13 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
     )
     internal val targetData = File("src/jvmTest/resources/sq12SubqueryinCONSTRUCTwithbuiltins.output").readAsString()
     internal val targetType = ".ttl"
-    internal val query = File("src/jvmTest/resources/sq12SubqueryinCONSTRUCTwithbuiltins.query").readAsString()
+    internal val query = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
+        "CONSTRUCT{ ?P foaf:name ?FullName } \n" +
+        "WHERE { \n" +
+        " SELECT ?P ( CONCAT(?F, \" \", ?L) AS ?FullName )  \n" +
+        " WHERE { ?P foaf:firstName ?F ; foaf:lastName ?L. } \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins`() {

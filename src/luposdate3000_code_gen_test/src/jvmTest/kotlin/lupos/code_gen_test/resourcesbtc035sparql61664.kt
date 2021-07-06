@@ -41,7 +41,15 @@ public class resourcesbtc035sparql61664 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbtc035sparql61664.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbtc035sparql61664.query").readAsString()
+    internal val query = "#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012 \n" +
+        "SELECT DISTINCT ?a ?y WHERE { \n" +
+        " ?a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/class/yago/Politician110451263> . \n" +
+        " ?a <http://dbpedia.org/property/years> ?y . \n" +
+        " ?a <http://xmlns.com/foaf/0.1/name> ?n . \n" +
+        " ?b ?c ?n . \n" +
+        " ?b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/OfficeHolder> . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

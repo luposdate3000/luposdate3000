@@ -55,7 +55,19 @@ public class SimpleDELETE4WITH {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETE4WITH.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "WITH <http://example.org/g2> \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  GRAPH <http://example.org/g1> { ?s ?p ?o } \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  GRAPH <http://example.org/g1> { ?s foaf:knows :c . \n" +
+        "                                  ?s ?p ?o } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

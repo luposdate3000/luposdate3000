@@ -40,7 +40,8 @@ public class constructwhere03CONSTRUCTWHERE {
     )
     internal val targetData = File("src/jvmTest/resources/constructwhere03CONSTRUCTWHERE.output").readAsString()
     internal val targetType = ".ttl"
-    internal val query = File("src/jvmTest/resources/constructwhere03CONSTRUCTWHERE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "CONSTRUCT WHERE { :s2 :p ?o1, ?o2 }"
 
     @Test
     public fun `constructwhere03  CONSTRUCT WHERE`() {

@@ -60,7 +60,9 @@ public class CLEARDEFAULT {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CLEARDEFAULT.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "CLEAR DEFAULT \n" +
+        ""
 
     @Test
     public fun `CLEAR DEFAULT`() {

@@ -60,7 +60,9 @@ public class CLEARALL {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CLEARALL.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "CLEAR ALL \n" +
+        ""
 
     @Test
     public fun `CLEAR ALL`() {

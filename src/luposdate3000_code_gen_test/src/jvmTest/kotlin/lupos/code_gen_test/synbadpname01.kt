@@ -16,13 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbadpname01 {
-    internal val query = File("src/jvmTest/resources/synbadpname01.query").readAsString()
+    internal val query = "# Bad declaration. \n" +
+        "PREFIX ex:ex: <http://example/> \n" +
+        "ASK{} \n" +
+        ""
 
     @Test
     public fun `synbadpname01`() {

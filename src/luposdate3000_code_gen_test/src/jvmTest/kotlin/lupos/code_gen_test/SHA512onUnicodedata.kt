@@ -41,7 +41,11 @@ public class SHA512onUnicodedata {
     )
     internal val targetData = File("src/jvmTest/resources/SHA512onUnicodedata.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SHA512onUnicodedata.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (SHA512(?l) AS ?hash) WHERE { \n" +
+        " :s8 :str ?l \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

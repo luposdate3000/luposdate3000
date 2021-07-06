@@ -41,7 +41,13 @@ public class RDFSinferencetesttransitivityofsubPropertyOf {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubPropertyOf.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubPropertyOf.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "SELECT ?x ?y \n" +
+        "WHERE { \n" +
+        "  ?x ex:f ?y . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -41,7 +41,8 @@ public class IFerrorpropogation {
     )
     internal val targetData = File("src/jvmTest/resources/IFerrorpropogation.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/IFerrorpropogation.query").readAsString()
+    internal val query = "SELECT (IF(1/0, false, true) AS ?error) WHERE {} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

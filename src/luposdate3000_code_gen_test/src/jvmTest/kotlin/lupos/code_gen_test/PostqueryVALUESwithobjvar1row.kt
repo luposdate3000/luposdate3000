@@ -41,7 +41,15 @@ public class PostqueryVALUESwithobjvar1row {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwithobjvar1row.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwithobjvar1row.query").readAsString()
+    internal val query = "# bindings with one element and one value in the object variable \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?o \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "} VALUES ?o { \n" +
+        " :b \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

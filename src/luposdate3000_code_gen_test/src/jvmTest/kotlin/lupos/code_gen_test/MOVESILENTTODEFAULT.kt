@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class MOVESILENTTODEFAULT {
-    internal val query = File("src/jvmTest/resources/MOVESILENTTODEFAULT.query").readAsString()
+    internal val query = "MOVE SILENT GRAPH <http://www.example.com/g1> TO DEFAULT \n" +
+        ""
 
     @Test
     public fun `MOVE SILENT TO DEFAULT`() {

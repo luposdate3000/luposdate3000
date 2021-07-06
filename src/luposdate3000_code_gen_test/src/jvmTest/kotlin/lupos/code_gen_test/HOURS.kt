@@ -40,7 +40,11 @@ public class HOURS {
     )
     internal val targetData = File("src/jvmTest/resources/HOURS.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/HOURS.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (HOURS(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `HOURS`() {

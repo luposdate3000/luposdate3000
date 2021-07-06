@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxaggregate10rq {
-    internal val query = File("src/jvmTest/resources/syntaxaggregate10rq.query").readAsString()
+    internal val query = "SELECT (MAX(DISTINCT ?x) AS ?y) {} \n" +
+        ""
 
     @Test
     public fun `syntaxaggregate10rq`() {

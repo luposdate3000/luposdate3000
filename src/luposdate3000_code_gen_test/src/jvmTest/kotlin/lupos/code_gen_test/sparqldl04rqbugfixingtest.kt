@@ -41,7 +41,15 @@ public class sparqldl04rqbugfixingtest {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl04rqbugfixingtest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl04rqbugfixingtest.query").readAsString()
+    internal val query = "# Query4 \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT ?X ?Y1 ?Y2 \n" +
+        "WHERE \n" +
+        "{?X rdf:type :Person . \n" +
+        "?X  :name ?Y1 . \n" +
+        "?X  :nick ?Y2 .} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

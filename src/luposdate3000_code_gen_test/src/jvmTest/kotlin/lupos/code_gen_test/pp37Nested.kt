@@ -41,7 +41,10 @@ public class pp37Nested {
     )
     internal val targetData = File("src/jvmTest/resources/pp37Nested.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp37Nested.query").readAsString()
+    internal val query = "prefix : <http://example.org/> \n" +
+        "select ?X where { :A0 ((:P)*)* ?X } \n" +
+        "order by ?X \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
@@ -60,14 +63,14 @@ public class pp37Nested {
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
-        if (!expected0.equalsVerbose(actual0, false, true, buf_err0)) {
+        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()
-        if (!expected1.equalsVerbose(actual1, false, true, buf_err1)) {
+        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         LuposdateEndpoint.close(instance)

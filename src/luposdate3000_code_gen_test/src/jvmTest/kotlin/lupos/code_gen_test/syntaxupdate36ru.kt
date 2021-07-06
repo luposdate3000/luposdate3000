@@ -16,13 +16,18 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdate36ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate36ru.query").readAsString()
+    internal val query = "# Comment \n" +
+        "DELETE  \n" +
+        "# Comment \n" +
+        "WHERE  \n" +
+        "# Comment \n" +
+        "{ GRAPH <G> { <s> <p> 123 ; <q> 4567.0 . } } \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test

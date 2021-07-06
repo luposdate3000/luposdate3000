@@ -41,7 +41,9 @@ public class pp36Arbitrarypathwithboundendpoints {
     )
     internal val targetData = File("src/jvmTest/resources/pp36Arbitrarypathwithboundendpoints.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp36Arbitrarypathwithboundendpoints.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT * WHERE { :a0 (:p)* :a1 } \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

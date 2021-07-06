@@ -60,7 +60,9 @@ public class CLEARGRAPH {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CLEARGRAPH.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "CLEAR GRAPH :g1 \n" +
+        ""
 
     @Test
     public fun `CLEAR GRAPH`() {

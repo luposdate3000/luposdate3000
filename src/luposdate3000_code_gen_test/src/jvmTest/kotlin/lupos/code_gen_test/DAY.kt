@@ -40,7 +40,11 @@ public class DAY {
     )
     internal val targetData = File("src/jvmTest/resources/DAY.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/DAY.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (DAY(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `DAY`() {

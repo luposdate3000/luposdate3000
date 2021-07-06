@@ -49,7 +49,17 @@ public class SimpleDELETE7 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETE7.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  :a foaf:knows ?s . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

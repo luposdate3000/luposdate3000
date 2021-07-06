@@ -41,7 +41,16 @@ public class subclassquerywithhasChildsomeThingrestriction {
     )
     internal val targetData = File("src/jvmTest/resources/subclassquerywithhasChildsomeThingrestriction.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/subclassquerywithhasChildsomeThingrestriction.query").readAsString()
+    internal val query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "PREFIX owl: <http://www.w3.org/2002/07/owl#>   \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT *  \n" +
+        "WHERE { ?C rdfs:subClassOf [ \n" +
+        "       a owl:Restriction ; \n" +
+        "       owl:onProperty :hasChild ; \n" +
+        "       owl:someValuesFrom owl:Thing ] .  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

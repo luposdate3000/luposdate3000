@@ -40,7 +40,13 @@ public class STRDTSTR {
     )
     internal val targetData = File("src/jvmTest/resources/STRDTSTR.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRDTSTR.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s (STRDT(STR(?str),xsd:string) AS ?str1) WHERE { \n" +
+        " ?s :str ?str \n" +
+        " FILTER(LANGMATCHES(LANG(?str), \"en\")) \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `STRDTSTR`() {

@@ -48,7 +48,8 @@ public class CREATESILENTiri {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CREATESILENTiri.query").readAsString()
+    internal val query = "CREATE SILENT GRAPH <http://example.org/g1> \n" +
+        ""
 
     @Test
     public fun `CREATE SILENT iri`() {

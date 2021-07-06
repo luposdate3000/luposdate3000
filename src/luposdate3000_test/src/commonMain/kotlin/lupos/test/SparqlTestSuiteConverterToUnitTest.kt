@@ -65,6 +65,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
 
     private fun cleanFileContent(s: String): String {
         return s
+            .replace("\\", "\\\\")
             .replace("\"", "\\\"")
             .replace("\n", "\" +\n        \"")
             .replace("\r", "\" +\n        \"")
@@ -147,14 +148,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         counter++
         allTests.add("$testCaseName")
         var queryResultIsOrdered = false
-        File(outputFolderTestResourcesJvm + "/$testCaseName.query").withOutputStream { out ->
-            File(queryFile).forEachLine {
-                out.println(it)
-                if (it.contains("order", true)) {
-                    queryResultIsOrdered = true
-                }
-            }
-        }
         var ignored = ignoreList.contains(testCaseName)
         for (useCodeGen in setOf(false, withCodeGen)) {
             var filenamePart = ""
@@ -308,7 +301,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 if (useCodeGen) {
                     out.println("    @CodeGenerationAnnotation")
                 }
-                out.println("    internal val query = File(\"src/jvmTest/resources/$testCaseName.query\").readAsString()")
+                out.println("    internal val query = \"${cleanFileContent(File(queryFile).readAsString())}\"")
                 out.println("")
                 if (!useCodeGen) {
                     if (ignored) {
@@ -341,7 +334,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 val evaluateIt = outputGraphs.size> 0 || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
                 if (evaluateIt || expectedResult) {
                     if (useCodeGen) {
-                        out.println("            val operator$counter = query_evaluate()")
+                        out.println("            val operator$counter = query_evaluate(instance)")
                     } else {
                         out.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
                     }
@@ -410,7 +403,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     }
                     out.println("    @Test")
 
-                    out.println("    public fun `$testCaseName2 - in simulator`() {")
+                    out.println("    public fun `$testCaseName2 - codegen`() {")
                     out.println("        ${testCaseName}_CodeGen().`$testCaseName2`()")
                     out.println("    }")
                 }

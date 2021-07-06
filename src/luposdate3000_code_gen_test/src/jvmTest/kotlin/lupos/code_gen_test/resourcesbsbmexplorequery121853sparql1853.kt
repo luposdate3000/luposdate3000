@@ -41,7 +41,36 @@ public class resourcesbsbmexplorequery121853sparql1853 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbsbmexplorequery121853sparql1853.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbsbmexplorequery121853sparql1853.query").readAsString()
+    internal val query = "PREFIX bsbm-export: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/> \n" +
+        "PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> \n" +
+        "PREFIX rev: <http://purl.org/stuff/rev#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>   \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>   \n" +
+        "PREFIX dc: <http://purl.org/dc/elements/1.1/>   \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>   \n" +
+        "PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>   \n" +
+        "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
+        "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
+        "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
+        "CONSTRUCT {  dataFromVendor1:Offer14 bsbm-export:product ?productURI . \n" +
+        "             dataFromVendor1:Offer14 bsbm-export:productlabel ?productlabel . \n" +
+        "             dataFromVendor1:Offer14 bsbm-export:vendor ?vendorname . \n" +
+        "             dataFromVendor1:Offer14 bsbm-export:vendorhomepage ?vendorhomepage .  \n" +
+        "             dataFromVendor1:Offer14 bsbm-export:offerURL ?offerURL . \n" +
+        "             dataFromVendor1:Offer14 bsbm-export:price ?price . \n" +
+        "             dataFromVendor1:Offer14 bsbm-export:deliveryDays ?deliveryDays . \n" +
+        "             dataFromVendor1:Offer14 bsbm-export:validuntil ?validTo }  \n" +
+        "WHERE { dataFromVendor1:Offer14 bsbm:product ?productURI . \n" +
+        "        ?productURI rdfs:label ?productlabel . \n" +
+        "        dataFromVendor1:Offer14 bsbm:vendor ?vendorURI . \n" +
+        "        ?vendorURI rdfs:label ?vendorname . \n" +
+        "        ?vendorURI foaf:homepage ?vendorhomepage . \n" +
+        "        dataFromVendor1:Offer14 bsbm:offerWebpage ?offerURL . \n" +
+        "        dataFromVendor1:Offer14 bsbm:price ?price . \n" +
+        "        dataFromVendor1:Offer14 bsbm:deliveryDays ?deliveryDays . \n" +
+        "        dataFromVendor1:Offer14 bsbm:validTo ?validTo } \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

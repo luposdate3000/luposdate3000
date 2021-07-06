@@ -40,7 +40,12 @@ public class MIN {
     )
     internal val targetData = File("src/jvmTest/resources/MIN.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MIN.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT (MIN(?o) AS ?min) \n" +
+        "WHERE { \n" +
+        " ?s :dec ?o \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `MIN`() {

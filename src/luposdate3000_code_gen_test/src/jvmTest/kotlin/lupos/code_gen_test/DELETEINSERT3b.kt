@@ -16,14 +16,23 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class DELETEINSERT3b {
-    internal val query = File("src/jvmTest/resources/DELETEINSERT3b.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows _:b . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?a foaf:name \"Alan\" . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

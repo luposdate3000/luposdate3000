@@ -41,7 +41,15 @@ public class ProtectfromerrorinAVG {
     )
     internal val targetData = File("src/jvmTest/resources/ProtectfromerrorinAVG.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/ProtectfromerrorinAVG.query").readAsString()
+    internal val query = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "PREFIX : <http://example.com/data/#> \n" +
+        "SELECT ?g  \n" +
+        "(AVG(IF(isNumeric(?p), ?p, COALESCE(xsd:double(?p),0))) AS ?avg)  \n" +
+        "WHERE { \n" +
+        "  ?g :p ?p . \n" +
+        "} \n" +
+        "GROUP BY ?g \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

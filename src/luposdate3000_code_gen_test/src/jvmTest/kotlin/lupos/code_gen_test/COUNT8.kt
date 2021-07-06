@@ -16,13 +16,16 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class COUNT8 {
-    internal val query = File("src/jvmTest/resources/COUNT8.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ((?O1 + ?O2) AS ?O12) (COUNT(?O1) AS ?C) \n" +
+        "WHERE { ?S :p ?O1; :q ?O2 } GROUP BY (?O1 + ?O2) \n" +
+        "ORDER BY ?O12 \n" +
+        ""
 
     @Test
     public fun `COUNT 8`() {

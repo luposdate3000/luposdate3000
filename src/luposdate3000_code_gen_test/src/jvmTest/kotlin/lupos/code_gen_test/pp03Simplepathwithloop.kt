@@ -41,7 +41,11 @@ public class pp03Simplepathwithloop {
     )
     internal val targetData = File("src/jvmTest/resources/pp03Simplepathwithloop.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp03Simplepathwithloop.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select * where { \n" +
+        "in:a ex:p1/ex:p2/ex:p3/ex:p4 ?x \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

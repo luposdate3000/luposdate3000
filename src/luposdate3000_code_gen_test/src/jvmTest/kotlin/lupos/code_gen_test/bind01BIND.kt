@@ -40,7 +40,12 @@ public class bind01BIND {
     )
     internal val targetData = File("src/jvmTest/resources/bind01BIND.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/bind01BIND.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?z \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "  BIND(?o+10 AS ?z) \n" +
+        "}"
 
     @Test
     public fun `bind01  BIND`() {

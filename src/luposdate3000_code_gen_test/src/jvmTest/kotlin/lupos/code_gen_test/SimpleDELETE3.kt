@@ -48,7 +48,18 @@ public class SimpleDELETE3 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETE3.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "} \n" +
+        "WHERE  \n" +
+        "{ \n" +
+        "  ?s foaf:knows :c . \n" +
+        "  ?s ?p ?o  \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `Simple DELETE 3`() {

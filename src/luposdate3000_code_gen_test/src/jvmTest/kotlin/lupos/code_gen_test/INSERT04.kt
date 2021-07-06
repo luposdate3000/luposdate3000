@@ -54,7 +54,15 @@ public class INSERT04 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERT04.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "INSERT { \n" +
+        " ?s ?p \"q\" \n" +
+        "} \n" +
+        "USING :g1 \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `INSERT 04`() {

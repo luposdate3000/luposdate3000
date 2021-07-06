@@ -41,7 +41,13 @@ public class sq10Subquerywithexists {
     )
     internal val targetData = File("src/jvmTest/resources/sq10Subquerywithexists.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq10Subquerywithexists.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x  where { \n" +
+        "{select * where {?x ex:p ?y}}  \n" +
+        "filter(exists {?x ex:q ?y})  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

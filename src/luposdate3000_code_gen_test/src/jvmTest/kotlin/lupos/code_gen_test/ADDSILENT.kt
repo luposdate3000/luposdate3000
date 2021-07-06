@@ -48,7 +48,8 @@ public class ADDSILENT {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/ADDSILENT.query").readAsString()
+    internal val query = "ADD SILENT GRAPH <http://www.example.com/g1> TO GRAPH <http://www.example.com/g2> \n" +
+        ""
 
     @Test
     public fun `ADD SILENT`() {

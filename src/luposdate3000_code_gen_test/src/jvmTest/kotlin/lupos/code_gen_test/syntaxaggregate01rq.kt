@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxaggregate01rq {
-    internal val query = File("src/jvmTest/resources/syntaxaggregate01rq.query").readAsString()
+    internal val query = "SELECT (COUNT(*) AS ?count) {} \n" +
+        ""
 
     @Test
     public fun `syntaxaggregate01rq`() {

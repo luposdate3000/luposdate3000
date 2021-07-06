@@ -41,7 +41,13 @@ public class ErrorinAVG {
     )
     internal val targetData = File("src/jvmTest/resources/ErrorinAVG.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/ErrorinAVG.query").readAsString()
+    internal val query = "PREFIX : <http://example.com/data/#> \n" +
+        "SELECT ?g (AVG(?p) AS ?avg) ((MIN(?p) + MAX(?p)) / 2 AS ?c) \n" +
+        "WHERE { \n" +
+        "  ?g :p ?p . \n" +
+        "} \n" +
+        "GROUP BY ?g \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

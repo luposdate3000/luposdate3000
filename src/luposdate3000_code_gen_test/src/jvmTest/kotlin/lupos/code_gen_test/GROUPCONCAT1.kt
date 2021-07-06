@@ -41,7 +41,14 @@ public class GROUPCONCAT1 {
     )
     internal val targetData = File("src/jvmTest/resources/GROUPCONCAT1.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/GROUPCONCAT1.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "ASK { \n" +
+        " {SELECT (GROUP_CONCAT(?o) AS ?g) WHERE { \n" +
+        "  [] :p1 ?o \n" +
+        " }} \n" +
+        " FILTER(?g = \"1 22\" || ?g = \"22 1\") \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

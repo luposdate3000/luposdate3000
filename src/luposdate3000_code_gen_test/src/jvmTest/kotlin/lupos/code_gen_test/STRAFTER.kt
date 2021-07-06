@@ -41,7 +41,12 @@ public class STRAFTER {
     )
     internal val targetData = File("src/jvmTest/resources/STRAFTER.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRAFTER.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s (STRAFTER(?str,\"e\") AS ?suffix) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -40,7 +40,12 @@ public class Expressionhasundefinedvariable {
     )
     internal val targetData = File("src/jvmTest/resources/Expressionhasundefinedvariable.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Expressionhasundefinedvariable.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select  ?x ?l (datatype(?m) as ?dt) where { \n" +
+        "  ?x ex:p ?l \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `Expression has undefined variable`() {

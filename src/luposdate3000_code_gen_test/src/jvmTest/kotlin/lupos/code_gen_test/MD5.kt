@@ -40,7 +40,11 @@ public class MD5 {
     )
     internal val targetData = File("src/jvmTest/resources/MD5.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MD5.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (MD5(?l) AS ?hash) WHERE { \n" +
+        " :s1 :str ?l \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `MD5`() {

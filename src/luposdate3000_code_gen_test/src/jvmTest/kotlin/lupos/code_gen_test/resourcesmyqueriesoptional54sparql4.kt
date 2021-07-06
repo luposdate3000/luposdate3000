@@ -41,7 +41,17 @@ public class resourcesmyqueriesoptional54sparql4 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesmyqueriesoptional54sparql4.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesmyqueriesoptional54sparql4.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT * WHERE { \n" +
+        " { \n" +
+        "  ?s :b1 ?o1 . \n" +
+        " } UNION { \n" +
+        "  ?s :b1 ?o1 . \n" +
+        " } \n" +
+        " ?s :b2 ?o2 . \n" +
+        " Filter (?o2 != 3) . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

@@ -49,7 +49,8 @@ public class MOVE2 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/MOVE2.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "MOVE DEFAULT TO :g1"
 
     @Ignore // Reason: >Bug<
     @Test

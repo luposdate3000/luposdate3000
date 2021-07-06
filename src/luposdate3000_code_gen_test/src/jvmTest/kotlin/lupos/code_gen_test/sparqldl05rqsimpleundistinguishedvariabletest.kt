@@ -41,7 +41,13 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl05rqsimpleundistinguishedvariabletest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl05rqsimpleundistinguishedvariabletest.query").readAsString()
+    internal val query = "# Query5 \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "ASK \n" +
+        "WHERE \n" +
+        "{_:a rdf:type :Person .} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

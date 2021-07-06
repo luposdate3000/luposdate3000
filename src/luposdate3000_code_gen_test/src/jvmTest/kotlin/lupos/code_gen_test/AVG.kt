@@ -41,7 +41,12 @@ public class AVG {
     )
     internal val targetData = File("src/jvmTest/resources/AVG.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/AVG.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT (AVG(?o) AS ?avg) \n" +
+        "WHERE { \n" +
+        " ?s :dec ?o \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -41,7 +41,41 @@ public class resourcesbsbmexplorequery42553sparql2553 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbsbmexplorequery42553sparql2553.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbsbmexplorequery42553sparql2553.query").readAsString()
+    internal val query = "PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> \n" +
+        "PREFIX rev: <http://purl.org/stuff/rev#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>   \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>   \n" +
+        "PREFIX dc: <http://purl.org/dc/elements/1.1/>   \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>   \n" +
+        "PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>   \n" +
+        "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
+        "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
+        "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
+        "SELECT DISTINCT ?product ?label ?propertyTextual \n" +
+        "WHERE { \n" +
+        "    {  \n" +
+        "       ?product rdfs:label ?label . \n" +
+        "       ?product rdf:type bsbm-inst:ProductType5 . \n" +
+        "       ?product bsbm:productFeature bsbm-inst:ProductFeature187 . \n" +
+        "    ?product bsbm:productFeature bsbm-inst:ProductFeature122 . \n" +
+        "       ?product bsbm:productPropertyTextual1 ?propertyTextual . \n" +
+        "    ?product bsbm:productPropertyNumeric1 ?p1 . \n" +
+        "    FILTER ( ?p1 > \"831\"^^xsd:integer ) \n" +
+        "    } UNION { \n" +
+        "       ?product rdfs:label ?label . \n" +
+        "       ?product rdf:type bsbm-inst:ProductType5 . \n" +
+        "       ?product bsbm:productFeature bsbm-inst:ProductFeature187 . \n" +
+        "    ?product bsbm:productFeature bsbm-inst:ProductFeature170 . \n" +
+        "       ?product bsbm:productPropertyTextual1 ?propertyTextual . \n" +
+        "    ?product bsbm:productPropertyNumeric2 ?p2 . \n" +
+        "    FILTER ( ?p2> \"434\"^^xsd:integer )  \n" +
+        "    }  \n" +
+        "} \n" +
+        "ORDER BY ?label \n" +
+        "OFFSET 5 \n" +
+        "LIMIT 10 \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
@@ -60,14 +94,14 @@ public class resourcesbsbmexplorequery42553sparql2553 {
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
-        if (!expected0.equalsVerbose(actual0, false, true, buf_err0)) {
+        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()
-        if (!expected1.equalsVerbose(actual1, false, true, buf_err1)) {
+        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         LuposdateEndpoint.close(instance)

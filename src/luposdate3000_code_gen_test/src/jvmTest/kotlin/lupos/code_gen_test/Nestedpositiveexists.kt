@@ -41,7 +41,12 @@ public class Nestedpositiveexists {
     )
     internal val targetData = File("src/jvmTest/resources/Nestedpositiveexists.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Nestedpositiveexists.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/> \n" +
+        "select * where { \n" +
+        "  ?s ?p ex:o \n" +
+        "  filter exists { ?s ?p ex:o1  filter exists { ?s ?p ex:o2 } }  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

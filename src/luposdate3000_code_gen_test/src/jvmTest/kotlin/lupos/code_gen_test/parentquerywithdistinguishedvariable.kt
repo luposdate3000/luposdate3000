@@ -41,7 +41,9 @@ public class parentquerywithdistinguishedvariable {
     )
     internal val targetData = File("src/jvmTest/resources/parentquerywithdistinguishedvariable.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/parentquerywithdistinguishedvariable.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/test#> \n" +
+        "SELECT ?parent \n" +
+        "WHERE { ?parent :hasChild ?child }"
 
     @Ignore // Reason: >Bug<
     @Test

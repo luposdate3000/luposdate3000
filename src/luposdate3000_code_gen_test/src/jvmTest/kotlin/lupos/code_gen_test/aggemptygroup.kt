@@ -40,7 +40,12 @@ public class aggemptygroup {
     )
     internal val targetData = File("src/jvmTest/resources/aggemptygroup.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/aggemptygroup.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.com/> \n" +
+        "SELECT ?x (MAX(?value) AS ?max) \n" +
+        "WHERE { \n" +
+        " ?x ex:p ?value \n" +
+        "} GROUP BY ?x \n" +
+        ""
 
     @Test
     public fun `agg empty group`() {

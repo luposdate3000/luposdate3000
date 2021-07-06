@@ -48,7 +48,8 @@ public class COPYSILENT {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/COPYSILENT.query").readAsString()
+    internal val query = "COPY SILENT GRAPH <http://www.example.com/g1> TO GRAPH <http://www.example.com/g2> \n" +
+        ""
 
     @Test
     public fun `COPY SILENT`() {

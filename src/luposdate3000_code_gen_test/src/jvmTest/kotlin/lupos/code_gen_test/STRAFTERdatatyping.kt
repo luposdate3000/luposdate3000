@@ -41,7 +41,22 @@ public class STRAFTERdatatyping {
     )
     internal val targetData = File("src/jvmTest/resources/STRAFTERdatatyping.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRAFTERdatatyping.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT \n" +
+        " ?s \n" +
+        " ?str \n" +
+        " (STRAFTER(?str,\"b\") AS ?ab) \n" +
+        " (STRAFTER(?str,\"ab\") AS ?aab) \n" +
+        " (STRAFTER(?str,\"b\"@cy) AS ?abcy) \n" +
+        " (STRAFTER(?str,\"\") AS ?a) \n" +
+        " (STRAFTER(?str,\"\"@en) AS ?aen) \n" +
+        " (STRAFTER(?str,\"b\"^^xsd:string) AS ?abx) \n" +
+        " (STRAFTER(?str,\"xyz\"^^xsd:string) AS ?axyzx) \n" +
+        "WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

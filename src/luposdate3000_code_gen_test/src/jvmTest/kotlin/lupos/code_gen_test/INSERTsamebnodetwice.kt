@@ -49,7 +49,20 @@ public class INSERTsamebnodetwice {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERTsamebnodetwice.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "INSERT { GRAPH :g2  { ?S ?P ?O } } \n" +
+        "WHERE { GRAPH :g1  { ?S ?P ?O } } ; \n" +
+        "INSERT { GRAPH :g2  { ?S ?P ?O } } \n" +
+        "WHERE { GRAPH :g1  { ?S ?P ?O } } ; \n" +
+        "INSERT { GRAPH :g3 { :s :p ?count } } \n" +
+        "WHERE { \n" +
+        " SELECT (COUNT(*) AS ?count) WHERE { \n" +
+        "  GRAPH :g2 { ?s ?p ?o } \n" +
+        " } \n" +
+        "} ; \n" +
+        "DROP GRAPH :g1 ; \n" +
+        "DROP GRAPH :g2 \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

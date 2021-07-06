@@ -16,14 +16,19 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class Group6 {
-    internal val query = File("src/jvmTest/resources/Group6.query").readAsString()
+    internal val query = "PREFIX : <http://example/> \n" +
+        "SELECT ?s ?v \n" +
+        "{ \n" +
+        "  ?s :p ?v . \n" +
+        "} \n" +
+        "GROUP BY ?s \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

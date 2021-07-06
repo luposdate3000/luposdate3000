@@ -44,7 +44,13 @@ public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
     )
     internal val targetData = File("src/jvmTest/resources/sq04Subquerywithingraphpatterndefaultgraphdoesnotapply.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq04Subquerywithingraphpatterndefaultgraphdoesnotapply.query").readAsString()
+    internal val query = "select ?x  \n" +
+        "where { \n" +
+        "graph ?g { \n" +
+        "{select * where {?x ?p ?y}} \n" +
+        "} \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

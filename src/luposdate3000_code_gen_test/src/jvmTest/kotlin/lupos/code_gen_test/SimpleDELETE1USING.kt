@@ -55,7 +55,19 @@ public class SimpleDELETE1USING {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETE1USING.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "} \n" +
+        "USING <http://example.org/g2> \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  :a foaf:knows ?s . \n" +
+        "  ?s ?p ?o  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

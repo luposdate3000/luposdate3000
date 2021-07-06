@@ -41,7 +41,11 @@ public class SHA512 {
     )
     internal val targetData = File("src/jvmTest/resources/SHA512.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SHA512.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (SHA512(?l) AS ?hash) WHERE { \n" +
+        " :s1 :str ?l \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

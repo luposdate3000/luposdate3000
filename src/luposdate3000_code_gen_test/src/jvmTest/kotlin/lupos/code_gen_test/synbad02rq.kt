@@ -16,14 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbad02rq {
-    internal val query = File("src/jvmTest/resources/synbad02rq.query").readAsString()
+    internal val query = "# required syntax error : out of scope variable in SELECT from group \n" +
+        "SELECT ?o { ?s ?p ?o } GROUP BY ?s \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test

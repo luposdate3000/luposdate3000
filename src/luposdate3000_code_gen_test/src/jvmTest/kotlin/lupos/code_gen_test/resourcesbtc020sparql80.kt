@@ -41,7 +41,13 @@ public class resourcesbtc020sparql80 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbtc020sparql80.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbtc020sparql80.query").readAsString()
+    internal val query = "#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009 \n" +
+        "select * where { \n" +
+        " ?m <http://purl.org/dc/elements/1.1/title> ?t . \n" +
+        " ?x <http://xmlns.com/foaf/0.1/made> ?m . \n" +
+        " ?x <http://xmlns.com/foaf/0.1/nick> ?i . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

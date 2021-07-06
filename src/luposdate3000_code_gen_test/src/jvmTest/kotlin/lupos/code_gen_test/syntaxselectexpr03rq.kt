@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxselectexpr03rq {
-    internal val query = File("src/jvmTest/resources/syntaxselectexpr03rq.query").readAsString()
+    internal val query = "SELECT (datatype(?x +?y) AS ?z) {} \n" +
+        ""
 
     @Test
     public fun `syntaxselectexpr03rq`() {

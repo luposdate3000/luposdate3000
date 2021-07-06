@@ -44,7 +44,14 @@ public class Existswithingraphpattern {
     )
     internal val targetData = File("src/jvmTest/resources/Existswithingraphpattern.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Existswithingraphpattern.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/> \n" +
+        "select * where { \n" +
+        "graph <exists02.ttl> {  \n" +
+        "  ?s ?p ex:o1 \n" +
+        "  filter exists { ?s ?p ex:o2 }  \n" +
+        "} \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

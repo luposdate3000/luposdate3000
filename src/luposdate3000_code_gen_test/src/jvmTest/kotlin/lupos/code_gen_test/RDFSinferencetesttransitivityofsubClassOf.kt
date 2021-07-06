@@ -41,7 +41,13 @@ public class RDFSinferencetesttransitivityofsubClassOf {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubClassOf.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubClassOf.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n" +
+        "SELECT ?x \n" +
+        "WHERE { \n" +
+        "  ?x rdf:type ex:f . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

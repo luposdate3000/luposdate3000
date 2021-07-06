@@ -54,7 +54,8 @@ public class ADD1 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/ADD1.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "ADD DEFAULT TO :g1"
 
     @Test
     public fun `ADD 1`() {

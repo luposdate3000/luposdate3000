@@ -40,7 +40,13 @@ public class RDFinferencetest {
     )
     internal val targetData = File("src/jvmTest/resources/RDFinferencetest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFinferencetest.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "SELECT ?x \n" +
+        "WHERE { \n" +
+        "  ?x rdf:type ex:banana . \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `RDF inference test`() {

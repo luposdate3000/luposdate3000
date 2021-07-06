@@ -48,7 +48,13 @@ public class SimpleDELETEWHERE3 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETEWHERE3.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE WHERE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows :c . \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `Simple DELETE WHERE 3`() {

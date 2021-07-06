@@ -41,7 +41,12 @@ public class MAX {
     )
     internal val targetData = File("src/jvmTest/resources/MAX.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MAX.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT (MAX(?o) AS ?max) \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

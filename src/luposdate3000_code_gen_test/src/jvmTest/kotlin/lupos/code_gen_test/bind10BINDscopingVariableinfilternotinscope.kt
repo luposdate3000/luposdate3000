@@ -40,7 +40,16 @@ public class bind10BINDscopingVariableinfilternotinscope {
     )
     internal val targetData = File("src/jvmTest/resources/bind10BINDscopingVariableinfilternotinscope.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/bind10BINDscopingVariableinfilternotinscope.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?v ?z \n" +
+        "{ \n" +
+        "  # See also bind11.rq \n" +
+        "  BIND(4 AS ?z) \n" +
+        "  { \n" +
+        "    # ?z is not in-scope at the time of filter execution. \n" +
+        "    ?s :p ?v . FILTER(?v = ?z) \n" +
+        "  } \n" +
+        "}"
 
     @Test
     public fun `bind10  BIND scoping  Variable in filter not in scope`() {

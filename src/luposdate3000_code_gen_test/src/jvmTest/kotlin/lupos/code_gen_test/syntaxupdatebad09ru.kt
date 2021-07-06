@@ -16,14 +16,17 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxupdatebad09ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdatebad09ru.query").readAsString()
+    internal val query = "CREATE GRAPH <g> \n" +
+        "; \n" +
+        "LOAD <remote> INTO GRAPH <g> \n" +
+        ";; \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test

@@ -60,7 +60,16 @@ public class INSERTUSING01 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERTUSING01.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "INSERT { \n" +
+        " ?s ?p \"q\" \n" +
+        "} \n" +
+        "USING :g1 \n" +
+        "USING :g2 \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `INSERT USING 01`() {

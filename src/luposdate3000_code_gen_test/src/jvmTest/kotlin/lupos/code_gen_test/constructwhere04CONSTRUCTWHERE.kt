@@ -29,7 +29,10 @@ import kotlin.test.fail
 public class constructwhere04CONSTRUCTWHERE {
     internal val targetData = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.output").readAsString()
     internal val targetType = ".ttl"
-    internal val query = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "CONSTRUCT  \n" +
+        "FROM <data.ttl> \n" +
+        "WHERE { ?s ?p ?o }"
 
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test

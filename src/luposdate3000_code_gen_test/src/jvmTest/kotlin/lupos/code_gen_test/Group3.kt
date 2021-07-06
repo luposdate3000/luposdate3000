@@ -40,7 +40,14 @@ public class Group3 {
     )
     internal val targetData = File("src/jvmTest/resources/Group3.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Group3.query").readAsString()
+    internal val query = "PREFIX : <http://example/> \n" +
+        "SELECT ?w (SAMPLE(?v) AS ?S) \n" +
+        "{ \n" +
+        "  ?s :p ?v . \n" +
+        "  OPTIONAL { ?s :q ?w } \n" +
+        "} \n" +
+        "GROUP BY ?w \n" +
+        ""
 
     @Test
     public fun `Group3`() {

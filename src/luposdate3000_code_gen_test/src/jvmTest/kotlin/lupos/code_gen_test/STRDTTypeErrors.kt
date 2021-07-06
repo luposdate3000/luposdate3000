@@ -41,7 +41,12 @@ public class STRDTTypeErrors {
     )
     internal val targetData = File("src/jvmTest/resources/STRDTTypeErrors.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRDTTypeErrors.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s (STRDT(?o,xsd:string) AS ?str1) WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -48,7 +48,8 @@ public class CLEARSILENTGRAPHiri {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CLEARSILENTGRAPHiri.query").readAsString()
+    internal val query = "CLEAR SILENT GRAPH <http://www.example.org> \n" +
+        ""
 
     @Test
     public fun `CLEAR SILENT GRAPH iri`() {

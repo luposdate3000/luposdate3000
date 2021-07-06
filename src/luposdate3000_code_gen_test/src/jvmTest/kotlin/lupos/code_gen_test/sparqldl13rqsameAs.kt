@@ -41,7 +41,18 @@ public class sparqldl13rqsameAs {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl13rqsameAs.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl13rqsameAs.query").readAsString()
+    internal val query = "# Query13 - sameAs test \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX owl:  <http://www.w3.org/2002/07/owl#>  \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT ?a ?b ?x \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?a :p ?b. \n" +
+        "  ?b owl:sameAs ?x. \n" +
+        "  ?x :q ?x. \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

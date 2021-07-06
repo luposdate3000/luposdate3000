@@ -41,7 +41,22 @@ public class STRBEFOREdatatyping {
     )
     internal val targetData = File("src/jvmTest/resources/STRBEFOREdatatyping.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRBEFOREdatatyping.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT \n" +
+        " ?s \n" +
+        " ?str \n" +
+        " (STRBEFORE(?str,\"b\") AS ?bb) \n" +
+        " (STRBEFORE(?str,\"bc\") AS ?bbc) \n" +
+        " (STRBEFORE(?str,\"b\"@cy) AS ?bbcy) \n" +
+        " (STRBEFORE(?str,\"\") AS ?b) \n" +
+        " (STRBEFORE(?str,\"\"@en) AS ?ben) \n" +
+        " (STRBEFORE(?str,\"b\"^^xsd:string) AS ?bbx) \n" +
+        " (STRBEFORE(?str,\"xyz\"^^xsd:string) AS ?bxyzx) \n" +
+        "WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

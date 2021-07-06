@@ -40,7 +40,11 @@ public class sparqldl01rqtriplepattern {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl01rqtriplepattern.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl01rqtriplepattern.query").readAsString()
+    internal val query = "PREFIX    :  <http://example.org/x/> \n" +
+        "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "SELECT ?x \n" +
+        "WHERE { ?x rdf:type :c . } \n" +
+        ""
 
     @Test
     public fun `sparqldl01rq triple pattern`() {

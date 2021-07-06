@@ -40,7 +40,13 @@ public class STRENDS {
     )
     internal val targetData = File("src/jvmTest/resources/STRENDS.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRENDS.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s ?str WHERE { \n" +
+        " ?s ?p ?str \n" +
+        " FILTER STRENDS(?str, \"bc\") \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `STRENDS`() {

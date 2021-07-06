@@ -40,7 +40,13 @@ public class SUMwithGROUPBY {
     )
     internal val targetData = File("src/jvmTest/resources/SUMwithGROUPBY.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SUMwithGROUPBY.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ?s (SUM(?o) AS ?sum) \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        "GROUP BY ?s \n" +
+        ""
 
     @Test
     public fun `SUM with GROUP BY`() {

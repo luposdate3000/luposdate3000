@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate14ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate14ru.query").readAsString()
+    internal val query = "CREATE SILENT GRAPH <graph> \n" +
+        ""
 
     @Test
     public fun `syntaxupdate14ru`() {

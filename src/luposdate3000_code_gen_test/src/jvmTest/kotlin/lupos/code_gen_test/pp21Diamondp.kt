@@ -41,7 +41,11 @@ public class pp21Diamondp {
     )
     internal val targetData = File("src/jvmTest/resources/pp21Diamondp.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp21Diamondp.query").readAsString()
+    internal val query = "prefix : <http://example/>  \n" +
+        "select * where { \n" +
+        "    :a :p+ ?z \n" +
+        "}  \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

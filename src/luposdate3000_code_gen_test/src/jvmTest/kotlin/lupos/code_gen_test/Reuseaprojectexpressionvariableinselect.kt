@@ -41,7 +41,15 @@ public class Reuseaprojectexpressionvariableinselect {
     )
     internal val targetData = File("src/jvmTest/resources/Reuseaprojectexpressionvariableinselect.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Reuseaprojectexpressionvariableinselect.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x ?y ?z \n" +
+        "  ((?y + ?z) as ?sum)  \n" +
+        "  ((2 * ?sum) as ?twice) \n" +
+        "where { \n" +
+        "  ?x ex:p ?y . \n" +
+        "  ?x ex:q ?z \n" +
+        "}"
 
     @Ignore // Reason: >Bug<
     @Test

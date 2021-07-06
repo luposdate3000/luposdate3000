@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class COPYSILENTTODEFAULT {
-    internal val query = File("src/jvmTest/resources/COPYSILENTTODEFAULT.query").readAsString()
+    internal val query = "COPY SILENT GRAPH <http://www.example.com/g1> TO DEFAULT \n" +
+        ""
 
     @Test
     public fun `COPY SILENT TO DEFAULT`() {

@@ -41,7 +41,12 @@ public class RDFSinferencetestrdfssubPropertyOf {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetestrdfssubPropertyOf.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetestrdfssubPropertyOf.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "SELECT ?x \n" +
+        "WHERE { \n" +
+        "  ?x ex:b2 ex:c . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

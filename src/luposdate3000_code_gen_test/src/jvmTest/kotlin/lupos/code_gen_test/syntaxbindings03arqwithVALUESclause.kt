@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxbindings03arqwithVALUESclause {
-    internal val query = File("src/jvmTest/resources/syntaxbindings03arqwithVALUESclause.query").readAsString()
+    internal val query = "SELECT * { } VALUES () { () } \n" +
+        ""
 
     @Test
     public fun `syntaxbindings03arq with VALUES clause`() {

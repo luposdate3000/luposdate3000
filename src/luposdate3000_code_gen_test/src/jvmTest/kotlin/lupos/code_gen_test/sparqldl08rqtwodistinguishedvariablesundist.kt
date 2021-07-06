@@ -41,7 +41,13 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl08rqtwodistinguishedvariablesundist.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl08rqtwodistinguishedvariablesundist.query").readAsString()
+    internal val query = "# Query6 - articulation simplification test \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT * \n" +
+        "WHERE \n" +
+        "{?X :p _:a. \n" +
+        " _:a :r ?Y.}"
 
     @Ignore // Reason: >Bug<
     @Test

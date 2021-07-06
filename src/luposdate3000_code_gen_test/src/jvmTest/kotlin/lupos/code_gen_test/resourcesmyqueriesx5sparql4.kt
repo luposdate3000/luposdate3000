@@ -41,7 +41,12 @@ public class resourcesmyqueriesx5sparql4 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesmyqueriesx5sparql4.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesmyqueriesx5sparql4.query").readAsString()
+    internal val query = "PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#> \n" +
+        "SELECT ?animal {  \n" +
+        "    ?animal a ?type  \n" +
+        "    FILTER(?type = ex:Reptile || ?type = ex:Insect)  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

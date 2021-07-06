@@ -41,7 +41,16 @@ public class parentquerywithhasChildmin1restriction {
     )
     internal val targetData = File("src/jvmTest/resources/parentquerywithhasChildmin1restriction.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/parentquerywithhasChildmin1restriction.query").readAsString()
+    internal val query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" +
+        "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT *  \n" +
+        "WHERE { ?parent rdf:type [ \n" +
+        "       a owl:Restriction ; \n" +
+        "       owl:onProperty :hasChild ; \n" +
+        "       owl:minCardinality \"1\"^^xsd:nonNegativeInteger  ] . } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate04ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate04ru.query").readAsString()
+    internal val query = "LOAD <http://example.org/faraway> INTO GRAPH <localCopy> \n" +
+        ""
 
     @Test
     public fun `syntaxupdate04ru`() {

@@ -41,7 +41,11 @@ public class resourcesmyqueriesx1sparql5 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesmyqueriesx1sparql5.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesmyqueriesx1sparql5.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (SHA256(?l) AS ?hash) WHERE { \n" +
+        " :s8 :str ?l \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

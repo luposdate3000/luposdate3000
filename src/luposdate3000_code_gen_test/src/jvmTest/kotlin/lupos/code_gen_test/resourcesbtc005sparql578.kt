@@ -41,7 +41,14 @@ public class resourcesbtc005sparql578 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbtc005sparql578.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbtc005sparql578.query").readAsString()
+    internal val query = "#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008 \n" +
+        "select distinct ?l ?long ?lat where { \n" +
+        " ?a ?b \"Barack Obama\" . \n" +
+        " ?a <http://dbpedia.org/property/placeOfBirth> ?l . \n" +
+        " ?l <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat . \n" +
+        " ?l <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

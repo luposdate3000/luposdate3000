@@ -40,7 +40,11 @@ public class LCASE {
     )
     internal val targetData = File("src/jvmTest/resources/LCASE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/LCASE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (LCASE(?str) AS ?lstr) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `LCASE`() {

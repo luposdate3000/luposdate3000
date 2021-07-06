@@ -41,7 +41,12 @@ public class resourcessp2bq10sparql247 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq10sparql247.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq10sparql247.query").readAsString()
+    internal val query = "PREFIX person: <http://localhost/persons/> \n" +
+        "SELECT ?subject ?predicate \n" +
+        "WHERE { \n" +
+        "  ?subject ?predicate person:Paul_Erdoes \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

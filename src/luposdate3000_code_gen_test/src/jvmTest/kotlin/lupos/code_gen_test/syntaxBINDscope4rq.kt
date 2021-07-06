@@ -16,12 +16,18 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxBINDscope4rq {
-    internal val query = File("src/jvmTest/resources/syntaxBINDscope4rq.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org> \n" +
+        "SELECT * \n" +
+        "   { \n" +
+        "    { BIND (1 AS ?Y) } \n" +
+        "     UNION \n" +
+        "    { :s :p ?Y } \n" +
+        "  } \n" +
+        ""
 
     @Test
     public fun `syntaxBINDscope4rq`() {

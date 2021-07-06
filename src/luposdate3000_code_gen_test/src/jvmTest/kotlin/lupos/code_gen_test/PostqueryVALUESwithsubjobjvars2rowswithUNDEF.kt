@@ -40,7 +40,19 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwithsubjobjvars2rowswithUNDEF.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwithsubjobjvars2rowswithUNDEF.query").readAsString()
+    internal val query = "PREFIX dc:   <http://purl.org/dc/elements/1.1/>  \n" +
+        "PREFIX :     <http://example.org/book/>  \n" +
+        "PREFIX ns:   <http://example.org/ns#>  \n" +
+        "SELECT ?book ?title ?price \n" +
+        "{ \n" +
+        "   ?book dc:title ?title ; \n" +
+        "         ns:price ?price . \n" +
+        "} \n" +
+        "VALUES (?book ?title) { \n" +
+        " (UNDEF \"SPARQL Tutorial\") \n" +
+        " (:book2 UNDEF) \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF`() {

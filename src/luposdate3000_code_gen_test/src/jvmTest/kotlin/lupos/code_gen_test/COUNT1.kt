@@ -40,7 +40,10 @@ public class COUNT1 {
     )
     internal val targetData = File("src/jvmTest/resources/COUNT1.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/COUNT1.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org> \n" +
+        "SELECT (COUNT(?O) AS ?C) \n" +
+        "WHERE { ?S ?P ?O } \n" +
+        ""
 
     @Test
     public fun `COUNT 1`() {

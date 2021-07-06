@@ -41,7 +41,11 @@ public class pp08Reversepath {
     )
     internal val targetData = File("src/jvmTest/resources/pp08Reversepath.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp08Reversepath.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "ask { \n" +
+        "in:b ^ex:p in:a \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

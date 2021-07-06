@@ -52,7 +52,25 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnodeevenifbothWHEREclauseshavetheemptysolutionmappingastheonlysolution.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "# starting with an empty graph store, \n" +
+        "# insert the same bnode in two different graphs... \n" +
+        "INSERT  { GRAPH :g1  { _:b :p :o } } WHERE {};  \n" +
+        "INSERT  { GRAPH :g2  { _:b :p :o } } WHERE {}; \n" +
+        "# ... then copy g1 to g2 ... \n" +
+        "INSERT { GRAPH :g2  { ?S ?P ?O } } \n" +
+        " WHERE { GRAPH :g1  { ?S ?P ?O } } ; \n" +
+        "# ... by which the number of triples in  \n" +
+        "# g2 should increase \n" +
+        "INSERT { GRAPH :g3 { :s :p ?count } } \n" +
+        "WHERE { \n" +
+        " SELECT (COUNT(*) AS ?count) WHERE { \n" +
+        "  GRAPH :g2 { ?s ?p ?o } \n" +
+        " } \n" +
+        "} ; \n" +
+        "DROP GRAPH :g1 ; \n" +
+        "DROP GRAPH :g2 \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

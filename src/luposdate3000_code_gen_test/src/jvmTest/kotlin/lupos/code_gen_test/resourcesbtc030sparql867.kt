@@ -41,7 +41,14 @@ public class resourcesbtc030sparql867 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbtc030sparql867.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbtc030sparql867.query").readAsString()
+    internal val query = "#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012 \n" +
+        "SELECT ?a ?b ?ab WHERE { \n" +
+        " ?b <http://purl.uniprot.org/core/modified> \"2008-07-22\" . \n" +
+        " ?b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> . \n" +
+        " ?a <http://purl.uniprot.org/core/replaces> ?ab . \n" +
+        " ?ab <http://purl.uniprot.org/core/replacedBy> ?b . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test

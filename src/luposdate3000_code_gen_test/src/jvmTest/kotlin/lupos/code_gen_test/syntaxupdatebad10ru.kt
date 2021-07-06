@@ -16,14 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxupdatebad10ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdatebad10ru.query").readAsString()
+    internal val query = "# BNode in DELETE WHERE \n" +
+        "DELETE WHERE { _:a <p> <o> } \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test

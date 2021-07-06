@@ -40,7 +40,11 @@ public class SubsetsbyexclusionNOTEXISTS {
     )
     internal val targetData = File("src/jvmTest/resources/SubsetsbyexclusionNOTEXISTS.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SubsetsbyexclusionNOTEXISTS.query").readAsString()
+    internal val query = "PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#> \n" +
+        "SELECT ?animal {  \n" +
+        "  ?animal a ex:Animal  \n" +
+        "  FILTER NOT EXISTS { ?animal a ex:Insect }  \n" +
+        "}"
 
     @Test
     public fun `Subsets by exclusion NOT EXISTS`() {

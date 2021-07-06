@@ -16,13 +16,13 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxaggregate14rq {
-    internal val query = File("src/jvmTest/resources/syntaxaggregate14rq.query").readAsString()
+    internal val query = "SELECT (GROUP_CONCAT(DISTINCT ?x) AS ?y) {} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

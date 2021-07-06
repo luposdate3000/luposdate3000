@@ -44,7 +44,9 @@ public class DROPALL {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DROPALL.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "DROP ALL \n" +
+        ""
 
     @Test
     public fun `DROP ALL`() {

@@ -41,7 +41,12 @@ public class REPLACE {
     )
     internal val targetData = File("src/jvmTest/resources/REPLACE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/REPLACE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s (REPLACE(?str,\"[^a-z0-9]\", \"-\") AS ?new) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

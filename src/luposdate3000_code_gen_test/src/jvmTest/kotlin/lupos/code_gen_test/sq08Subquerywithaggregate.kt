@@ -41,7 +41,13 @@ public class sq08Subquerywithaggregate {
     )
     internal val targetData = File("src/jvmTest/resources/sq08Subquerywithaggregate.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq08Subquerywithaggregate.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x ?max where { \n" +
+        "{select (max(?y) as ?max) where {?x ex:p ?y} }  \n" +
+        "?x ex:p ?max \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test

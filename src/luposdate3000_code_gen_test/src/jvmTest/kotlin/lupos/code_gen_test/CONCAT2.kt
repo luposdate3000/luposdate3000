@@ -41,7 +41,12 @@ public class CONCAT2 {
     )
     internal val targetData = File("src/jvmTest/resources/CONCAT2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/CONCAT2.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (CONCAT(?str1,?str2) AS ?str) WHERE { \n" +
+        " ?s1 :str ?str1 . \n" +
+        " ?s2 :str ?str2 . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test

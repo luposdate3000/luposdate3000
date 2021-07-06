@@ -40,7 +40,16 @@ public class InlineVALUESgraphpattern {
     )
     internal val targetData = File("src/jvmTest/resources/InlineVALUESgraphpattern.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/InlineVALUESgraphpattern.query").readAsString()
+    internal val query = "PREFIX dc:   <http://purl.org/dc/elements/1.1/>  \n" +
+        "PREFIX :     <http://example.org/book/>  \n" +
+        "PREFIX ns:   <http://example.org/ns#>  \n" +
+        "SELECT ?book ?title ?price \n" +
+        "{ \n" +
+        "   VALUES ?book { :book1 } \n" +
+        "   ?book dc:title ?title ; \n" +
+        "         ns:price ?price . \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `Inline VALUES graph pattern`() {

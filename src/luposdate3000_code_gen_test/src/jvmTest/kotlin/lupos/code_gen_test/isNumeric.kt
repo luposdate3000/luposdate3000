@@ -40,7 +40,12 @@ public class isNumeric {
     )
     internal val targetData = File("src/jvmTest/resources/isNumeric.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/isNumeric.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s ?num WHERE { \n" +
+        " ?s ?p ?num \n" +
+        " FILTER isNumeric(?num) \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `isNumeric`() {

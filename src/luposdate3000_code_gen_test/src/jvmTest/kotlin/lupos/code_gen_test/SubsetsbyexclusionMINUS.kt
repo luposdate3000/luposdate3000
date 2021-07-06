@@ -40,7 +40,13 @@ public class SubsetsbyexclusionMINUS {
     )
     internal val targetData = File("src/jvmTest/resources/SubsetsbyexclusionMINUS.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SubsetsbyexclusionMINUS.query").readAsString()
+    internal val query = "PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#> \n" +
+        "SELECT ?animal {  \n" +
+        "  ?animal a ex:Animal MINUS {  \n" +
+        "    ?animal a ?type  \n" +
+        "    FILTER(?type = ex:Reptile || ?type = ex:Insect)  \n" +
+        "  }  \n" +
+        "}"
 
     @Test
     public fun `Subsets by exclusion MINUS`() {

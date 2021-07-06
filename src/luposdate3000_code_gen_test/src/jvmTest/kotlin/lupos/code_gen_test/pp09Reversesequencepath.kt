@@ -41,7 +41,11 @@ public class pp09Reversesequencepath {
     )
     internal val targetData = File("src/jvmTest/resources/pp09Reversesequencepath.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp09Reversesequencepath.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select  * where { \n" +
+        "in:c ^(ex:p1/ex:p2) ?x \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test

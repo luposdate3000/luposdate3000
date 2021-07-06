@@ -40,7 +40,10 @@ public class NOTIN1 {
     )
     internal val targetData = File("src/jvmTest/resources/NOTIN1.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/NOTIN1.query").readAsString()
+    internal val query = "ASK { \n" +
+        " FILTER(2 NOT IN ()) \n" +
+        "} \n" +
+        ""
 
     @Test
     public fun `NOT IN 1`() {

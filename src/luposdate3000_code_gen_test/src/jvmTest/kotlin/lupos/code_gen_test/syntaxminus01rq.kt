@@ -16,12 +16,12 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxminus01rq {
-    internal val query = File("src/jvmTest/resources/syntaxminus01rq.query").readAsString()
+    internal val query = "SELECT * { ?s ?p ?o MINUS { ?s ?q ?v } } \n" +
+        ""
 
     @Test
     public fun `syntaxminus01rq`() {
