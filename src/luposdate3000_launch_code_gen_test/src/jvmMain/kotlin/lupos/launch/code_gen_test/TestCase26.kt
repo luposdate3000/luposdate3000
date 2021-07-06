@@ -31,36 +31,14 @@ public object TestCase26 {
     internal const val targetFileName=".//resources/sparql11-test-suite/bind/bind02.srx"
     @CodeGenerationAnnotation
     internal const val query = "PREFIX : <http://example.org/>  " +
-        "SELECT * " +
-        "{ " +
-        "  ?s ?p ?o . " +
-        "  BIND(?o+100-?o AS ?z2) " +
-        "}"
+            "SELECT ?o ?z ?z2 " +
+            "{ " +
+            "  ?s ?p ?o . " +
+            "  BIND(?o+10 AS ?z) " +
+            "  BIND(?o+100 AS ?z2) " +
+            "}"
     internal operator fun invoke(){
         println("Test: 'bind02 - BIND'")
-        var success = true
-        try {
-            LuposdateEndpoint.initialize()
-            LuposdateEndpoint.importTurtleFiles(inputFileName,mutableMapOf())
-            val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(query)
-            val buf = MyPrintWriter(true)
-            val targetString = File(targetFileName).readAsString()
-            val target = MemoryTable.parseFromAny(targetString, targetFileName, op.getQuery())!!
-            val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.MEMORY_TABLE)
-            if (!target.equalsVerbose(result, true, true)) {
-                success = false
-            }
-        } catch (e:Throwable) {
-            e.printStackTrace()
-            success = false
-        }
-            LuposdateEndpoint.close()
-        if (success) {
-            println("Result: 'bind02 - BIND' success")
-        } else {
-            println("Result: 'bind02 - BIND' failed")
-        }
-        if(success){
             var success2 = true
             try {
                 LuposdateEndpoint.initialize()
@@ -81,6 +59,6 @@ public object TestCase26 {
             if (!success2) {
                 println("ResultCodegen: 'bind02 - BIND' failed")
             }
-        }
+
     }
 }
