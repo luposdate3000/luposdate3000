@@ -46,13 +46,11 @@ import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryHelper
-import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.MyPrintWriter
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.triple_store_manager.POPTripleStoreIterator
 import java.io.OutputStream
 import java.io.PrintWriter
@@ -433,36 +431,10 @@ private fun writeOperatorGraph(
 }
 
 
-public  class  IAOPCodeGen2(private  val className: String,
-                            private  val children: Array<IAOPCodeGen2>,
-                            private val name: String = "",
-                            private val value: ByteArrayWrapper = ByteArrayWrapper()) {
-    private val uuid = UUID_Counter.getNextUUID()
-    init {
-        println("CODEGEN2" + value.size);
-        println(this)
-    }
-    public fun getUUID(): Long {
-        return uuid
-    }
-    public fun getChildren(): Array<IAOPCodeGen2> {
-        return children;
-    }
-    public fun getClassname(): String {
-        return className;
-    }
-    public fun getName() :String {
-        return name;
-    }
-    public fun getValue(): ByteArrayWrapper{
-        return  value;
-    }
 
 
-}
 
-
-internal fun convert(child: IOPBase): IAOPCodeGen2 {
+internal fun convert(child: IOPBase): CodeGenClassHolder {
     println("CALLED CONVERT")
     val children = Array(child.getChildren().size){
         convert(child.getChildren()[it])
@@ -470,18 +442,18 @@ internal fun convert(child: IOPBase): IAOPCodeGen2 {
     return when(child) {
 
         is AOPVariable -> {
-            IAOPCodeGen2("AOPVariable", children, child.getName())
+            CodeGenClassHolder("AOPVariable", children, child.getName())
         }
         is AOPConstant -> {
             val dict = child.getQuery().getDictionary()
             val tmpBuf = ByteArrayWrapper()
             dict.getValue(tmpBuf, child.getValue())
             println(tmpBuf.size)
-            IAOPCodeGen2("AOPConstant", children, "", tmpBuf)
+            CodeGenClassHolder("AOPConstant", children, "", tmpBuf)
         }
         else -> {
             println("CE" + child.getClassname())
-            IAOPCodeGen2(child.getClassname(), children)
+            CodeGenClassHolder(child.getClassname(), children)
         }
 
     }
@@ -497,7 +469,7 @@ internal fun writeMethod(
 )
 {
 
-    val conversion = IAOPCodeGen2("ToDictionaryID", arrayOf(IAOPCodeGen2("ToByteArrayWrapper", arrayOf(convert(child)))))
+    val conversion = CodeGenClassHolder("ToDictionaryID", arrayOf(CodeGenClassHolder("ToByteArrayWrapper", arrayOf(convert(child)))))
 
     val builder = StringBuilder()
 
