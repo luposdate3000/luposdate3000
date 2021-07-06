@@ -32,14 +32,15 @@ internal object EVariablePlaceholderExt {
     internal const val DateTime_tz: EVariablePlaceholder = 10
     internal const val DateTime_year: EVariablePlaceholder = 11
     internal const val Decimal: EVariablePlaceholder = 12
-    internal const val Double: EVariablePlaceholder = 13
-    internal const val Empty: EVariablePlaceholder = 14
-    internal const val Integer: EVariablePlaceholder = 15
-    internal const val Iri: EVariablePlaceholder = 16
-    internal const val String_content: EVariablePlaceholder = 17
-    internal const val String_lang: EVariablePlaceholder = 18
-    internal const val String_type: EVariablePlaceholder = 19
-    internal const val values_size: Int = 20
+    internal const val DictionaryID: EVariablePlaceholder = 13
+    internal const val Double: EVariablePlaceholder = 14
+    internal const val Empty: EVariablePlaceholder = 15
+    internal const val Integer: EVariablePlaceholder = 16
+    internal const val Iri: EVariablePlaceholder = 17
+    internal const val String_content: EVariablePlaceholder = 18
+    internal const val String_lang: EVariablePlaceholder = 19
+    internal const val String_type: EVariablePlaceholder = 20
+    internal const val values_size: Int = 21
 
     @JvmField
     internal val names: Array<String> = arrayOf(
@@ -56,6 +57,7 @@ internal object EVariablePlaceholderExt {
         "DateTime_tz",
         "DateTime_year",
         "Decimal",
+        "DictionaryID",
         "Double",
         "Empty",
         "Integer",

@@ -18,3 +18,4 @@ String_lang
 Empty
 ByteArrayWrapper
 Blank_Node
+DictionaryID
