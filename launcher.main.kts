@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
-/*
- * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+/* 
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000). 
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt") 
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt") 
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
@@ -28,17 +28,17 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")  
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt") 
-@file:CompilerOptions("-Xmulti-platform")
+@file:CompilerOptions("-Xmulti-platform") 
 
 import launcher.CreateModuleArgs
 import launcher.DryMode
-import launcher.ExecMode
+import launcher.ExecMode 
 import launcher.InlineMode
-import launcher.IntellijMode 
-import launcher.ParamClassMode
-import launcher.ReleaseMode
+import launcher.IntellijMode    
+import launcher.ParamClassMode 
+import launcher.ReleaseMode 
 import launcher.SuspendMode
 import launcher.EDictionaryValueMode 
 import launcher.TargetMode2

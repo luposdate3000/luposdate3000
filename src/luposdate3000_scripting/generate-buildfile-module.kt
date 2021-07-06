@@ -336,7 +336,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             appendix += "_Debug"
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
-        val enableProguard = false // !onWindows && enableJVM
+        val enableProguard = !onWindows && enableJVM && !buildLibrary
 
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -732,8 +732,6 @@ if(!onWindows){
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
-                    out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")
-                    out.println("    outjars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1-pro.jar\")")
                     out.println("    val javaHome = System.getProperty(\"java.home\")")
                     out.println("    if (System.getProperty(\"java.version\").startsWith(\"1.\")) {")
                     out.println("        libraryjars(\"\$javaHome/lib/rt.jar\")")
@@ -746,16 +744,19 @@ if(!onWindows){
                     out.println("            \"\$javaHome/jmods/java.base.jmod\"")
                     out.println("        )")
                     out.println("    }")
-                    out.println("    File(buildDir,\"external_jvm_dependencies\").printWriter().use { out ->")
-                    out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
-                    out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
-                    out.println("                out.println(\"\$f\")")
-                    out.println("            }")
-                    out.println("        }")
-                    out.println("    }")
                     out.println("    for (f in configurations.getByName(\"jvmCompileClasspath\").resolve()) {")
-                    out.println("        libraryjars(files(\"\$f\"))")
+                    out.println("            if (\"\$f\".contains(\"luposdate3000\")) {")
+                    out.println("                injars(")
+                    out.println("                    mapOf(")
+                    out.println("                        \"filter\" to \" !META-INF/MANIFEST.MF,!lupos/shared/inline/** \"")
+                    out.println("                    ),")
+                    out.println("                    files(\"\$f\")")
+                    out.println("                )")
+                    out.println("            } else {")
+                    out.println("                libraryjars(files(\"\$f\"))")
+                    out.println("            }")
                     out.println("    }")
+                    out.println("    injars(\"build/libs/${moduleArgs.moduleName.toLowerCase()}-jvm-0.0.1.jar\")")
                     out.println("    printusage(\"usage.pro\")")
                     out.println("    forceprocessing()")
                     out.println("    optimizationpasses(5)")
@@ -763,10 +764,8 @@ if(!onWindows){
                     out.println("    dontobfuscate()")
                     out.println("    printconfiguration(\"config.pro.generated\")")
                     out.println("    printmapping(\"build/mapping.txt\")")
-                    out.println("    keep(\"@lupos.ProguardKeepAnnotation public class *\")")
-                    out.println("    keepclassmembers(\"class * { @lupos.ProguardKeepAnnotation public *; }\")")
-                    out.println("    keepclassmembers(\"class * { public <fields>; }\")")
                     out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
+                    out.println("    outjars(\"build/libs/${moduleArgs.moduleName.toLowerCase()}-jvm-0.0.1-pro.jar\")")
                     out.println("}")
                 }
                 out.println("tasks.withType<Test> {")
