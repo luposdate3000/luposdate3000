@@ -26,7 +26,7 @@ public class syntaxaggregate14rq {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `syntaxaggregate14rq`() {
+    public fun `syntaxaggregate14rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

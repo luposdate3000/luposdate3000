@@ -43,7 +43,7 @@ public class bind10BINDscopingVariableinfilternotinscope {
     internal val query = File("src/jvmTest/resources/bind10BINDscopingVariableinfilternotinscope.query").readAsString()
 
     @Test
-    fun `bind10  BIND scoping  Variable in filter not in scope`() {
+    public fun `bind10  BIND scoping  Variable in filter not in scope`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class bind10BINDscopingVariableinfilternotinscope {
     }
 
     @Test
-    fun `bind10  BIND scoping  Variable in filter not in scope - in simulator`() {
+    public fun `bind10  BIND scoping  Variable in filter not in scope - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

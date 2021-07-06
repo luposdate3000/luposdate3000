@@ -43,7 +43,7 @@ public class Group4 {
     internal val query = File("src/jvmTest/resources/Group4.query").readAsString()
 
     @Test
-    fun `Group4`() {
+    public fun `Group4`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class Group4 {
     }
 
     @Test
-    fun `Group4 - in simulator`() {
+    public fun `Group4 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

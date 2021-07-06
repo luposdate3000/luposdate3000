@@ -24,7 +24,7 @@ public class syntaxupdate06ru {
     internal val query = File("src/jvmTest/resources/syntaxupdate06ru.query").readAsString()
 
     @Test
-    fun `syntaxupdate06ru`() {
+    public fun `syntaxupdate06ru`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

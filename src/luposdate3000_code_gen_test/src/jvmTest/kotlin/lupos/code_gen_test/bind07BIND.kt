@@ -43,7 +43,7 @@ public class bind07BIND {
     internal val query = File("src/jvmTest/resources/bind07BIND.query").readAsString()
 
     @Test
-    fun `bind07  BIND`() {
+    public fun `bind07  BIND`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class bind07BIND {
     }
 
     @Test
-    fun `bind07  BIND - in simulator`() {
+    public fun `bind07  BIND - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -45,7 +45,7 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl03rq combined query with complex class description`() {
+    public fun `sparqldl03rq combined query with complex class description`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +75,7 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl03rq combined query with complex class description - in simulator`() {
+    public fun `sparqldl03rq combined query with complex class description - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -45,7 +45,7 @@ public class SubtractionwithMINUSfromapartiallyboundminuend {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Subtraction with MINUS from a partially bound minuend`() {
+    public fun `Subtraction with MINUS from a partially bound minuend`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +75,7 @@ public class SubtractionwithMINUSfromapartiallyboundminuend {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Subtraction with MINUS from a partially bound minuend - in simulator`() {
+    public fun `Subtraction with MINUS from a partially bound minuend - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

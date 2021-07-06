@@ -43,7 +43,7 @@ public class SHA1 {
     internal val query = File("src/jvmTest/resources/SHA1.query").readAsString()
 
     @Test
-    fun `SHA1`() {
+    public fun `SHA1`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class SHA1 {
     }
 
     @Test
-    fun `SHA1 - in simulator`() {
+    public fun `SHA1 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -56,7 +56,7 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution`() {
+    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -99,7 +99,7 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator`() {
+    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

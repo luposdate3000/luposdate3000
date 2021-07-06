@@ -24,7 +24,7 @@ public class syntaxselectexpr05rq {
     internal val query = File("src/jvmTest/resources/syntaxselectexpr05rq.query").readAsString()
 
     @Test
-    fun `syntaxselectexpr05rq`() {
+    public fun `syntaxselectexpr05rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

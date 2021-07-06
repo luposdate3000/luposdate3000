@@ -43,7 +43,7 @@ public class COUNT3 {
     internal val query = File("src/jvmTest/resources/COUNT3.query").readAsString()
 
     @Test
-    fun `COUNT 3`() {
+    public fun `COUNT 3`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class COUNT3 {
     }
 
     @Test
-    fun `COUNT 3 - in simulator`() {
+    public fun `COUNT 3 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -54,7 +54,7 @@ public class MOVE1 {
     internal val query = File("src/jvmTest/resources/MOVE1.query").readAsString()
 
     @Test
-    fun `MOVE 1`() {
+    public fun `MOVE 1`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -101,7 +101,7 @@ public class MOVE1 {
     }
 
     @Test
-    fun `MOVE 1 - in simulator`() {
+    public fun `MOVE 1 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

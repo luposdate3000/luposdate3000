@@ -63,7 +63,7 @@ public class CLEARGRAPH {
     internal val query = File("src/jvmTest/resources/CLEARGRAPH.query").readAsString()
 
     @Test
-    fun `CLEAR GRAPH`() {
+    public fun `CLEAR GRAPH`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -142,7 +142,7 @@ public class CLEARGRAPH {
     }
 
     @Test
-    fun `CLEAR GRAPH - in simulator`() {
+    public fun `CLEAR GRAPH - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

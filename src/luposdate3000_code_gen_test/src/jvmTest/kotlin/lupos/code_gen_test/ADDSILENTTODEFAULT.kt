@@ -24,7 +24,7 @@ public class ADDSILENTTODEFAULT {
     internal val query = File("src/jvmTest/resources/ADDSILENTTODEFAULT.query").readAsString()
 
     @Test
-    fun `ADD SILENT TO DEFAULT`() {
+    public fun `ADD SILENT TO DEFAULT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

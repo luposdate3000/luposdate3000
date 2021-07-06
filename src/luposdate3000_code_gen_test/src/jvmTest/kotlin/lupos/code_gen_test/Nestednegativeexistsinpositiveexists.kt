@@ -45,7 +45,7 @@ public class Nestednegativeexistsinpositiveexists {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Nested negative exists in positive exists`() {
+    public fun `Nested negative exists in positive exists`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +75,7 @@ public class Nestednegativeexistsinpositiveexists {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Nested negative exists in positive exists - in simulator`() {
+    public fun `Nested negative exists in positive exists - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

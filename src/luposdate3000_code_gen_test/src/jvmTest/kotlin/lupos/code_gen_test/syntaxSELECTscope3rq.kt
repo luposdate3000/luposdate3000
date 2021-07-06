@@ -24,7 +24,7 @@ public class syntaxSELECTscope3rq {
     internal val query = File("src/jvmTest/resources/syntaxSELECTscope3rq.query").readAsString()
 
     @Test
-    fun `syntaxSELECTscope3rq`() {
+    public fun `syntaxSELECTscope3rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

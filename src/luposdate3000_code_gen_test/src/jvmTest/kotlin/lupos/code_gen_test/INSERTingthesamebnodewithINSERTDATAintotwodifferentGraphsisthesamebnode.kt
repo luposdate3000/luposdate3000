@@ -43,7 +43,7 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode`() {
+    public fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -63,7 +63,7 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator`() {
+    public fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingExecute(query)

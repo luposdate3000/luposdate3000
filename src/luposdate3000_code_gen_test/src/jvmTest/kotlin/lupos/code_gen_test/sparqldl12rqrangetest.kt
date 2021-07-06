@@ -45,7 +45,7 @@ public class sparqldl12rqrangetest {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl12rq range test`() {
+    public fun `sparqldl12rq range test`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +75,7 @@ public class sparqldl12rqrangetest {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl12rq range test - in simulator`() {
+    public fun `sparqldl12rq range test - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

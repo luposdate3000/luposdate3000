@@ -27,7 +27,7 @@ public class synbad01rq {
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    fun `synbad01rq`() {
+    public fun `synbad01rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

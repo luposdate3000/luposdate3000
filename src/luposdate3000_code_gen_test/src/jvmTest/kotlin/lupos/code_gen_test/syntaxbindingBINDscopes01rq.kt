@@ -24,7 +24,7 @@ public class syntaxbindingBINDscopes01rq {
     internal val query = File("src/jvmTest/resources/syntaxbindingBINDscopes01rq.query").readAsString()
 
     @Test
-    fun `syntaxbindingBINDscopes01rq`() {
+    public fun `syntaxbindingBINDscopes01rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

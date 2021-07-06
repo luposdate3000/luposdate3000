@@ -26,7 +26,7 @@ public class syntaxpropertyPaths01rq {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `syntaxpropertyPaths01rq`() {
+    public fun `syntaxpropertyPaths01rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

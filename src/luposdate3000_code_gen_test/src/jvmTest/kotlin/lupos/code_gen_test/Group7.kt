@@ -27,7 +27,7 @@ public class Group7 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Group7`() {
+    public fun `Group7`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

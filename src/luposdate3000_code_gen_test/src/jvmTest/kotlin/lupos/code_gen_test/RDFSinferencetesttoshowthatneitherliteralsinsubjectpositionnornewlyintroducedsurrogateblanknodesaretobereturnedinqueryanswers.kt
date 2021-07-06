@@ -43,7 +43,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
     internal val query = File("src/jvmTest/resources/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.query").readAsString()
 
     @Test
-    fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers`() {
+    public fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
     }
 
     @Test
-    fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator`() {
+    public fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

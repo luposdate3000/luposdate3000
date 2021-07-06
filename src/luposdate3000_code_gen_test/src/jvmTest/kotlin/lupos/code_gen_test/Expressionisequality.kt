@@ -43,7 +43,7 @@ public class Expressionisequality {
     internal val query = File("src/jvmTest/resources/Expressionisequality.query").readAsString()
 
     @Test
-    fun `Expression is equality`() {
+    public fun `Expression is equality`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class Expressionisequality {
     }
 
     @Test
-    fun `Expression is equality - in simulator`() {
+    public fun `Expression is equality - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -43,7 +43,7 @@ public class tvs02TSVResultFormat {
     internal val query = File("src/jvmTest/resources/tvs02TSVResultFormat.query").readAsString()
 
     @Test
-    fun `tvs02  TSV Result Format`() {
+    public fun `tvs02  TSV Result Format`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class tvs02TSVResultFormat {
     }
 
     @Test
-    fun `tvs02  TSV Result Format - in simulator`() {
+    public fun `tvs02  TSV Result Format - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

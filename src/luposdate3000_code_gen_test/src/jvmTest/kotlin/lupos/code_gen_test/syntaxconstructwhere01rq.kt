@@ -24,7 +24,7 @@ public class syntaxconstructwhere01rq {
     internal val query = File("src/jvmTest/resources/syntaxconstructwhere01rq.query").readAsString()
 
     @Test
-    fun `syntaxconstructwhere01rq`() {
+    public fun `syntaxconstructwhere01rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

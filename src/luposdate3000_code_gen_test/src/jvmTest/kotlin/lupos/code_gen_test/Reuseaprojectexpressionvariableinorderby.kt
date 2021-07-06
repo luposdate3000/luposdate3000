@@ -43,7 +43,7 @@ public class Reuseaprojectexpressionvariableinorderby {
     internal val query = File("src/jvmTest/resources/Reuseaprojectexpressionvariableinorderby.query").readAsString()
 
     @Test
-    fun `Reuse a project expression variable in order by`() {
+    public fun `Reuse a project expression variable in order by`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class Reuseaprojectexpressionvariableinorderby {
     }
 
     @Test
-    fun `Reuse a project expression variable in order by - in simulator`() {
+    public fun `Reuse a project expression variable in order by - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

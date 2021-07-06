@@ -43,7 +43,7 @@ public class RDFinferencetest {
     internal val query = File("src/jvmTest/resources/RDFinferencetest.query").readAsString()
 
     @Test
-    fun `RDF inference test`() {
+    public fun `RDF inference test`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class RDFinferencetest {
     }
 
     @Test
-    fun `RDF inference test - in simulator`() {
+    public fun `RDF inference test - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

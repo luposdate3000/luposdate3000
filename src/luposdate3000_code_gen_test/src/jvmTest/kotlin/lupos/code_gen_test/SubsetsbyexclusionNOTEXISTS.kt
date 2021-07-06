@@ -43,7 +43,7 @@ public class SubsetsbyexclusionNOTEXISTS {
     internal val query = File("src/jvmTest/resources/SubsetsbyexclusionNOTEXISTS.query").readAsString()
 
     @Test
-    fun `Subsets by exclusion NOT EXISTS`() {
+    public fun `Subsets by exclusion NOT EXISTS`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class SubsetsbyexclusionNOTEXISTS {
     }
 
     @Test
-    fun `Subsets by exclusion NOT EXISTS - in simulator`() {
+    public fun `Subsets by exclusion NOT EXISTS - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -43,7 +43,7 @@ public class InlineVALUESgraphpattern {
     internal val query = File("src/jvmTest/resources/InlineVALUESgraphpattern.query").readAsString()
 
     @Test
-    fun `Inline VALUES graph pattern`() {
+    public fun `Inline VALUES graph pattern`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class InlineVALUESgraphpattern {
     }
 
     @Test
-    fun `Inline VALUES graph pattern - in simulator`() {
+    public fun `Inline VALUES graph pattern - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

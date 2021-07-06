@@ -25,7 +25,7 @@ public class constructwhere06CONSTRUCTWHERE {
     internal val query = File("src/jvmTest/resources/constructwhere06CONSTRUCTWHERE.query").readAsString()
 
     @Test
-    fun `constructwhere06  CONSTRUCT WHERE`() {
+    public fun `constructwhere06  CONSTRUCT WHERE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

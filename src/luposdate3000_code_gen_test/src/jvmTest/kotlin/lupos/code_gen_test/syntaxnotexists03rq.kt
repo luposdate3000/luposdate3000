@@ -24,7 +24,7 @@ public class syntaxnotexists03rq {
     internal val query = File("src/jvmTest/resources/syntaxnotexists03rq.query").readAsString()
 
     @Test
-    fun `syntaxnotexists03rq`() {
+    public fun `syntaxnotexists03rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

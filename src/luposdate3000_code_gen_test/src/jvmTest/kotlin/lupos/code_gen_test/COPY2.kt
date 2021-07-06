@@ -56,7 +56,7 @@ public class COPY2 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `COPY 2`() {
+    public fun `COPY 2`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -99,7 +99,7 @@ public class COPY2 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `COPY 2 - in simulator`() {
+    public fun `COPY 2 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

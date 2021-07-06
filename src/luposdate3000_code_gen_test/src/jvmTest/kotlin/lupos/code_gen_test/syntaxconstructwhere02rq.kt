@@ -26,7 +26,7 @@ public class syntaxconstructwhere02rq {
 
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
-    fun `syntaxconstructwhere02rq`() {
+    public fun `syntaxconstructwhere02rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

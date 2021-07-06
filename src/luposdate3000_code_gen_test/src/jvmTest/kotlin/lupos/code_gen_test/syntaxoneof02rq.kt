@@ -24,7 +24,7 @@ public class syntaxoneof02rq {
     internal val query = File("src/jvmTest/resources/syntaxoneof02rq.query").readAsString()
 
     @Test
-    fun `syntaxoneof02rq`() {
+    public fun `syntaxoneof02rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

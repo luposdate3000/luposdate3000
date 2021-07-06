@@ -45,7 +45,7 @@ public class pp16Duplicatepathsandcyclesthroughfoafknows {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp16 Duplicate paths and cycles through foafknows`() {
+    public fun `pp16 Duplicate paths and cycles through foafknows`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +75,7 @@ public class pp16Duplicatepathsandcyclesthroughfoafknows {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp16 Duplicate paths and cycles through foafknows - in simulator`() {
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

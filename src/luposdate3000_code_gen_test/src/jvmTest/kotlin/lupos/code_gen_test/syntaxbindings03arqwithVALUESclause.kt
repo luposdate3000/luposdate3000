@@ -24,7 +24,7 @@ public class syntaxbindings03arqwithVALUESclause {
     internal val query = File("src/jvmTest/resources/syntaxbindings03arqwithVALUESclause.query").readAsString()
 
     @Test
-    fun `syntaxbindings03arq with VALUES clause`() {
+    public fun `syntaxbindings03arq with VALUES clause`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

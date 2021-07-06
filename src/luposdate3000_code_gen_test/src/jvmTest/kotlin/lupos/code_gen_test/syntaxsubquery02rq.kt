@@ -24,7 +24,7 @@ public class syntaxsubquery02rq {
     internal val query = File("src/jvmTest/resources/syntaxsubquery02rq.query").readAsString()
 
     @Test
-    fun `syntaxsubquery02rq`() {
+    public fun `syntaxsubquery02rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

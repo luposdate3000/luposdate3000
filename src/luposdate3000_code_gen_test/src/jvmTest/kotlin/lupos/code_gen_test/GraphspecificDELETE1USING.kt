@@ -65,7 +65,7 @@ public class GraphspecificDELETE1USING {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Graphspecific DELETE 1 USING`() {
+    public fun `Graphspecific DELETE 1 USING`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -145,7 +145,7 @@ public class GraphspecificDELETE1USING {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Graphspecific DELETE 1 USING - in simulator`() {
+    public fun `Graphspecific DELETE 1 USING - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

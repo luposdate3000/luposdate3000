@@ -24,7 +24,7 @@ public class LOADSILENT {
     internal val query = File("src/jvmTest/resources/LOADSILENT.query").readAsString()
 
     @Test
-    fun `LOAD SILENT`() {
+    public fun `LOAD SILENT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

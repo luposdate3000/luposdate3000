@@ -45,7 +45,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Postquery VALUES with 2 objvars 2 rows with UNDEF`() {
+    public fun `Postquery VALUES with 2 objvars 2 rows with UNDEF`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +75,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Postquery VALUES with 2 objvars 2 rows with UNDEF - in simulator`() {
+    public fun `Postquery VALUES with 2 objvars 2 rows with UNDEF - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

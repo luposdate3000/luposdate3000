@@ -26,7 +26,7 @@ public class syntaxoneof03rq {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `syntaxoneof03rq`() {
+    public fun `syntaxoneof03rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

@@ -45,7 +45,7 @@ public class pp14Starpathoverfoafknows {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp14 Star path over foafknows`() {
+    public fun `pp14 Star path over foafknows`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +75,7 @@ public class pp14Starpathoverfoafknows {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp14 Star path over foafknows - in simulator`() {
+    public fun `pp14 Star path over foafknows - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

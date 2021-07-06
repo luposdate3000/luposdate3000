@@ -24,7 +24,7 @@ public class syntaxBINDscope3rq {
     internal val query = File("src/jvmTest/resources/syntaxBINDscope3rq.query").readAsString()
 
     @Test
-    fun `syntaxBINDscope3rq`() {
+    public fun `syntaxBINDscope3rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

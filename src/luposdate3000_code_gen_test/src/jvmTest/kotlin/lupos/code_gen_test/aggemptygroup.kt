@@ -43,7 +43,7 @@ public class aggemptygroup {
     internal val query = File("src/jvmTest/resources/aggemptygroup.query").readAsString()
 
     @Test
-    fun `agg empty group`() {
+    public fun `agg empty group`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class aggemptygroup {
     }
 
     @Test
-    fun `agg empty group - in simulator`() {
+    public fun `agg empty group - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

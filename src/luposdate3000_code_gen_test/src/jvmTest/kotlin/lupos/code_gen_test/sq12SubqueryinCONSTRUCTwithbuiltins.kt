@@ -43,7 +43,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
     internal val query = File("src/jvmTest/resources/sq12SubqueryinCONSTRUCTwithbuiltins.query").readAsString()
 
     @Test
-    fun `sq12  Subquery in CONSTRUCT with builtins`() {
+    public fun `sq12  Subquery in CONSTRUCT with builtins`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +72,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
     }
 
     @Test
-    fun `sq12  Subquery in CONSTRUCT with builtins - in simulator`() {
+    public fun `sq12  Subquery in CONSTRUCT with builtins - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

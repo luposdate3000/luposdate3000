@@ -24,7 +24,7 @@ public class syntaxaggregate06rq {
     internal val query = File("src/jvmTest/resources/syntaxaggregate06rq.query").readAsString()
 
     @Test
-    fun `syntaxaggregate06rq`() {
+    public fun `syntaxaggregate06rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

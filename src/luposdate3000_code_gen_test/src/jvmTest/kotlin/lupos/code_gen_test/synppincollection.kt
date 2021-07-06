@@ -26,7 +26,7 @@ public class synppincollection {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `synppincollection`() {
+    public fun `synppincollection`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

@@ -25,7 +25,7 @@ public class COUNT12 {
     internal val query = File("src/jvmTest/resources/COUNT12.query").readAsString()
 
     @Test
-    fun `COUNT 12`() {
+    public fun `COUNT 12`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

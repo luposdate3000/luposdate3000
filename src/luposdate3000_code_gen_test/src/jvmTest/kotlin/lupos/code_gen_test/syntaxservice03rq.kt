@@ -24,7 +24,7 @@ public class syntaxservice03rq {
     internal val query = File("src/jvmTest/resources/syntaxservice03rq.query").readAsString()
 
     @Test
-    fun `syntaxservice03rq`() {
+    public fun `syntaxservice03rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

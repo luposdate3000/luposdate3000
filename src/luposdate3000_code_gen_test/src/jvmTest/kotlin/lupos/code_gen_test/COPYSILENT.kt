@@ -51,7 +51,7 @@ public class COPYSILENT {
     internal val query = File("src/jvmTest/resources/COPYSILENT.query").readAsString()
 
     @Test
-    fun `COPY SILENT`() {
+    public fun `COPY SILENT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -84,7 +84,7 @@ public class COPYSILENT {
     }
 
     @Test
-    fun `COPY SILENT - in simulator`() {
+    public fun `COPY SILENT - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

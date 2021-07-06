@@ -26,7 +26,7 @@ public class syntaxselectexpr04rq {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `syntaxselectexpr04rq`() {
+    public fun `syntaxselectexpr04rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

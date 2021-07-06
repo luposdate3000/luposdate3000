@@ -24,7 +24,7 @@ public class DROPSILENTDEFAULT {
     internal val query = File("src/jvmTest/resources/DROPSILENTDEFAULT.query").readAsString()
 
     @Test
-    fun `DROP SILENT DEFAULT`() {
+    public fun `DROP SILENT DEFAULT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

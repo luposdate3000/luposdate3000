@@ -53,7 +53,7 @@ public class SimpleDELETE4 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Simple DELETE 4`() {
+    public fun `Simple DELETE 4`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -87,7 +87,7 @@ public class SimpleDELETE4 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Simple DELETE 4 - in simulator`() {
+    public fun `Simple DELETE 4 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
