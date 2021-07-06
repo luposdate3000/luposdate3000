@@ -20,6 +20,7 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
 import lupos.shared.AflCore
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.TripleStoreIndex
 import lupos.shared.dictionary.DictionaryExt
@@ -42,13 +43,15 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("triple_index.${BufferManagerExt.isInMemoryOnly}", 10000.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    var instance = Luposdate3000Instance()
+    instance.allowInitFromDisk = false
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
-    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
+    instance.bufferManager = BufferManager(instance)
+    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
     val order = intArrayOf(0, 1, 2)
-    var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
+    var index: TripleStoreIndex = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, false)
     val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
     val insertBuffer = IntArray(3000)
     var insertBufferSize = 0
@@ -335,7 +338,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (verbose) {
             println("testGetIterator_sxx_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "_")))
         when (filter.size) {
             0 -> {
@@ -352,7 +355,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (verbose) {
             println("testGetIterator_spx_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "_")))
         when (filter.size) {
             0 -> {
@@ -376,7 +379,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (verbose) {
             println("testGetIterator_spo_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "o")))
         when (filter.size) {
             0 -> {
@@ -408,7 +411,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (verbose) {
             println("testGetIterator_xxx_Ok ${filter.map { it }}")
         }
-        val query = Query()
+        val query = Query(instance)
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "_", "_")))
         verifyCount(bundle, filter)
     }
@@ -473,17 +476,17 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     testInsertOk()
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.close()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    index = TripleStoreIndexIDTriple(bufferManager, rootPage, true)
+    index = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, true)
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.delete()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }
-    bufferManager.close()
+    instance.bufferManager!!.close()
 }

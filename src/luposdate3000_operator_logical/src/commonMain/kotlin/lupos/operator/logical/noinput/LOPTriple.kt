@@ -19,6 +19,7 @@ package lupos.operator.logical.noinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
 import lupos.operator.logical.LOPBase
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
@@ -32,7 +33,6 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
@@ -133,7 +133,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
                 t as IAOPBase
             }
             val idx = getIndex(params.map { it }.toTypedArray(), listOf())
-            val store = tripleStoreManager.getGraph(graph)
+            val store = (query as Query).instance.tripleStoreManager!!.getGraph(graph)
             val childHistogram = store.getHistogram(query, params, idx)
             if (childHistogram.first < res.count || res.count == -1) {
                 res.count = childHistogram.first

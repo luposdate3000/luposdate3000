@@ -35,11 +35,10 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
+import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.tripleStoreManager
-import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
 public class POPGraphOperation public constructor(
@@ -138,6 +137,7 @@ public class POPGraphOperation public constructor(
 
     override fun equals(other: Any?): Boolean = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
+
     /*suspend*/ private fun copyData(source: ITripleStoreDescription, target: ITripleStoreDescription, parent: Partition) {
         val row = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
@@ -151,19 +151,19 @@ public class POPGraphOperation public constructor(
                 EGraphOperationTypeExt.CLEAR -> {
                     when (graph1type) {
                         EGraphRefTypeExt.AllGraphRef -> {
-                            for (name in tripleStoreManager.getGraphNames(true)) {
-                                tripleStoreManager.clearGraph(query, name)
+                            for (name in query.getInstance().tripleStoreManager!!.getGraphNames(true)) {
+                                query.getInstance().tripleStoreManager!!.clearGraph(query, name)
                             }
                         }
                         EGraphRefTypeExt.DefaultGraphRef -> {
-                            tripleStoreManager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                            query.getInstance().tripleStoreManager!!.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                         }
                         EGraphRefTypeExt.IriGraphRef -> {
-                            tripleStoreManager.clearGraph(query, graph1iri!!)
+                            query.getInstance().tripleStoreManager!!.clearGraph(query, graph1iri!!)
                         }
                         EGraphRefTypeExt.NamedGraphRef -> {
-                            for (name in tripleStoreManager.getGraphNames()) {
-                                tripleStoreManager.clearGraph(query, name)
+                            for (name in query.getInstance().tripleStoreManager!!.getGraphNames()) {
+                                query.getInstance().tripleStoreManager!!.clearGraph(query, name)
                             }
                         }
                     }
@@ -171,20 +171,20 @@ public class POPGraphOperation public constructor(
                 EGraphOperationTypeExt.DROP -> {
                     when (graph1type) {
                         EGraphRefTypeExt.AllGraphRef -> {
-                            tripleStoreManager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
-                            for (name in tripleStoreManager.getGraphNames(false)) {
-                                tripleStoreManager.dropGraph(query, name)
+                            query.getInstance().tripleStoreManager!!.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                            for (name in query.getInstance().tripleStoreManager!!.getGraphNames(false)) {
+                                query.getInstance().tripleStoreManager!!.dropGraph(query, name)
                             }
                         }
                         EGraphRefTypeExt.DefaultGraphRef -> {
-                            tripleStoreManager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                            query.getInstance().tripleStoreManager!!.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                         }
                         EGraphRefTypeExt.IriGraphRef -> {
-                            tripleStoreManager.dropGraph(query, graph1iri!!)
+                            query.getInstance().tripleStoreManager!!.dropGraph(query, graph1iri!!)
                         }
                         EGraphRefTypeExt.NamedGraphRef -> {
-                            for (name in tripleStoreManager.getGraphNames(false)) {
-                                tripleStoreManager.dropGraph(query, name)
+                            for (name in query.getInstance().tripleStoreManager!!.getGraphNames(false)) {
+                                query.getInstance().tripleStoreManager!!.dropGraph(query, name)
                             }
                         }
                     }
@@ -192,7 +192,7 @@ public class POPGraphOperation public constructor(
                 EGraphOperationTypeExt.CREATE -> {
                     when (graph1type) {
                         EGraphRefTypeExt.IriGraphRef -> {
-                            tripleStoreManager.createGraph(query, graph1iri!!)
+                            query.getInstance().tripleStoreManager!!.createGraph(query, graph1iri!!)
                         }
                         else -> {
                             SanityCheck.checkUnreachable()
@@ -202,9 +202,9 @@ public class POPGraphOperation public constructor(
                 EGraphOperationTypeExt.LOAD -> {
                     val fileName = query.getWorkingDirectory() + graph1iri
                     val target: ITripleStoreDescription = if (graph2type == EGraphRefTypeExt.DefaultGraphRef) {
-                        tripleStoreManager.getDefaultGraph()
+                        query.getInstance().tripleStoreManager!!.getDefaultGraph()
                     } else {
-                        tripleStoreManager.getGraph(graph2iri!!)
+                        query.getInstance().tripleStoreManager!!.getGraph(graph2iri!!)
                     }
                     val table = MemoryTable.parseFromAny(File(fileName).readAsString(), fileName, query)!!
                     val sa = table.column("s")!!
@@ -225,9 +225,9 @@ public class POPGraphOperation public constructor(
                                 EGraphRefTypeExt.DefaultGraphRef -> {
                                 }
                                 EGraphRefTypeExt.IriGraphRef -> {
-                                    val source = tripleStoreManager.getDefaultGraph()
-                                    val target = tripleStoreManager.getGraph(graph2iri!!)
-                                    tripleStoreManager.clearGraph(query, graph2iri!!)
+                                    val source = query.getInstance().tripleStoreManager!!.getDefaultGraph()
+                                    val target = query.getInstance().tripleStoreManager!!.getGraph(graph2iri!!)
+                                    query.getInstance().tripleStoreManager!!.clearGraph(query, graph2iri!!)
                                     copyData(source, target, parent)
                                 }
                                 else -> {
@@ -238,16 +238,16 @@ public class POPGraphOperation public constructor(
                         EGraphRefTypeExt.IriGraphRef -> {
                             when (graph2type) {
                                 EGraphRefTypeExt.DefaultGraphRef -> {
-                                    val source = tripleStoreManager.getGraph(graph1iri!!)
-                                    val target = tripleStoreManager.getDefaultGraph()
-                                    tripleStoreManager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                                    val source = query.getInstance().tripleStoreManager!!.getGraph(graph1iri!!)
+                                    val target = query.getInstance().tripleStoreManager!!.getDefaultGraph()
+                                    query.getInstance().tripleStoreManager!!.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                                     copyData(source, target, parent)
                                 }
                                 EGraphRefTypeExt.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
-                                        val source = tripleStoreManager.getGraph(graph1iri!!)
-                                        val target = tripleStoreManager.getGraph(graph2iri!!)
-                                        tripleStoreManager.clearGraph(query, graph2iri!!)
+                                        val source = query.getInstance().tripleStoreManager!!.getGraph(graph1iri!!)
+                                        val target = query.getInstance().tripleStoreManager!!.getGraph(graph2iri!!)
+                                        query.getInstance().tripleStoreManager!!.clearGraph(query, graph2iri!!)
                                         copyData(source, target, parent)
                                     }
                                 }
@@ -268,11 +268,11 @@ public class POPGraphOperation public constructor(
                                 EGraphRefTypeExt.DefaultGraphRef -> {
                                 }
                                 EGraphRefTypeExt.IriGraphRef -> {
-                                    val source = tripleStoreManager.getDefaultGraph()
-                                    val target = tripleStoreManager.getGraph(graph2iri!!)
-                                    tripleStoreManager.clearGraph(query, graph2iri!!)
+                                    val source = query.getInstance().tripleStoreManager!!.getDefaultGraph()
+                                    val target = query.getInstance().tripleStoreManager!!.getGraph(graph2iri!!)
+                                    query.getInstance().tripleStoreManager!!.clearGraph(query, graph2iri!!)
                                     copyData(source, target, parent)
-                                    tripleStoreManager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                                    query.getInstance().tripleStoreManager!!.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                                 }
                                 else -> {
                                     SanityCheck.checkUnreachable()
@@ -282,19 +282,19 @@ public class POPGraphOperation public constructor(
                         EGraphRefTypeExt.IriGraphRef -> {
                             when (graph2type) {
                                 EGraphRefTypeExt.DefaultGraphRef -> {
-                                    val source = tripleStoreManager.getGraph(graph1iri!!)
-                                    val target = tripleStoreManager.getDefaultGraph()
-                                    tripleStoreManager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                                    val source = query.getInstance().tripleStoreManager!!.getGraph(graph1iri!!)
+                                    val target = query.getInstance().tripleStoreManager!!.getDefaultGraph()
+                                    query.getInstance().tripleStoreManager!!.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                                     copyData(source, target, parent)
-                                    tripleStoreManager.clearGraph(query, graph1iri!!)
+                                    query.getInstance().tripleStoreManager!!.clearGraph(query, graph1iri!!)
                                 }
                                 EGraphRefTypeExt.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
-                                        val source = tripleStoreManager.getGraph(graph1iri!!)
-                                        val target = tripleStoreManager.getGraph(graph2iri!!)
-                                        tripleStoreManager.clearGraph(query, graph2iri!!)
+                                        val source = query.getInstance().tripleStoreManager!!.getGraph(graph1iri!!)
+                                        val target = query.getInstance().tripleStoreManager!!.getGraph(graph2iri!!)
+                                        query.getInstance().tripleStoreManager!!.clearGraph(query, graph2iri!!)
                                         copyData(source, target, parent)
-                                        tripleStoreManager.clearGraph(query, graph1iri!!)
+                                        query.getInstance().tripleStoreManager!!.clearGraph(query, graph1iri!!)
                                     }
                                 }
                                 else -> {
@@ -314,8 +314,8 @@ public class POPGraphOperation public constructor(
                                 EGraphRefTypeExt.DefaultGraphRef -> {
                                 }
                                 EGraphRefTypeExt.IriGraphRef -> {
-                                    val source = tripleStoreManager.getDefaultGraph()
-                                    val target = tripleStoreManager.getGraph(graph2iri!!)
+                                    val source = query.getInstance().tripleStoreManager!!.getDefaultGraph()
+                                    val target = query.getInstance().tripleStoreManager!!.getGraph(graph2iri!!)
                                     copyData(source, target, parent)
                                 }
                                 else -> {
@@ -326,14 +326,14 @@ public class POPGraphOperation public constructor(
                         EGraphRefTypeExt.IriGraphRef -> {
                             when (graph2type) {
                                 EGraphRefTypeExt.DefaultGraphRef -> {
-                                    val source = tripleStoreManager.getGraph(graph1iri!!)
-                                    val target = tripleStoreManager.getDefaultGraph()
+                                    val source = query.getInstance().tripleStoreManager!!.getGraph(graph1iri!!)
+                                    val target = query.getInstance().tripleStoreManager!!.getDefaultGraph()
                                     copyData(source, target, parent)
                                 }
                                 EGraphRefTypeExt.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
-                                        val source = tripleStoreManager.getGraph(graph1iri!!)
-                                        val target = tripleStoreManager.getGraph(graph2iri!!)
+                                        val source = query.getInstance().tripleStoreManager!!.getGraph(graph1iri!!)
+                                        val target = query.getInstance().tripleStoreManager!!.getGraph(graph2iri!!)
                                         copyData(source, target, parent)
                                     }
                                 }

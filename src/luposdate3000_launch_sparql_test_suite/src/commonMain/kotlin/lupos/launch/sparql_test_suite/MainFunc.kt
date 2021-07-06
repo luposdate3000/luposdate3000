@@ -22,9 +22,9 @@ import lupos.shared.Parallel
 import lupos.test.SparqlTestSuite
 
 internal fun mainFunc(): Unit = Parallel.runBlocking {
-    LuposdateEndpoint.initialize()
+    val instance = LuposdateEndpoint.initialize()
     Parallel.launch {
-        HttpEndpointLauncher.start()
+        HttpEndpointLauncher.start(instance)
     }
     SparqlTestSuite().testMain()
 }

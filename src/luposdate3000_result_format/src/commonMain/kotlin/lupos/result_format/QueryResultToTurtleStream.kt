@@ -27,15 +27,13 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.tripleStoreManager
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.MyPrintWriter
 
 public object QueryResultToTurtleStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary): String? {
@@ -118,7 +116,7 @@ public object QueryResultToTurtleStream {
     }
 
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition = Partition()) {
-        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
             var partitionVariable = ""
             if (node is POPMergePartition) {
@@ -163,9 +161,9 @@ public object QueryResultToTurtleStream {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
@@ -193,8 +191,8 @@ public object QueryResultToTurtleStream {
                 }
             }
         }
-        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
     }
 }

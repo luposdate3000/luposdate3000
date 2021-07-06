@@ -16,7 +16,7 @@
  */
 package lupos.shared.operator.iterator
 
-import lupos.shared_inline.ColumnIteratorQueueExt
+import lupos.shared.inline.ColumnIteratorQueueExt
 
 public object ColumnIteratorFromRow {
     public operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {

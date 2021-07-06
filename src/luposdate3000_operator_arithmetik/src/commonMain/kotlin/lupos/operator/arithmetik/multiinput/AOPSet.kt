@@ -20,7 +20,6 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SparqlFeatureNotImplementedException
-import lupos.shared.ValueDefinition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -39,7 +38,7 @@ public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : A
     }
 
     override fun equals(other: Any?): Boolean = other is AOPSet && children.contentEquals(other.children)
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun evaluateID(row: IteratorBundle): () -> Int {
         throw SparqlFeatureNotImplementedException("AOPSet")
     }
 

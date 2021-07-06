@@ -1,4 +1,3 @@
-'use strict'
 @pleaseWait = pleaseWait
     logo: 'images/logo.svg',
     backgroundColor: '#008CBA',

@@ -82,7 +82,7 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
             lstart = rend
         }
         size += size
-// //
+//
         lstart = 0
         while (lstart < n) {
             var lend = min(lstart + size * step, n)
@@ -127,7 +127,6 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
 }
 
 private inline fun mergesort1(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline copyAToA: (Int, Int) -> Unit, crossinline cmpBtoA: (Int, Int) -> Int) {
-// require(b.length>=a.length/2)
     var s = 1
     while (s < n) {
         var m = n - 1 - s
@@ -194,7 +193,7 @@ private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int,
     }
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     val step = 2
     var thesize = hasNextRandom()
     thesize = thesize - (thesize % step)
@@ -312,8 +311,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             while (i < dataA.size) {
                 if (dataA[i] != dataB[i]) {
                     var res = "" + dataA[0]
-                    for (i in 1 until dataA.size) {
-                        res += ", ${dataA[i]}(${dataA[i] > dataA[i - 1]})"
+                    for (j in 1 until dataA.size) {
+                        res += ", ${dataA[j]}(${dataA[j] > dataA[j - 1]})"
                     }
                     throw Exception(res)
                 }

@@ -16,8 +16,6 @@
  */
 package lupos.optimizer.ast
 
-import com.ionspin.kotlin.bignum.decimal.toBigDecimal
-import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
@@ -228,24 +226,20 @@ import lupos.shared.SanityCheck
 import lupos.shared.SparqlFeatureNotImplementedException
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
-import lupos.shared.ValueBnode
-import lupos.shared.ValueBoolean
-import lupos.shared.ValueDateTime
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueDouble
-import lupos.shared.ValueInteger
-import lupos.shared.ValueIri
-import lupos.shared.ValueLanguageTaggedLiteral
-import lupos.shared.ValueSimpleLiteral
-import lupos.shared.ValueUndef
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
-import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
 public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {
     @JvmField
-    public val queryExecutionStartTime: ValueDateTime = ValueDateTime()
+    public val queryExecutionStartTime: ByteArrayWrapper = ByteArrayWrapper()
+
+    init {
+        DictionaryHelper.dateTimeToByteArray(queryExecutionStartTime)
+    }
+
     private fun createUnion(a: IOPBase, b: IOPBase): IOPBase {
         val pa = a.getProvidedVariableNames().toMutableSet()
         val pb = b.getProvidedVariableNames().toMutableSet()
@@ -254,11 +248,13 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
         pb.removeAll(pc)
         var a1 = a
         var b1 = b
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.undefToByteArray(buffer)
         for (x in pa) {
-            b1 = LOPBind(query, AOPVariable(query, x), AOPConstant(query, ValueUndef()), b1)
+            b1 = LOPBind(query, AOPVariable(query, x), AOPConstant(query, buffer), b1)
         }
         for (x in pb) {
-            a1 = LOPBind(query, AOPVariable(query, x), AOPConstant(query, ValueUndef()), a1)
+            a1 = LOPBind(query, AOPVariable(query, x), AOPConstant(query, buffer), a1)
         }
         return LOPUnion(query, a1, b1)
     }
@@ -596,7 +592,9 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
             return if (node.graphVar) {
                 var tmp: IOPBase? = null
                 for ((k, v) in datasets) {
-                    val t = LOPBind(node.query, AOPVariable(query, node.graph), AOPConstant(query, ValueDefinition(k)), v)
+                    val buffer = ByteArrayWrapper()
+                    DictionaryHelper.sparqlToByteArray(buffer, k)
+                    val t = LOPBind(node.query, AOPVariable(query, node.graph), AOPConstant(query, buffer), v)
                     tmp = if (tmp == null) {
                         t
                     } else {
@@ -905,35 +903,51 @@ return tmp
     }
 
     override fun visit(node: ASTUndef, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueUndef())
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.undefToByteArray(buffer)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTSimpleLiteral, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueSimpleLiteral(node.delimiter, node.content))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.stringToByteArray(buffer, node.content)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTTypedLiteral, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueDefinition(node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">"))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.typedToByteArray(buffer, node.content, node.type_iri)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueLanguageTaggedLiteral(node.delimiter, node.content, node.language))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.langToByteArray(buffer, node.content, node.language)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTBooleanLiteral, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueBoolean(node.value))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.booleanToByteArray(buffer, node.value)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueInteger(BigInteger(node.value)))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.integerToByteArray(buffer, node.value.toString())
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTDouble, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueDouble(node.toDouble()))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.doubleToByteArray(buffer, node.image)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueDecimal(node.toDouble().toBigDecimal()))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.decimalToByteArray(buffer, node.image)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<IOPBase>): IOPBase {
@@ -1382,8 +1396,9 @@ return tmp
     }
 
     override fun visit(node: ASTIri, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.isEmpty() }
-        return AOPConstant(query, ValueIri(node.iri))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.iriToByteArray(buffer, node.iri)
+        return AOPConstant(query, buffer)
     }
 
     override fun visit(node: ASTGroup, childrenValues: List<IOPBase>): IOPBase {
@@ -1548,7 +1563,9 @@ return tmp
     private fun simpleAstToLiteralValue(node: ASTNode): AOPBase {
         val tmp = node.visit(this) as AOPBase
         if (tmp is AOPVariable) {
-            return AOPConstant(query, ValueBnode(tmp.name))
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.bnodeToByteArray(buffer, tmp.name)
+            return AOPConstant(query, buffer)
         }
         return tmp
     }
@@ -1612,7 +1629,9 @@ return tmp
     private fun variableToBNode(node: IOPBase, providedVariables: List<String>): IOPBase {
         if (node is AOPVariable) {
             if (!providedVariables.contains(node.name)) {
-                return AOPConstant(node.query, ValueBnode(node.name))
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.bnodeToByteArray(buffer, node.name)
+                return AOPConstant(node.query, buffer)
             }
         } else {
             for (i in node.getChildren().indices) {

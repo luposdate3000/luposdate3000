@@ -19,17 +19,19 @@ package lupos.endpoint_launcher
 import lupos.dictionary.ADictionary
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : ADictionary() {
-    public override fun isInmemoryOnly(): Boolean = true
-    public override fun delete() {
+internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance) : ADictionary(instance) {
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+    override fun isInmemoryOnly(): Boolean = true
+    override fun delete() {
     }
 
-    public override fun valueToGlobal(value: Int): Int {
+    override fun valueToGlobal(value: Int): Int {
         output.writeInt(3)
         output.writeInt(value)
         output.flush()
@@ -42,12 +44,18 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         return input.readInt()
     }
 
+    override fun createNewUUID(): Int {
+        output.writeInt(7)
+        output.flush()
+        return input.readInt()
+    }
+
     override fun hasValue(buffer: ByteArrayWrapper): Int? {
         output.writeInt(2)
         output.writeInt(buffer.size)
         output.write(buffer.buf, buffer.size)
         output.flush()
-        var res = input.readInt()
+        val res = input.readInt()
         if (res == DictionaryExt.nullValue) {
             return null
         }
@@ -71,7 +79,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         input.read(buffer.buf, len)
     }
 
-    public override fun close() {
+    override fun close() {
         output.writeInt(0)
         output.flush()
         output.close()

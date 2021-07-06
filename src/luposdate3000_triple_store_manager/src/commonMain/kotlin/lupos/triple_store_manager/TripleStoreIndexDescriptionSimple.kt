@@ -21,17 +21,18 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
-import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionSimple(
     idx: EIndexPattern,
-) : TripleStoreIndexDescription() {
+    instance: Luposdate3000Instance,
+) : TripleStoreIndexDescription(instance) {
     @JvmField
     internal var hostname: LuposHostname = ""
 
@@ -89,7 +90,7 @@ public class TripleStoreIndexDescriptionSimple(
     }
 
     internal override fun assignHosts() {
-        val tmp = (tripleStoreManager as TripleStoreManagerImpl).getNextHostAndKey()
+        val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
         hostname = tmp.first
         key = tmp.second
     }

@@ -19,24 +19,25 @@ package lupos.triple_store_manager
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.ITripleStoreIndexDescriptionFactory
-import lupos.shared_inline.ByteArrayHelper
+import lupos.shared.Luposdate3000Instance
+import lupos.shared.inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 
-public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescriptionFactory {
+public open class TripleStoreIndexDescriptionFactory(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescriptionFactory {
     @JvmField
-    internal var res: TripleStoreIndexDescription = TripleStoreIndexDescriptionSimple(EIndexPatternExt.SPO)
+    internal var res: TripleStoreIndexDescription = TripleStoreIndexDescriptionSimple(EIndexPatternExt.SPO, instance)
     public override fun simple(idx: EIndexPattern): ITripleStoreIndexDescriptionFactory {
-        res = TripleStoreIndexDescriptionSimple(idx)
+        res = TripleStoreIndexDescriptionSimple(idx, instance)
         return this
     }
 
     public override fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): ITripleStoreIndexDescriptionFactory {
-        res = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn)
+        res = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn, instance)
         return this
     }
 
     public override fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory {
-        res = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount)
+        res = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount, instance)
         return this
     }
 
@@ -48,7 +49,7 @@ public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescript
             ETripleStoreIndexDescriptionPartitionedTypeExt.Simple -> {
                 val idx = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
-                val tmp = TripleStoreIndexDescriptionSimple(idx)
+                val tmp = TripleStoreIndexDescriptionSimple(idx, instance)
                 val l1 = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
                 val buf1 = ByteArray(l1)
@@ -70,7 +71,7 @@ public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescript
                 off += 4
                 val partitionColumn = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
-                val tmp = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn)
+                val tmp = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn, instance)
                 for (i in 0 until partitionCount) {
                     val l1 = ByteArrayHelper.readInt4(buffer, off)
                     off += 4
@@ -92,7 +93,7 @@ public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescript
                 off += 4
                 val partitionCount = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
-                val tmp = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount)
+                val tmp = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount, instance)
                 for (i in 0 until partitionCount) {
                     val l1 = ByteArrayHelper.readInt4(buffer, off)
                     off += 4

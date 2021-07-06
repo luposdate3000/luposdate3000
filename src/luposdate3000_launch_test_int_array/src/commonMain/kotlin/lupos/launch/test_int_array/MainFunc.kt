@@ -20,7 +20,9 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.buffer_manager.MyIntArray
 import lupos.shared.AflCore
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
+import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
@@ -35,13 +37,18 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("int_array.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
+    if (!SanityCheck.enabled) {
+        return
+    }
+    var instance = Luposdate3000Instance()
+    instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
+    instance.bufferManager = BufferManager(instance)
     var dataSize = 0
     val data = IntArray(maxSize)
-    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:42")
-    var arr = MyIntArray(bufferManager, rootPage, false)
+    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:42")
+    var arr = MyIntArray(instance.bufferManager!!, rootPage, false, instance)
 
     fun testSetSizeOk(size: Int) {
         var oldSize = dataSize
@@ -139,20 +146,20 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
     if (!BufferManagerExt.isInMemoryOnly) {
         arr.close()
-        if (bufferManager.getNumberOfReferencedPages() != 0) {
+        if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
             throw Exception("")
         }
-        arr = MyIntArray(bufferManager, rootPage, true)
+        arr = MyIntArray(instance.bufferManager!!, rootPage, true, instance)
     }
     for (i in 0 until dataSize) {
         testGetOk(i)
     }
     arr.delete()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != 0) {
-        throw Exception("${bufferManager.getNumberOfAllocatedPages()}")
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
+        throw Exception("${instance.bufferManager!!.getNumberOfAllocatedPages()}")
     }
-    bufferManager.close()
+    instance.bufferManager!!.close()
 }

@@ -19,29 +19,31 @@ package lupos.endpoint_launcher
 import lupos.dictionary.ADictionary
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : ADictionary() {
-    public override fun isInmemoryOnly(): Boolean = true
-    public override fun delete() {
+internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, instance: Luposdate3000Instance) : ADictionary(instance) {
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+    override fun isInmemoryOnly(): Boolean = true
+    override fun delete() {
     }
 
-    public override fun close() {
+    override fun close() {
     }
 
     @JvmField
     internal val lock = MyReadWriteLock()
-    public override fun valueToGlobal(value: Int): Int {
-        var res: Int? = 0
+    override fun valueToGlobal(value: Int): Int {
+        var res: Int = 0
         lock.withWriteLock {
             res = dictionary.valueToGlobal(value)
         }
-        return res!!
+        return res
     }
 
     override fun createValue(buffer: ByteArrayWrapper): Int {
@@ -56,15 +58,18 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : A
         return dictionary.createNewBNode()
     }
 
+    override fun createNewUUID(): Int {
+        return dictionary.createNewUUID()
+    }
+
     override fun hasValue(buffer: ByteArrayWrapper): Int? {
         return dictionary.hasValue(buffer)
     }
 
-    public fun connect(input: IMyInputStream, output: IMyOutputStream) {
-        var buffer = ByteArrayWrapper()
+    fun connect(input: IMyInputStream, output: IMyOutputStream) {
+        val buffer = ByteArrayWrapper()
         loop@ while (true) {
-            val mode = input.readInt()
-            when (mode) {
+            when (input.readInt()) {
                 0 -> {
                     break@loop
                 }
@@ -99,6 +104,10 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : A
                     getValue(buffer, value)
                     output.writeInt(buffer.size)
                     output.write(buffer.buf, buffer.size)
+                }
+                7 -> {
+                    val res = createNewUUID()
+                    output.writeInt(res)
                 }
             }
             output.flush()

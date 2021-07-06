@@ -16,7 +16,9 @@
  */
 package lupos.endpoint_launcher
 
+import lupos.shared.Luposdate3000Instance
+
 @OptIn(ExperimentalStdlibApi::class)
 public expect object HttpEndpointLauncher {
-    /*suspend*/ public fun start()
+    /*suspend*/ public fun start(instance: Luposdate3000Instance)
 }

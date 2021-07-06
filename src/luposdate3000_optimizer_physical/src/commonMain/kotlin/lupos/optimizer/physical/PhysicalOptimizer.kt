@@ -49,7 +49,6 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
         ),
         arrayOf(
             // PhysicalOptimizerDebug(query), //
-                //PhysicalOptimizerVisualisation(query),
         ),
     )
 }

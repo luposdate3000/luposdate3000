@@ -17,24 +17,23 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared_inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/Config.kt")
-@file:Import("src/luposdate3000_scripting/exec-import.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.shared.REAL_WORLD_DATA_ROOT
-import lupos.shared_inline.Platform
+import lupos.shared.LUPOS_REAL_WORLD_DATA_ROOT
+import lupos.shared.inline.Platform
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.nio.file.Files
 import java.nio.file.Paths
 
-val targetBaseFolder = "${REAL_WORLD_DATA_ROOT}${Platform.getPathSeparator()}sp2b"
+val targetBaseFolder = "${LUPOS_REAL_WORLD_DATA_ROOT}${Platform.getPathSeparator()}sp2b"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}sp2b${Platform.getPathSeparator()}bin"
 var targetCount = 1024
-while (targetCount <= 9999999999) {
+while (targetCount <= 134217728) {
     val targetFolder = "$targetBaseFolder${Platform.getPathSeparator()}$targetCount"
     File(targetFolder).deleteRecursively()
     File(targetFolder).mkdirs()
@@ -46,13 +45,11 @@ while (targetCount <= 9999999999) {
         .start()
         .waitFor()
     Files.move(Paths.get("$sp2bGeneratorHome${Platform.getPathSeparator()}sp2b.n3"), Paths.get(targetFile))
-    execImport(arrayOf(targetFile))
     val size = File(targetFile).length()
     val count = File("$targetFile.triples").length() / 12
-    val sizeIntermediate = File("$targetFile.triples").length() + File("$targetFile.dictionary").length() + File("$targetFile.dictionaryoffset").length() + File("$targetFile.stat").length()
     val fileWriter = FileWriter("${targetBaseFolder}${Platform.getPathSeparator()}stat.csv", true)
     val printWriter = PrintWriter(fileWriter)
-    printWriter.println("$targetCount,$count,$size,$sizeIntermediate")
+    printWriter.println("$targetCount,$count,$size")
     printWriter.close()
     targetCount *= 2
 }

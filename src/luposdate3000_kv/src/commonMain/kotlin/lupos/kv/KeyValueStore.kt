@@ -17,23 +17,28 @@
 package lupos.kv
 
 import lupos.ProguardTestAnnotation
-import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.MyIntArray
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-public class KeyValueStore {
+public class KeyValueStore public constructor(
+    bufferManager: IBufferManager,
     @JvmField
-    internal val rootPageID: Int
+    internal val rootPageID: Int,
+    initFromRootPage: Boolean,
+    instance: Luposdate3000Instance,
+) {
 
     @JvmField
     internal val rootPage: ByteArray
 
     @JvmField
-    internal val bufferManager: BufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal var lastPage: Int
@@ -53,12 +58,10 @@ public class KeyValueStore {
     @JvmField
     internal var mappingID2Off: MyIntArray
 
-    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
-        this.bufferManager = bufferManager
-        this.rootPageID = rootPageID
+    init {
         rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:58", rootPageID)
-        var id1 = 0
-        var id2 = 0
+        var id1: Int
+        var id2: Int
         if (initFromRootPage) {
             lastPage = BufferManagerPage.readInt4(rootPage, 0)
             lastPageBuf = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:63", lastPage)
@@ -79,21 +82,21 @@ public class KeyValueStore {
             BufferManagerPage.writeInt4(rootPage, 12, id1)
             BufferManagerPage.writeInt4(rootPage, 16, id2)
         }
-        mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
-        mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
+        mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage, instance)
+        mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage, instance)
     }
 
     @ProguardTestAnnotation
     public fun delete() {
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:87", lastPage)
-        var pageid = -1
+        var pageid: Int
         if (nextID == 0) {
             pageid = lastPage
         } else {
             pageid = mappingID2Page[0]
             while (pageid != lastPage) {
                 val page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:94", pageid)
-                var nextPage = BufferManagerPage.readInt4(page, 0)
+                val nextPage = BufferManagerPage.readInt4(page, 0)
                 bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:96", pageid)
                 pageid = nextPage
             }
@@ -126,14 +129,14 @@ public class KeyValueStore {
         while (toread > 0) {
             var available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
             if (available == 0) {
-                var id = BufferManagerPage.readInt4(p, 0)
+                val id = BufferManagerPage.readInt4(p, 0)
                 bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:129", pid)
                 p = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:130", id)
                 pid = id
                 pageoff = 4
                 available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
             }
-            var len = if (available < toread) {
+            val len = if (available < toread) {
                 available
             } else {
                 toread
@@ -157,8 +160,8 @@ public class KeyValueStore {
             lastPageOffset = 4
             BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
         }
-        var resPage = lastPage
-        var resOff = lastPageOffset
+        val resPage = lastPage
+        val resOff = lastPageOffset
         BufferManagerPage.writeInt4(lastPageBuf, lastPageOffset, data.size)
         lastPageOffset += 4
         BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
@@ -177,7 +180,7 @@ public class KeyValueStore {
                 BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
                 available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
             }
-            var len = if (available < towrite) {
+            val len = if (available < towrite) {
                 available
             } else {
                 towrite
@@ -192,8 +195,7 @@ public class KeyValueStore {
     }
 
     public fun createValue(data: ByteArrayWrapper): Int {
-        var res = 0
-        res = nextID++
+        var res = nextID++
         BufferManagerPage.writeInt4(rootPage, 8, nextID)
         writeData(data) { page, off ->
             if (res >= mappingID2Page.getSize()) {

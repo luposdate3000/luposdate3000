@@ -18,7 +18,6 @@ import lupos.launch.code_gen_example_kapt.mainFunc
 import kotlin.js.JsName
 
 @JsName("main")
-public fun main(args: Array<String>) {
-    var flag = false
+public fun main() {
     mainFunc()
 }

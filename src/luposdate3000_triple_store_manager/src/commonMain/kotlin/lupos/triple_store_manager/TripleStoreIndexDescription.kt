@@ -22,16 +22,16 @@ import lupos.shared.IQuery
 import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElement
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
-public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescription {
+public abstract class TripleStoreIndexDescription(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescription {
     @JvmField
     internal var idx_set: IntArray = intArrayOf()
 
     @JvmField
-    internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescriptionDummy
+    internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescription(arrayOf<TripleStoreIndexDescription>(), instance)
     internal abstract fun toByteArray(): ByteArray
     internal abstract fun assignHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
@@ -63,7 +63,7 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
 
     public override fun toXMLElement(): XMLElement {
         val res = XMLElement("TripleStoreIndexDescription")
-        val manager = tripleStoreManager as TripleStoreManagerImpl
+        val manager = (instance.tripleStoreManager!!) as TripleStoreManagerImpl
         for ((k, v) in manager.metadataGet()) {
             if (v == tripleStoreDescription) {
                 res.addAttribute("graphName", k)

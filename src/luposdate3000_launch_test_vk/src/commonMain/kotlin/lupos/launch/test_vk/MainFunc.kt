@@ -18,10 +18,12 @@ package lupos.launch.test_vk
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.AflCore
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 import kotlin.math.abs
@@ -29,7 +31,6 @@ import kotlin.math.abs
 @JvmField
 internal val verbose = false
 
-// @JvmField internal val maxSize = 16
 @JvmField
 internal val maxSize = 16384
 
@@ -38,14 +39,17 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("vk.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
+    var instance = Luposdate3000Instance()
+    instance.allowInitFromDisk = false
+    instance = LuposdateEndpoint.initializeB(instance)
     if (verbose) {
         println("start")
     }
     BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
-    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_vk/src/commonMain/kotlin/lupos/launch/test_vk/MainFunc.kt:46")
-    var vk = ValueKeyStore(bufferManager, rootPage, false)
+    instance.bufferManager = BufferManager(instance)
+    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_vk/src/commonMain/kotlin/lupos/launch/test_vk/MainFunc.kt:46")
+    var vk = ValueKeyStore(instance.bufferManager!!, rootPage, false)
 
     val values = mutableListOf<ByteArrayWrapper>()
 
@@ -58,7 +62,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         }
     }
 
-    fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
+    fun getNotExistingKey(@Suppress("UNUSED_PARAMETER") rng: Int, action: (Int) -> Unit) {
         action(values.size)
     }
 
@@ -212,18 +216,18 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     testAll()
     if (!BufferManagerExt.isInMemoryOnly) {
         vk.close()
-        if (bufferManager.getNumberOfReferencedPages() != 0) {
-            throw Exception("${bufferManager.getNumberOfReferencedPages()}")
+        if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
+            throw Exception("${instance.bufferManager!!.getNumberOfReferencedPages()}")
         }
-        vk = ValueKeyStore(bufferManager, rootPage, true)
+        vk = ValueKeyStore(instance.bufferManager!!, rootPage, true)
     }
     testAll()
     vk.delete()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
         throw Exception("")
     }
-    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }
-    bufferManager.close()
+    instance.bufferManager!!.close()
 }

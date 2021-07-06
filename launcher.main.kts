@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-/*
+/* 
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -17,8 +17,8 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared_inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
@@ -48,7 +48,7 @@ import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
-import lupos.shared_inline.Platform
+import lupos.shared.inline.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -75,7 +75,7 @@ var threadCount = 1
 var processUrls = ""
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
-val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "None", "Jena_Wrapper" to "Off")
+val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
 var intellijMode = IntellijMode.Enable
 var execMode = ExecMode.UNKNOWN
 
@@ -205,7 +205,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
             pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
-                currentArgs = currentArgs.ssetEnabledRunFunc { mainClass == currentArgs.moduleName }
+                currentArgs = currentArgs.ssetEnabledRunFunc {
+                    mainClass == currentArgs.moduleName
+                }
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
             modules[currentArgs.moduleName] = currentArgs
@@ -500,6 +502,13 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
+        "--processCount",
+        "",
+        {
+            processUrls = Array(it.toInt()){"localhost:"+(80+it)}.joinToString(",")
+        }
+    ),
+    ParamClass(
         "--releaseMode",
         ReleaseMode.Disable.toString(),
         ReleaseMode.values().map { it -> it.toString() to { releaseMode = it } }.toMap()
@@ -511,11 +520,10 @@ val defaultParams = mutableListOf(
     ),
     ParamClass(
         "--compilerVersion",
-        "1.4.0",
+        "1.5.0",
         mapOf(
-            "1.5.0-RC" to { compilerVersion = "1.5.0-RC" },
             "1.4.0" to { compilerVersion = "1.4.0" },
-            "1.4.255-SNAPSHOT" to { compilerVersion = "1.4.255-SNAPSHOT" },
+            "1.5.0" to { compilerVersion = "1.5.0" },
             "1.5.255-SNAPSHOT" to { compilerVersion = "1.5.255-SNAPSHOT" },
         )
     ),
@@ -581,19 +589,7 @@ val defaultParams = mutableListOf(
             } else {
                 File("${System.getProperty("user.home")}/.cache/main.kts.compiled.cache").deleteRecursively()
             }
-            File(Platform.getGradleCache() + "/modules-2").deleteRecursively()
-            File(Platform.getGradleCache() + "/jars-8").deleteRecursively()
-            File(Platform.getGradleCache() + "/jars-3").deleteRecursively()
-            File(Platform.getMavenCache() + "/luposdate3000").deleteRecursively()
             System.exit(0)
-        }
-    ),
-    ParamClass(
-        "--setupJS",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.SETUP_JS
-            target = TargetMode2.JS
         }
     ),
     ParamClass(
@@ -693,7 +689,6 @@ when (execMode) {
     ExecMode.GENERATE_LAUNCHER -> onGenerateLauncherMain()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_GRADLE -> onSetupGradle()
-    ExecMode.SETUP_JS -> onSetupJS()
     ExecMode.SETUP_SPACLIENT -> onSetupSPAClient()
     else -> {
         throw Exception("unknown execMode $execMode")
@@ -780,8 +775,11 @@ fun onRun() {
                 if (module.enabledRunFunc()) {
                     jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
                     jars.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
-                    File("${module.moduleFolder}/build/external_jvm_dependencies").forEachLine {
-                        jars.add(it)
+                    val f = File("${module.moduleFolder}/build/external_jvm_dependencies")
+                    if (f.exists()) {
+                        f.forEachLine {
+                            jars.add(it)
+                        }
                     }
                 }
             }
@@ -836,7 +834,7 @@ fun onRun() {
                 println("exec :: " + cmd.joinToString(" "))
             } else {
                 Array(processUrls.count { it == ',' } + 1) {
-                    val p = ProcessBuilder(cmd)
+                    val p = myProcessBuilder(cmd)
                         .redirectOutput(Redirect.INHERIT)
                         .redirectError(Redirect.INHERIT)
                     val env = p.environment()
@@ -863,17 +861,17 @@ fun onGenerateParser() {
         listOf("parse_dot", "DOT"),
         listOf("parse_ws", "SKIP_WS"),
         listOf("parse_ws_forced", "SKIP_WS_FORCED"),
-        listOf("parse_statement", "BASE", "PREFIX", "BASE2", "PREFIX2", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL"),
+        listOf("parse_statement", "BASE", "PREFIX", "BASEA", "PREFIXA", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL"),
         listOf("parse_base", "IRIREF"),
         listOf("parse_prefix", "PNAME_NS"),
         listOf("parse_prefix2", "IRIREF"),
-        listOf("parse_predicate", "VERB1", "IRIREF", "PNAME_NS"),
+        listOf("parse_predicate", "VERBA", "IRIREF", "PNAME_NS"),
         listOf("parse_obj", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE", "STRING_LITERAL_SINGLE_QUOTE", "STRING_LITERAL_LONG_SINGLE_QUOTE", "STRING_LITERAL_LONG_QUOTE", "INTEGER", "DECIMAL", "DOUBLE", "BOOLEAN"),
-        listOf("parse_triple_end", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT"),
-        listOf("parse_triple_end_or_object_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
-        listOf("parse_triple_end_or_object_string", "LANGTAG", "IRI1", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+        listOf("parse_triple_end", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT"),
+        listOf("parse_triple_end_or_object_iri", "PN_LOCAL", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT", "SKIP_WS_FORCED"),
+        listOf("parse_triple_end_or_object_string", "LANGTAG", "IRIA", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT", "SKIP_WS_FORCED"),
         listOf("parse_triple_end_or_object_string_typed", "IRIREF", "PNAME_NS"),
-        listOf("parse_triple_end_or_object_string_typed_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+        listOf("parse_triple_end_or_object_string_typed_iri", "PN_LOCAL", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT", "SKIP_WS_FORCED"),
         listOf("parse_subject_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
         listOf("parse_predicate_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
     )
@@ -910,19 +908,19 @@ fun onGenerateParser() {
         "BOOLEAN" to "(('t') ('r') ('u') ('e')) | (('f') ('a') ('l') ('s') ('e'))",
         "PREFIX" to "('P') ('R') ('E') ('F') ('I') ('X')",
         "BASE" to "('B') ('A') ('S') ('E')",
-        "PREFIX2" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
-        "BASE2" to "('@') ('b') ('a') ('s') ('e')",
-        "COLLECTION1" to "('(')",
-        "COLLECTION2" to "(')')",
+        "PREFIXA" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
+        "BASEA" to "('@') ('b') ('a') ('s') ('e')",
+        "COLLECTIONA" to "('(')",
+        "COLLECTIONB" to "(')')",
         "DOT" to "('.')",
-        "PROPERTY_LIST1" to "('[')",
-        "PROPERTY_LIST2" to "(']')",
-        "OBJECT_LIST1" to "(',')",
-        "PREDICATE_LIST1" to "(';')",
-        "VERB1" to "('a')",
-        "IRI1" to "('^') ('^')",
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
+        "PROPERTY_LISTA" to "('[')",
+        "PROPERTY_LISTB" to "(']')",
+        "OBJECT_LISTA" to "(',')",
+        "PREDICATE_LISTA" to "(';')",
+        "VERBA" to "('a')",
+        "IRIA" to "('^') ('^')",
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
+        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
     )
     val turtleFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserGenerated.kt"
     val turtlePackage = "lupos.parser.turtle"
@@ -962,14 +960,12 @@ fun onGenerateParser() {
         listOf("parse_subject", "IRIREF", "BLANK_NODE_LABEL"),
         listOf("parse_predicate", "IRIREF"),
         listOf("parse_object", "IRIREF", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE"),
-        listOf("parse_object_string", "IRI1", "LANGTAG", "SKIP_WS"),
+        listOf("parse_object_string", "IRIA", "LANGTAG", "SKIP_WS"),
         listOf("parse_object_typed", "IRIREF"),
         listOf("parse_graph", "IRIREF", "BLANK_NODE_LABEL", "SKIP_WS"),
     )
     val nQuadsGrammar = mapOf(
         "LANGTAG" to "'@' [a-zA-Z0-9_,#x2D]+", // ATTENTION ",", and "_" are not allowed according to the official gramar, and the ordering allows more combinations
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-        "SKIP_WS" to "[#x20#x9#xD#xA]*",
         "IRIREF" to "'<' [^>]* '>'", // ATTENTION this is definetly wrong according to official grammar
         "STRING_LITERAL_QUOTE" to "('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* ('\"')",
         "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
@@ -977,7 +973,14 @@ fun onGenerateParser() {
         "BLANK_NODE_LABEL" to "'_' ':' [^#x20#x9#xD#xA]+", // ATTENTION this is definetly wrong according to official grammar
         "HEX" to "([0-9] | [A-F] | [a-f])",
         "DOT" to "('.')",
-        "IRI1" to "('^') ('^')",
+        "IRIA" to "('^') ('^')",
+        // "SKIP_WS_A" to "[#x20#x9#xD#xA]",
+        // "SKIP_WS_B" to "[^#xD#xA]",
+        // "SKIP_WS_C" to "[#xD#xA]",
+        // "SKIP_WS" to "( (SKIP_WS_A) | ('#' (SKIP_WS_B)* (SKIP_WS_C) ) )*",
+        // "SKIP_WS_FORCED" to "( (SKIP_WS_A) | ('#' (SKIP_WS_B)* (SKIP_WS_C) ) )+",
+        "SKIP_WS" to "[#x20#x9#xD#xA]*",
+        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
     )
     val nQuadsFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/nQuads/NQuads2ParserGenerated.kt"
     val nQuadsPackage = "lupos.parser.nQuads"
@@ -1123,8 +1126,12 @@ fun onGenerateLauncherMain() {
                         } else {
                             out.println("")
                         }
-                        out.println("public fun main(args: Array<String>) {")
-                        out.println("    var flag = false")
+                        if (options.size > 0) {
+                            out.println("public fun main(args: Array<String>) {")
+                            out.println("    var flag = false")
+                        } else {
+                            out.println("public fun main() {")
+                        }
                         var first = true
                         for (o in options) {
                             if (!first) {
@@ -1162,8 +1169,11 @@ fun onGenerateLauncherMain() {
 
 fun copyFromJar(source: InputStream, dest: String) {
     val out = FileOutputStream(dest)
-    while (source.available() > 0) {
-        out.write(source.read())
+    val buf = ByteArray(4096)
+    var count = source.read(buf)
+    while (count > 0) {
+        out.write(buf, 0, count)
+        count = source.read(buf)
     }
     out.close()
     source.close()
@@ -1200,8 +1210,7 @@ fun onSetupSPAClient() {
     }
     val cache = mutableListOf<String>()
     var mode = 0
-    println("$dirname/gulpfile.js")
-    File("$dirname/gulpfile.js").forEachLine { line ->
+    File(dir, "gulpfile.js").forEachLine { line ->
         when (mode) {
             0 -> {
                 cache.add(line)
@@ -1213,33 +1222,41 @@ fun onSetupSPAClient() {
             1 -> {
                 if (line.contains("LUPOSDATE3000 GENERATED CODE END")) {
                     cache.add(line)
-                    mode = 2
+                    mode = 0
                 }
-            }
-            2 -> {
-                cache.add(line)
             }
         }
     }
-    File("$dirname/gulpfile.js").printWriter().use { out ->
+    File(dir, "gulpfile.js").printWriter().use { out ->
         for (c in cache) {
             out.println(c)
         }
     }
-    val pbin = ProcessBuilder("npm", "bin")
-        .directory(dir)
-    val bproc = pbin.start()
-    val reader = bproc.getInputStream().reader()
-    val pwd = reader.readText().trim().replace("\\", "\\\\")
-    reader.close()
-    val commands = listOf(
-        listOf("npm", "install"),
-        listOf("$pwd/bower", "install", "--allow-root"),
-        listOf("$pwd/gulp"),
-    )
+    val bin_npm = fixPathNames(commandToString(myProcessBuilder(listOf("which", "npm"))).trim())
+    println("bin_npm: " + bin_npm)
+    val pwd = commandToString(
+        myProcessBuilder(listOf(bin_npm, "bin"))
+            .directory(dir)
+    ).trim()
+    val bin_bower = fixPathNames("$pwd/bower")
+    val bin_gulp = fixPathNames("$pwd/gulp")
+    println("bin_bower :" + bin_bower)
+    println("bin_gulp :" + bin_gulp)
+    val commands: List<List<String>>
+    if (dryMode == DryMode.Enable) {
+        commands = listOf(
+            listOf(bin_gulp),
+        )
+    } else {
+        commands = listOf(
+            listOf(bin_npm, "install"),
+            listOf(bin_bower, "install", "--allow-root"),
+            listOf(bin_gulp),
+        )
+    }
     for (cmd in commands) {
         println("cmd :: $cmd")
-        val p = ProcessBuilder(cmd)
+        val p = myProcessBuilder(cmd)
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
             .directory(dir)
@@ -1253,6 +1270,14 @@ fun onSetupSPAClient() {
     }
 }
 
+fun commandToString(pbin: ProcessBuilder): String {
+    val bproc = pbin.start()
+    val reader = bproc.getInputStream().reader()
+    val res = reader.readText()
+    reader.close()
+    return res
+}
+
 fun getJSScriptFiles(): List<String> {
     File("dist-js").deleteRecursively()
     File("dist-js").mkdirs()
@@ -1260,18 +1285,26 @@ fun getJSScriptFiles(): List<String> {
     val scripts = mutableListOf<String>()
     for (module in getAllModuleConfigurations()) {
         if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
-            var s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
-            File("${module.moduleFolder}/build/external_js_dependencies").forEachLine {
-                if (!dependencies.contains(it)) {
-                    if (it.contains("kotlin-stdlib")) {
-                        dependencies.add(0, it)
-                    } else {
-                        dependencies.add(it)
+            val f = File("${module.moduleFolder}/build/external_js_dependencies")
+            if (f.exists()) {
+                f.forEachLine {
+                    if (!dependencies.contains(it)) {
+                        if (it.contains("kotlin-stdlib")) {
+                            dependencies.add(0, it)
+                        } else {
+                            dependencies.add(it)
+                        }
                     }
                 }
-            }
-            if (!dependencies.contains(s)) {
-                dependencies.add(s)
+                var s: String
+                if (releaseMode == ReleaseMode.Enable) {
+                    s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
+                } else {
+                    s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
+                }
+                if (!dependencies.contains(s)) {
+                    dependencies.add(s)
+                }
             }
         }
     }
@@ -1296,26 +1329,27 @@ fun getJSScriptFiles(): List<String> {
     return scripts
 }
 
-fun onSetupJS() {
-    jsBrowserMode = true
-    File("dist-js/index.html").printWriter().use { out ->
-        out.println("<!DOCTYPE html>")
-        out.println("<html lang=\"en\">")
-        out.println("<head>")
-        out.println("    <meta charset=\"utf-8\">")
-        out.println("    <title>Luposdate3000</title>")
-        for (s in getJSScriptFiles()) {
-            out.println("    <script src=\"$s\"></script>")
+fun myProcessBuilder(cmd: List<String>): ProcessBuilder {
+    if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
+        if (cmd[0].contains("/")) {
+            val lastIdx = cmd[0].lastIndexOf("/")
+            val path = cmd[0].substring(0, lastIdx)
+            val proc = cmd[0].substring(lastIdx + 1)
+            val realCmd = mutableListOf<String>("cmd.exe", "/C", proc)
+            for (i in 1 until cmd.size) {
+                realCmd.add(cmd[i])
+            }
+            println("realCmd:: " + realCmd)
+            val pb = ProcessBuilder(realCmd)
+            val env = pb.environment()
+            println("oldpath:: " + env["PATH"])
+            env["PATH"] = path + ";" + env["PATH"]
+            return pb
+        } else {
+            return ProcessBuilder(cmd)
         }
-        out.println("</head>")
-        out.println("<body>")
-        out.println("<script>")
-        out.println("Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.initialize()")
-        out.println("console.log(Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(\"INSERT DATA { <s> <p> <o> } \"))")
-        out.println("console.log(Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(\"SELECT (5 as ?x) ?s {?s ?p ?o .}\"))")
-        out.println("</script>")
-        out.println("</body>")
-        out.println("</html>")
+    } else {
+        return ProcessBuilder(cmd)
     }
 }
 

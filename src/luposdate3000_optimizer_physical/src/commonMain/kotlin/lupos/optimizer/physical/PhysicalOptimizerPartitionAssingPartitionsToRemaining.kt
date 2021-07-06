@@ -26,14 +26,13 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPTripleStoreIterator -> {
                     if (!node.hasSplitFromStore) {
@@ -43,7 +42,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             if (c is AOPVariable) {
                                 try {
                                     partitionVariable = c.name
-                                    println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
                                     new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
                                     break
                                 } catch (e: Throwable) {
@@ -53,7 +51,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                         }
                         if (new_count > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
-                            println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
                             if (node.projectedVariables.size > 0) {
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
                             } else {

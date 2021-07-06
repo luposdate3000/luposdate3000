@@ -16,25 +16,31 @@
  */
 package lupos.dictionary
 
-import lupos.buffer_manager.BufferManager
 import lupos.kv.KeyValueStore
-import lupos.shared.BUFFER_HOME
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
-import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.File
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.File
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 
-public class DictionaryKV : ADictionary {
+public class DictionaryKV internal constructor(
+    bufferManager: IBufferManager,
     @JvmField
-    internal val bufferManager: BufferManager
+    internal val rootPageID: Int,
+    initFromRootPage: Boolean,
+    instance: Luposdate3000Instance
+) : ADictionary(instance) {
+    @JvmField
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal val kv: KeyValueStore
@@ -46,7 +52,7 @@ public class DictionaryKV : ADictionary {
     internal var bNodeCounter = 5
 
     @JvmField
-    internal val rootPageID: Int
+    internal var uuidCounter = 0
 
     @JvmField
     internal val rootPage: ByteArray
@@ -60,36 +66,67 @@ public class DictionaryKV : ADictionary {
         kv.delete()
         vk.delete()
         bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:61", rootPageID)
-        File(BUFFER_HOME + "dict.page").deleteRecursively()
+        File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
     public override fun isInmemoryOnly(): Boolean = false
-
-    internal constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) : super() {
+    public override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit) {
+        var flag = flagNoBNode
+        var flag2 = 0
+        if (isLocal) {
+            flag = flag or flagLocal
+            flag2 = flag2 or flagLocal
+        }
+        DictionaryHelper.booleanToByteArray(buffer, true)
+        action(DictionaryExt.booleanTrueValue)
+        DictionaryHelper.booleanToByteArray(buffer, false)
+        action(DictionaryExt.booleanFalseValue)
+        DictionaryHelper.errorToByteArray(buffer)
+        action(DictionaryExt.errorValue)
+        DictionaryHelper.undefToByteArray(buffer)
+        action(DictionaryExt.undefValue)
+        for (i in 5 until bNodeCounter) {
+            DictionaryHelper.bnodeToByteArray(buffer, i)
+            action(i or flag2)
+        }
+        val iter = vk.getIterator(buffer)
+        while (iter.hasNext()) {
+            val id = iter.next()
+            action(id or flag)
+        }
+        iter.close()
+    }
+    init {
         isLocal = false
-        this.bufferManager = bufferManager
         rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:70", rootPageID)
-        this.rootPageID = rootPageID
-        var kvPage = 0
-        var vkPage = 0
+        var kvPage: Int
+        var vkPage: Int
         if (initFromRootPage) {
             bNodeCounter = BufferManagerPage.readInt4(rootPage, 0)
             kvPage = BufferManagerPage.readInt4(rootPage, 4)
             vkPage = BufferManagerPage.readInt4(rootPage, 8)
+            uuidCounter = BufferManagerPage.readInt4(rootPage, 12)
         } else {
             kvPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:79")
             vkPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:80")
             BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
             BufferManagerPage.writeInt4(rootPage, 4, kvPage)
             BufferManagerPage.writeInt4(rootPage, 8, vkPage)
+            BufferManagerPage.writeInt4(rootPage, 12, uuidCounter)
         }
-        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
+        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage, instance)
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
     }
 
     public override fun createNewBNode(): Int {
-        var res: Int = bNodeCounter++
+        val res: Int = bNodeCounter++
         BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
+        return res
+    }
+
+    public override fun createNewUUID(): Int {
+        val res: Int = uuidCounter++
+        BufferManagerPage.writeInt4(rootPage, 12, uuidCounter)
         return res
     }
 
@@ -101,46 +138,45 @@ public class DictionaryKV : ADictionary {
             DictionaryExt.undefValue -> DictionaryHelper.undefToByteArray(buffer)
             DictionaryExt.nullValue -> throw Exception("invalid call")
             else -> {
-                if ((value and ADictionary.flagNoBNode) == ADictionary.flagNoBNode) {
-                    kv.getValue(buffer, value and ADictionary.maskValue)
+                if ((value and flagNoBNode) == flagNoBNode) {
+                    kv.getValue(buffer, value and maskValue)
                 } else {
                     SanityCheck.check { value < bNodeCounter }
                     SanityCheck.check { value >= 0 }
                     ByteArrayWrapperExt.setSize(buffer, 8)
                     ByteArrayHelper.writeInt4(buffer.buf, 0, ETripleComponentTypeExt.BLANK_NODE)
-                    ByteArrayHelper.writeInt4(buffer.buf, 4, value and ADictionary.maskValue)
+                    ByteArrayHelper.writeInt4(buffer.buf, 4, value and maskValue)
                 }
             }
         }
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
-        val type = DictionaryHelper.byteArrayToType(buffer)
-        when (type) {
+        when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
-                if (buffer.size == 8) {
-                    return DictionaryHelper.byteArrayToBnode_I(buffer)
+                return if (buffer.size == 8) {
+                    DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
-                    return createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
+                    createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
                 }
             }
             ETripleComponentTypeExt.BOOLEAN -> {
-                if (DictionaryHelper.byteArrayToBoolean(buffer)) {
-                    return DictionaryExt.booleanTrueValue
+                return if (DictionaryHelper.byteArrayToBoolean(buffer)) {
+                    DictionaryExt.booleanTrueValue
                 } else {
-                    return DictionaryExt.booleanFalseValue
+                    DictionaryExt.booleanFalseValue
                 }
             }
             ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
             ETripleComponentTypeExt.UNDEF -> return DictionaryExt.undefValue
             else -> {
-                var res = vk.createValue(
+                val res = vk.createValue(
                     buffer,
                     value = {
                         kv.createValue(buffer)
                     }
                 )
-                return res or ADictionary.flagNoBNode
+                return res or flagNoBNode
             }
         }
     }
@@ -155,13 +191,13 @@ public class DictionaryKV : ADictionary {
                 throw Exception("ERROR !! $lastId -> $id")
             }
             lastId = id
-            if (lastId % 10000 == 0) {
+            if (lastId % 10000 == 0 && lastId != 0) {
                 println("imported $lastId dictionaryItems")
             }
             if (mymapping.size <= id) {
                 var newSize = 1
                 while (newSize <= id) {
-                    newSize = newSize * 2
+                    newSize *= 2
                 }
                 val tmp = mymapping
                 mymapping = IntArray(newSize)
@@ -197,16 +233,16 @@ public class DictionaryKV : ADictionary {
                 ready = false
                 buffer
             },
-            onNotFound = { it ->
+            onNotFound = {
                 val id = kv.createValue(it)
-                addEntry(originalID, id or ADictionary.flagNoBNode)
+                addEntry(originalID, id or flagNoBNode)
                 id
             },
             onFound = { _, id ->
-                addEntry(originalID, id or ADictionary.flagNoBNode)
+                addEntry(originalID, id or flagNoBNode)
             }
         )
-        println("imported dictionary with $lastId items")
+        println("imported $lastId dictionaryItems")
         return Pair(mymapping, lastId + 1)
     }
 
@@ -216,10 +252,10 @@ public class DictionaryKV : ADictionary {
         SanityCheck.check { type != ETripleComponentTypeExt.BOOLEAN }
         SanityCheck.check { type != ETripleComponentTypeExt.ERROR }
         SanityCheck.check { type != ETripleComponentTypeExt.UNDEF }
-        var res = vk.hasValue(buffer)
+        val res = vk.hasValue(buffer)
         if (res == ValueKeyStore.ID_NULL) {
             return null
         }
-        return res or ADictionary.flagNoBNode
+        return res or flagNoBNode
     }
 }

@@ -18,13 +18,14 @@ package lupos.triple_store_manager
 
 import lupos.shared.ITripleStoreDescriptionFactory
 import lupos.shared.ITripleStoreIndexDescriptionFactory
+import lupos.shared.Luposdate3000Instance
 import kotlin.jvm.JvmField
 
-public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {
+public class TripleStoreDescriptionFactory(@JvmField internal val instance: Luposdate3000Instance) : ITripleStoreDescriptionFactory {
     @JvmField
     internal var indices = mutableListOf<TripleStoreIndexDescription>()
     public override fun addIndex(action: (ITripleStoreIndexDescriptionFactory) -> Unit): TripleStoreDescriptionFactory {
-        val factory = TripleStoreIndexDescriptionFactory()
+        val factory = TripleStoreIndexDescriptionFactory(instance)
         action(factory)
         val index = factory.build()
         indices.add(index)
@@ -37,8 +38,8 @@ public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {
         return this
     }
 
-    internal fun build(): TripleStoreDescription {
-        val store = TripleStoreDescription(indices.toTypedArray())
+    internal fun build(instance: Luposdate3000Instance): TripleStoreDescription {
+        val store = TripleStoreDescription(indices.toTypedArray(), instance)
         for (index in indices) {
             index.tripleStoreDescription = store
         }

@@ -22,9 +22,10 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueInteger
 import lupos.shared.XMLElement
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -32,30 +33,35 @@ import kotlin.jvm.JvmField
 public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array<IOPBase>(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
-        var res = "COUNT("
         if (distinct) {
-            res += "DISTINCT "
+            return "COUNT(DISTINCT " + children[0].toSparql() + ")"
         }
-        if (children.isNotEmpty()) {
-            res += children[0].toSparql()
-        }
-        res += ")"
-        return res
+        return "COUNT(" + children[0].toSparql() + ")"
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationCOUNT && distinct == other.distinct && children.contentEquals(other.children)
-    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-        val res = ColumnIteratorAggregate()
-        res.evaluate = {
-            res.count++
+    private class ColumnIteratorAggregateCOUNT(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        private var counter = 0L
+
+        override fun evaluate() {
+            counter++
         }
-        return res
+
+        override fun evaluateFinish(): Int {
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.integerToByteArray(buffer, BigInteger.parseString(counter.toString(), 10))
+            return dictionary.createValue(buffer)
+        }
     }
 
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
+        return ColumnIteratorAggregateCOUNT((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+    }
+
+    override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            ValueInteger(BigInteger(tmp.count))
+            tmp.evaluateFinish()
         }
     }
 

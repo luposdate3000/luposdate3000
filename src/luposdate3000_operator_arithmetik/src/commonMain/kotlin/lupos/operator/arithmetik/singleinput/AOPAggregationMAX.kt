@@ -20,12 +20,12 @@ import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorIDExt
-import lupos.shared.EvaluationException
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueError
-import lupos.shared.ValueUndef
 import lupos.shared.XMLElement
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -40,32 +40,46 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationMAX && distinct == other.distinct && children.contentEquals(other.children)
-    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-        val res = ColumnIteratorAggregate()
-        val child = (children[0] as AOPBase).evaluate(row)
-        res.evaluate = {
-            val value = child()
-            try {
-                if (res.value is ValueUndef || res.value < value) {
-                    res.value = value
+    private class ColumnIteratorAggregateMAX(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        private val buffer = ByteArrayWrapper()
+        private val bufferCurrent = ByteArrayWrapper()
+        private var isError = false
+        private var hasInit = false
+
+        init {
+            DictionaryHelper.undefToByteArray(buffer)
+        }
+
+        override fun evaluate() {
+            if (!isError) {
+                dictionary.getValue(bufferCurrent, child())
+                try {
+                    if (!hasInit) {
+                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer)
+                        hasInit = true
+                    } else if (DictionaryHelper.byteArrayCompareAny(bufferCurrent, buffer) > 0) {
+                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer)
+                    }
+                } catch (e: Throwable) {
+                    isError = true
+                    DictionaryHelper.errorToByteArray(buffer)
                 }
-            } catch (e: EvaluationException) {
-                res.value = ValueError()
-                res.evaluate = res::aggregateEvaluate
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                res.value = ValueError()
-                res.evaluate = res::aggregateEvaluate
             }
         }
-        return res
+
+        override fun evaluateFinish(): Int {
+            return dictionary.createValue(buffer)
+        }
     }
 
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
+        return ColumnIteratorAggregateMAX((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+    }
+
+    override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            val res: ValueDefinition = tmp.value
-            res
+            tmp.evaluateFinish()
         }
     }
 

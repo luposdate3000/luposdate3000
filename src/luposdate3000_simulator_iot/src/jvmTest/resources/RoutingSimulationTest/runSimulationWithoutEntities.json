@@ -1,0 +1,19 @@
+{
+    "linkType": [{
+        "name": "WPAN",
+        "rangeInMeters": 15,
+        "dataRateInKbps": 250
+    }],
+    "deviceType": [{
+        "name": "Fog",
+        "database": true,
+        "parkingSensor": true,
+        "powerCapacity": -1.0,
+        "supportedLinkTypes": ["WPAN"]
+    }],
+    "fixedDevice": [],
+    "fixedLink": [],
+    "rootRouter": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": []
+}

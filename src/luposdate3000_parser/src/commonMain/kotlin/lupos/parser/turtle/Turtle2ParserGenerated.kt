@@ -91,7 +91,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         if ((t and 0x80) == 0) {
             // 1byte
             c = t
-            if ((c == '\r'.toInt()) || (c == '\n'.toInt())) {
+            if ((c == '\r'.code.toInt()) || (c == '\n'.code.toInt())) {
                 if (!flagrN) {
                     flagrN = true
                     line++
@@ -227,7 +227,6 @@ internal inline fun parse_ws(
         onSKIP_WS()
         return
     }
-    throw ParserExceptionUnexpectedChar(context)
 }
 
 internal inline fun parse_ws_forced(
@@ -284,8 +283,8 @@ internal inline fun parse_statement(
     context: ParserContext,
     crossinline onBASE: () -> Unit,
     crossinline onPREFIX: () -> Unit,
-    crossinline onBASE2: () -> Unit,
-    crossinline onPREFIX2: () -> Unit,
+    crossinline onBASEA: () -> Unit,
+    crossinline onPREFIXA: () -> Unit,
     crossinline onIRIREF: () -> Unit,
     crossinline onPNAME_NS: () -> Unit,
     crossinline onBLANK_NODE_LABEL: () -> Unit
@@ -394,7 +393,7 @@ internal inline fun parse_statement(
                                         when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                onBASE2()
+                                                onBASEA()
                                                 return
                                             }
                                             else -> {
@@ -434,7 +433,7 @@ internal inline fun parse_statement(
                                                         when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
-                                                                onPREFIX2()
+                                                                onPREFIXA()
                                                                 return
                                                             }
                                                             else -> {
@@ -1913,7 +1912,7 @@ internal inline fun parse_prefix2_helper_4(c: Int): Int {
 
 internal inline fun parse_predicate(
     context: ParserContext,
-    crossinline onVERB1: () -> Unit,
+    crossinline onVERBA: () -> Unit,
     crossinline onIRIREF: () -> Unit,
     crossinline onPNAME_NS: () -> Unit
 ) {
@@ -1923,7 +1922,7 @@ internal inline fun parse_predicate(
         when (localswitch1) {
             0 -> {
                 context.append()
-                onVERB1()
+                onVERBA()
                 return
             }
             1 -> {
@@ -6376,8 +6375,8 @@ internal inline fun parse_obj_helper_29(c: Int): Int {
 
 internal inline fun parse_triple_end(
     context: ParserContext,
-    crossinline onPREDICATE_LIST1: () -> Unit,
-    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onPREDICATE_LISTA: () -> Unit,
+    crossinline onOBJECT_LISTA: () -> Unit,
     crossinline onDOT: () -> Unit
 ) {
     context.clear()
@@ -6386,12 +6385,12 @@ internal inline fun parse_triple_end(
         when (localswitch1) {
             0 -> {
                 context.append()
-                onPREDICATE_LIST1()
+                onPREDICATE_LISTA()
                 return
             }
             1 -> {
                 context.append()
-                onOBJECT_LIST1()
+                onOBJECT_LISTA()
                 return
             }
             2 -> {
@@ -6429,8 +6428,8 @@ internal inline fun parse_triple_end_helper_0(c: Int): Int {
 internal inline fun parse_triple_end_or_object_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
-    crossinline onPREDICATE_LIST1: () -> Unit,
-    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onPREDICATE_LISTA: () -> Unit,
+    crossinline onOBJECT_LISTA: () -> Unit,
     crossinline onDOT: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
@@ -6653,12 +6652,12 @@ internal inline fun parse_triple_end_or_object_iri(
             }
             3 -> {
                 context.append()
-                onPREDICATE_LIST1()
+                onPREDICATE_LISTA()
                 return
             }
             4 -> {
                 context.append()
-                onOBJECT_LIST1()
+                onOBJECT_LISTA()
                 return
             }
             5 -> {
@@ -6933,9 +6932,9 @@ internal fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
 internal inline fun parse_triple_end_or_object_string(
     context: ParserContext,
     crossinline onLANGTAG: () -> Unit,
-    crossinline onIRI1: () -> Unit,
-    crossinline onPREDICATE_LIST1: () -> Unit,
-    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onIRIA: () -> Unit,
+    crossinline onPREDICATE_LISTA: () -> Unit,
+    crossinline onOBJECT_LISTA: () -> Unit,
     crossinline onDOT: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
@@ -7004,7 +7003,7 @@ internal inline fun parse_triple_end_or_object_string(
                 when (localswitch3) {
                     0 -> {
                         context.append()
-                        onIRI1()
+                        onIRIA()
                         return
                     }
                     else -> {
@@ -7014,12 +7013,12 @@ internal inline fun parse_triple_end_or_object_string(
             }
             2 -> {
                 context.append()
-                onPREDICATE_LIST1()
+                onPREDICATE_LISTA()
                 return
             }
             3 -> {
                 context.append()
-                onOBJECT_LIST1()
+                onOBJECT_LISTA()
                 return
             }
             4 -> {
@@ -7594,8 +7593,8 @@ internal inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): In
 internal inline fun parse_triple_end_or_object_string_typed_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
-    crossinline onPREDICATE_LIST1: () -> Unit,
-    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onPREDICATE_LISTA: () -> Unit,
+    crossinline onOBJECT_LISTA: () -> Unit,
     crossinline onDOT: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
@@ -7818,12 +7817,12 @@ internal inline fun parse_triple_end_or_object_string_typed_iri(
             }
             3 -> {
                 context.append()
-                onPREDICATE_LIST1()
+                onPREDICATE_LISTA()
                 return
             }
             4 -> {
                 context.append()
-                onOBJECT_LIST1()
+                onOBJECT_LISTA()
                 return
             }
             5 -> {

@@ -16,7 +16,7 @@
  */
 package launcher
 
-enum class ExecMode { RUN, HELP, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_GRADLE, SETUP_JS, UNKNOWN, SETUP_SPACLIENT }
+enum class ExecMode { RUN, HELP, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_GRADLE, UNKNOWN, SETUP_SPACLIENT }
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 enum class ReleaseMode { Enable, Disable }
 enum class DryMode { Enable, Disable }
@@ -35,7 +35,7 @@ fun targetModeCompatible(base: TargetMode2, check: TargetMode2): Boolean {
 }
 
 fun fixPathNames(s: String): String {
-    var res = s
+    var res = s.trim()
     var back = ""
     while (back != res) {
         back = res

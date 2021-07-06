@@ -56,7 +56,7 @@ public class LogicalOptimizerJoinOrderCostBasedOnVariable_Plan : Comparable<Logi
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun sqr(i: Int) = i * i
+    private fun sqr(i: Int) = i * i
 
     public constructor(plans: Array<LogicalOptimizerJoinOrderCostBasedOnVariable_Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
         child = null

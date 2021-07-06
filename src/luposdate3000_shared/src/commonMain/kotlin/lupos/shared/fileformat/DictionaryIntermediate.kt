@@ -19,7 +19,7 @@ package lupos.shared.fileformat
 
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared_inline.File
+import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
 public abstract class DictionaryIntermediate(internal val filename: String) {
@@ -29,11 +29,22 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
     @JvmField
     public var streamIn: IMyInputStream? = null
     public abstract fun close()
+    internal fun getFile(): File {
+        return getFile(filename)
+    }
 
     public companion object {
         internal const val filenameEnding = ".dictionary"
+        internal fun getFile(filename: String): File {
+            return File("$filename$filenameEnding")
+        }
+
+        public fun fileExists(filename: String): Boolean {
+            return getFile(filename).exists()
+        }
+
         public fun delete(filename: String) {
-            File("$filename$filenameEnding").deleteRecursively()
+            DictionaryIntermediateReader(filename).getFile().deleteRecursively()
         }
     }
 }

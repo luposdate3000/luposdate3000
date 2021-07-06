@@ -17,20 +17,25 @@
 package lupos.dictionary
 
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.IDictionary
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
-public abstract class ADictionary : IDictionary {
+public abstract class ADictionary(
+    @JvmField
+    public val instance: Luposdate3000Instance
+) : IDictionary {
     @JvmField
     internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
 
     @JvmField
     internal val bnodeMapLocal = mutableMapOf<String, Int>()
+
+    @JvmField
     internal var isLocal: Boolean = false
     public override fun createNewBNode(s: String): Int {
         var res = bnodeMapLocal[s]
@@ -62,11 +67,11 @@ public abstract class ADictionary : IDictionary {
             if ((value and flagNoBNode) == flagNoBNode) {
                 val buffer = ByteArrayWrapper()
                 getValue(buffer, value)
-                res = nodeGlobalDictionary.createValue(buffer)
+                res = instance.nodeGlobalDictionary!!.createValue(buffer)
             } else {
                 val tmp = bnodeMapToGlobal[value]
                 if (tmp == null) {
-                    res = nodeGlobalDictionary.createNewBNode()
+                    res = instance.nodeGlobalDictionary!!.createNewBNode()
                     bnodeMapToGlobal[value] = res
                 } else {
                     res = tmp
@@ -82,7 +87,7 @@ public abstract class ADictionary : IDictionary {
         var lastId = -1
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            if (lastId % 10000 == 0) {
+            if (lastId % 10000 == 0 && lastId != 0) {
                 println("imported $lastId dictionaryItems")
             }
             val type = DictionaryHelper.byteArrayToType(buffer)
@@ -91,7 +96,7 @@ public abstract class ADictionary : IDictionary {
             } else {
                 var res = createValue(buffer)
                 if (isLocal) {
-                    res = res or ADictionary.flagLocal
+                    res = res or flagLocal
                 }
                 res
             }
@@ -100,7 +105,7 @@ public abstract class ADictionary : IDictionary {
             if (mymapping.size <= id) {
                 var newSize = 1
                 while (newSize <= id) {
-                    newSize = newSize * 2
+                    newSize *= 2
                 }
                 val tmp = mymapping
                 mymapping = IntArray(newSize)
@@ -108,7 +113,7 @@ public abstract class ADictionary : IDictionary {
             }
             mymapping[id] = i
         }
-        println("imported dictionary with $lastId items")
+        println("imported $lastId dictionaryItems")
         return Pair(mymapping, lastId + 1)
     }
 }

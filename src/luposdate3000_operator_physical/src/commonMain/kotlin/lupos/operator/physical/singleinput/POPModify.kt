@@ -32,10 +32,9 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.tripleStoreManager
-import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :
@@ -166,7 +165,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                 }
                 val graphName: String = if (first.graphVar) {
                     query.getDictionary().getValue(buffer, row[graphVarIdx])
-                    DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()!!
+                    DictionaryHelper.byteArrayToSparql(buffer)
                 } else {
                     first.graph
                 }
@@ -198,7 +197,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             child.hasNext2Close()
         }
         for ((graphName, iterator) in data) {
-            val store = tripleStoreManager.getGraph(graphName)
+            val store = query.getInstance().tripleStoreManager!!.getGraph(graphName)
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
                     val cache = store.modify_create_cache(EModifyTypeExt.INSERT)

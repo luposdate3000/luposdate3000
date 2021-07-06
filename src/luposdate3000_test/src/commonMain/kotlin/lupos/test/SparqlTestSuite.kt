@@ -51,9 +51,8 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownManifestException
 import lupos.shared.XMLElementFromXML
-import lupos.shared.communicationHandler
-import lupos.shared.tripleStoreManager
-import lupos.shared_inline.File
+import lupos.shared.inline.File
+import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {
@@ -118,6 +117,7 @@ public open class SparqlTestSuite {
         val nilIri = Dictionary.IRI(nil)
         val firstIri = Dictionary.IRI(first)
         val restIri = Dictionary.IRI(rest)
+
         /*suspend*/ fun recursiveListMembers(current: Long) {
             data.sp(current, firstIri).forEach { f(it) }
             data.sp(current, restIri).forEach {
@@ -420,8 +420,9 @@ public open class SparqlTestSuite {
     @JvmField
     public var lastTripleCount: Int = 0
 
-    @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    public open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+    /*suspend*/ @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
+    public open
+    fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {
 //            return true
 //        }
@@ -434,22 +435,25 @@ public open class SparqlTestSuite {
         File("log/storetest").mkdirs()
         var ignoreJena = !executeJena
         val timer = DateHelperRelative.markNow()
+        val instance = LuposdateEndpoint.initialize()
+
         try {
             val toParse = readFileOrNull(queryFile)!!
             if (toParse.contains("service", true)) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(Service)")
+                LuposdateEndpoint.close(instance)
                 return false
             }
             val resultData = readFileOrNull(resultDataFileName)
             if (inputDataFileName != "#keep-data#") {
-                val query2 = Query()
+                val query2 = Query(instance)
                 query2.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                tripleStoreManager.clearGraph(query2, TripleStoreManager.DEFAULT_GRAPH_NAME)
-                for (g in tripleStoreManager.getGraphNames()) {
-                    tripleStoreManager.dropGraph(query2, g)
+                instance.tripleStoreManager!!.clearGraph(query2, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                for (g in instance.tripleStoreManager!!.getGraphNames()) {
+                    instance.tripleStoreManager!!.dropGraph(query2, g)
                 }
-                tripleStoreManager.commit(query2)
+                instance.tripleStoreManager!!.commit(query2)
                 query2.commited = true
                 JenaWrapper.dropAll()
                 val inputData = readFileOrNull(inputDataFileName)
@@ -458,41 +462,43 @@ public open class SparqlTestSuite {
                     if (MAX_TRIPLES_DURING_TEST in 1 until lastTripleCount) {
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Success(Skipped)")
+                        LuposdateEndpoint.close(instance)
                         return true
                     }
                     println("InputData Graph[] Original")
                     println(inputData)
                     println("----------Input Data Graph[]")
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
-                        val query = Query()
+                        val query = Query(instance)
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         val xmlQueryInput = MemoryTable.parseFromAny(inputData, inputDataFileName, query)!!
-                        LuposdateEndpoint.importTurtleFiles(inputDataFileName, mutableMapOf())
-                        val bulkSelect = tripleStoreManager.getDefaultGraph().getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
+                        LuposdateEndpoint.importTurtleFile(instance, inputDataFileName)
+                        val bulkSelect = instance.tripleStoreManager!!.getDefaultGraph().getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
                         val xmlGraphBulk = QueryResultToMemoryTable(bulkSelect)
                         if (xmlGraphBulk.first() != xmlQueryInput) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(BulkImport)")
+                            LuposdateEndpoint.close(instance)
                             return false
                         }
                     } else {
-                        val query = Query()
+                        val query = Query(instance)
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         val xmlQueryInput = MemoryTable.parseFromAny(inputData, inputDataFileName, query)!!
                         val tmp2 = POPValues2(query, xmlQueryInput)
                         val key = "${query.getTransactionID()}"
-                        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                            query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
                         }
                         val tmp = tmp2.evaluateRoot()
-                        val sstore = tripleStoreManager.getDefaultGraph()
+                        val sstore = instance.tripleStoreManager!!.getDefaultGraph()
                         val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
                         sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
-                        tripleStoreManager.commit(query)
+                        instance.tripleStoreManager!!.commit(query)
                         query.commited = true
-                        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                            instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                         }
                     }
                     try {
@@ -512,22 +518,22 @@ public open class SparqlTestSuite {
                     val inputData2 = readFileOrNull(it["filename"])
                     println(inputData2)
                     println("----------Input Data Graph[${it["name"]}]")
-                    val query = Query()
+                    val query = Query(instance)
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val xmlQueryInput = MemoryTable.parseFromAny(inputData2!!, it["filename"]!!, query)!!
                     val tmp2 = POPValues2(query, xmlQueryInput)
                     val key = "${query.getTransactionID()}"
-                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                        query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                    if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                        instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                        query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp = tmp2.evaluateRoot()
-                    val sstore = tripleStoreManager.getGraph(it["name"]!!)
+                    val sstore = instance.tripleStoreManager!!.getGraph(it["name"]!!)
                     val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
                     sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
-                    tripleStoreManager.commit(query)
-                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                    instance.tripleStoreManager!!.commit(query)
+                    if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                        instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     query.commited = true
 
@@ -557,11 +563,12 @@ public open class SparqlTestSuite {
                 if (MAX_TRIPLES_DURING_TEST in 1 until lastTripleCount) {
                     println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                     println("----------Success(Skipped)")
+                    LuposdateEndpoint.close(instance)
                     return true
                 }
             }
             val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
-            val query = Query()
+            val query = Query(instance)
             query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
             var res: Boolean
             SanityCheck.println { "----------String Query" }
@@ -608,14 +615,14 @@ public open class SparqlTestSuite {
             var xmlQueryResult: MemoryTable? = null
             if (outputDataGraph.isNotEmpty() || (resultData != null && resultDataFileName != null)) {
                 SanityCheck.println { "----------Query Result" }
-                tripleStoreManager.commit(query)
+                instance.tripleStoreManager!!.commit(query)
                 query.commited = true
             }
             var verifiedOutput = false
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
                 val xmlGraphTarget = MemoryTable.parseFromAny(outputData!!, it["filename"]!!, query)!!
-                val tmp = tripleStoreManager.getGraph(it["name"]!!).getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
+                val tmp = instance.tripleStoreManager!!.getGraph(it["name"]!!).getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
                 val xmlGraphActual = QueryResultToMemoryTable(tmp)
                 if (xmlGraphTarget != xmlGraphActual.first()) {
                     println("OutputData Graph[${it["name"]}] Original")
@@ -624,6 +631,7 @@ public open class SparqlTestSuite {
 
                     println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                     println("----------Failed(PersistentStore Graph)")
+                    LuposdateEndpoint.close(instance)
                     return false
                 } else {
                     SanityCheck.println { "OutputData Graph[${it["name"]}] Original" }
@@ -641,13 +649,15 @@ public open class SparqlTestSuite {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = MemoryTableFromXML()(jenaResult, xmlQueryResult!!.query!!)
-// println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true)) {
+                        val buf = MyPrintWriter(true)
+                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true, buf)) {
+                            println(buf.toString())
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")
 
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(Jena)")
+                            LuposdateEndpoint.close(instance)
                             return false
                         }
                     } catch (e: JenaBugException) {
@@ -658,10 +668,11 @@ public open class SparqlTestSuite {
                         ignoreJena = true
                     }
                 }
-                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.toLowerCase().contains("order", true), true)
+                val buf2 = MyPrintWriter(true)
+                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.lowercase().contains("order", true), true, buf2)
                 if (res) {
                     val xmlPOP = popNode.toXMLElementRoot(false)
-                    val query4 = Query()
+                    val query4 = Query(instance)
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val popNodeRecovered = XMLElementToOPBase(query4, xmlPOP)
                     SanityCheck.println { xmlPOP.toPrettyString() }
@@ -670,14 +681,15 @@ public open class SparqlTestSuite {
                         SanityCheck.println { x }
                     }
                     val xmlQueryResultRecovered = QueryResultToMemoryTable(popNodeRecovered)
-                    tripleStoreManager.commit(query4)
+                    instance.tripleStoreManager!!.commit(query4)
                     query4.commited = true
-
-                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult!!, false, true)) {
+                    val buf3 = MyPrintWriter(true)
+                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult, false, true, buf3)) {
                         if (expectedResult) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Success")
                         } else {
+                            println(buf3.toString())
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(expectFalse)")
                         }
@@ -688,14 +700,15 @@ public open class SparqlTestSuite {
                     }
                 } else {
                     if (expectedResult) {
-
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Failed(Incorrect)")
+                        println(buf2.toString())
                     } else {
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Success(ExpectFalse)")
                     }
                 }
+                LuposdateEndpoint.close(instance)
                 return res
             } else {
                 if (verifiedOutput) {
@@ -715,6 +728,7 @@ public open class SparqlTestSuite {
                         println("----------Failed(ExpectFalse,Syntax)")
                     }
                 }
+                LuposdateEndpoint.close(instance)
                 return expectedResult
             }
         } catch (e: ParseError) {
@@ -729,11 +743,13 @@ public open class SparqlTestSuite {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,ParseError)")
             }
+            LuposdateEndpoint.close(instance)
             return false
         } catch (e: NotImplementedException) {
             e.printStackTrace()
             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
             println("----------Failed(NotImplemented)")
+            LuposdateEndpoint.close(instance)
             return false
         } catch (e: Luposdate3000Exception) {
             e.printStackTrace()
@@ -744,6 +760,7 @@ public open class SparqlTestSuite {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,${e.classname})")
             }
+            LuposdateEndpoint.close(instance)
             return false
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -757,6 +774,7 @@ public open class SparqlTestSuite {
                 println("----------Success(ExpectFalse,Throwable)")
                 e.printStackTrace()
             }
+            LuposdateEndpoint.close(instance)
             return false
         }
     }

@@ -26,6 +26,11 @@ This describes how to compile the database itself (during development).
 
 [readme-advanced](documentation/README-usage-compile-advanced.md)
 
+
+The compilation of the SPA-Client is described here:
+
+[readme-spaclient](documentation/README-SPAClient.md)
+
 ## Tests
 
 [readme](documentation/README-tests.md)
@@ -57,3 +62,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## License
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0)
+
+
+##FAQ
+
+[faq](documentation/README-faq)

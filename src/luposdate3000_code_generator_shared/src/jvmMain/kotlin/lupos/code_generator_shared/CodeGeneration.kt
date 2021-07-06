@@ -19,7 +19,6 @@ package lupos.code_generator_shared
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTR
@@ -47,6 +46,8 @@ import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
@@ -68,13 +69,14 @@ public object CodeGeneration {
         variableName: String,
         variableValue: String,
     ) {
+        val instance = LuposdateEndpoint.initialize()
         try {
             // Root of the operatorgraph
-            val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
+            val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, variableValue)
             // Buffer to store the separated operators
             val operatorsBuffer = MyPrintWriter(true)
             // Imports that will be used in the generated file
-            val imports = mutableSetOf<String>(
+            val imports = mutableSetOf(
                 "lupos.operator.base.Query",
                 "lupos.shared.IQuery",
                 "lupos.endpoint.LuposdateEndpoint",
@@ -85,6 +87,7 @@ public object CodeGeneration {
                 "lupos.shared.minus",
                 "lupos.shared.times",
                 "lupos.shared.div",
+                "lupos.shared.Luposdate3000Instance",
                 "lupos.shared.operator.IOPBase",
                 "lupos.operator.physical.POPBase",
                 "lupos.shared.EOperatorIDExt",
@@ -99,9 +102,9 @@ public object CodeGeneration {
                 "lupos.shared.operator.iterator.ColumnIteratorQueue",
                 "lupos.operator.arithmetik.generated.AOPAnd",
                 "lupos.shared.ValueIri",
-                "lupos" + ".shared_inline.MyPrintWriter",
-                "lupos" + ".shared_inline.ColumnIteratorQueueExt",
-                "lupos" + ".shared_inline.DictionaryHelper",
+                "lupos" + ".shared.inline.MyPrintWriter",
+                "lupos" + ".shared.inline.ColumnIteratorQueueExt",
+                "lupos" + ".shared.inline.DictionaryHelper",
                 "lupos.shared.dictionary.DictionaryExt",
                 "lupos.shared.dynamicArray.ByteArrayWrapper"
             )
@@ -118,11 +121,11 @@ public object CodeGeneration {
             imports.forEach { outFile.println("import $it") } // Create all the imports
             outFile.println()
             // This is the function that can be called to retrieve the result
-            outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
+            outFile.println("public fun $className.${variableName}_evaluate(instance:Luposdate3000Instance):IOPBase {")
             // New empty query object
-            outFile.println("    val query = Query()")
+            outFile.println("    val query = Query(instance)")
             // This will be used to get the TripleStoreIterator
-            outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
+            outFile.println("    val graph = instance.tripleStoreManager!!.getGraph(\"\")") //
             // Writing the operators to the generated file
             outFile.print(operatorsBuffer.toString())
             // Evaluate the operatorgraph with the operators from the generated files and store it in buf
@@ -157,7 +160,7 @@ public object CodeGeneration {
             val outFile = PrintWriter(out)
             outFile.println("package $packageName")
             outFile.println("import lupos.shared.operator.IOPBase")
-            outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
+            outFile.println("public fun $className.${variableName}_evaluate(instance:Luposdate3000Instance):IOPBase {")
             val txt = (
                 "    println(\"${e.stackTraceToString().replace("\"", "\\\"")}\")"
                     .replace("\n", "\")\n    println(\"")
@@ -171,6 +174,7 @@ public object CodeGeneration {
             outFile.println("}")
             outFile.close()
         }
+        LuposdateEndpoint.close(instance)
     }
 }
 
@@ -253,7 +257,6 @@ private fun writeOperatorGraph(
                     "operator${operator.children[2].getUUID()})," +
                     "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
             )
-            imports.add("lupos.shared.tripleStoreManager")
             imports.add("lupos.shared.EIndexPatternExt")
             imports.add("lupos.shared.Partition")
         }
@@ -298,13 +301,13 @@ private fun writeOperatorGraph(
         }
         // Creating a new operator with the OPBaseCompound constructor
         is OPBaseCompound -> {
-            val proVars = "arrayOf(${operator.children.map { "operator" + it.getUUID() }.joinToString()})"
+            val proVars = "arrayOf(${operator.children.joinToString { "operator" + it.getUUID() }})"
             val proVarsOrder = "listOf(${
-            operator.columnProjectionOrder.map {
+            operator.columnProjectionOrder.joinToString {
                 "listOf(${
-                it.map { it2 -> "\"$it2\"" }.joinToString()
+                it.joinToString { it2 -> "\"$it2\"" }
                 })"
-            }.joinToString()
+            }
             })"
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = OPBaseCompound(query," +
@@ -521,10 +524,8 @@ internal fun writeMethod(
 
 }
 
-
 // Creates variables and the comparisons to filter, the root variable contains the filters result
 internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph: OPBase, variables: MutableSet<String>?) {
-
     val tmpBuf = ByteArrayWrapper()
 
     // Call recursively for all children

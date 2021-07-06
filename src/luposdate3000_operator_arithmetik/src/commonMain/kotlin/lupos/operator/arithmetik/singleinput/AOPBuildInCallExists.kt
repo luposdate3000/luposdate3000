@@ -20,7 +20,6 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluateNotImplementedException
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -28,7 +27,7 @@ import kotlin.jvm.JvmField
 public class AOPBuildInCallExists public constructor(query: IQuery, @JvmField public var child: IOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallExistsID, "AOPBuildInCallExists", arrayOf(child)) {
     override fun toSparql(): String = " EXISTS {" + children[0].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallExists && children[0] == other.children[0]
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition = throw EvaluateNotImplementedException(classname)
+    override fun evaluateID(row: IteratorBundle): () -> Int = throw EvaluateNotImplementedException(classname)
     override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallExists(query, children[0].cloneOP())
     public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {

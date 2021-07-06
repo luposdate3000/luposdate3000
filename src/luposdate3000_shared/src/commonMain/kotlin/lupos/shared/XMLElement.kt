@@ -17,7 +17,7 @@
 package lupos.shared
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
@@ -172,10 +172,10 @@ public class XMLElement(tag: String) {
 // <<-- avoid bugs in JENA
 // avoid inconsistencies in W3C -->>
             if (attributes["xml:lang"] != null) {
-                attributes["xml:lang"] = attributes["xml:lang"]!!.toLowerCase()
+                attributes["xml:lang"] = attributes["xml:lang"]!!.lowercase()
             }
             if (other.attributes["xml:lang"] != null) {
-                other.attributes["xml:lang"] = other.attributes["xml:lang"]!!.toLowerCase()
+                other.attributes["xml:lang"] = other.attributes["xml:lang"]!!.lowercase()
             }
 // <<-- avoid inconsistencies in W3C
             if (attributes != other.attributes) {

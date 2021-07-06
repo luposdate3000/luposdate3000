@@ -27,27 +27,25 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.tripleStoreManager
 
 public object QueryResultToEmptyWithDictionaryStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary) {
         dictionary.getValue(buffer, valueID)
     }
 
     private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
         for (variableIndex in variables.indices) {
-            writeValue(buffer, rowBuf[variableIndex], variables[variableIndex], dictionary, output)
+            writeValue(buffer, rowBuf[variableIndex], dictionary)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, output: IMyOutputStream) {
         val rowBuf = IntArray(variables.size)
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
@@ -66,7 +64,7 @@ public object QueryResultToEmptyWithDictionaryStream {
     }
 
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition = Partition()) {
-        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
             var partitionVariable = ""
             if (node is POPMergePartition) {
@@ -85,7 +83,7 @@ public object QueryResultToEmptyWithDictionaryStream {
                         val child2 = node.getChildren()[0]
                         val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
+                        writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
                     } catch (e: Throwable) {
                         e.printStackTrace()
                         errors[p] = e
@@ -103,7 +101,7 @@ public object QueryResultToEmptyWithDictionaryStream {
         } else {
             val child = node.evaluateRoot(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
+            writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
         }
     }
 
@@ -111,9 +109,9 @@ public object QueryResultToEmptyWithDictionaryStream {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
@@ -151,8 +149,8 @@ public object QueryResultToEmptyWithDictionaryStream {
                 }
             }
         }
-        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
     }
 }

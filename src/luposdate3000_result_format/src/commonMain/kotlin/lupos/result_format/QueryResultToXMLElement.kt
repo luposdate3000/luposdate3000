@@ -22,12 +22,10 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
-import lupos.shared_inline.DictionaryHelper
 
 public object QueryResultToXMLElement {
     public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
@@ -35,9 +33,9 @@ public object QueryResultToXMLElement {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val res = mutableListOf<XMLElement>()
         val nodes: Array<IOPBase>
@@ -72,7 +70,7 @@ public object QueryResultToXMLElement {
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
-                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()!!
+                    val value = DictionaryHelper.byteArrayToSparql(buffer)
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     SanityCheck.check { value.endsWith("\"^^<$datatype>") }
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
@@ -103,10 +101,9 @@ public object QueryResultToXMLElement {
                                 }
                                 if (valueID != DictionaryExt.undefValue && valueID != DictionaryExt.errorValue) {
                                     query.getDictionary().getValue(buffer, valueID)
-                                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
-                                    SanityCheck.check { value != null }
+                                    val value = DictionaryHelper.byteArrayToSparql(buffer)
                                     val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
-                                    if (value!!.length > 1) {
+                                    if (value.length > 1) {
                                         if (value.startsWith("\"") && !value.endsWith("\"")) {
                                             val idx = value.lastIndexOf("\"^^<")
                                             if (idx >= 0) {
@@ -143,8 +140,8 @@ public object QueryResultToXMLElement {
             res.add(nodeSparql)
         }
         if (res.size == 1) {
-            if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             }
             return res[0]
         }
@@ -152,8 +149,8 @@ public object QueryResultToXMLElement {
         for (r in res) {
             compountResult.addContent(r)
         }
-        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return compountResult
     }

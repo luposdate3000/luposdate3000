@@ -25,9 +25,9 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.DictionaryHelper
 
 public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPFunctionCallDoubleID, "AOPFunctionCallDouble", arrayOf(child0)) {
     override fun toSparql(): String = "<http://www.w3.org/2001/XMLSchema#double>(${children[0].toSparql()})"
@@ -43,7 +43,7 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.BLANK_NODE -> {
+                ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
@@ -55,10 +55,6 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
                         0.0
                     }
                     DictionaryHelper.doubleToByteArray(tmp_2, tmp_5)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DATE_TIME -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
@@ -73,10 +69,6 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
                     DictionaryHelper.doubleToByteArray(tmp_2, tmp_12)
                     res = query.getDictionary().createValue(tmp_2)
                 }
-                ETripleComponentTypeExt.ERROR -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
                 ETripleComponentTypeExt.FLOAT -> {
                     val tmp_15: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                     val tmp_16: Double = tmp_15
@@ -87,10 +79,6 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
                     val tmp_18: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                     val tmp_19: Double = tmp_18.doubleValue()
                     DictionaryHelper.doubleToByteArray(tmp_2, tmp_19)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.IRI -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
@@ -127,10 +115,6 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
                         DictionaryHelper.errorToByteArray(tmp_2)
                         res = query.getDictionary().createValue(tmp_2)
                     }
-                }
-                ETripleComponentTypeExt.UNDEF -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
                     res = DictionaryExt.errorValue

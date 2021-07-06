@@ -25,7 +25,6 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
     @JvmField
     var value = 0
     override /*suspend*/ fun next(): Int {
-// println("NodeLeafColumnIterator1.nextStart() : $remaining")
         if (label == 3) {
             label = 1
             __init()
@@ -39,16 +38,13 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                 value = v
             }
             updateRemaining()
-// println("NodeLeafColumnIterator1.next(1) : $remaining")
             value
         } else {
-// println("NodeLeafColumnIterator1.next(END) : $remaining")
             DictionaryExt.nullValue
         }
     }
 
     override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
-// println("NodeLeafColumnIterator1.nextSipStart() : $remaining")
         if (label == 3) {
             label = 1
             __init()
@@ -69,7 +65,6 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                     updateRemaining()
                     result[0] = counter - 1
                     result[1] = value
-// println("NodeLeafColumnIterator1.nextSip(${counter-1}) : $remaining")
                     return
                 } else {
                     remaining--
@@ -127,22 +122,18 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                 if (value >= minValue) {
                     result[0] = counter - 1
                     result[1] = value
-// println("NodeLeafColumnIterator1.nextSip(${counter-1}) : $remaining")
                     return
                 }
             }
             result[0] = 0
-// println("NodeLeafColumnIterator1.nextSip(END) : $remaining")
             result[1] = DictionaryExt.nullValue
         } else {
             result[0] = 0
-// println("NodeLeafColumnIterator1.nextSip(END) : $remaining")
             result[1] = DictionaryExt.nullValue
         }
     }
 
     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
-// println("NodeLeafColumnIterator1.skipSIPStart($skipCount) : $remaining")
         if (label == 3) {
             label = 1
             __init()
@@ -166,10 +157,8 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                 toSkip--
             }
             updateRemaining()
-// println("NodeLeafColumnIterator1.skipSIP($skipCount) : $remaining")
             return value
         } else {
-// println("NodeLeafColumnIterator1.skipSIP(END) : $remaining")
             return DictionaryExt.nullValue
         }
     }

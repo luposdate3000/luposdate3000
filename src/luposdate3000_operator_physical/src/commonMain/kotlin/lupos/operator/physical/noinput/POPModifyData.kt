@@ -35,7 +35,6 @@ import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPModifyData public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val type: EModifyType, @JvmField public val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
@@ -60,7 +59,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         res += " DATA {"
         for (c in data) {
             if (c.graphVar) {
-                throw GraphVariablesNotImplementedException(classname)
+                throw GraphVariablesNotImplementedException()
             }
             SanityCheck.check { !c.graphVar }
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
@@ -83,6 +82,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MutableList<Int>>>()
+        val dictionary = query.getDictionary()
         for (t in data) {
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
@@ -90,11 +90,11 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
                     tmp = Array<MutableList<Int>>(3) { mutableListOf() }
                     iteratorDataMap[t.graph] = tmp
                 }
-                tmp[i].add((t.children[i] as AOPConstant).value)
+                tmp[i].add(dictionary.valueToGlobal((t.children[i] as AOPConstant).value))
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {
-            val graphLocal = tripleStoreManager.getGraph(graph)
+            val graphLocal = query.getInstance().tripleStoreManager!!.getGraph(graph)
             val cache = graphLocal.modify_create_cache(EModifyTypeExt.INSERT)
             graphLocal.modify_cache(query, Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type, cache, true)
         }

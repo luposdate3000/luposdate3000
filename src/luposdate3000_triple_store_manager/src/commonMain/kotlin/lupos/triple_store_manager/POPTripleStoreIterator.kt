@@ -32,7 +32,6 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPTripleStoreIterator(
@@ -71,7 +70,6 @@ public class POPTripleStoreIterator(
         res.addContent(XMLElement("oparam").addContent(children[2].toXMLElement(partial)))
         res.addContent(XMLElement("idx").addContent(tripleStoreIndexDescription.toXMLElement()))
         return res
-// tripleStoreManager.getIndexFromXML(node["idx"])
     }
 
     public fun getIndexPattern(): EIndexPattern {
@@ -128,7 +126,7 @@ public class POPTripleStoreIterator(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val index = tripleStoreIndexDescription
         val target = index.getStore(query, children, parent)
-        val manager = tripleStoreManager as TripleStoreManagerImpl
+        val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
         SanityCheck.check { target.first == manager.localhost }
         val store = manager.localStoresGet()[target.second]!!
         val filter2 = mutableListOf<Int>()

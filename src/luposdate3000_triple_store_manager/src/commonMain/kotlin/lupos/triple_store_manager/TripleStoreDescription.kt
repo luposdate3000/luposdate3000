@@ -27,6 +27,7 @@ import lupos.shared.ITripleStoreDescription
 import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
@@ -34,11 +35,11 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescription(
-    @JvmField internal val indices: Array<TripleStoreIndexDescription>
+    @JvmField internal val indices: Array<TripleStoreIndexDescription>,
+    @JvmField internal val instance: Luposdate3000Instance,
 ) : ITripleStoreDescription {
     public fun toMetaString(): String {
         var res = StringBuilder()
@@ -68,7 +69,7 @@ public class TripleStoreDescription(
     }
 
     public companion object {
-        public operator fun invoke(metaString: String): TripleStoreDescription {
+        public operator fun invoke(metaString: String, instance: Luposdate3000Instance): TripleStoreDescription {
             var indices = mutableListOf<TripleStoreIndexDescription>()
             val metad = metaString.split("|")
             for (meta in metad) {
@@ -76,7 +77,7 @@ public class TripleStoreDescription(
                 if (args.size > 1) {
                     when (args[0]) {
                         "PartitionedByID" -> {
-                            val idx = TripleStoreIndexDescriptionPartitionedByID(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), args[3].toInt())
+                            val idx = TripleStoreIndexDescriptionPartitionedByID(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), args[3].toInt(), instance)
                             for (i in 0 until args[2].toInt()) {
                                 idx.hostnames[i] = args[4 + i * 2]
                                 idx.keys[i] = args[4 + i * 2 + 1]
@@ -84,7 +85,7 @@ public class TripleStoreDescription(
                             indices.add(idx)
                         }
                         "PartitionedByKey" -> {
-                            val idx = TripleStoreIndexDescriptionPartitionedByKey(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt())
+                            val idx = TripleStoreIndexDescriptionPartitionedByKey(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), instance)
                             for (i in 0 until args[2].toInt()) {
                                 idx.hostnames[i] = args[3 + i * 2]
                                 idx.keys[i] = args[3 + i * 2 + 1]
@@ -92,7 +93,7 @@ public class TripleStoreDescription(
                             indices.add(idx)
                         }
                         "Simple" -> {
-                            val idx = TripleStoreIndexDescriptionSimple(EIndexPatternExt.names.indexOf(args[1]))
+                            val idx = TripleStoreIndexDescriptionSimple(EIndexPatternExt.names.indexOf(args[1]), instance)
                             idx.hostname = args[2]
                             idx.key = args[3]
                             indices.add(idx)
@@ -101,7 +102,7 @@ public class TripleStoreDescription(
                     }
                 }
             }
-            return TripleStoreDescription(indices.toTypedArray())
+            return TripleStoreDescription(indices.toTypedArray(), instance)
         }
     }
 
@@ -114,11 +115,11 @@ public class TripleStoreDescription(
     }
 
     public override fun modify_create_cache(type: EModifyType): ITripleStoreDescriptionModifyCache {
-        return TripleStoreDescriptionModifyCache(this, type)
+        return TripleStoreDescriptionModifyCache(this, type, instance)
     }
 
     public override fun modify_create_cache_sorted(type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache {
-        return TripleStoreDescriptionModifyCache(this, type, sortedBy)
+        return TripleStoreDescriptionModifyCache(this, type, sortedBy, instance)
     }
 
     public override fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean) {
@@ -130,21 +131,21 @@ public class TripleStoreDescription(
             if (localcache.row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
-            for (i in 0 until localcache.allBuf.size) {
+            for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
-                val buf = localcache.allBuf[i][j]
-                if (buf.offset >= buf.size) {
-                    localcache.mySend(i, j)
-                }
-                buf.buf[buf.offset++] = localcache.row[0]
-                buf.buf[buf.offset++] = localcache.row[1]
-                buf.buf[buf.offset++] = localcache.row[2]
+                val conn = localcache.allConn[i][j]
+                conn.second.writeInt(localcache.row[0])
+                conn.second.writeInt(localcache.row[1])
+                conn.second.writeInt(localcache.row[2])
             }
         }
         if (flush) {
-            for (i in 0 until localcache.allBuf.size) {
-                for (j in 0 until localcache.allBuf[i].size) {
-                    localcache.mySend(i, j)
+            for (i in 0 until localcache.allConn.size) {
+                for (j in 0 until localcache.allConn[i].size) {
+                    val conn = localcache.allConn[i][j]
+                    conn.second.writeInt(-1)
+                    conn.first?.close()
+                    conn.second.close()
                 }
             }
         }
@@ -159,21 +160,21 @@ public class TripleStoreDescription(
             if (localcache.row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
-            for (i in 0 until localcache.allBuf.size) {
+            for (i in 0 until localcache.allConn.size) {
                 val j = indices[i].findPartitionFor(query, localcache.row)
-                val buf = localcache.allBuf[i][j]
-                if (buf.offset >= buf.size) {
-                    localcache.mySendSorted(i, j, sortedBy)
-                }
-                buf.buf[buf.offset++] = localcache.row[0]
-                buf.buf[buf.offset++] = localcache.row[1]
-                buf.buf[buf.offset++] = localcache.row[2]
+                val conn = localcache.allConn[i][j]
+                conn.second.writeInt(localcache.row[0])
+                conn.second.writeInt(localcache.row[1])
+                conn.second.writeInt(localcache.row[2])
             }
         }
         if (flush) {
-            for (i in 0 until localcache.allBuf.size) {
-                for (j in 0 until localcache.allBuf[i].size) {
-                    localcache.mySendSorted(i, j, sortedBy)
+            for (i in 0 until localcache.allConn.size) {
+                for (j in 0 until localcache.allConn[i].size) {
+                    val conn = localcache.allConn[i][j]
+                    conn.first?.close()
+                    conn.second.writeInt(-1)
+                    conn.second.close()
                 }
             }
         }
@@ -220,12 +221,20 @@ public class TripleStoreDescription(
                 var first = 0
                 var second = 0
                 for (store in index.getAllLocations()) {
-                    if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
-                        val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[store.second]!!.getHistogram(query, filter)
+                    if (store.first == ((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
+                        val tmp = ((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[store.second]!!.getHistogram(query, filter)
                         first += tmp.first
                         second += tmp.second
                     } else {
-                        throw Exception("getHistogram send to remote node '${store.first}' vs '${(tripleStoreManager as TripleStoreManagerImpl).localhost}'")
+                        val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second))
+                        conn.second.writeInt(filter.size)
+                        for (i in 0 until filter.size) {
+                            conn.second.writeInt(filter[i])
+                        }
+                        first += conn.first.readInt()
+                        second += conn.first.readInt()
+                        conn.first.close()
+                        conn.second.close()
                     }
                 }
                 return Pair(first, second)

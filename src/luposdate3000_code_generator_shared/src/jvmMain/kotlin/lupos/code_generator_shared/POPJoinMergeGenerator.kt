@@ -378,20 +378,20 @@ internal fun generatePOPJoinMerge(
                                 }
                                 if (skip0 > 0) {"""
     )
-    for (i in 1..variablesJoin.size - 1) {
+    for (i in 1 until variablesJoin.size) {
         val variable = variablesJoin[i]
         clazz.iteratorNextBody.println("                                   key0$variable = columnsInJ0$variable.skipSIP(skip0)")
     }
     clazz.iteratorNextBody.println("                                }")
     clazz.iteratorNextBody.println("                                if (skip1 > 0) {")
-    for (i in 1..variablesJoin.size - 1) {
+    for (i in 1 until variablesJoin.size) {
         val variable = variablesJoin[i]
         clazz.iteratorNextBody.println("                                   key1$variable = columnsInJ1$variable.skipSIP(skip1)")
     }
     clazz.iteratorNextBody.println("                                }")
     clazz.iteratorNextBody.println("                            }")
 
-    for (i in 1..variablesJoin.size - 1) {
+    for (i in 1 until variablesJoin.size) {
         val variable = variablesJoin[i]
         clazz.iteratorNextBody.println("                            if (key0$variable < key1$variable) {")
         clazz.iteratorNextBody.println("                                skipO0++ ")
@@ -527,7 +527,7 @@ internal fun generatePOPJoinMerge(
         clazz.footer.println("        val columnsInJ1$variable = child1.columns[\"$variable\"]!!")
     }
 
-    var allColumns = mutableListOf<String>()
+    val allColumns = mutableListOf<String>()
     for (variable in variablesJoin) {
         clazz.footer.println("        val key0$variable = columnsInJ0$variable.next()")
         clazz.footer.println("        val key1$variable = columnsInJ1$variable.next()")

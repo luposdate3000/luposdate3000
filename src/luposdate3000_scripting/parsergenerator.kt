@@ -315,9 +315,6 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             startEndMapElseBranch.clear()
             cleanupIdenticalIDs()
             myPrint(1, printmode, true)
-            // println(startEndMap)
-            // println(startEndMapElseBranch)
-            // println(identicalIdsMap)
         }
 
         fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "break@error" }) {
@@ -1241,7 +1238,12 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                 if (hadOr) {
                                     res.append(parseRegex(allTokens[token2]!!, tail))
                                 } else {
-                                    res.append(parseRegex(allTokens[token2]!!, parseRegex(str.substring(idx), tail)))
+                                    try {
+                                        res.append(parseRegex(allTokens[token2]!!, parseRegex(str.substring(idx), tail)))
+                                    } catch (e: Throwable) {
+                                        println("$token2 .. ${allTokens.keys}")
+                                        throw e
+                                    }
                                     return res.compile()
                                 }
                             }
@@ -1318,7 +1320,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             out.println("        if ((t and 0x80) == 0) {")
             out.println("            // 1byte")
             out.println("            c = t")
-            out.println("            if ((c == '\\r'.toInt()) || (c == '\\n'.toInt())) {")
+            out.println("            if ((c == '\\r'.code) || (c == '\\n'.code)) {")
             out.println("                if (!flagrN) {")
             out.println("                    flagrN = true")
             out.println("                    line++")

@@ -17,8 +17,8 @@
 package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.SanityCheck
-import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.IntegerExt
+import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.IntegerExt
 
 internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13

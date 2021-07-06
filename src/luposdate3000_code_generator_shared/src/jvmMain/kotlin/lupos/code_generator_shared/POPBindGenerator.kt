@@ -19,7 +19,7 @@ package lupos.code_generator_shared
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.MyPrintWriter
 
 internal fun generatePOPBind(
     operatorGraph: POPBind,
@@ -155,9 +155,8 @@ internal fun generatePOPBind(
     for (variable in variablename) {
         clazz.footer.println("        var column$variable: LocalIterator? = null")
     }
-    var cnt = 0
     for (variable in variablename) {
-        var flag = if (inlineChild) {
+        val flag = if (inlineChild) {
             !child.getChildren()[0].getProvidedVariableNames().contains(variable)
         } else {
             variable == operatorGraph.name.name
@@ -168,7 +167,6 @@ internal fun generatePOPBind(
             clazz.footer.println("        column$variable = LocalIterator(query, child.columns[\"$variable\"]!!)")
         }
         clazz.footer.println("        outMap[\"$variable\"] = column$variable!!")
-        cnt++
     }
     for (variable in variablename) {
         for (variableInner in variablename) {

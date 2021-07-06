@@ -12,6 +12,11 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 
 apt install openjdk-8-jdk-headless unzip
 
+#if you want to use the spa-client
+{
+    apt install g++ python2 node firefox
+}
+
 #Define the folder, where to download everything else.
 dependencieshome=/opt
 
@@ -25,14 +30,15 @@ dependencieshome=/opt
     #patch the buildfile to make it executable as JS in Browsers
     sed 's/.*it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
     sed 's/if.*primaryDevelopment.*{/if (true) {/g' -i build.gradle.kts
+    sed 's/version.*=.*/version = "0.3.1-SNAPSHOT"/g' -i build.gradle.kts
     cd ..
     ./gradlew publishToMavenLocal
 }
 #kotlin
 {
     cd $dependencieshome
-    wget https://github.com/JetBrains/kotlin/releases/download/v1.4.32/kotlin-compiler-1.4.32.zip
-    unzip kotlin-compiler-1.4.32.zip
+    wget https://github.com/JetBrains/kotlin/releases/download/v1.5.10/kotlin-compiler-1.5.10.zip
+    unzip kotlin-compiler-1.5.10.zip
     cd kotlinc/bin/
     echo "export PATH=$PATH:$(pwd)" >> ~/.bashrc
 }
@@ -42,6 +48,7 @@ dependencieshome=/opt
     # the default settings use an precompiled-compiler from maven-repository such that this is not necessary
 
     apt install openjdk-16-jdk
+    # not every commit in that repository is compileable. If the HEAD-commit does not work try another commit or another branch
     git clone https://github.com/JetBrains/kotlin.git --depth=1
     cd kotlin
     echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc

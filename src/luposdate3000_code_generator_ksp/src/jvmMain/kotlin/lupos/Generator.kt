@@ -78,14 +78,14 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSReferenceElement(indention: String, node: KSReferenceElement) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         node.typeArguments.forEach {
             walkAll(myindent, it)
         }
     }
 
     private fun myWalkKSCallableReference(indention: String, node: KSCallableReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSReferenceElement(indention, node)
         if (node.receiverType != null) {
             walkAll(myindent, node.receiverType!!)
@@ -97,7 +97,7 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSClassDeclaration(indention: String, node: KSClassDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         packageName = node.packageName.asString()
         className = node.simpleName.asString()
         myWalkKSDeclaration(indention, node)
@@ -114,7 +114,7 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSClassifierReference(indention: String, node: KSClassifierReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSReferenceElement(indention, node)
         if (node.qualifier != null) {
             walkAll(myindent, node.qualifier!!)
@@ -127,7 +127,7 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSDeclarationContainer(indention: String, node: KSDeclarationContainer) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         node.declarations.forEach {
             walkAll(myindent, it)
         }
@@ -138,7 +138,7 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSAnnotation(indention: String, node: KSAnnotation) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         walkAll(myindent, node.annotationType)
         node.arguments.forEach {
             walkAll(myindent, it)
@@ -146,14 +146,14 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSAnnotated(indention: String, node: KSAnnotated) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         node.annotations.forEach {
             walkAll(myindent, it)
         }
     }
 
     private fun myWalkKSFunctionDeclaration(indention: String, node: KSFunctionDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSDeclaration(indention, node)
         myWalkKSDeclarationContainer(indention, node)
         if (node.extensionReceiver != null) {
@@ -168,12 +168,12 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSParenthesizedReference(indention: String, node: KSParenthesizedReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         walkAll(myindent, node.element)
     }
 
     private fun myWalkKSPropertyDeclaration(indention: String, node: KSPropertyDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         hasAnnotation = false
         node.annotations.forEach { annotation ->
             if (annotation.shortName.asString() == "CodeGenerationAnnotationKSP") {
@@ -203,13 +203,13 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSTypeAlias(indention: String, node: KSTypeAlias) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSDeclaration(indention, node)
         walkAll(myindent, node.type)
     }
 
     private fun myWalkKSTypeParameter(indention: String, node: KSTypeParameter) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSDeclaration(indention, node)
         node.bounds.forEach {
             walkAll(myindent, it)
@@ -220,7 +220,7 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSDeclaration(indention: String, node: KSDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSModifierListOwner(indention, node)
         myWalkKSAnnotated(indention, node)
         myWalkKSExpectActual(indention, node)
@@ -236,7 +236,7 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSTypeReference(indention: String, node: KSTypeReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSAnnotated(indention, node)
         myWalkKSModifierListOwner(indention, node)
         if (node.element != null) {
@@ -245,7 +245,7 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun myWalkKSTypeArgument(indention: String, node: KSTypeArgument) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myWalkKSAnnotated(indention, node)
         if (node.type != null) {
             walkAll(myindent, node.type!!)
@@ -260,46 +260,65 @@ public class SampleProcessor : SymbolProcessor {
     }
 
     private fun walkAll(indention: String, node: KSNode) {
-        val myindent = indention + "  "
-        if (false) {
-        } else if (node is KSCallableReference) {
-            myWalkKSCallableReference(myindent, node)
-        } else if (node is KSClassDeclaration) {
-            myWalkKSClassDeclaration(myindent, node)
-        } else if (node is KSClassifierReference) {
-            myWalkKSClassifierReference(myindent, node)
-        } else if (node is KSFile) {
-            myWalkKSFile(myindent, node)
-        } else if (node is KSFunctionDeclaration) {
-            myWalkKSFunctionDeclaration(myindent, node)
-        } else if (node is KSParenthesizedReference) {
-            myWalkKSParenthesizedReference(myindent, node)
-        } else if (node is KSPropertyDeclaration) {
-            myWalkKSPropertyDeclaration(myindent, node)
-        } else if (node is KSTypeAlias) {
-            myWalkKSTypeAlias(myindent, node)
-        } else if (node is KSTypeParameter) {
-            myWalkKSTypeParameter(myindent, node)
-        } else if (node is KSDeclaration) {
-            myWalkKSDeclaration(myindent, node)
-        } else if (node is KSPropertyAccessor) {
-            myWalkKSPropertyAccessor(myindent, node)
-        } else if (node is KSTypeReference) {
-            myWalkKSTypeReference(myindent, node)
-        } else if (node is KSTypeArgument) {
-            myWalkKSTypeArgument(myindent, node)
-        } else if (node is KSValueArgument) {
-            myWalkKSValueArgument(myindent, node)
-        } else if (node is KSModifierListOwner) {
-            myWalkKSModifierListOwner(myindent, node)
-        } else if (node is KSAnnotated) {
-            myWalkKSAnnotated(myindent, node)
-        } else if (node is KSAnnotation) {
-            myWalkKSAnnotation(myindent, node)
-        } else if (node is KSDeclarationContainer) {
-            myWalkKSDeclarationContainer(myindent, node)
-        } else if (node is KSDynamicReference) {
-            myWalkKSDynamicReference(myindent, node)
+        val myindent = "$indention  "
+        when (node) {
+            is KSCallableReference -> {
+                myWalkKSCallableReference(myindent, node)
+            }
+            is KSClassDeclaration -> {
+                myWalkKSClassDeclaration(myindent, node)
+            }
+            is KSClassifierReference -> {
+                myWalkKSClassifierReference(myindent, node)
+            }
+            is KSFile -> {
+                myWalkKSFile(myindent, node)
+            }
+            is KSFunctionDeclaration -> {
+                myWalkKSFunctionDeclaration(myindent, node)
+            }
+            is KSParenthesizedReference -> {
+                myWalkKSParenthesizedReference(myindent, node)
+            }
+            is KSPropertyDeclaration -> {
+                myWalkKSPropertyDeclaration(myindent, node)
+            }
+            is KSTypeAlias -> {
+                myWalkKSTypeAlias(myindent, node)
+            }
+            is KSTypeParameter -> {
+                myWalkKSTypeParameter(myindent, node)
+            }
+            is KSDeclaration -> {
+                myWalkKSDeclaration(myindent, node)
+            }
+            is KSPropertyAccessor -> {
+                myWalkKSPropertyAccessor(myindent, node)
+            }
+            is KSTypeReference -> {
+                myWalkKSTypeReference(myindent, node)
+            }
+            is KSTypeArgument -> {
+                myWalkKSTypeArgument(myindent, node)
+            }
+            is KSValueArgument -> {
+                myWalkKSValueArgument(myindent, node)
+            }
+            is KSModifierListOwner -> {
+                myWalkKSModifierListOwner(myindent, node)
+            }
+            is KSAnnotated -> {
+                myWalkKSAnnotated(myindent, node)
+            }
+            is KSAnnotation -> {
+                myWalkKSAnnotation(myindent, node)
+            }
+            is KSDeclarationContainer -> {
+                myWalkKSDeclarationContainer(myindent, node)
+            }
+            is KSDynamicReference -> {
+                myWalkKSDynamicReference(myindent, node)
+            }
         }
     }
 }
@@ -307,7 +326,7 @@ public class SampleProcessor : SymbolProcessor {
 internal object MyVerboseLogger {
 
     private fun myPrintKSReferenceElement(indention: String, node: KSReferenceElement) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         mylogger.println("LuposdateCodeGen ::$indention typeArguments")
         node.typeArguments.forEach {
             printAll(myindent, it)
@@ -315,7 +334,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSCallableReference(indention: String, node: KSCallableReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSReferenceElement(indention, node)
         if (node.receiverType != null) {
             mylogger.println("LuposdateCodeGen ::$indention receiverType")
@@ -330,7 +349,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSClassDeclaration(indention: String, node: KSClassDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSDeclaration(indention, node)
         myPrintKSDeclarationContainer(indention, node)
         mylogger.println("LuposdateCodeGen ::$indention classKind ${node.classKind}")
@@ -350,7 +369,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSClassifierReference(indention: String, node: KSClassifierReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSReferenceElement(indention, node)
         if (node.qualifier != null) {
             mylogger.println("LuposdateCodeGen ::$indention qualifier")
@@ -367,7 +386,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSDeclarationContainer(indention: String, node: KSDeclarationContainer) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         mylogger.println("LuposdateCodeGen ::$indention declarations")
         node.declarations.forEach {
             printAll(myindent, it)
@@ -379,7 +398,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSAnnotation(indention: String, node: KSAnnotation) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         mylogger.println("LuposdateCodeGen ::$indention annotationType")
         printAll(myindent, node.annotationType)
         mylogger.println("LuposdateCodeGen ::$indention arguments")
@@ -391,7 +410,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSAnnotated(indention: String, node: KSAnnotated) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         mylogger.println("LuposdateCodeGen ::$indention annotations")
         node.annotations.forEach {
             printAll(myindent, it)
@@ -399,7 +418,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSFunctionDeclaration(indention: String, node: KSFunctionDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSDeclaration(indention, node)
         myPrintKSDeclarationContainer(indention, node)
         mylogger.println("LuposdateCodeGen ::$indention functionKind ${node.functionKind}")
@@ -419,13 +438,13 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSParenthesizedReference(indention: String, node: KSParenthesizedReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         mylogger.println("LuposdateCodeGen ::$indention element")
         printAll(myindent, node.element)
     }
 
     private fun myPrintKSPropertyDeclaration(indention: String, node: KSPropertyDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSDeclaration(indention, node)
         if (node.getter != null) {
             mylogger.println("LuposdateCodeGen ::$indention getter")
@@ -445,7 +464,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSTypeAlias(indention: String, node: KSTypeAlias) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSDeclaration(indention, node)
         mylogger.println("LuposdateCodeGen ::$indention name ${node.name}")
         mylogger.println("LuposdateCodeGen ::$indention type")
@@ -453,7 +472,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSTypeParameter(indention: String, node: KSTypeParameter) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSDeclaration(indention, node)
         mylogger.println("LuposdateCodeGen ::$indention name ${node.name}")
         mylogger.println("LuposdateCodeGen ::$indention variance ${node.variance}")
@@ -470,7 +489,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSDeclaration(indention: String, node: KSDeclaration) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSModifierListOwner(indention, node)
         myPrintKSAnnotated(indention, node)
         myPrintKSExpectActual(indention, node)
@@ -491,7 +510,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSTypeReference(indention: String, node: KSTypeReference) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSAnnotated(indention, node)
         myPrintKSModifierListOwner(indention, node)
         if (node.element != null) {
@@ -501,7 +520,7 @@ internal object MyVerboseLogger {
     }
 
     private fun myPrintKSTypeArgument(indention: String, node: KSTypeArgument) {
-        val myindent = indention + "  "
+        val myindent = "$indention  "
         myPrintKSAnnotated(indention, node)
         mylogger.println("LuposdateCodeGen ::$indention variance ${node.variance}")
         if (node.type != null) {
@@ -521,66 +540,85 @@ internal object MyVerboseLogger {
         mylogger.println("LuposdateCodeGen ::$indention modifiers ${node.modifiers}")
     }
 
-    internal fun printAll(indention: String, node: KSNode) {
-        val myindent = indention + "  "
-        if (false) {
-        } else if (node is KSCallableReference) {
-            mylogger.println("LuposdateCodeGen ::$indention KSCallableReference")
-            myPrintKSCallableReference(myindent, node)
-        } else if (node is KSClassDeclaration) {
-            mylogger.println("LuposdateCodeGen ::$indention KSClassDeclaration")
-            myPrintKSClassDeclaration(myindent, node)
-        } else if (node is KSClassifierReference) {
-            mylogger.println("LuposdateCodeGen ::$indention KSClassifierReference")
-            myPrintKSClassifierReference(myindent, node)
-        } else if (node is KSFile) {
-            mylogger.println("LuposdateCodeGen ::$indention KSFile")
-            myPrintKSFile(myindent, node)
-        } else if (node is KSFunctionDeclaration) {
-            mylogger.println("LuposdateCodeGen ::$indention KSFunctionDeclaration")
-            myPrintKSFunctionDeclaration(myindent, node)
-        } else if (node is KSParenthesizedReference) {
-            mylogger.println("LuposdateCodeGen ::$indention KSParenthesizedReference")
-            myPrintKSParenthesizedReference(myindent, node)
-        } else if (node is KSPropertyDeclaration) {
-            mylogger.println("LuposdateCodeGen ::$indention KSPropertyDeclaration")
-            myPrintKSPropertyDeclaration(myindent, node)
-        } else if (node is KSTypeAlias) {
-            mylogger.println("LuposdateCodeGen ::$indention KSTypeAlias")
-            myPrintKSTypeAlias(myindent, node)
-        } else if (node is KSTypeParameter) {
-            mylogger.println("LuposdateCodeGen ::$indention KSTypeParameter")
-            myPrintKSTypeParameter(myindent, node)
-        } else if (node is KSDeclaration) {
-            mylogger.println("LuposdateCodeGen ::$indention KSDeclaration")
-            myPrintKSDeclaration(myindent, node)
-        } else if (node is KSPropertyAccessor) {
-            mylogger.println("LuposdateCodeGen ::$indention KSPropertyAccessor")
-            myPrintKSPropertyAccessor(myindent, node)
-        } else if (node is KSTypeReference) {
-            mylogger.println("LuposdateCodeGen ::$indention KSTypeReference")
-            myPrintKSTypeReference(myindent, node)
-        } else if (node is KSTypeArgument) {
-            mylogger.println("LuposdateCodeGen ::$indention KSTypeArgument")
-            myPrintKSTypeArgument(myindent, node)
-        } else if (node is KSValueArgument) {
-            mylogger.println("LuposdateCodeGen ::$indention KSValueArgument")
-            myPrintKSValueArgument(myindent, node)
-        } else if (node is KSModifierListOwner) {
-            mylogger.println("LuposdateCodeGen ::$indention KSModifierListOwner")
-            myPrintKSModifierListOwner(myindent, node)
-        } else if (node is KSAnnotated) {
-            mylogger.println("LuposdateCodeGen ::$indention KSAnnotated")
-            myPrintKSAnnotated(myindent, node)
-        } else if (node is KSAnnotation) {
-            mylogger.println("LuposdateCodeGen ::$indention KSAnnotation")
-            myPrintKSAnnotation(myindent, node)
-        } else if (node is KSDeclarationContainer) {
-            mylogger.println("LuposdateCodeGen ::$indention KSDeclarationContainer")
-            myPrintKSDeclarationContainer(myindent, node)
-        } else if (node is KSDynamicReference) {
-            mylogger.println("LuposdateCodeGen ::$indention KSDynamicReference")
-            myPrintKSDynamicReference(myindent, node)
+    private fun printAll(indention: String, node: KSNode) {
+        val myindent = "$indention  "
+        when (node) {
+            is KSCallableReference -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSCallableReference")
+                myPrintKSCallableReference(myindent, node)
+            }
+            is KSClassDeclaration -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSClassDeclaration")
+                myPrintKSClassDeclaration(myindent, node)
+            }
+            is KSClassifierReference -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSClassifierReference")
+                myPrintKSClassifierReference(myindent, node)
+            }
+            is KSFile -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSFile")
+                myPrintKSFile(myindent, node)
+            }
+            is KSFunctionDeclaration -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSFunctionDeclaration")
+                myPrintKSFunctionDeclaration(myindent, node)
+            }
+            is KSParenthesizedReference -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSParenthesizedReference")
+                myPrintKSParenthesizedReference(myindent, node)
+            }
+            is KSPropertyDeclaration -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSPropertyDeclaration")
+                myPrintKSPropertyDeclaration(myindent, node)
+            }
+            is KSTypeAlias -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSTypeAlias")
+                myPrintKSTypeAlias(myindent, node)
+            }
+            is KSTypeParameter -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSTypeParameter")
+                myPrintKSTypeParameter(myindent, node)
+            }
+            is KSDeclaration -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSDeclaration")
+                myPrintKSDeclaration(myindent, node)
+            }
+            is KSPropertyAccessor -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSPropertyAccessor")
+                myPrintKSPropertyAccessor(myindent, node)
+            }
+            is KSTypeReference -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSTypeReference")
+                myPrintKSTypeReference(myindent, node)
+            }
+            is KSTypeArgument -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSTypeArgument")
+                myPrintKSTypeArgument(myindent, node)
+            }
+            is KSValueArgument -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSValueArgument")
+                myPrintKSValueArgument(myindent, node)
+            }
+            is KSModifierListOwner -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSModifierListOwner")
+                myPrintKSModifierListOwner(myindent, node)
+            }
+            is KSAnnotated -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSAnnotated")
+                myPrintKSAnnotated(myindent, node)
+            }
+            is KSAnnotation -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSAnnotation")
+                myPrintKSAnnotation(myindent, node)
+            }
+            is KSDeclarationContainer -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSDeclarationContainer")
+                myPrintKSDeclarationContainer(myindent, node)
+            }
+            is KSDynamicReference -> {
+                mylogger.println("LuposdateCodeGen ::$indention KSDynamicReference")
+                myPrintKSDynamicReference(myindent, node)
+            }
         }
     }
 }

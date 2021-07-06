@@ -17,7 +17,7 @@ restart gitbash, if it is already open
 
 # install kotlin
 
-Download (kotlin-compiler-1.4.32.zip)[https://github.com/JetBrains/kotlin/releases/download/v1.4.32/kotlin-compiler-1.4.32.zip]
+Download (kotlin-compiler-1.4.32.zip)[https://github.com/JetBrains/kotlin/releases/download/v1.5.10/kotlin-compiler-1.5.10.zip]
 Extract the compiler to its final destination, for Example somewhere in the Programs-Folder
 Add the compiler to the Path.
 The compiler-path looks something like "C:/.../kotlinc/bin"
@@ -56,8 +56,9 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
     #patch the buildfile to make it executable as JS in Browsers
     sed 's/.*it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
     sed 's/if.*primaryDevelopment.*{/if (true) {/g' -i build.gradle.kts
+    sed 's/version.*=.*/version = "0.3.1-SNAPSHOT"/g' -i build.gradle.kts
     cd ..
-    gradle publishToMavenLocal
+    ./gradlew publishToMavenLocal
 }
 ```
 
@@ -71,3 +72,20 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
   point this to the base folder, where you have downloaded your real-world datasets. This is only required, if you are actually using those datasets.
 * "LUPOS_RAM"
   specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too. This is only used in the commanline startup of the database.
+
+
+#dependencies for the spa-client
+https://nodejs.org/dist/v14.17.0/node-v14.17.0-x64.msi
+https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi
+
+Add this to your path (modify them as needed)
+"/c/Python27"
+This directory must contain a "python2.exe". If there is no python2.exe, than copy paste the "python.exe" and rename it.
+
+copy paste 
+C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current
+to
+C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0
+because of an bug in node-gyp, which uses the wrong path
+
+

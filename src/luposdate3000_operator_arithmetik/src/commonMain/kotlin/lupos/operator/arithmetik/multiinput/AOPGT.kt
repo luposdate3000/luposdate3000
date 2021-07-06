@@ -20,7 +20,6 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -28,25 +27,6 @@ import lupos.shared.operator.iterator.IteratorBundle
 public class AOPGT public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPGTID, "AOPGT", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " > " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPGT && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        val childA = (children[0] as AOPBase).evaluate(row)
-        val childB = (children[1] as AOPBase).evaluate(row)
-        return {
-            var res: ValueDefinition = DictionaryExt.errorValue2
-            val a = childA()
-            val b = childB()
-            try {
-                res = if (a > b) {
-                    DictionaryExt.booleanTrueValue2
-                } else {
-                    DictionaryExt.booleanFalseValue2
-                }
-            } catch (e: Throwable) {
-                e.printStackTrace()
-            }
-            res
-        }
-    }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val childA = (children[0] as AOPBase).evaluate(row)

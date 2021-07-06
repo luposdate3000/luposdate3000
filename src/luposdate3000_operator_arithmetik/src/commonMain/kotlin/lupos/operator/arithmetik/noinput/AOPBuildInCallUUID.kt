@@ -17,7 +17,6 @@
 package lupos.operator.arithmetik.noinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.shared.Crypto
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.ValueDefinition
@@ -28,9 +27,28 @@ import lupos.shared.operator.iterator.IteratorBundle
 public class AOPBuildInCallUUID public constructor(query: IQuery) : AOPBase(query, EOperatorIDExt.AOPBuildInCallUUIDID, "AOPBuildInCallUUID", arrayOf()) {
     override fun toSparql(): String = "UUID()"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallUUID
+    private val byteToHexMap = Array(256) {
+        if (it == 0) {
+            "00"
+        } else {
+            it.toString(16).padStart(2, '0')
+        }
+    }
+
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            ValueIri("urn:uuid:" + Crypto.uuid())
+            var s = StringBuilder()
+            s.append("00000000-0000-0000-0000-0000")
+            val uuid = query.getDictionary().createNewUUID()
+            val a = (uuid shr 24) and 0xff
+            val b = (uuid shr 16) and 0xff
+            val c = (uuid shr 8) and 0xff
+            val d = uuid and 0xff
+            s.append(byteToHexMap[(uuid shr 24) and 0xff])
+            s.append(byteToHexMap[(uuid shr 16) and 0xff])
+            s.append(byteToHexMap[(uuid shr 8) and 0xff])
+            s.append(byteToHexMap[uuid and 0xff])
+            ValueIri("urn:uuid:" + s.toString())
         }
     }
 

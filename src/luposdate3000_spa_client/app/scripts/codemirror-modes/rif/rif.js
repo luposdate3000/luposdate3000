@@ -1,17 +1,17 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
-(function (mod) {
+(function(mod) {
     if (typeof exports == "object" && typeof module == "object") // CommonJS
         mod(require("../../../bower_components/codemirror/lib/codemirror"));
     else if (typeof define == "function" && define.amd) // AMD
         define(["../../../bower_components/codemirror/lib/codemirror"], mod);
     else // Plain browser env
         mod(CodeMirror);
-})(function (CodeMirror) {
+})(function(CodeMirror) {
     "use strict";
 
-    CodeMirror.defineMode("rif", function (config) {
+    CodeMirror.defineMode("rif", function(config) {
         var indentUnit = config.indentUnit;
         var curPunc;
 
@@ -20,7 +20,8 @@
         }
 
         var ops = wordRegexp(["str", "lang", "langmatches", "datatype", "bound", "sameterm", "isiri", "isuri",
-            "isblank", "isliteral", "a"]);
+            "isblank", "isliteral", "a"
+        ]);
 
         var keywords = wordRegexp(["document", "prefix", "group", "forall", "and", "exists", "external", "or", "##", "#"]);
 
@@ -37,7 +38,7 @@
             } else if (ch == "\"" || ch == "'") {
                 state.tokenize = tokenLiteral(ch);
                 return state.tokenize(stream, state);
-            } else if (ch == "(" && stream.eat("*")){
+            } else if (ch == "(" && stream.eat("*")) {
                 if (stream.match(/.*\*\)/)) {
                     return "comment";
                 }
@@ -50,9 +51,9 @@
                 return "keyword"
             } else if (ch == "-" && stream.eat(">")) {
                 return "keyword"
-            }  else if (ch == "^" && stream.eat("^")) {
+            } else if (ch == "^" && stream.eat("^")) {
                 return "keyword"
-            }else {
+            } else {
                 stream.eatWhile(/[_\w\d]/);
                 if (stream.eat(":")) {
                     stream.eatWhile(/[\w\d_\-]/);
@@ -69,8 +70,9 @@
         }
 
         function tokenLiteral(quote) {
-            return function (stream, state) {
-                var escaped = false, ch;
+            return function(stream, state) {
+                var escaped = false,
+                    ch;
                 while ((ch = stream.next()) != null) {
                     if (ch == quote && !escaped) {
                         state.tokenize = tokenBase;
@@ -83,7 +85,12 @@
         }
 
         function pushContext(state, type, col) {
-            state.context = {prev: state.context, indent: state.indent, col: col, type: type};
+            state.context = {
+                prev: state.context,
+                indent: state.indent,
+                col: col,
+                type: type
+            };
         }
 
         function popContext(state) {
@@ -92,7 +99,7 @@
         }
 
         return {
-            startState: function () {
+            startState: function() {
                 return {
                     tokenize: tokenBase,
                     context: null,
@@ -101,7 +108,7 @@
                 };
             },
 
-            token: function (stream, state) {
+            token: function(stream, state) {
                 if (stream.sol()) {
                     if (state.context && state.context.align == null) state.context.align = false;
                     state.indent = stream.indentation();
@@ -119,8 +126,7 @@
                 else if (/[\]\}\)]/.test(curPunc)) {
                     while (state.context && state.context.type == "pattern") popContext(state);
                     if (state.context && curPunc == state.context.type) popContext(state);
-                }
-                else if (curPunc == "." && state.context && state.context.type == "pattern") popContext(state);
+                } else if (curPunc == "." && state.context && state.context.type == "pattern") popContext(state);
                 else if (/atom|string|variable/.test(style) && state.context) {
                     if (/[\}\]]/.test(state.context.type))
                         pushContext(state, "pattern", stream.column());
@@ -133,7 +139,7 @@
                 return style;
             },
 
-            indent: function (state, textAfter) {
+            indent: function(state, textAfter) {
                 var firstChar = textAfter && textAfter.charAt(0);
                 var context = state.context;
                 if (/[\]\}]/.test(firstChar))

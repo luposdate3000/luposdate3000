@@ -20,15 +20,12 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
-import lupos.shared.ValueDefinition
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPVariable
-import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class AOPVariable public constructor(query: IQuery, @JvmField public var name: String) : AOPBase(query, EOperatorIDExt.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {
@@ -39,22 +36,6 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("name", name)
     override fun cloneOP(): IOPBase = AOPVariable(query, this.getName())
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        val buffer = ByteArrayWrapper()
-        val tmp = row.columns[name]
-        return if (tmp == null) {
-            {
-                DictionaryExt.undefValue2
-            }
-        } else {
-            SanityCheck.check { tmp is ColumnIteratorQueue }
-            val column = tmp as ColumnIteratorQueue
-            {
-                query.getDictionary().getValue(buffer, column.tmp)
-                DictionaryHelper.byteArrayToValueDefinition(buffer)
-            }
-        }
-    }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns[name]

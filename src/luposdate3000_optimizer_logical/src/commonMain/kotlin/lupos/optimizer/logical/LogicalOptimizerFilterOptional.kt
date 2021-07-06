@@ -96,7 +96,8 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
                                 AOPBuildInCallBOUND(
                                     query,
                                     AOPVariable(
-                                        query, optionalIndicator
+                                        query,
+                                        optionalIndicator
                                     )
                                 ),
                                 AOPBuildInCallCOALESCE(
@@ -112,7 +113,8 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
                                 AOPBuildInCallBOUND(
                                     query,
                                     AOPVariable(
-                                        query, optionalIndicator
+                                        query,
+                                        optionalIndicator
                                     )
                                 )
                             )

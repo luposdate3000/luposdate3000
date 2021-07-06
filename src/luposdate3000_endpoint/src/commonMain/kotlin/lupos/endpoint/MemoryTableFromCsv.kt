@@ -21,7 +21,7 @@ import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 
 public class MemoryTableFromCsv : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
@@ -31,9 +31,9 @@ public class MemoryTableFromCsv : MemoryTableParser {
         for (variableName in columns) {
             variables.add(variableName.substring(1, variableName.length))
         }
-        var res = MemoryTable(variables.toTypedArray())
+        val res = MemoryTable(variables.toTypedArray())
         res.query = query
-        var dictionary = res.query!!.getDictionary()
+        val dictionary = res.query!!.getDictionary()
         var firstLine = true
         val buffer = ByteArrayWrapper()
         for (line in lines) {

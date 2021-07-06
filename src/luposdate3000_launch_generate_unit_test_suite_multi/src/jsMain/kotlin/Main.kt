@@ -18,7 +18,6 @@ import lupos.launch.generate_unit_test_suite_multi.mainFunc
 import kotlin.js.JsName
 
 @JsName("main")
-public fun main(args: Array<String>) {
-    var flag = false
+public fun main() {
     mainFunc()
 }

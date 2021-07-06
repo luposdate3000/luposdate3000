@@ -17,7 +17,7 @@
 package lupos.shared
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.DictionaryHelper
+import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
@@ -45,23 +45,26 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
     }
 
     override fun equals(other: Any?): Boolean {
-        return equalsVerbose(other, false, false)
+        return equalsVerbose(other, false, false, null)
     }
 
-    public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean): Boolean {
+    public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean, out: IMyOutputStream?): Boolean {
         if (other !is MemoryTable) {
+            if (verbose) {
+                out!!.println("other is not a MemoryTable")
+            }
             return false
         }
         if (columns.size != other.columns.size) {
             if (verbose) {
-                println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+                out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
             }
             return false
         }
         for (i in 0 until columns.size) {
             if (columns[i] != other.columns[i]) {
                 if (verbose) {
-                    println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+                    out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
                 }
                 return false
             }
@@ -71,7 +74,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 return true
             } else {
                 if (verbose) {
-                    println("boolean result differ : $booleanResult vs ${other.booleanResult}")
+                    out!!.println("boolean result differ : $booleanResult vs ${other.booleanResult}")
                 }
                 return false
             }
@@ -102,13 +105,15 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
             }
         }
+        var result = true
         if (ignoreOrder) {
             var i = 0
             while (i < data.size || i < other.data.size) {
                 if (i < data.size) {
                     if (flags1[i] == -1) {
+                        result = false
                         if (verbose) {
-                            println(
+                            out!!.println(
                                 "left has ${data[i].map { it }} : ${
                                 data[i].map { it ->
                                     dict1.getValue(buffer1, it)
@@ -121,8 +126,9 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
                 if (i < other.data.size) {
                     if (flags2[i] == -1) {
+                        result = false
                         if (verbose) {
-                            println(
+                            out!!.println(
                                 "right has ${other.data[i].map { it }} : ${
                                 other.data[i].map { it ->
                                     dict2.getValue(buffer2, it)
@@ -140,8 +146,9 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
             while (i < data.size || i < other.data.size) {
                 if (i < data.size) {
                     if (flags1[i] != i) {
+                        result = false
                         if (verbose) {
-                            println(
+                            out!!.println(
                                 "left has ${data[i].map { it }} : ${
                                 data[i].map { it ->
                                     dict1.getValue(buffer1, it)
@@ -154,8 +161,9 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
                 if (i < other.data.size) {
                     if (flags2[i] != i) {
+                        result = false
                         if (verbose) {
-                            println(
+                            out!!.println(
                                 "right has ${other.data[i].map { it }} : ${
                                 other.data[i].map { it ->
                                     dict2.getValue(buffer2, it)
@@ -169,8 +177,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 i++
             }
         }
-
-        return true
+        return result
     }
 
     public companion object {

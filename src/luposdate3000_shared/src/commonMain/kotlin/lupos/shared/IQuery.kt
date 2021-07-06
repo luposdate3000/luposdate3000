@@ -20,6 +20,7 @@ import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 
 public interface IQuery {
+    public fun getInstance(): Luposdate3000Instance
     public fun getDictionary(): IDictionary
     public fun checkVariableExistence(): Boolean
     public fun getWorkingDirectory(): String
@@ -27,7 +28,13 @@ public interface IQuery {
     public fun setCommited()
     public fun getTransactionID(): Long
     public fun getDistributionKey(): Map<String, Int>
+    public fun getDependenciesMapTopDown(): MutableMap<String, Set<String>>
+
     public fun getDictionaryUrl(): String?
     public fun setDictionaryUrl(url: String)
     public fun setDictionaryServer(dict: IDictionary)
+    public fun getRoot(): IOPBase
+
+    public fun getOperatorgraphParts(): MutableMap<String, XMLElement>
+    public fun getOperatorgraphPartsToHostMap(): MutableMap<String, String>
 }

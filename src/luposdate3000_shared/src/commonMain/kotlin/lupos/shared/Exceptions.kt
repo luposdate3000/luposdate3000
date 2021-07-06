@@ -29,7 +29,7 @@ public class IteratorBundleRowModeNotImplementedException public constructor() :
 public class SparqlFeatureNotImplementedException public constructor(name: String) : NotImplementedException("SparqlFeatureNotImplementedException", "Sparql feature '$name' not implemented.")
 public class EvaluateNotImplementedException public constructor(classname: String) : NotImplementedException("EvaluateNotImplementedException", "Evaluate not implemented in '$classname'.")
 public class ToSparqlNotImplementedException public constructor(classname: String) : NotImplementedException("ToSparqlNotImplementedException", "toSparql not implemented in '$classname'.")
-public class GraphVariablesNotImplementedException public constructor(classname: String) : NotImplementedException("GraphVariablesNotImplementedException", "variables at graph-name position are currently not implemented")
+public class GraphVariablesNotImplementedException public constructor() : NotImplementedException("GraphVariablesNotImplementedException", "variables at graph-name position are currently not implemented")
 public class UnknownManifestException public constructor(classname: String, msg: String) : NotImplementedException("UnknownManifestException", "$classname :: $msg")
 public class DirectoryCompareNotImplementedException public constructor() : NotImplementedException("DirectoryCompareNotImplementedException", "Comparing directories is not implemented")
 public class GraphVarHistogramsNotImplementedException public constructor() : NotImplementedException("GraphVarHistogramsNotImplementedException", "histograms for triples using graph variable not implemented.")
@@ -87,6 +87,7 @@ public class EmptyResultException public constructor() : EvaluationException("Em
 
 // known bugs --->>>
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")
+
 // used to indicate, that intentionally every exception is caught here
 public typealias DontCareWhichException = Throwable
 

@@ -23,18 +23,19 @@ import lupos.shared.EIndexPatternHelper
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
-import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionPartitionedByKey(
     idx: EIndexPattern,
     @JvmField internal val partitionCount: Int,
-) : TripleStoreIndexDescription() {
+    instance: Luposdate3000Instance,
+) : TripleStoreIndexDescription(instance) {
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal val key_size: Int
@@ -155,7 +156,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
 
     internal override fun assignHosts() {
         for (i in 0 until partitionCount) {
-            val tmp = (tripleStoreManager as TripleStoreManagerImpl).getNextHostAndKey()
+            val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

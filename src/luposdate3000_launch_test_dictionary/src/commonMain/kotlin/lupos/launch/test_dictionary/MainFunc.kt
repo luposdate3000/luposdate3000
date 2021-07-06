@@ -22,15 +22,16 @@ import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.shared.AflCore
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
+import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.max
@@ -38,7 +39,6 @@ import kotlin.math.max
 @JvmField
 internal val verbose = false
 
-// @JvmField internal val maxSize = 16
 @JvmField
 internal val maxSize = 16384
 
@@ -47,22 +47,30 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("dictionary.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    if (!SanityCheck.enabled) {
+        return
+    }
     for (isLocal in listOf(true, false)) {
         for (dictType in 0 until EDictionaryTypeExt.values_size) {
             if (isLocal && dictType == EDictionaryTypeExt.KV) {
                 continue
             }
+            var instance = Luposdate3000Instance()
+            instance.allowInitFromDisk = false
             resetRandom()
             BufferManagerExt.allowInitFromDisk = false
-            var bufferManager = BufferManager()
+            instance.bufferManager = BufferManager(instance)
             if (isLocal) {
-                nodeGlobalDictionary = object : ADictionary() {
+                instance.nodeGlobalDictionary?.close()
+                instance.nodeGlobalDictionary = object : ADictionary(instance) {
+                    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+                    override fun createNewUUID(): Int = TODO()
                     override fun close() {}
                     override fun delete() {}
-                    override fun createNewBNode(): Int = throw Exception("not implemented")
-                    override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
-                    override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
+                    override fun createNewBNode(): Int = TODO()
+                    override fun createValue(buffer: ByteArrayWrapper): Int = TODO()
+                    override fun getValue(buffer: ByteArrayWrapper, value: Int) = TODO()
                     override fun hasValue(buffer: ByteArrayWrapper): Int? = null
                     override fun isInmemoryOnly(): Boolean = true
                 }
@@ -72,11 +80,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:74")
+                            rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:74")
                         }
-                        return DictionaryFactory.createDictionary(dictType, false, bufferManager, rootPage, initFromRootPage)
+                        return DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
-                    else -> return DictionaryFactory.createDictionary(dictType, isLocal, bufferManager, -1, false)
+                    else -> return DictionaryFactory.createDictionary(dictType, isLocal, instance.bufferManager!!, -1, false, instance)
                 }
             }
             if (verbose) {
@@ -305,7 +313,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             }
             if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
                 dict.close()
-                if (bufferManager.getNumberOfReferencedPages() != 0) {
+                if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
                     throw Exception("")
                 }
                 dict = createDict(true)
@@ -314,13 +322,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 testGetValueOk(values[v], k)
             }
             dict.delete()
-            if (bufferManager.getNumberOfReferencedPages() != 0) {
+            if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
                 throw Exception("")
             }
-            if (bufferManager.getNumberOfAllocatedPages() != 0) {
+            if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
                 throw Exception("")
             }
-            bufferManager.close()
+            instance.bufferManager!!.close()
         }
     }
 }

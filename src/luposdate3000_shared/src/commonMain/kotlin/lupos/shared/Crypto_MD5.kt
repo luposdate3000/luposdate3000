@@ -25,7 +25,7 @@ public object Crypto_MD5 {
         var tmp = compute(value.encodeToByteArray())
         val sb = StringBuilder()
         for (b in tmp) {
-            sb.append(lookupTable[b.toInt()])
+            sb.append(lookupTable[b.toInt() and 0xff])
         }
         return sb.toString()
     }

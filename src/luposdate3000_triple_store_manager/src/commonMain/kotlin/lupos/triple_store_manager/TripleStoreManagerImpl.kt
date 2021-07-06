@@ -16,17 +16,15 @@
  */
 package lupos.triple_store_manager
 
-import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
-import lupos.shared.BUFFER_HOME
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
-import lupos.shared.EPartitionMode
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IBufferManager
 import lupos.shared.IMyInputStream
 import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescriptionFactory
@@ -34,15 +32,14 @@ import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.LuposGraphName
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
-import lupos.shared.communicationHandler
-import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.File
-import lupos.shared_inline.Platform
+import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.File
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.min
@@ -55,10 +52,10 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal var localhost: LuposHostname
 
     @JvmField
-    internal val partitionMode: EPartitionMode
+    internal var instance: Luposdate3000Instance
 
     @JvmField
-    internal var bufferManager: BufferManager = BufferManagerExt.getBuffermanager()
+    internal var bufferManager: IBufferManager
 
     @JvmField
     internal val localStores_ = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
@@ -77,7 +74,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun localStoresGet() = localStores_
+    internal inline fun localStoresGet(): MutableMap<LuposStoreKey, TripleStoreIndex> {
+        return localStores_
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun metadataGet() = metadata_
@@ -144,7 +143,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             val buf = ByteArray(l2)
             buffer.copyInto(buf, 0, off, off + l2)
             off += l2
-            val store = TripleStoreIndexIDTriple(pageid, true)
+            val store = TripleStoreIndexIDTriple(pageid, true, instance)
             val key = buf.decodeToString()
             localStores_[key] = store
         }
@@ -159,7 +158,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             val name = buf.decodeToString()
             val l5 = ByteArrayHelper.readInt4(buffer, off)
             off += 4
-            val description = TripleStoreDescriptionFactory()
+            val description = TripleStoreDescriptionFactory(instance)
             for (j in 0 until l5) {
                 val l6 = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
@@ -168,7 +167,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 off += l6
                 description.addIndex { it.initFromByteArray(buf2) }
             }
-            metadata_[name] = description.build()
+            metadata_[name] = description.build(instance)
         }
     }
 
@@ -178,7 +177,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun localStoresAdd(key: LuposStoreKey, pageid: Int, tripleStore: TripleStoreIndex) {
+    private inline fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
         SanityCheck.check { localStores_[key] == null }
         localStores_[key] = tripleStore
     }
@@ -202,22 +201,19 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         metadata_.remove(name)
     }
 
-    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname) : super() {
+    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, instance: Luposdate3000Instance) : super() {
+        this.instance = instance
+        this.bufferManager = instance.bufferManager!!
         this.hostnames = hostnames
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
-        val t = Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!
-        val tmp = EPartitionModeExt.names.indexOf(t)
-        if (tmp < 0) {
-            throw Exception("invalid parameter '$t' for 'LUPOS_PARTITION_MODE'. Choose one of ${EPartitionModeExt.names.map { it }}")
-        }
-        partitionMode = tmp
+        println("allocation TripleStoreManagerImpl on $localhost")
     }
 
     public override fun initialize() {
-        val file = File(BUFFER_HOME + globalManagerRootFileName)
+        val file = File(instance.BUFFER_HOME + globalManagerRootFileName)
         var pageid = -1
-        if (BufferManagerExt.allowInitFromDisk && file.exists()) {
+        if (BufferManagerExt.allowInitFromDisk && instance.allowInitFromDisk && file.exists()) {
             file.withInputStream {
                 pageid = it.readInt()
             }
@@ -233,7 +229,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
-    private fun initFromPageID() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun initFromPageID() {
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:237", pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -256,7 +253,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         initFromByteArray(buffer)
     }
 
-    private fun deleteAllPagesExceptRootID() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun deleteAllPagesExceptRootID() {
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:260", pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -275,7 +273,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
-    private fun writeToPageID() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun writeToPageID() {
         val buffer = toByteArray()
         var pageid = rootPageID
         var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:280", pageid)
@@ -298,7 +297,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:297", pageid)
     }
 
-    public fun initialize(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+    public fun initialize(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         resetDefaultTripleStoreLayout()
@@ -327,7 +326,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun getLocalhost(): LuposHostname = localhost
-    public override fun getPartitionMode(): EPartitionMode = partitionMode
     public override fun debugAllLocalStoreContent() {
         File("${localhost.replace(":", "_")}.metadata").withOutputStream { out ->
             for ((k, v) in metadata_) {
@@ -341,7 +339,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
         for ((k, v) in localStores_) {
             File("${localhost.replace(":", "_")}_$k.store").withOutputStream { out ->
-                val query = Query()
+                val query = Query(instance)
                 val iter = v.getIterator(query, IntArray(0), listOf("s", "p", "o"))
                 val rowiter = iter.rows
                 var off = rowiter.next()
@@ -362,8 +360,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun resetDefaultTripleStoreLayout() {
-        if (partitionMode == EPartitionModeExt.None) {
-            defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
+            defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                 .addIndex { it.simple(EIndexPatternExt.SPO) } //
                 .addIndex { it.simple(EIndexPatternExt.SOP) } //
                 .addIndex { it.simple(EIndexPatternExt.PSO) } //
@@ -373,7 +371,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         } else {
             when (0) {
                 0 -> { // use partitions as default
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) } //
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) } //
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) } //
@@ -388,7 +386,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) } //
                 }
                 1 -> { // use hashing as default
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                         .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = 4) } //
                         .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = 4) } //
                         .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = 4) } //
@@ -402,12 +400,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
-        val factory = TripleStoreDescriptionFactory()
+        val factory = TripleStoreDescriptionFactory(instance)
         action(factory)
         defaultTripleStoreLayout = factory
     }
 
-    internal fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
         var hostidx = 0
         for (i in 1 until hostnames.size) {
             if (keysOnHostname_[i].size < keysOnHostname_[hostidx].size) {
@@ -426,31 +425,57 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
     }
 
+    public override fun remoteHistogram(tag: String, filter: IntArray): Pair<Int, Int> {
+        return localStoresGet()[tag]!!.getHistogram(Query(instance), filter)
+    }
+
     public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        var count = stream.readInt()
-        val buf = IntArray(count)
-        for (i in 0 until count) {
-            buf[i] = stream.readInt()
-        }
-        if (mode == EModifyTypeExt.INSERT) {
-            store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
-        } else {
-            store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - 3
+        var done = false
+        while (!done) {
+            var i = 0
+            while (i <limit) {
+                val a = stream.readInt()
+                if (a == -1) {
+                    done = true
+                    break
+                }
+                buf[i++] = a
+                buf[i++] = stream.readInt()
+                buf[i++] = stream.readInt()
+            }
+            if (mode == EModifyTypeExt.INSERT) {
+                store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            } else {
+                store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            }
         }
     }
 
     public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        var count = stream.readInt()
-        val buf = IntArray(count)
-        for (i in 0 until count) {
-            buf[i] = stream.readInt()
-        }
-        if (mode == EModifyTypeExt.INSERT) {
-            store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], count)
-        } else {
-            store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], count)
+        val buf = IntArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val limit = buf.size - 3
+        var done = false
+        while (!done) {
+            var i = 0
+            while (i <limit) {
+                val a = stream.readInt()
+                if (a == -1) {
+                    done = true
+                    break
+                }
+                buf[i++] = a
+                buf[i++] = stream.readInt()
+                buf[i++] = stream.readInt()
+            }
+            if (mode == EModifyTypeExt.INSERT) {
+                store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            } else {
+                store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+            }
         }
     }
 
@@ -458,7 +483,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         if (origin) {
             createGraph(query, graphName)
         } else {
-            val graph = TripleStoreDescription(meta!!)
+            val graph = TripleStoreDescription(meta!!, instance)
             metadataAdd(graphName, graph)
             createGraphShared(graph)
         }
@@ -470,8 +495,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     val page = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:471")
-                    println("allocated store-root page :: $page")
-                    localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false))
+                    localStoresAdd(store.second, TripleStoreIndexIDTriple(page, false, instance))
                 }
             }
         }
@@ -481,9 +505,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         if (metadata_[graphName] != null) {
             throw Exception("graph already exist")
         }
-        val factory = TripleStoreDescriptionFactory()
+        val factory = TripleStoreDescriptionFactory(instance)
         action(factory)
-        val graph = factory.build()
+        val graph = factory.build(instance)
         metadataAdd(graphName, graph)
         for (index in graph.indices) {
             index.assignHosts()
@@ -492,8 +516,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         val metadataStr = graph.toMetaString()
         for (hostname in hostnames) {
             if (hostname != localhost) {
-                communicationHandler.sendData(
-                    hostname, "/distributed/graph/create",
+                query.getInstance().communicationHandler!!.sendData(
+                    hostname,
+                    "/distributed/graph/create",
                     mapOf(
                         "name" to graphName,
                         "origin" to "false",
@@ -525,8 +550,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                             localStores_[store.second]!!.clear()
                         } else {
                             if (origin) {
-                                communicationHandler.sendData(
-                                    store.first, "/distributed/graph/clear",
+                                query.getInstance().communicationHandler!!.sendData(
+                                    store.first,
+                                    "/distributed/graph/clear",
                                     mapOf(
                                         "origin" to "false",
                                         "name" to graphName
@@ -553,8 +579,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         localStoresRemove(store.second)
                     } else {
                         if (origin) {
-                            communicationHandler.sendData(
-                                store.first, "/distributed/graph/drop",
+                            query.getInstance().communicationHandler!!.sendData(
+                                store.first,
+                                "/distributed/graph/drop",
                                 mapOf(
                                     "origin" to "false",
                                     "name" to graphName
@@ -626,7 +653,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
         if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
-            val query = Query()
+            val query = Query(instance)
             createGraph(query, graphName)
         }
         return metadata_[graphName]!!
@@ -645,8 +672,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         if (origin) {
             for (hostname in hostnames) {
                 if (hostname != localhost) {
-                    communicationHandler.sendData(
-                        hostname, "/distributed/graph/commit",
+                    query.getInstance().communicationHandler!!.sendData(
+                        hostname,
+                        "/distributed/graph/commit",
                         mapOf(
                             "origin" to "false",
                         )

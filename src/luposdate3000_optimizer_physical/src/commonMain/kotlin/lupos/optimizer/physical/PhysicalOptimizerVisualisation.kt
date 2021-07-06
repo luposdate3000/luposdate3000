@@ -29,7 +29,6 @@ public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query,
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         when (node) {
-
             !is POPVisualisation -> {
                 if (node is POPBase && (parent !is POPVisualisation)) {
                     res = POPVisualisation(query, node.projectedVariables, node)

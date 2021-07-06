@@ -21,14 +21,11 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueDouble
-import lupos.shared.ValueError
-import lupos.shared.ValueFloat
-import lupos.shared.ValueInteger
-import lupos.shared.ValueUndef
 import lupos.shared.XMLElement
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -43,37 +40,46 @@ public class AOPAggregationSUM public constructor(query: IQuery, @JvmField publi
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationSUM && distinct == other.distinct && children.contentEquals(other.children)
-    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-        val res = ColumnIteratorAggregate()
-        val child = (children[0] as AOPBase).evaluate(row)
-        res.evaluate = {
-            val value = child()
-            res.count++
-            if (value is ValueError) {
-                res.value = value
-                res.evaluate = res::aggregateEvaluate
-            } else if (res.value is ValueUndef) {
-                res.value = value
-            } else if (res.value is ValueDouble || value is ValueDouble) {
-                res.value = ValueDouble(res.value.toDouble() + value.toDouble())
-            } else if (res.value is ValueFloat || value is ValueFloat) {
-                res.value = ValueFloat(res.value.toDouble() + value.toDouble())
-            } else if (res.value is ValueDecimal || value is ValueDecimal) {
-                res.value = ValueDecimal(res.value.toDecimal() + value.toDecimal())
-            } else if (res.value is ValueInteger || value is ValueInteger) {
-                res.value = ValueInteger(res.value.toInt() + value.toInt())
-            } else {
-                res.value = ValueError()
-                res.evaluate = res::aggregateEvaluate
+    private class ColumnIteratorAggregateSUM(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        private val buffer = ByteArrayWrapper()
+        private val bufferCurrent = ByteArrayWrapper()
+        private var isError = false
+        private var hasInit = false
+
+        init {
+            DictionaryHelper.undefToByteArray(buffer)
+        }
+
+        override fun evaluate() {
+            if (!isError) {
+                dictionary.getValue(bufferCurrent, child())
+                try {
+                    if (!hasInit) {
+                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer)
+                        hasInit = true
+                    } else {
+                        AOPAggregationHelper.addition(buffer, bufferCurrent, buffer)
+                    }
+                } catch (e: Throwable) {
+                    isError = true
+                    DictionaryHelper.errorToByteArray(buffer)
+                }
             }
         }
-        return res
+
+        override fun evaluateFinish(): Int {
+            return dictionary.createValue(buffer)
+        }
     }
 
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
+        return ColumnIteratorAggregateSUM((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+    }
+
+    override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            tmp.value
+            tmp.evaluateFinish()
         }
     }
 

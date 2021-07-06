@@ -18,14 +18,15 @@ package lupos.launch.code_gen_example_kapt
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.CodeGenerationAnnotation
+import lupos.shared.Luposdate3000Instance
 import kotlin.jvm.JvmField
 
-public class ExampleAnnotation {
+public class ExampleAnnotation(private val instance: Luposdate3000Instance) {
     // Importing a turtle file to query on
     init {
-        LuposdateEndpoint.importTurtleFiles(
-            "resources/code-generation/example.n3",
-            mutableMapOf()
+        LuposdateEndpoint.importTurtleFile(
+            instance,
+            "resources/code-generation/example.n3"
         )
     }
 

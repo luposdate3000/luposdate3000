@@ -33,10 +33,10 @@ import lupos.shared.IQuery
 import lupos.shared.IVisualisation
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
-import lupos.shared_inline.DictionaryHelper
 
 public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public var visualTest: IVisualisation? = null
@@ -49,12 +49,9 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
     override fun evaluate(parent: Partition): IteratorBundle {
-        var outputString: String = ""
-        var result = IteratorBundle(RowIterator())
         val child = getChildren()[0].evaluate(parent)
         var rowMode = child.rows.columns.toMutableList()
         val target = getChildren()[0].getProvidedVariableNames()
-        rowMode = child.rows.columns.toMutableList()
         rowMode.containsAll(target)
         target.containsAll(rowMode)
         // Map Column Iterator
@@ -63,7 +60,6 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         iterator.columns = child.rows.columns
         val buffer = ByteArrayWrapper()
         iterator.next = {
-            var visual = Visualisation()
             var res = child.rows.next()
             iterator.buf = child.rows.buf
             if (res < 0) {
@@ -74,12 +70,11 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 // Columns auf ein mal senden
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
-                    var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
-                    // visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
-                    outputString = getChildren()[0].getVisualUUUID().toString() + "||"
-                    outputString += getParent().getVisualUUUID().toString() + "||"
-                    outputString += string + "||"
-                    outputString += iterator.buf[res + j].toString() + "NEWDATA"
+                    var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer).replace("\\", "\\\\").replace("\"", "\\\"")
+                    var outputString = "[" + getChildren()[0].getVisualUUUID().toString() + ","
+                    outputString += getParent().getVisualUUUID().toString() + ","
+                    outputString += "\"" + string + "\","
+                    outputString += iterator.buf[res + j].toString() + "]"
                     visualTest!!.sendData(outputString)
                 }
             }

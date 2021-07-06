@@ -17,7 +17,7 @@
 package lupos.code_generator_shared
 
 import lupos.operator.base.OPBase
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.MyPrintWriter
 
 internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String, buffer: MyPrintWriter, imports: MutableSet<String>, containers: MutableList<ClazzContainer>) {
     // The container for the filter
@@ -90,11 +90,9 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     for (variable in variablename) {
         clazz.footer.println("        var column$variable: LocalIterator? = null")
     }
-    var cnt = 0
     for (variable in variablename) {
         clazz.footer.println("        column$variable = LocalIterator(query, child.columns[\"$variable\"]!!)")
         clazz.footer.println("        outMap[\"$variable\"] = column$variable!!")
-        cnt++
     }
     for (variable in variablename) {
         for (variableInner in variablename) {

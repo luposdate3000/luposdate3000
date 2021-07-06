@@ -39,12 +39,12 @@ import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.ColumnIteratorQueueExt
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.ColumnIteratorQueueExt
-import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 // TODO refactor such that the optimizer may choose which strategy to use

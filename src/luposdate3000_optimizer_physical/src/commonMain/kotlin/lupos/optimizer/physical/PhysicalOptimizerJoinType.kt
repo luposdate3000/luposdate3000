@@ -39,7 +39,6 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerJoinTypeID, "PhysicalOptimizerJoinType") {
@@ -61,7 +60,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
     }
 
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
-        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             var a = childA
             var b = childB
             val newID = IntArray(joinColumns.size) { 0 }

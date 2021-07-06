@@ -16,8 +16,8 @@
  */
 package lupos.operator.base.iterator
 
+import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.iterator.ColumnIteratorQueue
-import lupos.shared_inline.ColumnIteratorQueueExt
 
 public class ColumnIteratorQueueEmpty : ColumnIteratorQueue() {
     override /*suspend*/ fun close() {

@@ -14,14 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 mkdir tmp
-for testcase in Test_Kv Test_Triple_Index Test_Triple_Index_Insert_Sequentiel Test_Dictionary Test_Dictionary_Encoding Test_Vk
+./gradlew build
+for testcase in Test_Kv Test_Triple_Index Test_Dictionary Test_Dictionary_Encoding Test_Vk
 do
 	for memorymode in Inmemory Persistent
 	do
 		for i in 0
 		do
 			(
-				export LUPOS_HOME=tmp/luposdate3000.$testcase.$memorymode.$i/
+				export LUPOS_HOME=/tmp/luposdate3000.$testcase.$memorymode.$i/
 				j=$RANDOM
 				echo "./launcher.main.kts --run --mainClass=$testcase --Buffer_Manager=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$j"
 				./launcher.main.kts --run --mainClass=$testcase --Buffer_Manager=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$j > afl.$testcase.$memorymode.$i.log 2>&1
@@ -36,7 +37,7 @@ do
 		for i in 0
 		do
 			(
-				export LUPOS_HOME=tmp/luposdate3000.$testcase.$memorymode.$i/
+				export LUPOS_HOME=/tmp/luposdate3000.$testcase.$memorymode.$i/
 				j=$RANDOM
 				echo "./launcher.main.kts --run --mainClass=$testcase --Buffer_Manager=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$j"
 				./launcher.main.kts --run --mainClass=$testcase --Buffer_Manager=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$j > afl.$testcase.$memorymode.$i.log 2>&1

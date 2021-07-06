@@ -35,14 +35,13 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.DontCareWhichException
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID, "PhysicalOptimizerPartitionExpandTowardsRoot") {
     // this optimizer moves the partitioning upwards to the root
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]
@@ -52,7 +51,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                     }
                     val storeNode = storeNodeTmp
                     val max_count = node.partitionCount
-                    println("PhysicalOptimizerPartitionExpandTowardsRoot : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     if (new_count != max_count) {
                         val newID = query.getNextPartitionOperatorID()
@@ -74,7 +72,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                     }
                     val storeNode = storeNodeTmp
                     val max_count = node.partitionCount
-                    println("PhysicalOptimizerPartitionExpandTowardsRoot : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     if (new_count != max_count) {
                         val newID = query.getNextPartitionOperatorID()
@@ -352,7 +349,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         }
                         is POPTripleStoreIterator -> {
                             try {
-                                println("PhysicalOptimizerPartitionExpandTowardsRoot : initialize specific b ${c.getUUID()}")
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
                                 if (node.projectedVariables.size > 0) {

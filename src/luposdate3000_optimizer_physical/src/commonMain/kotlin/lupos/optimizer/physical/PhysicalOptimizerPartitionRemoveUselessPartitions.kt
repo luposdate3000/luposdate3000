@@ -28,14 +28,13 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID, "PhysicalOptimizerPartitionRemoveUselessPartitions") {
     // this optimizer removes useless partitioning operators
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     if (node.partitionCount == 1) {
@@ -47,7 +46,6 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                         }
                         val storeNode = storeNodeTmp
                         storeNode.hasSplitFromStore = false
-                        println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         onChange()
                     }
@@ -62,7 +60,6 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                         }
                         val storeNode = storeNodeTmp
                         storeNode.hasSplitFromStore = false
-                        println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         onChange()
                     }

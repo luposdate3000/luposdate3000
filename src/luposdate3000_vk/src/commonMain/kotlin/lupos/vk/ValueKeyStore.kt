@@ -17,11 +17,11 @@
 package lupos.vk
 
 import lupos.ProguardTestAnnotation
-import lupos.buffer_manager.BufferManager
+import lupos.shared.IBufferManager
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.BufferManagerPage
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.min
 
@@ -39,7 +39,7 @@ public class ValueKeyStore {
     internal val rootPageID: Int
 
     @JvmField
-    internal val bufferManager: BufferManager
+    internal val bufferManager: IBufferManager
 
     @JvmField
     internal var firstInnerID = ValueKeyStore.PAGEID_NULL_PTR
@@ -47,7 +47,7 @@ public class ValueKeyStore {
     @JvmField
     internal var firstLeafID = ValueKeyStore.PAGEID_NULL_PTR
 
-    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+    public constructor(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         val rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:52", rootPageID)
@@ -77,7 +77,6 @@ public class ValueKeyStore {
     }
 
     public fun deleteContent(root: Int) {
-        // println("deleteContentOf $root")
         var nextStage = root
         while (nextStage != ValueKeyStore.PAGEID_NULL_PTR) {
             var node = nextStage
@@ -110,8 +109,8 @@ public class ValueKeyStore {
 
     public fun hasValue(data: ByteArrayWrapper): Int {
         val buffer = ByteArrayWrapper()
-        var iterator = ValueKeyStoreIteratorSearch(bufferManager, firstLeafID, buffer)
-        return iterator.search(data)
+        var iterator = ValueKeyStoreIteratorSearch()
+        return iterator.search(data, firstLeafID, bufferManager, buffer)
     }
 
     public fun createValue(data: ByteArrayWrapper, value: () -> Int): Int {
@@ -250,7 +249,7 @@ internal class ValueKeyStoreWriter {
     internal val pageType: Int
 
     @JvmField
-    internal val bufferManager: BufferManager
+    internal val bufferManager: IBufferManager
 
     @JvmField
     internal var parentLayer: ValueKeyStoreWriter? = null
@@ -261,23 +260,21 @@ internal class ValueKeyStoreWriter {
     @JvmField
     internal var lastChildPageID = ValueKeyStore.PAGEID_NULL_PTR
 
-    internal constructor(bufferManager: BufferManager, pageType: Int) : this(bufferManager, pageType, ValueKeyStore.PAGEID_NULL_PTR)
+    internal constructor(bufferManager: IBufferManager, pageType: Int) : this(bufferManager, pageType, ValueKeyStore.PAGEID_NULL_PTR)
 
     private fun writeHeader() {
         BufferManagerPage.writeInt4(page, 0, pageType)
         BufferManagerPage.writeInt4(page, 4, ValueKeyStore.PAGEID_NULL_PTR)
         if (pageType == ValueKeyStore.PAGE_TYPE_INNER) {
             offset = 16
-            // println("add connection.toFirstChild $pageid -> $lastChildPageID")
             BufferManagerPage.writeInt4(page, 12, lastChildPageID)
         } else {
-            // println("add connection.toFirstLeaf xxx -> $pageid")
             offset = 12
         }
         BufferManagerPage.writeInt4(page, 8, offset)
     }
 
-    internal constructor(bufferManager: BufferManager, pageType: Int, childPageID: Int) {
+    internal constructor(bufferManager: IBufferManager, pageType: Int, childPageID: Int) {
         this.bufferManager = bufferManager
         this.pageType = pageType
         pageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:282")
@@ -314,7 +311,6 @@ internal class ValueKeyStoreWriter {
         offset += 12
         if (pageType == ValueKeyStore.PAGE_TYPE_INNER) {
             BufferManagerPage.writeInt4(page, offset, childPageID)
-            // println("add connection.toChild $pageid -> $childPageID")
             offset += 4
         }
         lastPageID = pageid
@@ -331,7 +327,6 @@ internal class ValueKeyStoreWriter {
             if (offset > BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
                 var nextpageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:331")
                 BufferManagerPage.writeInt4(page, 4, nextpageid)
-                // println("add connection.toNext $pageid -> $nextpageid")
                 bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:334", pageid)
                 pageid = nextpageid
                 page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:336", nextpageid)
@@ -358,7 +353,7 @@ internal class ValueKeyStoreWriter {
     }
 }
 
-public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
+public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal val bufferManager: IBufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
     @JvmField
     internal var pageid = startPageID
 
@@ -417,15 +412,12 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
     }
 }
 
-internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
-    @JvmField
-    internal var pageid = startPageID
+internal class ValueKeyStoreIteratorSearch {
 
-    @Suppress("NOTHING_TO_INLNE")
-    internal inline fun search(target: ByteArrayWrapper): Int {
-        // println("searching start")
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: IBufferManager, buffer: ByteArrayWrapper): Int {
+        var pageid = startpageid
         while (true) {
-            // println("searching at $pageid")
             var page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:428", pageid)
             var nextPageID = BufferManagerPage.readInt4(page, 4)
             var offset = BufferManagerPage.readInt4(page, 8)
@@ -452,7 +444,6 @@ internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField intern
                     }
                     if (offset > BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
                         bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:453", pageid)
-                        // println("searching move to next $nextPageID")
                         pageid = nextPageID
                         if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
                             SanityCheck.check { bufferOffset == len }
@@ -474,7 +465,6 @@ internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField intern
                 bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:473", pageid)
             }
             if (pageType == ValueKeyStore.PAGE_TYPE_INNER) {
-                // println("searching move to child $childPageID")
                 pageid = childPageID
             } else if (target == buffer) {
                 return lastID

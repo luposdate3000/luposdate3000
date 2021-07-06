@@ -19,8 +19,8 @@ package lupos.endpoint_launcher
 import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared_inline.MyInputStream
-import lupos.shared_inline.MyOutputStream
+import lupos.shared.inline.MyInputStream
+import lupos.shared.inline.MyOutputStream
 import java.net.Socket
 import java.net.URLEncoder
 
@@ -72,10 +72,10 @@ public class CommunicationHandler : ICommunicationHandler {
         var p = "POST $path"
         var first = true
         for ((k, v) in params) {
-            if (first) {
-                p += "?"
+            p += if (first) {
+                "?"
             } else {
-                p += "&"
+                "&"
             }
             first = false
             p += "$k=${URLEncoder.encode(v)}"

@@ -25,9 +25,9 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.DictionaryHelper
 
 public class AOPBuildInCallLANG public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallLANGID, "AOPBuildInCallLANG", arrayOf(child0)) {
     override fun toSparql(): String = "LANG(${children[0].toSparql()})"
@@ -43,7 +43,7 @@ public class AOPBuildInCallLANG public constructor(query: IQuery, child0: AOPBas
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.BLANK_NODE -> {
+                ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
@@ -79,10 +79,6 @@ public class AOPBuildInCallLANG public constructor(query: IQuery, child0: AOPBas
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_14)
                     res = query.getDictionary().createValue(tmp_2)
                 }
-                ETripleComponentTypeExt.ERROR -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
                 ETripleComponentTypeExt.FLOAT -> {
                     val tmp_17: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                     val tmp_18: String = ""
@@ -93,10 +89,6 @@ public class AOPBuildInCallLANG public constructor(query: IQuery, child0: AOPBas
                     val tmp_20: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                     val tmp_21: String = ""
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_21)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.IRI -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
@@ -117,10 +109,6 @@ public class AOPBuildInCallLANG public constructor(query: IQuery, child0: AOPBas
                     val tmp_30_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     val tmp_31: String = ""
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_31)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.UNDEF -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

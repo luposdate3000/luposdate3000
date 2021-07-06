@@ -17,11 +17,11 @@
 package lupos.shared.dictionary
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import kotlin.jvm.JvmField
 
 public interface IDictionary {
     public fun importFromDictionaryFile(filename: String): Pair<IntArray, Int>
     public fun createNewBNode(): Int
+    public fun createNewUUID(): Int
     public fun createNewBNode(s: String): Int
     public fun getValue(buffer: ByteArrayWrapper, value: Int)
     public fun hasValue(buffer: ByteArrayWrapper): Int?
@@ -32,20 +32,5 @@ public interface IDictionary {
     public fun delete()
     public fun isInmemoryOnly(): Boolean
     public fun isLocalValue(value: Int): Boolean
-}
-
-@JvmField
-public var nodeGlobalDictionary: IDictionary = object : IDictionary {
-    public override fun isLocalValue(value: Int): Boolean = throw Exception("not implemented")
-    public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = throw Exception("not implemented")
-    public override fun createNewBNode(): Int = throw Exception("not implemented")
-    public override fun createNewBNode(s: String): Int = throw Exception("not implemented")
-    public override fun valueToGlobal(value: Int): Int = throw Exception("not implemented")
-    public override fun hasValue(buffer: ByteArrayWrapper): Int? = throw Exception("not implemented")
-    public override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
-    public override fun isBnode(value: Int): Boolean = throw Exception("not implemented")
-    public override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
-    public override fun close() = throw Exception("not implemented")
-    public override fun delete() = throw Exception("not implemented")
-    public override fun isInmemoryOnly(): Boolean = throw Exception("not implemented")
+    public fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit)
 }

@@ -17,21 +17,17 @@
 package lupos.operator.arithmetik.singleinput
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorIDExt
-import lupos.shared.EvaluationException
+import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueDouble
-import lupos.shared.ValueError
-import lupos.shared.ValueFloat
-import lupos.shared.ValueInteger
-import lupos.shared.ValueUndef
 import lupos.shared.XMLElement
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -46,64 +42,74 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
-    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-        val res = ColumnIteratorAggregate()
-        val child = (children[0] as AOPBase).evaluate(row)
-        res.evaluate = {
-            var tmp1 = res.value
-            res.count++
-            try {
-                val value = child()
-                if (value is ValueError) {
-                    tmp1 = value
-                    res.evaluate = res::aggregateEvaluate
-                } else if (tmp1 is ValueUndef) {
-                    tmp1 = value
-                } else if (tmp1 is ValueDouble || value is ValueDouble) {
-                    tmp1 = ValueDouble(tmp1.toDouble() + value.toDouble())
-                } else if (tmp1 is ValueFloat || value is ValueFloat) {
-                    tmp1 = ValueFloat(tmp1.toDouble() + value.toDouble())
-                } else if (tmp1 is ValueDecimal || value is ValueDecimal) {
-                    tmp1 = ValueDecimal(tmp1.toDecimal() + value.toDecimal())
-                } else if (tmp1 is ValueInteger || value is ValueInteger) {
-                    tmp1 = ValueDecimal(BigDecimal.fromBigInteger(tmp1.toInt() + value.toInt()))
-                } else {
-                    tmp1 = ValueError()
-                    res.evaluate = res::aggregateEvaluate
-                }
-            } catch (e: EvaluationException) {
-                tmp1 = ValueError()
-                res.evaluate = res::aggregateEvaluate
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                tmp1 = ValueError()
-                res.evaluate = res::aggregateEvaluate
-            }
-            res.value = tmp1
+    private class ColumnIteratorAggregateAVG(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        private val buffer = ByteArrayWrapper()
+        private val bufferCurrent = ByteArrayWrapper()
+        private var isError = false
+        private var hasInit = false
+        private var counter = 0
+
+        init {
+            DictionaryHelper.undefToByteArray(buffer)
         }
-        return res
+
+        override fun evaluate() {
+            if (!isError) {
+                dictionary.getValue(bufferCurrent, child())
+                try {
+                    if (!hasInit) {
+                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer)
+                        hasInit = true
+                    } else {
+                        AOPAggregationHelper.addition(buffer, bufferCurrent, buffer)
+                    }
+                } catch (e: Throwable) {
+                    isError = true
+                    DictionaryHelper.errorToByteArray(buffer)
+                }
+            }
+        }
+
+        override fun evaluateFinish(): Int {
+            if (counter == 0) {
+                return dictionary.createValue(buffer)
+            } else {
+                val type = DictionaryHelper.byteArrayToType(buffer)
+                when (type) {
+                    ETripleComponentTypeExt.DECIMAL -> {
+                        val a = DictionaryHelper.byteArrayToDecimal_I(buffer)
+                        val res = a / counter
+                        DictionaryHelper.decimalToByteArray(buffer, res)
+                    }
+                    ETripleComponentTypeExt.DOUBLE -> {
+                        val a = DictionaryHelper.byteArrayToDouble_I(buffer)
+                        val res = a / counter
+                        DictionaryHelper.doubleToByteArray(buffer, res)
+                    }
+                    ETripleComponentTypeExt.FLOAT -> {
+                        val a = DictionaryHelper.byteArrayToFloat_I(buffer)
+                        val res = a / counter
+                        DictionaryHelper.floatToByteArray(buffer, res)
+                    }
+                    ETripleComponentTypeExt.INTEGER -> {
+                        val a = DictionaryHelper.byteArrayToInteger_I(buffer)
+                        val res = BigDecimal.fromBigInteger(a) / counter
+                        DictionaryHelper.decimalToByteArray(buffer, res)
+                    }
+                }
+                return dictionary.createValue(buffer)
+            }
+        }
     }
 
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
+        return ColumnIteratorAggregateAVG((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+    }
+
+    override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            val res: ValueDefinition
-            val tmp1 = tmp.value
-            res = when (tmp1) {
-                is ValueDouble -> {
-                    ValueDouble(tmp1.toDouble() / tmp.count)
-                }
-                is ValueFloat -> {
-                    ValueFloat(tmp1.toDouble() / tmp.count)
-                }
-                is ValueDecimal -> {
-                    ValueDecimal(tmp1.value / tmp.count.toBigDecimal())
-                }
-                else -> {
-                    ValueError()
-                }
-            }
-            res
+            tmp.evaluateFinish()
         }
     }
 

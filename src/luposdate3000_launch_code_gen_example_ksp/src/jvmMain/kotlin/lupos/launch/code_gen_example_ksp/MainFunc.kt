@@ -20,13 +20,7 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.Parallel
 
 internal fun mainFunc(): Unit = Parallel.runBlocking {
-    /*//var flag = false
-       mainFunc()
-       val example = ExampleAnnotation()
-       println(example.exampleVar_evaluate())*/
-
     LuposdateEndpoint.importTurtleFiles("resources/code-generation/example.n3", mutableMapOf())
-//    LuposdateEndpoint.importIntermediateFiles("${LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1048576/complete.n3")
     println("Init finished")
     // For counting of results set true
     if (false) {

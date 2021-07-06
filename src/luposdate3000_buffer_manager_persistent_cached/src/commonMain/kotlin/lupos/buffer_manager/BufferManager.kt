@@ -17,23 +17,25 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
 
-public expect class BufferManager {
+public expect class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
 
-    public constructor()
+    public override fun releasePage(call_location: String, pageid: Int)
+    public override fun getPage(call_location: String, pageid: Int): ByteArray
 
-    public fun releasePage(call_location: String, pageid: Int)
-    public fun getPage(call_location: String, pageid: Int): ByteArray
-    /*suspend*/ public fun allocPage(call_location: String): Int
-    /*suspend*/ public fun deletePage(call_location: String, pageid: Int)
-    public fun flushPage(call_location: String, pageid: Int)
+    /*suspend*/ public override fun allocPage(call_location: String): Int
 
-    @ProguardTestAnnotation
-    public fun close()
-
-    @ProguardTestAnnotation
-    public fun getNumberOfAllocatedPages(): Int
+    /*suspend*/ public override fun deletePage(call_location: String, pageid: Int)
+    public override fun flushPage(call_location: String, pageid: Int)
 
     @ProguardTestAnnotation
-    public fun getNumberOfReferencedPages(): Int
+    public override fun close()
+
+    @ProguardTestAnnotation
+    public override fun getNumberOfAllocatedPages(): Int
+
+    @ProguardTestAnnotation
+    public override fun getNumberOfReferencedPages(): Int
 }

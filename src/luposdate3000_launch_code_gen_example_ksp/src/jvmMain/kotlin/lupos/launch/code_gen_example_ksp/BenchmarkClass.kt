@@ -19,7 +19,7 @@ package lupos.launch.code_gen_example_ksp
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.CodeGenerationAnnotationKSP
 import lupos.shared.DateHelperRelative
-import lupos.shared_inline.MyPrintWriter
+import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 public class BenchmarkClass {
@@ -36,7 +36,6 @@ public class BenchmarkClass {
         var buf = MyPrintWriter(true)
         var op = exampleVar_evaluate()
         LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
-// lupos.shared.File("gen.res").withOutputStream{it.println(buf.toString())}
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             buf = MyPrintWriter(true)
@@ -54,7 +53,6 @@ public class BenchmarkClass {
         var buf = MyPrintWriter(true)
         var op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(exampleVar)
         LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
-// lupos.shared.File("org.res").withOutputStream{it.println(buf.toString())}
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             buf = MyPrintWriter(true)

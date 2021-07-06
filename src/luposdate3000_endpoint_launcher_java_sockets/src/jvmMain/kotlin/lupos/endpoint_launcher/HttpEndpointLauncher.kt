@@ -24,20 +24,18 @@ import lupos.operator.physical.partition.POPDistributedSendMulti
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.operator.physical.partition.POPDistributedSendSingleCount
 import lupos.shared.EnpointRecievedInvalidPath
-import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
-import lupos.shared.communicationHandler
-import lupos.shared.tripleStoreManager
+import lupos.shared.inline.MyInputStream
+import lupos.shared.inline.MyOutputStream
+import lupos.shared.inline.MyStringStream
 import lupos.shared.xmlParser.XMLParser
-import lupos.shared_inline.MyInputStream
-import lupos.shared_inline.MyOutputStream
-import lupos.shared_inline.MyStringStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
-import java.net.Socket
 import java.net.URLDecoder
 import kotlin.jvm.JvmField
+import kotlin.system.exitProcess
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
@@ -51,7 +49,7 @@ public actual object HttpEndpointLauncher {
         stream.println()
     }
 
-    internal fun extractParamsFromString(str: String, params: MutableMap<String, String>) {
+    private fun extractParamsFromString(str: String, params: MutableMap<String, String>) {
         for (p in str.split('&')) {
             val t = p.split('=')
             if (t.size > 1) {
@@ -60,9 +58,8 @@ public actual object HttpEndpointLauncher {
         }
     }
 
-    public actual /*suspend*/ fun start() {
-
-        val hosturl = tripleStoreManager.getLocalhost().split(":")
+    public actual /*suspend*/ fun start(instance: Luposdate3000Instance) {
+        val hosturl = instance.tripleStoreManager!!.getLocalhost().split(":")
         val hostname = hosturl[0]
         val port = if (hosturl.size > 1) {
             hosturl[1].toInt()
@@ -70,18 +67,18 @@ public actual object HttpEndpointLauncher {
             80
         }
         try {
-            communicationHandler = CommunicationHandler()
+            instance.communicationHandler = CommunicationHandler()
             val server = ServerSocket()
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             while (true) {
                 val connection = server.accept()
-                println("received connection from ${connection.getRemoteSocketAddress()}")
+                println("received connection from ${connection.remoteSocketAddress}")
                 Thread {
                     var dontCloseSockets: Boolean = false
                     Parallel.runBlocking {
-                        var connectionInMy = MyInputStream(connection.getInputStream())
-                        var connectionOutMy = MyOutputStream(connection.getOutputStream())
+                        val connectionInMy = MyInputStream(connection.getInputStream())
+                        val connectionOutMy = MyOutputStream(connection.getOutputStream())
                         try {
                             var line = connectionInMy.readLine()
                             var contentLength: Int? = null
@@ -110,11 +107,11 @@ public actual object HttpEndpointLauncher {
                             }
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            RestEndpoint.initialize(paths, params, connectionInMy, connectionOutMy, hostname, port)
+                            RestEndpoint.initialize(instance, paths, params, connectionInMy, connectionOutMy, hostname, port)
 
                             paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
                                 LuposdateEndpoint.close()
-                                System.exit(0)
+                                exitProcess(0)
                             }
                             paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
                                 val xml = XMLParser(MyStringStream(params["query"]!!))
@@ -124,20 +121,18 @@ public actual object HttpEndpointLauncher {
                                         keys.add(c.attributes["key"]!!)
                                     }
                                 }
-                                println("register ... :: $hostname:$port -> $keys")
-                                val container = QueryMappingContainer(xml, Array<IMyInputStream?>(keys.size) { null }, Array<IMyOutputStream?>(keys.size) { null }, Array<Socket?>(keys.size) { null })
+                                val container = QueryMappingContainer(xml, Array(keys.size) { null }, Array(keys.size) { null }, Array(keys.size) { null })
                                 for (key in keys) {
                                     queryMappings[key] = container
                                 }
                                 connectionOutMy.print("HTTP/1.1 200 OK\n\n")
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
-                                println("execute ... :: $hostname:$port -> ${params["key"]}")
                                 val key = params["key"]!!
                                 val queryContainer = queryMappings[key]!!
-                                var queryXML = queryContainer.xml
-                                var dictionaryURL = params["dictionaryURL"]!!
-                                val comm = communicationHandler
+                                val queryXML = queryContainer.xml
+                                val dictionaryURL = params["dictionaryURL"]!!
+                                val comm = instance.communicationHandler!!
 // calculate current partition
                                 var partitionNumber: Int = 0
                                 if (queryContainer.inputStreams.size > 1) {
@@ -163,10 +158,10 @@ public actual object HttpEndpointLauncher {
                                     if (flag) {
 // only launch if all receivers are started
 // init dictionary
-                                        var idx2 = dictionaryURL.indexOf("/")
+                                        val idx2 = dictionaryURL.indexOf("/")
                                         val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
-                                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
-                                        val query = Query(remoteDictionary)
+                                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance)
+                                        val query = Query(remoteDictionary, instance)
                                         query.setDictionaryUrl(dictionaryURL)
 // init node
                                         var node = queryContainer.instance
@@ -255,7 +250,7 @@ public actual object HttpEndpointLauncher {
                                         val formId = k.replace("/", "_")
                                         connectionOutMy.println("<form id=\"$formId\" >")
                                         for ((p, q) in v.params) {
-                                            connectionOutMy.println("${q(p.first, p.second)}")
+                                            connectionOutMy.println(q(p.first, p.second))
                                         }
                                         connectionOutMy.println("<input type=\"submit\" value=\"$k\" />")
                                         connectionOutMy.println("</form>")
@@ -265,7 +260,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.println("   </body>")
                                 connectionOutMy.println("</html>")
                             }
-                            WebRootEndpoint.initialize(paths, params, connectionInMy, connectionOutMy)
+                            WebRootEndpoint.initialize(paths, connectionOutMy)
                             val tmpRoot = paths["/index.html"]
                             if (tmpRoot != null) {
                                 paths[""] = tmpRoot
@@ -283,7 +278,7 @@ public actual object HttpEndpointLauncher {
                                     val buf = ByteArray(contentLength!!)
                                     connectionInMy.read(buf, contentLength)
                                     val content = buf.decodeToString()
-                                    extractParamsFromString(content.toString(), params)
+                                    extractParamsFromString(content, params)
                                 }
                                 actionHelper.action()
                             }

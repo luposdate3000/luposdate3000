@@ -29,14 +29,13 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.DontCareWhichException
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.tripleStoreManager
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID, "PhysicalOptimizerPartitionExpandPartitionTowardsStore") {
     // this optimizer moved the partitioning towards and into the triple store, but does NOT care if the specific triple store exist ...
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartition -> {
 // splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
@@ -61,10 +60,8 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                         }
                         is POPTripleStoreIterator -> {
                             try {
-                                println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
-                                println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
                                 if (node.projectedVariables.size > 0) {
                                     res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
                                 } else {

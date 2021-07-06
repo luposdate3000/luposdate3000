@@ -1,0 +1,303 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package lupos.test_buffermanager
+
+import lupos.shared.IBufferManager
+import lupos.shared.Luposdate3000Instance
+import lupos.shared.SanityCheck
+import lupos.shared.inline.BufferManagerPage
+import kotlin.math.abs
+
+public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit, BufferManager: (Luposdate3000Instance) -> IBufferManager, isInMemoryOnly: Boolean, allowInitFromDisk: (Boolean) -> Unit, isUnitTest: Boolean) {
+    if (!SanityCheck.enabled) {
+        return
+    }
+    val verbose = false
+    allowInitFromDisk(false)
+    var instance = Luposdate3000Instance()
+    if (isUnitTest) {
+        instance.BUFFER_HOME = "build/tmp/executeBufferManagerTest"
+    }
+    instance.allowInitFromDisk = false
+    val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+    instance.bufferManager = BufferManager(instance)
+    val pageIds = mutableListOf<Int>()
+    val mappedPages = mutableMapOf<Int, ByteArray>()
+    val mappedPagesCtr = mutableMapOf<Int, Int>()
+
+    fun testReleasePageOk(pageid: Int) {
+        if (verbose) {
+            println("testReleasePageOk $pageid")
+        }
+        instance.bufferManager!!.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:46", pageid)
+        val cnt = mappedPagesCtr[pageid]
+        if (cnt == null) {
+            throw Exception("")
+        }
+        if (cnt == 1) {
+            mappedPages.remove(pageid)
+            mappedPagesCtr.remove(pageid)
+        } else {
+            mappedPagesCtr[pageid] = cnt - 1
+        }
+    }
+
+    fun testReleasePageFail(pageid: Int) {
+        if (verbose) {
+            println("testReleasePageFail $pageid")
+        }
+        var flag = true
+        try {
+            instance.bufferManager!!.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:65", pageid)
+        } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
+            flag = false
+        }
+        if (flag) {
+            throw Exception("")
+        }
+    }
+
+    fun testGetPageOk(pageid: Int) {
+        if (verbose) {
+            println("testGetPageOk $pageid")
+        }
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:79", pageid)
+        val id = BufferManagerPage.readInt4(page, 0)
+        if (id != pageid) {
+            throw Exception("")
+        }
+        val pp = mappedPages[pageid]
+        mappedPages[pageid] = page
+        if (pp != null) {
+            val cnt = mappedPagesCtr[pageid]!!
+            mappedPagesCtr[pageid] = cnt + 1
+            if (pp != page) {
+                throw Exception("")
+            }
+        } else {
+            mappedPagesCtr[pageid] = 1
+        }
+    }
+
+    fun testGetPageFail(pageid: Int) {
+        if (verbose) {
+            println("testGetPageFail $pageid")
+        }
+        var flag = true
+        try {
+            instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:103", pageid)
+        } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
+            flag = false
+        }
+        if (flag) {
+            throw Exception("")
+        }
+    }
+
+    fun testCreateNewPageOk() {
+        val pageid = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:114")
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:115", pageid)
+        BufferManagerPage.copyFrom(page, zeroBytes, 0, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+        if (verbose) {
+            println("testCreateNewPageOk $pageid")
+        }
+        BufferManagerPage.writeInt4(page, 0, pageid)
+        if (pageIds.contains(pageid)) {
+            throw Exception("")
+        }
+        pageIds.add(pageid)
+        if (mappedPages[pageid] != null) {
+            throw Exception("")
+        }
+        mappedPages[pageid] = page
+        if (mappedPagesCtr[pageid] != null) {
+            throw Exception("")
+        }
+        mappedPagesCtr[pageid] = 1
+    }
+
+    fun testDeletePageOk(pageid: Int) {
+        if (verbose) {
+            println("testDeletePageOk $pageid")
+        }
+        instance.bufferManager!!.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:139", pageid)
+        mappedPagesCtr.remove(pageid)
+        mappedPages.remove(pageid)
+        pageIds.remove(pageid)
+    }
+
+    fun testDeletePageFail(pageid: Int) {
+        if (verbose) {
+            println("testDeletePageFail $pageid")
+        }
+        var flag = true
+        try {
+            instance.bufferManager!!.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:151", pageid)
+        } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
+            flag = false
+        }
+        if (flag) {
+            throw Exception("")
+        }
+    }
+
+    fun getPageID_Existing_Mapped(rng: Int, action: (Int) -> Unit) {
+        val ids = mutableListOf<Int>()
+        ids.addAll(mappedPages.keys)
+        if (ids.size > 0) {
+            val pageid = ids[abs(rng % ids.size)]
+            action(pageid)
+        }
+    }
+
+    fun getPageID_Existing_NotMapped(rng: Int, action: (Int) -> Unit) {
+        val ids = mutableListOf<Int>()
+        ids.addAll(pageIds)
+        ids.removeAll(mappedPages.keys)
+        if (ids.size > 0) {
+            val pageid = ids[abs(rng % ids.size)]
+            action(pageid)
+        }
+    }
+
+    fun getPageID_NotExisting(rng: Int, action: (Int) -> Unit) {
+        val ids = MutableList<Int>(1000) { it }
+        ids.removeAll(pageIds)
+        if (ids.size > 0) {
+            val pageid = ids[abs(rng % ids.size)]
+            action(pageid)
+        }
+    }
+
+    fun getPageID_Existing(rng: Int, action: (Int) -> Unit) {
+        if (pageIds.size > 0) {
+            val pageid = pageIds[abs(rng % pageIds.size)]
+            action(pageid)
+        }
+    }
+
+    fun getPageID_Existing_SingleMapped(rng: Int, action: (Int) -> Unit) {
+        val ids = mutableListOf<Int>()
+        for ((k, v) in mappedPagesCtr) {
+            if (v == 1) {
+                ids.add(k)
+            }
+        }
+        if (ids.size > 0) {
+            val pageid = ids[abs(rng % ids.size)]
+            action(pageid)
+        }
+    }
+
+    fun getPageID_Existing_MultiMapped(rng: Int, action: (Int) -> Unit) {
+        val ids = mutableListOf<Int>()
+        for ((k, v) in mappedPagesCtr) {
+            if (v > 1) {
+                ids.add(k)
+            }
+        }
+        if (ids.size > 0) {
+            val pageid = ids[abs(rng % ids.size)]
+            action(pageid)
+        }
+    }
+    testCreateNewPageOk()
+    while (hasNextRandom() >= 2) {
+        val mode = abs(nextRandom() % 10)
+        val rng = nextRandom()
+        when (mode) {
+            0 -> getPageID_Existing_Mapped(rng) { testReleasePageOk(it) }
+            1 -> getPageID_Existing_NotMapped(rng) { testReleasePageFail(it) }
+            2 -> getPageID_NotExisting(rng) { testReleasePageFail(it) }
+
+            3 -> getPageID_Existing(rng) { testGetPageOk(it) }
+            4 -> getPageID_NotExisting(rng) { testGetPageFail(it) }
+
+            5 -> testCreateNewPageOk()
+
+            6 -> getPageID_Existing_SingleMapped(rng) { testDeletePageOk(it) }
+            7 -> getPageID_Existing_NotMapped(rng) { testDeletePageFail(it) }
+            8 -> getPageID_Existing_MultiMapped(rng) { testDeletePageFail(it) }
+            9 -> getPageID_NotExisting(rng) { testDeletePageFail(it) }
+        }
+        if (instance.bufferManager!!.getNumberOfAllocatedPages() != pageIds.size) {
+            throw Exception("")
+        }
+        for ((k, v) in mappedPages) {
+            val id = BufferManagerPage.readInt4(v, 0)
+            if (id != k) {
+                throw Exception("")
+            }
+        }
+    }
+    var ids = mutableMapOf<Int, Int>()
+    ids.putAll(mappedPagesCtr)
+    for ((k, v) in ids) {
+        for (i in 0 until v) {
+            testReleasePageOk(k)
+        }
+    }
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
+    for (pageid in pageIds) {
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:261", pageid)
+        val id = BufferManagerPage.readInt4(page, 0)
+        if (id != pageid) {
+            throw Exception("")
+        }
+        instance.bufferManager!!.releasePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:266", pageid)
+    }
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
+    if (!isInMemoryOnly) {
+        allowInitFromDisk(true)
+        instance.bufferManager!!.close()
+        instance.bufferManager = BufferManager(instance)
+    }
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != pageIds.size) {
+        throw Exception("")
+    }
+    for (pageid in pageIds) {
+        val page = instance.bufferManager!!.getPage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:283", pageid)
+        val id = BufferManagerPage.readInt4(page, 0)
+        if (id != pageid) {
+            throw Exception("")
+        }
+        instance.bufferManager!!.deletePage("/src/luposdate3000/src/luposdate3000_launch_test_buffermanager/src/commonMain/kotlin/lupos/launch/test_buffermanager/MainFunc.kt:288", pageid)
+    }
+    if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
+    if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
+        throw Exception("")
+    }
+    if (mappedPages.size != 0) {
+        throw Exception("")
+    }
+    if (mappedPagesCtr.size != 0) {
+        throw Exception("")
+    }
+    instance.bufferManager!!.close()
+}

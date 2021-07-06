@@ -25,9 +25,9 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.DictionaryHelper
 
 public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSTRID, "AOPBuildInCallSTR", arrayOf(child0)) {
     override fun toSparql(): String = "STR(${children[0].toSparql()})"
@@ -43,7 +43,7 @@ public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.BLANK_NODE -> {
+                ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
@@ -77,10 +77,6 @@ public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase
                     val tmp_13: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                     val tmp_14: String = tmp_13.toString()
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_14)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.ERROR -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.FLOAT -> {
@@ -119,10 +115,6 @@ public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase
                     val tmp_32_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     val tmp_33: String = tmp_32_content
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_33)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.UNDEF -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
