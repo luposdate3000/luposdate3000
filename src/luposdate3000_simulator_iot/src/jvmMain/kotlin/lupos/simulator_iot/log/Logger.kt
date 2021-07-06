@@ -43,7 +43,6 @@ internal object Logger : ISimulationLifeCycle {
 
     internal fun reset() {
         initStartTimeStamp = Time.stamp()
-
     }
 
     internal fun refreshFiles() {
@@ -55,7 +54,6 @@ internal object Logger : ISimulationLifeCycle {
         File(FilePaths.dbStates).deleteRecursively()
         File(FilePaths.dbStates).mkdirs()
     }
-
 
     private fun getSimulationTime(): Instant = Time.addMillis(startUpTimeStamp, simulation.getCurrentClock())
 

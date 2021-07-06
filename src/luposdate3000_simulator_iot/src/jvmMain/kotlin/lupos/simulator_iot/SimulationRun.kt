@@ -18,7 +18,7 @@ internal class SimulationRun {
     internal lateinit var sim: Simulation
 
     private inner class LifeCycleImpl() : ISimulationLifeCycle {
-        override lateinit var simulation: Simulation //TODO wird nicht gebraucht!
+        override lateinit var simulation: Simulation // TODO wird nicht gebraucht!
 
         override fun onStartUp() {
             TODO("Not yet implemented")
@@ -37,5 +37,4 @@ internal class SimulationRun {
         sim = Simulation(Configuration.devices, callback = LifeCycleImpl())
         sim.startSimulation()
     }
-
 }

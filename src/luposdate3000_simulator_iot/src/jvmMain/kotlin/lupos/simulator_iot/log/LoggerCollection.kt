@@ -36,6 +36,4 @@ internal class LoggerCollection {
             "${logger.getRealSimulationDuration()}$delimiter${Device.packageCounter}$delimiter${Device.getNetworkLoadKBytes()}"
         printLine(line)
     }
-
-
 }

@@ -13,7 +13,6 @@ import lupos.simulator_iot.net.routing.IRoutingProtocol
 import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
-import kotlin.math.roundToLong
 
 internal class Device(
     internal var location: GeoLocation,
@@ -34,15 +33,14 @@ internal class Device(
     private lateinit var deviceStart: Instant
 
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
-        return if (destinationAddress == address)
+        return if (destinationAddress == address) {
             getProcessingDelay()
-         else {
-             val processingDelay = getProcessingDelay()
-             val transmissionDelay = linkManager.getTransmissionDelay(destinationAddress, pck.pckSize)
+        } else {
+            val processingDelay = getProcessingDelay()
+            val transmissionDelay = linkManager.getTransmissionDelay(destinationAddress, pck.pckSize)
             Logger.log("procdelay $processingDelay und transDelay $transmissionDelay")
             transmissionDelay + getProcessingDelay()
         }
-
     }
 
     private fun getProcessingDelay(): Long {
@@ -122,7 +120,7 @@ internal class Device(
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
 
-        //forwardPackage(pck)
+        // forwardPackage(pck)
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
         logSendPackage(pck, delay)
@@ -170,8 +168,8 @@ internal class Device(
         internal var networkLoad: Long = 0
             private set
 
-        internal fun getNetworkLoadKBytes()
-            = networkLoad / 1000
+        internal fun getNetworkLoadKBytes() =
+            networkLoad / 1000
 
         internal var observationPackageCounter: Int = 0
             private set

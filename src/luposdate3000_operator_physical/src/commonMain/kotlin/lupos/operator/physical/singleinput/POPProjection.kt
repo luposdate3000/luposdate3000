@@ -56,11 +56,11 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
             variables.isEmpty() -> {
                 val variables2 = children[0].getProvidedVariableNames()
                 SanityCheck(
-                    { /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:58"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:58"/*SOURCE_FILE_END*/ },
                     {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:60"/*SOURCE_FILE_END*/ }, { variables2.isNotEmpty() })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:60"/*SOURCE_FILE_END*/ }, { variables2.isNotEmpty() })
                         for (variable in variables2) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:62"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:62"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
                         }
                     }
                 )
@@ -77,7 +77,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
             }
             else -> {
                 for (variable in variables) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:79"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:79"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
                     outMap[variable] = child.columns[variable]!!
                 }
                 return IteratorBundle(outMap)
