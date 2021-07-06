@@ -62,7 +62,7 @@ public object QueryResultToXMLElement {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:64"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:64"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -72,7 +72,7 @@ public object QueryResultToXMLElement {
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                     val value = DictionaryHelper.byteArrayToSparql(buffer)
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:74"/*SOURCE_FILE_END*/ }, { value.endsWith("\"^^<$datatype>") })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:74"/*SOURCE_FILE_END*/ }, { value.endsWith("\"^^<$datatype>") })
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
                     child.columns["?boolean"]!!.close()
                 } else {
@@ -112,7 +112,7 @@ public object QueryResultToXMLElement {
                                                 nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
                                             } else {
                                                 val idx2 = value.lastIndexOf("\"@")
-                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:114"/*SOURCE_FILE_END*/ }, { idx2 >= 0 })
+                                                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:114"/*SOURCE_FILE_END*/ }, { idx2 >= 0 })
                                                 val data = value.substring(1, idx2)
                                                 val lang = value.substring(idx2 + 2, value.length)
                                                 nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))

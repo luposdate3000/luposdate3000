@@ -16,18 +16,16 @@ public actual class IoTSimulation {
         sim.startSimulation()
     }
 
-    public actual fun measureStarPerformance() {
+    public actual fun measureStarPerformance(withDummyDatabase: Boolean) {
         val loggerCollection = LoggerCollection()
-        val testWithDatabase = true
-        var arr: IntArray = if (testWithDatabase) {
+        var arr: IntArray = if (!withDummyDatabase) {
             buildNodeSizesArray(130, 10) // OutOfMemoryError >1330 DBs with 2048 heap space
         } else {
             buildNodeSizesArray(100, 1000)
         }
 
-        Configuration.parse("${FilePaths.jvmResource}/starPerformance.json")
         for (numberOfChilds in arr)
-            runSimulationStarPerformance(numberOfChilds, loggerCollection)
+            runSimulationStarPerformance(numberOfChilds, loggerCollection, withDummyDatabase)
     }
 
     private fun buildNodeSizesArray(arrSize: Int, delta: Int): IntArray {
@@ -37,11 +35,12 @@ public actual class IoTSimulation {
         return arr
     }
 
-    private fun runSimulationStarPerformance(numberOfChilds: Int, collection: LoggerCollection) {
+    private fun runSimulationStarPerformance(numberOfChilds: Int, collection: LoggerCollection, withDummyDatabase: Boolean) {
         Logger.reset()
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         val jsonObjects = Configuration.readJsonFile(configFileName)
         jsonObjects.randomStarNetwork[0].number = numberOfChilds
+        jsonObjects.dummyDatabase = withDummyDatabase
         Configuration.parse(jsonObjects)
         val entities = Configuration.getEntities()
         val sim = Simulation(entities = entities, callback = Logger)

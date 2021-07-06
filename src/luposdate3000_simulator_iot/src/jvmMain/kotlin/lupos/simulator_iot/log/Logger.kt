@@ -28,6 +28,7 @@ internal object Logger : ISimulationLifeCycle {
 
     override fun onStartUp() {
         startUpTimeStamp = Time.stamp()
+        resetCounters()
         logStartUp()
     }
 
@@ -38,14 +39,14 @@ internal object Logger : ISimulationLifeCycle {
         shutDownTimeStamp = getSimulationTime()
         realShutDownTimeStamp = Time.stamp()
         logShutDown()
-        resetCounters()
     }
 
     internal fun reset() {
         initStartTimeStamp = Time.stamp()
+
     }
 
-    private fun refreshFiles() {
+    internal fun refreshFiles() {
         File(logFile).deleteRecursively()
         File(FilePaths.logDir).mkdirs()
         File(logFile).withOutputStream { }
@@ -54,6 +55,7 @@ internal object Logger : ISimulationLifeCycle {
         File(FilePaths.dbStates).deleteRecursively()
         File(FilePaths.dbStates).mkdirs()
     }
+
 
     private fun getSimulationTime(): Instant = Time.addMillis(startUpTimeStamp, simulation.getCurrentClock())
 
