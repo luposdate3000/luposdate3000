@@ -15,14 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
+import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
-
 internal class MySimulatorOperatorGraphPackage(
     val operatorGraph: MutableMap<String, XMLElement>,
     val destinations: MutableMap<String, Int>,
     val operatorGraphPartsToHostMap: MutableMap<String, String>,
     val dependenciesMapTopDown: MutableMap<String, Set<String>>,
+    val onFinish: IDatabasePackage?,
+    val expectedResult: MemoryTable?,
 ) : IDatabasePackage {
 
     override fun getPackageSizeInBytes(): Int {
@@ -35,7 +37,6 @@ internal class MySimulatorOperatorGraphPackage(
     override fun getContentLogString(): String {
         return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap, dependencies $dependenciesMapTopDown)"
     }
-
 
     private fun getOperatorGraphSizeInBytes(): Int {
         var size = 0
@@ -72,5 +73,4 @@ internal class MySimulatorOperatorGraphPackage(
             size += str.encodeToByteArray().size
         return size
     }
-
 }

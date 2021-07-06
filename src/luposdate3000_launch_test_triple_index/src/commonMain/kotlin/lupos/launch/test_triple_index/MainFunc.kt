@@ -20,10 +20,12 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
 import lupos.shared.AflCore
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.TripleStoreIndex
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
@@ -49,22 +51,22 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)
-    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
+    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:53"/*SOURCE_FILE_END*/)
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, false)
-    val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
-    val insertBuffer = IntArray(3000)
+    val dataBuffer = mutableSetOf<DictionaryValueType>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
+    val insertBuffer = DictionaryValueTypeArray(3000)
     var insertBufferSize = 0
-    val deleteBuffer = IntArray(3000)
+    val deleteBuffer = DictionaryValueTypeArray(3000)
     var deleteBufferSize = 0
-    fun mergeSPO(s: Int, p: Int, o: Int): Int {
-        return (s and 0x7fff0000.toInt()) or ((p and 0x7f000000.toInt()) shr 16) or ((o and 0x7f000000.toInt()) shr 24)
+    fun mergeSPO(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType): DictionaryValueType {
+        return DictionaryValueHelper.fromInt((DictionaryValueHelper.toInt(s) and 0x7fff0000.toInt()) or ((DictionaryValueHelper.toInt(p) and 0x7f000000.toInt()) shr 16) or ((DictionaryValueHelper.toInt(o) and 0x7f000000.toInt()) shr 24))
     }
-    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) {
-        action(v and 0x7fff0000.toInt(), ((v and 0x00007f00.toInt()) shl 16), ((v and 0x0000007f.toInt()) shl 24))
+    fun splitSPO(v: DictionaryValueType, action: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit) {
+        action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000.toInt()), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x00007f00.toInt()) shl 16)), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x0000007f.toInt()) shl 24)))
     }
-    fun filterArrToFun(filter: IntArray): (Int) -> Boolean {
-        var res: (Int) -> Boolean = { true }
+    fun filterArrToFun(filter: DictionaryValueTypeArray): (DictionaryValueType) -> Boolean {
+        var res: (DictionaryValueType) -> Boolean = { true }
         when (filter.size) {
             1 -> {
                 res = { it ->
@@ -124,10 +126,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (insertBufferSize + 3 > insertBuffer.size) {
             testInsertOk()
         }
-        var myRng = abs(rng % 2147483647) // prevent sign extension - and mapping from "-2147483648" to itself
-        var myS = 0
-        var myP = 0
-        var myO = 0
+        var myRng = DictionaryValueHelper.fromInt(abs(rng % 2147483647)) // prevent sign extension - and mapping from "-2147483648" to itself
+        var myS: DictionaryValueType = 0
+        var myP: DictionaryValueType = 0
+        var myO: DictionaryValueType = 0
         splitSPO(myRng) { s, p, o ->
             myS = s
             myP = p
@@ -173,16 +175,18 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         if (deleteBufferSize + 3 > deleteBuffer.size) {
             testDeleteOk()
         }
-        var myRng = if (rng == 0) {
-            1
-        } else if (rng < 0) {
-            -rng
-        } else {
-            rng
-        }
-        var myS = 0
-        var myP = 0
-        var myO = 0
+        var myRng = DictionaryValueHelper.fromInt(
+            if (rng == 0) {
+                1
+            } else if (rng < 0) {
+                -rng
+            } else {
+                rng
+            }
+        )
+        var myS: DictionaryValueType = 0
+        var myP: DictionaryValueType = 0
+        var myO: DictionaryValueType = 0
         splitSPO(myRng) { s, p, o ->
             myS = s
             myP = p
@@ -217,7 +221,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun verifyH(a: List<Int>, b: List<Int>) {
+    fun verifyH(a: List<DictionaryValueType>, b: List<DictionaryValueType>) {
         var ai = 0
         var bi = 0
         var flag = a.size != b.size
@@ -257,70 +261,70 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun verifyS(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyS(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyS")
         }
         val iter = bundle.columns["s"]!!
         val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
-            var res = 0
+            var res: DictionaryValueType = 0
             splitSPO(it) { s, p, o ->
                 res = s
             }
             res
         }
-        val actual = mutableListOf<Int>()
+        val actual = mutableListOf<DictionaryValueType>()
         var value = iter.next()
-        while (value != DictionaryExt.nullValue) {
+        while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
             value = iter.next()
         }
         verifyH(actual, target)
     }
 
-    fun verifyP(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyP(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyP")
         }
         val iter = bundle.columns["p"]!!
         val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
-            var res = 0
+            var res: DictionaryValueType = 0
             splitSPO(it) { s, p, o ->
                 res = p
             }
             res
         }
-        val actual = mutableListOf<Int>()
+        val actual = mutableListOf<DictionaryValueType>()
         var value = iter.next()
-        while (value != DictionaryExt.nullValue) {
+        while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
             value = iter.next()
         }
         verifyH(actual, target)
     }
 
-    fun verifyO(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyO(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyO")
         }
         val iter = bundle.columns["o"]!!
         val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
-            var res = 0
+            var res: DictionaryValueType = 0
             splitSPO(it) { s, p, o ->
                 res = o
             }
             res
         }
-        val actual = mutableListOf<Int>()
+        val actual = mutableListOf<DictionaryValueType>()
         var value = iter.next()
-        while (value != DictionaryExt.nullValue) {
+        while (value != DictionaryValueHelper.nullValue) {
             actual.add(value)
             value = iter.next()
         }
         verifyH(actual, target)
     }
 
-    fun verifyCount(bundle: IteratorBundle, filter: IntArray) {
+    fun verifyCount(bundle: IteratorBundle, filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("verifyCount")
         }
@@ -338,7 +342,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_sxx_Ok(filter: IntArray) {
+    fun testGetIterator_sxx_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_sxx_Ok ${filter.map { it }}")
         }
@@ -355,7 +359,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_spx_Ok(filter: IntArray) {
+    fun testGetIterator_spx_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_spx_Ok ${filter.map { it }}")
         }
@@ -379,7 +383,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_spo_Ok(filter: IntArray) {
+    fun testGetIterator_spo_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_spo_Ok ${filter.map { it }}")
         }
@@ -411,7 +415,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
     }
 
-    fun testGetIterator_xxx_Ok(filter: IntArray) {
+    fun testGetIterator_xxx_Ok(filter: DictionaryValueTypeArray) {
         if (verbose) {
             println("testGetIterator_xxx_Ok ${filter.map { it }}")
         }
@@ -420,28 +424,28 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         verifyCount(bundle, filter)
     }
 
-    fun getFilter(mode: Int, rng: Int, action: (IntArray) -> Unit) {
+    fun getFilter(mode: Int, rng: Int, action: (DictionaryValueTypeArray) -> Unit) {
         if (dataBuffer.size == 0) {
-            action(intArrayOf())
+            action(DictionaryValueHelper.DictionaryValueTypeArrayOf())
         } else {
             val tmp = dataBuffer.toList()[abs(rng % dataBuffer.size)]
             when (mode) {
                 0 -> {
-                    action(intArrayOf())
+                    action(DictionaryValueHelper.DictionaryValueTypeArrayOf())
                 }
                 1 -> {
                     splitSPO(tmp) { s, p, o ->
-                        action(intArrayOf(s))
+                        action(DictionaryValueHelper.DictionaryValueTypeArrayOf(s))
                     }
                 }
                 2 -> {
                     splitSPO(tmp) { s, p, o ->
-                        action(intArrayOf(s, p))
+                        action(DictionaryValueHelper.DictionaryValueTypeArrayOf(s, p))
                     }
                 }
                 3 -> {
                     splitSPO(tmp) { s, p, o ->
-                        action(intArrayOf(s, p, o))
+                        action(DictionaryValueHelper.DictionaryValueTypeArrayOf(s, p, o))
                     }
                 }
             }

@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
@@ -23,19 +22,19 @@ import kotlin.jvm.JvmField
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
 
     @JvmField
-    public val data: MutableList<IntArray> = mutableListOf() // array of rows
+    public val data: MutableList<DictionaryValueTypeArray> = mutableListOf() // array of rows
 
     @JvmField
     public var booleanResult: Boolean? = null
 
     @JvmField
     public var query: IQuery? = null
-    public fun column(name: String): IntArray? {
+    public fun column(name: String): DictionaryValueTypeArray? {
         val j = columns.indexOf(name)
         if (j < 0) {
             return null
         }
-        var res = IntArray(data.size)
+        var res = DictionaryValueTypeArray(data.size)
         var i = 0
         for (row in data) {
             res[i] = row[j]
@@ -46,7 +45,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
 
     override fun toString(): String {
         val buffer = ByteArrayWrapper()
-        fun idToString(id: Int): String {
+        fun idToString(id: DictionaryValueType): String {
             val q = query
             if (q != null) {
                 q.getDictionary().getValue(buffer, id)

@@ -16,11 +16,12 @@
  */
 
 package lupos.shared.fileformat
-
+import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import kotlin.jvm.JvmField
 
-public class DictionaryIntermediateRow(public val id: Int, public val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
-    public override operator fun compareTo(other: DictionaryIntermediateRow): Int {
+public class DictionaryIntermediateRow(@JvmField public val id: DictionaryValueType, @JvmField public val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
+    override operator fun compareTo(other: DictionaryIntermediateRow): Int {
         return data.compareTo(other.data)
     }
 

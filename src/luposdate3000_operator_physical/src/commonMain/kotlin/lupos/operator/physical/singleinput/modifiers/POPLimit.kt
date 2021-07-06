@@ -17,13 +17,14 @@
 package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -31,7 +32,7 @@ import kotlin.jvm.JvmField
 
 public class POPLimit public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPLimitID, "POPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/modifiers/POPLimit.kt:34"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -59,17 +60,17 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
 
                 @JvmField
                 var label = 1
-                override /*suspend*/ fun next(): Int {
+                override /*suspend*/ fun next(): DictionaryValueType {
                     return if (label != 0) {
                         if (count == limit) {
                             _close()
-                            DictionaryExt.nullValue
+                            DictionaryValueHelper.nullValue
                         } else {
                             count++
                             iterator.next()
                         }
                     } else {
-                        DictionaryExt.nullValue
+                        DictionaryValueHelper.nullValue
                     }
                 }
 

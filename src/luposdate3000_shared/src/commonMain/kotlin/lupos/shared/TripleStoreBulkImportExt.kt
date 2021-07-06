@@ -17,7 +17,7 @@
 package lupos.shared
 
 public object TripleStoreBulkImportExt {
-    public fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
+    public fun mergeSort(source: DictionaryValueTypeArray, target: DictionaryValueTypeArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
         // assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
         val aEnd = (off + mid) * 3
         val bEnd = (off + count) * 3
@@ -61,7 +61,7 @@ public object TripleStoreBulkImportExt {
         }
     }
 
-    public fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<IntArray>, total: Int, order: IntArray) {
+    public fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<DictionaryValueTypeArray>, total: Int, order: IntArray) {
         /*in the first step the data is moved into dataIdxB*/
         var off: Int
         var shift = 0

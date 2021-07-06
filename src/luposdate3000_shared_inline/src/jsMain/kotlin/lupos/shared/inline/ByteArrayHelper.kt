@@ -158,6 +158,162 @@ internal actual object ByteArrayHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLong1(data: ByteArray, offset: Int, value: Long) {
+        data[offset + 0] = (value and 0xFF).toByte()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLong2(data: ByteArray, offset: Int, value: Long) {
+        data[offset + 0] = ((value shr 8) and 0xFF).toByte()
+        data[offset + 1] = (value and 0xFF).toByte()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLong3(data: ByteArray, offset: Int, value: Long) {
+        data[offset + 0] = ((value shr 16) and 0xFF).toByte()
+        data[offset + 1] = ((value shr 8) and 0xFF).toByte()
+        data[offset + 2] = (value and 0xFF).toByte()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLong4(data: ByteArray, offset: Int, value: Long) {
+        data[offset + 0] = ((value shr 24) and 0xFF).toByte()
+        data[offset + 1] = ((value shr 16) and 0xFF).toByte()
+        data[offset + 2] = ((value shr 8) and 0xFF).toByte()
+        data[offset + 3] = (value and 0xFF).toByte()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLong5(data: ByteArray, offset: Int, value: Long) {
+        data[offset + 0] = ((value shr 32) and 0xFF).toByte()
+        data[offset + 1] = ((value shr 24) and 0xFF).toByte()
+        data[offset + 2] = ((value shr 16) and 0xFF).toByte()
+        data[offset + 3] = ((value shr 8) and 0xFF).toByte()
+        data[offset + 4] = (value and 0xFF).toByte()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLong6(data: ByteArray, offset: Int, value: Long) {
+        data[offset + 0] = ((value shr 40) and 0xFF).toByte()
+        data[offset + 1] = ((value shr 32) and 0xFF).toByte()
+        data[offset + 2] = ((value shr 24) and 0xFF).toByte()
+        data[offset + 3] = ((value shr 16) and 0xFF).toByte()
+        data[offset + 4] = ((value shr 8) and 0xFF).toByte()
+        data[offset + 5] = (value and 0xFF).toByte()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLong7(data: ByteArray, offset: Int, value: Long) {
+        data[offset + 0] = ((value shr 48) and 0xFF).toByte()
+        data[offset + 1] = ((value shr 40) and 0xFF).toByte()
+        data[offset + 2] = ((value shr 32) and 0xFF).toByte()
+        data[offset + 3] = ((value shr 24) and 0xFF).toByte()
+        data[offset + 4] = ((value shr 16) and 0xFF).toByte()
+        data[offset + 5] = ((value shr 8) and 0xFF).toByte()
+        data[offset + 6] = (value and 0xFF).toByte()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeLongX(data: ByteArray, offset: Int, value: Long, count: Int) {
+        when (count) {
+            0 -> {
+            }
+            1 -> {
+                writeLong1(data, offset, value)
+            }
+            2 -> {
+                writeLong2(data, offset, value)
+            }
+            3 -> {
+                writeLong3(data, offset, value)
+            }
+            4 -> {
+                writeLong4(data, offset, value)
+            }
+            5 -> {
+                writeLong5(data, offset, value)
+            }
+            6 -> {
+                writeLong6(data, offset, value)
+            }
+            7 -> {
+                writeLong7(data, offset, value)
+            }
+            else -> {
+                writeLong8(data, offset, value)
+            }
+        }
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLong1(data: ByteArray, offset: Int): Long {
+        return (((data[offset + 0].toLong() and 0xFF)))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLong2(data: ByteArray, offset: Int): Long {
+        return (((data[offset + 0].toLong() and 0xFF) shl 8) or ((data[offset + 1].toLong() and 0xFF)))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLong3(data: ByteArray, offset: Int): Long {
+        return (((data[offset + 0].toLong() and 0xFF) shl 16) or ((data[offset + 1].toLong() and 0xFF) shl 8) or ((data[offset + 2].toLong() and 0xFF)))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLong4(data: ByteArray, offset: Int): Long {
+        return (((data[offset + 0].toLong() and 0xFF) shl 24) or ((data[offset + 1].toLong() and 0xFF) shl 16) or ((data[offset + 2].toLong() and 0xFF) shl 8) or ((data[offset + 3].toLong() and 0xFF)))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLong5(data: ByteArray, offset: Int): Long {
+        return (((data[offset + 0].toLong() and 0xFF) shl 32) or ((data[offset + 1].toLong() and 0xFF) shl 24) or ((data[offset + 2].toLong() and 0xFF) shl 16) or ((data[offset + 3].toLong() and 0xFF) shl 8) or ((data[offset + 4].toLong() and 0xFF)))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLong6(data: ByteArray, offset: Int): Long {
+        return (((data[offset + 0].toLong() and 0xFF) shl 40) or ((data[offset + 1].toLong() and 0xFF) shl 32) or ((data[offset + 2].toLong() and 0xFF) shl 24) or ((data[offset + 3].toLong() and 0xFF) shl 16) or ((data[offset + 4].toLong() and 0xFF) shl 8) or ((data[offset + 5].toLong() and 0xFF)))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLong7(data: ByteArray, offset: Int): Long {
+        return (((data[offset + 0].toLong() and 0xFF) shl 48) or ((data[offset + 1].toLong() and 0xFF) shl 40) or ((data[offset + 2].toLong() and 0xFF) shl 32) or ((data[offset + 3].toLong() and 0xFF) shl 24) or ((data[offset + 4].toLong() and 0xFF) shl 16) or ((data[offset + 5].toLong() and 0xFF) shl 8) or ((data[offset + 6].toLong() and 0xFF)))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readLongX(data: ByteArray, offset: Int, count: Int): Long {
+        when (count) {
+            0 -> {
+                return 0
+            }
+            1 -> {
+                return readLong1(data, offset)
+            }
+            2 -> {
+                return readLong2(data, offset)
+            }
+            3 -> {
+                return readLong3(data, offset)
+            }
+            4 -> {
+                return readLong4(data, offset)
+            }
+            5 -> {
+                return readLong5(data, offset)
+            }
+            6 -> {
+                return readLong6(data, offset)
+            }
+            7 -> {
+                return readLong7(data, offset)
+            }
+            else -> {
+                return readLong8(data, offset)
+            }
+        }
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readChar(data: ByteArray, offset: Int): Char {
         return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF))).toChar()
     }

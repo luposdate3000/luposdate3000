@@ -4,7 +4,6 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.routing.RPL
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -122,7 +121,6 @@ class RoutingSimulationTest {
         sim.startSimulation()
         assertEquals(79, querySender.queryCounter)
     }
-
 
     @Test
     fun sensorFromStarSendOverMesh() {

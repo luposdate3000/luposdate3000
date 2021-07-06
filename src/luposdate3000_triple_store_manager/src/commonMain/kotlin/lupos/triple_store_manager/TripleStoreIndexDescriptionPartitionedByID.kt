@@ -15,7 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -77,13 +78,13 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         return byteArray2
     }
 
-    internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
-        return triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount
+    internal override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
+        return DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount)
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check({ partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
-        SanityCheck.check({ partition.data.size == 1 }, { "${partition.limit} ${partition.data}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:85"/*SOURCE_FILE_END*/ }, { partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:86"/*SOURCE_FILE_END*/ }, { partition.data.size == 1 }, { "${partition.limit} ${partition.data}" })
         for (v in partition.data.values) {
             return Pair(hostnames[v], keys[v])
         }
@@ -105,8 +106,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     internal override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
-            SanityCheck.check { hostnames[i] == "" }
-            SanityCheck.check { keys[i] == "" }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:108"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:109"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

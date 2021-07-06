@@ -21,6 +21,8 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.shared.AflCore
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
@@ -29,7 +31,6 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
@@ -63,15 +64,15 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             instance.bufferManager = BufferManager(instance)
             if (isLocal) {
                 instance.nodeGlobalDictionary?.close()
-                instance.nodeGlobalDictionary = object : ADictionary(instance) {
-                    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+                instance.nodeGlobalDictionary = object : ADictionary(instance, false) {
+                    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
                     override fun createNewUUID(): Int = TODO()
                     override fun close() {}
                     override fun delete() {}
-                    override fun createNewBNode(): Int = TODO()
-                    override fun createValue(buffer: ByteArrayWrapper): Int = TODO()
-                    override fun getValue(buffer: ByteArrayWrapper, value: Int) = TODO()
-                    override fun hasValue(buffer: ByteArrayWrapper): Int? = null
+                    override fun createNewBNode(): DictionaryValueType = TODO()
+                    override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
+                    override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) = TODO()
+                    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? = null
                     override fun isInmemoryOnly(): Boolean = true
                 }
             }
@@ -80,7 +81,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:74")
+                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:83"/*SOURCE_FILE_END*/)
                         }
                         return DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
@@ -94,32 +95,32 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (!isLocal) {
                 instance.nodeGlobalDictionary = dict
             }
-            val values = mutableListOf<ByteArrayWrapper>(
-                DictionaryExt.booleanTrueValue3,
-                DictionaryExt.booleanFalseValue3,
-                DictionaryExt.errorValue3,
-                DictionaryExt.undefValue3,
+            val values = mutableMapOf<DictionaryValueType, ByteArrayWrapper>(
+                DictionaryValueHelper.fromInt(0) to DictionaryExt.booleanTrueValue3,
+                DictionaryValueHelper.fromInt(1) to DictionaryExt.booleanFalseValue3,
+                DictionaryValueHelper.fromInt(2) to DictionaryExt.errorValue3,
+                DictionaryValueHelper.fromInt(3) to DictionaryExt.undefValue3,
             )
-            val mapping = mutableMapOf<Int, Int>(
-                0 to 0,
-                1 to 1,
-                2 to 2,
-                3 to 3,
+            val mapping = mutableMapOf<DictionaryValueType, DictionaryValueType>(
+                DictionaryValueHelper.fromInt(0) to DictionaryValueHelper.fromInt(0),
+                DictionaryValueHelper.fromInt(1) to DictionaryValueHelper.fromInt(1),
+                DictionaryValueHelper.fromInt(2) to DictionaryValueHelper.fromInt(2),
+                DictionaryValueHelper.fromInt(3) to DictionaryValueHelper.fromInt(3),
             ) // dict.id -> values.index
 
             var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
 
-            fun getExistingData(rng: Int, action: (ByteArrayWrapper, Int) -> Unit) {
-                val ids = mutableListOf<Int>()
+            fun getExistingData(rng: Int, action: (ByteArrayWrapper, DictionaryValueType) -> Unit) {
+                val ids = mutableListOf<DictionaryValueType>()
                 ids.addAll(mapping.keys)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
-                    action(values[mapping[key]!!], key)
+                    action(values[mapping[key]!!]!!, key)
                 }
             }
 
-            fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
-                val ids = MutableList<Int>(1000) { it }
+            fun getNotExistingKey(rng: Int, action: (DictionaryValueType) -> Unit) {
+                val ids = MutableList<DictionaryValueType>(1000) { DictionaryValueHelper.fromInt(it) }
                 ids.removeAll(mapping.values)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
@@ -152,28 +153,24 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     val res = ByteArrayWrapper()
                     ByteArrayWrapperExt.setSize(res, len)
                     for (i in 0 until len) {
-                        res.buf[i] = (i + seed).toByte()
+                        ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }
-                    var x = ByteArrayHelper.readInt4(res.buf, 0)
-                    var lastx = 0
-                    while (x != lastx) {
-                        lastx = x
-                        if (x == ETripleComponentTypeExt.BLANK_NODE) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.BOOLEAN && len != 5) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.BOOLEAN && len == 5) {
-                            res.buf[4] = abs(res.buf[4] % 2).toByte()
-                        } else if (x == ETripleComponentTypeExt.ERROR && len != 4) {
-                            x++
-                        } else if (x == ETripleComponentTypeExt.UNDEF && len != 4) {
-                            x++
-                        } else {
-                            x = abs(x % ETripleComponentTypeExt.values_size)
-                        }
+                    var x = DictionaryHelper.headerDecodeType(res)
+                    val flg = DictionaryHelper.headerDecodeFlag(res)
+                    if (x == ETripleComponentTypeExt.BLANK_NODE) {
+                        DictionaryHelper.errorToByteArray(res)
+                    } else if (x == ETripleComponentTypeExt.BOOLEAN) {
+                        DictionaryHelper.booleanToByteArray(res, flg % 2 == 0)
+                    } else if (x == ETripleComponentTypeExt.ERROR) {
+                        DictionaryHelper.errorToByteArray(res)
+                    } else if (x == ETripleComponentTypeExt.UNDEF) {
+                        DictionaryHelper.undefToByteArray(res)
+                    } else if (x < ETripleComponentTypeExt.values_size) {
+                        DictionaryHelper.headerEncode(res, x, flg)
+                    } else {
+                        DictionaryHelper.errorToByteArray(res)
                     }
-                    ByteArrayHelper.writeInt4(res.buf, 0, x)
-                    if (values.contains(res)) {
+                    if (values.values.contains(res)) {
                         if (seed < 255) {
                             seed++
                         } else {
@@ -190,7 +187,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
             }
 
-            fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
+            fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: DictionaryValueType) {
                 if (verbose) {
                     println("testCreateValueExistingOk $targetKey $data")
                 }
@@ -206,17 +203,17 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     println("testCreateValueNotExistingOk $key $data")
                 }
                 if (mapping[key] != null) {
-                    throw Exception("$key")
+                    throw Exception("luposdate3000_launch_test_dictionary.MainFunc.testCreateValueNotExistingOk $key")
                 }
-                mapping[key] = values.size
-                values.add(data)
+                mapping[key] = DictionaryValueHelper.fromInt(values.size)
+                values[DictionaryValueHelper.fromInt(values.size)] = data
             }
 
-            fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
+            fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: DictionaryValueType) {
                 if (verbose) {
                     println("testHasValueYesOk $targetKey $data")
                 }
-                var res: Int? = null
+                var res: DictionaryValueType? = null
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
                 val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
@@ -242,7 +239,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("testHasValueNoOk $data")
                 }
-                var res: Int? = null
+                var res: DictionaryValueType? = null
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
                 val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
@@ -264,23 +261,23 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
             }
 
-            fun testGetValueOk(target: ByteArrayWrapper, key: Int) {
+            fun testGetValueOk(target: ByteArrayWrapper, key: DictionaryValueType) {
                 if (verbose) {
                     println("testGetValueOk $key ${key.toString(2)} $target")
                 }
                 val value = ByteArrayWrapper()
                 dict.getValue(value, key)
-                if (value.size != target.size) {
-                    throw Exception("${value.size} ${target.size} $value")
+                if (ByteArrayWrapperExt.getSize(value) != ByteArrayWrapperExt.getSize(target)) {
+                    throw Exception("${ByteArrayWrapperExt.getSize(value)} ${ByteArrayWrapperExt.getSize(target)} $value")
                 }
-                for (i in 0 until value.size) {
-                    if (value.buf[i] != target.buf[i]) {
+                for (i in 0 until ByteArrayWrapperExt.getSize(value)) {
+                    if (ByteArrayWrapperExt.getBuf(value)[i] != ByteArrayWrapperExt.getBuf(target)[i]) {
                         throw Exception("")
                     }
                 }
             }
 
-            fun testGetValueFail(key: Int) {
+            fun testGetValueFail(key: DictionaryValueType) {
                 if (verbose) {
                     println("testGetValueFail $key")
                 }
@@ -312,7 +309,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
             }
             for ((k, v) in mapping) {
-                testGetValueOk(values[v], k)
+                testGetValueOk(values[v]!!, k)
             }
             if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
                 dict.close()
@@ -322,7 +319,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 dict = createDict(true)
             }
             for ((k, v) in mapping) {
-                testGetValueOk(values[v], k)
+                testGetValueOk(values[v]!!, k)
             }
             dict.delete()
             if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {

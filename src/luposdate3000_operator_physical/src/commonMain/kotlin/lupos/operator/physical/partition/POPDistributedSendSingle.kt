@@ -17,6 +17,7 @@
 package lupos.operator.physical.partition
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
@@ -24,7 +25,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -40,7 +40,7 @@ public class POPDistributedSendSingle public constructor(
     @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -127,7 +127,7 @@ public class POPDistributedSendSingle public constructor(
                 }
             }
         }
-        SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:129"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
         var variables = Array<String>(projectedVariables.size) { "" }
         var i = 0
         connectionOut.writeInt(variables.size)
@@ -140,11 +140,11 @@ public class POPDistributedSendSingle public constructor(
         var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        var buf = DictionaryExt.nullValue + 1
-        while (buf != DictionaryExt.nullValue) {
+        var buf = DictionaryValueHelper.nullValue + 1
+        while (buf != DictionaryValueHelper.nullValue) {
             for (j in 0 until variables.size) {
                 buf = columns[j].next()
-                connectionOut.writeInt(buf)
+                connectionOut.writeDictionaryValueType(buf)
             }
         }
         connectionOut.flush()

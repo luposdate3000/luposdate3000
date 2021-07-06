@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.multiinput
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorID
 import lupos.shared.IQuery

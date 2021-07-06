@@ -16,11 +16,12 @@
  */
 package lupos.operator.base.iterator
 
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
-public class RowIteratorBuf(buf: IntArray, columns: Array<String>, @JvmField public val size: Int) : RowIterator() {
+public class RowIteratorBuf(buf: DictionaryValueTypeArray, columns: Array<String>, @JvmField public val size: Int) : RowIterator() {
     @JvmField
     public var offset: Int = 0
 
@@ -30,9 +31,9 @@ public class RowIteratorBuf(buf: IntArray, columns: Array<String>, @JvmField pub
         if (size == 0) {
             offset = -1
         }
-        SanityCheck.check { size >= 0 }
-        SanityCheck.check { size <= buf.size }
-        SanityCheck.check { (buf.size % columns.size) == 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorBuf.kt:33"/*SOURCE_FILE_END*/ }, { size >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorBuf.kt:34"/*SOURCE_FILE_END*/ }, { size <= buf.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorBuf.kt:35"/*SOURCE_FILE_END*/ }, { (buf.size % columns.size) == 0 })
         next = {
             val res = offset
             val tmp = offset + columns.size

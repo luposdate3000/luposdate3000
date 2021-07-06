@@ -18,6 +18,9 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.physical.ITERATOR_DEBUG_MODE
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt
 import lupos.shared.ESortPriorityExt
@@ -25,7 +28,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -61,37 +63,19 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     for (k in child.columns.keys) {
                         columnMode.add(k)
                     }
-                    SanityCheck.check { columnMode.containsAll(target) }
-                    SanityCheck.check { target.containsAll(columnMode) }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:65"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:66"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) })
                     val outMap = mutableMapOf<String, ColumnIterator>()
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
-                            override /*suspend*/ fun next(): Int {
+                            override /*suspend*/ fun next(): DictionaryValueType {
                                 val res = childIter.next()
-                                if (res != DictionaryExt.nullValue) {
-                                    if (!SanityCheck.ignoreTripleFlag) {
-                                        when {
-                                            columnName.startsWith("s") -> {
-                                                SanityCheck.check_is_S(res)
-                                            }
-                                            columnName.startsWith("p") -> {
-                                                SanityCheck.check_is_P(res)
-                                            }
-                                            columnName.startsWith("o") -> {
-                                                SanityCheck.check_is_O(res)
-                                            }
-                                            else -> {
-                                                println(columnName)
-                                            }
-                                        }
-                                    }
-                                }
                                 return res
                             }
-                            override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
-                                childIter.nextSIP(minValue, result)
+                            override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
+                                childIter.nextSIP(minValue, resultValue, resultSkip)
                             }
-                            override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+                            override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
                                 val res = childIter.skipSIP(skipCount)
                                 return res
                             }
@@ -104,8 +88,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
-                    SanityCheck.check { rowMode.containsAll(target) }
-                    SanityCheck.check { target.containsAll(rowMode) }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:90"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:91"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
                 }
                 return child
             }
@@ -130,52 +114,52 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             val iterator = object : ColumnIterator() {
                                 @JvmField
                                 var label = 1
-                                override /*suspend*/ fun next(): Int {
+                                override /*suspend*/ fun next(): DictionaryValueType {
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call" }
                                         val res = v.next()
-                                        if (res == DictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                        if (res == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
-                                        DictionaryExt.nullValue
+                                        DictionaryValueHelper.nullValue
                                     }
                                 }
 
-                                override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
+                                override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
                                     if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call minValue SIP" }
-                                        v.nextSIP(minValue, result)
-                                        val res = result[1]
-                                        if (res == DictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                        v.nextSIP(minValue, resultValue, resultSkip)
+                                        val res = resultValue[0]
+                                        if (res == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                     } else {
-                                        result[0] = 0
-                                        result[1] = DictionaryExt.nullValue
+                                        resultSkip[0] = 0
+                                        resultValue[0] = DictionaryValueHelper.nullValue
                                     }
                                 }
 
-                                override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+                                override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call skip SIP" }
                                         val res = v.skipSIP(skipCount)
-                                        if (res == DictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                        if (res == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
-                                        DictionaryExt.nullValue
+                                        DictionaryValueHelper.nullValue
                                     }
                                 }
 
@@ -189,14 +173,14 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             }
                             outMap[k] = iterator
                         }
-                        SanityCheck.check { columnMode.containsAll(target) }
-                        SanityCheck.check({ target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:175"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:176"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
                         return IteratorBundle(outMap)
                     }
                     child.hasRowMode() -> {
                         val rowMode = child.rows.columns.toMutableList()
-                        SanityCheck.check { rowMode.containsAll(target) }
-                        SanityCheck.check { target.containsAll(rowMode) }
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:181"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:182"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
                         val iterator = RowIterator()
                         var counter = 0
                         iterator.columns = child.rows.columns
@@ -205,7 +189,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             val res = child.rows.next()
                             iterator.buf = child.rows.buf
                             if (res < 0) {
-                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} DictionaryExt.nullValue" }
+                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                             } else {
                                 counter++
                                 SanityCheck.println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }

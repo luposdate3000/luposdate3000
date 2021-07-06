@@ -16,6 +16,7 @@
  */
 package lupos.triple_store_manager
 
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.IQuery
@@ -25,7 +26,6 @@ import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElement
 import kotlin.jvm.JvmField
-
 public abstract class TripleStoreIndexDescription(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescription {
     @JvmField
     internal var idx_set: IntArray = intArrayOf()
@@ -35,7 +35,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
     internal abstract fun toByteArray(): ByteArray
     internal abstract fun assignHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
-    internal abstract fun findPartitionFor(query: IQuery, triple: IntArray): Int
+    internal abstract fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int
     internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
     internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): TripleStoreIndexDescription {
         var count = -1

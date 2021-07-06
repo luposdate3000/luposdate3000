@@ -23,18 +23,6 @@ import kotlin.contracts.contract
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOff {
     public val enabled = false
-    public val TRIPLE_FLAG_S = 0x00010000
-    public val TRIPLE_FLAG_P = 0x00020000
-    public val TRIPLE_FLAG_O = 0x00030000
-    public val TRIPLE_FLAG_All = TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
-    public val TRIPLE_FLAG_NONE = Int.MAX_VALUE - TRIPLE_FLAG_All
-    public val ignoreTripleFlag = true
-    internal inline fun check_is_S(i: Int) {
-    }
-    internal inline fun check_is_P(i: Int) {
-    }
-    internal inline fun check_is_O(i: Int) {
-    }
     internal inline fun println_buffermanager(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
     }
@@ -47,7 +35,7 @@ internal object SanityCheckOff {
         contract { callsInPlace(s, AT_MOST_ONCE) }
     }
 
-    internal inline operator fun invoke(@Suppress("UNUSED_PARAMETER") crossinline action: () -> Unit) {
+    internal inline operator fun invoke(crossinline filename: () -> String, @Suppress("UNUSED_PARAMETER") crossinline action: () -> Unit) {
     }
 
     /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
@@ -59,11 +47,11 @@ internal object SanityCheckOff {
         return null
     }
 
-    internal inline fun check(crossinline value: () -> Boolean, @Suppress("UNUSED_PARAMETER") crossinline msg: () -> String) {
+    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean, @Suppress("UNUSED_PARAMETER") crossinline msg: () -> String) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
     }
 
-    internal inline fun check(crossinline value: () -> Boolean) {
+    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
     }
 

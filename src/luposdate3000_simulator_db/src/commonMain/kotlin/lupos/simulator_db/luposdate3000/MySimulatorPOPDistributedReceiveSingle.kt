@@ -17,6 +17,8 @@
 package lupos.simulator_db.luposdate3000
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -24,7 +26,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -41,7 +42,7 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
     private val input: IMyInputStream,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveSingleID, "POPDistributedReceiveSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveSingle.kt:44"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int = TODO()
@@ -66,16 +67,16 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
         var mapping = IntArray(variables.size)
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
+        iterator.buf = DictionaryValueTypeArray(variables.size)
         val cnt = input.readInt()
-        SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveSingle.kt:71"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
         for (i in 0 until variables.size) {
             val len = input.readInt()
             val buf = ByteArray(len)
             input.read(buf, len)
             val name = buf.decodeToString()
             val j = variables.indexOf(name)
-            SanityCheck.check({ j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveSingle.kt:78"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
             mapping[i] = j
         }
         var closed = false
@@ -83,9 +84,9 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
             var res = -1
             if (!closed) {
                 for (i in 0 until variables.size) {
-                    iterator.buf[mapping[i]] = input.readInt()
+                    iterator.buf[mapping[i]] = input.readDictionaryValueType()
                 }
-                if (iterator.buf[0] == DictionaryExt.nullValue) {
+                if (iterator.buf[0] == DictionaryValueHelper.nullValue) {
                     input.close()
                     closed = true
                 } else {

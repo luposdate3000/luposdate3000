@@ -16,11 +16,12 @@
  */
 package lupos.shared.operator.iterator
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 
 public open class ColumnIteratorEmpty : ColumnIterator() {
-    override /*suspend*/ fun next(): Int {
-        return DictionaryExt.nullValue
+    override /*suspend*/ fun next(): DictionaryValueType {
+        return DictionaryValueHelper.nullValue
     }
 
     override /*suspend*/ fun close() {

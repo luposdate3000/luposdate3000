@@ -10,5 +10,4 @@ internal class DBQueryResultPackage(internal val result: ByteArray) : IPayload {
     override fun toString(): String {
         return "DBQueryResultPck"
     }
-
 }

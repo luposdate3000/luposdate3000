@@ -16,20 +16,22 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.POPBase
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
@@ -40,7 +42,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:44"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -64,15 +66,18 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
     override fun equals(other: Any?): Boolean = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
-        SanityCheck {
-            for (v in children[0].getProvidedVariableNames()) {
-                getPartitionCount(v)
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:69"/*SOURCE_FILE_END*/ },
+            {
+                for (v in children[0].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
+                for (v in children[1].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
             }
-            for (v in children[1].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-        }
-        SanityCheck.check { columns[0].size == 0 }
+        )
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:79"/*SOURCE_FILE_END*/ }, { columns[0].size == 0 })
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
@@ -123,11 +128,11 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             }
             res = IteratorBundle(outMap)
         } else {
-            val data = Array(columnsINBO.size) { mutableListOf<Int>() }
+            val data: Array<MutableList<DictionaryValueType>> = Array(columnsINBO.size) { mutableListOf<DictionaryValueType>() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
+                    if (value == DictionaryValueHelper.nullValue) {
                         break@loopC
                     }
                     data[columnIndex].add(value)
@@ -155,14 +160,15 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                 }
                             }
 
-                            override /*suspend*/ fun next(): Int {
-                                return nextHelper(
+                            override /*suspend*/ fun next(): DictionaryValueType {
+                                return ColumnIteratorChildIteratorExt.nextHelper(
+                                    this,
                                     {
                                         var done = false
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
-                                            if (value == DictionaryExt.nullValue) {
-                                                SanityCheck.check { columnIndex == 0 }
+                                            if (value == DictionaryValueHelper.nullValue) {
+                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:170"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                                 done = true
                                                 for (v in childA.columns.values) {
                                                     v.close()
@@ -173,7 +179,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                         }
                                         if (!done) {
                                             for (columnIndex in 0 until columnsINBO.size) {
-                                                outO[1][columnIndex].addChild(ColumnIteratorRepeatValue(1, DictionaryExt.undefValue))
+                                                outO[1][columnIndex].addChild(ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue))
                                             }
                                         }
                                     },
@@ -221,14 +227,15 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                             }
                         }
 
-                        override /*suspend*/ fun next(): Int {
-                            return nextHelper(
+                        override /*suspend*/ fun next(): DictionaryValueType {
+                            return ColumnIteratorChildIteratorExt.nextHelper(
+                                this,
                                 {
                                     var done = false
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
-                                        if (value == DictionaryExt.nullValue) {
-                                            SanityCheck.check { columnIndex == 0 }
+                                        if (value == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:237"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             done = true
                                             for (v in childA.columns.values) {
                                                 v.close()

@@ -15,15 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik
-
 import lupos.operator.base.OPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.ValueDefinition
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.HistogramResult
@@ -42,7 +42,7 @@ public abstract class AOPBase public constructor(
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)
             return {
-                tmp() == DictionaryExt.booleanTrueValue
+                tmp() == DictionaryValueHelper.booleanTrueValue
             }
         } else {
             val tmp = evaluate(row)
@@ -71,7 +71,7 @@ public abstract class AOPBase public constructor(
         }
     }
 
-    public open fun evaluateID(row: IteratorBundle): () -> Int {
+    public open fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val buffer = ByteArrayWrapper()
         return {
             DictionaryHelper.valueDefinitionToByteArray(buffer, evaluate(row)())
@@ -82,4 +82,5 @@ public abstract class AOPBase public constructor(
     public open fun enforcesBooleanOrError(): Boolean = false
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
+    public open override fun usesDictionary(): Boolean = true
 }

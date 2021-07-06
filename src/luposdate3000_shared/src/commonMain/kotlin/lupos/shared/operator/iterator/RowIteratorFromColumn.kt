@@ -15,27 +15,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
-
 public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBundle) : RowIterator() {
     @JvmField
     public var iterators: Array<ColumnIterator>
 
     init {
-        SanityCheck.check { bundle.hasColumnMode() }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/RowIteratorFromColumn.kt:26"/*SOURCE_FILE_END*/ }, { bundle.hasColumnMode() })
         val keys = bundle.columns.keys.toList()
         columns = Array<String>(bundle.columns.size) { keys[it] }
         iterators = Array<ColumnIterator>(bundle.columns.size) { bundle.columns[columns[it]]!! }
-        buf = IntArray(keys.size)
+        buf = DictionaryValueTypeArray(keys.size)
         next = {
             var res = 0
             for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
-                if (tmp == DictionaryExt.nullValue) {
-                    SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })
+                if (tmp == DictionaryValueHelper.nullValue) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/RowIteratorFromColumn.kt:36"/*SOURCE_FILE_END*/ }, { columnIndex == 0 }, { "" + iterators[columnIndex] })
                     res = -1
                     close()
                     break

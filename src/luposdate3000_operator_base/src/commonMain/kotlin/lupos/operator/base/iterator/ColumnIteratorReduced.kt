@@ -16,13 +16,13 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-
 public class ColumnIteratorReduced(@JvmField public val child: ColumnIterator) : ColumnIterator() {
     @JvmField
-    public var last: Int = DictionaryExt.nullValue
+    public var last: DictionaryValueType = DictionaryValueHelper.nullValue
 
     @JvmField
     public var label: Int = 1
@@ -39,19 +39,19 @@ public class ColumnIteratorReduced(@JvmField public val child: ColumnIterator) :
         _close()
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         return if (label == 1) {
             var res = child.next()
-            while (res != DictionaryExt.nullValue && last == res) {
+            while (res != DictionaryValueHelper.nullValue && last == res) {
                 res = child.next()
             }
             last = res
-            if (res == DictionaryExt.nullValue) {
+            if (res == DictionaryValueHelper.nullValue) {
                 _close()
             }
             res
         } else {
-            DictionaryExt.nullValue
+            DictionaryValueHelper.nullValue
         }
     }
 }

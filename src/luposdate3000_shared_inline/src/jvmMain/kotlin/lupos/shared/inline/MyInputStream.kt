@@ -16,19 +16,23 @@
  */
 package lupos.shared.inline
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.UUID_Counter
 import java.io.InputStream
 import kotlin.jvm.JvmField
 
 internal actual class MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
+
     @JvmField
-    internal val buf4: ByteArray = ByteArray(4)
+    internal val buf8: ByteArray = ByteArray(8)
 
     @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
 
     init {
+        // kotlin.io.println("MyInputStream.constructor $this")
     }
 
     public actual override fun read(buf: ByteArray): Int {
@@ -64,16 +68,25 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     }
 
     public actual override fun readInt(): Int {
-        read(buf4, 4)
-        return ByteArrayHelper.readInt4(buf4, 0)
+        read(buf8, 4)
+        return ByteArrayHelper.readInt4(buf8, 0)
+    }
+    public actual override fun readDictionaryValueType(): DictionaryValueType {
+        read(buf8, DictionaryValueHelper.getSize())
+        return DictionaryValueHelper.fromByteArray(buf8, 0)
+    }
+    public actual override fun readLong(): Long {
+        read(buf8, 8)
+        return ByteArrayHelper.readLong8(buf8, 0)
     }
 
     public actual override fun readByte(): Byte {
-        read(buf4, 1)
-        return buf4[0]
+        read(buf8, 1)
+        return buf8[0]
     }
 
     public actual override fun close() {
+        // kotlin.io.println("MyInputStream.close $this")
         stream.close()
     }
 

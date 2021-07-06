@@ -59,15 +59,18 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     @ProguardTestAnnotation
     override fun getNumberOfReferencedPages(): Int {
         val res = allPagesRefcounters.sum()
-        SanityCheck {
-            val tmp = mutableMapOf<Int, Int>()
-            for (i in 0 until counter) {
-                if (allPagesRefcounters[i] != 0) {
-                    tmp[i] = allPagesRefcounters[i]
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:62"/*SOURCE_FILE_END*/ },
+            {
+                val tmp = mutableMapOf<Int, Int>()
+                for (i in 0 until counter) {
+                    if (allPagesRefcounters[i] != 0) {
+                        tmp[i] = allPagesRefcounters[i]
+                    }
                 }
+                SanityCheck.println_buffermanager { "getNumberOfReferencedPages = $tmp" }
             }
-            SanityCheck.println_buffermanager { "getNumberOfReferencedPages = $tmp" }
-        }
+        )
         return res
     }
 
@@ -77,21 +80,24 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
 
     public override fun releasePage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
-        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:82"/*SOURCE_FILE_END*/ }, { allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
         allPagesRefcounters[pageid]--
     }
 
     public override fun getPage(call_location: String, pageid: Int): ByteArray {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
-        SanityCheck {
-            SanityCheck.check({ pageid < counter }, { "$pageid < $counter" })
-            SanityCheck.check({ pageid >= 0 }, { "$pageid >= 0" })
-            for (i in 0 until freeListSize) {
-                SanityCheck.check { freeList[i] != pageid }
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:90"/*SOURCE_FILE_END*/ },
+            {
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:92"/*SOURCE_FILE_END*/ }, { pageid < counter }, { "$pageid < $counter" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:93"/*SOURCE_FILE_END*/ }, { pageid >= 0 }, { "$pageid >= 0" })
+                for (i in 0 until freeListSize) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:95"/*SOURCE_FILE_END*/ }, { freeList[i] != pageid })
+                }
             }
-        }
-        SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
+        )
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:99"/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(allPages[pageid]) == pageid })
         allPagesRefcounters[pageid]++
         return allPages[pageid]
     }
@@ -122,7 +128,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                 }
                 pageid = counter++
             }
-            SanityCheck.check({ BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])} $pageid" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:130"/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])} $pageid" })
             BufferManagerPage.setPageID(allPages[pageid], pageid)
         }
         SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
@@ -131,18 +137,24 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
 
     public /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
-        SanityCheck {
-            for (i in 0 until freeListSize) {
-                SanityCheck.check { freeList[i] != pageid }
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:140"/*SOURCE_FILE_END*/ },
+            {
+                for (i in 0 until freeListSize) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:143"/*SOURCE_FILE_END*/ }, { freeList[i] != pageid })
+                }
             }
-        }
-        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
+        )
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:147"/*SOURCE_FILE_END*/ }, { allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
         allPagesRefcounters[pageid] = 0
-        SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:149"/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(allPages[pageid]) == pageid })
         BufferManagerPage.setPageID(allPages[pageid], -1)
-        SanityCheck {
-            allPages[pageid] = BufferManagerPage.create()
-        }
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:152"/*SOURCE_FILE_END*/ },
+            {
+                allPages[pageid] = BufferManagerPage.create()
+            }
+        )
         if (freeListSize == freeList.size) {
             val tmp = IntArray(freeListSize * 2)
             freeList.copyInto(tmp)
@@ -153,14 +165,17 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
 
     @ProguardTestAnnotation
     public override fun close() {
-        SanityCheck {
-            val allErrors = mutableMapOf<Int, Int>()
-            for (i in 0 until counter) {
-                if (allPagesRefcounters[i] != 0) {
-                    allErrors[i] = allPagesRefcounters[i]
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:168"/*SOURCE_FILE_END*/ },
+            {
+                val allErrors = mutableMapOf<Int, Int>()
+                for (i in 0 until counter) {
+                    if (allPagesRefcounters[i] != 0) {
+                        allErrors[i] = allPagesRefcounters[i]
+                    }
                 }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:176"/*SOURCE_FILE_END*/ }, { allErrors.size == 0 }, { "$allErrors" })
             }
-            SanityCheck.check({ allErrors.size == 0 }, { "$allErrors" })
-        }
+        )
     }
 }

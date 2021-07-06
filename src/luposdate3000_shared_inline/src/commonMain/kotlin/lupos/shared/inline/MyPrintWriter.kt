@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 
 internal expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyOutputStream {
@@ -33,6 +33,8 @@ internal expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyOutputStream
     override fun close()
     override fun flush()
     override fun writeInt(value: Int): Unit
+    override fun writeDictionaryValueType(value: DictionaryValueType): Unit
+    override fun writeLong(value: Long): Unit
     override fun write(buf: ByteArray): Unit
     override fun write(buf: ByteArray, len: Int): Unit
 }

@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.singleinput
-
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.XMLElement
@@ -40,8 +40,8 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationCOUNT && distinct == other.distinct && children.contentEquals(other.children)
-    private class ColumnIteratorAggregateCOUNT(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
-        val myList = mutableSetOf<Int>()
+    private class ColumnIteratorAggregateCOUNT(private val child: () -> DictionaryValueType, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        val myList = mutableSetOf<DictionaryValueType>()
         private var counter = 0L
 
         override fun evaluate() {
@@ -52,7 +52,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
             }
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             val buffer = ByteArrayWrapper()
             DictionaryHelper.integerToByteArray(buffer, BigInteger.parseString(counter.toString(), 10))
             return dictionary.createValue(buffer)
@@ -65,7 +65,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
             counter++
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             val buffer = ByteArrayWrapper()
             DictionaryHelper.integerToByteArray(buffer, BigInteger.parseString(counter.toString(), 10))
             return dictionary.createValue(buffer)
@@ -80,7 +80,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
         }
     }
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
             tmp.evaluateFinish()

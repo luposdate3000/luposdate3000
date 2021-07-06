@@ -16,16 +16,19 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.physical.POPBase
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -35,7 +38,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:40"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -58,15 +61,18 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck {
-            for (v in children[0].getProvidedVariableNames()) {
-                getPartitionCount(v)
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:64"/*SOURCE_FILE_END*/ },
+            {
+                for (v in children[0].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
+                for (v in children[1].getProvidedVariableNames()) {
+                    getPartitionCount(v)
+                }
             }
-            for (v in children[1].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-        }
-        SanityCheck.check { optional }
+        )
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:74"/*SOURCE_FILE_END*/ }, { optional })
 // setup columns
         val child = Array(2) { children[it].evaluate(parent) }
         val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
@@ -100,13 +106,13 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
             outIterators.add(Pair(name, 2))
             columnsINO[1].add(child[1].columns[name]!!)
         }
-        SanityCheck.check { columnsINJ[0].size > 0 }
-        SanityCheck.check { columnsINJ[0].size == columnsINJ[1].size }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:108"/*SOURCE_FILE_END*/ }, { columnsINJ[0].size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:109"/*SOURCE_FILE_END*/ }, { columnsINJ[0].size == columnsINJ[1].size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val key = Array(2) { i -> IntArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
+        val key = Array(2) { i -> DictionaryValueTypeArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
         if (done) {
             for (closeIndex2 in 0 until 2) {
@@ -139,20 +145,21 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                 }
             }
         } else {
-            val keyCopy = IntArray(columnsINJ[0].size) { key[0][it] }
+            val keyCopy = DictionaryValueTypeArray(columnsINJ[0].size) { key[0][it] }
             for ((first, second) in outIterators) {
                 val iterator = object : ColumnIteratorChildIterator() {
                     override /*suspend*/ fun close() {
                         _close()
                     }
 
-                    override /*suspend*/ fun next(): Int {
-                        return nextHelper(
+                    override /*suspend*/ fun next(): DictionaryValueType {
+                        return ColumnIteratorChildIteratorExt.nextHelper(
+                            this,
                             {
                                 for (i in 0 until columnsINJ[0].size) {
                                     keyCopy[i] = key[0][i]
                                 }
-                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<Int>() } }
+                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<DictionaryValueType>() } }
                                 val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                                 val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                                 done = findNextKey(key, columnsINJ, columnsINO)
@@ -199,7 +206,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
-                    return columnsOUTJ[0].next() != DictionaryExt.nullValue
+                    return columnsOUTJ[0].next() != DictionaryValueHelper.nullValue
                 }
 
                 override /*suspend*/ fun hasNext2Close() {
@@ -218,13 +225,13 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
-        SanityCheck.check { keyCopy[0] != DictionaryExt.nullValue }
+    /*suspend*/ internal inline fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:228"/*SOURCE_FILE_END*/ }, { keyCopy[0] != DictionaryValueHelper.nullValue })
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
                 /* this is an optional element without a match */
                 for (j in 0 until columnsINO.size) {
-                    data[j].add(DictionaryExt.undefValue)
+                    data[j].add(DictionaryValueHelper.undefValue)
                 }
                 return 1
             }
@@ -238,7 +245,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
-                SanityCheck.check { key[i] != DictionaryExt.undefValue }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:247"/*SOURCE_FILE_END*/ }, { key[i] != DictionaryValueHelper.undefValue })
             }
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
@@ -250,8 +257,8 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
-        if (key[0][0] != DictionaryExt.nullValue && key[1][0] != DictionaryExt.nullValue) {
+    /*suspend*/ internal inline fun findNextKey(key: Array<DictionaryValueTypeArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+        if (key[0][0] != DictionaryValueHelper.nullValue && key[1][0] != DictionaryValueHelper.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
                     val a = key[0][i]
@@ -262,9 +269,9 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                         }
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
-                            SanityCheck.check { key[1][j] != DictionaryExt.undefValue }
-                            if (key[1][j] == DictionaryExt.nullValue) {
-                                SanityCheck.check { j == 0 }
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:271"/*SOURCE_FILE_END*/ }, { key[1][j] != DictionaryValueHelper.undefValue })
+                            if (key[1][j] == DictionaryValueHelper.nullValue) {
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:273"/*SOURCE_FILE_END*/ }, { j == 0 })
                                 break@loop
                             }
                         }
@@ -274,7 +281,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                 break@loop
             }
         }
-        return key[0][0] == DictionaryExt.nullValue
+        return key[0][0] == DictionaryValueHelper.nullValue
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("optional", "" + optional)

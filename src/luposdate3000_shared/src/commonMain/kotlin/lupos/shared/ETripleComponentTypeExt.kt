@@ -19,20 +19,22 @@ package lupos.shared
 import kotlin.jvm.JvmField
 
 public object ETripleComponentTypeExt {
-    public const val BLANK_NODE: ETripleComponentType = 0
-    public const val BOOLEAN: ETripleComponentType = 1
-    public const val DATE_TIME: ETripleComponentType = 2
-    public const val DECIMAL: ETripleComponentType = 3
-    public const val DOUBLE: ETripleComponentType = 4
-    public const val ERROR: ETripleComponentType = 5
-    public const val FLOAT: ETripleComponentType = 6
-    public const val INTEGER: ETripleComponentType = 7
-    public const val IRI: ETripleComponentType = 8
-    public const val STRING: ETripleComponentType = 9
-    public const val STRING_LANG: ETripleComponentType = 10
-    public const val STRING_TYPED: ETripleComponentType = 11
-    public const val UNDEF: ETripleComponentType = 12
+    public const val BLANK_NODE: ETripleComponentType = 0 // 0x00000000
+    public const val BOOLEAN: ETripleComponentType = 1 // 0x00000001
+    public const val DATE_TIME: ETripleComponentType = 2 // 0x00000002
+    public const val DECIMAL: ETripleComponentType = 3 // 0x00000003
+    public const val DOUBLE: ETripleComponentType = 4 // 0x00000004
+    public const val ERROR: ETripleComponentType = 5 // 0x00000005
+    public const val FLOAT: ETripleComponentType = 6 // 0x00000006
+    public const val INTEGER: ETripleComponentType = 7 // 0x00000007
+    public const val IRI: ETripleComponentType = 8 // 0x00000008
+    public const val STRING: ETripleComponentType = 9 // 0x00000009
+    public const val STRING_LANG: ETripleComponentType = 10 // 0x0000000a
+    public const val STRING_TYPED: ETripleComponentType = 11 // 0x0000000b
+    public const val UNDEF: ETripleComponentType = 12 // 0x0000000c
     public const val values_size: Int = 13
+    public const val values_mask: Int = 15 // 0x0000000f
+    public const val values_mask_inversed: Int = 2147483632 // 0x7ffffff0
 
     @JvmField
     public val names: Array<String> = arrayOf(

@@ -67,7 +67,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
                 this.bindings.add(Pair(b.name.name, b.children[1] as AOPBase))
                 b = b.children[0]
             } else {
-                SanityCheck.check { b is OPEmptyRow }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPGroup.kt:69"/*SOURCE_FILE_END*/ }, { b is OPEmptyRow })
                 break
             }
         }
@@ -77,7 +77,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check { additionalProvided.isEmpty() }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPGroup.kt:79"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {

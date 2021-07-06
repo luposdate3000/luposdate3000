@@ -16,9 +16,9 @@
  */
 package lupos.shared.inline
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIteratorQueue
-
 internal object ColumnIteratorQueueExt {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun _close(it: ColumnIteratorQueue) {
@@ -28,7 +28,7 @@ internal object ColumnIteratorQueueExt {
         }
     }
 
-    /*suspend*/ internal inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
+    /*suspend*/ internal inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
         when (it.label) {
             1 -> {
                 return if (it.queue.size == 0) {
@@ -37,7 +37,7 @@ internal object ColumnIteratorQueueExt {
                         it.queue.removeAt(0)
                     } else {
                         onClose()
-                        DictionaryExt.nullValue
+                        DictionaryValueHelper.nullValue
                     }
                 } else {
                     it.queue.removeAt(0)
@@ -46,13 +46,13 @@ internal object ColumnIteratorQueueExt {
             2 -> {
                 return if (it.queue.size == 0) {
                     onClose()
-                    DictionaryExt.nullValue
+                    DictionaryValueHelper.nullValue
                 } else {
                     it.queue.removeAt(0)
                 }
             }
             else -> {
-                return DictionaryExt.nullValue
+                return DictionaryValueHelper.nullValue
             }
         }
     }

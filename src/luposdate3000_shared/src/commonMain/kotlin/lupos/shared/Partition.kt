@@ -25,13 +25,6 @@ public class Partition {
     @JvmField
     public val limit: MutableMap<String, Int>
 
-    public companion object {
-        public const val maxThreads: Int = 128
-
-        @JvmField
-        public val queue_size: Int = 1000
-    }
-
     public constructor() {
         data = mutableMapOf()
         limit = mutableMapOf()

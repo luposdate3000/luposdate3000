@@ -4,7 +4,6 @@ import lupos.simulator_iot.config.DeviceLinker
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-
 public class LinkManagerTest {
 
     @Test

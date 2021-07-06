@@ -14,6 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+// onFinish:IDatabasePackage?,expectedResult:MemoryTable?
+
 package lupos.simulator_db.luposdate3000
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
@@ -23,20 +26,25 @@ import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPDistributedSendSingle
+import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.MemoryTable
+import lupos.shared.MyInputStreamFromByteArray
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IRouter
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.QueryResponsePackage
 
 public class DatabaseHandle : IDatabase {
     private var ownAdress: Int = 0
@@ -86,37 +94,72 @@ public class DatabaseHandle : IDatabase {
         LuposdateEndpoint.close(instance)
     }
 
-    override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
-        val queryString = query.decodeToString()
-        println("receive receiveQuery $queryString")
+    private fun receive(pck: MySimulatorTestingImportPackage) {
+        if (listOf(".n3", ".ttl", ".nt").contains(pck.type)) {
+            LuposdateEndpoint.importTurtleString(instance, pck.data, pck.graph)
+        } else {
+            TODO()
+        }
+// TODO wait for all ack - or assume ordered messages
+        val onFinish = pck.onFinish
+        if (onFinish != null) {
+            receive(onFinish)
+        }
+    }
+    private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
+        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, pck.expectedResult)
+    }
+    private fun receive(pck: MySimulatorTestingExecute) {
+        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, null)
+    }
+
+    private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?) {
+        val queryString = pck.query.decodeToString()
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
         q.initialize(op)
 
         val parts = q.getOperatorgraphParts()
         if (parts.size == 1) {
-            val out = MyPrintWriter(true)
-            QueryResultToXMLStream(q.getRoot(), out)
-            val res = out.toString().encodeToByteArray()
-            println("sending the result AAA ::: $out")
-            router!!.sendQueryResult(sourceAddress, res)
+// TODO wait for all ack - or assume ordered messages
+            if (expectedResult != null) {
+                val buf = MyPrintWriter(false)
+                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, q.getRoot(), buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                val buf_err = MyPrintWriter()
+                if (!result.equalsVerbose(expectedResult, true, true, buf_err)) {
+                    throw Exception(buf_err.toString())
+                }
+                if (onFinish != null) {
+                    receive(onFinish)
+                } else {
+                    router!!.send(pck.sourceAddress, QueryResponsePackage("success".encodeToByteArray()))
+                }
+            } else {
+                val out = MyPrintWriter(true)
+                QueryResultToXMLStream(q.getRoot(), out)
+                val res = out.toString().encodeToByteArray()
+                if (onFinish != null) {
+                    receive(onFinish)
+                } else {
+                    router!!.send(pck.sourceAddress, QueryResponsePackage(res))
+                }
+            }
         } else {
-            val destinations = mutableMapOf("" to sourceAddress)
-            receive(MySimulatorOperatorGraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown()))
+            val destinations = mutableMapOf("" to pck.sourceAddress)
+            receive(MySimulatorOperatorGraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown(), onFinish, expectedResult))
         }
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
-        println("receive MySimulatorAbstractPackage ${pck.path}")
         when (pck.path) {
             "/distributed/query/dictionary/register",
             "/distributed/query/dictionary/remove" -> {
                 // dont use dictionaries right now
             }
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
-            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MySimulatorInputStreamFromPackage(pck.data!!))
+            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MyInputStreamFromByteArray(pck.data!!))
             "simulator-intermediate-result" -> {
-                SanityCheck.check { myPendingWorkData[pck.params["key"]!!] == null }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:161"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
                 myPendingWorkData[pck.params["key"]!!] = pck.data!!
                 doWork()
             }
@@ -125,16 +168,15 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
-        println("receive MySimulatorOperatorGraphPackage ${pck.dependenciesMapTopDown} ${pck.operatorGraph}")
         val allHosts = pck.operatorGraphPartsToHostMap.values.toSet().toTypedArray()
         val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
 //        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
         val nextHops = allHostAdresses
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in nextHops.toSet()) {
-            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         }
-        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
+        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
             packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
@@ -144,7 +186,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check { v.size >= 1 }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:188"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -194,7 +236,7 @@ public class DatabaseHandle : IDatabase {
                 p.destinations[k] = ownAdress
             }
         }
-        SanityCheck.check { packageMap.size == pck.operatorGraph.size }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:238"/*SOURCE_FILE_END*/ }, { packageMap.size == pck.operatorGraph.size })
         for ((k, v) in packages) {
             if (k != ownAdress) {
                 router!!.send(k, v)
@@ -207,7 +249,9 @@ public class DatabaseHandle : IDatabase {
                     p.operatorGraph[k]!!,
                     p.destinations[k]!!,
                     p.dependenciesMapTopDown[k]!!,
-                    k
+                    k,
+                    pck.onFinish,
+                    pck.expectedResult,
                 )
             )
         }
@@ -225,10 +269,10 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check { keys.size == 1 }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:271"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()!!
-            SanityCheck.check { myPendingWorkData.contains(key) }
-            val input = MySimulatorInputStreamFromPackage(myPendingWorkData[key]!!)
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:273"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = MySimulatorPOPDistributedReceiveSingle(
                 query,
@@ -251,7 +295,7 @@ public class DatabaseHandle : IDatabase {
                 }
             }
             val inputs = keys.map { key ->
-                val input = MySimulatorInputStreamFromPackage(myPendingWorkData[key]!!)
+                val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
                 input as IMyInputStream
             }.toTypedArray()
@@ -287,10 +331,27 @@ public class DatabaseHandle : IDatabase {
                             out.close()
                         }
                         is OPBaseCompound -> {
-                            val buf = MyPrintWriter(true)
-                            QueryResultToXMLStream(node, buf, false)
-                            println("sending the result BBB ::: $buf")
-                            router!!.sendQueryResult(w.destination, buf.toString().encodeToByteArray())
+                            if (w.expectedResult != null) {
+                                val buf = MyPrintWriter(false)
+                                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                                val buf_err = MyPrintWriter()
+                                if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
+                                    throw Exception(buf_err.toString())
+                                }
+                                if (w.onFinish != null) {
+                                    receive(w.onFinish)
+                                } else {
+                                    router!!.send(w.destination, QueryResponsePackage("success".encodeToByteArray()))
+                                }
+                            } else {
+                                val buf = MyPrintWriter(true)
+                                QueryResultToXMLStream(node, buf, false)
+                                if (w.onFinish != null) {
+                                    receive(w.onFinish)
+                                } else {
+                                    router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray()))
+                                }
+                            }
                         }
                         else -> TODO(node.toString())
                     }
@@ -303,7 +364,12 @@ public class DatabaseHandle : IDatabase {
     }
 
     override fun receive(pck: IDatabasePackage) {
+        println("receive $pck")
         when (pck) {
+            is MySimulatorTestingImportPackage -> receive(pck)
+            is MySimulatorTestingCompareGraphPackage -> receive(pck)
+            is MySimulatorTestingExecute -> receive(pck)
+            is QueryPackage -> receive(pck, null, null)
             is MySimulatorAbstractPackage -> receive(pck)
             is MySimulatorOperatorGraphPackage -> receive(pck)
             else -> TODO("$pck")

@@ -1,11 +1,10 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.shared.inline.File
-
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.DatabaseState
-
+import lupos.simulator_db.QueryPackage
 
 public class DatabaseSystemDummy : IDatabase {
 
@@ -31,12 +30,14 @@ public class DatabaseSystemDummy : IDatabase {
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)
+            is QueryPackage -> receive(pck)
+            else -> TODO()
         }
     }
 
-    public override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
-        state.addressForQueryEndResult = sourceAddress
-        val queryString = query.decodeToString()
+    public fun receive(pck: QueryPackage) {
+        state.addressForQueryEndResult = pck.sourceAddress
+        val queryString = pck.query.decodeToString()
         if (queryString.contains("INSERT DATA")) {
             saveData(queryString)
             return

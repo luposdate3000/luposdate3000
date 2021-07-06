@@ -15,16 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import kotlin.jvm.JvmField
 
 public abstract class ColumnIteratorQueue : ColumnIterator() {
     @JvmField
-    public var tmp: Int = DictionaryExt.nullValue
+    public var tmp: DictionaryValueType = DictionaryValueHelper.nullValue
 
     @JvmField
-    public val queue: MutableList<Int> = mutableListOf()
+    public val queue: MutableList<DictionaryValueType> = mutableListOf()
 
     @JvmField
     public var label: Int = 1

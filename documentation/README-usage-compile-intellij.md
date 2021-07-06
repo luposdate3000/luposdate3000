@@ -3,7 +3,8 @@
 Download and install intellij from [www.jetbrains.com](https://www.jetbrains.com/idea/download/)
 
 First close intellij, if it is already open.
-Prepare the project for intellij using:
+
+Move to the project directory, and prepare the project for intellij using:
 
 ```bash
 ./launcher.main.kts --setupIntellijIdea
@@ -12,7 +13,8 @@ Prepare the project for intellij using:
 You can append many options, which are shown by using the "--help" parameter
 This should be fast.
 
-If you pull again from the git, than execute this setup-script again.
+If you pull from the git, than execute this setup-script again.
+If you are adding new dependencies to a module, you need to execute this script again too.
 
 Now, you can open intellij.
 Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.

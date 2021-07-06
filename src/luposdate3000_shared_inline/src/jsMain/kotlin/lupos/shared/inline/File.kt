@@ -15,7 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.NotImplementedException
@@ -109,6 +110,8 @@ internal actual class File {
         return object : IMyOutputStream {
             val tmp = ExternalModule_fs.openOutputStream(filename, append)
             public override fun writeInt(value: Int): Unit = tmp.writeInt(value)
+            public override fun writeLong(value: Long) = tmp.writeLong(value)
+            public override fun writeDictionaryValueType(value: DictionaryValueType) = DictionaryValueHelper.sendToStream(this, value)
             public override fun write(buf: ByteArray): Unit = tmp.write(buf)
             public override fun write(buf: ByteArray, len: Int): Unit = tmp.write(buf, len)
             public override fun close(): Unit = tmp.close()

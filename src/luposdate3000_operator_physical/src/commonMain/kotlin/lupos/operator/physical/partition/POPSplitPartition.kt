@@ -15,10 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
 import lupos.operator.base.PartitionHelper
 import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -27,7 +28,6 @@ import lupos.shared.ParallelCondition
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -35,7 +35,7 @@ import kotlin.jvm.JvmField
 
 public class POPSplitPartition public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:37"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -139,11 +139,11 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check { variables0.containsAll(variables) }
-                SanityCheck.check { variables.containsAll(variables0) }
-                SanityCheck.check { variables.contains(partitionVariable) }
-                val elementsPerRing = Partition.queue_size * variables.size
-                val ringbuffer = IntArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:141"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:142"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:143"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
+                val elementsPerRing = query.getInstance().queue_size * variables.size
+                val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
@@ -169,7 +169,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                 }
                             }
                         }
-                        SanityCheck.check { hashVariableIndex != -1 }
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:171"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()
@@ -187,14 +187,14 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
                                 var cacheSize: Int
-                                if (q == DictionaryExt.undefValue) {
+                                if (q == DictionaryValueHelper.undefValue) {
                                     // broadcast undef to every partition
                                     SanityCheck.println { " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" }
                                     cacheSize = partitionCount
                                     cacheArr[0] = 0
                                 } else {
                                     cacheSize = 1
-                                    cacheArr[0] = q % partitionCount
+                                    cacheArr[0] = DictionaryValueHelper.toInt(q % partitionCount)
                                 }
                                 loopcache@ for (i in 0 until cacheSize) {
                                     val p = cacheArr[i]
@@ -230,7 +230,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 for (p in 0 until partitionCount) {
                     val iterator = RowIterator()
                     iterator.columns = variables.toTypedArray()
-                    iterator.buf = IntArray(variables.size)
+                    iterator.buf = DictionaryValueTypeArray(variables.size)
                     iterator.next = {
                         var res = -1
                         loop@ while (true) {

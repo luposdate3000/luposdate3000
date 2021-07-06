@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.IQuery
@@ -67,13 +67,13 @@ public class TripleStoreIndexDescriptionSimple(
         return byteArray2
     }
 
-    internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
+    internal override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
         return 0
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check { partition.limit.size == 0 }
-        SanityCheck.check { partition.data.size == 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:74"/*SOURCE_FILE_END*/ }, { partition.limit.size == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:75"/*SOURCE_FILE_END*/ }, { partition.data.size == 0 })
         return Pair(hostname, key)
     }
 
@@ -90,8 +90,8 @@ public class TripleStoreIndexDescriptionSimple(
     }
 
     internal override fun assignHosts() {
-        SanityCheck.check { hostname == "" }
-        SanityCheck.check { key == "" }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:92"/*SOURCE_FILE_END*/ }, { hostname == "" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:93"/*SOURCE_FILE_END*/ }, { key == "" })
         val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
         hostname = tmp.first
         key = tmp.second

@@ -16,8 +16,8 @@
  */
 package lupos.simulator_db.luposdate3000
 
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
-
 internal class MySimulatorInputStreamCrashAll(val target: Int, val path: String, val params: Map<String, String>) : IMyInputStream {
     override fun close() {}
     override fun read(buf: ByteArray): Int {
@@ -37,6 +37,12 @@ internal class MySimulatorInputStreamCrashAll(val target: Int, val path: String,
     }
 
     override fun readInt(): Int {
+        TODO()
+    }
+    override fun readLong(): Long {
+        TODO()
+    }
+    override fun readDictionaryValueType(): DictionaryValueType {
         TODO()
     }
 

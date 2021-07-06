@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import lupos.shared.NotImplementedException
 
@@ -23,6 +23,8 @@ internal actual class MyOutputStream : IMyOutputStream {
     internal actual constructor() {}
 
     public actual override fun writeInt(value: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun writeLong(value: Long): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun close(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun flush(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun write(buf: ByteArray): Unit = write(buf, buf.size)

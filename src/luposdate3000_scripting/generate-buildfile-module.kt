@@ -19,6 +19,7 @@ package launcher
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.inline.Platform
 import java.io.File
+import launcher.EDictionaryValueMode
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Paths
@@ -65,9 +66,7 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
                 }
             }
         }
-        s = s.replace("${'$'}lupos.SOURCE_FILE", "${fixPathNames(src.absolutePath)}:$line")
-        s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${fixPathNames(src.absolutePath)}:$line")
-        s = s.replace("lupos.SOURCE_FILE", "\"${fixPathNames(src.absolutePath)}:$line\"")
+        s = s.replace("SOURCE_FILE_START.*SOURCE_FILE_END".toRegex(), "SOURCE_FILE_START*/\"${fixPathNames(src.absolutePath)}:$line\"/*SOURCE_FILE_END")
         out.println(s)
         line++
     }
@@ -95,6 +94,7 @@ class CreateModuleArgs() {
     var moduleFolder: String = ""
     var modulePrefix: String = ""
     var platform: String = "linuxX64"
+var dictionaryValueMode:EDictionaryValueMode=EDictionaryValueMode.Int
     var releaseMode: ReleaseMode = ReleaseMode.Disable
     var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
@@ -123,6 +123,7 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
+res.dictionaryValueMode=dictionaryValueMode
         res.disableJS = disableJS
         res.disableJSNode = disableJSNode
         res.disableJSBrowser = disableJSBrowser
@@ -149,6 +150,12 @@ class CreateModuleArgs() {
         res.args = args
         return res
     }
+
+fun ssetDictionaryValueMode(mode:EDictionaryValueMode):CreateModuleArgs{
+val res = clone()
+res.dictionaryValueMode=mode
+return res
+}
 
     fun ssetCompilerVersion(compilerVersion: String): CreateModuleArgs {
         val res = clone()
@@ -636,6 +643,15 @@ if(!onWindows){
 if(!onWindows){
                 out.println("    dependsOn(\"ktlintFormat\")")
 }
+                out.println("    fun fixPathNames(s: String): String {")
+                out.println("        var res = s.trim()")
+                out.println("        var back = \"\"")
+                out.println("        while (back != res) {")
+                out.println("            back = res")
+                out.println("            res = res.replace(\"\\\\\", \"/\").replace(\"/./\", \"/\").replace(\"//\", \"/\")")
+                out.println("        }")
+                out.println("        return res")
+                out.println("    }")
                 out.println("    val regexDisableNoInline = \"(^|[^a-zA-Z])noinline \".toRegex()")
                 out.println("    val regexDisableInline = \"(^|[^a-zA-Z])inline \".toRegex()")
                 out.println("    val regexDisableCrossInline = \"(^|[^a-zA-Z])crossinline \".toRegex()")
@@ -648,7 +664,7 @@ if(!onWindows){
                 out.println("                    var line = 0")
                 out.println("                    ff.forEachLine { line2 ->")
                 out.println("                        var s = line2")
-                out.println("                        s = s.replace(\"lupos.SOURCE_FILE\", \"\\\"\${ff.absolutePath.replace(\"\\\\\", \"/\")}:\$line\\\"\")")
+                out.println("                        s = s.replace(\"SOURCE_FILE_START.*SOURCE_FILE_END\".toRegex(), \"SOURCE_FILE_START*/\\\"\${fixPathNames(ff.absolutePath)}:\$line\\\"/*SOURCE_FILE_END\")")
 //                out.println("                        s = s.replace(\" public \", \" @lupos.ProguardKeepAnnotation public \")")
                 if (moduleArgs.inlineMode == InlineMode.Enable) {
                     out.println("                        s = s.replace(\"/*NOINLINE*/\", \"noinline \")")
@@ -770,6 +786,19 @@ if(!onWindows){
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
+when(moduleArgs.dictionaryValueMode){
+EDictionaryValueMode.Int->{
+typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperInt")
+typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Int")
+typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","IntArray")
+}
+EDictionaryValueMode.Long->{
+typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperLong")
+typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Long")
+typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","LongArray")
+}
+else -> TODO()
+}
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
         } else {

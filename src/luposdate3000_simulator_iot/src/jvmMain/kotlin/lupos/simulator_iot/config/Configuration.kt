@@ -4,9 +4,9 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
-import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.RandomGenerator
+import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.net.MeshNetwork
 import lupos.simulator_iot.net.StarNetwork
@@ -162,8 +162,8 @@ internal object Configuration {
         return devices[index]
     }
 
-    internal fun getDeviceName(nameIndex: Int)
-        = deviceNames[nameIndex]
+    internal fun getDeviceName(nameIndex: Int) =
+        deviceNames[nameIndex]
 
     internal fun getRootDevice(): Device = devices[rootRouterAddress]
 
@@ -278,7 +278,6 @@ internal object Configuration {
         }
         return null
     }
-
 
     private fun createDbDeviceAddresses() {
         val addresses = devices.filter { it.hasDatabase() }.map { it.address }

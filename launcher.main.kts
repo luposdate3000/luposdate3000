@@ -19,7 +19,7 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
-@file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt") 
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
@@ -29,27 +29,29 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt") 
 @file:CompilerOptions("-Xmulti-platform")
 
 import launcher.CreateModuleArgs
 import launcher.DryMode
 import launcher.ExecMode
 import launcher.InlineMode
-import launcher.IntellijMode
+import launcher.IntellijMode 
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
+import launcher.EDictionaryValueMode 
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
 import launcher.fixPathNames
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
-import lupos.shared.EOperatingSystemExt
+import lupos.shared.EOperatingSystemExt 
 import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.inline.Platform
 import java.io.File
+import kotlin.math.abs
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect
@@ -57,7 +59,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
-
+ 
 var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
@@ -73,10 +75,11 @@ var runArgs = mutableListOf<String>()
 var skipArgs = false
 var threadCount = 1
 var processUrls = ""
+var dictionaryValueMode=EDictionaryValueMode.Long
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
-var intellijMode = IntellijMode.Enable
+var intellijMode = IntellijMode.Enable 
 var execMode = ExecMode.UNKNOWN
 
 fun makeUppercaseStart(s: String): String {
@@ -95,6 +98,7 @@ fun makeUppercaseStart(s: String): String {
 
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     val localArgs = CreateModuleArgs()
+.ssetDictionaryValueMode(dictionaryValueMode)
         .ssetReleaseMode(releaseMode)
         .ssetSuspendMode(suspendMode)
         .ssetInlineMode(inlineMode)
@@ -377,7 +381,7 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
         return res
     }
 
-    class ParamClass {
+    class ParamClass :Comparable<ParamClass>{
         val name: String
         val default: String
         val values: Map<String, () -> Unit>
@@ -412,7 +416,9 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
             this.action = {}
             this.mode = ParamClassMode.FREE_VALUE
         }
-
+override fun compareTo(other:ParamClass):Int{
+return name.compareTo(other.name)
+}
         fun setAdditionalHelp(additionalHelp: (String) -> Unit): ParamClass {
             this.additionalHelp = additionalHelp
             return this
@@ -520,6 +526,11 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
             {
                 processUrls = Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(",")
             }
+        ),
+        ParamClass(
+            "--dictionaryValueMode",
+            EDictionaryValueMode.Long.toString(),
+            EDictionaryValueMode.values().map { it -> it.toString() to { dictionaryValueMode = it } }.toMap()
         ),
         ParamClass(
             "--releaseMode",
@@ -654,7 +665,7 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
         ParamClass(
             "--mainClass",
             "Endpoint",
-            optionsForPackages["Main"]!!.map { it.substring("Launch_".length) to { mainClass = "Luposdate3000_$it" } }.toMap()
+            optionsForPackages["Main"]!!.sorted().map { it.substring("Launch_".length) to { mainClass = "Luposdate3000_$it" } }.toMap()
         ),
     )
     enableParams(mainclassParams)
@@ -710,7 +721,7 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
     fun onHelp() {
         println("Usage ./launcher.main.kts <options>")
         println("where possible options include:")
-        for (param in defaultParams) {
+        for (param in defaultParams.sorted()) {
             param.help()
         }
         for (param in mainclassParams) {
@@ -1053,10 +1064,14 @@ if(k !="Luposdate3000_Shared_JS_Browser"){
             out.println("import kotlin.jvm.JvmField")
             out.println("")
             out.println("$modifier object ${enumName}Ext {")
+var mask=0
             for (i in 0 until mapping.size) {
-                out.println("    $modifier const val ${mapping[i]}: $enumName = $i")
+                out.println("    $modifier const val ${mapping[i]}: $enumName = $i // 0x${i.toString(16).padStart(8,'0')}")
+mask=mask or i
             }
             out.println("    $modifier const val values_size: Int = ${mapping.size}")
+            out.println("    $modifier const val values_mask: Int = $mask // 0x${mask.toString(16).padStart(8,'0')}")
+            out.println("    $modifier const val values_mask_inversed: Int = ${mask.toLong().inv() and 0x7FFFFFFF} // 0x${(mask.toLong().inv() and 0x7FFFFFFF).toString(16).padStart(8,'0')}")
             out.println("")
             out.println("    @JvmField")
             out.println("    $modifier val names: Array<String> = arrayOf(")

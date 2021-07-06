@@ -14,7 +14,7 @@ apt install openjdk-8-jdk-headless unzip
 
 #if you want to use the spa-client
 {
-    apt install g++ python2 node firefox
+    apt install g++ python2 nodejs firefox
 }
 
 #Define the folder, where to download everything else.
@@ -80,3 +80,19 @@ dependencieshome=/opt
     mv ktlint /usr/local/bin/
 }
 ```
+
+#usage
+
+You can now compile the database in multiple different ways.
+
+You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
+
+[readme intelliJ-IDE](../README-usage-compile-intellij.md)
+
+Or you may choose the commandline mode without IDE support, which allows you to use all configurations.
+
+[readme-advanced](../README-usage-compile-advanced.md)
+
+Or if you want to use the SPA-Client, than the usage is described here:
+
+[readme-spaclient](../README-SPAClient.md)

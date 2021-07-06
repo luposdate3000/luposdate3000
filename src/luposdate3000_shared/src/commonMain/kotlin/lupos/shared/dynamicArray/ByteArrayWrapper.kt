@@ -16,21 +16,31 @@
  */
 package lupos.shared.dynamicArray
 
+import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
-public class ByteArrayWrapper public constructor(@JvmField public var buf: ByteArray, @JvmField public var size: Int) : Comparable<ByteArrayWrapper> {
+public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
+    @JvmField public var buf_: ByteArray
+
+    @JvmField public var size_: Int = 0
+
+    public constructor(buf: ByteArray, size: Int) {
+        this.buf_ = buf
+        this.size_ = size
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt:29"/*SOURCE_FILE_END*/ }, { size <= buf.size })
+    }
     public constructor(buf: ByteArray) : this(buf, buf.size)
     public constructor() : this(ByteArray(20), 0)
 
     override fun compareTo(other: ByteArrayWrapper): Int {
         var res = 0
         var i = 0
-        while (i < size && i < other.size && res == 0) {
-            res = buf[i] - other.buf[i]
+        while (i < size_ && i < other.size_ && res == 0) {
+            res = buf_[i] - other.buf_[i]
             i++
         }
         if (res == 0) {
-            res = size - other.size
+            res = size_ - other.size_
         }
         return res
     }
@@ -40,14 +50,14 @@ public class ByteArrayWrapper public constructor(@JvmField public var buf: ByteA
     }
 
     override fun hashCode(): Int {
-        var res = size
-        for (i in 0 until size) {
-            res = (res shl 1) + buf[i]
+        var res = size_
+        for (i in 0 until size_) {
+            res = (res shl 1) + buf_[i]
         }
         return res
     }
 
     override fun toString(): String {
-        return buf.map { it }.subList(0, size).toString()
+        return buf_.map { it }.subList(0, size_).toString()
     }
 }

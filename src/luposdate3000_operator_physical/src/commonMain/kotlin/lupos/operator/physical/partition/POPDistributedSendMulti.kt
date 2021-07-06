@@ -17,6 +17,7 @@
 package lupos.operator.physical.partition
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
@@ -24,7 +25,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -40,7 +40,7 @@ public class POPDistributedSendMulti public constructor(
     @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendMultiID, "POPDistributedSendMulti", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -140,25 +140,25 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check { i == variables.size }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:142"/*SOURCE_FILE_END*/ }, { i == variables.size })
         var p = Partition()
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
-        while (buf != DictionaryExt.nullValue) {
+        while (buf != DictionaryValueHelper.nullValue) {
 // the partition column
-            val connectionOut = data[buf % partitionCount]
-            connectionOut!!.writeInt(buf)
+            val connectionOut = data[DictionaryValueHelper.toInt(buf % partitionCount)]
+            connectionOut!!.writeDictionaryValueType(buf)
 // all other columns
             for (j in 1 until variables.size) {
                 buf = columns[j].next()
-                connectionOut.writeInt(buf)
+                connectionOut.writeDictionaryValueType(buf)
             }
             buf = columns[0].next()
         }
         for (connectionOut in data) {
             for (j in 0 until variables.size) {
-                connectionOut!!.writeInt(buf)
+                connectionOut!!.writeDictionaryValueType(buf)
             }
         }
         for (connectionOut in data) {

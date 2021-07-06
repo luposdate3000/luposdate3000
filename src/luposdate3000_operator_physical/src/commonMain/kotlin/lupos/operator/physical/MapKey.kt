@@ -16,11 +16,11 @@
  */
 package lupos.operator.physical
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
-
-internal class MapKey(@JvmField val data: IntArray) {
+internal class MapKey(@JvmField val data: DictionaryValueTypeArray) {
     override fun hashCode(): Int {
         var res = 0
         for (element in data) {
@@ -31,9 +31,9 @@ internal class MapKey(@JvmField val data: IntArray) {
 
     override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
     fun equalsFuzzy(other: Any?): Boolean {
-        SanityCheck.check { other is MapKey }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/MapKey.kt:33"/*SOURCE_FILE_END*/ }, { other is MapKey })
         for (i in data.indices) {
-            if (data[i] != DictionaryExt.undefValue && (other as MapKey).data[i] != DictionaryExt.undefValue && data[i] != other.data[i]) {
+            if (data[i] != DictionaryValueHelper.undefValue && (other as MapKey).data[i] != DictionaryValueHelper.undefValue && data[i] != other.data[i]) {
                 return false
             }
         }

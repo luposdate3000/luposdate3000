@@ -16,19 +16,17 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
-import lupos.shared.SanityCheck
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import kotlin.jvm.JvmField
-internal class BulkImportIterator(@JvmField val data: IntArray, @JvmField val count: Int, @JvmField val order: IntArray) : TripleIterator() {
+internal class BulkImportIterator(@JvmField val data: DictionaryValueTypeArray, @JvmField val count: Int, @JvmField val order: IntArray) : TripleIterator() {
     @JvmField
     var offset = 0
     override fun hasNext(): Boolean {
         return offset < count
     }
 
-    override fun next(component: Int): Int {
-        SanityCheck.check_is_S(data[offset])
-        SanityCheck.check_is_P(data[offset + 1])
-        SanityCheck.check_is_O(data[offset + 2])
+    override fun next(component: Int): DictionaryValueType {
         value[0] = data[offset + order[0]]
         value[1] = data[offset + order[1]]
         value[2] = data[offset + order[2]]

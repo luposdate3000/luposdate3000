@@ -27,6 +27,9 @@ import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
@@ -37,7 +40,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.inline.DictionaryHelper
@@ -68,7 +70,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:72"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -128,7 +130,7 @@ public class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check { additionalProvided.isEmpty() }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:132"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -225,8 +227,8 @@ public class POPGroup : POPBase {
                 loop2@ while (true) {
                     for (columnIndex in 0 until valueColumnNames.size) {
                         val value = valueColumns[columnIndex].next()
-                        if (value == DictionaryExt.nullValue) {
-                            SanityCheck.check { columnIndex == 0 }
+                        if (value == DictionaryValueHelper.nullValue) {
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:230"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                             for (closeIndex in 0 until valueColumnNames.size) {
                                 valueColumns[closeIndex].close()
                             }
@@ -260,20 +262,20 @@ public class POPGroup : POPBase {
                 }
             }
             if (canUseSortedInput) {
-                var currentKey = IntArray(keyColumnNames.size) { DictionaryExt.undefValue }
-                var nextKey: IntArray? = null
+                var currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
+                var nextKey: DictionaryValueTypeArray? = null
                 // first row ->
                 var emptyResult = false
                 for (columnIndex in keyColumnNames.indices) {
                     val value = keyColumns[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
+                    if (value == DictionaryValueHelper.nullValue) {
                         for (element in keyColumns) {
                             element.close()
                         }
                         for (element in valueColumns) {
                             element.close()
                         }
-                        SanityCheck.check { columnIndex == 0 }
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:277"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         emptyResult = true
                         break
                     }
@@ -283,12 +285,12 @@ public class POPGroup : POPBase {
                     // there is no first row
                     for (v in keyColumnNames) {
                         if (projectedVariables.contains(v)) {
-                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                     }
                     for ((first) in bindings) {
                         if (projectedVariables.contains(first)) {
-                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                     }
                 } else {
@@ -335,7 +337,7 @@ public class POPGroup : POPBase {
                                 }
                             }
 
-                            override /*suspend*/ fun next(): Int {
+                            override /*suspend*/ fun next(): DictionaryValueType {
                                 return ColumnIteratorQueueExt.nextHelper(
                                     this,
                                     {
@@ -347,14 +349,14 @@ public class POPGroup : POPBase {
                                             }
                                             for (columnIndex in keyColumnNames.indices) {
                                                 val value = keyColumns[columnIndex].next()
-                                                if (value == DictionaryExt.nullValue) {
+                                                if (value == DictionaryValueHelper.nullValue) {
                                                     for (element in keyColumns) {
                                                         element.close()
                                                     }
                                                     for (element in valueColumns) {
                                                         element.close()
                                                     }
-                                                    SanityCheck.check { columnIndex == 0 }
+                                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:358"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                                     for (columnIndex2 in keyColumnNames.indices) {
                                                         if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                             output[columnIndex2].queue.add(currentKey[columnIndex2])
@@ -373,7 +375,7 @@ public class POPGroup : POPBase {
                                                 if (nextKey != null) {
                                                     nextKey!![columnIndex] = value
                                                 } else if (currentKey[columnIndex] != value) {
-                                                    nextKey = IntArray(keyColumnNames.size) { currentKey[it] }
+                                                    nextKey = DictionaryValueTypeArray(keyColumnNames.size) { currentKey[it] }
                                                     nextKey!![columnIndex] = value
                                                     changedKey = true
                                                 }
@@ -441,10 +443,10 @@ public class POPGroup : POPBase {
 // <- simplicity
                 ) {
                     val iterator = keyColumns[0]
-                    val map = mutableMapOf<Int, Int>()
+                    val map = mutableMapOf<DictionaryValueType, Int>()
                     while (true) {
                         val value = iterator.next()
-                        if (value == DictionaryExt.nullValue) {
+                        if (value == DictionaryValueHelper.nullValue) {
                             iterator.close()
                             break
                         }
@@ -455,8 +457,8 @@ public class POPGroup : POPBase {
                             map[value] = v + 1
                         }
                     }
-                    val arrK = IntArray(map.size)
-                    val arrV = IntArray(map.size)
+                    val arrK = DictionaryValueTypeArray(map.size)
+                    val arrV = DictionaryValueTypeArray(map.size)
                     var i = 0
                     val dict = query.getDictionary()
                     for ((k, v) in map) {
@@ -470,17 +472,17 @@ public class POPGroup : POPBase {
                 } else {
                     val map = mutableMapOf<MapKey, POPGroup_Row>()
                     loop@ while (true) {
-                        val currentKey = IntArray(keyColumnNames.size) { DictionaryExt.undefValue }
+                        val currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
                         for (columnIndex in keyColumnNames.indices) {
                             val value = keyColumns[columnIndex].next()
-                            if (value == DictionaryExt.nullValue) {
+                            if (value == DictionaryValueHelper.nullValue) {
                                 for (element in keyColumns) {
                                     element.close()
                                 }
                                 for (element in valueColumns) {
                                     element.close()
                                 }
-                                SanityCheck.check { columnIndex == 0 }
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:484"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                 break@loop
                             }
                             currentKey[columnIndex] = value
@@ -516,14 +518,14 @@ public class POPGroup : POPBase {
                     }
                     if (map.isEmpty()) {
                         for (v in keyColumnNames) {
-                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                         for ((first) in bindings) {
-                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
+                            outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
                         }
                     } else {
-                        val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }
-                        val outValues = Array(bindings.size) { mutableListOf<Int>() }
+                        val outKeys = Array(keyColumnNames.size) { mutableListOf<DictionaryValueType>() }
+                        val outValues = Array(bindings.size) { mutableListOf<DictionaryValueType>() }
                         for ((k, v) in map) {
                             for (columnIndex in keyColumnNames.indices) {
                                 outKeys[columnIndex].add(k.data[columnIndex])
@@ -558,5 +560,8 @@ public class POPGroup : POPBase {
             xmlbindings.addContent(XMLElement("binding").addAttribute("name", first).addContent(second.toXMLElement(partial)))
         }
         return res
+    }
+    public open override fun usesDictionary(): Boolean {
+        return true
     }
 }

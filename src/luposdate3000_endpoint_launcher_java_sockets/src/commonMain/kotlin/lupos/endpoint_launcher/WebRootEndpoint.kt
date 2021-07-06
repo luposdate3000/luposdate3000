@@ -24,33 +24,36 @@ internal object WebRootEndpoint {
     internal fun initialize(paths: MutableMap<String, PathMappingHelper>, connectionOutMy: MyOutputStream) {
         val webroot = "src/luposdate3000_spa_client/dist/" // relative to luposdate3000 or absolute path including trailling slash
         val basepath = "/" // base path in the browser url. this may be the empty path. this must include a trailing slash
-        File(webroot).walk { p ->
-            if (p.length > webroot.length) {
-                val targetPath = basepath + p.substring(webroot.length).replace("\\", "/").replace("//", "/")
-                paths[targetPath] = PathMappingHelper(true, mapOf()) {
-                    connectionOutMy.println("HTTP/1.1 200 OK")
-                    if (targetPath.endsWith(".html")) {
-                        connectionOutMy.println("Content-Type: text/html")
-                    } else if (targetPath.endsWith(".css")) {
-                        connectionOutMy.println("Content-Type: text/css")
-                    } else if (targetPath.endsWith(".woff")) {
-                        connectionOutMy.println("Content-Type: font/woff")
-                    } else if (targetPath.endsWith(".svg")) {
-                        connectionOutMy.println("Content-Type: image/svg+xml")
-                    } else if (targetPath.endsWith(".js")) {
-                        connectionOutMy.println("Content-Type: application/javascript")
-                    } else {
-                        connectionOutMy.println("Content-Type: text/plain")
-                    }
-                    val f = File(p)
-                    connectionOutMy.println("Content-Length: ${f.length()}")
-                    connectionOutMy.println()
-                    val buf = ByteArray(4096)
-                    f.withInputStream { input ->
-                        var len = input.read(buf)
-                        while (len > 0) {
-                            connectionOutMy.write(buf, len)
-                            len = input.read(buf)
+        val f = File(webroot)
+        if (f.exists()) {
+            f.walk { p ->
+                if (p.length > webroot.length) {
+                    val targetPath = basepath + p.substring(webroot.length).replace("\\", "/").replace("//", "/")
+                    paths[targetPath] = PathMappingHelper(true, mapOf()) {
+                        connectionOutMy.println("HTTP/1.1 200 OK")
+                        if (targetPath.endsWith(".html")) {
+                            connectionOutMy.println("Content-Type: text/html")
+                        } else if (targetPath.endsWith(".css")) {
+                            connectionOutMy.println("Content-Type: text/css")
+                        } else if (targetPath.endsWith(".woff")) {
+                            connectionOutMy.println("Content-Type: font/woff")
+                        } else if (targetPath.endsWith(".svg")) {
+                            connectionOutMy.println("Content-Type: image/svg+xml")
+                        } else if (targetPath.endsWith(".js")) {
+                            connectionOutMy.println("Content-Type: application/javascript")
+                        } else {
+                            connectionOutMy.println("Content-Type: text/plain")
+                        }
+                        val f = File(p)
+                        connectionOutMy.println("Content-Length: ${f.length()}")
+                        connectionOutMy.println()
+                        val buf = ByteArray(4096)
+                        f.withInputStream { input ->
+                            var len = input.read(buf)
+                            while (len > 0) {
+                                connectionOutMy.write(buf, len)
+                                len = input.read(buf)
+                            }
                         }
                     }
                 }

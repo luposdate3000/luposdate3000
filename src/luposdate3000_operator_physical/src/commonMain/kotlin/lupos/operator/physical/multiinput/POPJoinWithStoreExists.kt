@@ -20,13 +20,13 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -44,9 +44,9 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
 
     override fun equals(other: Any?): Boolean = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check { !optional }
-        SanityCheck.check { !childB.graphVar }
-        SanityCheck.check { projectedVariables.isEmpty() }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:46"/*SOURCE_FILE_END*/ }, { !optional })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:47"/*SOURCE_FILE_END*/ }, { !childB.graphVar })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:48"/*SOURCE_FILE_END*/ }, { projectedVariables.isEmpty() })
         val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
         val params = Array<IAOPBase>(3) { childB.children[it] as IAOPBase }
@@ -64,15 +64,15 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
-        SanityCheck.check { mapping.isNotEmpty() }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:66"/*SOURCE_FILE_END*/ }, { mapping.isNotEmpty() })
         for (i in mapping.indices) {
             val tmp = iterators[i].next()
-            if (tmp == DictionaryExt.nullValue) {
+            if (tmp == DictionaryValueHelper.nullValue) {
                 done = true
                 for (element in iterators) {
                     element.close()
                 }
-                SanityCheck.check { i == 0 }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:74"/*SOURCE_FILE_END*/ }, { i == 0 })
                 break
             } else {
                 params[mapping[i]] = AOPConstant(query, tmp)
@@ -87,12 +87,12 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
                     loop@ while (!t && !done) {
                         for (i in mapping.indices) {
                             val tmp = iterators[i].next()
-                            if (tmp == DictionaryExt.nullValue) {
+                            if (tmp == DictionaryValueHelper.nullValue) {
                                 for (element in iterators) {
                                     element.close()
                                 }
                                 done = true
-                                SanityCheck.check { i == 0 }
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:94"/*SOURCE_FILE_END*/ }, { i == 0 })
                                 break@loop
                             } else {
                                 params[mapping[i]] = AOPConstant(query, tmp)

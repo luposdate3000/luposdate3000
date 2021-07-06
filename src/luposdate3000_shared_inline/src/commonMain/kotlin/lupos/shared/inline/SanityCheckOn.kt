@@ -15,59 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
 import lupos.shared.UnreachableException
 import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
-    public val TRIPLE_FLAG_S = 0x00010000
-    public val TRIPLE_FLAG_P = 0x00020000
-    public val TRIPLE_FLAG_O = 0x00030000
-    public val TRIPLE_FLAG_All = TRIPLE_FLAG_S or TRIPLE_FLAG_P or TRIPLE_FLAG_O
-    public val TRIPLE_FLAG_NONE = Int.MAX_VALUE - TRIPLE_FLAG_All
-    public val ignoreTripleFlag = true
-
-    internal inline fun check_is_S(i: Int) {
-        this {
-            if (!ignoreTripleFlag) {
-                val flag = i and TRIPLE_FLAG_All
-                when (flag) {
-                    TRIPLE_FLAG_S -> {}
-                    TRIPLE_FLAG_P -> TODO("expected subject but found predicate $i")
-                    TRIPLE_FLAG_O -> TODO("expected subject but found object $i")
-                    else -> TODO("expected subject but found undefined $i")
-                }
-            }
-        }
-    }
-    internal inline fun check_is_P(i: Int) {
-        this {
-            if (!ignoreTripleFlag) {
-                val flag = i and TRIPLE_FLAG_All
-                when (flag) {
-                    TRIPLE_FLAG_S -> TODO("expected predicate but found subject $i")
-                    TRIPLE_FLAG_P -> {}
-                    TRIPLE_FLAG_O -> TODO("expected predicate but found object $i")
-                    else -> TODO("expected predicate but found undefined $i")
-                }
-            }
-        }
-    }
-    internal inline fun check_is_O(i: Int) {
-        this {
-            if (!ignoreTripleFlag) {
-                val flag = i and TRIPLE_FLAG_All
-                when (flag) {
-                    TRIPLE_FLAG_S -> TODO("expected object but found subject $i")
-                    TRIPLE_FLAG_P -> TODO("expected object but found predicate $i")
-                    TRIPLE_FLAG_O -> {}
-                    else -> TODO("expected object but found undefined $i")
-                }
-            }
-        }
-    }
     public val enabled = true
     internal const val SANITYCHECK_PRINTING = false
     internal const val SANITYCHECK_PRINTING_NODEMANAGER = false
@@ -93,12 +46,12 @@ internal object SanityCheckOn {
         }
     }
 
-    internal inline operator fun invoke(crossinline action: () -> Unit) {
+    internal inline operator fun invoke(crossinline filename: () -> String, crossinline action: () -> Unit) {
         try {
             action()
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
-                println("Exception during SanityCheck.invoke")
+                println("Exception during SanityCheck.invoke at ${filename()}")
                 e.printStackTrace()
             }
             throw e
@@ -123,11 +76,11 @@ internal object SanityCheckOn {
         return action()
     }
 
-    internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
+    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean, crossinline msg: () -> String) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
-                throw Exception("SanityCheck failed :: " + msg())
+                throw Exception("SanityCheck failed at ${filename()} :: " + msg())
             }
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
@@ -138,11 +91,11 @@ internal object SanityCheckOn {
         }
     }
 
-    internal inline fun check(crossinline value: () -> Boolean) {
+    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
-                throw Exception("SanityCheck failed")
+                throw Exception("SanityCheck failed at ${filename()}")
             }
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {

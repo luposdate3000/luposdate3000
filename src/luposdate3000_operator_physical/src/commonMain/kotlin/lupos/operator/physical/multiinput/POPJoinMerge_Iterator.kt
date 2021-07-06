@@ -16,9 +16,12 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -30,14 +33,14 @@ internal class POPJoinMerge_Iterator(
     @JvmField internal val columnsOUT0: List<ColumnIteratorChildIterator>,
     @JvmField internal val columnsOUT1: List<ColumnIteratorChildIterator>,
     @JvmField internal val columnsOUTJ: List<ColumnIteratorChildIterator>,
-    @JvmField internal val key0: IntArray,
-    @JvmField internal val key1: IntArray
+    @JvmField internal val key0: DictionaryValueTypeArray,
+    @JvmField internal val key1: DictionaryValueTypeArray
 ) : ColumnIteratorChildIterator() {
     @JvmField
-    internal val data0 = Array<IntArray>(columnsINO0.size) { IntArray(100) }
+    internal val data0 = Array<DictionaryValueTypeArray>(columnsINO0.size) { DictionaryValueTypeArray(100) }
 
     @JvmField
-    internal val data1 = Array<IntArray>(columnsINO1.size) { IntArray(100) }
+    internal val data1 = Array<DictionaryValueTypeArray>(columnsINO1.size) { DictionaryValueTypeArray(100) }
 
     @JvmField
     internal var localNextI = 0
@@ -52,7 +55,7 @@ internal class POPJoinMerge_Iterator(
     internal var localNextCountb = 0
 
     @JvmField
-    internal val localNextKeycopy = IntArray(columnsINJ0.size)
+    internal val localNextKeycopy = DictionaryValueTypeArray(columnsINJ0.size)
 
     @JvmField
     internal var localCloseI = 0
@@ -64,7 +67,10 @@ internal class POPJoinMerge_Iterator(
     internal var skipO1 = 0
 
     @JvmField
-    internal var sipbuf = IntArray(2)
+    internal var sipbufSkip = IntArray(1)
+
+    @JvmField
+    internal var sipbufValue = DictionaryValueTypeArray(1)
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun __close() {
@@ -112,38 +118,39 @@ internal class POPJoinMerge_Iterator(
         __close()
     }
 
-    override /*suspend*/ fun next(): Int {
-        return nextHelper(
+    override /*suspend*/ fun next(): DictionaryValueType {
+        return ColumnIteratorChildIteratorExt.nextHelper(
+            this,
             {
-                if (key0[0] != DictionaryExt.nullValue && key1[0] != DictionaryExt.nullValue) {
+                if (key0[0] != DictionaryValueHelper.nullValue && key1[0] != DictionaryValueHelper.nullValue) {
                     loop@ while (true) {
-                        SanityCheck.check { columnsINJ0.isNotEmpty() }
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:126"/*SOURCE_FILE_END*/ }, { columnsINJ0.isNotEmpty() })
 // first join column
                         if (key0[0] != key1[0]) {
                             var skip0 = 0
                             var skip1 = 0
                             while (key0[0] != key1[0]) {
                                 if (key0[0] < key1[0]) {
-                                    columnsINJ0[0].nextSIP(key1[0], sipbuf)
-                                    key0[0] = sipbuf[1]
-                                    skip0 += sipbuf[0]
-                                    skipO0 += sipbuf[0]
+                                    columnsINJ0[0].nextSIP(key1[0], sipbufValue, sipbufSkip)
+                                    key0[0] = sipbufValue[0]
+                                    skip0 += sipbufSkip[0]
+                                    skipO0 += sipbufSkip[0]
                                     skip0++
                                     skipO0++
-                                    SanityCheck.check { key0[0] != DictionaryExt.undefValue }
-                                    if (key0[0] == DictionaryExt.nullValue) {
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:139"/*SOURCE_FILE_END*/ }, { key0[0] != DictionaryValueHelper.undefValue })
+                                    if (key0[0] == DictionaryValueHelper.nullValue) {
                                         __close()
                                         break@loop
                                     }
                                 } else {
-                                    columnsINJ1[0].nextSIP(key0[0], sipbuf)
-                                    key1[0] = sipbuf[1]
-                                    skip1 += sipbuf[0]
-                                    skipO1 += sipbuf[0]
+                                    columnsINJ1[0].nextSIP(key0[0], sipbufValue, sipbufSkip)
+                                    key1[0] = sipbufValue[0]
+                                    skip1 += sipbufSkip[0]
+                                    skipO1 += sipbufSkip[0]
                                     skip1++
                                     skipO1++
-                                    SanityCheck.check { key1[0] != DictionaryExt.undefValue }
-                                    if (key1[0] == DictionaryExt.nullValue) {
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:151"/*SOURCE_FILE_END*/ }, { key1[0] != DictionaryValueHelper.undefValue })
+                                    if (key1[0] == DictionaryValueHelper.nullValue) {
                                         __close()
                                         break@loop
                                     }
@@ -153,8 +160,8 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 1
                                 while (localNextJ < columnsINJ0.size) {
                                     key0[localNextJ] = columnsINJ0[localNextJ].skipSIP(skip0)
-                                    SanityCheck.check { key0[localNextJ] != DictionaryExt.undefValue }
-                                    SanityCheck.check { key0[localNextJ] != DictionaryExt.nullValue }
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:162"/*SOURCE_FILE_END*/ }, { key0[localNextJ] != DictionaryValueHelper.undefValue })
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:163"/*SOURCE_FILE_END*/ }, { key0[localNextJ] != DictionaryValueHelper.nullValue })
                                     localNextJ++
                                 }
                             }
@@ -162,8 +169,8 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 1
                                 while (localNextJ < columnsINJ1.size) {
                                     key1[localNextJ] = columnsINJ1[localNextJ].skipSIP(skip1)
-                                    SanityCheck.check { key1[localNextJ] != DictionaryExt.undefValue }
-                                    SanityCheck.check { key1[localNextJ] != DictionaryExt.nullValue }
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:171"/*SOURCE_FILE_END*/ }, { key1[localNextJ] != DictionaryValueHelper.undefValue })
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:172"/*SOURCE_FILE_END*/ }, { key1[localNextJ] != DictionaryValueHelper.nullValue })
                                     localNextJ++
                                 }
                             }
@@ -176,9 +183,9 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 0
                                 while (localNextJ < columnsINJ0.size) {
                                     key0[localNextJ] = columnsINJ0[localNextJ].next()
-                                    SanityCheck.check { key0[localNextJ] != DictionaryExt.undefValue }
-                                    if (key0[localNextJ] == DictionaryExt.nullValue) {
-                                        SanityCheck.check { localNextJ == 0 }
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:185"/*SOURCE_FILE_END*/ }, { key0[localNextJ] != DictionaryValueHelper.undefValue })
+                                    if (key0[localNextJ] == DictionaryValueHelper.nullValue) {
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:187"/*SOURCE_FILE_END*/ }, { localNextJ == 0 })
                                         __close()
                                         break@loop
                                     }
@@ -190,9 +197,9 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 0
                                 while (localNextJ < columnsINJ1.size) {
                                     key1[localNextJ] = columnsINJ1[localNextJ].next()
-                                    SanityCheck.check { key1[localNextJ] != DictionaryExt.undefValue }
-                                    if (key1[localNextJ] == DictionaryExt.nullValue) {
-                                        SanityCheck.check { localNextJ == 0 }
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:199"/*SOURCE_FILE_END*/ }, { key1[localNextJ] != DictionaryValueHelper.undefValue })
+                                    if (key1[localNextJ] == DictionaryValueHelper.nullValue) {
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:201"/*SOURCE_FILE_END*/ }, { localNextJ == 0 })
                                         __close()
                                         break@loop
                                     }
@@ -216,7 +223,7 @@ internal class POPJoinMerge_Iterator(
                                     localNextI = 0
                                     while (localNextI < data0.size) {
                                         val x = data0[localNextI]
-                                        val d = IntArray(localNextCounta * 2)
+                                        val d = DictionaryValueTypeArray(localNextCounta * 2)
                                         localNextJ = 0
                                         while (localNextJ < localNextCounta) {
                                             d[localNextJ] = x[localNextJ]
@@ -237,7 +244,7 @@ internal class POPJoinMerge_Iterator(
                             localNextI = 0
                             while (localNextI < columnsINJ0.size) {
                                 key0[localNextI] = columnsINJ0[localNextI].next()
-                                SanityCheck.check { key0[localNextI] != DictionaryExt.undefValue }
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:246"/*SOURCE_FILE_END*/ }, { key0[localNextI] != DictionaryValueHelper.undefValue })
                                 localNextI++
                             }
                             localNextI = 0
@@ -256,7 +263,7 @@ internal class POPJoinMerge_Iterator(
                                     localNextI = 0
                                     while (localNextI < data1.size) {
                                         val x = data1[localNextI]
-                                        val d = IntArray(localNextCountb * 2)
+                                        val d = DictionaryValueTypeArray(localNextCountb * 2)
                                         localNextJ = 0
                                         while (localNextJ < localNextCountb) {
                                             d[localNextJ] = x[localNextJ]
@@ -277,7 +284,7 @@ internal class POPJoinMerge_Iterator(
                             localNextI = 0
                             while (localNextI < columnsINJ1.size) {
                                 key1[localNextI] = columnsINJ1[localNextI].next()
-                                SanityCheck.check { key1[localNextI] != DictionaryExt.undefValue }
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:286"/*SOURCE_FILE_END*/ }, { key1[localNextI] != DictionaryValueHelper.undefValue })
                                 localNextI++
                             }
                             localNextI = 0

@@ -1,10 +1,12 @@
 package lupos.simulator_iot.db
 
 import lupos.shared.inline.File
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IRouter
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.Device
@@ -12,7 +14,6 @@ import lupos.simulator_iot.FilePaths
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
-
 internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
@@ -106,29 +107,27 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     private fun receiveQuery(data: ByteArray) {
         db.activate()
-        db.receiveQuery(device.address, data)
+        db.receive(QueryPackage(device.address, data))
         db.deactivate()
     }
 
     internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternPackage
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
-    }
-
-    override fun sendQueryResult(destinationAddress: Int, result: ByteArray) {
-        if (device.address == destinationAddress) {
-            println("sendQueryResult deviceAddress == $destinationAddress")
-            useQueryResult(result)
+        println("send $destinationAddress $pck")
+        if (pck is QueryResponsePackage) {
+            if (device.address == destinationAddress) {
+                println("sendQueryResult deviceAddress == $destinationAddress")
+                useQueryResult(pck.result)
+            } else {
+                println("sendQueryResult route forward to $destinationAddress")
+                device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(pck.result))
+            }
         } else {
-            println("sendQueryResult route forward to $destinationAddress")
-            device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(result))
+            device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
         }
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         device.router.getNextDatabaseHops(destinationAddresses)
-
-
-
 }

@@ -25,9 +25,10 @@ import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPBind
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 
@@ -65,7 +66,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
-                    SanityCheck.check { tmp2.hasCountMode() }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:68"/*SOURCE_FILE_END*/ }, { tmp2.hasCountMode() })
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
                         OPEmptyRow(query)
                     } else {
@@ -86,13 +87,13 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     val columns = tmp2.columns
-                    SanityCheck.check { columns.size == 1 }
-                    val data = IntArray(5)
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:89"/*SOURCE_FILE_END*/ }, { columns.size == 1 })
+                    val data = DictionaryValueTypeArray(5)
                     var i = 0
                     val iterator = columns[variables[0]]!!
                     while (i < data.size) {
                         val t = iterator.next()
-                        if (t != DictionaryExt.nullValue) {
+                        if (t != DictionaryValueHelper.nullValue) {
                             data[i] = t
                             i++
                         } else {

@@ -39,6 +39,7 @@ import lupos.result_format.QueryResultToTurtleStream
 import lupos.result_format.QueryResultToXMLElement
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.DateHelperRelative
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
@@ -54,12 +55,12 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElementFromXML
-import lupos.shared.fileformat.DictionaryIntermediate
-import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.Platform
+import lupos.shared.inline.fileformat.DictionaryIntermediate
+import lupos.shared.inline.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
@@ -170,14 +171,7 @@ public object LuposdateEndpoint {
                 val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                 val fileTriples = TriplesIntermediateReader("$fileName.spo")
                 fileTriples.readAll {
-                    if (SanityCheck.ignoreTripleFlag) {
-                        cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
-                    } else {
-                        SanityCheck.check_is_S(it[0])
-                        SanityCheck.check_is_P(it[1])
-                        SanityCheck.check_is_O(it[2])
-                        cache.writeRow(mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S, mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P, mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O, query)
-                    }
+                    cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                     counter++
                     if (counter % 10000 == 0L) {
                         println("imported $counter triples without sorting")
@@ -219,14 +213,7 @@ public object LuposdateEndpoint {
                     val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
                     fileTriples.readAll {
-                        if (SanityCheck.ignoreTripleFlag) {
-                            cache.writeRow(mapping[it[0]], mapping[it[1]], mapping[it[2]], query)
-                        } else {
-                            SanityCheck.check_is_S(it[0])
-                            SanityCheck.check_is_P(it[1])
-                            SanityCheck.check_is_O(it[2])
-                            cache.writeRow(mapping[it[0] - SanityCheck.TRIPLE_FLAG_S] + SanityCheck.TRIPLE_FLAG_S, mapping[it[1] - SanityCheck.TRIPLE_FLAG_P] + SanityCheck.TRIPLE_FLAG_P, mapping[it[2] - SanityCheck.TRIPLE_FLAG_O] + SanityCheck.TRIPLE_FLAG_O, query)
-                        }
+                        cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         counter++
                         if (counter % 10000 == 0L) {
                             println("imported $counter triples for index $orderName")

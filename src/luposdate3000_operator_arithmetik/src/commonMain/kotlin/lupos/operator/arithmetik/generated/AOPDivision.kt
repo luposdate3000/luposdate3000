@@ -15,15 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.generated
-
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -33,16 +33,16 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
     override fun toSparql(): String = "Division(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPDivision && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPDivision(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_1: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_4: ByteArrayWrapper = ByteArrayWrapper()
-        val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)
-        val child1: () -> Int = (children[1] as AOPBase).evaluateID(row)
+        val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
+        val child1: () -> DictionaryValueType = (children[1] as AOPBase).evaluateID(row)
         return {
-            var res: Int
-            val childIn0: Int = child0()
-            val childIn1: Int = child1()
+            var res: DictionaryValueType
+            val childIn0: DictionaryValueType = child0()
+            val childIn1: DictionaryValueType = child1()
             query.getDictionary().getValue(tmp_0, childIn0)
             query.getDictionary().getValue(tmp_1, childIn1)
             val tmp_2: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
@@ -55,7 +55,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -66,7 +66,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -77,7 +77,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -136,7 +136,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             }
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -195,7 +195,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             }
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -206,7 +206,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -265,7 +265,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             }
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -324,7 +324,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             }
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -335,7 +335,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -346,7 +346,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -357,7 +357,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -368,7 +368,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -379,12 +379,12 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryExt.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 else -> {
-                    res = DictionaryExt.errorValue
+                    res = DictionaryValueHelper.errorValue
                 }
             }
             res

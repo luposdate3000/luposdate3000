@@ -27,7 +27,6 @@ import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
-import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 
 public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID, "PhysicalOptimizerPartitionRespectMaxPartitions") {
@@ -61,21 +60,6 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                         onChange()
                     }
                     query.partitionOperatorCount[node.partitionID] = node.partitionCount
-                    var newCount = node.partitionCount
-                    val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                    if (count > Partition.maxThreads) { // prevent TOO many threads
-                        val reduceFactor = count / Partition.maxThreads
-                        newCount = if (reduceFactor > node.partitionCount) {
-                            1
-                        } else {
-                            node.partitionCount / reduceFactor
-                        }
-                    }
-                    if (newCount < node.partitionCount) {
-                        node.partitionCount = newCount
-                        query.partitionOperatorCount[node.partitionID] = newCount
-                        onChange()
-                    }
                 }
                 is POPSplitPartitionFromStoreCount -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
@@ -84,21 +68,6 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                         onChange()
                     }
                     query.partitionOperatorCount[node.partitionID] = node.partitionCount
-                    var newCount = node.partitionCount
-                    val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                    if (count > Partition.maxThreads) { // prevent TOO many threads
-                        val reduceFactor = count / Partition.maxThreads
-                        newCount = if (reduceFactor > node.partitionCount) {
-                            1
-                        } else {
-                            node.partitionCount / reduceFactor
-                        }
-                    }
-                    if (newCount < node.partitionCount) {
-                        node.partitionCount = newCount
-                        query.partitionOperatorCount[node.partitionID] = newCount
-                        onChange()
-                    }
                 }
                 is POPSplitPartition -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
@@ -109,8 +78,8 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                     query.partitionOperatorCount[node.partitionID] = node.partitionCount
                     var newCount = node.partitionCount
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                    if (count > Partition.maxThreads) {
-                        val reduceFactor = count / Partition.maxThreads
+                    if (count > query.getInstance().maxThreads) {
+                        val reduceFactor = count / query.getInstance().maxThreads
                         newCount = if (reduceFactor > node.partitionCount) {
                             1
                         } else {
@@ -158,8 +127,8 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                     query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
                     var newCount = node.partitionCountTo
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCountTo / node.partitionCountFrom
-                    if (count > Partition.maxThreads) {
-                        val reduceFactor = count / Partition.maxThreads
+                    if (count > query.getInstance().maxThreads) {
+                        val reduceFactor = count / query.getInstance().maxThreads
                         newCount = if (reduceFactor > node.partitionCountTo) {
                             1
                         } else {

@@ -15,9 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.shared.BugException
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -137,12 +138,12 @@ public class TripleStoreDescription(
 
     public override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         var variableCount = 0
-        val filter2 = mutableListOf<Int>()
+        val filter2 = mutableListOf<DictionaryValueType>()
         for (ii in 0 until 3) {
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-                SanityCheck.check { filter2.size == ii }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:145"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {
@@ -155,7 +156,7 @@ public class TripleStoreDescription(
         if (variableCount != 1) {
             throw BugException("TripleStoreFeature", "Filter can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
         }
-        val filter = IntArray(filter2.size) { filter2[it] }
+        val filter = DictionaryValueTypeArray(filter2.size) { filter2[it] }
         for (index in indices) {
             if (index.hasPattern(idx)) {
                 var first = 0
@@ -169,7 +170,7 @@ public class TripleStoreDescription(
                         val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second))
                         conn.second.writeInt(filter.size)
                         for (i in 0 until filter.size) {
-                            conn.second.writeInt(filter[i])
+                            conn.second.writeDictionaryValueType(filter[i])
                         }
                         first += conn.first.readInt()
                         second += conn.first.readInt()

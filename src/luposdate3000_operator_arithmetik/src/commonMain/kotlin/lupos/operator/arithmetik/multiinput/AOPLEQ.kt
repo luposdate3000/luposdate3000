@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.multiinput
-
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -28,18 +28,18 @@ public class AOPLEQ public constructor(query: IQuery, childA: AOPBase, childB: A
     override fun toSparql(): String = "(" + children[0].toSparql() + " <= " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPLEQ && children[0] == other.children[0] && children[1] == other.children[1]
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: Int = DictionaryExt.errorValue
+            var res: DictionaryValueType = DictionaryValueHelper.errorValue
             val a = childA()
             val b = childB()
             try {
                 res = if (a <= b) {
-                    DictionaryExt.booleanTrueValue
+                    DictionaryValueHelper.booleanTrueValue
                 } else {
-                    DictionaryExt.booleanFalseValue
+                    DictionaryValueHelper.booleanFalseValue
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {

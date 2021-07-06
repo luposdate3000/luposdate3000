@@ -18,6 +18,4 @@ internal class DAO(
     override fun toString(): String {
         return "DAO(isPath $isPath)"
     }
-
-
 }

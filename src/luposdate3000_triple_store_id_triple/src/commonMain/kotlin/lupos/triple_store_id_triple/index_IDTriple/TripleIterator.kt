@@ -15,12 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
-
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 internal abstract class TripleIterator {
-    var value = IntArray(3)
+    var value = DictionaryValueTypeArray(3)
     abstract fun hasNext(): Boolean
-    abstract fun next(component: Int): Int // write the current triple-data into "value" and update offset
-    fun next(): IntArray {
+    abstract fun next(component: Int): DictionaryValueType // write the current triple-data into "value" and update offset
+    fun next(): DictionaryValueTypeArray {
         next(0)
         return value
     }

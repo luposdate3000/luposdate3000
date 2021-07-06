@@ -37,11 +37,14 @@ public abstract class POPValuesImportBase public constructor(query: IQuery, proj
     }
 
     public fun addRow(values: Array<String?>) {
-        SanityCheck.check { values.size == variables.size }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValuesImportBase.kt:39"/*SOURCE_FILE_END*/ }, { values.size == variables.size })
         val buffer = ByteArrayWrapper()
         for (i in variables.indices) {
             DictionaryHelper.sparqlToByteArray(buffer, cleanString(values[i]))
             data[variables[i]]!!.add(query.getDictionary().createValue(buffer))
         }
+    }
+    public open override fun usesDictionary(): Boolean {
+        return true
     }
 }

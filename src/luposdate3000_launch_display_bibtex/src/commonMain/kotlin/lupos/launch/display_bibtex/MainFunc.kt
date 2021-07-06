@@ -15,11 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.display_bibtex
-
 import lupos.endpoint.LuposdateEndpoint
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.Parallel
 import lupos.shared.Partition
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 
@@ -40,7 +39,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val s = colS.next()
         val p = colP.next()
         val o = colO.next()
-        if (s != DictionaryExt.nullValue) {
+        if (s != DictionaryValueHelper.nullValue) {
             query.getDictionary().getValue(buffer, s)
             val vs = DictionaryHelper.byteArrayToSparql(buffer)
             query.getDictionary().getValue(buffer, p)

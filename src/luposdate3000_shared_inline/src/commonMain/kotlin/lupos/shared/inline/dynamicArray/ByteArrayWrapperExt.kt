@@ -20,28 +20,38 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 
 public object ByteArrayWrapperExt {
     @Suppress("NOTHING_TO_INLINE")
+    public inline fun getSize(data: ByteArrayWrapper): Int {
+        return data.size_
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    public inline fun getBuf(data: ByteArrayWrapper): ByteArray {
+        return data.buf_
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun setSize(data: ByteArrayWrapper, c: Int) {
-        data.size = c
-        if (c > data.buf.size) {
-            data.buf = ByteArray(c)
+        data.size_ = c
+        if (c > data.buf_.size) {
+            data.buf_ = ByteArray(c)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun setSizeCopy(data: ByteArrayWrapper, c: Int) {
-        data.size = c
-        if (c > data.buf.size) {
-            val oldBuf = data.buf
-            data.buf = ByteArray(c)
-            oldBuf.copyInto(data.buf)
+        data.size_ = c
+        if (c > data.buf_.size) {
+            val oldBuf = data.buf_
+            data.buf_ = ByteArray(c)
+            oldBuf.copyInto(data.buf_)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun commonBytes(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         var i = 0
-        while (i < a.size && i < b.size) {
-            if (a.buf[i] == b.buf[i]) {
+        while (i < a.size_ && i < b.size_) {
+            if (a.buf_[i] == b.buf_[i]) {
                 i++
             } else {
                 break
@@ -52,21 +62,21 @@ public object ByteArrayWrapperExt {
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper) {
-        setSize(b, a.size)
-        a.buf.copyInto(b.buf, 0, 0, a.size)
+        setSize(b, a.size_)
+        a.buf_.copyInto(b.buf_, 0, 0, a.size_)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun appendTo(a: ByteArrayWrapper, b: ByteArrayWrapper) {
-        val offset = b.size
-        setSize(b, b.size + a.size)
-        a.buf.copyInto(b.buf, offset, 0, a.size)
+        val offset = b.size_
+        setSize(b, b.size_ + a.size_)
+        a.buf_.copyInto(b.buf_, offset, 0, a.size_)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun appendTo(a: ByteArray, b: ByteArrayWrapper) {
-        val offset = b.size
-        setSize(b, b.size + a.size)
-        a.copyInto(b.buf, offset, 0, a.size)
+        val offset = b.size_
+        setSize(b, b.size_ + a.size)
+        a.copyInto(b.buf_, offset, 0, a.size)
     }
 }

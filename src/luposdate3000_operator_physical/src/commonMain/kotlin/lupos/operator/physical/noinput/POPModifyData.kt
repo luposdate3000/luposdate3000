@@ -21,6 +21,8 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -32,7 +34,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -61,7 +62,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             if (c.graphVar) {
                 throw GraphVariablesNotImplementedException()
             }
-            SanityCheck.check { !c.graphVar }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:64"/*SOURCE_FILE_END*/ }, { !c.graphVar })
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }
@@ -81,13 +82,13 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val iteratorDataMap = mutableMapOf<String, Array<MutableList<Int>>>()
+        val iteratorDataMap = mutableMapOf<String, Array<MutableList<DictionaryValueType>>>()
         val dictionary = query.getDictionary()
         for (t in data) {
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = Array<MutableList<Int>>(3) { mutableListOf() }
+                    tmp = Array<MutableList<DictionaryValueType>>(3) { mutableListOf() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add(dictionary.valueToGlobal((t.children[i] as AOPConstant).value))
@@ -101,13 +102,16 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
                 val s = iterator[0].next()
                 val p = iterator[1].next()
                 val o = iterator[2].next()
-                if (s == DictionaryExt.nullValue) {
+                if (s == DictionaryValueHelper.nullValue) {
                     break
                 }
                 cache.writeRow(s, p, o, query)
             }
             cache.close()
         }
-        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryExt.booleanTrueValue)))
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryValueHelper.booleanTrueValue)))
+    }
+    public open override fun usesDictionary(): Boolean {
+        return true
     }
 }

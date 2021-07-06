@@ -38,7 +38,8 @@ internal fun generatePOPJoinMerge(
     imports.add("lupos.shared.operator.IOPBase")
     imports.add("lupos.shared.IQuery")
     imports.add("lupos.shared.operator.iterator.ColumnIterator")
-    imports.add("lupos.operator.base.iterator.ColumnIteratorChildIterator")
+    imports.add("lupos.shared.ColumnIteratorChildIterator")
+    imports.add("lupos.shared.inline.ColumnIteratorChildIteratorExt")
     imports.add("lupos.shared.operator.iterator.IteratorBundle")
     imports.add("lupos.operator.physical.POPBase")
     imports.add("kotlin.jvm.JvmField")
@@ -131,7 +132,7 @@ internal fun generatePOPJoinMerge(
     clazz.header.println(
         """
         override /*suspend*/ fun hasNext2(): Boolean {
-            val tmp = columnsOUTJ.next() != DictionaryExt.nullValue
+            val tmp = columnsOUTJ.next() != DictionaryValueHelper.nullValue
             if (!tmp) {
                 _hasNext2Close()
             }
@@ -212,7 +213,8 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorClassVariables.add("var localCloseI = 0")
     clazz.iteratorClassVariables.add("var skipO0 = 0")
     clazz.iteratorClassVariables.add("var skipO1 = 0")
-    clazz.iteratorClassVariables.add("var sipbuf = IntArray(2)")
+    clazz.iteratorClassVariables.add("var sipbufSkip = IntArray(1)")
+    clazz.iteratorClassVariables.add("var sipbufValue=DictionaryValueTypeArray(1)")
 
     clazz.iteratorBody.println("@Suppress(\"NOTHING_TO_INLINE\") /*suspend*/ private inline fun __close() {")
 
@@ -339,38 +341,38 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorBody.println("        }")
     clazz.iteratorNextHeader.println(
         """
-        override /*suspend*/ fun next(): Int {
-            return nextHelper(
+        override /*suspend*/ fun next(): DictionaryValueType {
+            return ColumnIteratorChildIteratorExt.nextHelper(this,
                 {"""
     )
     clazz.iteratorNextBody.println(
         """
-                    if (key0${variablesJoin[0]} != DictionaryExt.nullValue && key1${variablesJoin[0]} != DictionaryExt.nullValue) {
+                    if (key0${variablesJoin[0]} != DictionaryValueHelper.nullValue && key1${variablesJoin[0]} != DictionaryValueHelper.nullValue) {
                         loop@ while (true) {
                             if (key0${variablesJoin[0]} != key1${variablesJoin[0]}) {
                                 var skip0 = 0
                                 var skip1 = 0
                                 while (key0${variablesJoin[0]} != key1${variablesJoin[0]}) {
                                     if (key0${variablesJoin[0]} < key1${variablesJoin[0]}) {
-                                        columnsInJ0${variablesJoin[0]}.nextSIP(key1${variablesJoin[0]}, sipbuf)
-                                        key0${variablesJoin[0]} = sipbuf[1]
-                                        skip0 += sipbuf[0]
-                                        skipO0 += sipbuf[0]
+                                        columnsInJ0${variablesJoin[0]}.nextSIP(key1${variablesJoin[0]}, sipbufValue,sipbufSkip)
+                                        key0${variablesJoin[0]} = sipbufValue[0]
+                                        skip0 += sipbufSkip[0]
+                                        skipO0 += sipbufSkip[0]
                                         skip0++
                                         skipO0++
-                                        if (key0${variablesJoin[0]} == DictionaryExt.nullValue) {
+                                        if (key0${variablesJoin[0]} == DictionaryValueHelper.nullValue) {
                                             __close()
                                             break@loop
                                         }
                                     }
                                     else {
-                                        columnsInJ1${variablesJoin[0]}.nextSIP(key0${variablesJoin[0]}, sipbuf)
-                                        key1${variablesJoin[0]} = sipbuf[1]
-                                        skip1 += sipbuf[0]
-                                        skipO1 += sipbuf[0]
+                                        columnsInJ1${variablesJoin[0]}.nextSIP(key0${variablesJoin[0]}, sipbufValue,sipbufSkip)
+                                        key1${variablesJoin[0]} = sipbufValue[0]
+                                        skip1 += sipbufSkip[0]
+                                        skipO1 += sipbufSkip[0]
                                         skip1++
                                         skipO1++
-                                        if (key1${variablesJoin[0]} == DictionaryExt.nullValue) {
+                                        if (key1${variablesJoin[0]} == DictionaryValueHelper.nullValue) {
                                             __close()
                                             break@loop
                                         }
@@ -397,7 +399,7 @@ internal fun generatePOPJoinMerge(
         clazz.iteratorNextBody.println("                                skipO0++ ")
         for (variable2 in variablesJoin) {
             clazz.iteratorNextBody.println("                                key0$variable2 = columnsInJ0$variable2.next()")
-            clazz.iteratorNextBody.println("                                if(key0$variable2 == DictionaryExt.nullValue){")
+            clazz.iteratorNextBody.println("                                if(key0$variable2 == DictionaryValueHelper.nullValue){")
             clazz.iteratorNextBody.println("                                    __close()")
             clazz.iteratorNextBody.println("                                    break@loop")
             clazz.iteratorNextBody.println("                                }")
@@ -408,7 +410,7 @@ internal fun generatePOPJoinMerge(
         clazz.iteratorNextBody.println("                                skipO1++")
         for (variable2 in variablesJoin) {
             clazz.iteratorNextBody.println("                                key1$variable2 = columnsInJ1$variable2.next()")
-            clazz.iteratorNextBody.println("                                if(key1$variable2 == DictionaryExt.nullValue){")
+            clazz.iteratorNextBody.println("                                if(key1$variable2 == DictionaryValueHelper.nullValue){")
             clazz.iteratorNextBody.println("                                    __close()")
             clazz.iteratorNextBody.println("                                    break@loop")
             clazz.iteratorNextBody.println("                                }")

@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-
+import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ColumnIteratorQueueExt
 
 public object ColumnIteratorFromRow {
@@ -24,7 +24,7 @@ public object ColumnIteratorFromRow {
         val iterators = mutableListOf<ColumnIteratorQueue>()
         for (element in iterator.columns) {
             val iterator2 = object : ColumnIteratorQueue() {
-                override /*suspend*/ fun next(): Int {
+                override /*suspend*/ fun next(): DictionaryValueType {
                     return ColumnIteratorQueueExt.nextHelper(
                         this,
                         {

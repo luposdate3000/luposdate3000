@@ -19,10 +19,12 @@ package lupos.shared
 import kotlin.jvm.JvmField
 
 public object EPOPDebugModeExt {
-    public const val DEBUG1: EPOPDebugMode = 0
-    public const val DEBUG2: EPOPDebugMode = 1
-    public const val NONE: EPOPDebugMode = 2
+    public const val DEBUG1: EPOPDebugMode = 0 // 0x00000000
+    public const val DEBUG2: EPOPDebugMode = 1 // 0x00000001
+    public const val NONE: EPOPDebugMode = 2 // 0x00000002
     public const val values_size: Int = 3
+    public const val values_mask: Int = 3 // 0x00000003
+    public const val values_mask_inversed: Int = 2147483644 // 0x7ffffffc
 
     @JvmField
     public val names: Array<String> = arrayOf(

@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.noinput
-
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
@@ -38,7 +38,7 @@ public class AOPValue public constructor(query: IQuery, childs: List<AOPConstant
     }
 
     override fun equals(other: Any?): Boolean = other is AOPValue && children.contentEquals(other.children)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         SanityCheck.checkUnreachable()
     }
 
