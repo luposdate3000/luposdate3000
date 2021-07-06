@@ -413,7 +413,7 @@ if(!onWindows){
                 out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
 }
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
-                if (!buildLibrary && moduleArgs.codegenKAPT) {
+                if ( moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
                 }
                 if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -566,7 +566,7 @@ if(!onWindows){
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jvmDependencies, out)
-                    if (!buildLibrary && moduleArgs.codegenKAPT) {
+                    if ( moduleArgs.codegenKAPT) {
                         printDependencies(moduleArgs.dependenciesJvm, out)
                     }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -629,7 +629,7 @@ if(!onWindows){
                     out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain/kotlin\")")
                 }
                 out.println("}")
-                if (!buildLibrary && moduleArgs.codegenKAPT) {
+                if ( moduleArgs.codegenKAPT) {
                     out.println("dependencies {")
                     out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator_kapt\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
                     out.println("}")

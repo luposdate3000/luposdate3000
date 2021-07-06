@@ -42,7 +42,7 @@ import launcher.ReleaseMode
 import launcher.SuspendMode
 import launcher.EDictionaryValueMode 
 import launcher.TargetMode2
-import launcher.createBuildFileForModule
+import launcher.createBuildFileForModule 
 import launcher.fixPathNames
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
