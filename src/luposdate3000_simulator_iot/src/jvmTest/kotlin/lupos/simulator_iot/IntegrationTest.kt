@@ -29,11 +29,4 @@ class IntegrationTest {
     fun test5() {
         IoTSimulation().simulate("${FilePaths.testResource}/sensorFromStarSendOverMeshWithDB.json")
     }
-
-
-    @Ignore
-    @Test
-    fun test6() {
-        IoTSimulation().simulate("${FilePaths.testResource}/AutoIntegrationTest/test1.json")
-    }
 }
