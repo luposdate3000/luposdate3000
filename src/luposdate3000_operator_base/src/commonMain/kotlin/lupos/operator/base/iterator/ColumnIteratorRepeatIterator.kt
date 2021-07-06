@@ -16,7 +16,8 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -28,7 +29,7 @@ public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmF
     public var index2: Int = 0
 
     @JvmField
-    public val data: MutableList<Int> = mutableListOf()
+    public val data: MutableList<DictionaryValueType> = mutableListOf()
 
     @JvmField
     public var label: Int = 1
@@ -45,15 +46,15 @@ public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmF
         _close()
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         when (label) {
             1 -> {
                 val tmp = child.next()
-                return if (tmp == DictionaryExt.nullValue) {
+                return if (tmp == DictionaryValueHelper.nullValue) {
                     child.close()
                     if (data.size == 0 || count == 1) {
                         label = 0
-                        DictionaryExt.nullValue
+                        DictionaryValueHelper.nullValue
                     } else {
                         index = 2
                         label = 2
@@ -76,12 +77,12 @@ public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmF
                     }
                     else -> {
                         label = 0
-                        DictionaryExt.nullValue
+                        DictionaryValueHelper.nullValue
                     }
                 }
             }
             else -> {
-                return DictionaryExt.nullValue
+                return DictionaryValueHelper.nullValue
             }
         }
     }

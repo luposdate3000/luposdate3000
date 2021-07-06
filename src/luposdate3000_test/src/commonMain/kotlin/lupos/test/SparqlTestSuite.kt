@@ -39,6 +39,7 @@ import lupos.parser.turtle.TurtleParserWithDictionary
 import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.QueryResultToMemoryTable
 import lupos.shared.DateHelperRelative
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
@@ -211,7 +212,7 @@ public open class SparqlTestSuite {
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
                         Dictionary[second] is IRI -> {
-                            SanityCheck.check { resultFile == null }
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:214"/*SOURCE_FILE_END*/ }, { resultFile == null })
                             resultFile = prefix + (Dictionary[second] as IRI).iri
                         }
                         Dictionary[second] is BlankNode -> {
@@ -263,11 +264,11 @@ public open class SparqlTestSuite {
                             data.s(second).forEach { (first, second) ->
                                 when ((Dictionary[first] as IRI).iri) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                        SanityCheck.check { inputDataFile == null }
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:266"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
                                         inputDataFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                                        SanityCheck.check { queryFile == null }
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:270"/*SOURCE_FILE_END*/ }, { queryFile == null })
                                         queryFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
@@ -302,11 +303,11 @@ public open class SparqlTestSuite {
                                         }
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                                        SanityCheck.check { queryFile == null }
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:305"/*SOURCE_FILE_END*/ }, { queryFile == null })
                                         queryFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        SanityCheck.check { inputDataFile == null }
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:309"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
                                         inputDataFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
@@ -338,7 +339,7 @@ public open class SparqlTestSuite {
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    SanityCheck.check { testType == null }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:341"/*SOURCE_FILE_END*/ }, { testType == null })
                     testType = (Dictionary[second] as IRI).iri
                     when ((Dictionary[second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
@@ -373,7 +374,7 @@ public open class SparqlTestSuite {
                     features.add((Dictionary[second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    SanityCheck.check { comment == null }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:376"/*SOURCE_FILE_END*/ }, { comment == null })
                     comment = (Dictionary[second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
@@ -389,7 +390,7 @@ public open class SparqlTestSuite {
                     SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[second] as IRI).iri }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    SanityCheck.check { description == null }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:392"/*SOURCE_FILE_END*/ }, { description == null })
                     description = (Dictionary[second] as SimpleLiteral).content
                 }
                 else -> {
@@ -494,7 +495,17 @@ public open class SparqlTestSuite {
                         val tmp = tmp2.evaluateRoot()
                         val sstore = instance.tripleStoreManager!!.getDefaultGraph()
                         val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
-                        sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
+                        val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
+                        while (true) {
+                            val s = iterator[0].next()
+                            val p = iterator[1].next()
+                            val o = iterator[2].next()
+                            if (s == DictionaryValueHelper.nullValue) {
+                                break
+                            }
+                            cache.writeRow(s, p, o, query)
+                        }
+                        cache.close()
                         instance.tripleStoreManager!!.commit(query)
                         query.commited = true
                         if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
@@ -530,7 +541,17 @@ public open class SparqlTestSuite {
                     val tmp = tmp2.evaluateRoot()
                     val sstore = instance.tripleStoreManager!!.getGraph(it["name"]!!)
                     val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
-                    sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
+                    val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
+                    while (true) {
+                        val s = iterator[0].next()
+                        val p = iterator[1].next()
+                        val o = iterator[2].next()
+                        if (s == DictionaryValueHelper.nullValue) {
+                            break
+                        }
+                        cache.writeRow(s, p, o, query)
+                    }
+                    cache.close()
                     instance.tripleStoreManager!!.commit(query)
                     if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
@@ -585,14 +606,14 @@ public open class SparqlTestSuite {
             File("log/$testName2-Logical-Operator-Graph.tex").withOutputStream {
                 it.println(OperatorGraphToLatex(lopNode.toString(), testName2))
             }
-            SanityCheck.check({ lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:608"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-            SanityCheck.check { lopNode2 == lopNode2.cloneOP() }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:615"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
             File("log/$testName2-Logical-Operator-Graph-Optimized.tex").withOutputStream {
                 it.println(OperatorGraphToLatex(lopNode2.toString(), testName2))
             }
@@ -603,8 +624,8 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.check({ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-            SanityCheck { popNode.toSparqlQuery() }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:626"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:627"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             File("log/$testName2-Physical-Operator-Graph.tex").withOutputStream {
                 it.println(OperatorGraphToLatex(popNode.toString(), testName2))
             }

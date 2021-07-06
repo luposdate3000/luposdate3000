@@ -17,6 +17,8 @@
 package lupos.triple_store_manager
 
 import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -76,23 +78,23 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         return byteArray2
     }
 
-    internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
+    internal override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
         val hash: Int
         when (key_size) {
             1 -> {
-                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 }
-                hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]]
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:84"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
+                hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]])
             }
             2 -> {
-                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 }
-                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 }
-                hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]]
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:88"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:89"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
+                hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]])
             }
             3 -> {
-                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 }
-                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 }
-                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 }
-                hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]]
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:93"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:94"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:95"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 })
+                hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]])
             }
             else -> throw Exception("unreachable")
         }
@@ -104,9 +106,9 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check { partition.limit.size == 0 }
-        SanityCheck.check { partition.data.size == 0 }
-        val triple = IntArray(3) { -1 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:108"/*SOURCE_FILE_END*/ }, { partition.limit.size == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:109"/*SOURCE_FILE_END*/ }, { partition.data.size == 0 })
+        val triple = DictionaryValueTypeArray(3) { -1 }
         var counter = 0
         for (i in 0 until 3) {
             val param = params[i]
@@ -115,7 +117,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
                 counter++
             }
         }
-        SanityCheck.check { counter == key_size }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:119"/*SOURCE_FILE_END*/ }, { counter == key_size })
         val partitionToUse = findPartitionFor(query, triple)
         return Pair(hostnames[partitionToUse], keys[partitionToUse])
     }
@@ -157,6 +159,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:161"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:162"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

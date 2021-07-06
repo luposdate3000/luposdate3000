@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
-
+import lupos.shared.DictionaryValueType
 import kotlin.jvm.JvmField
 
 internal class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
@@ -37,8 +37,10 @@ internal class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: T
         }
     }
 
-    override fun hasNext() = flag != 0
-    override fun next(component: Int): Int {
+    override fun hasNext(): Boolean {
+        return flag != 0
+    }
+    override fun next(component: Int): DictionaryValueType {
         when (flag) {
             3 -> {
                 if (a.value[0] < b.value[0] || (a.value[0] == b.value[0] && a.value[1] < b.value[1]) || (a.value[0] == b.value[0] && a.value[1] == b.value[1] && a.value[2] <= b.value[2])) {

@@ -15,42 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
-
+import lupos.shared.TripleStoreManager
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
-
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
-    private enum class Config {
-        RUNTIME, // RUNTIME_CODE_GEN && RUNTIME_NO_CODE_GEN
-        RUNTIME_CODE_GEN,
-        RUNTIME_NO_CODE_GEN,
-        BUILDTIME_CODE_GEN,
-        BUILDTIME_NO_CODE_GEN,
-    }
-
-    private val enabledConfigurations = setOf(
-        Config.BUILDTIME_NO_CODE_GEN,
-    )
-
-    private fun configIsBuildTime(conf: Config): Boolean {
-        return conf == Config.BUILDTIME_NO_CODE_GEN || conf == Config.BUILDTIME_CODE_GEN
-    }
-
-    private fun configIsRunTime(conf: Config): Boolean {
-        return !configIsBuildTime(conf)
-    }
-
-    private fun configIsCodeGen(conf: Config): Boolean {
-        return conf == Config.RUNTIME_CODE_GEN || conf == Config.RUNTIME || conf == Config.BUILDTIME_CODE_GEN
-    }
-
-    private fun configIsBuildTimeCodeGen(conf: Config): Boolean {
-        return conf == Config.BUILDTIME_CODE_GEN
-    }
-
-    private fun configIsRunTimeCodeGen(conf: Config): Boolean {
-        return conf == Config.RUNTIME || conf == Config.RUNTIME_CODE_GEN
-    }
+    private val withCodeGen = false
 
     @JvmField
     internal var counter = 0
@@ -62,19 +31,16 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     internal val folderPathCoponent = "code_gen_test"
 
     @JvmField
-    internal val outputFolderRoot = "src/luposdate3000_launch_$folderPathCoponent/"
+    internal val outputFolderRoot = "src/luposdate3000_$folderPathCoponent/"
 
     @JvmField
-    internal val outputFolderSrcJvm = "src/luposdate3000_launch_$folderPathCoponent/src/jvmMain/kotlin/lupos/launch/$folderPathCoponent/"
+    internal val outputFolderSrcJvm = "${outputFolderRoot}src/jvmMain/kotlin/lupos/$folderPathCoponent/"
 
     @JvmField
-    internal val outputFolderTestCommon = "src/luposdate3000_launch_$folderPathCoponent/src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/common/"
+    internal val outputFolderTestJvm = "${outputFolderRoot}src/jvmTest/kotlin/lupos/$folderPathCoponent/"
 
     @JvmField
-    internal val outputFolderTestJvm = "src/luposdate3000_launch_$folderPathCoponent/src/jvmTest/kotlin/lupos/launch/$folderPathCoponent/jvm/"
-
-    @JvmField
-    internal val outputFolderTestResourcesCommon = "src/luposdate3000_launch_$folderPathCoponent/src/jvmTest/resources/"
+    internal val outputFolderTestResourcesJvm = "${outputFolderRoot}src/jvmTest/resources/"
 
     @JvmField
     internal val allTests = mutableListOf<String>()
@@ -85,48 +51,16 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         File(outputFolderRoot).mkdirs()
         File(outputFolderSrcJvm).mkdirs()
         File(outputFolderTestJvm).mkdirs()
-        File(outputFolderTestCommon).mkdirs()
-        File(outputFolderTestResourcesCommon).mkdirs()
+        File(outputFolderTestResourcesJvm).mkdirs()
         File(outputFolderRoot + "/module_config").withOutputStream { out ->
-            out.println("package=Luposdate3000_Main")
             out.println("disableJS=true")
-            if (enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) || enabledConfigurations.contains(Config.BUILDTIME_CODE_GEN) || enabledConfigurations.contains(Config.RUNTIME)) {
+            if (withCodeGen) {
                 out.println("codegenKAPT=true")
             }
         }
-        File(outputFolderRoot + "/runOptions").withOutputStream {}
     }
 
     public fun finish() {
-        val flag = enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) || enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN) || enabledConfigurations.contains(Config.RUNTIME)
-        File(outputFolderSrcJvm + "/MainFunc.kt").withOutputStream { out ->
-            out.println("/*")
-            out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
-            out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
-            out.println(" *")
-            out.println(" * This program is free software: you can redistribute it and/or modify")
-            out.println(" * it under the terms of the GNU General Public License as published by")
-            out.println(" * the Free Software Foundation, version 3.")
-            out.println(" *")
-            out.println(" * This program is distributed in the hope that it will be useful, but")
-            out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
-            out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
-            out.println(" * General Public License for more details.")
-            out.println(" *")
-            out.println(" * You should have received a copy of the GNU General Public License")
-            out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
-            out.println(" */")
-            out.println("package lupos.launch.$folderPathCoponent")
-            out.println("import lupos.shared.Parallel")
-            out.println("")
-            out.println("internal fun mainFunc(): Unit = Parallel.runBlocking {")
-            if (flag) {
-                for (test in allTests) {
-                    out.println("    $test()")
-                }
-            }
-            out.println("}")
-        }
     }
 
     private fun cleanFileContent(s: String): String {
@@ -139,7 +73,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             .replace("\" +\n", " \" +\n")
             .replace("\" +\n", "\\n\" +\n")
     }
-
+    private val ignoreList = SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.ignoreListDueToTooSlow + SparqlTestSuiteConverterToUnitTestIgnoreListDueToNotImplemented.ignoreListDueToNotImplemented + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.ignoreListDueToBugs + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsResolveLater.ignoreListDueToBugsResolveLater
     override fun parseSPARQLAndEvaluate( //
         executeJena: Boolean,
         testName: String, //
@@ -151,40 +85,69 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         inputDataGraph: MutableList<MutableMap<String, String>>, //
         outputDataGraph: MutableList<MutableMap<String, String>> //
     ): Boolean {
+        val testCaseName2 = testName.filter { it.isLetterOrDigit() || it == ' ' }
+        val testCaseName = testCaseName2.filter { it.isLetterOrDigit() }
         if (services != null && services.isNotEmpty()) {
-            return false
-        }
-        if (inputDataGraph.size > 0) {
-            return false
-        }
-        if (inputDataFileName == null) {
             return false
         }
         var inputFile = inputDataFileName
         if (inputFile == "#keep-data#") {
             inputFile = lastFile
         }
-        lastFile = inputFile
+        if (inputFile != null) {
+            lastFile = inputFile
+        }
         var outputFile = resultDataFileName
         var mode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
         if (outputFile == null) {
-            if (outputDataGraph.size == 1 && outputDataGraph[0]["name"] == "") {
-                mode = BinaryTestCaseOutputModeExt.MODIFY_RESULT
-                outputFile = outputDataGraph[0]["filename"]
-            } else {
-                return false
-            }
-        } else {
-            if (outputDataGraph.size > 0) {
-                return false
-            }
+            mode = BinaryTestCaseOutputModeExt.MODIFY_RESULT
         }
 
+        val inputGraphs = mutableMapOf<String, Pair<String, String>>() // filename -> graphname, filetype
+        if (inputFile != null) {
+            inputGraphs["$testCaseName.input"] = Pair(TripleStoreManager.DEFAULT_GRAPH_NAME, inputFile!!.substring(inputFile.lastIndexOf(".")))
+            File(outputFolderTestResourcesJvm + "/$testCaseName.input").withOutputStream { out ->
+                File(inputFile).forEachLine {
+                    out.println(it)
+                }
+            }
+        }
+        for (g in inputDataGraph) {
+            val name = g["name"]!!
+            val file = g["filename"]!!
+            val outfile = "$testCaseName.input" + inputGraphs.size
+            inputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
+            File(outputFolderTestResourcesJvm + "/$outfile").withOutputStream { out ->
+                File(file).forEachLine {
+                    out.println(it)
+                }
+            }
+        }
+        val outputGraphs = mutableMapOf<String, Pair<String, String>>() // filename -> graphname, filetype
+        for (g in outputDataGraph) {
+            val name = g["name"]!!
+            val file = g["filename"]!!
+            val outfile = "$testCaseName.output" + outputGraphs.size
+            outputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
+            File(outputFolderTestResourcesJvm + "/$outfile").withOutputStream { out ->
+                File(file).forEachLine {
+                    out.println(it)
+                }
+            }
+        }
+        var targetType = "NONE"
+        if (outputFile != null) {
+            File(outputFolderTestResourcesJvm + "/$testCaseName.output").withOutputStream { out ->
+                File(outputFile).forEachLine {
+                    out.println(it)
+                }
+            }
+            targetType = outputFile.substring(outputFile.lastIndexOf("."))
+        }
         counter++
-        val testCaseName = "TestCase$counter"
         allTests.add("$testCaseName")
         var queryResultIsOrdered = false
-        File(outputFolderTestResourcesCommon + "/$testCaseName.query").withOutputStream { out ->
+        File(outputFolderTestResourcesJvm + "/$testCaseName.query").withOutputStream { out ->
             File(queryFile).forEachLine {
                 out.println(it)
                 if (it.contains("order", true)) {
@@ -192,34 +155,70 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 }
             }
         }
-        File(outputFolderTestResourcesCommon + "/$testCaseName.input").withOutputStream { out ->
-            File(inputFile).forEachLine {
-                out.println(it)
+        var ignored = ignoreList.contains(testCaseName)
+        for (useCodeGen in setOf(false, withCodeGen)) {
+            var filenamePart = ""
+            if (useCodeGen) {
+                filenamePart = "_CodeGen"
             }
-        }
-        File(outputFolderTestResourcesCommon + "/$testCaseName.output").withOutputStream { out ->
-            File(outputFile!!).forEachLine {
-                out.println(it)
+            val filenameLocal: String
+            if (useCodeGen) {
+                filenameLocal = "$outputFolderSrcJvm/$testCaseName$filenamePart.kt"
+            } else {
+                filenameLocal = "$outputFolderTestJvm/$testCaseName$filenamePart.kt"
             }
-        }
-        val targetType = outputFile!!.substring(outputFile.lastIndexOf("."))
-
-        val configurations = mutableListOf<Pair<File, Config>>()
-        if ((enabledConfigurations.contains(Config.RUNTIME_CODE_GEN) && enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN)) || enabledConfigurations.contains(Config.RUNTIME)) {
-            configurations.add(File("$outputFolderSrcJvm/$testCaseName.kt") to Config.RUNTIME)
-        } else if (enabledConfigurations.contains(Config.RUNTIME_CODE_GEN)) {
-            configurations.add(File("$outputFolderSrcJvm/$testCaseName.kt") to Config.RUNTIME_CODE_GEN)
-        } else if (enabledConfigurations.contains(Config.RUNTIME_NO_CODE_GEN)) {
-            configurations.add(File("$outputFolderSrcJvm/$testCaseName.kt") to Config.RUNTIME_NO_CODE_GEN)
-        }
-        if (enabledConfigurations.contains(Config.BUILDTIME_CODE_GEN)) {
-            configurations.add(File("$outputFolderTestJvm/$testCaseName.kt") to Config.BUILDTIME_CODE_GEN)
-        }
-        if (enabledConfigurations.contains(Config.BUILDTIME_NO_CODE_GEN)) {
-            configurations.add(File("$outputFolderTestCommon/$testCaseName.kt") to Config.BUILDTIME_NO_CODE_GEN)
-        }
-        for (configuration in configurations) {
-            configuration.first.withOutputStream { out ->
+            File(filenameLocal).withOutputStream { out ->
+                val distributedTest = StringBuilder()
+                var distributedTestCtr = 0
+                fun appendDistributedTest(s: String) {
+                    distributedTest.appendLine("val pkg$distributedTestCtr = $s")
+                    distributedTestCtr++
+                    if (distributedTestCtr> 1) {
+                        distributedTest.appendLine("pkg${distributedTestCtr - 2}.onFinish = pkg${distributedTestCtr - 1}")
+                    }
+                }
+                var localCounter = 0
+                fun myExpectedData(counter: Int, data: String, type: String) {
+                    out.println("        val expected$counter = MemoryTable.parseFromAny($data, $type, Query(instance))!!")
+                }
+                fun myActualDataOperatorGraph(counter: Int, graph: String) {
+                    out.println("        val query$counter = Query(instance)")
+                    out.println("        val graph$counter = instance.tripleStoreManager!!.getGraph($graph)")
+                    out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
+                }
+                fun myActualDataEvaluate(counter: Int) {
+                    out.println("        val actual$counter = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
+                }
+                fun myCompareData(counter: Int) {
+                    out.println("        val buf_err$counter = MyPrintWriter()")
+                    out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, buf_err$counter)) {")
+                    val s = "expected$counter.toString() + \" .. \" + actual$counter.toString() + \" .. \" + buf_err$counter.toString() + \" .. \" + operator$counter"
+                    if (useCodeGen) {
+                        out.println("            throw Exception($s)")
+                    } else {
+                        out.println("            fail($s)")
+                    }
+                    out.println("        }")
+                }
+                fun myVerifyGraph(counter: Int, data: String, type: String, graph: String, query: String?, isDefaultGraph: Boolean) {
+                    if (query == null) {
+                        myActualDataOperatorGraph(counter, graph)
+                    }
+                    myActualDataEvaluate(counter)
+                    myExpectedData(counter, data, type)
+                    myCompareData(counter)
+                    val q: String
+                    if (query == null) {
+                        if (isDefaultGraph) {
+                            q = "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
+                        } else {
+                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH \${$graph} { ?s ?p ?o . }}\""
+                        }
+                    } else {
+                        q = query
+                    }
+                    appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
+                }
                 out.println("/*")
                 out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
                 out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
@@ -236,123 +235,185 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println(" * You should have received a copy of the GNU General Public License")
                 out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
                 out.println(" */")
-                out.println("package lupos.launch.$folderPathCoponent")
+                out.println("package lupos.$folderPathCoponent")
                 out.println("import lupos.endpoint.LuposdateEndpoint")
-                out.println("import lupos." + "shared.inline.MyPrintWriter")
-                out.println("import lupos." + "shared.inline.File")
-                out.println("import lupos.shared.MemoryTable")
-                out.println("import lupos.result_format.EQueryResultToStreamExt")
                 out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
-                out.println("import lupos.shared.EIndexPatternExt")
                 out.println("import lupos.operator.base.Query")
-                if (configIsBuildTime(configuration.second)) {
+                out.println("import lupos.result_format.EQueryResultToStreamExt")
+                if (useCodeGen) {
+                    out.println("import lupos.shared.CodeGenerationAnnotation")
+                }
+                out.println("import lupos.shared.EIndexPatternExt")
+                out.println("import lupos.shared.MemoryTable")
+                out.println("import lupos." + "shared.inline.File")
+                out.println("import lupos." + "shared.inline.MyPrintWriter")
+                out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage")
+                out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage")
+                out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute")
+                if (!useCodeGen) {
+                    if (ignored) {
+                        out.println("import kotlin.test.Ignore")
+                    }
                     out.println("import kotlin.test.Test")
                     out.println("import kotlin.test.fail")
                 }
-                if (configIsCodeGen(configuration.second)) {
-                    out.println("import lupos.shared.CodeGenerationAnnotation")
-                }
                 out.println("")
-                if (configIsBuildTime(configuration.second)) {
-                    out.println("public class $testCaseName {")
-                    out.println("   val inputData=File(\"src/jvmTest/resources/$testCaseName.input\").readAsString()")
-                    out.println("   val targetData=File(\"src/jvmTest/resources/$testCaseName.output\").readAsString()")
-                    out.println("   val targetType=\"$targetType\"")
+                val inputGraphIsDefaultGraph = mutableListOf<Boolean>()
+                val outputGraphIsDefaultGraph = mutableListOf<Boolean>()
+                if (useCodeGen) {
+                    out.println("public class ${testCaseName}_CodeGen {")
                 } else {
-                    out.println("public object $testCaseName {")
-                    out.println("   internal val inputData=File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.input\").readAsString()")
-                    out.println("   internal val targetData=File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.output\").readAsString()")
-                    out.println("   internal val targetType=\"$targetType\"")
+                    out.println("public class $testCaseName {")
                 }
-                if (configIsCodeGen(configuration.second)) {
+                if (inputGraphs.size> 0) {
+                    out.println("    internal val inputData = arrayOf(")
+                    for ((k, v) in inputGraphs) {
+                        out.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
+                    }
+                    out.println("    )")
+                    out.println("    internal val inputGraph = arrayOf(")
+                    for ((k, v) in inputGraphs) {
+                        out.println("        \"${v.first}\",")
+                        inputGraphIsDefaultGraph.add(v.first == "")
+                    }
+                    out.println("    )")
+                    out.println("    internal val inputType = arrayOf(")
+                    for ((k, v) in inputGraphs) {
+                        out.println("        \"${v.second}\",")
+                    }
+                    out.println("    )")
+                }
+                if (outputGraphs.size> 0) {
+                    out.println("    internal val outputData = arrayOf(")
+                    for ((k, v) in outputGraphs) {
+                        out.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
+                    }
+                    out.println("    )")
+                    out.println("    internal val outputGraph = arrayOf(")
+                    for ((k, v) in outputGraphs) {
+                        outputGraphIsDefaultGraph.add(v.first == "")
+                        out.println("        \"${v.first}\",")
+                    }
+                    out.println("    )")
+                    out.println("    internal val outputType = arrayOf(")
+                    for ((k, v) in outputGraphs) {
+                        out.println("        \"${v.second}\",")
+                    }
+                    out.println("    )")
+                }
+                if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
+                    out.println("    internal val targetData = File(\"src/jvmTest/resources/$testCaseName.output\").readAsString()")
+                    out.println("    internal val targetType = \"$targetType\"")
+                }
+                if (useCodeGen) {
                     out.println("    @CodeGenerationAnnotation")
                 }
-                if (configIsBuildTime(configuration.second)) {
-                    out.println("    val query = File(\"src/jvmTest/resources/$testCaseName.query\").readAsString()")
-                    out.println("    @Test fun `${testName.filter { it.isLetterOrDigit() || it == ' ' }}`(){")
-                    out.println("            val instance = LuposdateEndpoint.initialize()")
-                } else {
-                    out.println("    internal val query = File(\"src/luposdate3000_launch_code_gen_test/src/jvmTest/resources/$testCaseName.query\").readAsString()")
-                    out.println("    internal operator fun invoke(){")
-                    out.println("        println(\"Test #$counter: '$testName'\")")
-                    out.println("        var success = true")
-                    out.println("            val instance = LuposdateEndpoint.initialize()")
-                    out.println("        try {")
-                }
-                out.println("            instance.LUPOS_BUFFER_SIZE=128")
-                out.println("            LuposdateEndpoint.importTurtleString(instance,inputData)")
-                if (configIsBuildTimeCodeGen(configuration.second)) {
-                    out.println("                val op = query_evaluate()")
-                } else {
-                    out.println("            val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance,query)")
-                }
-                out.println("            val buf = MyPrintWriter(true)")
-                out.println("            val target = MemoryTable.parseFromAny(targetData, targetType, op.getQuery())!!")
-                if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                    out.println("            val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance,op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
-                } else {
-                    out.println("            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance,op, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
-                    out.println("            val graph = instance.tripleStoreManager!!.getGraph(\"\")")
-                    out.println("            val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
-                    out.println("            val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance,op2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
-                }
-                out.println("            val buf_err=MyPrintWriter()")
-                out.println("            if (!target.equalsVerbose(result, ${!queryResultIsOrdered}, true,buf_err)) {")
-                if (configIsBuildTime(configuration.second)) {
-                    out.println("                fail(buf_err.toString())")
-                } else {
-                    out.println("                 println(buf_err.toString())")
-                    out.println("                success = false")
-                }
-                out.println("            }")
-                if (configIsRunTime(configuration.second)) {
-                    out.println("        } catch (e:Throwable) {")
-                    out.println("            e.printStackTrace()")
-                    out.println("                success = false")
-                    out.println("        }")
-                }
-                out.println("            LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
-                if (configIsRunTime(configuration.second)) {
-                    out.println("        if (success) {")
-                    out.println("            println(\"Result: '$testName' success\")")
-                    out.println("        } else {")
-                    out.println("            println(\"Result: '$testName' failed\")")
-                    out.println("        }")
-                }
-                if (configIsRunTimeCodeGen(configuration.second)) {
-                    out.println("        if(success){")
-                    out.println("            var success2 = true")
-                    out.println("               val instance2= LuposdateEndpoint.initialize()")
-                    out.println("            instance2.LUPOS_BUFFER_SIZE=128")
-                    out.println("            try {")
-                    out.println("                LuposdateEndpoint.importTurtleString(instance2,inputData)")
-                    out.println("                val op = query_evaluate()")
-                    out.println("                val buf = MyPrintWriter(true)")
-                    out.println("                val target = MemoryTable.parseFromAny(targetData, targetType, op.getQuery())!!")
-                    if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                        out.println("                val result =( LuposdateEndpoint.evaluateOperatorgraphToResultA(instance2,op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
-                    } else {
-                        out.println("                LuposdateEndpoint.evaluateOperatorgraphToResultA(instance2,op, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
-                        out.println("                val graph = instance2.tripleStoreManager!!.getGraph(\"\")")
-                        out.println("                val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
-                        out.println("                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance2,op2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
+                out.println("    internal val query = File(\"src/jvmTest/resources/$testCaseName.query\").readAsString()")
+                out.println("")
+                if (!useCodeGen) {
+                    if (ignored) {
+                        val reason = ignoreList[testCaseName]
+                        if (reason != null) {
+                            out.println("    @Ignore // Reason: >$reason<")
+                        } else {
+                            out.println("    @Ignore")
+                        }
                     }
-                    out.println("            val buf_err2=MyPrintWriter()")
-                    out.println("                if (!target.equalsVerbose(result, ${!queryResultIsOrdered}, true,buf_err2)) {")
-                    out.println("                 println(buf_err2.toString())")
-                    out.println("                success2 = false")
-                    out.println("                }")
-                    out.println("            } catch (e:Throwable) {")
-                    out.println("                e.printStackTrace()")
-                    out.println("                success2 = false")
-                    out.println("            }")
-                    out.println("                instance2.close()") // for inmemory db this results in complete wipe of ALL data
-                    out.println("            if (!success2) {")
-                    out.println("                println(\"ResultCodegen: '$testName' failed\")")
-                    out.println("            }")
+                    out.println("    @Test")
+                }
+                out.println("    public fun `$testCaseName2`() {")
+                out.println("        val instance = LuposdateEndpoint.initialize()")
+                out.println("        instance.LUPOS_BUFFER_SIZE = 128")
+                out.println("        val buf = MyPrintWriter(false)")
+                for (i in 0 until inputGraphs.size) {
+                    appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])")
+                    out.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
+                    out.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i], inputGraph[$i])")
+                    out.println("        } else {")
+                    out.println("            TODO()")
                     out.println("        }")
                 }
+                for (i in 0 until inputGraphs.size) {
+                    val c = localCounter++
+                    myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i])
+                }
+                val counter = localCounter++
+                val evaluateIt = outputGraphs.size> 0 || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
+                if (evaluateIt || expectedResult) {
+                    if (useCodeGen) {
+                        out.println("            val operator$counter = query_evaluate()")
+                    } else {
+                        out.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                    }
+                    if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
+                        myVerifyGraph(counter, "targetData", "targetType", "", "query", false)
+                    } else {
+                        if (evaluateIt) {
+                            appendDistributedTest("MySimulatorTestingExecute(query)")
+                            out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
+                        }
+                    }
+                } else {
+                    out.println("        var flag = false")
+                    out.println("        try {")
+                    if (useCodeGen) {
+                        out.println("            query_evaluate()")
+                    } else {
+                        out.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                    }
+                    out.println("        } catch (e: Throwable) {")
+                    out.println("            flag = true")
+                    out.println("        }")
+                    out.println("        if (!flag) {")
+                    if (useCodeGen) {
+                        out.println("            throw Exception(\"expected failure\")")
+                    } else {
+                        out.println("            fail(\"expected failure\")")
+                    }
+                    out.println("        }")
+                }
+                for (i in 0 until outputGraphs.size) {
+                    val c = localCounter++
+                    myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i])
+                }
+                out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
+                val str = distributedTest.toString()
+                if (!useCodeGen && str.length> 0) {
+                    if (ignored) {
+                        val reason = ignoreList[testCaseName]
+                        if (reason != null) {
+                            out.println("    @Ignore // Reason: >$reason<")
+                        } else {
+                            out.println("    @Ignore")
+                        }
+                    }
+                    out.println("    @Test")
+
+                    out.println("    public fun `$testCaseName2 - in simulator`() {")
+                    out.println("        //TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready")
+                    out.println("        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead")
+                    out.print(str)
+                    out.println("        //TODO send the package pkg0 to the selected database instance")
+                    out.println("        //TODO wait for the simulation to finish sending ALL messages")
+                    out.println("        //TODO verify that the test is finished")
+                    out.println("    }")
+                }
+                if (!useCodeGen && withCodeGen) {
+                    if (ignored) {
+                        val reason = ignoreList[testCaseName]
+                        if (reason != null) {
+                            out.println("    @Ignore // Reason: >$reason<")
+                        } else {
+                            out.println("    @Ignore")
+                        }
+                    }
+                    out.println("    @Test")
+
+                    out.println("    public fun `$testCaseName2 - in simulator`() {")
+                    out.println("        ${testCaseName}_CodeGen().`$testCaseName2`()")
+                    out.println("    }")
+                }
                 out.println("}")
             }
         }

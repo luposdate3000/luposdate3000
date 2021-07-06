@@ -18,6 +18,9 @@ package lupos.triple_store_manager
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EOperatorIDExt
@@ -27,7 +30,6 @@ import lupos.shared.LuposHostname
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPConstant
@@ -99,7 +101,7 @@ public class POPTripleStoreIterator(
     override fun getPartitionCount(variable: String): Int {
         var count = tripleStoreIndexDescription.getPartitionCount()
         if (count > 1) {
-            SanityCheck.check { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:103"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
             for (i in 0 until 3) {
                 val c = children[i]
                 if (c is AOPVariable && c.name == variable) {
@@ -127,18 +129,18 @@ public class POPTripleStoreIterator(
         val index = tripleStoreIndexDescription
         val target = index.getStore(query, children, parent)
         val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
-        SanityCheck.check { target.first == manager.localhost }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:131"/*SOURCE_FILE_END*/ }, { target.first == manager.localhost })
         val store = manager.localStoresGet()[target.second]!!
-        val filter2 = mutableListOf<Int>()
+        val filter2 = mutableListOf<DictionaryValueType>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
             val i = EIndexPatternHelper.tripleIndicees[index.idx_set[0]][ii]
             when (val param = children[i]) {
                 is IAOPConstant -> {
-                    SanityCheck.check { filter2.size == ii }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:139"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                     val v = param.getValue()
                     if (query.getDictionary().isLocalValue(v)) {
-                        filter2.add(DictionaryExt.nullValue)
+                        filter2.add(DictionaryValueHelper.nullValue)
                     } else {
                         filter2.add(v)
                     }
@@ -151,7 +153,10 @@ public class POPTripleStoreIterator(
                 }
             }
         }
-        val filter = IntArray(filter2.size) { filter2[it] }
+        val filter = DictionaryValueTypeArray(filter2.size) { filter2[it] }
         return store.getIterator(query, filter, projection)
+    }
+    public open override fun usesDictionary(): Boolean {
+        return false
     }
 }

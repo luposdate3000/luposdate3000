@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
 import lupos.shared.UnreachableException
 import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
@@ -47,12 +46,12 @@ internal object SanityCheckOn {
         }
     }
 
-    internal inline operator fun invoke(crossinline action: () -> Unit) {
+    internal inline operator fun invoke(crossinline filename: () -> String, crossinline action: () -> Unit) {
         try {
             action()
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
-                println("Exception during SanityCheck.invoke")
+                println("Exception during SanityCheck.invoke at ${filename()}")
                 e.printStackTrace()
             }
             throw e
@@ -77,11 +76,11 @@ internal object SanityCheckOn {
         return action()
     }
 
-    internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
+    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean, crossinline msg: () -> String) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
-                throw Exception("SanityCheck failed :: " + msg())
+                throw Exception("SanityCheck failed at ${filename()} :: " + msg())
             }
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
@@ -92,11 +91,11 @@ internal object SanityCheckOn {
         }
     }
 
-    internal inline fun check(crossinline value: () -> Boolean) {
+    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
-                throw Exception("SanityCheck failed")
+                throw Exception("SanityCheck failed at ${filename()}")
             }
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {

@@ -15,25 +15,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.parser
-
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
 import lupos.shared.DateHelperRelative
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.EIndexPatternExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.fileformat.DictionaryIntermediate
-import lupos.shared.fileformat.DictionaryIntermediateReader
-import lupos.shared.fileformat.DictionaryIntermediateWriter
-import lupos.shared.fileformat.TriplesIntermediate
-import lupos.shared.fileformat.TriplesIntermediateReader
-import lupos.shared.fileformat.TriplesIntermediateWriter
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.inline.fileformat.DictionaryIntermediate
+import lupos.shared.inline.fileformat.DictionaryIntermediateReader
+import lupos.shared.inline.fileformat.DictionaryIntermediateWriter
+import lupos.shared.inline.fileformat.TriplesIntermediate
+import lupos.shared.inline.fileformat.TriplesIntermediateReader
+import lupos.shared.inline.fileformat.TriplesIntermediateWriter
 import kotlin.math.min
 
 // rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -58,20 +61,20 @@ public object InputToIntermediate {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun cmp(a: IntArray, b: IntArray): Int {
+    private inline fun cmp(a: DictionaryValueTypeArray, b: DictionaryValueTypeArray): DictionaryValueType {
         var res = a[0] - b[0]
-        if (res != 0) {
+        if (res != DictionaryValueHelper.NULL) {
             return res
         }
         res = a[1] - b[1]
-        if (res != 0) {
+        if (res != DictionaryValueHelper.NULL) {
             return res
         }
         res = a[2] - b[2]
         return res
     }
 
-    private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> Int, crossinline cmpBtoB: (Int, Int) -> Int, step: Int) {
+    private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> DictionaryValueType, crossinline cmpBtoB: (Int, Int) -> DictionaryValueType, step: Int) {
         var size = 1
         while (size < n) {
             var lstart = 0
@@ -165,7 +168,7 @@ public object InputToIntermediate {
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     private fun process(inputFileName: String, backupmode: Boolean, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
         var shouldReturn = false
-        val inference_enabled = true
+        val inference_enabled = false
         var inferredTriples = 0
         val startTime = DateHelperRelative.markNow()
         val quadMode = inputFileName.endsWith(".n4")
@@ -179,11 +182,11 @@ public object InputToIntermediate {
         var dictSizeEstimated = 0L
         var chunc = 0
 // create chunced dictionaries
-        var outTriples = TriplesIntermediateWriter("$inputFileName.0")
-        val dict = mutableMapOf<ByteArrayWrapper, Int>()
-        var dictCounter = 0L
-        var cnt = 0L
-        var dicttotalcnt = 0L
+        var outTriples = TriplesIntermediateWriter("$inputFileName.0", EIndexPatternExt.SPO)
+        val dict = mutableMapOf<ByteArrayWrapper, DictionaryValueType>()
+        var dictCounter: DictionaryValueType = 0
+        var cnt = 0
+        var dicttotalcnt = 0
         fun cmp(a: String, b: String): Int {
             val alen = a.length
             val blen = b.length
@@ -200,22 +203,22 @@ public object InputToIntermediate {
             return alen - blen
         }
 
-        fun addToDict(data: ByteArrayWrapper): Int {
+        fun addToDict(data: ByteArrayWrapper): DictionaryValueType {
             val v = dict[data]
             if (v != null) {
-                return v.toInt()
+                return v
             } else {
                 val v2 = dictCounter++
                 val buf = ByteArrayWrapper()
                 ByteArrayWrapperExt.copyInto(data, buf)
-                dict[buf] = v2.toInt()
-                dictSizeEstimated += data.size + 8
+                dict[buf] = v2
+                dictSizeEstimated += ByteArrayWrapperExt.getSize(data) + 8
                 dicttotalcnt++
-                return v2.toInt()
+                return v2
             }
         }
 
-        fun addIriToDict(iri: String): Int {
+        fun addIriToDict(iri: String): DictionaryValueType {
             val buf = ByteArrayWrapper()
             DictionaryHelper.iriToByteArray(buf, iri)
             return addToDict(buf)
@@ -227,7 +230,7 @@ public object InputToIntermediate {
         var dictionaryInitialSortTime = 0.0
         val iter = File(inputFileName).openInputStream()
         if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
-            val row = IntArray(3)
+            val row = DictionaryValueTypeArray(3)
             if (backupmode) {
                 val triple: Array<ByteArrayWrapper> = Array(3) { ByteArrayWrapper() }
                 val f = File(inputFileName)
@@ -240,11 +243,14 @@ public object InputToIntermediate {
                 }
                 val tit = TurtleScanner(lcit)
                 val ltit = LookAheadTokenIterator(tit, 3)
+                val action: (Int, String) -> Unit = { i, v ->
+                    DictionaryHelper.sparqlToByteArray(triple[i], v)
+                }
                 val x = object : TurtleParserWithStringTriples() {
                     /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                        DictionaryHelper.sparqlToByteArray(triple[0], s)
-                        DictionaryHelper.sparqlToByteArray(triple[1], p)
-                        DictionaryHelper.sparqlToByteArray(triple[2], o)
+                        action(0, s)
+                        action(1, p)
+                        action(2, o)
                         for (i in 0 until 3) {
                             row[i] = addToDict(triple[i])
                         }
@@ -292,7 +298,7 @@ public object InputToIntermediate {
                 }
             }
         } else if (inputFileName.endsWith(".n4")) {
-            val row = IntArray(3)
+            val row = DictionaryValueTypeArray(3)
             val x = object : NQuads2Parser(iter) {
                 override fun onQuad() {
                     for (i in 0 until 3) {
@@ -327,13 +333,13 @@ public object InputToIntermediate {
             val parseTime = DateHelperRelative.elapsedSeconds(startTime)
 // merge dictionaries
             val outDictionary = DictionaryIntermediateWriter(inputFileName)
-            val mapping = IntArray(dictCounter.toInt())
+            val mapping = DictionaryValueTypeArray(dictCounter.toInt())
             val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
             val dictionariesHeadBuffer = Array(chunc) { ByteArrayWrapper() }
             val dictionariesHead = Array(chunc) { dictionaries[it].next(dictionariesHeadBuffer[it]) }
             var buffer = ByteArrayWrapper()
             var current: ByteArrayWrapper? = null
-            var currentValue = 0
+            var currentValue: DictionaryValueType = DictionaryValueHelper.NULL
             var changed = true
             loop@ while (changed) {
                 changed = false
@@ -350,7 +356,7 @@ public object InputToIntermediate {
                     for (i in 0 until chunc) {
                         val d = dictionariesHead[i]
                         if (d != null && current == d.data) {
-                            mapping[d.id] = currentValue
+                            mapping[DictionaryValueHelper.toInt(d.id)] = currentValue
                             dictionariesHead[i] = dictionaries[i].next(dictionariesHeadBuffer[i])
                         }
                     }
@@ -377,9 +383,17 @@ public object InputToIntermediate {
                 intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos"
                 intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
             )
+            val indexPatterns = arrayOf(
+                EIndexPatternExt.SPO,
+                EIndexPatternExt.SOP,
+                EIndexPatternExt.PSO,
+                EIndexPatternExt.POS,
+                EIndexPatternExt.OSP,
+                EIndexPatternExt.OPS,
+            )
             val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
-            val tripleBufA = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
-            val tripleBufB = IntArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufA = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufB = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
             fun sortBlockMain() {
                 for (o in 0 until 6) {
                     val order = orders[o]
@@ -397,9 +411,9 @@ public object InputToIntermediate {
                         },
                         cmpAtoA = { a, b ->
                             var res = tripleBufA[a + order[0]] - tripleBufA[b + order[0]]
-                            if (res == 0) {
+                            if (res == DictionaryValueHelper.NULL) {
                                 res = tripleBufA[a + order[1]] - tripleBufA[b + order[1]]
-                                if (res == 0) {
+                                if (res == DictionaryValueHelper.NULL) {
                                     res = tripleBufA[a + order[2]] - tripleBufA[b + order[2]]
                                 }
                             }
@@ -407,9 +421,9 @@ public object InputToIntermediate {
                         },
                         cmpBtoB = { a, b ->
                             var res = tripleBufB[a + order[0]] - tripleBufB[b + order[0]]
-                            if (res == 0) {
+                            if (res == DictionaryValueHelper.NULL) {
                                 res = tripleBufB[a + order[1]] - tripleBufB[b + order[1]]
-                                if (res == 0) {
+                                if (res == DictionaryValueHelper.NULL) {
                                     res = tripleBufB[a + order[2]] - tripleBufB[b + order[2]]
                                 }
                             }
@@ -417,10 +431,10 @@ public object InputToIntermediate {
                         },
                         step = 3,
                     )
-                    val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
+                    val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock", indexPatterns[o])
                     var i = 0
                     while (i < offset) {
-                        outTriples2.write(tripleBufA[i + order[0]], tripleBufA[i + order[1]], tripleBufA[i + order[2]])
+                        outTriples2.write(tripleBufA[i ], tripleBufA[i + 1], tripleBufA[i + 2])
                         i += 3
                     }
                     outTriples2.close()
@@ -429,19 +443,22 @@ public object InputToIntermediate {
                 offset = 0
             }
 
-            val inference_Type_ID = mapping[inferenceOriginal_Type_ID]
-            val inference_SubClassOf_ID = mapping[inferenceOriginal_SubClassOf_ID]
+            val inference_Type_ID = mapping[DictionaryValueHelper.toInt(inferenceOriginal_Type_ID)]
+            val inference_SubClassOf_ID = mapping[DictionaryValueHelper.toInt(inferenceOriginal_SubClassOf_ID)]
             var triplePrefix = 0
             if (true) { // apply dictionary mapping
                 val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
 
-                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
-                val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type")
-                val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}", EIndexPatternExt.SPO)
+                val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type", EIndexPatternExt.SPO)
+                val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf", EIndexPatternExt.SPO)
                 inTriples.readAll { it ->
-                    val t_s = mapping[it[0]]
-                    val t_p = mapping[it[1]]
-                    val t_o = mapping[it[2]]
+                    val t_s: DictionaryValueType
+                    val t_p: DictionaryValueType
+                    val t_o: DictionaryValueType
+                    t_s = mapping[DictionaryValueHelper.toInt(it[0])]
+                    t_p = mapping[DictionaryValueHelper.toInt(it[1])]
+                    t_o = mapping[DictionaryValueHelper.toInt(it[2])]
                     outTriples2.write(t_s, t_p, t_o)
                     if (inference_enabled) {
                         when (t_p) {
@@ -458,24 +475,24 @@ public object InputToIntermediate {
                 triplePrefix++
             }
             if (inference_enabled) {
-                var subclassMappingSingle = IntArray(currentValue) { -1 } // -1 undefined, -2 multi, otherwise the mapping
-                var subclassMappingMulti = mutableMapOf<Int, MutableSet<Int>>()
+                var subclassMappingSingle = DictionaryValueTypeArray(DictionaryValueHelper.toInt(currentValue)) { DictionaryValueHelper.fromInt(-1) } // -1 undefined, -2 multi, otherwise the mapping
+                var subclassMappingMulti = mutableMapOf<DictionaryValueType, MutableSet<DictionaryValueType>>()
                 var inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.subClassOf")
                 inTriples.readAll { it ->
-                    val tmp = subclassMappingSingle[it[0]]
+                    val tmp = subclassMappingSingle[DictionaryValueHelper.toInt(it[0])]
                     when (tmp) {
-                        -1 -> subclassMappingSingle[it[0]] = it[2]
-                        -2 -> subclassMappingMulti[it[0]]!!.add(it[2])
+                        DictionaryValueHelper.fromInt(-1) -> subclassMappingSingle[DictionaryValueHelper.toInt(it[0])] = it[2]
+                        DictionaryValueHelper.fromInt(-2) -> subclassMappingMulti[it[0]]!!.add(it[2])
                         else -> {
                             if (tmp != it[2]) {
                                 subclassMappingMulti[it[0]] = mutableSetOf(tmp, it[2])
-                                subclassMappingSingle[it[0]] = -2
+                                subclassMappingSingle[DictionaryValueHelper.toInt(it[0])] = -2
                             }
                         }
                     }
                 }
                 inTriples.close()
-                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}", EIndexPatternExt.SPO)
                 inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
                 inTriples.readAll { it ->
                     outTriples2.write(it[0], it[1], it[2])
@@ -483,11 +500,11 @@ public object InputToIntermediate {
                 inTriples.close()
                 inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.type")
                 inTriples.readAll { it ->
-                    val tmp = subclassMappingSingle[it[2]]
+                    val tmp = subclassMappingSingle[DictionaryValueHelper.toInt(it[2])]
                     when (tmp) {
-                        -1 -> {
+                        DictionaryValueHelper.fromInt(-1) -> {
                         }
-                        -2 -> {
+                        DictionaryValueHelper.fromInt(-2) -> {
                             for (i in subclassMappingMulti[it[2]]!!) {
                                 outTriples2.write(it[0], inference_Type_ID, i)
                                 inferredTriples++
@@ -526,10 +543,10 @@ public object InputToIntermediate {
             val tripleInitialSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - inferenceTime
             var myCount = -1L
             for (o in 0 until 6) {
-                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
+                val outTriples2 = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}", indexPatterns[o])
                 val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
                 val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }
-                val smallest = IntArray(3)
+                val smallest = DictionaryValueTypeArray(3)
                 var valid = true
                 while (valid) {
                     valid = false
@@ -546,7 +563,7 @@ public object InputToIntermediate {
                         outTriples2.write(smallest[0], smallest[1], smallest[2])
                         for (i in 0 until tripleBlock) {
                             val head = tripleInputHeads[i]
-                            if (head != null && cmp(head, smallest) == 0) {
+                            if (head != null && cmp(head, smallest) == DictionaryValueHelper.NULL) {
                                 tripleInputHeads[i] = tripleInputs[i].next()
                             }
                         }

@@ -2,9 +2,8 @@ package lupos.simulator_iot
 
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.routing.RPLRouter
-import lupos.simulator_iot.sensor.ParkingSensor
-import kotlin.test.Ignore
+import lupos.simulator_iot.log.Logger
+import lupos.simulator_iot.net.routing.RPL
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -13,7 +12,7 @@ import kotlin.test.assertTrue
 class RoutingSimulationTest {
 
     companion object {
-        private const val prefix = "RoutingSimulationTest"
+        private const val prefix = "${FilePaths.testResource}/RoutingSimulationTest"
     }
 
     @Test
@@ -25,29 +24,17 @@ class RoutingSimulationTest {
         assertEquals(0, sim.getCurrentClock())
     }
 
-    @Ignore
-    @Test
-    fun selfMessagesDoNotDelay() {
-        Configuration.parse("$prefix/selfMessagesDoNotDelay.json")
-        val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2 * 1000
-
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
-
-        sim.startSimulation()
-        assertEquals(maxClock, sim.getCurrentClock())
-    }
-
     @Test
     fun starNetworkIsASimpleDODAG() {
         Configuration.parse("$prefix/starNetworkIsASimpleDODAG.json")
         val starNet = Configuration.randStarNetworks["garageA"]!!
-        val parent = starNet.dataSink
-        val parentRouter = parent.router as RPLRouter
+        val parent = starNet.root
+        val parentRouter = parent.router as RPL
 
         val child1 = starNet.children[0]
-        val child1Router = child1.router as RPLRouter
+        val child1Router = child1.router as RPL
         val child2 = starNet.children[1]
-        val child2Router = child2.router as RPLRouter
+        val child2Router = child2.router as RPL
         assertFalse(child1Router.hasParent())
         assertFalse(child2Router.hasParent())
 
@@ -57,9 +44,9 @@ class RoutingSimulationTest {
         assertTrue(child1Router.hasParent())
         assertTrue(child2Router.hasParent())
         assertFalse(parentRouter.hasParent())
-        assertEquals(RPLRouter.ROOT_RANK, parentRouter.rank)
-        assertTrue(child1Router.rank >= RPLRouter.ROOT_RANK)
-        assertTrue(child2Router.rank >= RPLRouter.ROOT_RANK)
+        assertEquals(RPL.ROOT_RANK, parentRouter.rank)
+        assertTrue(child1Router.rank >= RPL.ROOT_RANK)
+        assertTrue(child2Router.rank >= RPL.ROOT_RANK)
         assertEquals(parent.address, child1Router.preferredParent.address)
         assertEquals(parent.address, child2Router.preferredParent.address)
         assertEquals(parentRouter.rank, child1Router.preferredParent.rank)
@@ -67,11 +54,10 @@ class RoutingSimulationTest {
     }
 
     @Test
-    @Ignore
     fun meshToDODAG() {
         Configuration.parse("$prefix/meshToDODAG.json")
         val root = Configuration.getRootDevice()
-        val rootRouter = root.router as RPLRouter
+        val rootRouter = root.router as RPL
         val sim = Simulation(Configuration.devices, callback = Logger)
         sim.startSimulation()
 
@@ -84,35 +70,24 @@ class RoutingSimulationTest {
         Configuration.parse("$prefix/upwardRouteForwarding.json")
         val a = Configuration.getNamedDevice("A")
 
-        val f = Configuration.getNamedDevice("F")
-
-        f.sensor!!.setDataSink(a.address)
-
-        val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
-
+        val maxClock: Long = 300 * 1000
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
-        assertEquals(numberOfSamples, a.processedSensorDataPackages)
+        assertEquals(6, a.processedSensorDataPackages)
     }
 
     @Test
     fun downwardRouteForwarding() {
         // Send data from the root A to the leaf F
         Configuration.parse("$prefix/downwardRouteForwarding.json")
-        val a = Configuration.getNamedDevice("A")
         val f = Configuration.getNamedDevice("F")
 
-        a.sensor!!.setDataSink(f.address)
-
-        val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
-
+        val maxClock: Long = 200 * 1000
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
-        assertEquals(numberOfSamples, f.processedSensorDataPackages)
+        assertEquals(4, f.processedSensorDataPackages)
     }
 
     @Test
@@ -120,37 +95,44 @@ class RoutingSimulationTest {
         // Send data from the leaf F to the leaf D
         Configuration.parse("$prefix/upAndDownwardRouteForwarding.json")
         val d = Configuration.getNamedDevice("D")
-        val f = Configuration.getNamedDevice("F")
 
-        f.sensor!!.setDataSink(d.address)
-
-        val numberOfSamples: Long = 3
-        val maxClock: Long = (numberOfSamples + 1) * ParkingSensor.dataRateInSeconds.toLong() * 1000
-
+        val maxClock: Long = 800 * 1000
         val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
         sim.startSimulation()
 
-        assertEquals(numberOfSamples, d.processedSensorDataPackages)
+        assertEquals(3, d.processedSensorDataPackages)
     }
 
     @Test
-    fun sensorFromStarSendDataOverMesh() {
-        // TODO zuerst star root
-//        //Send data from the leaf F to the leaf D
-//        Configuration.parse("$prefix/sensorFromStarSendDataOverMesh.json")
-//        val d = Configuration.getNamedDevice("D")
-//        val f = Configuration.getNamedDevice("F")
-//
-//        f.sensor!!.setDataSink(d.address)
-//
-//        val maxClock: Long = 100
-//        val numberOfSamples = maxClock / ParkingSensor.dataRateInSeconds
-//
-//        val sim = Simulation(Configuration.devices)
-//        sim.setLifeCycleCallback(Logger(sim))
-//        sim.setMaximalTime(maxClock)
-//        sim.start()
-//
-//        assertEquals(numberOfSamples, d.processedSensorDataPackages)
+    fun sendQueries() {
+        Configuration.parse("$prefix/sendQueries.json")
+        val querySender = Configuration.querySenders[0]
+        val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec + querySender.startClock
+        val sim = Simulation(Configuration.getEntities(), callback = Logger)
+        sim.startSimulation()
+        assertEquals(Time.toMillis(expectedTimeSec), sim.getCurrentClock())
+    }
+
+    @Test
+    fun sendLimitedNumberOfQueries() {
+        Configuration.parse("$prefix/sendLimitedNumberOfQueries.json")
+        val querySender = Configuration.querySenders[0]
+        val sim = Simulation(Configuration.getEntities(), callback = Logger)
+        sim.startSimulation()
+        assertEquals(79, querySender.queryCounter)
+    }
+
+    @Test
+    fun sensorFromStarSendOverMesh() {
+        // Send data from one Sensor over Mesh to fixed node
+        Configuration.parse("$prefix/sensorFromStarSendOverMesh.json")
+        val fog = Configuration.getNamedDevice("Fog")
+        val starRoot = Configuration.randStarNetworks.getValue("1")
+        val child = starRoot.children[0]
+        assertTrue(child.linkManager.hasLink(starRoot.root))
+        val sim = Simulation(Configuration.devices, callback = Logger)
+        sim.startSimulation()
+
+        assertEquals(4, fog.processedSensorDataPackages)
     }
 }

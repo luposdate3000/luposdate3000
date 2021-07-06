@@ -17,6 +17,8 @@
 package lupos.operator.physical.partition
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -25,7 +27,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -42,7 +43,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     @JvmField public val hosts: Map<String, String>, // key -> hostname
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, "POPDistributedReceiveMultiOrdered", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:45"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -121,10 +122,10 @@ public class POPDistributedReceiveMultiOrdered public constructor(
             variables.remove(partitionVariable)
             variables.add(0, partitionVariable)
         }
-        var buffer = IntArray(partitionCount * variables.size)
+        var buffer = DictionaryValueTypeArray(partitionCount * variables.size)
         var connections = Array<MyConnection?>(partitionCount) { null }
         var openConnections = 0
-        SanityCheck.check { hosts.size == partitionCount }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:127"/*SOURCE_FILE_END*/ }, { hosts.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {
@@ -134,21 +135,21 @@ public class POPDistributedReceiveMultiOrdered public constructor(
             val conn = allConnections[k]!!
             var mapping = IntArray(variables.size)
             val cnt = conn.first.readInt()
-            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:137"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
             for (i in 0 until variables.size) {
                 val len = conn.first.readInt()
                 val buf = ByteArray(len)
                 conn.first.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check { j >= 0 && j < variables.size }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:144"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 mapping[i] = j
             }
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
-                buffer[off + mapping[i]] = conn.first.readInt()
+                buffer[off + mapping[i]] = conn.first.readDictionaryValueType()
             }
-            if (buffer[off] == DictionaryExt.nullValue) {
+            if (buffer[off] == DictionaryValueHelper.nullValue) {
                 conn.first.close()
                 conn.second.close()
             } else {
@@ -158,7 +159,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         }
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
+        iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
             var res = -1
             if (openConnections > 0) {
@@ -173,9 +174,9 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                 val connMin = connections[min]!!
                 buffer.copyInto(iterator.buf, 0, off, off + variables.size)
                 for (i in 0 until variables.size) {
-                    buffer[off + connMin.mapping[i]] = connMin.input.readInt()
+                    buffer[off + connMin.mapping[i]] = connMin.input.readDictionaryValueType()
                 }
-                if (buffer[off] == DictionaryExt.nullValue) {
+                if (buffer[off] == DictionaryValueHelper.nullValue) {
                     connMin.input.close()
                     connMin.output.close()
                     val off2 = (openConnections - 1) * variables.size

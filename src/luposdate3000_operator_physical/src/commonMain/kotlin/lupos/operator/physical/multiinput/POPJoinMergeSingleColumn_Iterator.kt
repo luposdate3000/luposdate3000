@@ -16,23 +16,28 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: Int, @JvmField internal var head1: Int) : ColumnIterator() {
+internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
     @JvmField
     internal var counter: Int = 0
 
     @JvmField
-    internal var value: Int = head0
+    internal var value: DictionaryValueType = head0
 
     @JvmField
     internal var label = 1
 
     @JvmField
-    internal var sipbuf = IntArray(2)
-    override /*suspend*/ fun next(): Int {
+    internal var sipbufSkip = IntArray(1)
+
+    @JvmField
+    internal var sipbufValue = DictionaryValueTypeArray(1)
+    override /*suspend*/ fun next(): DictionaryValueType {
         when (label) {
             1 -> {
                 if (counter == 0) {
@@ -40,22 +45,22 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (change) {
                         change = false
                         while (head0 < head1) {
-                            child0.nextSIP(head1, sipbuf)
-                            val c = sipbuf[1]
-                            if (c == DictionaryExt.nullValue) {
+                            child0.nextSIP(head1, sipbufValue, sipbufSkip)
+                            val c = sipbufValue[0]
+                            if (c == DictionaryValueHelper.nullValue) {
                                 _close()
-                                return DictionaryExt.nullValue
+                                return DictionaryValueHelper.nullValue
                             } else {
                                 head0 = c
                             }
                         }
                         while (head1 < head0) {
                             change = true
-                            child1.nextSIP(head0, sipbuf)
-                            val c = sipbuf[1]
-                            if (c == DictionaryExt.nullValue) {
+                            child1.nextSIP(head0, sipbufValue, sipbufSkip)
+                            val c = sipbufValue[0]
+                            if (c == DictionaryValueHelper.nullValue) {
                                 _close()
-                                return DictionaryExt.nullValue
+                                return DictionaryValueHelper.nullValue
                             } else {
                                 head1 = c
                             }
@@ -67,7 +72,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (head0 == value) {
                         count0++
                         val d = child0.next()
-                        if (d == DictionaryExt.nullValue) {
+                        if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
                         } else {
@@ -78,7 +83,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (head1 == value) {
                         count1++
                         val d = child1.next()
-                        if (d == DictionaryExt.nullValue) {
+                        if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
                         } else {
@@ -100,14 +105,14 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
             2 -> {
                 if (counter == 0) {
                     _close()
-                    return DictionaryExt.nullValue
+                    return DictionaryValueHelper.nullValue
                 } else {
                     counter--
                 }
                 return value
             }
             else -> {
-                return DictionaryExt.nullValue
+                return DictionaryValueHelper.nullValue
             }
         }
     }

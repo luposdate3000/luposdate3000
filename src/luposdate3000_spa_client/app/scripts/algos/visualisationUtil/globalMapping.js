@@ -265,7 +265,8 @@ function audioDimensionSetup(mode, audioDimension) {
             switch (audioDimension) {
                 case "Loudness":
                     createSimpleSelector(audioDimension, "Please choose maximum loudness.", mode)
-                    break
+                    break;
+                case "Pitch":
                 case "Duration":
                 case "Octave":
                 case "Spatialization":
@@ -296,7 +297,8 @@ function audioDimensionSetup(mode, audioDimension) {
             switch (audioDimension) {
                 case "Loudness":
                     createSimpleSelector(audioDimension, "Please choose maximum loudness.", mode)
-                    break
+                    break;
+                case "Pitch":
                 case "Duration":
                 case "Octave":
                 case "Spatialization":

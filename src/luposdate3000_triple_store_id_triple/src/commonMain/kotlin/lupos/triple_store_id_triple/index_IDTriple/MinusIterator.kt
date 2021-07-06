@@ -16,8 +16,8 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
+import lupos.shared.DictionaryValueType
 import kotlin.jvm.JvmField
-
 internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
     @JvmField
     var flag = 1
@@ -71,7 +71,7 @@ internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: T
     }
 
     override fun hasNext() = flag != 0
-    override fun next(component: Int): Int {
+    override fun next(component: Int): DictionaryValueType {
         value[0] = a.value[0]
         value[1] = a.value[1]
         value[2] = a.value[2]

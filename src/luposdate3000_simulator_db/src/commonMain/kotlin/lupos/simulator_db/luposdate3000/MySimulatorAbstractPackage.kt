@@ -17,6 +17,30 @@
 package lupos.simulator_db.luposdate3000
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IDatabasePackage
 
-internal class MySimulatorAbstractPackage(val path: String, val params: Map<String, String>, val data: ByteArrayWrapper = ByteArrayWrapper()) : IDatabasePackage
+internal class MySimulatorAbstractPackage(
+    val path: String,
+    val params: Map<String, String>,
+    val data: ByteArrayWrapper = ByteArrayWrapper()
+) : IDatabasePackage {
+
+    override fun getPackageSizeInBytes(): Int {
+        return path.encodeToByteArray().size + getParamsSizeInBytes() + ByteArrayWrapperExt.getSize(data)
+    }
+
+    override fun getContentLogString(): String {
+        return "AbstractPck(path '$path', params $params, data $data)"
+    }
+
+    override fun toString(): String {
+        return getContentLogString()
+    }
+    private fun getParamsSizeInBytes(): Int {
+        var size = 0
+        for ((key, value) in params)
+            size += key.encodeToByteArray().size + value.encodeToByteArray().size
+        return size
+    }
+}

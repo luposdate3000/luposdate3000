@@ -18,13 +18,11 @@ package lupos.shared
 
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 
 public interface ITripleStoreDescription {
     public fun modify_create_cache(type: EModifyType): ITripleStoreDescriptionModifyCache
     public fun modify_create_cache_sorted(type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache
-    public fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean)
-    public fun modify_cache_sorted(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, sortedBy: EIndexPattern, flush: Boolean)
     public fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase
     public fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int>
+    public fun toMetaString(): String
 }

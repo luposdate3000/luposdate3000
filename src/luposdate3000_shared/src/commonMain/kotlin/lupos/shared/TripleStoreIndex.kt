@@ -15,21 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-
 import lupos.ProguardTestAnnotation
 import lupos.shared.operator.iterator.IteratorBundle
 
 public interface TripleStoreIndex {
     public fun getRootPageID(): Int
     public fun delete()
-    public fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle
+    public fun getIterator(query: IQuery, filter: DictionaryValueTypeArray, projection: List<String>): IteratorBundle
     public fun clear()
     public fun flush()
-    public fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int>
-    public fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int)
-    public fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int)
-    public fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int)
-    public fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int)
+    public fun getHistogram(query: IQuery, filter: DictionaryValueTypeArray): Pair<Int, Int>
+    public fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
+    public fun removeAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
+    public fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
+    public fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
 
     @ProguardTestAnnotation
     public fun close()

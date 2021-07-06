@@ -31,64 +31,82 @@ internal actual class MyThreadReadWriteLock {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun downgradeToReadLock() {
-        SanityCheck {
-            if (!lockedWrite) {
-                throw Exception("something went wrong 1")
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jsMain/kotlin/lupos/shared/inline/MyThreadReadWriteLock.kt:34"/*SOURCE_FILE_END*/ },
+            {
+                if (!lockedWrite) {
+                    throw Exception("something went wrong 1")
+                }
+                lockedRead = 1
+                lockedWrite = false
             }
-            lockedRead = 1
-            lockedWrite = false
-        }
+        )
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readLock() {
-        SanityCheck {
-            if (lockedWrite) {
-                throw Exception("something went wrong 2")
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jsMain/kotlin/lupos/shared/inline/MyThreadReadWriteLock.kt:48"/*SOURCE_FILE_END*/ },
+            {
+                if (lockedWrite) {
+                    throw Exception("something went wrong 2")
+                }
+                lockedRead++
             }
-            lockedRead++
-        }
+        )
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readUnlock() {
-        SanityCheck {
-            if (lockedRead <= 0) {
-                throw Exception("something went wrong 3")
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jsMain/kotlin/lupos/shared/inline/MyThreadReadWriteLock.kt:61"/*SOURCE_FILE_END*/ },
+            {
+                if (lockedRead <= 0) {
+                    throw Exception("something went wrong 3")
+                }
+                lockedRead--
             }
-            lockedRead--
-        }
+        )
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeLock() {
-        SanityCheck {
-            if (lockedRead > 0 || lockedWrite) {
-                throw Exception("something went wrong 4 $lockedRead $lockedWrite")
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jsMain/kotlin/lupos/shared/inline/MyThreadReadWriteLock.kt:74"/*SOURCE_FILE_END*/ },
+            {
+                if (lockedRead > 0 || lockedWrite) {
+                    throw Exception("something went wrong 4 $lockedRead $lockedWrite")
+                }
+                lockedWrite = true
             }
-            lockedWrite = true
-        }
+        )
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun tryWriteLock(): Boolean {
-        SanityCheck {
-            if (lockedRead > 0 || lockedWrite) {
-                throw Exception("something went wrong 5 $lockedRead $lockedWrite")
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jsMain/kotlin/lupos/shared/inline/MyThreadReadWriteLock.kt:87"/*SOURCE_FILE_END*/ },
+            {
+                if (lockedRead > 0 || lockedWrite) {
+                    throw Exception("something went wrong 5 $lockedRead $lockedWrite")
+                }
+                lockedWrite = true
             }
-            lockedWrite = true
-        }
+        )
         return true
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeUnlock() {
-        SanityCheck {
-            if (!lockedWrite) {
-                throw Exception("something went wrong 6")
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jsMain/kotlin/lupos/shared/inline/MyThreadReadWriteLock.kt:101"/*SOURCE_FILE_END*/ },
+            {
+                if (!lockedWrite) {
+                    throw Exception("something went wrong 6")
+                }
+                lockedWrite = false
             }
-            lockedWrite = false
-        }
+        )
     }
 
     internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {

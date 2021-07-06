@@ -15,18 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.multiinput
-
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -36,7 +38,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:40"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -61,7 +63,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 // --- obtain child columns
         val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
-        SanityCheck.check { columns[0].size != 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:65"/*SOURCE_FILE_END*/ }, { columns[0].size != 0 })
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
@@ -99,8 +101,8 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         }
         val mapWithoutUndef = mutableMapOf<MapKey, POPJoinHashMap_Row>()
         val mapWithUndef = mutableMapOf<MapKey, POPJoinHashMap_Row>()
-        var currentKey: IntArray? = null
-        var nextKey: IntArray?
+        var currentKey: DictionaryValueTypeArray? = null
+        var nextKey: DictionaryValueTypeArray?
         var map: MutableMap<MapKey, POPJoinHashMap_Row> = mapWithUndef
         var nextMap: MutableMap<MapKey, POPJoinHashMap_Row>
         var key: MapKey
@@ -108,7 +110,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         var count: Int
         var countA: Int
         var countB: Int
-        SanityCheck.check { columnsINAJ.size > 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:112"/*SOURCE_FILE_END*/ }, { columnsINAJ.size > 0 })
 // --- insert second child into hash table
         while (true) {
             count = if (currentKey != null) {
@@ -117,16 +119,16 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                 0
             }
             loopB@ while (true) {
-                nextKey = IntArray(columnsINBJ.size) { DictionaryExt.undefValue }
+                nextKey = DictionaryValueTypeArray(columnsINBJ.size) { DictionaryValueHelper.undefValue }
                 nextMap = mapWithoutUndef
                 for (columnIndex in 0 until columnsINBJ.size) {
                     val value = columnsINBJ[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
+                    if (value == DictionaryValueHelper.nullValue) {
                         nextKey = null
                         break@loopB
                     }
                     nextKey!![columnIndex] = value
-                    if (value == DictionaryExt.undefValue) {
+                    if (value == DictionaryValueHelper.undefValue) {
                         nextMap = mapWithUndef
                     }
                 }
@@ -187,8 +189,9 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                     }
                 }
 
-                override /*suspend*/ fun next(): Int {
-                    return nextHelper(
+                override /*suspend*/ fun next(): DictionaryValueType {
+                    return ColumnIteratorChildIteratorExt.nextHelper(
+                        this,
                         {
                             var done = false
                             while (!done) {
@@ -198,17 +201,17 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     1
                                 }
                                 loopA@ while (true) {
-                                    nextKey = IntArray(columnsINAJ.size) { DictionaryExt.undefValue }
+                                    nextKey = DictionaryValueTypeArray(columnsINAJ.size) { DictionaryValueHelper.undefValue }
                                     nextMap = mapWithoutUndef
                                     for (columnIndex in 0 until columnsINAJ.size) {
                                         val value = columnsINAJ[columnIndex].next()
-                                        if (value == DictionaryExt.nullValue) {
-                                            SanityCheck.check { columnIndex == 0 }
+                                        if (value == DictionaryValueHelper.nullValue) {
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:208"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             nextKey = null
                                             break@loopA
                                         }
                                         nextKey!![columnIndex] = value
-                                        if (value == DictionaryExt.undefValue) {
+                                        if (value == DictionaryValueHelper.undefValue) {
                                             nextMap = mapWithUndef
                                         }
                                     }
@@ -249,11 +252,11 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                             }
                                         }
                                     }
-                                    val dataOA = Array(columnsINAO.size) { mutableListOf<Int>() }
+                                    val dataOA = Array(columnsINAO.size) { mutableListOf<DictionaryValueType>() }
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
-                                            SanityCheck.check { tmp2 != DictionaryExt.nullValue }
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:258"/*SOURCE_FILE_END*/ }, { tmp2 != DictionaryValueHelper.nullValue })
                                             dataOA[columnIndex].add(tmp2)
                                         }
                                     }
@@ -262,15 +265,15 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
 // optional clause without match
                                             done = true
                                             countB = 1
-                                            val dataJ = IntArray(outJ.size) { currentKey!![it] }
-                                            POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(DictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
+                                            val dataJ = DictionaryValueTypeArray(outJ.size) { currentKey!![it] }
+                                            POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(DictionaryValueHelper.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
                                         }
                                     } else {
                                         done = true
                                         for (otherIndex in 0 until others.size) {
                                             countB = others[otherIndex].second.count
-                                            val dataJ = IntArray(outJ.size) {
-                                                val res2: Int = if (currentKey!![it] != DictionaryExt.undefValue) {
+                                            val dataJ = DictionaryValueTypeArray(outJ.size) {
+                                                val res2: DictionaryValueType = if (currentKey!![it] != DictionaryValueHelper.undefValue) {
                                                     currentKey!![it]
                                                 } else {
                                                     others[otherIndex].first.data[it]
@@ -316,7 +319,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
-                    return outJ[0].next() != DictionaryExt.nullValue
+                    return outJ[0].next() != DictionaryValueHelper.nullValue
                 }
 
                 override /*suspend*/ fun hasNext2Close() {

@@ -19,25 +19,27 @@ package lupos.shared
 import kotlin.jvm.JvmField
 
 public object EIndexPatternExt {
-    public const val OPS: EIndexPattern = 0
-    public const val OP_S: EIndexPattern = 1
-    public const val OSP: EIndexPattern = 2
-    public const val OS_P: EIndexPattern = 3
-    public const val O_PS: EIndexPattern = 4
-    public const val O_SP: EIndexPattern = 5
-    public const val POS: EIndexPattern = 6
-    public const val PO_S: EIndexPattern = 7
-    public const val PSO: EIndexPattern = 8
-    public const val PS_O: EIndexPattern = 9
-    public const val P_OS: EIndexPattern = 10
-    public const val P_SO: EIndexPattern = 11
-    public const val SOP: EIndexPattern = 12
-    public const val SO_P: EIndexPattern = 13
-    public const val SPO: EIndexPattern = 14
-    public const val SP_O: EIndexPattern = 15
-    public const val S_OP: EIndexPattern = 16
-    public const val S_PO: EIndexPattern = 17
+    public const val OPS: EIndexPattern = 0 // 0x00000000
+    public const val OP_S: EIndexPattern = 1 // 0x00000001
+    public const val OSP: EIndexPattern = 2 // 0x00000002
+    public const val OS_P: EIndexPattern = 3 // 0x00000003
+    public const val O_PS: EIndexPattern = 4 // 0x00000004
+    public const val O_SP: EIndexPattern = 5 // 0x00000005
+    public const val POS: EIndexPattern = 6 // 0x00000006
+    public const val PO_S: EIndexPattern = 7 // 0x00000007
+    public const val PSO: EIndexPattern = 8 // 0x00000008
+    public const val PS_O: EIndexPattern = 9 // 0x00000009
+    public const val P_OS: EIndexPattern = 10 // 0x0000000a
+    public const val P_SO: EIndexPattern = 11 // 0x0000000b
+    public const val SOP: EIndexPattern = 12 // 0x0000000c
+    public const val SO_P: EIndexPattern = 13 // 0x0000000d
+    public const val SPO: EIndexPattern = 14 // 0x0000000e
+    public const val SP_O: EIndexPattern = 15 // 0x0000000f
+    public const val S_OP: EIndexPattern = 16 // 0x00000010
+    public const val S_PO: EIndexPattern = 17 // 0x00000011
     public const val values_size: Int = 18
+    public const val values_mask: Int = 31 // 0x0000001f
+    public const val values_mask_inversed: Int = 2147483616 // 0x7fffffe0
 
     @JvmField
     public val names: Array<String> = arrayOf(

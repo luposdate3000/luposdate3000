@@ -16,15 +16,15 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIterator
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 internal class POPJoinMerge_Bundle(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
     override /*suspend*/ fun hasNext2(): Boolean {
-        val tmp = columnsOUTJ.next() != DictionaryExt.nullValue
+        val tmp = columnsOUTJ.next() != DictionaryValueHelper.nullValue
         if (!tmp) {
             _hasNext2Close()
         }

@@ -1,38 +1,56 @@
 package lupos.simulator_iot
 
+import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
-import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
-import lupos.simulator_iot.routing.IRoutingAlgorithm
-import lupos.simulator_iot.routing.RPLRouter
+import lupos.simulator_iot.log.Logger
+import lupos.simulator_iot.net.IPayload
+import lupos.simulator_iot.net.LinkManager
+import lupos.simulator_iot.net.NetworkPackage
+import lupos.simulator_iot.net.routing.IRoutingProtocol
+import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
+import kotlin.math.roundToLong
 
-public class Device(
-    public val powerSupply: PowerSupply,
+internal class Device(
     internal var location: GeoLocation,
-    public val address: Int,
-    public var database: DatabaseAdapter?,
-    public var sensor: ISensor?,
-    public val supportedLinkTypes: IntArray
+    internal val address: Int,
+    internal var database: DatabaseAdapter?,
+    internal var sensor: ISensor?,
+    internal val performance: Double,
+    supportedLinkTypes: IntArray,
+    internal val deviceNameID: Int,
 ) : Entity() {
-    public val router: IRoutingAlgorithm = RPLRouter(this)
-    public val linkManager: LinkManager = LinkManager(this)
-    public var isStarNetworkChild: Boolean = false
+    internal val router: IRoutingProtocol = RPL(this)
+    internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
+    internal var isStarNetworkChild: Boolean = false
 
-    public var processedSensorDataPackages: Long = 0
+    internal var processedSensorDataPackages: Long = 0
         private set
 
-    private fun getNetworkDelay(destinationAddress: Int): Long {
+    private lateinit var deviceStart: Instant
+
+    private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
         return if (destinationAddress == address) {
-            0
+            getProcessingDelay()
         } else {
-            1
+            linkManager.getTransmissionDelay(destinationAddress, pck.pckSize) + getProcessingDelay()
         }
     }
 
+    private fun getProcessingDelay(): Long {
+        val now = Time.stamp()
+        val microDif = Time.differenceInMicroSec(deviceStart, now)
+        val scaled = microDif * 100 / performance
+        val millis = scaled / 1000
+        return millis.roundToLong()
+    }
+
     override fun onStartUp() {
+        deviceStart = Time.stamp()
         sensor?.startSampling()
         database?.startUp()
         router.startRouting()
@@ -43,8 +61,10 @@ public class Device(
 
     override fun onEvent(source: Entity, data: Any) {
         val pck = data as NetworkPackage
+        deviceStart = Time.stamp()
         packageCounter++
         if (pck.destinationAddress == address) {
+            logReceivePackage(pck)
             processPackage(pck)
         } else {
             forwardPackage(pck)
@@ -52,13 +72,27 @@ public class Device(
     }
 
     private fun processPackage(pck: NetworkPackage) {
-        if (router.isControlPackage(pck)) {
-            router.processControlPackage(pck)
-        } else if (pck.payload is ParkingSample) {
-            processedSensorDataPackages++
-            database?.saveParkingSample(pck.payload)
-        } else if (pck.payload is IDatabasePackage) {
-            database?.receive(pck.payload)
+        when {
+            router.isControlPackage(pck) -> {
+                router.processControlPackage(pck)
+            }
+            pck.payload is ParkingSample -> {
+                processedSensorDataPackages++
+                requireNotNull(
+                    database
+                ) { "The device $address has no database configured to store the ParkingSample." }
+                database!!.saveParkingSample(pck.payload)
+            }
+            database?.isDatabasePackage(pck.payload) == true -> {
+                database?.processPackage(pck.payload)
+            }
+            pck.payload is QuerySender.QueryPackage -> {
+                requireNotNull(
+                    database
+                ) { "The device $address has no database configured to process the query." }
+                database!!.processQuery(pck.payload.query)
+            }
+            else -> throw Exception("Undefined NetworkPackage or wrong device address.")
         }
     }
 
@@ -69,26 +103,36 @@ public class Device(
 
     private fun forwardPackage(pck: NetworkPackage) {
         val nextHop = router.getNextHop(pck.destinationAddress)
-        val delay = getNetworkDelay(nextHop)
+        val delay = getNetworkDelay(nextHop, pck)
         scheduleEvent(Configuration.devices[nextHop], pck, delay)
     }
 
-    public fun sendUnRoutedPackage(destinationNeighbour: Int, data: Any) {
+    internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
-        val delay = getNetworkDelay(destinationNeighbour)
+        val delay = getNetworkDelay(destinationNeighbour, pck)
+        logSendPackage(pck)
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
-    public fun sendRoutedPackage(src: Int, dest: Int, data: Any) {
+    internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
+        logSendPackage(pck)
         forwardPackage(pck)
     }
 
-    public fun sendSensorSample(destinationAddress: Int, data: Any) {
+    internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {
         sendRoutedPackage(address, destinationAddress, data)
     }
 
-    public fun hasDatabase(): Boolean = database != null
+    internal fun hasDatabase(): Boolean = database != null
+
+    private fun logReceivePackage(pck: NetworkPackage) {
+        Logger.log("> $this receives $pck at clock ${simulation.getCurrentClock()}")
+    }
+
+    private fun logSendPackage(pck: NetworkPackage) {
+        Logger.log("> $this sends $pck at clock ${simulation.getCurrentClock()}")
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other === this) {
@@ -106,14 +150,18 @@ public class Device(
         return address
     }
 
-    public companion object {
-        public var packageCounter: Int = 0
+    override fun toString(): String {
+        return "Device(addr $address, name '${Configuration.getDeviceName(deviceNameID)}')"
+    }
+
+    internal companion object {
+        internal var packageCounter: Int = 0
             private set
 
-        public var observationPackageCounter: Int = 0
+        internal var observationPackageCounter: Int = 0
             private set
 
-        public fun resetCounter() {
+        internal fun resetCounter() {
             packageCounter = 0
             observationPackageCounter = 0
         }

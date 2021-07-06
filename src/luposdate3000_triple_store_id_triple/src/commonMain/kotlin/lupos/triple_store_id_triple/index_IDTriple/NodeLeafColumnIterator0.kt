@@ -16,15 +16,17 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager) {
     @JvmField
-    var value = 0
-    override /*suspend*/ fun next(): Int {
+    var value: DictionaryValueType = 0
+    override /*suspend*/ fun next(): DictionaryValueType {
         if (label == 3) {
             label = 1
             __init()
@@ -40,11 +42,11 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             updateRemaining()
             value
         } else {
-            DictionaryExt.nullValue
+            DictionaryValueHelper.nullValue
         }
     }
 
-    override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
+    override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
         if (label == 3) {
             label = 1
             __init()
@@ -63,8 +65,8 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 if (value >= minValue) {
                     updateRemaining()
-                    result[0] = counter - 1
-                    result[1] = value
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value
                     return
                 } else {
                     remaining--
@@ -72,26 +74,26 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             }
             // look at the next pages
             val nodeidTmp = NodeShared.getNextNode(node)
-            var valueTmp = 0
+            var valueTmp: DictionaryValueType = 0
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:83", nodeidTmp) {
-                    SanityCheck.check { node != it }
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:80"/*SOURCE_FILE_END*/, nodeidTmp) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:81"/*SOURCE_FILE_END*/ }, { node != it })
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-                SanityCheck.check { remainingTmp > 0 }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:85"/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple100(nodeTmp, offsetTmp, 0) { v ->
                     valueTmp = v
                 }
                 if (valueTmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:95", nodeidTmp)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:92"/*SOURCE_FILE_END*/, nodeidTmp)
                     break
                 }
-                nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:98", nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:95"/*SOURCE_FILE_END*/, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp
@@ -120,20 +122,20 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 updateRemaining()
                 if (value >= minValue) {
-                    result[0] = counter - 1
-                    result[1] = value
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value
                     return
                 }
             }
-            result[0] = 0
-            result[1] = DictionaryExt.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         } else {
-            result[0] = 0
-            result[1] = DictionaryExt.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         }
     }
 
-    override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+    override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
         if (label == 3) {
             label = 1
             __init()
@@ -159,7 +161,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             updateRemaining()
             return value
         } else {
-            return DictionaryExt.nullValue
+            return DictionaryValueHelper.nullValue
         }
     }
 }

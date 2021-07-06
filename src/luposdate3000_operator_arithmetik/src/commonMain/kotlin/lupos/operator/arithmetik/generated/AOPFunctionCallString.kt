@@ -15,15 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.generated
-
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -33,13 +33,13 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
     override fun toSparql(): String = "<http://www.w3.org/2001/XMLSchema#string>(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPFunctionCallString && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPFunctionCallString(query, children[0].cloneOP() as AOPBase)
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
-        val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)
+        val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: Int
-            val childIn0: Int = child0()
+            var res: DictionaryValueType = 0
+            val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
@@ -55,19 +55,22 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_7_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
-                    val tmp_7_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
-                    val tmp_7_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
-                    val tmp_7_day: BigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
-                    val tmp_7_hours: BigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
-                    val tmp_7_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
-                    val tmp_7_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
-                    val tmp_7_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
-                    val tmp_7_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-                    val tmp_8_content: String = tmp_7_typed_content
-                    val tmp_8_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_8_content, tmp_8_type)
-                    res = query.getDictionary().createValue(tmp_2)
+                    val action = {
+                        val tmp_7_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
+                        val tmp_7_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
+                        val tmp_7_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
+                        val tmp_7_day: BigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
+                        val tmp_7_hours: BigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
+                        val tmp_7_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
+                        val tmp_7_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
+                        val tmp_7_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
+                        val tmp_7_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
+                        val tmp_8_content: String = tmp_7_typed_content
+                        val tmp_8_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_8_content, tmp_8_type)
+                        query.getDictionary().createValue(tmp_2)
+                    }
+                    res = action()
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_10: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
@@ -98,30 +101,39 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp_24: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_25_content: String = tmp_24
-                    val tmp_25_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_25_content, tmp_25_type)
-                    res = query.getDictionary().createValue(tmp_2)
+                    val action = {
+                        val tmp_24: String = DictionaryHelper.byteArrayToString(tmp_0)
+                        val tmp_25_content: String = tmp_24
+                        val tmp_25_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_25_content, tmp_25_type)
+                        res = query.getDictionary().createValue(tmp_2)
+                    }
+                    action()
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
-                    val tmp_27_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
-                    val tmp_27_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_28_content: String = tmp_27_content
-                    val tmp_28_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_28_content, tmp_28_type)
-                    res = query.getDictionary().createValue(tmp_2)
+                    val action = {
+                        val tmp_27_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
+                        val tmp_27_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
+                        val tmp_28_content: String = tmp_27_content
+                        val tmp_28_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_28_content, tmp_28_type)
+                        res = query.getDictionary().createValue(tmp_2)
+                    }
+                    action()
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp_30_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                    val tmp_30_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_31_content: String = tmp_30_content
-                    val tmp_31_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_31_content, tmp_31_type)
-                    res = query.getDictionary().createValue(tmp_2)
+                    val action = {
+                        val tmp_30_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                        val tmp_30_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                        val tmp_31_content: String = tmp_30_content
+                        val tmp_31_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_31_content, tmp_31_type)
+                        res = query.getDictionary().createValue(tmp_2)
+                    }
+                    action()
                 }
                 else -> {
-                    res = DictionaryExt.errorValue
+                    res = DictionaryValueHelper.errorValue
                 }
             }
             res

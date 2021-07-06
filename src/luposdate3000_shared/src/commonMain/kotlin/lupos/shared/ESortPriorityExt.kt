@@ -19,16 +19,18 @@ package lupos.shared
 import kotlin.jvm.JvmField
 
 public object ESortPriorityExt {
-    public const val ANY_PROVIDED_VARIABLE: ESortPriority = 0
-    public const val BIND: ESortPriority = 1
-    public const val GROUP: ESortPriority = 2
-    public const val JOIN: ESortPriority = 3
-    public const val MINUS: ESortPriority = 4
-    public const val PREVENT_ANY: ESortPriority = 5
-    public const val SAME_AS_CHILD: ESortPriority = 6
-    public const val SORT: ESortPriority = 7
-    public const val UNION: ESortPriority = 8
+    public const val ANY_PROVIDED_VARIABLE: ESortPriority = 0 // 0x00000000
+    public const val BIND: ESortPriority = 1 // 0x00000001
+    public const val GROUP: ESortPriority = 2 // 0x00000002
+    public const val JOIN: ESortPriority = 3 // 0x00000003
+    public const val MINUS: ESortPriority = 4 // 0x00000004
+    public const val PREVENT_ANY: ESortPriority = 5 // 0x00000005
+    public const val SAME_AS_CHILD: ESortPriority = 6 // 0x00000006
+    public const val SORT: ESortPriority = 7 // 0x00000007
+    public const val UNION: ESortPriority = 8 // 0x00000008
     public const val values_size: Int = 9
+    public const val values_mask: Int = 15 // 0x0000000f
+    public const val values_mask_inversed: Int = 2147483632 // 0x7ffffff0
 
     @JvmField
     public val names: Array<String> = arrayOf(

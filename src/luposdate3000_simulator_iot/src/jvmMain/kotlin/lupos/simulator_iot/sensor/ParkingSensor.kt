@@ -2,39 +2,48 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.Logger
 import lupos.simulator_iot.RandomGenerator
+import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.log.Logger
 
-public class ParkingSensor(public var device: Device) : ISensor {
+internal class ParkingSensor(
+    internal var device: Device,
+    internal val rateInSec: Int,
+    internal val maxSamples: Int,
+    private val dataSinkDeviceName: String,
+) : ISensor {
 
-    public var dataSinkAddress: Int = device.address
-        private set
+    private val infinitySamples: Int = -1
+
+    private var dataSinkAddress: Int = -1
 
     private var isStopped: Boolean = false
 
-    public var sampleCounter: Int = 0
+    internal var sampleCounter: Int = 0
         private set
 
     init {
         sensorCounter++
     }
 
-    public companion object {
-        public var dataRateInSeconds: Int = 30
+    internal companion object {
 
-        public var sensorCounter: Int = 0
+        internal var sensorCounter: Int = 0
             private set
 
-        public var totalSampleCounter: Int = 0
+        internal var totalSampleCounter: Int = 0
             private set
 
-        public fun resetCounter() {
+        internal fun resetCounter() {
             totalSampleCounter = 0
             sensorCounter = 0
         }
     }
 
-    public inner class SamplingProcessFinished : Entity.ITimer {
+    private fun hasMaxSamplesReached() =
+        maxSamples != infinitySamples && sampleCounter >= maxSamples
+
+    internal inner class SamplingProcessFinished : Entity.ITimer {
         override fun onExpire() {
             onSampleTaken()
         }
@@ -44,9 +53,22 @@ public class ParkingSensor(public var device: Device) : ISensor {
         dataSinkAddress = sinkAddress
     }
 
+    internal fun getSinkAddress(): Int {
+        return if (dataSinkAddress != -1) {
+            dataSinkAddress
+        } else {
+            dataSinkAddress = Configuration.getNamedDevice(dataSinkDeviceName).address
+            dataSinkAddress
+        }
+    }
+
     override fun startSampling() {
+        if (hasMaxSamplesReached()) {
+            return
+        }
+
         isStopped = false
-        val rateInMillis: Long = dataRateInSeconds.toLong() * 1000
+        val rateInMillis: Long = rateInSec.toLong() * 1000
         device.setTimer(rateInMillis, SamplingProcessFinished())
     }
 
@@ -56,7 +78,8 @@ public class ParkingSensor(public var device: Device) : ISensor {
         }
 
         val data = getSample()
-        device.sendSensorSample(dataSinkAddress, data)
+        device.sendSensorSample(getSinkAddress(), data)
+        sampleCounter++
         totalSampleCounter++
         startSampling()
     }

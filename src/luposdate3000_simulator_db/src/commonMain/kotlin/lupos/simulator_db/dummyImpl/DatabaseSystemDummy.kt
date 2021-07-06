@@ -1,20 +1,18 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.shared.inline.File
-import lupos.simulator_db.ChoosenOperatorPackage
+import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.IDatabaseState
-import lupos.simulator_db.PreprocessingPackage
-import lupos.simulator_db.ResultPackage
+import lupos.simulator_db.QueryPackage
 
 public class DatabaseSystemDummy : IDatabase {
 
-    private lateinit var state: DatabaseState
+    private lateinit var state: DummyDatabaseState
 
-    public override fun start(initialState: IDatabaseState) {
-        state = DatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
-        state.dataFile = "${initialState.absolutePathToDataDirectory}\\file.txt"
+    public override fun start(initialState: DatabaseState) {
+        state = DummyDatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
+        state.dataFile = "${initialState.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }
 
@@ -25,7 +23,6 @@ public class DatabaseSystemDummy : IDatabase {
     }
 
     public override fun end() {
-        File(state.dataFile).deleteRecursively()
     }
 
     public override fun receive(pck: IDatabasePackage) {
@@ -33,12 +30,14 @@ public class DatabaseSystemDummy : IDatabase {
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)
+            is QueryPackage -> receive(pck)
+            else -> TODO()
         }
     }
 
-    public override fun receiveQuery(sourceAddress: Int, query: ByteArray) {
-        state.addressForQueryEndResult = sourceAddress
-        val queryString = query.decodeToString()
+    public fun receive(pck: QueryPackage) {
+        state.addressForQueryEndResult = pck.sourceAddress
+        val queryString = pck.query.decodeToString()
         if (queryString.contains("INSERT DATA")) {
             saveData(queryString)
             return

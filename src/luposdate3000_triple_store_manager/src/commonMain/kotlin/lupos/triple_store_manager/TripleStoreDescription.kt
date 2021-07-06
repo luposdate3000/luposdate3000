@@ -15,9 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.shared.BugException
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -29,10 +30,8 @@ import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import kotlin.jvm.JvmField
@@ -41,7 +40,7 @@ public class TripleStoreDescription(
     @JvmField internal val indices: Array<TripleStoreIndexDescription>,
     @JvmField internal val instance: Luposdate3000Instance,
 ) : ITripleStoreDescription {
-    public fun toMetaString(): String {
+    public override fun toMetaString(): String {
         var res = StringBuilder()
         for (idx in indices) {
             when (idx) {
@@ -122,64 +121,6 @@ public class TripleStoreDescription(
         return TripleStoreDescriptionModifyCache(this, type, sortedBy, instance)
     }
 
-    public override fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean) {
-        val localcache = cache as TripleStoreDescriptionModifyCache
-        loop@ while (true) {
-            localcache.row[0] = columns[0].next()
-            localcache.row[1] = columns[1].next()
-            localcache.row[2] = columns[2].next()
-            if (localcache.row[0] == DictionaryExt.nullValue) {
-                break@loop
-            }
-            for (i in 0 until localcache.allConn.size) {
-                val j = indices[i].findPartitionFor(query, localcache.row)
-                val conn = localcache.allConn[i][j]
-                conn.second.writeInt(localcache.row[0])
-                conn.second.writeInt(localcache.row[1])
-                conn.second.writeInt(localcache.row[2])
-            }
-        }
-        if (flush) {
-            for (i in 0 until localcache.allConn.size) {
-                for (j in 0 until localcache.allConn[i].size) {
-                    val conn = localcache.allConn[i][j]
-                    conn.second.writeInt(-1)
-                    conn.first?.close()
-                    conn.second.close()
-                }
-            }
-        }
-    }
-
-    public override fun modify_cache_sorted(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, sortedBy: EIndexPattern, flush: Boolean) {
-        val localcache = cache as TripleStoreDescriptionModifyCache
-        loop@ while (true) {
-            localcache.row[0] = columns[0].next()
-            localcache.row[1] = columns[1].next()
-            localcache.row[2] = columns[2].next()
-            if (localcache.row[0] == DictionaryExt.nullValue) {
-                break@loop
-            }
-            for (i in 0 until localcache.allConn.size) {
-                val j = indices[i].findPartitionFor(query, localcache.row)
-                val conn = localcache.allConn[i][j]
-                conn.second.writeInt(localcache.row[0])
-                conn.second.writeInt(localcache.row[1])
-                conn.second.writeInt(localcache.row[2])
-            }
-        }
-        if (flush) {
-            for (i in 0 until localcache.allConn.size) {
-                for (j in 0 until localcache.allConn[i].size) {
-                    val conn = localcache.allConn[i][j]
-                    conn.first?.close()
-                    conn.second.writeInt(-1)
-                    conn.second.close()
-                }
-            }
-        }
-    }
-
     public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
         for (index in indices) {
             if (index.hasPattern(idx)) {
@@ -197,12 +138,12 @@ public class TripleStoreDescription(
 
     public override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         var variableCount = 0
-        val filter2 = mutableListOf<Int>()
+        val filter2 = mutableListOf<DictionaryValueType>()
         for (ii in 0 until 3) {
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-                SanityCheck.check { filter2.size == ii }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:145"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {
@@ -215,7 +156,7 @@ public class TripleStoreDescription(
         if (variableCount != 1) {
             throw BugException("TripleStoreFeature", "Filter can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
         }
-        val filter = IntArray(filter2.size) { filter2[it] }
+        val filter = DictionaryValueTypeArray(filter2.size) { filter2[it] }
         for (index in indices) {
             if (index.hasPattern(idx)) {
                 var first = 0
@@ -229,7 +170,7 @@ public class TripleStoreDescription(
                         val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second))
                         conn.second.writeInt(filter.size)
                         for (i in 0 until filter.size) {
-                            conn.second.writeInt(filter[i])
+                            conn.second.writeDictionaryValueType(filter[i])
                         }
                         first += conn.first.readInt()
                         second += conn.first.readInt()

@@ -1,29 +1,38 @@
 {
+    "dummyDatabase": true,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 30,
         "dataRateInKbps": 250
     }],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "Tower1",
+            "rateInSec": 30,
+            "maxSamples": 3
+        }
+    ],
     "deviceType": [{
             "name": "Fog",
             "database": true,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "StandAloneParkingSensor",
             "database": false,
-            "parkingSensor": true,
-            "powerCapacity": -1.0,
+            "parkingSensor": "park1",
+            "performance": 2.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],
     "fixedDevice": [{
         "name": "Tower1",
         "deviceType": "Fog",
-        "latitude": 3.0,
-        "longitude": 3.0
+        "latitude": 53.640454118715894,
+        "longitude": 10.179179491574411
     }],
     "fixedLink": [],
     "rootRouter": "Tower1",
@@ -33,9 +42,10 @@
     "randomStarNetwork": [{
         "networkPrefix": "garageA",
         "starRoot": "Tower1",
-        "dataSink": "Tower1",
         "linkType": "WPAN",
         "deviceType": "StandAloneParkingSensor",
         "number": 20
-    }]
+    }],
+    "querySender": [
+    ]
 }

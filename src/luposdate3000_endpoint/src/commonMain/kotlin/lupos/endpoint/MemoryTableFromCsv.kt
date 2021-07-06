@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 
@@ -29,7 +29,7 @@ public class MemoryTableFromCsv : MemoryTableParser {
         val variables = mutableListOf<String>()
         val columns = lines.first().split(",")
         for (variableName in columns) {
-            variables.add(variableName.substring(1, variableName.length))
+            variables.add(variableName)
         }
         val res = MemoryTable(variables.toTypedArray())
         res.query = query
@@ -46,7 +46,7 @@ public class MemoryTableFromCsv : MemoryTableParser {
             }
             val values = line.split(",")
             var i = 0
-            val row = IntArray(variables.size) { DictionaryExt.undefValue }
+            val row = DictionaryValueTypeArray(variables.size) { DictionaryValueHelper.undefValue }
             res.data.add(row)
             while (i < variables.size && i < values.size) {
                 when {

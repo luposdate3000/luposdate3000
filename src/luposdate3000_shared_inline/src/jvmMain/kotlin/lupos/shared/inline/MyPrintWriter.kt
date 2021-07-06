@@ -16,6 +16,7 @@
  */
 package lupos.shared.inline
 
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyPrintWriterMode
 import lupos.shared.MyPrintWriterModeExt
@@ -116,6 +117,8 @@ internal actual open class MyPrintWriter : IMyOutputStream {
     actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not supported")
     actual override fun write(buf: ByteArray): Unit = throw Exception("not supported")
     public actual override fun writeInt(value: Int): Unit = throw Exception("not supported")
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = throw Exception("not supported")
+    public actual override fun writeLong(value: Long): Unit = throw Exception("not supported")
     actual override fun close(): Unit = throw Exception("not supported")
     actual override fun flush(): Unit = throw Exception("not supported")
 }

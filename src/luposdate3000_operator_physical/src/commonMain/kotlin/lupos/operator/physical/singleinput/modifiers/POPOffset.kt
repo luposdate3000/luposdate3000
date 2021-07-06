@@ -17,13 +17,14 @@
 package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -31,7 +32,7 @@ import kotlin.jvm.JvmField
 
 public class POPOffset public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val offset: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPOffsetID, "POPOffset", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/modifiers/POPOffset.kt:34"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -50,11 +51,11 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]] }
-        var tmp: Int = DictionaryExt.nullValue
+        var tmp: DictionaryValueType = DictionaryValueHelper.nullValue
         loop@ for (i in 0 until offset) {
             for (element in columns) {
                 tmp = element!!.next()
-                if (tmp == DictionaryExt.nullValue) {
+                if (tmp == DictionaryValueHelper.nullValue) {
                     for (element2 in columns) {
                         element2!!.close()
                     }
@@ -63,7 +64,7 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
             }
         }
         for (variable in variables) {
-            if (tmp == DictionaryExt.nullValue) {
+            if (tmp == DictionaryValueHelper.nullValue) {
                 child.columns[variable]!!.close()
             }
             outMap[variable] = child.columns[variable]!!

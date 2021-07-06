@@ -60,7 +60,7 @@ public open class IteratorBundle {
         get() {
             return when (mode) {
                 IteratorBundleModeExt.COLUMN -> {
-                    SanityCheck.check { _columns!!.isNotEmpty() }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:62"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
                     _columns!!
                 }
                 IteratorBundleModeExt.ROW -> {
@@ -81,7 +81,7 @@ public open class IteratorBundle {
                     _rows!!
                 }
                 IteratorBundleModeExt.COLUMN -> {
-                    SanityCheck.check { _columns!!.isNotEmpty() }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:83"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
                     if (_rows == null) {
                         _rows = RowIteratorFromColumn(this)
                     }
@@ -105,7 +105,7 @@ public open class IteratorBundle {
     }
 
     /*suspend*/ public fun count(): Int {
-        SanityCheck.check { mode == IteratorBundleModeExt.COUNT }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:107"/*SOURCE_FILE_END*/ }, { mode == IteratorBundleModeExt.COUNT })
         return if (counter > 0) {
             counter
         } else {

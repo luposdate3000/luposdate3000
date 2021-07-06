@@ -20,6 +20,8 @@ import lupos.operator.base.OPBaseCompound
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
@@ -27,25 +29,23 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-
 public object QueryResultToMemoryTable {
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, output: MemoryTable) {
-        output.data.add(IntArray(variables.size) { rowBuf[it] })
+    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: DictionaryValueTypeArray, output: MemoryTable) {
+        output.data.add(DictionaryValueTypeArray(variables.size) { rowBuf[it] })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable) {
-        val rowBuf = IntArray(variables.size)
+        val rowBuf = DictionaryValueTypeArray(variables.size)
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == DictionaryExt.nullValue) {
+                if (valueID == DictionaryValueHelper.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID
@@ -131,7 +131,7 @@ public object QueryResultToMemoryTable {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:133"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -152,7 +152,7 @@ public object QueryResultToMemoryTable {
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()
                         for (j in 0 until child.count()) {
-                            res.data.add(IntArray(0))
+                            res.data.add(DictionaryValueTypeArray(0))
                         }
                         resultList.add(res)
                     } else {

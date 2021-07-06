@@ -1,0 +1,93 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="article"/>
+ </head>
+ <results>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1963/Article6</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article94</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal2/1957/Article60</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1954/Article11</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal6/1961/Article182</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal2/1954/Article35</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1964/Article9</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article194</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal2/1960/Article64</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal2/1951/Article55</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1960/Article17</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1954/Article22</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article6</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal3/1956/Article72</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal2/1949/Article45</uri>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

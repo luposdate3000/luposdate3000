@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
-
 import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
@@ -49,7 +48,7 @@ public object DictionaryFactory {
                             pageId = it.readInt()
                         }
                     } else {
-                        pageId = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryFactory.kt:52")
+                        pageId = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryFactory.kt:50"/*SOURCE_FILE_END*/)
                         if (BufferManagerExt.allowInitFromDisk) {
                             File(instance.BUFFER_HOME + fileName).withOutputStream {
                                 it.writeInt(pageId)

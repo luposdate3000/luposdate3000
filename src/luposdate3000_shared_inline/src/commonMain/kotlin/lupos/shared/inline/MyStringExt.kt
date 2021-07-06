@@ -36,31 +36,34 @@ internal object MyStringExt {
                     }
                     't' -> {
                         res.append(0x0009.toChar())
-                        i++
+                        i += 2
                     }
                     'b' -> {
                         res.append(0x0008.toChar())
-                        i++
+                        i += 2
                     }
                     'n' -> {
                         res.append(0x000A.toChar())
-                        i++
+                        i += 2
                     }
                     'r' -> {
                         res.append(0x000D.toChar())
-                        i++
+                        i += 2
                     }
                     'f' -> {
                         res.append(0x000C.toChar())
-                        i++
+                        i += 2
                     }
                     '~', '.', '-', '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=', '/', '?', '#', '@', '%', '_', '\\', '"' -> {
                         res.append(c2)
-                        i++
+                        i += 2
                     }
                     else -> {
                         if (strictMode) {
                             throw Exception("invalid escape sequence '\\$c2' at offset $i in String '$s'")
+                        } else {
+                            res.append(c)
+                            i++
                         }
                     }
                 }

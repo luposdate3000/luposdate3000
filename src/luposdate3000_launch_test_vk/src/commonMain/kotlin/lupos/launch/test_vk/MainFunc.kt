@@ -48,7 +48,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)
-    val rootPage = instance.bufferManager!!.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_vk/src/commonMain/kotlin/lupos/launch/test_vk/MainFunc.kt:46")
+    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_vk/src/commonMain/kotlin/lupos/launch/test_vk/MainFunc.kt:50"/*SOURCE_FILE_END*/)
     var vk = ValueKeyStore(instance.bufferManager!!, rootPage, false)
 
     val values = mutableListOf<ByteArrayWrapper>()
@@ -95,7 +95,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         var res = ByteArrayWrapper()
         ByteArrayWrapperExt.setSize(res, len)
         for (i in 0 until len) {
-            res.buf[i] = (i + seed).toByte()
+            ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
         }
         action(res)
     }

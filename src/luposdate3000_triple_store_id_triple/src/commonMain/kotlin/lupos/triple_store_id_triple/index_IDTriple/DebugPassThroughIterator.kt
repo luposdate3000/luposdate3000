@@ -16,20 +16,21 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
+import lupos.shared.DictionaryValueType
 import kotlin.jvm.JvmField
 
 internal class DebugPassThroughIterator(@JvmField internal val a: TripleIterator) : TripleIterator() {
     @JvmField
-    internal val queueS = mutableListOf<Int>()
+    internal val queueS = mutableListOf<DictionaryValueType>()
 
     @JvmField
-    internal val queueP = mutableListOf<Int>()
+    internal val queueP = mutableListOf<DictionaryValueType>()
 
     @JvmField
-    internal val queueO = mutableListOf<Int>()
+    internal val queueO = mutableListOf<DictionaryValueType>()
 
     override fun hasNext() = a.hasNext()
-    override fun next(component: Int): Int {
+    override fun next(component: Int): DictionaryValueType {
         a.next()
         value[0] = a.value[0]
         value[1] = a.value[1]

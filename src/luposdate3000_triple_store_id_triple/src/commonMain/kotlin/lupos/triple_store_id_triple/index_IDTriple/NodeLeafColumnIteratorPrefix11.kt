@@ -16,23 +16,25 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
-internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
+internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
     @JvmField
-    var value0 = 0
+    var value0: DictionaryValueType = 0
 
     @JvmField
-    var value1 = 0
+    var value1: DictionaryValueType = 0
 
     init {
         label = 3
     }
 
-    override /*suspend*/ fun next(): Int {
+    override /*suspend*/ fun next(): DictionaryValueType {
         if (label == 3) {
             label = 2
             __init()
@@ -52,12 +54,12 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                     }
                     if (value0 > prefix[0]) {
                         _close()
-                        return DictionaryExt.nullValue
+                        return DictionaryValueHelper.nullValue
                     } else {
                         done = value0 == prefix[0]
                         updateRemaining {
                             if (!done) {
-                                value1 = DictionaryExt.nullValue
+                                value1 = DictionaryValueHelper.nullValue
                             }
                             done = true
                         }
@@ -80,19 +82,19 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    return DictionaryExt.nullValue
+                    return DictionaryValueHelper.nullValue
                 } else {
                     updateRemaining()
                 }
                 return value1
             }
             else -> {
-                return DictionaryExt.nullValue
+                return DictionaryValueHelper.nullValue
             }
         }
     }
 
-    override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
+    override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
         if (label == 3) {
             label = 2
             __init()
@@ -101,8 +103,8 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
         if (label == 2) {
             next()
             if (value1 >= minValue) {
-                result[0] = 0
-                result[1] = value1
+                resultSkip[0] = 0
+                resultValue[0] = value1
                 return
             }
             counter++
@@ -122,14 +124,14 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    result[0] = 0
-                    result[1] = DictionaryExt.nullValue
+                    resultSkip[0] = 0
+                    resultValue[0] = DictionaryValueHelper.nullValue
                     return
                 }
                 if (value1 >= minValue) {
                     updateRemaining()
-                    result[0] = counter - 1
-                    result[1] = value1
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value1
                     return
                 } else {
                     remaining--
@@ -137,17 +139,17 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             }
             // look at the next pages
             var nodeidTmp = NodeShared.getNextNode(node)
-            var value0Tmp = 0
-            var value1Tmp = 0
+            var value0Tmp: DictionaryValueType = 0
+            var value1Tmp: DictionaryValueType = 0
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:144", nodeidTmp) {
-                    SanityCheck.check { node != it }
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:146"/*SOURCE_FILE_END*/, nodeidTmp) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:147"/*SOURCE_FILE_END*/ }, { node != it })
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-                SanityCheck.check { remainingTmp > 0 }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:151"/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple110(nodeTmp, offsetTmp, 0, 0) { v0, v1 ->
                     value0Tmp = v0
@@ -155,10 +157,10 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0Tmp > prefix[0] || value1Tmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:157", nodeidTmp)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:159"/*SOURCE_FILE_END*/, nodeidTmp)
                     break
                 }
-                nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:160", nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:162"/*SOURCE_FILE_END*/, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp
@@ -191,28 +193,28 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    result[0] = 0
-                    result[1] = DictionaryExt.nullValue
+                    resultSkip[0] = 0
+                    resultValue[0] = DictionaryValueHelper.nullValue
                     return
                 } else {
                     updateRemaining()
                 }
                 if (value1 >= minValue) {
-                    result[0] = counter - 1
-                    result[1] = value1
+                    resultSkip[0] = counter - 1
+                    resultValue[0] = value1
                     return
                 }
             }
             _close()
-            result[0] = 0
-            result[1] = DictionaryExt.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         } else {
-            result[0] = 0
-            result[1] = DictionaryExt.nullValue
+            resultSkip[0] = 0
+            resultValue[0] = DictionaryValueHelper.nullValue
         }
     }
 
-    override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+    override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
         if (label == 3) {
             label = 2
             __init()
@@ -232,18 +234,18 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             while (toSkip > remaining) {
                 toSkip -= remaining
                 val nodeidTmp = NodeShared.getNextNode(node)
-                SanityCheck.check { nodeidTmp != NodeManager.nodeNullPointer }
-                nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:235", nodeidTmp) {
-                    SanityCheck.check { node != it }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:236"/*SOURCE_FILE_END*/ }, { nodeidTmp != NodeManager.nodeNullPointer })
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:237"/*SOURCE_FILE_END*/, nodeidTmp) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:238"/*SOURCE_FILE_END*/ }, { node != it })
                     node = it
                 }
-                nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:239", nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:241"/*SOURCE_FILE_END*/, nodeid)
                 nodeid = nodeidTmp
                 remaining = NodeShared.getTripleCount(node)
                 needsReset = true
                 offset = NodeLeaf.START_OFFSET
-                SanityCheck.check { remaining > 0 }
-                SanityCheck.check { label != 0 }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:246"/*SOURCE_FILE_END*/ }, { remaining > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:247"/*SOURCE_FILE_END*/ }, { label != 0 })
             }
             if (needsReset) {
                 needsReset = false
@@ -251,8 +253,8 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 value1 = 0
             }
             remaining -= toSkip
-            SanityCheck.check { remaining >= 0 }
-            SanityCheck.check { toSkip > 0 }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:255"/*SOURCE_FILE_END*/ }, { remaining >= 0 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:256"/*SOURCE_FILE_END*/ }, { toSkip > 0 })
             while (toSkip > 0) {
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
@@ -263,11 +265,11 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             if (remaining == 0) {
                 val nodeidTmp = NodeShared.getNextNode(node)
                 if (nodeidTmp != NodeManager.nodeNullPointer) {
-                    nodeManager.getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:265", nodeidTmp) {
-                        SanityCheck.check { node != it }
+                    nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:267"/*SOURCE_FILE_END*/, nodeidTmp) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:268"/*SOURCE_FILE_END*/ }, { node != it })
                         node = it
                     }
-                    nodeManager.releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:269", nodeid)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:271"/*SOURCE_FILE_END*/, nodeid)
                     nodeid = nodeidTmp
                     needsReset = true
                     remaining = NodeShared.getTripleCount(node)
@@ -279,11 +281,11 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             if (value0 > prefix[0]) {
 // this must not happen?!?
                 _close()
-                return DictionaryExt.nullValue
+                return DictionaryValueHelper.nullValue
             }
             return value1
         } else {
-            return DictionaryExt.nullValue
+            return DictionaryValueHelper.nullValue
         }
     }
 }

@@ -4,13 +4,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class JsonObjects(
-    val linkType: List<LinkType> = arrayListOf(),
-    val deviceType: List<DeviceType> = arrayListOf(),
-    val fixedDevice: List<FixedDevice> = arrayListOf(),
-    val fixedLink: List<FixedLink> = arrayListOf(),
+    val dummyDatabase: Boolean = true,
+    val linkType: MutableList<LinkType> = arrayListOf(),
+    val sensorType: MutableList<SensorType> = arrayListOf(),
+    val deviceType: MutableList<DeviceType> = arrayListOf(),
+    val fixedDevice: MutableList<FixedDevice> = arrayListOf(),
+    val fixedLink: MutableList<FixedLink> = arrayListOf(),
     val rootRouter: String = "",
-    val randomMeshNetwork: List<RandomMeshNetwork> = arrayListOf(),
-    val randomStarNetwork: List<RandomStarNetwork> = arrayListOf(),
+    val randomMeshNetwork: MutableList<RandomMeshNetwork> = arrayListOf(),
+    val randomStarNetwork: MutableList<RandomStarNetwork> = arrayListOf(),
+    val querySender: MutableList<QuerySender> = arrayListOf(),
 )
 
 @Serializable
@@ -21,11 +24,19 @@ public data class LinkType(
 )
 
 @Serializable
+public data class SensorType(
+    val name: String = "",
+    val dataSink: String = "",
+    val rateInSec: Int = 0,
+    val maxSamples: Int = -1,
+)
+
+@Serializable
 public data class DeviceType(
     val name: String = "",
     val database: Boolean = false,
-    val parkingSensor: Boolean = false,
-    var powerCapacity: Double = -1.0,
+    val parkingSensor: String = "",
+    val performance: Double = 100.0,
     val supportedLinkTypes: List<String> = arrayListOf(),
 )
 
@@ -51,7 +62,7 @@ public data class RandomStarNetwork(
     val dataSink: String = "",
     val linkType: String = "",
     val deviceType: String = "",
-    val number: Int = 0
+    var number: Int = 0
 )
 
 @Serializable
@@ -63,4 +74,13 @@ public data class RandomMeshNetwork(
     val linkType: String = "",
     val signalCoverageEast: Int = 0,
     val signalCoverageSouth: Int = 0
+)
+
+@Serializable
+public data class QuerySender(
+    val name: String = "",
+    val sendRateInSeconds: Int = 0,
+    val maxNumberOfQueries: Int = 0,
+    val sendStartClockInSec: Int = 0,
+    val query: String = "",
 )

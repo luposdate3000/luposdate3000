@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.singleinput
-
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluateNotImplementedException
 import lupos.shared.IQuery
@@ -27,7 +27,7 @@ import kotlin.jvm.JvmField
 public class AOPBuildInCallNotExists public constructor(query: IQuery, @JvmField public var child: IOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallNotExistsID, "AOPBuildInCallNotExists", arrayOf(child)) {
     override fun toSparql(): String = "NOT EXISTS {" + children[0].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallNotExists && children[0] == other.children[0]
-    override fun evaluateID(row: IteratorBundle): () -> Int = throw EvaluateNotImplementedException(classname)
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType = throw EvaluateNotImplementedException(classname)
     override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallNotExists(query, children[0].cloneOP())
     public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {

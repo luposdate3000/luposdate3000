@@ -16,6 +16,8 @@
  */
 package lupos.simulator_db.luposdate3000
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -23,7 +25,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -40,7 +41,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
     private val inputs: Array<IMyInputStream>,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiID, "POPDistributedReceiveMulti", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check { projectedVariables.size > 0 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveMulti.kt:43"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int = TODO()
@@ -67,10 +68,10 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
             variables.remove(partitionVariable)
             variables.add(0, partitionVariable)
         }
-        var buffer = IntArray(partitionCount * variables.size)
+        var buffer = DictionaryValueTypeArray(partitionCount * variables.size)
         var connections = Array<Pair<IMyInputStream, IntArray>?>(partitionCount) { null }
         var openConnections = 0
-        SanityCheck.check { inputs.size == partitionCount }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveMulti.kt:73"/*SOURCE_FILE_END*/ }, { inputs.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         val allConnections = inputs
         for (k in 0 until allConnections.size) {
@@ -83,15 +84,15 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
                 conn.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check { j >= 0 && j < variables.size }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveMulti.kt:86"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 mapping[i] = j
             }
-            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveMulti.kt:89"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
-                buffer[off + mapping[i]] = conn.readInt()
+                buffer[off + mapping[i]] = conn.readDictionaryValueType()
             }
-            if (buffer[off] == DictionaryExt.nullValue) {
+            if (buffer[off] == DictionaryValueHelper.nullValue) {
                 conn.close()
             } else {
                 connections[openConnections] = conn to mapping
@@ -100,7 +101,7 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
         }
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
+        iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
             var res = -1
             if (openConnections > 0) {
@@ -115,9 +116,9 @@ public class MySimulatorPOPDistributedReceiveMulti public constructor(
                 val connMin = connections[min]!!
                 buffer.copyInto(iterator.buf, 0, off, off + variables.size)
                 for (i in 0 until variables.size) {
-                    buffer[off + connMin.second[i]] = connMin.first.readInt()
+                    buffer[off + connMin.second[i]] = connMin.first.readDictionaryValueType()
                 }
-                if (buffer[off] == DictionaryExt.nullValue) {
+                if (buffer[off] == DictionaryValueHelper.nullValue) {
                     connMin.first.close()
                     val off2 = (openConnections - 1) * variables.size
                     if (off != off2) {

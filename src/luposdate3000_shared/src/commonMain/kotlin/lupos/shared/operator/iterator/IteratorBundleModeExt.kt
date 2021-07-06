@@ -19,10 +19,12 @@ package lupos.shared.operator.iterator
 import kotlin.jvm.JvmField
 
 internal object IteratorBundleModeExt {
-    internal const val COLUMN: IteratorBundleMode = 0
-    internal const val COUNT: IteratorBundleMode = 1
-    internal const val ROW: IteratorBundleMode = 2
+    internal const val COLUMN: IteratorBundleMode = 0 // 0x00000000
+    internal const val COUNT: IteratorBundleMode = 1 // 0x00000001
+    internal const val ROW: IteratorBundleMode = 2 // 0x00000002
     internal const val values_size: Int = 3
+    internal const val values_mask: Int = 3 // 0x00000003
+    internal const val values_mask_inversed: Int = 2147483644 // 0x7ffffffc
 
     @JvmField
     internal val names: Array<String> = arrayOf(

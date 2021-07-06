@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.noinput
-
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
@@ -31,8 +31,8 @@ import kotlin.jvm.JvmField
 
 public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
-    public val value: Int
-    override fun getValue(): Int = value
+    public val value: DictionaryValueType
+    override fun getValue(): DictionaryValueType = value
 
     public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         val buffer = ByteArrayWrapper()
@@ -44,7 +44,7 @@ public class AOPConstant : AOPBase, IAOPConstant {
         value = query.getDictionary().createValue(buffer)
     }
 
-    public constructor(query: IQuery, value2: Int) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: DictionaryValueType) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         value = value2
     }
 
@@ -66,7 +66,7 @@ public class AOPConstant : AOPBase, IAOPConstant {
 
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         return {
             value
         }

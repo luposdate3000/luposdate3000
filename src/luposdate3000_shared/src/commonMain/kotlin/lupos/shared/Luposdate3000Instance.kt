@@ -70,4 +70,20 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var allowInitFromDisk: Boolean = true
+
+    @JvmField
+    public var queue_size: Int = LUPOS_BUFFER_SIZE / 4
+
+    @JvmField
+    public var initialThreads: Int = 128
+
+    @JvmField
+    public var maxThreads: Int
+    init {
+        if (LUPOS_PROCESS_URLS.size> 1) {
+            maxThreads = LUPOS_PROCESS_URLS.size
+        } else {
+            maxThreads = 16
+        }
+    }
 }

@@ -1,14 +1,14 @@
 package lupos.simulator_iot
 
-import kotlin.test.Ignore
+import lupos.simulator_iot.db.DatabaseAdapter
 import kotlin.test.Test
 
 class DatabaseAdapterTest {
-    @Ignore
+
     @Test
     fun createAndDeleteFiles() {
         val device = Stubs.createEmptyDevice(1)
-        val db = DatabaseAdapter(device)
+        val db = DatabaseAdapter(device, true)
         db.startUp()
         db.shutDown()
     }

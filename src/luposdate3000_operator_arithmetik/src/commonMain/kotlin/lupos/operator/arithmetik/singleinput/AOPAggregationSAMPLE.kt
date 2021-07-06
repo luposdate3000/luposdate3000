@@ -15,14 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.singleinput
-
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -38,8 +38,8 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationSAMPLE && distinct == other.distinct && children.contentEquals(other.children)
-    private class ColumnIteratorAggregateSAMPLE(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
-        private var value = DictionaryExt.undefValue
+    private class ColumnIteratorAggregateSAMPLE(private val child: () -> DictionaryValueType, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+        private var value = DictionaryValueHelper.undefValue
         private var isError = false
         private var hasInit = false
 
@@ -50,7 +50,7 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
             }
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             return value
         }
     }
@@ -59,7 +59,7 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
         return ColumnIteratorAggregateSAMPLE((children[0] as AOPBase).evaluateID(row), query.getDictionary())
     }
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
             tmp.evaluateFinish()

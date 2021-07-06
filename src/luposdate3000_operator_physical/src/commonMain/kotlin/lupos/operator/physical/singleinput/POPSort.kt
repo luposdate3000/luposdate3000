@@ -20,6 +20,7 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorMerge
 import lupos.operator.base.iterator.RowIteratorMerge
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
@@ -36,7 +37,7 @@ import kotlin.jvm.JvmField
 
 public class POPSort public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val sortBy: Array<AOPVariable>, @JvmField public val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSortID, "POPSort", arrayOf(child), ESortPriorityExt.SORT) {
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPSort.kt:39"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -46,7 +47,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
     override fun toSparql(): String {
         val variables = Array<String>(sortBy.size) { sortBy[it].name }
         val child = children[0]
-        SanityCheck.check { child !is POPSort }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPSort.kt:49"/*SOURCE_FILE_END*/ }, { child !is POPSort })
         val sparql = child.toSparql()
         var res: String = if (sparql.startsWith("{SELECT ")) {
             sparql.substring(0, sparql.length - 1)
@@ -114,7 +115,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()
-        val comparator: Comparator<Int> = if (sortOrder) {
+        val comparator: Comparator<DictionaryValueType> = if (sortOrder) {
             ValueComparatorASC(query)
         } else {
             ValueComparatorDESC(query)
@@ -151,5 +152,8 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
                 return IteratorBundle(RowIteratorMerge(child.rows, comparator, sortBy.size, columnNames))
             }
         }
+    }
+    public open override fun usesDictionary(): Boolean {
+        return true
     }
 }

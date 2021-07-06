@@ -18,12 +18,12 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -55,16 +55,19 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
             }
             variables.isEmpty() -> {
                 val variables2 = children[0].getProvidedVariableNames()
-                SanityCheck {
-                    SanityCheck.check { variables2.isNotEmpty() }
-                    for (variable in variables2) {
-                        SanityCheck.check { child.columns[variable] != null }
+                SanityCheck(
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:58"/*SOURCE_FILE_END*/ },
+                    {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:60"/*SOURCE_FILE_END*/ }, { variables2.isNotEmpty() })
+                        for (variable in variables2) {
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:62"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
+                        }
                     }
-                }
+                )
                 val column = child.columns[variables2[0]]!!
                 return object : IteratorBundle(0) {
                     override /*suspend*/ fun hasNext2(): Boolean {
-                        return column.next() != DictionaryExt.nullValue
+                        return column.next() != DictionaryValueHelper.nullValue
                     }
 
                     override /*suspend*/ fun hasNext2Close() {
@@ -74,7 +77,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
             }
             else -> {
                 for (variable in variables) {
-                    SanityCheck.check { child.columns[variable] != null }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:79"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
                     outMap[variable] = child.columns[variable]!!
                 }
                 return IteratorBundle(outMap)

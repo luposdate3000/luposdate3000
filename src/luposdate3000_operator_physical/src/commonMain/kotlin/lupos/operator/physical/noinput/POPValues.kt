@@ -21,19 +21,19 @@ import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-
 public open class POPValues : POPBase {
     override fun getPartitionCount(variable: String): Int = 1
 
@@ -41,7 +41,7 @@ public open class POPValues : POPBase {
     public val variables: List<String>
 
     @JvmField
-    public val data: Map<String, MutableList<Int>>
+    public val data: Map<String, MutableList<DictionaryValueType>>
 
     @JvmField
     public val rows: Int
@@ -57,7 +57,7 @@ public open class POPValues : POPBase {
             for (i in 0 until columns[0]!!.size) {
                 res += "("
                 for (v in variables.indices) {
-                    res += if (columns[v]!![i] == DictionaryExt.undefValue) {
+                    res += if (columns[v]!![i] == DictionaryValueHelper.undefValue) {
                         "UNDEF "
                     } else {
                         query.getDictionary().getValue(buffer, columns[v]!![i])
@@ -119,7 +119,7 @@ public open class POPValues : POPBase {
 
     public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
         variables = v
-        val columns = Array(variables.size) { mutableListOf<Int>() }
+        val columns = Array(variables.size) { mutableListOf<DictionaryValueType>() }
         data = mutableMapOf()
         val buffer = ByteArrayWrapper()
         if (projectedVariables.isEmpty()) {
@@ -138,7 +138,7 @@ public open class POPValues : POPBase {
         }
     }
 
-    public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Int>>) : super(query, projectedVariables, EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
+    public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<DictionaryValueType>>) : super(query, projectedVariables, EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
         variables = v
         data = d
         rows = -1
@@ -155,13 +155,13 @@ public open class POPValues : POPBase {
                 tmpVariables.add(name.name)
             }
             variables = tmpVariables
-            val columns = Array(variables.size) { mutableListOf<Int>() }
+            val columns = Array(variables.size) { mutableListOf<DictionaryValueType>() }
             data = mutableMapOf()
             for (variableIndex in variables.indices) {
                 data[variables[variableIndex]] = columns[variableIndex]
             }
             for (v in values.children) {
-                SanityCheck.check { v is AOPValue }
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValues.kt:163"/*SOURCE_FILE_END*/ }, { v is AOPValue })
                 val it = v.getChildren().iterator()
                 for (variableIndex in 0 until variables.size) {
                     columns[variableIndex].add((it.next() as AOPConstant).value)
@@ -209,5 +209,8 @@ public open class POPValues : POPBase {
             }
         }
         return res
+    }
+    public open override fun usesDictionary(): Boolean {
+        return true
     }
 }

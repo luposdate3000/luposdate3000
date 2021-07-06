@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test_dictionary_encoding
-
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -203,7 +203,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
     fun bnodeToByteArray_1() {
         resetRandom()
         if (hasNextRandom() > 0) {
-            val v = nextRandom()
+            val v = DictionaryValueHelper.fromInt(nextRandom())
             DictionaryHelper.bnodeToByteArray(buffer, v)
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_I(buffer) }, { v })
@@ -218,15 +218,11 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         for (i in 0 until hasNextRandom()) {
             v += AssertionFunctions.randomPrintableChar(nextRandom())
         }
-        if (v.length == 0) {
-            AssertionFunctions.assumeException({ DictionaryHelper.bnodeToByteArray(buffer, v) })
-        } else {
-            DictionaryHelper.bnodeToByteArray(buffer, v)
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
-            AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_I(buffer) })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_S(buffer) }, { v })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { v })
-        }
+        DictionaryHelper.bnodeToByteArray(buffer, v)
+        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
+        AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_I(buffer) })
+        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_S(buffer) }, { v })
+        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { v })
     }
 
     fun booleanToByteArray1() {
@@ -391,8 +387,11 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.sparqlToByteArray(buffer2, v)
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
-        DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
-        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        val action = {
+            DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        }
+        action()
     }
 
     fun decimalToByteArray() {
@@ -435,8 +434,11 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.sparqlToByteArray(buffer2, v)
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
-        DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
-        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        val action = {
+            DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        }
+        action()
     }
 
     fun floatToByteArray() {
@@ -483,12 +485,15 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                 AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
             }
         }
-        if (v.contains("e") || v.contains("E")) {
-            DictionaryHelper.sparqlToByteArray(buffer2, v)
+        val action = {
+            if (v.contains("e") || v.contains("E")) {
+                DictionaryHelper.sparqlToByteArray(buffer2, v)
+                AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+            }
+            DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
             AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         }
-        DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
-        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        action()
     }
 
     fun errorToByteArray() {

@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.singleinput
-
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
@@ -42,7 +42,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
     }
 
     override fun equals(other: Any?): Boolean = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
-    private class ColumnIteratorAggregateAVG(private val child: () -> Int, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
+    private class ColumnIteratorAggregateAVG(private val child: () -> DictionaryValueType, private val dictionary: IDictionary) : ColumnIteratorAggregate() {
         private val buffer = ByteArrayWrapper()
         private val bufferCurrent = ByteArrayWrapper()
         private var isError = false
@@ -70,7 +70,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
             }
         }
 
-        override fun evaluateFinish(): Int {
+        override fun evaluateFinish(): DictionaryValueType {
             if (counter == 0) {
                 return dictionary.createValue(buffer)
             } else {
@@ -106,7 +106,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
         return ColumnIteratorAggregateAVG((children[0] as AOPBase).evaluateID(row), query.getDictionary())
     }
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
             tmp.evaluateFinish()

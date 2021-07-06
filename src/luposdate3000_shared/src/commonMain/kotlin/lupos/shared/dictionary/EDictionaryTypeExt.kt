@@ -19,9 +19,11 @@ package lupos.shared.dictionary
 import kotlin.jvm.JvmField
 
 public object EDictionaryTypeExt {
-    public const val InMemory: EDictionaryType = 0
-    public const val KV: EDictionaryType = 1
+    public const val InMemory: EDictionaryType = 0 // 0x00000000
+    public const val KV: EDictionaryType = 1 // 0x00000001
     public const val values_size: Int = 2
+    public const val values_mask: Int = 1 // 0x00000001
+    public const val values_mask_inversed: Int = 2147483646 // 0x7ffffffe
 
     @JvmField
     public val names: Array<String> = arrayOf(

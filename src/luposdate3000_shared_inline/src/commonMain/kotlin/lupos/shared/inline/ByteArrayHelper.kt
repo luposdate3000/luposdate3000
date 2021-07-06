@@ -33,7 +33,31 @@ internal expect object ByteArrayHelper {
     internal inline fun writeIntX(data: ByteArray, offset: Int, value: Int, count: Int)
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLongX(data: ByteArray, offset: Int, value: Long, count: Int)
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeLong8(data: ByteArray, offset: Int, value: Long)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong7(data: ByteArray, offset: Int, value: Long)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong6(data: ByteArray, offset: Int, value: Long)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong5(data: ByteArray, offset: Int, value: Long)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong4(data: ByteArray, offset: Int, value: Long)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong3(data: ByteArray, offset: Int, value: Long)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong2(data: ByteArray, offset: Int, value: Long)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong1(data: ByteArray, offset: Int, value: Long)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeDouble8(data: ByteArray, offset: Int, value: Double)
@@ -43,6 +67,27 @@ internal expect object ByteArrayHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readLong8(data: ByteArray, offset: Int): Long
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong7(data: ByteArray, offset: Int): Long
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong6(data: ByteArray, offset: Int): Long
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong5(data: ByteArray, offset: Int): Long
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong4(data: ByteArray, offset: Int): Long
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong3(data: ByteArray, offset: Int): Long
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong2(data: ByteArray, offset: Int): Long
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong1(data: ByteArray, offset: Int): Long
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readDouble8(data: ByteArray, offset: Int): Double
@@ -61,6 +106,9 @@ internal expect object ByteArrayHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readIntX(data: ByteArray, offset: Int, count: Int): Int
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLongX(data: ByteArray, offset: Int, count: Int): Long
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readChar(data: ByteArray, offset: Int): Char

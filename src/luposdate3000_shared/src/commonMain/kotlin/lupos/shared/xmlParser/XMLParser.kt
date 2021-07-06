@@ -29,10 +29,13 @@ public object XMLParser {
                 parse_element_tag(
                     context,
                     onTAG = {
-                        SanityCheck {
-                            val tag = context.getValue()
-                            SanityCheck.check { stack[stack.size - 1].tag == tag }
-                        }
+                        SanityCheck(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParser.kt:32"/*SOURCE_FILE_END*/ },
+                            {
+                                val tag = context.getValue()
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParser.kt:35"/*SOURCE_FILE_END*/ }, { stack[stack.size - 1].tag == tag })
+                            }
+                        )
                         stack.removeAt(stack.size - 1)
                         parse_ws(context, {})
                         parse_element_close(context, {})

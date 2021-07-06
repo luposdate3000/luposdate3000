@@ -1,4 +1,5 @@
 {
+    "dummyDatabase": true,
     "linkType": [{
             "name": "WIFI",
             "rangeInMeters": 50,
@@ -10,26 +11,34 @@
             "dataRateInKbps": 250
         }
     ],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "Tower1",
+            "rateInSec": 30,
+            "maxSamples": -1
+        }
+    ],
     "deviceType": [{
             "name": "StandAloneParkingSensor",
             "database": false,
-            "parkingSensor": true,
-            "powerCapacity": -1.0,
+            "parkingSensor": "park1",
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
 
         {
             "name": "RadioTower",
             "database": false,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "Fog",
             "database": true,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 20.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],
@@ -56,7 +65,6 @@
     "randomStarNetwork": [{
             "networkPrefix": "garageA",
             "starRoot": "Fog1",
-            "dataSink": "Fog1",
             "linkType": "WPAN",
             "deviceType": "StandAloneParkingSensor",
             "number": "501"
@@ -64,10 +72,10 @@
         {
             "networkPrefix": "garageB",
             "starRoot": "Tower1",
-            "dataSink": "Tower1",
             "linkType": "WPAN",
             "deviceType": "StandAloneParkingSensor",
             "number": "10002"
         }
-    ]
+    ],
+    "querySender": []
 }

@@ -1,5 +1,7 @@
 #SPAClient
 
+First, move to the project directory.
+
 To Compile the SPAClient on Windows use
 
 ```gitbash
@@ -23,8 +25,6 @@ On linux the following is enough
 ./launcher.main.kts --setupSPAClient
 ```
 
-
-
 To launch the database with the endpoint use
 
 ```gitbash
@@ -33,3 +33,25 @@ To launch the database with the endpoint use
 
 
 which will provide the Database on localhost:80/index.html
+
+If you pull from the git, than execute all setup-scripts (see above) again.
+If you are adding new dependencies to a module, you need to execute all setup-scripts (see above) again too.
+
+If you change packages within npm or bower, than execute
+```gitbash
+./launcher.main.kts --setupSPAClient
+```
+which will download the new dependencies. You must use the same Windows-crash workaround as above.
+
+
+If you only change javascript code within the SPAClient Module, than it is enough to execute
+```gitbash
+./launcher.main.kts --setupSPAClient --dryMode=Enable
+```
+which is much much faster.
+
+
+
+
+
+

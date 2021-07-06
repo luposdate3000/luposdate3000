@@ -23,7 +23,6 @@ run
 .scannerwork
 settings.gradle
 settings.gradle.kts
-src/luposdate3000_launch_code_gen_test
 src/luposdate3000_spa_client/app/scripts/algos/luposdate3000
 src/luposdate3000_spa_client/bower_components
 src/luposdate3000_spa_client/deploy.bat
@@ -39,3 +38,4 @@ stale_outputs_checked
 tmp
 tmpparams
 x
+simulator_output

@@ -17,31 +17,32 @@
 package lupos.endpoint_launcher
 
 import lupos.dictionary.ADictionary
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance) : ADictionary(instance) {
-    override fun forEachValue(buffer: ByteArrayWrapper, action: (Int) -> Unit): Unit = TODO()
+internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance) : ADictionary(instance, true) {
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
     override fun isInmemoryOnly(): Boolean = true
     override fun delete() {
     }
 
-    override fun valueToGlobal(value: Int): Int {
+    override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
         output.writeInt(3)
-        output.writeInt(value)
+        output.writeDictionaryValueType(value)
         output.flush()
-        return input.readInt()
+        return input.readDictionaryValueType()
     }
 
-    override fun createNewBNode(): Int {
+    override fun createNewBNode(): DictionaryValueType {
         output.writeInt(1)
         output.flush()
-        return input.readInt()
+        return input.readDictionaryValueType()
     }
 
     override fun createNewUUID(): Int {
@@ -50,33 +51,33 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         return input.readInt()
     }
 
-    override fun hasValue(buffer: ByteArrayWrapper): Int? {
+    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {
         output.writeInt(2)
-        output.writeInt(buffer.size)
-        output.write(buffer.buf, buffer.size)
+        output.writeInt(ByteArrayWrapperExt.getSize(buffer))
+        output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
-        val res = input.readInt()
-        if (res == DictionaryExt.nullValue) {
+        val res = input.readDictionaryValueType()
+        if (res == DictionaryValueHelper.nullValue) {
             return null
         }
         return res
     }
 
-    override fun createValue(buffer: ByteArrayWrapper): Int {
+    override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         output.writeInt(5)
-        output.writeInt(buffer.size)
-        output.write(buffer.buf, buffer.size)
+        output.writeInt(ByteArrayWrapperExt.getSize(buffer))
+        output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
-        return input.readInt()
+        return input.readDictionaryValueType()
     }
 
-    override fun getValue(buffer: ByteArrayWrapper, value: Int) {
+    override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         output.writeInt(6)
-        output.writeInt(value)
+        output.writeDictionaryValueType(value)
         output.flush()
         val len = input.readInt()
         ByteArrayWrapperExt.setSize(buffer, len)
-        input.read(buffer.buf, len)
+        input.read(ByteArrayWrapperExt.getBuf(buffer), len)
     }
 
     override fun close() {

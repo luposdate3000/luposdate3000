@@ -19,14 +19,16 @@ package lupos.result_format
 import kotlin.jvm.JvmField
 
 public object EQueryResultToStreamExt {
-    public const val DEFAULT_STREAM: EQueryResultToStream = 0
-    public const val EMPTYDICTIONARY_STREAM: EQueryResultToStream = 1
-    public const val EMPTY_STREAM: EQueryResultToStream = 2
-    public const val MEMORY_TABLE: EQueryResultToStream = 3
-    public const val TURTLE_STREAM: EQueryResultToStream = 4
-    public const val XML_ELEMENT: EQueryResultToStream = 5
-    public const val XML_STREAM: EQueryResultToStream = 6
+    public const val DEFAULT_STREAM: EQueryResultToStream = 0 // 0x00000000
+    public const val EMPTYDICTIONARY_STREAM: EQueryResultToStream = 1 // 0x00000001
+    public const val EMPTY_STREAM: EQueryResultToStream = 2 // 0x00000002
+    public const val MEMORY_TABLE: EQueryResultToStream = 3 // 0x00000003
+    public const val TURTLE_STREAM: EQueryResultToStream = 4 // 0x00000004
+    public const val XML_ELEMENT: EQueryResultToStream = 5 // 0x00000005
+    public const val XML_STREAM: EQueryResultToStream = 6 // 0x00000006
     public const val values_size: Int = 7
+    public const val values_mask: Int = 7 // 0x00000007
+    public const val values_mask_inversed: Int = 2147483640 // 0x7ffffff8
 
     @JvmField
     public val names: Array<String> = arrayOf(

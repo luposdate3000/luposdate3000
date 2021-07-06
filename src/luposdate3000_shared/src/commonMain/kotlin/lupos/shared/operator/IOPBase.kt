@@ -16,6 +16,7 @@
  */
 package lupos.shared.operator
 
+import lupos.shared.DictionaryValueType
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SortHelper
@@ -23,6 +24,7 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.iterator.IteratorBundle
 
 public interface IOPBase {
+    public fun usesDictionary(): Boolean
     public fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase
     public fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase
     public fun replaceVariableWithAnother(name: String, name2: String): IOPBase
@@ -69,5 +71,5 @@ public interface IOPBase {
     public /*suspend*/ fun evaluateRoot(): IteratorBundle
     public /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle
     public fun changePartitionID(idFrom: Int, idTo: Int)
-    public fun replaceVariableWithConstant(name: String, value: Int): IOPBase
+    public fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase
 }

@@ -15,8 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.noinput
-
 import lupos.operator.arithmetik.AOPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
@@ -37,14 +38,14 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     override fun cloneOP(): IOPBase = AOPVariable(query, this.getName())
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
 
-    override fun evaluateID(row: IteratorBundle): () -> Int {
+    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp = row.columns[name]
         return if (tmp == null) {
             {
-                DictionaryExt.undefValue
+                DictionaryValueHelper.undefValue
             }
         } else {
-            SanityCheck.check { tmp is ColumnIteratorQueue }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:47"/*SOURCE_FILE_END*/ }, { tmp is ColumnIteratorQueue })
             val column = tmp as ColumnIteratorQueue
             {
                 column.tmp
@@ -53,7 +54,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check { parent.getChildren()[parentIdx] == this }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:56"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.name == name) {
             return AOPVariable(query, name2)
         }
@@ -63,7 +64,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         return this
     }
 
-    public override fun replaceVariableWithConstant(name: String, value: Int): IOPBase {
+    public override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
         if (this.name == name) {
             return AOPConstant(query, value)
         }

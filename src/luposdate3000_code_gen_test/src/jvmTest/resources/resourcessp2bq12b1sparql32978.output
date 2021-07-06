@@ -1,0 +1,3253 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="erdoes"/>
+  <variable name="document"/>
+  <variable name="author"/>
+  <variable name="document2"/>
+  <variable name="author2"/>
+  <variable name="name"/>
+ </head>
+ <results>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1948/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b0</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article37</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b1</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cato Himmelwright</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1960/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b2</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1959/Article196</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b3</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lucero Companie</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b4</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal4/1956/Article135</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b5</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ebony Zieg</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1949/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b6</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1948/Article39</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b7</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yae Timblin</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b8</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding12</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b9</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kristie Roback</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b10</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Addi Rinks</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b10</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article104</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b12</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fujio Hocke</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b13</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1946/Article35</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b14</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lottchen Pillitteri</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b15</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article2</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b16</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Flaca Sodawasser</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b17</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article30</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b18</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Coch Foulger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b19</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b20</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Bhoomika Secord</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b10</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Inayat Deignan</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article101</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b22</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wolfhelm Abella</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1951/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b23</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1950/Article66</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b24</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ladinka Ehiginator</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b25</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1958/Article76</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b26</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kirti Rines</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1961/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b27</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1961/Inproceeding8</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b28</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cynthiarose Pembleton</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b30</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Petros Josefy</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article62</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Katryn Volmer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article207</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Landeline Sevenbergen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article207</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Albinia Heasley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Mubarak Cackett</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article60</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ryo Zanders</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ryo Zanders</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1960/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b37</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1959/Article64</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b38</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ursuel Eskind</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b39</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article26</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b40</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Juri Guzik</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1961/Article77</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1961/Article77</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvira Kidner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b43</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adrik Ollhoff</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvira Kidner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b44</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article109</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b45</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Hetty Cersey</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b44</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding11</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b46</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Tsukiyama Shinabarger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article106</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b48</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shunji Decoste</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding8</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b49</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Bernhardine Disorda</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b50</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding6</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b51</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Swidbert Repka</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b52</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article82</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b53</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shaahir Trohanov</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b54</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding2</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b55</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shandee Finnicum</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b56</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article20</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b57</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Tashiya Marrable</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b57</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article20</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b56</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ieshige Kosinski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article206</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b58</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sina Kellen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Landeline Sevenbergen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1961/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b28</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1961/Inproceeding8</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b27</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gela Bong</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article60</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wrata Breier</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article60</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ryo Zanders</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1946/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b59</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article22</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b60</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Inejiro Javens</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article62</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Katryn Volmer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b4</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal4/1956/Article135</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b5</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ebony Zieg</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article207</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Landeline Sevenbergen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b61</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b62</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yachne Piersall</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1953/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b63</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1952/Article47</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b64</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Loremarie Zissler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b65</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding12</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b66</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Manobu Peres</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1951/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b67</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1950/Article30</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b68</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sypovaia Wegmann</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b69</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b19</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Editta Servoss</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1953/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b70</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1952/Article54</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b71</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Clementine Barga</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b72</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Bindia Lietzow</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1948/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b1</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article37</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b0</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Alyss Wuitschick</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b74</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b75</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fanuco Glyn</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Addi Rinks</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article101</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b22</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wolfhelm Abella</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1957/Article59</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b76</bnode>
+   </binding>
+   <binding name="name">
+    <literal>GopiGopika Chaisty</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article62</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sophronia Peakes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b77</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article21</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b78</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Timun Silverstein</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article206</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b58</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sina Kellen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Landeline Sevenbergen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvira Kidner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1961/Article77</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvira Kidner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvira Kidner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b79</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article32</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b80</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Breana Scheffler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1951/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b81</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1950/Article62</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b82</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Vasyklo Netz</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b74</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b75</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fanuco Glyn</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal4/1956/Article132</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b84</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Emanuelle Armillei</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b85</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Rei Marchio</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article80</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adwr Liiv</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding2</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adwr Liiv</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b62</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b61</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Masazumi Chuta</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b74</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b75</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fanuco Glyn</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1951/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b88</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1950/Article25</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b89</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adelio Zahner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b75</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b74</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Galenka Eichberg</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b90</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding8</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b91</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Teodoro Coyt</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b92</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Immanuel Bugos</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article62</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sophronia Peakes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1953/Article60</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wrata Breier</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wrata Breier</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article206</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b58</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sina Kellen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Landeline Sevenbergen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1949/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b93</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1948/Article31</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b94</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wouter Mowbray</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b53</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article82</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b52</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Richika Cokeley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Iselle Churches</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b10</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article104</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b12</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fujio Hocke</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b95</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding9</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b52</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Richika Cokeley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b55</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding2</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b54</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dores Hugi</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b43</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b91</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1952/Inproceeding8</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b90</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Hagibis Kihn</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b51</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding6</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b50</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Jazmine Susman</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b96</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article22</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b97</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kellie Frenner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b25</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1958/Article76</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b26</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kirti Rines</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1961/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b27</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1961/Inproceeding8</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b28</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cynthiarose Pembleton</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1946/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b98</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article29</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b99</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Alona Lucario</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b49</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article108</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b100</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Finetta Nopachai</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b49</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding8</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cloelia Shein</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b92</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Katryn Volmer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b72</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Waliyya Dandrea</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1957/Article59</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b76</bnode>
+   </binding>
+   <binding name="name">
+    <literal>GopiGopika Chaisty</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b53</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article82</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b52</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Richika Cokeley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1961/Article77</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1953/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b101</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1952/Article44</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b102</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Vrata Socks</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article80</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Johanna Buttross</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article80</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adwr Liiv</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal4/1956/Article132</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b84</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Emanuelle Armillei</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b85</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Rei Marchio</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b103</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1946/Article33</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b104</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Mikolas Sirman</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b78</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article21</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b77</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Fame Clarey</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b105</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article22</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b106</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Oka Prock</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b19</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b69</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Deke Mirabelli</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b20</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1949/Article30</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b107</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shoko Moel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b108</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Zhonka Kawaa</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article106</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b48</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shunji Decoste</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b49</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article108</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b100</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Finetta Nopachai</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b106</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article22</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b105</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Toku Synowiec</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b25</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1958/Article76</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b26</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kirti Rines</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding7</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article207</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Landeline Sevenbergen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b72</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Bindia Lietzow</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b109</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/incolls/1943/Incollection1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b110</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Maureo Benedict</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b50</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b111</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Eshita Whitby</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1953/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b112</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1952/Article43</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b113</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Danaus Dacanay</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1953/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b114</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1952/Article42</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b115</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yakamochi Alonza</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1946/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b116</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article26</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b117</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sebastiano Lockyer</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b118</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article20</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b119</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Caddock Stagowski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b75</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1963/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b74</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Galenka Eichberg</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b85</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wolfhild Torros</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b120</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article23</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b121</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ernestine Barkan</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal4/1956/Article132</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b84</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Emanuelle Armillei</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b43</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1961/Article77</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haruhiro Flecher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvira Kidner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1961/Article77</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Elvira Kidner</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1962/Inproceeding4</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b43</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adrik Ollhoff</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1948/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b122</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article40</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b123</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Mikio Brunston</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b110</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/incolls/1943/Incollection1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b109</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ofelia Golde</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b61</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1959/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b62</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yachne Piersall</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b85</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1957/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b83</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wolfhild Torros</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1948/Article10</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b123</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1947/Article40</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b122</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Aida Appelt</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b72</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Waliyya Dandrea</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1958/Inproceeding4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b73</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1957/Article59</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b76</bnode>
+   </binding>
+   <binding name="name">
+    <literal>GopiGopika Chaisty</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article207</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Albinia Heasley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Mubarak Cackett</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b20</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal2/1949/Article30</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b107</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shoko Moel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b20</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1950/Inproceeding1</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b19</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Editta Servoss</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b30</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1954/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sophronia Peakes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article80</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Johanna Buttross</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b87</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding2</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b86</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Johanna Buttross</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article207</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Albinia Heasley</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1964/Inproceeding3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal6/1963/Article206</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b58</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Sina Kellen</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b52</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1954/Article82</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b53</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shaahir Trohanov</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b52</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1955/Inproceeding9</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b95</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Gigi Barfuss</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding3</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Addi Rinks</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding1</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal3/1955/Article101</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b22</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wolfhelm Abella</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding6</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b108</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/inprocs/Proceeding1/1956/Inproceeding7</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b47</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cloelia Shein</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="erdoes">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1946/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b124</bnode>
+   </binding>
+   <binding name="document2">
+    <uri>http://localhost/publications/articles/Journal1/1945/Article33</uri>
+   </binding>
+   <binding name="author2">
+    <bnode>b125</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Kazushige Goeppner</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

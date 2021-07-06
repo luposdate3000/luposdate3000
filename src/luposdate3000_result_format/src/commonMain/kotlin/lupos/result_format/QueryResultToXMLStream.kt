@@ -20,6 +20,9 @@ import lupos.operator.base.OPBaseCompound
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
@@ -27,16 +30,14 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-
 public object QueryResultToXMLStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: DictionaryValueType, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
         dictionary.getValue(buffer, valueID)
         DictionaryHelper.byteArrayToCallback(
             buffer,
@@ -44,14 +45,14 @@ public object QueryResultToXMLStream {
                 output.print("   <binding name=\"")
                 output.print(columnName)
                 output.print("\">\n    <bnode>")
-                output.print(value)
+                output.print(value.toString())
                 output.print("</bnode>\n   </binding>\n")
             },
             { value ->
                 output.print("   <binding name=\"")
                 output.print(columnName)
                 output.print("\">\n    <literal>")
-                output.print(value)
+                output.print(value.toString())
                 output.print("</literal>\n   </binding>\n")
             },
             { content, lang ->
@@ -118,7 +119,7 @@ public object QueryResultToXMLStream {
         )
     }
 
-    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
         output.print("  <result>\n")
         for (variableIndex in variables.indices) {
             writeValue(buffer, rowBuf[variableIndex], variables[variableIndex], dictionary, output)
@@ -128,13 +129,13 @@ public object QueryResultToXMLStream {
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
-        val rowBuf = IntArray(variables.size)
+        val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == DictionaryExt.nullValue) {
+                if (valueID == DictionaryValueHelper.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID
@@ -240,7 +241,7 @@ public object QueryResultToXMLStream {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:243"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }

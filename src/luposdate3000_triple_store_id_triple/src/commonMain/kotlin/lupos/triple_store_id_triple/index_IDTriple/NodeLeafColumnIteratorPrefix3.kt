@@ -15,21 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
-
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
-import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
-
-internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
+internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
     @JvmField
-    var value0 = 0
-
-    @JvmField
-    var value1 = 0
+    var value0: DictionaryValueType = 0
 
     @JvmField
-    var value2 = 0
-    override /*suspend*/ fun next(): Int {
+    var value1: DictionaryValueType = 0
+
+    @JvmField
+    var value2: DictionaryValueType = 0
+    override /*suspend*/ fun next(): DictionaryValueType {
         if (label == 3) {
             label = 1
             __init()
@@ -50,13 +50,13 @@ internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefi
                 }
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 > prefix[2])) {
                     _close()
-                    value2 = DictionaryExt.nullValue
+                    value2 = DictionaryValueHelper.nullValue
                     done = true
                 } else {
                     done = value0 == prefix[0] && value1 == prefix[1] && value2 == prefix[2]
                     updateRemaining {
                         if (!done) {
-                            value2 = DictionaryExt.nullValue
+                            value2 = DictionaryValueHelper.nullValue
                         }
                         done = true
                     }
@@ -64,7 +64,7 @@ internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefi
             }
             return value2
         } else {
-            return DictionaryExt.nullValue
+            return DictionaryValueHelper.nullValue
         }
     }
 }

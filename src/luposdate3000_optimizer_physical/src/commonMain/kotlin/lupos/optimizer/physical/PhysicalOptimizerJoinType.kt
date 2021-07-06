@@ -37,7 +37,6 @@ import lupos.operator.physical.singleinput.POPProjection
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
-import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 
@@ -68,8 +67,8 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             while (i >= 0) {
                 newID[i] = query.getNextPartitionOperatorID()
                 val s = joinColumns[i]
-                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], a)
-                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], b)
+                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], a)
+                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], b)
                 query.addPartitionOperator(a.uuid, newID[i])
                 query.addPartitionOperator(b.uuid, newID[i])
                 i--
@@ -78,17 +77,17 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             var c = create(a, b)
             if (c.getProvidedVariableNames().isEmpty()) {
                 for (s in joinColumns) {
-                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], c)
+                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
                     query.addPartitionOperator(c.uuid, newID[i])
                     i++
                 }
             } else {
                 for (s in joinColumns) {
                     if (keepOrder) {
-                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], c)
+                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
                         query.addPartitionOperator(c.uuid, newID[i])
                     } else {
-                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], c)
+                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
                         query.addPartitionOperator(c.uuid, newID[i])
                     }
                     i++

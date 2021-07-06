@@ -16,17 +16,10 @@
  */
 package lupos.launch.generate_unit_test_suite_multi
 
-import lupos.endpoint.LuposdateEndpoint
-import lupos.endpoint_launcher.HttpEndpointLauncher
-import lupos.shared.Parallel
 import lupos.test.SparqlTestSuite
 import lupos.test.SparqlTestSuiteConverterToUnitTest
 
 internal fun mainFunc() {
-    val instance = LuposdateEndpoint.initialize()
-    Parallel.launch {
-        HttpEndpointLauncher.start(instance)
-    }
     SparqlTestSuite.prefixDirectory = ""
     val converter = SparqlTestSuiteConverterToUnitTest(".")
     converter.testMain()

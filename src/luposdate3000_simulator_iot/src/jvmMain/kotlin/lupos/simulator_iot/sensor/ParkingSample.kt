@@ -1,10 +1,20 @@
 package lupos.simulator_iot.sensor
 
-public data class ParkingSample(
-    val sampleID: Int,
-    val sensorID: Int,
-    val sampleTime: String,
-    val isOccupied: Boolean,
-    val parkingSpotID: Int,
-    val area: String
-)
+import lupos.simulator_iot.net.IPayload
+
+internal class ParkingSample(
+    internal val sampleID: Int,
+    internal val sensorID: Int,
+    internal val sampleTime: String,
+    internal val isOccupied: Boolean,
+    internal val parkingSpotID: Int,
+    internal val area: String
+) : IPayload {
+    override fun getSizeInBytes(): Int {
+        return 2 + 2 + sampleTime.encodeToByteArray().size + 2 + area.encodeToByteArray().size
+    }
+
+    override fun toString(): String {
+        return "ParkingSample"
+    }
+}

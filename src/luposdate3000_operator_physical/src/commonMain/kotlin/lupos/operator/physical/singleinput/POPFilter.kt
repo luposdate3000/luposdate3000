@@ -18,13 +18,14 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.NotImplementedException
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -75,7 +76,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                         }
                     }
 
-                    override /*suspend*/ fun next(): Int {
+                    override /*suspend*/ fun next(): DictionaryValueType {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,
                             {
@@ -85,8 +86,8 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                         for (variableIndex2 in variables.indices) {
                                             columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                             // point each iterator to the current value
-                                            if (columnsLocal[variableIndex2].tmp == DictionaryExt.nullValue) {
-                                                SanityCheck.check { variableIndex2 == 0 }
+                                            if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
+                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPFilter.kt:89"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
                                                 for (v in child.columns.values) {
                                                     v.close()
                                                 }
@@ -163,11 +164,11 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                     for (variableIndex2 in variables.indices) {
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                         // point each iterator to the current value
-                                        if (columnsLocal[variableIndex2].tmp == DictionaryExt.nullValue) {
+                                        if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
                                             for (v in child.columns.values) {
                                                 v.close()
                                             }
-                                            SanityCheck.check { variableIndex2 == 0 }
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPFilter.kt:170"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
                                             for (variableIndex3 in 0 until variables.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }

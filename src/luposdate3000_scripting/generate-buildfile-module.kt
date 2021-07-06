@@ -19,6 +19,7 @@ package launcher
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.inline.Platform
 import java.io.File
+import launcher.EDictionaryValueMode
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Paths
@@ -65,9 +66,7 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
                 }
             }
         }
-        s = s.replace("${'$'}lupos.SOURCE_FILE", "${fixPathNames(src.absolutePath)}:$line")
-        s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${fixPathNames(src.absolutePath)}:$line")
-        s = s.replace("lupos.SOURCE_FILE", "\"${fixPathNames(src.absolutePath)}:$line\"")
+        s = s.replace("SOURCE_FILE_START.*SOURCE_FILE_END".toRegex(), "SOURCE_FILE_START*/\"${fixPathNames(src.absolutePath)}:$line\"/*SOURCE_FILE_END")
         out.println(s)
         line++
     }
@@ -95,6 +94,7 @@ class CreateModuleArgs() {
     var moduleFolder: String = ""
     var modulePrefix: String = ""
     var platform: String = "linuxX64"
+var dictionaryValueMode:EDictionaryValueMode=EDictionaryValueMode.Int
     var releaseMode: ReleaseMode = ReleaseMode.Disable
     var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
@@ -105,7 +105,6 @@ class CreateModuleArgs() {
     var args: MutableMap<String, String> = mutableMapOf()
     var dependenciesCommon: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJvm: MutableSet<String> = mutableSetOf<String>()
-    var dependenciesJvmRecoursive: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
     var disableJS = false
@@ -124,6 +123,7 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
+res.dictionaryValueMode=dictionaryValueMode
         res.disableJS = disableJS
         res.disableJSNode = disableJSNode
         res.disableJSBrowser = disableJSBrowser
@@ -131,7 +131,6 @@ class CreateModuleArgs() {
         res.disableNative = disableNative
         res.dependenciesCommon.addAll(dependenciesCommon)
         res.dependenciesJvm.addAll(dependenciesJvm)
-        res.dependenciesJvmRecoursive.addAll(dependenciesJvmRecoursive)
         res.dependenciesJs.addAll(dependenciesJs)
         res.dependenciesNative.addAll(dependenciesNative)
         res.compilerVersion = compilerVersion
@@ -151,6 +150,12 @@ class CreateModuleArgs() {
         res.args = args
         return res
     }
+
+fun ssetDictionaryValueMode(mode:EDictionaryValueMode):CreateModuleArgs{
+val res = clone()
+res.dictionaryValueMode=mode
+return res
+}
 
     fun ssetCompilerVersion(compilerVersion: String): CreateModuleArgs {
         val res = clone()
@@ -331,7 +336,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             appendix += "_Debug"
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
-        val enableProguard = false // !onWindows && enableJVM
+        val enableProguard = !onWindows && enableJVM && !buildLibrary
 
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -393,7 +398,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 allDep.addAll(jsDependencies)
                 allDep.addAll(jvmDependencies)
                 allDep.addAll(nativeDependencies)
-                allDep.addAll(moduleArgs.dependenciesJvmRecoursive)
+                allDep.addAll(moduleArgs.dependenciesJvm)
                 for (d in allDep) {
                     if (d.startsWith("luposdate3000")) {
                         var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
@@ -408,7 +413,7 @@ if(!onWindows){
                 out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
 }
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
-                if (!buildLibrary && moduleArgs.codegenKAPT) {
+                if ( moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
                 }
                 if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -561,12 +566,12 @@ if(!onWindows){
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jvmDependencies, out)
-                    if (!buildLibrary && moduleArgs.codegenKAPT) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
+                    if ( moduleArgs.codegenKAPT) {
+                        printDependencies(moduleArgs.dependenciesJvm, out)
                     }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
-                        for (dep in moduleArgs.dependenciesJvmRecoursive) {
+                        printDependencies(moduleArgs.dependenciesJvm, out)
+                        for (dep in moduleArgs.dependenciesJvm) {
                             if (dep.startsWith("luposdate")) {
                                 out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
                             } else {
@@ -624,7 +629,7 @@ if(!onWindows){
                     out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain/kotlin\")")
                 }
                 out.println("}")
-                if (!buildLibrary && moduleArgs.codegenKAPT) {
+                if ( moduleArgs.codegenKAPT) {
                     out.println("dependencies {")
                     out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator_kapt\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
                     out.println("}")
@@ -638,6 +643,15 @@ if(!onWindows){
 if(!onWindows){
                 out.println("    dependsOn(\"ktlintFormat\")")
 }
+                out.println("    fun fixPathNames(s: String): String {")
+                out.println("        var res = s.trim()")
+                out.println("        var back = \"\"")
+                out.println("        while (back != res) {")
+                out.println("            back = res")
+                out.println("            res = res.replace(\"\\\\\", \"/\").replace(\"/./\", \"/\").replace(\"//\", \"/\")")
+                out.println("        }")
+                out.println("        return res")
+                out.println("    }")
                 out.println("    val regexDisableNoInline = \"(^|[^a-zA-Z])noinline \".toRegex()")
                 out.println("    val regexDisableInline = \"(^|[^a-zA-Z])inline \".toRegex()")
                 out.println("    val regexDisableCrossInline = \"(^|[^a-zA-Z])crossinline \".toRegex()")
@@ -650,7 +664,7 @@ if(!onWindows){
                 out.println("                    var line = 0")
                 out.println("                    ff.forEachLine { line2 ->")
                 out.println("                        var s = line2")
-                out.println("                        s = s.replace(\"lupos.SOURCE_FILE\", \"\\\"\${ff.absolutePath.replace(\"\\\\\", \"/\")}:\$line\\\"\")")
+                out.println("                        s = s.replace(\"SOURCE_FILE_START.*SOURCE_FILE_END\".toRegex(), \"SOURCE_FILE_START*/\\\"\${fixPathNames(ff.absolutePath)}:\$line\\\"/*SOURCE_FILE_END\")")
 //                out.println("                        s = s.replace(\" public \", \" @lupos.ProguardKeepAnnotation public \")")
                 if (moduleArgs.inlineMode == InlineMode.Enable) {
                     out.println("                        s = s.replace(\"/*NOINLINE*/\", \"noinline \")")
@@ -718,8 +732,6 @@ if(!onWindows){
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
-                    out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")
-                    out.println("    outjars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1-pro.jar\")")
                     out.println("    val javaHome = System.getProperty(\"java.home\")")
                     out.println("    if (System.getProperty(\"java.version\").startsWith(\"1.\")) {")
                     out.println("        libraryjars(\"\$javaHome/lib/rt.jar\")")
@@ -732,16 +744,19 @@ if(!onWindows){
                     out.println("            \"\$javaHome/jmods/java.base.jmod\"")
                     out.println("        )")
                     out.println("    }")
-                    out.println("    File(buildDir,\"external_jvm_dependencies\").printWriter().use { out ->")
-                    out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
-                    out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
-                    out.println("                out.println(\"\$f\")")
-                    out.println("            }")
-                    out.println("        }")
-                    out.println("    }")
                     out.println("    for (f in configurations.getByName(\"jvmCompileClasspath\").resolve()) {")
-                    out.println("        libraryjars(files(\"\$f\"))")
+                    out.println("            if (\"\$f\".contains(\"luposdate3000\")) {")
+                    out.println("                injars(")
+                    out.println("                    mapOf(")
+                    out.println("                        \"filter\" to \" !META-INF/MANIFEST.MF,!lupos/shared/inline/** \"")
+                    out.println("                    ),")
+                    out.println("                    files(\"\$f\")")
+                    out.println("                )")
+                    out.println("            } else {")
+                    out.println("                libraryjars(files(\"\$f\"))")
+                    out.println("            }")
                     out.println("    }")
+                    out.println("    injars(\"build/libs/${moduleArgs.moduleName.toLowerCase()}-jvm-0.0.1.jar\")")
                     out.println("    printusage(\"usage.pro\")")
                     out.println("    forceprocessing()")
                     out.println("    optimizationpasses(5)")
@@ -749,10 +764,8 @@ if(!onWindows){
                     out.println("    dontobfuscate()")
                     out.println("    printconfiguration(\"config.pro.generated\")")
                     out.println("    printmapping(\"build/mapping.txt\")")
-                    out.println("    keep(\"@lupos.ProguardKeepAnnotation public class *\")")
-                    out.println("    keepclassmembers(\"class * { @lupos.ProguardKeepAnnotation public *; }\")")
-                    out.println("    keepclassmembers(\"class * { public <fields>; }\")")
                     out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
+                    out.println("    outjars(\"build/libs/${moduleArgs.moduleName.toLowerCase()}-jvm-0.0.1-pro.jar\")")
                     out.println("}")
                 }
                 out.println("tasks.withType<Test> {")
@@ -772,6 +785,19 @@ if(!onWindows){
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
+when(moduleArgs.dictionaryValueMode){
+EDictionaryValueMode.Int->{
+typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperInt")
+typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Int")
+typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","IntArray")
+}
+EDictionaryValueMode.Long->{
+typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperLong")
+typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Long")
+typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","LongArray")
+}
+else -> TODO()
+}
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
         } else {

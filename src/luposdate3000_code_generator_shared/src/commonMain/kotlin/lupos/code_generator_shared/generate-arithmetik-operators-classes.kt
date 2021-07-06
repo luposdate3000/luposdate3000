@@ -90,7 +90,7 @@ private  val EVariablePlaceholderNames = Array(EVariablePlaceholderExt.values_si
     EVariablePlaceholderExt.String_content -> "String"
     EVariablePlaceholderExt.String_lang -> "String"
     EVariablePlaceholderExt.String_type -> "String"
-        EVariablePlaceholderExt.Blank_Node -> "Int"
+        EVariablePlaceholderExt.Blank_Node -> "DictionaryValueType"
         EVariablePlaceholderExt.ByteArrayWrapper -> "ByteArrayWrapper"
         EVariablePlaceholderExt.DictionaryID -> "ID"
         else -> throw Exception("Unknown EVariablePlaceholder $it")
@@ -146,7 +146,7 @@ public val generateByteArrayWrapperError: GenerateFuncOther = { indention, outpu
 }
 public val generateIDError: GenerateFuncOther = { indention, outputName, _, imports, target, _, onResult ->
     imports.add("lupos.shared.dictionary.DictionaryExt")
-    target.appendLine("$indention$outputName = DictionaryExt.errorValue")
+    target.appendLine("$indention$outputName = DictionaryValueHelper.errorValue")
     onResult(indention, ETripleComponentTypeExt.ERROR)
 }
 public val generateInstantiatedFalse: GenerateFuncOtherInstantiated = { indention, outputName, _, _, target, _ ->
@@ -693,7 +693,7 @@ public class MyOperator(
         generate("            ", EParamRepresentation.ID, Array(implementations[0].childrenTypes.size) { "childIn$it" }, "res", "tmp", imports2, target, globalVariables)
         imports2.addAll(imports)
 
-        method.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
+        method.appendLine("    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {")
 
         for (v in globalVariables) {
             if (!v.contains(" res: ")) {
@@ -756,7 +756,7 @@ public class MyOperator(
         clazz.appendLine("    override fun toSparql(): String = \"$functionname($line2)\"")
         clazz.appendLine("    override fun equals(other: Any?): Boolean = other is AOP${type.str}$name$line3")
         clazz.appendLine("    override fun cloneOP(): IOPBase = AOP${type.str}$name(query$line4)")
-        clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
+        clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {")
         for (v in globalVariables) {
             if (!v.contains(" res: ")) {
                 clazz.appendLine("        $v")

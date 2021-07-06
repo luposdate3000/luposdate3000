@@ -15,11 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 
 internal expect class MyInputStream : IMyInputStream {
     public override fun readInt(): Int
+    public override fun readDictionaryValueType(): DictionaryValueType
+    public override fun readLong(): Long
     public override fun readByte(): Byte
     public override fun read(buf: ByteArray): Int
     public override fun read(buf: ByteArray, len: Int): Int

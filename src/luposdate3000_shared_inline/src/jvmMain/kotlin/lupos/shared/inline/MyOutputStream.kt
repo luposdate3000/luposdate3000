@@ -16,41 +16,102 @@
  */
 package lupos.shared.inline
 
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import java.io.OutputStream
 import kotlin.jvm.JvmField
-
 internal actual class MyOutputStream : IMyOutputStream {
     @JvmField
-    val buf4 = ByteArray(4)
+    val buffer: ByteArray
+    var bufferPos = 0
 
     @JvmField
-    internal val it: OutputStream?
+    internal var stream: OutputStream?
+
+    private var closedBy: MutableList<Throwable>? = null
 
     internal constructor(it: OutputStream) {
-        this.it = it
+        // kotlin.io.println("MyOutputStream.constructor $this")
+        stream = it
+        buffer = ByteArray(8192)
     }
 
     internal actual constructor() {
-        it = null
+        stream = null
+        buffer = ByteArray(8192)
+    }
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType) {
+        DictionaryValueHelper.sendToStream(this, value)
     }
 
     public actual override fun writeInt(value: Int) {
-        ByteArrayHelper.writeInt4(buf4, 0, value)
-        it!!.write(buf4, 0, 4)
+        if (bufferPos + 4> buffer.size) {
+            localFlush()
+        }
+        ByteArrayHelper.writeInt4(buffer, bufferPos, value)
+        bufferPos += 4
+    }
+    public actual override fun writeLong(value: Long) {
+        if (bufferPos + 8> buffer.size) {
+            localFlush()
+        }
+        ByteArrayHelper.writeLong8(buffer, bufferPos, value)
+        bufferPos += 8
     }
 
     public actual override fun close() {
-        it!!.flush()
-        it.close()
+        try {
+            throw Exception()
+        } catch (e: Throwable) {
+            if (closedBy == null) {
+                closedBy = mutableListOf(e)
+            } else {
+                closedBy!!.add(e)
+            }
+        }
+        if (stream == null) {
+            for (e in closedBy!!) {
+                e.printStackTrace()
+            }
+        }
+        // kotlin.io.println("MyOutputStream.close $this")
+        flush()
+        stream!!.close()
+        stream = null
+    }
+    private fun localFlush() {
+        // kotlin.io.println("MyOutputStream.localFlush $this $bufferPos")
+        if (bufferPos> 0) {
+            stream!!.write(buffer, 0, bufferPos)
+            bufferPos = 0
+        }
+    }
+    public actual override fun flush() {
+        // kotlin.io.println("MyOutputStream.flush $this")
+        localFlush()
+        stream!!.flush()
     }
 
-    public actual override fun flush(): Unit = it!!.flush()
-
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun _write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
-    public actual override fun write(buf: ByteArray): Unit = _write(buf, 0, buf.size)
-    public actual override fun write(buf: ByteArray, len: Int): Unit = _write(buf, 0, len)
+    internal inline fun _write(buf: ByteArray, off: Int, len: Int) {
+        // kotlin.io.println("MyOutputStream._write $this")
+        if (bufferPos + len> buffer.size) {
+            localFlush()
+        }
+        if (len> buffer.size) {
+            stream!!.write(buf, off, len)
+        } else {
+            buf.copyInto(buffer, bufferPos, off, off + len)
+            bufferPos += len
+        }
+    }
+    public actual override fun write(buf: ByteArray) {
+        _write(buf, 0, buf.size)
+    }
+    public actual override fun write(buf: ByteArray, len: Int) {
+        _write(buf, 0, len)
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun _print(x: String) {

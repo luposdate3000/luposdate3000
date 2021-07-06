@@ -20,6 +20,7 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.LOPBase
+import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -52,7 +53,7 @@ public class LOPValues public constructor(query: IQuery, @JvmField public val va
         val res = HistogramResult()
         val p = getProvidedVariableNames()
         for (i in p.indices) {
-            val localSet = mutableSetOf<Int>()
+            val localSet = mutableSetOf<DictionaryValueType>()
             for (row in children) {
                 localSet.add((row.getChildren()[i] as AOPConstant).value)
             }

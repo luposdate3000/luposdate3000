@@ -1,17 +1,20 @@
 {
+    "dummyDatabase": true,
     "linkType": [],
+    "sensorType": [
+    ],
     "deviceType": [{
             "name": "Fog",
             "database": false,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 20.0,
             "supportedLinkTypes": []
         },
         {
             "name": "FogWithDatabase",
             "database": true,
-            "parkingSensor": false,
-            "powerCapacity": -1.0,
+            "parkingSensor": "",
+            "performance": 30.0,
             "supportedLinkTypes": []
         }
     ],
@@ -91,5 +94,6 @@
     ],
     "rootRouter": "A",
     "randomMeshNetwork": [],
-    "randomStarNetwork": []
+    "randomStarNetwork": [],
+    "querySender": []
 }

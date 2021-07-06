@@ -22,6 +22,9 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -30,7 +33,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
@@ -57,7 +59,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:61"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -136,15 +138,15 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
-        val row = IntArray(variables.size) { DictionaryExt.undefValue }
-        val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
+        val row = DictionaryValueTypeArray(variables.size) { DictionaryValueHelper.undefValue }
+        val data = mutableMapOf<String, Array<Array<MutableList<DictionaryValueType>>>>()
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
             if (variables.isNotEmpty()) {
                 for (columnIndex in variables.indices) {
                     val value = columns[columnIndex].next()
-                    if (value == DictionaryExt.nullValue) {
-                        SanityCheck.check { columnIndex == 0 }
+                    if (value == DictionaryValueHelper.nullValue) {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:148"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         break@loop
                     }
                     row[columnIndex] = value
@@ -158,7 +160,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             for ((first, second) in modify) {
                 var graphVarIdx = 0
                 if (first.graphVar) {
-                    SanityCheck.check { variables.contains(first.graph) }
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:162"/*SOURCE_FILE_END*/ }, { variables.contains(first.graph) })
                     while (variables[graphVarIdx] != first.graph) {
                         graphVarIdx++
                     }
@@ -197,14 +199,28 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             child.hasNext2Close()
         }
         for ((graphName, iterator) in data) {
+            val dict = query.getDictionary()
             val store = query.getInstance().tripleStoreManager!!.getGraph(graphName)
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
                     val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                    store.modify_cache(query, Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type, cache, true)
+                    val iterator = Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }
+                    while (true) {
+                        val s = dict.valueToGlobal(iterator[0].next())
+                        val p = dict.valueToGlobal(iterator[1].next())
+                        val o = dict.valueToGlobal(iterator[2].next())
+                        if (s == DictionaryValueHelper.nullValue) {
+                            break
+                        }
+                        cache.writeRow(s, p, o, query)
+                    }
+                    cache.close()
                 }
             }
         }
-        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryExt.booleanTrueValue)))
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryValueHelper.booleanTrueValue)))
+    }
+    public open override fun usesDictionary(): Boolean {
+        return true
     }
 }
