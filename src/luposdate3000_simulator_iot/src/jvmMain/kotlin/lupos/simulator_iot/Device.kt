@@ -34,11 +34,15 @@ internal class Device(
     private lateinit var deviceStart: Instant
 
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
-        return if (destinationAddress == address) {
+        return if (destinationAddress == address)
             getProcessingDelay()
-        } else {
-            linkManager.getTransmissionDelay(destinationAddress, pck.pckSize) + getProcessingDelay()
+         else {
+             val processingDelay = getProcessingDelay()
+             val transmissionDelay = linkManager.getTransmissionDelay(destinationAddress, pck.pckSize)
+            Logger.log("procdelay $processingDelay und transDelay $transmissionDelay")
+            transmissionDelay + getProcessingDelay()
         }
+
     }
 
     private fun getProcessingDelay(): Long {
@@ -46,7 +50,7 @@ internal class Device(
         val microDif = Time.differenceInMicroSec(deviceStart, now)
         val scaled = microDif * 100 / performance
         val millis = scaled / 1000
-        return millis.roundToLong()
+        return millis.toLong()
     }
 
     override fun onStartUp() {
@@ -111,14 +115,18 @@ internal class Device(
     internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
-        logSendPackage(pck)
+        logSendPackage(pck, delay)
         scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
-        logSendPackage(pck)
-        forwardPackage(pck)
+
+        //forwardPackage(pck)
+        val nextHop = router.getNextHop(pck.destinationAddress)
+        val delay = getNetworkDelay(nextHop, pck)
+        logSendPackage(pck, delay)
+        scheduleEvent(Configuration.devices[nextHop], pck, delay)
     }
 
     internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {
@@ -131,8 +139,8 @@ internal class Device(
         Logger.log("> $this receives $pck at clock ${simulation.getCurrentClock()}")
     }
 
-    private fun logSendPackage(pck: NetworkPackage) {
-        Logger.log("> $this sends $pck at clock ${simulation.getCurrentClock()}")
+    private fun logSendPackage(pck: NetworkPackage, delay: Long) {
+        Logger.log("> $this sends $pck at clock ${simulation.getCurrentClock()} with delay $delay")
     }
 
     override fun equals(other: Any?): Boolean {

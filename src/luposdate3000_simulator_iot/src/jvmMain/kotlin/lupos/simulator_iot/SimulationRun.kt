@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import kotlinx.datetime.Instant
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
@@ -9,6 +10,10 @@ internal class SimulationRun {
 
     internal val config = Configuration
     internal val logger = Logger
+    private lateinit var startUpTimeStamp: Instant
+    private lateinit var shutDownTimeStamp: Instant
+    private lateinit var realShutDownTimeStamp: Instant
+    private var initStartTimeStamp: Instant = Time.stamp()
 
     internal lateinit var sim: Simulation
 
@@ -29,7 +34,7 @@ internal class SimulationRun {
     }
 
     internal fun startSimulationRun() {
-        val sim = Simulation(Configuration.devices, callback = LifeCycleImpl())
+        sim = Simulation(Configuration.devices, callback = LifeCycleImpl())
         sim.startSimulation()
     }
 
