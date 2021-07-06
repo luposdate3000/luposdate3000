@@ -32,7 +32,9 @@ public object ETripleComponentTypeExt {
     public const val STRING_LANG: ETripleComponentType = 10
     public const val STRING_TYPED: ETripleComponentType = 11
     public const val UNDEF: ETripleComponentType = 12
-    public const val values_size: Int = 13
+    public const val _BYTEARRAYWRAPPER: ETripleComponentType = 13
+    public const val _DICTIONARYID: ETripleComponentType = 14
+    public const val values_size: Int = 15
 
     @JvmField
     public val names: Array<String> = arrayOf(
@@ -49,5 +51,7 @@ public object ETripleComponentTypeExt {
         "STRING_LANG",
         "STRING_TYPED",
         "UNDEF",
+        "_BYTEARRAYWRAPPER",
+        "_DICTIONARYID",
     )
 }
