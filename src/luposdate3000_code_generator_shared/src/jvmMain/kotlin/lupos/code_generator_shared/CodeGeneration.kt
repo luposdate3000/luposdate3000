@@ -16,7 +16,10 @@
  */
 package lupos.code_generator_shared
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTR
@@ -42,19 +45,17 @@ import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.physical.singleinput.POPVisualisation
-import lupos.shared.EIndexPatternExt
-import lupos.shared.ValueBoolean
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueInteger
-import lupos.shared.ValueIri
-import lupos.shared.ValueStringBase
+import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import lupos.triple_store_manager.POPTripleStoreIterator
 import java.io.OutputStream
 import java.io.PrintWriter
+import java.text.DecimalFormat
 import kotlin.jvm.JvmField
 
 private const val passThroughGenericImplementation = false
@@ -428,6 +429,63 @@ private fun writeOperatorGraph(
     }
 }
 
+
+public  class  IAOPCodeGen2(private  val className: String,
+                            private  val children: Array<IAOPCodeGen2>,
+                            private val name: String = "",
+                            private val value: ByteArrayWrapper = ByteArrayWrapper()) {
+    private val uuid = UUID_Counter.getNextUUID()
+    init {
+        println("CODEGEN2" + value.size);
+        println(this)
+    }
+    public fun getUUID(): Long {
+        return uuid
+    }
+    public fun getChildren(): Array<IAOPCodeGen2> {
+        return children;
+    }
+    public fun getClassname(): String {
+        return className;
+    }
+    public fun getName() :String {
+        return name;
+    }
+    public fun getValue(): ByteArrayWrapper{
+        return  value;
+    }
+
+
+}
+
+
+internal fun convert(child: IOPBase): IAOPCodeGen2 {
+    println("CALLED CONVERT")
+    val children = Array(child.getChildren().size){
+        convert(child.getChildren()[it])
+    }
+    return when(child) {
+
+        is AOPVariable -> {
+            IAOPCodeGen2("AOPVariable", children, child.getName())
+        }
+        is AOPConstant -> {
+            val dict = child.getQuery().getDictionary()
+            val tmpBuf = ByteArrayWrapper()
+            dict.getValue(tmpBuf, child.getValue())
+            println(tmpBuf.size)
+            IAOPCodeGen2("AOPConstant", children, "", tmpBuf)
+        }
+        else -> {
+            println("CE" + child.getClassname())
+            IAOPCodeGen2(child.getClassname(), children)
+        }
+
+    }
+
+}
+
+
 internal fun writeMethod(
     child: IOPBase,
     classes: MyPrintWriter,
@@ -436,18 +494,23 @@ internal fun writeMethod(
 )
 {
 
+    val conversion = IAOPCodeGen2("ToDictionaryID", arrayOf(IAOPCodeGen2("ToByteArrayWrapper", arrayOf(convert(child)))))
+
     val builder = StringBuilder()
 
     val target = StringBuilder()
     val variables = mutableMapOf<String,String>()
     val variableBuilder = StringBuilder()
-    generateMethod(child,"", arrayOf(""), "", "", imports, target, mutableSetOf(""), mutableListOf(), false, builder, variables)
-    val buildString = builder.toString();
+    generateMethod(conversion,"", arrayOf(""), "rowx", "", imports, target, mutableSetOf(""), mutableListOf(), false, builder, variables, false)
+    val buildString = builder.toString()
+
     for((k,v) in variables)
     {
         if(buildString.contains(k) && v != "")
         {
-            variableBuilder.appendLine("var $k : $v")
+            variableBuilder.appendLine("var $k : $v = ${getDefaultValue(v)}")
+
+
         }
     }
     classes.println(variableBuilder.toString())
