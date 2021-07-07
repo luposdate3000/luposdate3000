@@ -14,12 +14,19 @@ import lupos.simulator_iot.FilePaths
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
+
+
 internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
+
     private var resultDevicePath = "${FilePaths.queryResult}/device${device.address}"
+
     private var resultFileName = "$resultDevicePath/file.txt"
+
     private var pathDevice = "${FilePaths.dbStates}/device${device.address}"
+
+    private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
     private val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
 
@@ -52,10 +59,12 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
 
     internal fun processPackage(payload: IPayload) {
         when (payload) {
-            is DBInternPackage -> receive(payload.content)
-            is DBQueryResultPackage -> useQueryResult(payload.result)
+            is DBInternPackage -> sequenceKeeper.receive(payload)
+            is DBQueryResultPackage -> sequenceKeeper.receive(payload)
+            is DBSequenceEndPackage -> sequenceKeeper.receive(payload)
             else -> throw Exception("undefined payload")
         }
+        sequenceKeeper.markSequenceEndings()
     }
 
     private fun createFiles() {
@@ -64,18 +73,18 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         File(resultFileName).withOutputStream { }
     }
 
-    private fun useQueryResult(result: ByteArray) {
+    private fun processDBQueryResultPackage(pck: DBQueryResultPackage) {
         val stream = File(resultFileName).openOutputStream(true)
         resultCounter++
         stream.println("Query result number $resultCounter")
         stream.println()
-        stream.println(result.decodeToString())
+        stream.println(pck.result.decodeToString())
         stream.close()
     }
 
-    private fun receive(pck: IDatabasePackage) {
+    private fun processDBInternPackage(pck: DBInternPackage) {
         db.activate()
-        db.receive(pck)
+        db.receive(pck.content)
         db.deactivate()
     }
 
@@ -105,29 +114,58 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             "}\n"
     }
 
+    //TODO nutze direkt das QueryPackage
     private fun receiveQuery(data: ByteArray) {
         db.activate()
         db.receive(QueryPackage(device.address, data))
         db.deactivate()
     }
 
-    internal fun isDatabasePackage(pck: IPayload): Boolean = pck is DBInternPackage
+    internal fun isDatabasePackage(pck: IPayload): Boolean {
+        return pck is DBInternPackage || pck is DBQueryResultPackage || pck is DBSequenceEndPackage
+    }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        println("send $destinationAddress $pck")
-        if (pck is QueryResponsePackage) {
-            if (device.address == destinationAddress) {
-                println("sendQueryResult deviceAddress == $destinationAddress")
-                useQueryResult(pck.result)
-            } else {
-                println("sendQueryResult route forward to $destinationAddress")
-                device.sendRoutedPackage(device.address, destinationAddress, DBQueryResultPackage(pck.result))
+        if (pck is QueryResponsePackage)
+            sendQueryResponse(destinationAddress, pck)
+         else
+            sendDBInternPackage(destinationAddress, pck)
+    }
+
+    private fun sendQueryResponse(destinationAddress: Int, pck: QueryResponsePackage) {
+        val myResponsePackage = DBQueryResultPackage(device.address, destinationAddress, pck.result)
+        if (device.address == destinationAddress)
+            processDBQueryResultPackage(myResponsePackage)
+        else
+            sequenceKeeper.sendSequencedPackage(myResponsePackage)
+    }
+
+    private fun sendDBInternPackage(destinationAddress: Int, pck: IDatabasePackage) {
+        val internPck = DBInternPackage(device.address, destinationAddress, pck)
+        sequenceKeeper.sendSequencedPackage(internPck)
+    }
+
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
+        return device.router.getNextDatabaseHops(destinationAddresses)
+    }
+
+    private inner class SequencePackageSenderImpl: ISequencePackageSender {
+
+        override fun send(pck: SequencedPackage) {
+            device.sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck as IPayload)
+        }
+
+        override fun receive(pck: SequencedPackage) {
+            when (pck) {
+                is DBInternPackage -> processDBInternPackage(pck)
+                is DBQueryResultPackage -> processDBQueryResultPackage(pck)
+                else -> throw Exception("undefined payload")
             }
-        } else {
-            device.sendRoutedPackage(device.address, destinationAddress, DBInternPackage(pck))
+        }
+
+        override fun getSenderAddress(): Int {
+            return device.address
         }
     }
 
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
-        device.router.getNextDatabaseHops(destinationAddresses)
 }

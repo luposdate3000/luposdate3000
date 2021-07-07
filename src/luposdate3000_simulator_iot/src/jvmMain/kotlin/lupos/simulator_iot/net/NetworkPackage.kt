@@ -5,7 +5,7 @@ internal class NetworkPackage(
     internal val destinationAddress: Int,
     internal val payload: IPayload
 ) {
-    val pckSize = headerSize + payload.getSizeInBytes()
+    internal val pckSize = headerSize + payload.getSizeInBytes()
 
     internal companion object {
         // Ipv6 has fixed header size of 40 Bytes
