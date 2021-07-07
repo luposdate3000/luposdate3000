@@ -149,7 +149,7 @@ venv.bak/
 dmypy.json
 
 *.zip
-*.ppo_model
+# *.ppo_model
 *.mlq
 
 /resources/sp2b/1024/*.sparql
