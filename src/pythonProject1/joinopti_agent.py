@@ -45,7 +45,6 @@ def train_model():
         # env = model.get_env()
 
 
-
 def optimize_query():
     env = gym.make('gym_database:Database-v0')
     model = PPO.load(param_file)
@@ -69,7 +68,6 @@ def optimize_query():
             else:
                 counter += 1
 
-
     for i in range(21):
         print("---------------Query: ----------- " + str(i))
         env.set_training_data([benched_queries[i]])
@@ -79,19 +77,18 @@ def optimize_query():
         action, _states = model.predict(obs, deterministic=True)
         print(f"Action: {action}")
         obs, reward, done, info = env.step(action)
-#     print(f"Action taken: {info}")
+        # print(f"Action taken: {info}")
         print("Observation: ")
-#     print(obs)
-#     # env.render()
+        # env.render()
         print(obs)
-#     print(f"Reward: {reward}")
-#     print(f"Done: {done}")
-#     # print(info)
+        print(f"Reward: {reward}")
+        print(f"Done: {done}")
+        print(info)
         if done:
             obs = env.reset()
             print("Observation: ")
             print(obs)
-    
+
 
 if __name__ == '__main__':
 
