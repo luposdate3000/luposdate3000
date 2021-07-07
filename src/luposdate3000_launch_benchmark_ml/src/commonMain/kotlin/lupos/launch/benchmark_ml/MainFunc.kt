@@ -104,8 +104,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         }
     }
 
-    val fileName2 = "/home/a/lupos/luposdate-testdata/sp2b/1024/complete.n3.bench"
-    var benchFile = java.io.File(fileName2)
+    var benchFile = java.io.File("$datasourceFiles.bench")
     benchFile.printWriter().use { it ->
         it.print("")
     }

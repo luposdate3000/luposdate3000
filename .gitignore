@@ -150,3 +150,11 @@ dmypy.json
 
 *.zip
 *.ppo_model
+*.mlq
+
+/resources/sp2b/1024/*.sparql
+/resources/sp2b/1024/*.triples
+/resources/sp2b/1024/*.dictionary
+/resources/sp2b/1024/*.stat
+/resources/sp2b/1024/luposdate3000_query_params
+/resources/sp2b/1024/python_ml_params
