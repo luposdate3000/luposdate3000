@@ -35,7 +35,7 @@ def train_model():
     env = gym.make('gym_database:Database-v0')
     model = PPO("MlpPolicy", env, verbose=2)
     # for i in range(len(benched_queries)):
-    for i in range(10):
+    for i in range(21):
         env.set_training_data([benched_queries[i]])
         model.learn(total_timesteps=50000, log_interval=1)
     model.save(param_file + ".ppo_model")
@@ -70,7 +70,7 @@ def optimize_query():
                 counter += 1
 
 
-    for i in range(10):
+    for i in range(21):
         print("---------------Query: ----------- " + str(i))
         env.set_training_data([benched_queries[i]])
         obs = env.reset()
