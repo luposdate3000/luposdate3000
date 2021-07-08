@@ -68,26 +68,56 @@ def optimize_query():
             else:
                 counter += 1
 
+    rewards = ""
+    actions = ""
     for i in range(21):
+        done = False
         print("---------------Query: ----------- " + str(i))
         env.set_training_data([benched_queries[i]])
         obs = env.reset()
         print("Observation: ")
         print(obs)
-        action, _states = model.predict(obs, deterministic=True)
-        print(f"Action: {action}")
-        obs, reward, done, info = env.step(action)
-        # print(f"Action taken: {info}")
-        print("Observation: ")
-        # env.render()
-        print(obs)
-        print(f"Reward: {reward}")
-        print(f"Done: {done}")
-        print(info)
-        if done:
-            obs = env.reset()
+        while not done:
+            action, _states = model.predict(obs, deterministic=True)
+            print(f"Action: {action}")
+            obs, reward, done, info = env.step(action)
+            rewards += str(reward) + " "
+            actions += str(action) + " "
+            # print(f"Action taken: {info}")
             print("Observation: ")
+            # env.render()
             print(obs)
+            print(f"Reward: {reward}")
+            print(f"Done: {done}")
+            print(info)
+            if done:
+                print("finish")
+                obs = env.reset()
+                print("Observation: ")
+                print(obs)
+            print(rewards)
+            print(actions)
+    # qs_mins = []
+    # qs_maxs = []
+    # qs_min_rew = []
+    # for qs in benched_queries:
+    #     qss_min = min([float(qs[0][2]), float(qs[1][2]), float(qs[2][2])])
+    #     qss_max = max([float(qs[0][2]), float(qs[1][2]), float(qs[2][2])])
+    #     qs_mins.append(int(qss_min))
+    #
+    #     reward0 = qss_min/qss_max
+    #     qs_maxs.append(int(qss_max))
+    #     # normalize to -1 .. 0 .. 1
+    #     if reward0 < 0.5:
+    #         reward1 = -1 + 4 * pow(reward0, 2)
+    #     else:
+    #         reward1 = 4 * pow(reward0, 2) - 4 * reward0 + 1
+    #
+    #     qs_min_rew.append(reward1)
+    #
+    # print(qs_mins)
+    # print(qs_maxs)
+    # print(qs_min_rew)
 
 
 if __name__ == '__main__':
