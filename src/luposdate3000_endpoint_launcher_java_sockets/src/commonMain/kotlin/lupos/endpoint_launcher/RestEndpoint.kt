@@ -31,7 +31,6 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.EDictionaryTypeExt
-import lupos.shared.dictionary.IDictionary
 import lupos.shared.inline.MyInputStream
 import lupos.shared.inline.MyOutputStream
 import lupos.shared.inline.MyPrintWriter
@@ -54,25 +53,6 @@ public object RestEndpoint {
         val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
         val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
         instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy)
-    }
-
-    @Suppress("NOTHING_TO_INLNE")
-    private inline fun registerDictionary(instance: Luposdate3000Instance, key: String): RemoteDictionaryServer {
-        val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
-        dictionaryMapping[key] = dict
-        return dict
-    }
-
-    @Suppress("NOTHING_TO_INLNE")
-    private inline fun registerDictionary(instance: Luposdate3000Instance, key: String, dict: IDictionary): RemoteDictionaryServer {
-        val dict = RemoteDictionaryServer(dict, instance)
-        dictionaryMapping[key] = dict
-        return dict
-    }
-
-    @Suppress("NOTHING_TO_INLNE")
-    private inline fun removeDictionary(key: String) {
-        dictionaryMapping.remove(key)
     }
 
     private fun printHeaderSuccess(stream: IMyOutputStream) {
@@ -212,14 +192,8 @@ public object RestEndpoint {
                 }
             }
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
-            val query = node.getQuery()
-            val key = "${query.getTransactionID()}"
-            val dict = registerDictionary(instance, key, query.getDictionary())
-            query.setDictionaryServer(dict)
-            query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
             printHeaderSuccess(connectionOutMy)
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
-            removeDictionary(key)
             /*Coverage Unreachable*/
         }
         paths["/sparql/benchmark"] = PathMappingHelper(true, mapOf(Pair("minimumTime", "10") to ::inputElement, Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) {
@@ -243,10 +217,6 @@ public object RestEndpoint {
             val writer = MyPrintWriter(false)
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
             val query = node.getQuery()
-            val key = "${query.getTransactionID()}"
-            val dict = registerDictionary(instance, key, query.getDictionary())
-            query.setDictionaryServer(dict)
-            query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
             printHeaderSuccess(connectionOutMy)
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, evaluator)
             val timer = DateHelperRelative.markNow()
@@ -261,7 +231,6 @@ public object RestEndpoint {
                 }
             }
             connectionOutMy.println("$counter,${time * 1000.0},${counter / time},${params["query"]!!}")
-            removeDictionary(key)
             /*Coverage Unreachable*/
         }
         paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) {
@@ -278,13 +247,8 @@ public object RestEndpoint {
             }
             val query = Query(instance)
             val node = XMLElementToOPBase(query, XMLElementFromXML()(params["query"]!!)!!)
-            val key = "${query.getTransactionID()}"
-            val dict = registerDictionary(instance, key, query.getDictionary())
-            query.setDictionaryServer(dict)
-            query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
             printHeaderSuccess(connectionOutMy)
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
-            removeDictionary(key)
             /*Coverage Unreachable*/
         }
         paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) {
@@ -311,11 +275,14 @@ public object RestEndpoint {
             dict.connect(connectionInMy, connectionOutMy)
         }
         paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) {
-            registerDictionary(instance, params["key"]!!)
+            val key = params["key"]!!
+            val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
+            dictionaryMapping[key] = dict
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) {
-            removeDictionary(params["key"]!!)
+            val key = params["key"]!!
+            dictionaryMapping.remove(key)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {

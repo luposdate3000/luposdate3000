@@ -106,8 +106,8 @@ public object QueryResultToMemoryTable {
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${query.getInstance().tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
         }
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
@@ -165,7 +165,7 @@ public object QueryResultToMemoryTable {
             }
         }
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return resultList
     }
