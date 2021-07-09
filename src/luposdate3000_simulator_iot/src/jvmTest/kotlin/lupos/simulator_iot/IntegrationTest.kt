@@ -10,29 +10,18 @@ class IntegrationTest {
     }
 
     @Test
-    fun test1() {
-        IoTSimulation().simulate("$prefix/Exception_2Sensors1Database.json")
+    fun twoSensorOneDB() {
+        IoTSimulation().simulate("$prefix/twoSensorOneDB.json")
     }
 
     @Test
-    fun test2() {
-        IoTSimulation().simulate("$prefix/anotherException_2Sensor1Database.json")
+    fun twoDBWithOneSensor() {
+        IoTSimulation().simulate("$prefix/twoDBWithOneSensor.json")
     }
 
     @Test
-    fun test3() {
-        IoTSimulation().simulate("$prefix/Exception_2DBwith1Sensor.json")
-    }
-
-    @Test
-    fun test4() {
-        IoTSimulation().simulate("$prefix/star.json")
-    }
-
-    @Ignore
-    @Test
-    fun test5() {
-        IoTSimulation().simulate("$prefix/databasesAsStarRoots.json")
+    fun sensorFromStarSendOverMeshWithDB() {
+        IoTSimulation().simulate("$prefix/sensorFromStarSendOverMeshWithDB.json")
     }
 
     @Test

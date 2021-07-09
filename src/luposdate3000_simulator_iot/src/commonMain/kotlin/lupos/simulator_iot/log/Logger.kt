@@ -105,6 +105,7 @@ internal object Logger : ISimulationLifeCycle {
         val stream = File(logFile).openOutputStream(true)
         stream.println(content)
         stream.close()
+        println(content)
     }
 
     private fun resetCounters() {

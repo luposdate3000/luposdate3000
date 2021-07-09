@@ -24,7 +24,7 @@
             "name": "park2",
             "dataSink": "Gateway of WSN 2",
             "rateInSec": 32,
-            "maxSamples": 20
+            "maxSamples": 10
         }
     ],
     "deviceType": [{
@@ -107,14 +107,14 @@
             "starRoot": "Gateway of WSN 1",
             "linkType": "WPAN",
             "deviceType": "ParkingSensorDevice_1",
-            "number": 1
+            "number": 10
         },
         {
             "networkPrefix": "2",
             "starRoot": "Gateway of WSN 2",
             "linkType": "WPAN",
             "deviceType": "ParkingSensorDevice_2",
-            "number": 1
+            "number": 10
         }
     ]
 }
