@@ -105,7 +105,7 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByte(value: Byte): Int = value.toInt() // adapter for places, where always Byte are used
+    internal inline fun fromByte(value: Byte): Int = value.toInt()and 0xFF // adapter for places, where always Byte are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always String are used

@@ -105,7 +105,7 @@ internal object DictionaryValueHelperLong {
     internal inline fun fromInt(value: Int): Long = value.toLong() // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByte(value: Byte): Long = value.toLong() // adapter for places, where always Byte are used
+    internal inline fun fromByte(value: Byte): Long = value.toLong() and 0xFF // adapter for places, where always Byte are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromString(value: String): Long = value.toLong() // adapter for places, where always String are used
