@@ -25,7 +25,7 @@ internal class QuerySender(
     }
 
     override fun onStartUp() {
-        require(receiver.hasDatabase()) {"The query receiver device must have a database"}
+        require(receiver.hasDatabase()) { "The query receiver device must have a database" }
         setTimer(Time.toMillis(startClock), StartUpTimer())
     }
 
@@ -54,5 +54,4 @@ internal class QuerySender(
             scheduleQuery()
         }
     }
-
 }
