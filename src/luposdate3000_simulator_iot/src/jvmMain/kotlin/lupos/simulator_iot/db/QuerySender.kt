@@ -1,8 +1,10 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.db
 
 import lupos.simulator_core.Entity
-import lupos.simulator_iot.net.IPayload
-import lupos.simulator_iot.net.NetworkPackage
+import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_iot.Device
+import lupos.simulator_iot.Time
 
 internal class QuerySender(
     val name: String,
@@ -16,11 +18,14 @@ internal class QuerySender(
     internal var queryCounter = 0
         private set
 
+    internal var queryPck: IDatabasePackage = QueryPackage(receiver.address, query.encodeToByteArray())
+
     override fun onEvent(source: Entity, data: Any) {
         throw Exception("Wrong way. A QuerySender is only a sender.")
     }
 
     override fun onStartUp() {
+        require(receiver.hasDatabase()) {"The query receiver device must have a database"}
         setTimer(Time.toMillis(startClock), StartUpTimer())
     }
 
@@ -39,7 +44,7 @@ internal class QuerySender(
     private fun scheduleQuery() {
         if (queryCounter < maxNumberOfQueries) {
             queryCounter++
-            triggerQueryProcessing()
+            receiver.database!!.processIDatabasePackage(queryPck)
             setTimer(Time.toMillis(sendRateInSec), SendTimer())
         }
     }
@@ -50,15 +55,4 @@ internal class QuerySender(
         }
     }
 
-    private fun triggerQueryProcessing() {
-        val queryPck = QueryPackage(query)
-        val pck = NetworkPackage(-1, receiver.address, queryPck)
-        scheduleEvent(receiver, pck, 0)
-    }
-
-    public class QueryPackage(public val query: String) : IPayload {
-        override fun getSizeInBytes(): Int {
-            return query.encodeToByteArray().size
-        }
-    }
 }

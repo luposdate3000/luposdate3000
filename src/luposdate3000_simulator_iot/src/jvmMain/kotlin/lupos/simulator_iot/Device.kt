@@ -4,6 +4,7 @@ import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.db.DatabaseAdapter
+import lupos.simulator_iot.db.QuerySender
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
@@ -13,7 +14,6 @@ import lupos.simulator_iot.net.routing.IRoutingProtocol
 import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
-import kotlin.math.roundToLong
 
 internal class Device(
     internal var location: GeoLocation,
@@ -39,8 +39,7 @@ internal class Device(
          else {
              val processingDelay = getProcessingDelay()
              val transmissionDelay = linkManager.getTransmissionDelay(destinationAddress, pck.pckSize)
-            Logger.log("procdelay $processingDelay und transDelay $transmissionDelay")
-            transmissionDelay + getProcessingDelay()
+             transmissionDelay + processingDelay
         }
 
     }
@@ -91,12 +90,6 @@ internal class Device(
             database?.isDatabasePackage(pck.payload) == true -> {
                 database?.processPackage(pck.payload)
             }
-            pck.payload is QuerySender.QueryPackage -> {
-                requireNotNull(
-                    database
-                ) { "The device $address has no database configured to process the query." }
-                database!!.processQuery(pck.payload.query)
-            }
             else -> throw Exception("Undefined NetworkPackage or wrong device address.")
         }
     }
@@ -121,8 +114,6 @@ internal class Device(
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
-
-        //forwardPackage(pck)
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
         logSendPackage(pck, delay)

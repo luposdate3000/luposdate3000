@@ -64,14 +64,14 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
 
     private fun getSequenceNumber(destinationAddress: Int): Int {
         if (!sequenceCounters.containsKey(destinationAddress))
-            sequenceCounters[destinationAddress] = 0
+            sequenceCounters[destinationAddress] = 1
         else
             sequenceCounters[destinationAddress] = sequenceCounters[destinationAddress]!! + 1
 
         return sequenceCounters[destinationAddress]!!
     }
 
-    internal fun markSequenceEndings() {
+    internal fun markSequenceEnd() {
         for ((dest, number) in sequenceCounters) {
             val endPck = DBSequenceEndPackage(sender.getSenderAddress(), dest, number)
             sender.send(endPck)

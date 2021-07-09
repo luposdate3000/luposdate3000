@@ -12,6 +12,7 @@ import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 
@@ -37,6 +38,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         currentState = buildInitialStateObject()
         db.start(currentState)
         db.deactivate()
+        sequenceKeeper.markSequenceEnd()
     }
 
     private fun buildInitialStateObject(): DatabaseState {
@@ -51,6 +53,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     internal fun shutDown() {
         db.activate()
         db.end()
+        sequenceKeeper.markSequenceEnd()
         if (!isDummy) {
             File(pathDevice).deleteRecursively()
         }
@@ -64,7 +67,6 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             is DBSequenceEndPackage -> sequenceKeeper.receive(payload)
             else -> throw Exception("undefined payload")
         }
-        sequenceKeeper.markSequenceEndings()
     }
 
     private fun createFiles() {
@@ -82,24 +84,21 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         stream.close()
     }
 
-    private fun processDBInternPackage(pck: DBInternPackage) {
+    internal fun processIDatabasePackage(pck: IDatabasePackage) {
         db.activate()
-        db.receive(pck.content)
+        db.receive(pck)
         db.deactivate()
+        sequenceKeeper.markSequenceEnd()
     }
 
     internal fun saveParkingSample(sample: ParkingSample) {
-        val query = buildInsertQuery(sample)
+        val query = getInsertQueryString(sample)
         val bytes = query.encodeToByteArray()
-        receiveQuery(bytes)
+        val pck = QueryPackage(device.address, bytes)
+        processIDatabasePackage(pck)
     }
 
-    internal fun processQuery(query: String) {
-        val queryBytes = query.encodeToByteArray()
-        receiveQuery(queryBytes)
-    }
-
-    private fun buildInsertQuery(s: ParkingSample): String {
+    private fun getInsertQueryString(s: ParkingSample): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
             "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
@@ -112,13 +111,6 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
             "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
             "}\n"
-    }
-
-    //TODO nutze direkt das QueryPackage
-    private fun receiveQuery(data: ByteArray) {
-        db.activate()
-        db.receive(QueryPackage(device.address, data))
-        db.deactivate()
     }
 
     internal fun isDatabasePackage(pck: IPayload): Boolean {
@@ -156,8 +148,9 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         }
 
         override fun receive(pck: SequencedPackage) {
+            Logger.log("> DB of Device $device receives $pck at clock ${device.simulation.getCurrentClock()}")
             when (pck) {
-                is DBInternPackage -> processDBInternPackage(pck)
+                is DBInternPackage -> processIDatabasePackage(pck.content)
                 is DBQueryResultPackage -> processDBQueryResultPackage(pck)
                 else -> throw Exception("undefined payload")
             }
@@ -167,5 +160,6 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             return device.address
         }
     }
+
 
 }

@@ -29,7 +29,7 @@ internal object Configuration {
     internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
-    internal var querySenders: MutableList<lupos.simulator_iot.QuerySender> = mutableListOf()
+    internal var querySenders: MutableList<lupos.simulator_iot.db.QuerySender> = mutableListOf()
         private set
 
     internal var dbDeviceAddresses: IntArray = intArrayOf()
@@ -222,7 +222,7 @@ internal object Configuration {
 
     private fun createQuerySender(querySenderJson: QuerySender) {
         val receiverDevice = getNamedDevice(jsonObjects.rootRouter)
-        val querySender = lupos.simulator_iot.QuerySender(
+        val querySender = lupos.simulator_iot.db.QuerySender(
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,
             maxNumberOfQueries = querySenderJson.maxNumberOfQueries,

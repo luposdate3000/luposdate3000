@@ -10,4 +10,9 @@ internal class DBSequenceEndPackage(
     override fun getSizeInBytes(): Int {
         return 0
     }
+
+    override fun toString(): String {
+        return "DBSequenceEndPck(numberOfPacks $numberOfPackages)"
+    }
+
 }
