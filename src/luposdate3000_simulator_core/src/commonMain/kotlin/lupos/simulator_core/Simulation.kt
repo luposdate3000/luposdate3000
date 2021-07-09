@@ -84,10 +84,11 @@ public class Simulation(
         callback.onSteadyState()
     }
 
-    internal fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any) {
+    internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
+        require(delay >= 0) {"Clock cannot go backwards."}
         addedEventCounter++
-        val updatedOccurringTime = clock + occurrenceTime
-        val ev = Event(addedEventCounter, updatedOccurringTime, src, dest, data)
+        val occurringTime = clock + delay
+        val ev = Event(addedEventCounter, occurringTime, src, dest, data)
         futureEvents.enqueue(ev)
     }
 
