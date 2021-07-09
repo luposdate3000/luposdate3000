@@ -33,16 +33,7 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     public constructor() : this(ByteArray(20), 0)
 
     override fun compareTo(other: ByteArrayWrapper): Int {
-        var res = 0
-        var i = 0
-        while (i < size_ && i < other.size_ && res == 0) {
-            res = buf_[i] - other.buf_[i]
-            i++
-        }
-        if (res == 0) {
-            res = size_ - other.size_
-        }
-        return res
+return ByteArrayWrapperExt.compare_slow(this,other)
     }
 
     override fun equals(other: Any?): Boolean {

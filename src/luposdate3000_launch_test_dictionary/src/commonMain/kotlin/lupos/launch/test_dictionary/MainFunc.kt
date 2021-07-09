@@ -72,7 +72,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     override fun createNewBNode(): DictionaryValueType = TODO()
                     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
                     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) = TODO()
-                    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? = null
+                    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType = DictionaryValueHelper.nullValue
                     override fun isInmemoryOnly(): Boolean = true
                 }
             }
@@ -213,7 +213,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("testHasValueYesOk $targetKey $data")
                 }
-                var res: DictionaryValueType? = null
+                var res: DictionaryValueType=DictionaryValueHelper.nullValue
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
                 val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
@@ -239,7 +239,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 if (verbose) {
                     println("testHasValueNoOk $data")
                 }
-                var res: DictionaryValueType? = null
+                var res: DictionaryValueType=DictionaryValueHelper.nullValue
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
                 val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)

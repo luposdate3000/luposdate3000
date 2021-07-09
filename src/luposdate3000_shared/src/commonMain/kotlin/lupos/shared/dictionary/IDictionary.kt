@@ -26,7 +26,7 @@ public interface IDictionary {
     public fun createNewUUID(): Int
     public fun createNewBNode(s: String): DictionaryValueType
     public fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType)
-    public fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType?
+    public fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType
     public fun createValue(buffer: ByteArrayWrapper): DictionaryValueType
     public fun valueToGlobal(value: DictionaryValueType): DictionaryValueType
     public fun isBnode(value: DictionaryValueType): Boolean

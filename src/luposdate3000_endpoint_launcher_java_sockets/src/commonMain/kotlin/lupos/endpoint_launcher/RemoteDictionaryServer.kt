@@ -63,7 +63,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
         return dictionary.createNewUUID()
     }
 
-    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {
+    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         return dictionary.hasValue(buffer)
     }
 

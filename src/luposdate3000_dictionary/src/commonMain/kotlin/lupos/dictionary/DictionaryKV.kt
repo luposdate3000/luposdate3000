@@ -260,7 +260,7 @@ public class DictionaryKV internal constructor(
         return Pair(mymapping, DictionaryValueHelper.toInt(lastId + 1))
     }
 
-    public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {
+    public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:263"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:265"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.BLANK_NODE })
@@ -269,7 +269,7 @@ public class DictionaryKV internal constructor(
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:268"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.UNDEF })
         val res = vk.hasValue(buffer)
         if (res == ValueKeyStore.ID_NULL) {
-            return null
+            return DictionaryValueHelper.nullValue
         }
         return DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
     }

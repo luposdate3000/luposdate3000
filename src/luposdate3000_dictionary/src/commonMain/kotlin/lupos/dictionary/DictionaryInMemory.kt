@@ -173,7 +173,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         }
     }
 
-    public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? {
+    public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:176"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:177"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         val type = DictionaryHelper.byteArrayToType(buffer)
@@ -184,7 +184,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:183"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.UNDEF })
         val res = dataV2I[buffer]
         if (res == null) {
-            return null
+            return DictionaryValueHelper.nullValue
         }
         return res or DictionaryValueHelper.flagNoBNode
     }

@@ -40,7 +40,17 @@ public object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
     private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
-
+public fun registerDictionary(key:String):IDictionary{
+return registerDictionary(key,DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance))
+}
+public fun registerDictionary(key:String,dict:IDictionary):IDictionary{
+            val dict2 = RemoteDictionaryServer(dict, instance)
+            dictionaryMapping[key] = dict2
+return dict2
+}
+public fun removeDictionary(key:String){
+            dictionaryMapping.remove(key)
+}
     public fun distributed_graph_create(params: Map<String, String>, instance: Luposdate3000Instance) {
         val name = params["name"]!!
         val query = Query(instance)
@@ -276,13 +286,12 @@ public object RestEndpoint {
         }
         paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) {
             val key = params["key"]!!
-            val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
-            dictionaryMapping[key] = dict
+registerDictionary(key)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) {
             val key = params["key"]!!
-            dictionaryMapping.remove(key)
+removeDictionary(key)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
