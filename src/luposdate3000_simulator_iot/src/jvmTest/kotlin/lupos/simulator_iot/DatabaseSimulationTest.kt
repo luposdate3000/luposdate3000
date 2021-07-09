@@ -29,5 +29,4 @@ class DatabaseSimulationTest {
 
         assertEquals(8, g.processedSensorDataPackages)
     }
-
 }

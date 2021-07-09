@@ -16,7 +16,6 @@ import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 
-
 internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
@@ -122,18 +121,20 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        if (pck is QueryResponsePackage)
+        if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
-         else
+        } else {
             sendDBInternPackage(destinationAddress, pck)
+        }
     }
 
     private fun sendQueryResponse(destinationAddress: Int, pck: QueryResponsePackage) {
         val myResponsePackage = DBQueryResultPackage(device.address, destinationAddress, pck.result)
-        if (device.address == destinationAddress)
+        if (device.address == destinationAddress) {
             processDBQueryResultPackage(myResponsePackage)
-        else
+        } else {
             sequenceKeeper.sendSequencedPackage(myResponsePackage)
+        }
     }
 
     private fun sendDBInternPackage(destinationAddress: Int, pck: IDatabasePackage) {
@@ -145,7 +146,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
         return device.router.getNextDatabaseHops(destinationAddresses)
     }
 
-    private inner class SequencePackageSenderImpl: ISequencePackageSender {
+    private inner class SequencePackageSenderImpl : ISequencePackageSender {
 
         override fun send(pck: SequencedPackage) {
             device.sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck as IPayload)
@@ -164,6 +165,4 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             return device.address
         }
     }
-
-
 }

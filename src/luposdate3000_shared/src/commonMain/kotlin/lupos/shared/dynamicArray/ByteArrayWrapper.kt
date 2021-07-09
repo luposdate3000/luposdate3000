@@ -27,7 +27,7 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     public constructor(buf: ByteArray, size: Int) {
         this.buf_ = buf
         this.size_ = size
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt:29"/*SOURCE_FILE_END*/ }, { size <= buf.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt:29"/*SOURCE_FILE_END*/ }, { size <= buf.size })
     }
     public constructor(buf: ByteArray) : this(buf, buf.size)
     public constructor() : this(ByteArray(20), 0)

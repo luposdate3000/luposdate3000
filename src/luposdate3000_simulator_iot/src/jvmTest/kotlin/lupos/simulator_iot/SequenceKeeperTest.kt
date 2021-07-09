@@ -10,9 +10,10 @@ class SequenceKeeperTest {
 
     internal class SequencedPackageStub(
         sourceAddress: Int,
-        destinationAddress: Int) : SequencedPackage(sourceAddress, destinationAddress) {
-            var id = 0
-        }
+        destinationAddress: Int
+    ) : SequencedPackage(sourceAddress, destinationAddress) {
+        var id = 0
+    }
 
     @Test
     fun endPckArrivesAtFirst() {

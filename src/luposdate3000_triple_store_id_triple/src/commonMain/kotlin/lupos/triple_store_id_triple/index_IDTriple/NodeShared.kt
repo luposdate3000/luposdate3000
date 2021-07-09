@@ -53,21 +53,41 @@ internal object NodeShared {
     internal inline fun getTripleCount(node: ByteArray): Int {
         return BufferManagerPage.readInt4(node, 4)
     }
-
+    private val decodeTripleHeaderMapA = intArrayOf(0, 1, 2, 8)
+    private val decodeTripleHeaderMapBC = intArrayOf(0, 1, 2, 3, 4, 5, 6, 8)
     internal inline fun decodeTripleHeader(header: Int, crossinline action: (counter0: Int, counter1: Int, counter2: Int) -> Unit) {
-        action(header.rem(5), (header / 5).rem(5), header / 25)
+        var a = decodeTripleHeaderMapA[(header shr 6)and 0x3]
+        var b = decodeTripleHeaderMapBC[(header shr 3)and 0x7]
+        var c = decodeTripleHeaderMapBC[header and 0x7]
+        action(a, b, c)
     }
-
-    private inline fun encodeTripleHeader(counter0: Int, counter1: Int, counter2: Int, crossinline action: (header: Int) -> Unit) {
-        val header = counter0 + counter1 * 5 + counter2 * 25
-        action(header)
+    private val encodeTripleHeaderMapA = intArrayOf(0, 0x40, 0x80, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0)
+    private val encodeTripleHeaderMapB = intArrayOf(0, 0x08, 0x10, 0x18, 0x20, 0x28, 0x30, 0x38, 0x38)
+    private val encodeTripleHeaderMapC = intArrayOf(0, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x07)
+    private val encodeTripleHeaderCorrectA = intArrayOf(0, 1, 2, 8, 8, 8, 8, 8, 8)
+    private val encodeTripleHeaderCorrectBC = intArrayOf(0, 1, 2, 3, 4, 5, 6, 8, 8)
+    private inline fun encodeTripleHeader(counter0: Int, counter1: Int, counter2: Int, crossinline action: (header: Int, corrected0: Int, corrected1: Int, corrected2: Int) -> Unit) {
+        var header = 0
+        var corrected0: Int
+        var corrected1: Int
+        var corrected2: Int
+        corrected0 = encodeTripleHeaderCorrectA[counter0]
+        header = encodeTripleHeaderMapA[counter0]
+        corrected1 = encodeTripleHeaderCorrectBC[counter1]
+        header = header or encodeTripleHeaderMapB[counter1]
+        corrected2 = encodeTripleHeaderCorrectBC[counter2]
+        header = header or encodeTripleHeaderMapC[counter2]
+        action(header, corrected0, corrected1, corrected2)
         SanityCheck(
-            { /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:64"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:81"/*SOURCE_FILE_END*/ },
             {
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:83"/*SOURCE_FILE_END*/ }, { counter0 <= corrected0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:84"/*SOURCE_FILE_END*/ }, { counter1 <= corrected1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:85"/*SOURCE_FILE_END*/ }, { counter2 <= corrected2 })
                 decodeTripleHeader(header) { c0, c1, c2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:67"/*SOURCE_FILE_END*/ }, { c0 == counter0 })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:68"/*SOURCE_FILE_END*/ }, { c1 == counter1 })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:69"/*SOURCE_FILE_END*/ }, { c2 == counter2 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:87"/*SOURCE_FILE_END*/ }, { c0 == corrected0 }, { "$c0 == $corrected0" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:88"/*SOURCE_FILE_END*/ }, { c1 == corrected1 }, { "$c1 == $corrected1" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:89"/*SOURCE_FILE_END*/ }, { c2 == corrected2 }, { "$c2 == $corrected2" })
                 }
             }
         )
@@ -164,20 +184,23 @@ internal object NodeShared {
         val b0 = l[0] xor d[0]
         val b1 = l[1] xor d[1]
         val b2 = l[2] xor d[2]
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:166"/*SOURCE_FILE_END*/ }, { d[0] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:167"/*SOURCE_FILE_END*/ }, { d[1] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:168"/*SOURCE_FILE_END*/ }, { d[2] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:169"/*SOURCE_FILE_END*/ }, { l[0] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:170"/*SOURCE_FILE_END*/ }, { l[1] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:171"/*SOURCE_FILE_END*/ }, { l[2] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:172"/*SOURCE_FILE_END*/ }, { b0 >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:173"/*SOURCE_FILE_END*/ }, { b1 >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:174"/*SOURCE_FILE_END*/ }, { b2 >= 0 })
-        val counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
-        val counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
-        val counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
-        encodeTripleHeader(counter0, counter1, counter2) {
-            BufferManagerPage.writeInt1(node, offset, it)
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:186"/*SOURCE_FILE_END*/ }, { d[0] >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:187"/*SOURCE_FILE_END*/ }, { d[1] >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:188"/*SOURCE_FILE_END*/ }, { d[2] >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:189"/*SOURCE_FILE_END*/ }, { l[0] >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:190"/*SOURCE_FILE_END*/ }, { l[1] >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:191"/*SOURCE_FILE_END*/ }, { l[2] >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:192"/*SOURCE_FILE_END*/ }, { b0 >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:193"/*SOURCE_FILE_END*/ }, { b1 >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:194"/*SOURCE_FILE_END*/ }, { b2 >= 0 })
+        var counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
+        var counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
+        var counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
+        encodeTripleHeader(counter0, counter1, counter2) { header, corrected0, corrected1, corrected2 ->
+            BufferManagerPage.writeInt1(node, offset, header)
+            counter0 = corrected0
+            counter1 = corrected1
+            counter2 = corrected2
         }
         var localOff = offset + 1
         DictionaryValueHelper.toByteArrayX(node, localOff, b0, counter0)
@@ -187,38 +210,38 @@ internal object NodeShared {
         DictionaryValueHelper.toByteArrayX(node, localOff, b2, counter2)
         localOff += counter2
         SanityCheck(
-            { /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:189"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:212"/*SOURCE_FILE_END*/ },
             {
                 var size = readTriple000(node, offset)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:192"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:215"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
                 size = readTriple100(node, offset, l[0]) { n0 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:194"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:217"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:196"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:219"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
                 size = readTriple010(node, offset, l[1]) { n1 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:198"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:221"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:200"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:223"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
                 size = readTriple001(node, offset, l[2]) { n2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:202"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:225"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:204"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:227"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
                 size = readTriple110(node, offset, l[0], l[1]) { n0, n1 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:206"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:207"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:229"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:230"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:209"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:232"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
                 size = readTriple101(node, offset, l[0], l[2]) { n0, n2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:211"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:212"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:234"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:235"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:214"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:237"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
                 size = readTriple111(node, offset, l[0], l[1], l[2]) { n0, n1, n2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:216"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:217"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:218"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:239"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:240"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:241"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:220"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:243"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
             }
         )
         l[0] = d[0]

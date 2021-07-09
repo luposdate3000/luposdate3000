@@ -1,6 +1,5 @@
 package lupos.simulator_iot.db
 
-
 internal class SequenceKeeper(private val sender: ISequencePackageSender) {
 
     private val sequenceCounters: MutableMap<Int, Int> = mutableMapOf()
@@ -10,10 +9,11 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
     private val receiveBuffer: MutableMap<Int, MutableList<SequencedPackage>> = mutableMapOf()
 
     internal fun receive(pck: SequencedPackage) {
-        if(pck is DBSequenceEndPackage)
+        if (pck is DBSequenceEndPackage) {
             processSequenceEnd(pck)
-        else
+        } else {
             buff(pck)
+        }
 
         process(pck)
     }
@@ -23,22 +23,26 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
     }
 
     private fun buff(pck: SequencedPackage) {
-        if(!receiveBuffer.containsKey(pck.sourceAddress))
+        if (!receiveBuffer.containsKey(pck.sourceAddress)) {
             receiveBuffer[pck.sourceAddress] = mutableListOf()
+        }
         receiveBuffer[pck.sourceAddress]!!.add(pck)
     }
 
     private fun process(pck: SequencedPackage) {
-        if (!isEndPackageArrived(pck.sourceAddress))
+        if (!isEndPackageArrived(pck.sourceAddress)) {
             return
+        }
 
-        if(!isAtLeastOnePackageArrived(pck.sourceAddress))
+        if (!isAtLeastOnePackageArrived(pck.sourceAddress)) {
             return
+        }
 
         val numberOfPackagesInSequence = receivedNumbersOfPackages[pck.sourceAddress]!!
         val numberOfArrivedPackages = receiveBuffer[pck.sourceAddress]!!.size
-        if(numberOfArrivedPackages == numberOfPackagesInSequence)
+        if (numberOfArrivedPackages == numberOfPackagesInSequence) {
             flushBuffer(pck.sourceAddress)
+        }
     }
 
     private fun isEndPackageArrived(src: Int): Boolean {
@@ -57,16 +61,17 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
     }
 
     private fun receiveInOrder(packages: MutableList<SequencedPackage>) {
-        packages.sortBy {it.sequenceNumber}
+        packages.sortBy { it.sequenceNumber }
         for (pck in packages)
             sender.receive(pck)
     }
 
     private fun getSequenceNumber(destinationAddress: Int): Int {
-        if (!sequenceCounters.containsKey(destinationAddress))
+        if (!sequenceCounters.containsKey(destinationAddress)) {
             sequenceCounters[destinationAddress] = 1
-        else
+        } else {
             sequenceCounters[destinationAddress] = sequenceCounters[destinationAddress]!! + 1
+        }
 
         return sequenceCounters[destinationAddress]!!
     }
@@ -83,5 +88,4 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
         pck.sequenceNumber = getSequenceNumber(pck.destinationAddress)
         sender.send(pck)
     }
-
 }

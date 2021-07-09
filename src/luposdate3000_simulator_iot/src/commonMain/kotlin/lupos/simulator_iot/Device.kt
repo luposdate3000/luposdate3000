@@ -4,7 +4,6 @@ import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.db.DatabaseAdapter
-import lupos.simulator_iot.db.QuerySender
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
@@ -35,12 +34,12 @@ internal class Device(
     private lateinit var deviceStart: Instant
 
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
-        return if (destinationAddress == address)
+        return if (destinationAddress == address) {
             getProcessingDelay()
-         else {
-             val processingDelay = getProcessingDelay()
-             val transmissionDelay = linkManager.getTransmissionDelay(destinationAddress, pck.pckSize)
-             transmissionDelay + processingDelay
+        } else {
+            val processingDelay = getProcessingDelay()
+            val transmissionDelay = linkManager.getTransmissionDelay(destinationAddress, pck.pckSize)
+            transmissionDelay + processingDelay
         }
     }
 
