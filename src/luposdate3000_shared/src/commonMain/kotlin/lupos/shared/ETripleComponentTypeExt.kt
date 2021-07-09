@@ -32,7 +32,9 @@ public object ETripleComponentTypeExt {
     public const val STRING_LANG: ETripleComponentType = 10 // 0x0000000a
     public const val STRING_TYPED: ETripleComponentType = 11 // 0x0000000b
     public const val UNDEF: ETripleComponentType = 12 // 0x0000000c
-    public const val values_size: Int = 13
+    public const val _BYTEARRAYWRAPPER: ETripleComponentType = 13 // 0x0000000d
+    public const val _DICTIONARYID: ETripleComponentType = 14 // 0x0000000e
+    public const val values_size: Int = 15
     public const val values_mask: Int = 15 // 0x0000000f
     public const val values_mask_inversed: Int = 2147483632 // 0x7ffffff0
 
@@ -51,5 +53,7 @@ public object ETripleComponentTypeExt {
         "STRING_LANG",
         "STRING_TYPED",
         "UNDEF",
+        "_BYTEARRAYWRAPPER",
+        "_DICTIONARYID",
     )
 }
