@@ -23,22 +23,37 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal object DictionaryValueHelperLong {
-    @JvmField internal val booleanTrueValue: Long = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+    @JvmField internal val booleanTrueValue: Long = (0x0000000000000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
 
-    @JvmField internal val booleanFalseValue: Long = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+    @JvmField internal val booleanFalseValue: Long = (0x0000000000000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
 
-    @JvmField internal val errorValue: Long = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+    @JvmField internal val errorValue: Long = (0x0000000000000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
 
-    @JvmField internal val undefValue: Long = (0x00000003) /*lowest 5 values*/
+    @JvmField internal val undefValue: Long = (0x0000000000000003) /*lowest 5 values*/
 
-    @JvmField internal val nullValue: Long = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+    @JvmField internal val nullValue: Long = (0x0000000000000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
 
-    @JvmField internal val flagLocal: Long = 0x40000000
+    @JvmField internal val flagLocal: Long = 0x4000000000000000
 
-    @JvmField internal val flagNoBNode: Long = 0x20000000
+    @JvmField internal val flagNoBNode: Long = 0x2000000000000000
 
-    @JvmField internal val flagInlineValue:Int=0x10000000
-    @JvmField internal val maskValue: Int = 0x0FFFFFFF
+    @JvmField internal val flagInlineValue1: Long = 0x0400000000000000
+
+    @JvmField internal val flagInlineValue2: Long = 0x0800000000000000
+
+    @JvmField internal val flagInlineValue3: Long = 0x0c00000000000000
+
+    @JvmField internal val flagInlineValue4: Long = 0x1000000000000000
+
+    @JvmField internal val flagInlineValue5: Long = 0x1400000000000000
+
+    @JvmField internal val flagInlineValue6: Long = 0x1800000000000000
+
+    @JvmField internal val flagInlineValue7: Long = 0x1c00000000000000
+
+    @JvmField internal val flagInlineValue: Long = 0x1c00000000000000
+
+    @JvmField internal val maskValue: Long = 0x03FFFFFFFFFFFFFF
 
     @JvmField internal val NULL: Long = 0L
 
@@ -90,11 +105,14 @@ internal object DictionaryValueHelperLong {
     internal inline fun fromInt(value: Int): Long = value.toLong() // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun fromByte(value: Byte): Long = value.toLong() // adapter for places, where always Byte are used
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromString(value: String): Long = value.toLong() // adapter for places, where always String are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelper.kt:192"/*SOURCE_FILE_END*/ }, { value >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperLong.kt:114"/*SOURCE_FILE_END*/ }, { value >= 0 })
         if (value> 0xFFFFFFFF) {
             if (value> 0xFFFFFFFFFFFF) {
                 if (value> 0xFFFFFFFFFFFFFF) {

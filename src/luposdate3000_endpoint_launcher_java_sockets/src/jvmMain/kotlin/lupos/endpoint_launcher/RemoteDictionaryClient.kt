@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
-
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryCache
+import lupos.dictionary.DictionaryInlineValues
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
@@ -56,6 +56,12 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
+        if (instance.useDictionaryInlineEncoding) {
+            var res = DictionaryInlineValues.getValueByContent(buffer)
+            if (res != DictionaryValueHelper.nullValue) {
+                return res
+            }
+        }
         val tmp2 = instance.nodeGlobalDictionary!!.hasValue(buffer)
         if (tmp2 != DictionaryValueHelper.nullValue) {
             return tmp2
@@ -81,6 +87,12 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
+        if (instance.useDictionaryInlineEncoding) {
+            var res = DictionaryInlineValues.getValueByContent(buffer)
+            if (res != DictionaryValueHelper.nullValue) {
+                return res
+            }
+        }
         val tmp2 = instance.nodeGlobalDictionary!!.hasValue(buffer)
         if (tmp2 != DictionaryValueHelper.nullValue) {
             return tmp2
@@ -103,6 +115,12 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     }
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
+        if (instance.useDictionaryInlineEncoding) {
+            if (DictionaryInlineValues.getValueById(buffer, value)) {
+                return
+            }
+        }
+
         if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
             if (instance.dictionaryCacheCapacity> 0) {
                 val tmp = cache.getValueById(buffer, value)

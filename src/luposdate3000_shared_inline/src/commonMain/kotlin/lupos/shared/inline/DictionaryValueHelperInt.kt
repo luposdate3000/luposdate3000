@@ -36,8 +36,24 @@ internal object DictionaryValueHelperInt {
     @JvmField internal val flagLocal: Int = 0x40000000.toInt()
 
     @JvmField internal val flagNoBNode: Int = 0x20000000.toInt()
-    @JvmField internal val flagInlineValue:Int=0x10000000.toInt()
-    @JvmField internal val maskValue: Int = 0x0FFFFFFF.toInt()
+
+    @JvmField internal val flagInlineValue1: Int = 0x04000000.toInt()
+
+    @JvmField internal val flagInlineValue2: Int = 0x08000000.toInt()
+
+    @JvmField internal val flagInlineValue3: Int = 0x0c000000.toInt()
+
+    @JvmField internal val flagInlineValue4: Int = 0x10000000.toInt()
+
+    @JvmField internal val flagInlineValue5: Int = 0x14000000.toInt()
+
+    @JvmField internal val flagInlineValue6: Int = 0x18000000.toInt()
+
+    @JvmField internal val flagInlineValue7: Int = 0x1c000000.toInt()
+
+    @JvmField internal val flagInlineValue: Int = 0x1c000000.toInt()
+
+    @JvmField internal val maskValue: Int = 0x03FFFFFF.toInt()
 
     @JvmField internal val NULL: Int = 0
 
@@ -89,11 +105,14 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun fromByte(value: Byte): Int = value.toInt() // adapter for places, where always Byte are used
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always String are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Int): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelper.kt:95"/*SOURCE_FILE_END*/ }, { value >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperInt.kt:114"/*SOURCE_FILE_END*/ }, { value >= 0 })
         if (value> 0xFFFF) {
             if (value> 0xFFFFFF) {
                 return 4

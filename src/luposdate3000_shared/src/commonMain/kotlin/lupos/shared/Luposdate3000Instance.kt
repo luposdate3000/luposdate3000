@@ -82,6 +82,9 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var dictionaryCacheCapacity: Int = 200 // set to 0 for disable
+
+    @JvmField
+    public var useDictionaryInlineEncoding: Boolean = true
     init {
         if (LUPOS_PROCESS_URLS.size> 1) {
             maxThreads = LUPOS_PROCESS_URLS.size
