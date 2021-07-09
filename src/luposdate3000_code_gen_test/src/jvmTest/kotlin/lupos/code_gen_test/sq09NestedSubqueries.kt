@@ -41,11 +41,19 @@ public class sq09NestedSubqueries {
     )
     internal val targetData = File("src/jvmTest/resources/sq09NestedSubqueries.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq09NestedSubqueries.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select * where { \n" +
+        "{select * where {  \n" +
+        "  {select ?x where {?x ex:q ?t}} \n" +
+        "}} \n" +
+        "?x ex:p ?y  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq09  Nested Subqueries`() {
+    public fun `sq09  Nested Subqueries`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +83,7 @@ public class sq09NestedSubqueries {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq09  Nested Subqueries - in simulator`() {
+    public fun `sq09  Nested Subqueries - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,17 @@ public class RDFSinferencetestrange {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetestrange.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetestrange.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "SELECT ?x \n" +
+        "WHERE { \n" +
+        "  ?x rdf:type ex:cType . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `RDFS inference test range`() {
+    public fun `RDFS inference test range`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class RDFSinferencetestrange {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `RDFS inference test range - in simulator`() {
+    public fun `RDFS inference test range - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

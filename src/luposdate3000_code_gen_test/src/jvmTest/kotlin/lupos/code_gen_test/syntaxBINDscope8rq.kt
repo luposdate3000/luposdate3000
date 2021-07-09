@@ -16,18 +16,27 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxBINDscope8rq {
-    internal val query = File("src/jvmTest/resources/syntaxBINDscope8rq.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org> \n" +
+        "SELECT * \n" +
+        "  { \n" +
+        "    { \n" +
+        "       { :s :p ?Y } \n" +
+        "       UNION \n" +
+        "       { :s :p ?Z } \n" +
+        "    } \n" +
+        "   BIND (1 AS ?Y)  \n" +
+        " } \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    fun `syntaxBINDscope8rq`() {
+    public fun `syntaxBINDscope8rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

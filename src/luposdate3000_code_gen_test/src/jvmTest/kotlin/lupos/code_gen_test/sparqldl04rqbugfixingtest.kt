@@ -41,11 +41,19 @@ public class sparqldl04rqbugfixingtest {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl04rqbugfixingtest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl04rqbugfixingtest.query").readAsString()
+    internal val query = "# Query4 \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT ?X ?Y1 ?Y2 \n" +
+        "WHERE \n" +
+        "{?X rdf:type :Person . \n" +
+        "?X  :name ?Y1 . \n" +
+        "?X  :nick ?Y2 .} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl04rq bug fixing test`() {
+    public fun `sparqldl04rq bug fixing test`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +83,7 @@ public class sparqldl04rqbugfixingtest {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl04rq bug fixing test - in simulator`() {
+    public fun `sparqldl04rq bug fixing test - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

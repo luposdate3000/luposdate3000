@@ -48,10 +48,11 @@ public class ADDSILENT {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/ADDSILENT.query").readAsString()
+    internal val query = "ADD SILENT GRAPH <http://www.example.com/g1> TO GRAPH <http://www.example.com/g2> \n" +
+        ""
 
     @Test
-    fun `ADD SILENT`() {
+    public fun `ADD SILENT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -84,7 +85,7 @@ public class ADDSILENT {
     }
 
     @Test
-    fun `ADD SILENT - in simulator`() {
+    public fun `ADD SILENT - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -16,15 +16,14 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class LOADSILENT {
-    internal val query = File("src/jvmTest/resources/LOADSILENT.query").readAsString()
+    internal val query = "LOAD SILENT <somescheme://www.example.com/THIS-GRAPH-DOES-NOT-EXIST/>"
 
     @Test
-    fun `LOAD SILENT`() {
+    public fun `LOAD SILENT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

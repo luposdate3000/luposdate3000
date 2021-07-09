@@ -41,11 +41,16 @@ public class Existswithoneconstant {
     )
     internal val targetData = File("src/jvmTest/resources/Existswithoneconstant.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Existswithoneconstant.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/> \n" +
+        "select * where { \n" +
+        "?s ?p ?o \n" +
+        "filter exists {?s ?p ex:o} \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Exists with one constant`() {
+    public fun `Exists with one constant`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class Existswithoneconstant {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Exists with one constant - in simulator`() {
+    public fun `Exists with one constant - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,17 @@ public class sq10Subquerywithexists {
     )
     internal val targetData = File("src/jvmTest/resources/sq10Subquerywithexists.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq10Subquerywithexists.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x  where { \n" +
+        "{select * where {?x ex:p ?y}}  \n" +
+        "filter(exists {?x ex:q ?y})  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq10  Subquery with exists`() {
+    public fun `sq10  Subquery with exists`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class sq10Subquerywithexists {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq10  Subquery with exists - in simulator`() {
+    public fun `sq10  Subquery with exists - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

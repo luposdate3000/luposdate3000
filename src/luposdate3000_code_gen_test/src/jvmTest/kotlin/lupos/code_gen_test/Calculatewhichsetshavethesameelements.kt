@@ -41,11 +41,37 @@ public class Calculatewhichsetshavethesameelements {
     )
     internal val targetData = File("src/jvmTest/resources/Calculatewhichsetshavethesameelements.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Calculatewhichsetshavethesameelements.query").readAsString()
+    internal val query = "PREFIX :    <http://example/> \n" +
+        "PREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "# Find sets that have exactly the same members. \n" +
+        "# Find all (s1,s2) such that (s1 subset of s) and (s2 subset of s1). \n" +
+        "SELECT DISTINCT ?s1 ?s2 \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "    # All pairs of sets (no duplicates, not reveres pairs) \n" +
+        "    ?s2 rdf:type :Set . \n" +
+        "    ?s1 rdf:type :Set . \n" +
+        "    FILTER(str(?s1) < str(?s2)) \n" +
+        "    MINUS  \n" +
+        "    { \n" +
+        "        ?s1 rdf:type :Set . \n" +
+        "        ?s2 rdf:type :Set . \n" +
+        "        ?s1 :member ?x . \n" +
+        "        FILTER NOT EXISTS { ?s2 :member ?x . } \n" +
+        "    } \n" +
+        "    MINUS  \n" +
+        "    { \n" +
+        "        ?s1 rdf:type :Set . \n" +
+        "        ?s2 rdf:type :Set . \n" +
+        "        ?s2 :member ?x . \n" +
+        "        FILTER NOT EXISTS { ?s1 :member ?x . } \n" +
+        "    } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Calculate which sets have the same elements`() {
+    public fun `Calculate which sets have the same elements`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +101,7 @@ public class Calculatewhichsetshavethesameelements {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Calculate which sets have the same elements - in simulator`() {
+    public fun `Calculate which sets have the same elements - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

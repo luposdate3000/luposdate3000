@@ -16,17 +16,17 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxaggregate15rq {
-    internal val query = File("src/jvmTest/resources/syntaxaggregate15rq.query").readAsString()
+    internal val query = "SELECT (GROUP_CONCAT(?x; SEPARATOR=';') AS ?y) {} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `syntaxaggregate15rq`() {
+    public fun `syntaxaggregate15rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

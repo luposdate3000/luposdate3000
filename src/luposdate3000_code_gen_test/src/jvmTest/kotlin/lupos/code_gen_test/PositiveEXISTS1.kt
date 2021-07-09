@@ -41,11 +41,22 @@ public class PositiveEXISTS1 {
     )
     internal val targetData = File("src/jvmTest/resources/PositiveEXISTS1.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PositiveEXISTS1.query").readAsString()
+    internal val query = "PREFIX :    <http://example/> \n" +
+        "PREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "# SPARQL 1.1 \n" +
+        "SELECT * \n" +
+        "WHERE \n" +
+        "{ \n" +
+        " ?set a :Set . \n" +
+        " FILTER EXISTS { \n" +
+        "  ?set :member 9 \n" +
+        " } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Positive EXISTS 1`() {
+    public fun `Positive EXISTS 1`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +86,7 @@ public class PositiveEXISTS1 {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Positive EXISTS 1 - in simulator`() {
+    public fun `Positive EXISTS 1 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

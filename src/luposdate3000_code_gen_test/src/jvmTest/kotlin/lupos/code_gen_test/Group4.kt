@@ -40,10 +40,18 @@ public class Group4 {
     )
     internal val targetData = File("src/jvmTest/resources/Group4.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Group4.query").readAsString()
+    internal val query = "PREFIX :        <http://example/> \n" +
+        "PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?X (SAMPLE(?v) AS ?S) \n" +
+        "{ \n" +
+        "  ?s :p ?v . \n" +
+        "  OPTIONAL { ?s :q ?w } \n" +
+        "} \n" +
+        "GROUP BY (COALESCE(?w, \"1605-11-05\"^^xsd:date) AS ?X)  \n" +
+        ""
 
     @Test
-    fun `Group4`() {
+    public fun `Group4`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +80,7 @@ public class Group4 {
     }
 
     @Test
-    fun `Group4 - in simulator`() {
+    public fun `Group4 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

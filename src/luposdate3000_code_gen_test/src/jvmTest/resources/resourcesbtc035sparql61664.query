@@ -1,8 +1,0 @@
-#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012
-SELECT DISTINCT ?a ?y WHERE {
- ?a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/class/yago/Politician110451263> .
- ?a <http://dbpedia.org/property/years> ?y .
- ?a <http://xmlns.com/foaf/0.1/name> ?n .
- ?b ?c ?n .
- ?b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/OfficeHolder> .
-}

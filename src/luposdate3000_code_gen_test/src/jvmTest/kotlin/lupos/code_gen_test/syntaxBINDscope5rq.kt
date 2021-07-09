@@ -16,15 +16,21 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxBINDscope5rq {
-    internal val query = File("src/jvmTest/resources/syntaxBINDscope5rq.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org> \n" +
+        "SELECT * \n" +
+        "   { \n" +
+        "    { :s :p ?Y } \n" +
+        "     UNION \n" +
+        "    { BIND (1 AS ?Y) }  \n" +
+        "   } \n" +
+        ""
 
     @Test
-    fun `syntaxBINDscope5rq`() {
+    public fun `syntaxBINDscope5rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

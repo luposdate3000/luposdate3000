@@ -41,11 +41,17 @@ public class resourcesbtc020sparql80 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbtc020sparql80.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbtc020sparql80.query").readAsString()
+    internal val query = "#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009 \n" +
+        "select * where { \n" +
+        " ?m <http://purl.org/dc/elements/1.1/title> ?t . \n" +
+        " ?x <http://xmlns.com/foaf/0.1/made> ?m . \n" +
+        " ?x <http://xmlns.com/foaf/0.1/nick> ?i . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbtc020sparql80`() {
+    public fun `resourcesbtc020sparql80`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class resourcesbtc020sparql80 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbtc020sparql80 - in simulator`() {
+    public fun `resourcesbtc020sparql80 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

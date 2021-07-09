@@ -16,18 +16,31 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class DELETEINSERT5 {
-    internal val query = File("src/jvmTest/resources/DELETEINSERT5.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows [] . \n" +
+        "} \n" +
+        "INSERT \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?a . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?a foaf:name \"Alan\" . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `DELETE INSERT 5`() {
+    public fun `DELETE INSERT 5`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

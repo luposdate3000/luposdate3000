@@ -16,17 +16,19 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxconstructwhere02rq {
-    internal val query = File("src/jvmTest/resources/syntaxconstructwhere02rq.query").readAsString()
+    internal val query = "CONSTRUCT  \n" +
+        "FROM <file> \n" +
+        "WHERE { ?s ?p 1816 } \n" +
+        ""
 
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
-    fun `syntaxconstructwhere02rq`() {
+    public fun `syntaxconstructwhere02rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

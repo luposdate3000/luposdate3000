@@ -41,11 +41,15 @@ public class pp31Operatorprecedence2 {
     )
     internal val targetData = File("src/jvmTest/resources/pp31Operatorprecedence2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp31Operatorprecedence2.query").readAsString()
+    internal val query = "prefix :  <http://www.example.org/> \n" +
+        "select ?t \n" +
+        "where { \n" +
+        "  :a (:p1|:p2)/(:p3|:p4) ?t \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp31 Operator precedence 2`() {
+    public fun `pp31 Operator precedence 2`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class pp31Operatorprecedence2 {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp31 Operator precedence 2 - in simulator`() {
+    public fun `pp31 Operator precedence 2 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

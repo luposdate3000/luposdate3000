@@ -49,11 +49,13 @@ public class Simpleinsertdatanamed3 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/Simpleinsertdatanamed3.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/ns#> \n" +
+        "INSERT DATA { GRAPH <http://example.org/g1> { :s :p :o } } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Simple insert data named 3`() {
+    public fun `Simple insert data named 3`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -87,7 +89,7 @@ public class Simpleinsertdatanamed3 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Simple insert data named 3 - in simulator`() {
+    public fun `Simple insert data named 3 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

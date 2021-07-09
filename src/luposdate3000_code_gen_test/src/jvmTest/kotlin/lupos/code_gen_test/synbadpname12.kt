@@ -16,16 +16,20 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbadpname12 {
-    internal val query = File("src/jvmTest/resources/synbadpname12.query").readAsString()
+    internal val query = "PREFIX z: <http://example/> \n" +
+        "SELECT * \n" +
+        "{ \n" +
+        "  z:a z:b ?x:c . \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `synbadpname12`() {
+    public fun `synbadpname12`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

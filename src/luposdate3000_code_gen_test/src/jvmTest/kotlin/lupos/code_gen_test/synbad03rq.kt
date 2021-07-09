@@ -16,18 +16,18 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbad03rq {
-    internal val query = File("src/jvmTest/resources/synbad03rq.query").readAsString()
+    internal val query = "SELECT (1 AS ?X) (1 AS ?X) {} \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    fun `synbad03rq`() {
+    public fun `synbad03rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

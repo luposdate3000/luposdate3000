@@ -60,10 +60,12 @@ public class CLEARDEFAULT {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CLEARDEFAULT.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "CLEAR DEFAULT \n" +
+        ""
 
     @Test
-    fun `CLEAR DEFAULT`() {
+    public fun `CLEAR DEFAULT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -142,7 +144,7 @@ public class CLEARDEFAULT {
     }
 
     @Test
-    fun `CLEAR DEFAULT - in simulator`() {
+    public fun `CLEAR DEFAULT - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

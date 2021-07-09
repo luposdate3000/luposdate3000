@@ -41,11 +41,15 @@ public class BNODE {
     )
     internal val targetData = File("src/jvmTest/resources/BNODE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/BNODE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT (BNODE() AS ?b1) (BNODE() AS ?b2) \n" +
+        "WHERE {} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `BNODE`() {
+    public fun `BNODE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class BNODE {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `BNODE - in simulator`() {
+    public fun `BNODE - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

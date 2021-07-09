@@ -16,15 +16,18 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class PrefixNamewithhexencodedcolons {
-    internal val query = File("src/jvmTest/resources/PrefixNamewithhexencodedcolons.query").readAsString()
+    internal val query = "PREFIX og: <http://ogp.me/ns#> \n" +
+        "SELECT * WHERE { \n" +
+        " ?page og:audio%3Atitle ?title \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `PrefixName with hexencoded colons`() {
+    public fun `PrefixName with hexencoded colons`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

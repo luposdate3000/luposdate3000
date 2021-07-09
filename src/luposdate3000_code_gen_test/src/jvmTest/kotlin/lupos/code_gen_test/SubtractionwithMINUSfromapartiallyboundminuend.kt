@@ -41,11 +41,23 @@ public class SubtractionwithMINUSfromapartiallyboundminuend {
     )
     internal val targetData = File("src/jvmTest/resources/SubtractionwithMINUSfromapartiallyboundminuend.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SubtractionwithMINUSfromapartiallyboundminuend.query").readAsString()
+    internal val query = "prefix : <http://example/> \n" +
+        "select ?a ?b ?c { \n" +
+        "  ?a a :Min \n" +
+        "  OPTIONAL { ?a :p1 ?b } \n" +
+        "  OPTIONAL { ?a :p2 ?c } \n" +
+        "  MINUS { \n" +
+        "    ?d a :Sub \n" +
+        "    OPTIONAL { ?d :q1 ?b } \n" +
+        "    OPTIONAL { ?d :q2 ?c } \n" +
+        "  } \n" +
+        "} \n" +
+        "order by ?a \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Subtraction with MINUS from a partially bound minuend`() {
+    public fun `Subtraction with MINUS from a partially bound minuend`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -60,14 +72,14 @@ public class SubtractionwithMINUSfromapartiallyboundminuend {
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
-        if (!expected0.equalsVerbose(actual0, false, true, buf_err0)) {
+        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()
-        if (!expected1.equalsVerbose(actual1, false, true, buf_err1)) {
+        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         LuposdateEndpoint.close(instance)
@@ -75,7 +87,7 @@ public class SubtractionwithMINUSfromapartiallyboundminuend {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Subtraction with MINUS from a partially bound minuend - in simulator`() {
+    public fun `Subtraction with MINUS from a partially bound minuend - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

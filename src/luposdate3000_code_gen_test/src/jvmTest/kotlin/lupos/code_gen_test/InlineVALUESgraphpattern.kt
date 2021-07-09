@@ -40,10 +40,19 @@ public class InlineVALUESgraphpattern {
     )
     internal val targetData = File("src/jvmTest/resources/InlineVALUESgraphpattern.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/InlineVALUESgraphpattern.query").readAsString()
+    internal val query = "PREFIX dc:   <http://purl.org/dc/elements/1.1/>  \n" +
+        "PREFIX :     <http://example.org/book/>  \n" +
+        "PREFIX ns:   <http://example.org/ns#>  \n" +
+        "SELECT ?book ?title ?price \n" +
+        "{ \n" +
+        "   VALUES ?book { :book1 } \n" +
+        "   ?book dc:title ?title ; \n" +
+        "         ns:price ?price . \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `Inline VALUES graph pattern`() {
+    public fun `Inline VALUES graph pattern`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +81,7 @@ public class InlineVALUESgraphpattern {
     }
 
     @Test
-    fun `Inline VALUES graph pattern - in simulator`() {
+    public fun `Inline VALUES graph pattern - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

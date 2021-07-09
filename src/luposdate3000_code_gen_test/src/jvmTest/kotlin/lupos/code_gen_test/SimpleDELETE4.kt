@@ -49,11 +49,22 @@ public class SimpleDELETE4 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETE4.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  GRAPH <http://example.org/g1> { ?s ?p ?o } \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  GRAPH <http://example.org/g1> { ?s foaf:knows :c . \n" +
+        "                                  ?s ?p ?o } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Simple DELETE 4`() {
+    public fun `Simple DELETE 4`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -87,7 +98,7 @@ public class SimpleDELETE4 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Simple DELETE 4 - in simulator`() {
+    public fun `Simple DELETE 4 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

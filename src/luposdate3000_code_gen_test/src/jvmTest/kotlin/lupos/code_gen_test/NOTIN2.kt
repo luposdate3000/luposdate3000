@@ -41,11 +41,14 @@ public class NOTIN2 {
     )
     internal val targetData = File("src/jvmTest/resources/NOTIN2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/NOTIN2.query").readAsString()
+    internal val query = "ASK { \n" +
+        " FILTER(2 NOT IN (1/0, 2)) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `NOT IN 2`() {
+    public fun `NOT IN 2`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +78,7 @@ public class NOTIN2 {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `NOT IN 2 - in simulator`() {
+    public fun `NOT IN 2 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

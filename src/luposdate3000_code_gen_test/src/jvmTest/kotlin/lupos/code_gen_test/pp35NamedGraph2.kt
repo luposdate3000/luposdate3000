@@ -47,11 +47,17 @@ public class pp35NamedGraph2 {
     )
     internal val targetData = File("src/jvmTest/resources/pp35NamedGraph2.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp35NamedGraph2.query").readAsString()
+    internal val query = "prefix :  <http://www.example.org/> \n" +
+        "select ?t \n" +
+        "where { \n" +
+        "  GRAPH ?g { \n" +
+        "    ?s :p1* ?t } \n" +
+        "  FILTER (?g = <ng-01.ttl>) \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp35 Named Graph 2`() {
+    public fun `pp35 Named Graph 2`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -109,7 +115,7 @@ public class pp35NamedGraph2 {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp35 Named Graph 2 - in simulator`() {
+    public fun `pp35 Named Graph 2 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,15 @@ public class pp01Simplepath {
     )
     internal val targetData = File("src/jvmTest/resources/pp01Simplepath.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp01Simplepath.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select * where { \n" +
+        "in:a ex:p1/ex:p2/ex:p3 ?x \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp01 Simple path`() {
+    public fun `pp01 Simple path`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class pp01Simplepath {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp01 Simple path - in simulator`() {
+    public fun `pp01 Simple path - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,22 @@ public class sparqldl06rqcycleofundistinguishedvariables {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl06rqcycleofundistinguishedvariables.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl06rqcycleofundistinguishedvariables.query").readAsString()
+    internal val query = "# Query6 - cycle with undistinguished variables \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "ASK \n" +
+        "WHERE \n" +
+        "{ \n" +
+        ":a :p _:aa. \n" +
+        "_:aa :r _:dd. \n" +
+        "_:dd :t _:bb. \n" +
+        "_:bb :s :a. \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl06rq cycle of undistinguished variables`() {
+    public fun `sparqldl06rq cycle of undistinguished variables`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +86,7 @@ public class sparqldl06rqcycleofundistinguishedvariables {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl06rq cycle of undistinguished variables - in simulator`() {
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

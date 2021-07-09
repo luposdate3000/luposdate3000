@@ -41,11 +41,16 @@ public class NOW {
     )
     internal val targetData = File("src/jvmTest/resources/NOW.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/NOW.query").readAsString()
+    internal val query = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "ASK { \n" +
+        " BIND(NOW() AS ?n) \n" +
+        " FILTER(DATATYPE(?n) = xsd:dateTime) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `NOW`() {
+    public fun `NOW`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class NOW {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `NOW - in simulator`() {
+    public fun `NOW - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -54,10 +54,11 @@ public class COPY1 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/COPY1.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "COPY DEFAULT TO :g1"
 
     @Test
-    fun `COPY 1`() {
+    public fun `COPY 1`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -113,7 +114,7 @@ public class COPY1 {
     }
 
     @Test
-    fun `COPY 1 - in simulator`() {
+    public fun `COPY 1 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

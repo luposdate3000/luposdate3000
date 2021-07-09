@@ -41,11 +41,19 @@ public class Reuseaprojectexpressionvariableinselect {
     )
     internal val targetData = File("src/jvmTest/resources/Reuseaprojectexpressionvariableinselect.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Reuseaprojectexpressionvariableinselect.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x ?y ?z \n" +
+        "  ((?y + ?z) as ?sum)  \n" +
+        "  ((2 * ?sum) as ?twice) \n" +
+        "where { \n" +
+        "  ?x ex:p ?y . \n" +
+        "  ?x ex:q ?z \n" +
+        "}"
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Reuse a project expression variable in select`() {
+    public fun `Reuse a project expression variable in select`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +83,7 @@ public class Reuseaprojectexpressionvariableinselect {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Reuse a project expression variable in select - in simulator`() {
+    public fun `Reuse a project expression variable in select - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

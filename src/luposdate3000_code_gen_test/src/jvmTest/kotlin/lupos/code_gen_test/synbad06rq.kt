@@ -16,16 +16,16 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbad06rq {
-    internal val query = File("src/jvmTest/resources/synbad06rq.query").readAsString()
+    internal val query = "SELECT (SUM(?x,?y) AS ?S) {} \n" +
+        ""
 
     @Test
-    fun `synbad06rq`() {
+    public fun `synbad06rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

@@ -23,5 +23,5 @@ internal fun mainFunc(): Unit = Parallel.runBlocking {
     // IoTSimulation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")
     // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2DBwith1Sensor.json")
     // IoTSimulation().simulate("${FilePaths.jvmResource}/star.json")
-    IoTSimulation().measureStarPerformance()
+    IoTSimulation().measureStarPerformance(true)
 }

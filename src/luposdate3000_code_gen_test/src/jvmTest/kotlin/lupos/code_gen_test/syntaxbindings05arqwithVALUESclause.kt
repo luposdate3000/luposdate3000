@@ -16,15 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxbindings05arqwithVALUESclause {
-    internal val query = File("src/jvmTest/resources/syntaxbindings05arqwithVALUESclause.query").readAsString()
+    internal val query = "SELECT * { } VALUES (?x ?y) { (1 2) } \n" +
+        ""
 
     @Test
-    fun `syntaxbindings05arq with VALUES clause`() {
+    public fun `syntaxbindings05arq with VALUES clause`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

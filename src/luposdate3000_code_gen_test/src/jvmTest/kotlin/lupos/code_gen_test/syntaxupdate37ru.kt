@@ -16,15 +16,16 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate37ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate37ru.query").readAsString()
+    internal val query = "CREATE GRAPH <g> ; \n" +
+        "LOAD <remote> INTO GRAPH <g> ; \n" +
+        ""
 
     @Test
-    fun `syntaxupdate37ru`() {
+    public fun `syntaxupdate37ru`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

@@ -41,11 +41,16 @@ public class papersparqldlQ1rdfs {
     )
     internal val targetData = File("src/jvmTest/resources/papersparqldlQ1rdfs.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/papersparqldlQ1rdfs.query").readAsString()
+    internal val query = "PREFIX   ex:  <http://example.org/> \n" +
+        "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "SELECT ?c \n" +
+        "WHERE {  \n" +
+        " ?c rdfs:subClassOf ex:Student .  \n" +
+        "}"
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `papersparqldlQ1rdfs`() {
+    public fun `papersparqldlQ1rdfs`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class papersparqldlQ1rdfs {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `papersparqldlQ1rdfs - in simulator`() {
+    public fun `papersparqldlQ1rdfs - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -40,10 +40,16 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
     )
     internal val targetData = File("src/jvmTest/resources/sq12SubqueryinCONSTRUCTwithbuiltins.output").readAsString()
     internal val targetType = ".ttl"
-    internal val query = File("src/jvmTest/resources/sq12SubqueryinCONSTRUCTwithbuiltins.query").readAsString()
+    internal val query = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
+        "CONSTRUCT{ ?P foaf:name ?FullName } \n" +
+        "WHERE { \n" +
+        " SELECT ?P ( CONCAT(?F, \" \", ?L) AS ?FullName )  \n" +
+        " WHERE { ?P foaf:firstName ?F ; foaf:lastName ?L. } \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `sq12  Subquery in CONSTRUCT with builtins`() {
+    public fun `sq12  Subquery in CONSTRUCT with builtins`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +78,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
     }
 
     @Test
-    fun `sq12  Subquery in CONSTRUCT with builtins - in simulator`() {
+    public fun `sq12  Subquery in CONSTRUCT with builtins - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

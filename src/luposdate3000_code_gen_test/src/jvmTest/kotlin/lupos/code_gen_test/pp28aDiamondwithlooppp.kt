@@ -41,11 +41,15 @@ public class pp28aDiamondwithlooppp {
     )
     internal val targetData = File("src/jvmTest/resources/pp28aDiamondwithlooppp.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp28aDiamondwithlooppp.query").readAsString()
+    internal val query = "prefix : <http://example/>  \n" +
+        "select * where { \n" +
+        "    :a (:p/:p)? ?t \n" +
+        "}  \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp28a Diamond with loop  pp`() {
+    public fun `pp28a Diamond with loop  pp`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class pp28aDiamondwithlooppp {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp28a Diamond with loop  pp - in simulator`() {
+    public fun `pp28a Diamond with loop  pp - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

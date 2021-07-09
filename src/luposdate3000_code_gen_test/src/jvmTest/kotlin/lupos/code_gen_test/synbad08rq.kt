@@ -16,16 +16,16 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbad08rq {
-    internal val query = File("src/jvmTest/resources/synbad08rq.query").readAsString()
+    internal val query = "SELECT * { ?s ?p ?o UNION ?s ?p ?o  } \n" +
+        ""
 
     @Test
-    fun `synbad08rq`() {
+    public fun `synbad08rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

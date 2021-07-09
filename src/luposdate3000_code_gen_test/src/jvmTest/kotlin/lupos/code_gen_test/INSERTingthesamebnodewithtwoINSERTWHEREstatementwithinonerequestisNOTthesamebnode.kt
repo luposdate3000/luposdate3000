@@ -52,11 +52,29 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnode.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "# starting with an empty graph store, \n" +
+        "# insert the same bnode in two different graphs... \n" +
+        "INSERT  { GRAPH :g1  { _:b :p :o } } WHERE { ?X :p :o };  \n" +
+        "INSERT  { GRAPH :g2  { _:b :p :o } } WHERE { ?X :q :r }; \n" +
+        "# ... then copy g1 to g2 ... \n" +
+        "INSERT { GRAPH :g2  { ?S ?P ?O } } \n" +
+        " WHERE { GRAPH :g1  { ?S ?P ?O } } ; \n" +
+        "# ... by which the number of triples in  \n" +
+        "# g2 should increase \n" +
+        "INSERT { GRAPH :g3 { :s :p ?count } } \n" +
+        "WHERE { \n" +
+        " SELECT (COUNT(*) AS ?count) WHERE { \n" +
+        "  GRAPH :g2 { ?s ?p ?o } \n" +
+        " } \n" +
+        "} ; \n" +
+        "DROP GRAPH :g1 ; \n" +
+        "DROP GRAPH :g2 \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode`() {
+    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -99,7 +117,7 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode - in simulator`() {
+    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

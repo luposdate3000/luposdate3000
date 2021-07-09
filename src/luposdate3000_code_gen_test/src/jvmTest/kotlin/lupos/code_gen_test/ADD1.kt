@@ -54,10 +54,11 @@ public class ADD1 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/ADD1.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "ADD DEFAULT TO :g1"
 
     @Test
-    fun `ADD 1`() {
+    public fun `ADD 1`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -113,7 +114,7 @@ public class ADD1 {
     }
 
     @Test
-    fun `ADD 1 - in simulator`() {
+    public fun `ADD 1 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -49,11 +49,26 @@ public class DELETEINSERT4 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DELETEINSERT4.query").readAsString()
+    internal val query = "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?Var_B . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  { ?a foaf:name \"Alan\" } \n" +
+        "  { SELECT DISTINCT ?Var_B  \n" +
+        "            {  { ?Var_B ?Var_B1 ?Var_B2 } UNION  \n" +
+        "               { ?Var_B1 ?Var_B ?Var_B2 } UNION  \n" +
+        "               { ?Var_B1 ?Var_B2 ?Var_B } UNION  \n" +
+        "               { GRAPH ?Var_Bg {?Var_B ?Var_B1 ?Var_B2 } } UNION \n" +
+        "               { GRAPH ?Var_Bg {?Var_B1 ?Var_B ?Var_B2 } } UNION \n" +
+        "               { GRAPH ?Var_Bg {?Var_B1 ?Var_B2 ?Var_B } } } } \n" +
+        "}"
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `DELETE INSERT 4`() {
+    public fun `DELETE INSERT 4`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -87,7 +102,7 @@ public class DELETEINSERT4 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `DELETE INSERT 4 - in simulator`() {
+    public fun `DELETE INSERT 4 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

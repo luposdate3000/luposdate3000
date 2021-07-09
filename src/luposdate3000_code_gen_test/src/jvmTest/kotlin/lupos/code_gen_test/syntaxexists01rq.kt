@@ -16,15 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxexists01rq {
-    internal val query = File("src/jvmTest/resources/syntaxexists01rq.query").readAsString()
+    internal val query = "SELECT * { ?s ?p ?o FILTER(EXISTS{?s ?p ?o}) } \n" +
+        ""
 
     @Test
-    fun `syntaxexists01rq`() {
+    public fun `syntaxexists01rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

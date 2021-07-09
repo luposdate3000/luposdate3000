@@ -40,10 +40,14 @@ public class MONTH {
     )
     internal val targetData = File("src/jvmTest/resources/MONTH.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MONTH.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (MONTH(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `MONTH`() {
+    public fun `MONTH`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +76,7 @@ public class MONTH {
     }
 
     @Test
-    fun `MONTH - in simulator`() {
+    public fun `MONTH - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

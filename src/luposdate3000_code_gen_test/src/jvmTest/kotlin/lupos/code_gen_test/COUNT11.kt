@@ -16,18 +16,20 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class COUNT11 {
-    internal val query = File("src/jvmTest/resources/COUNT11.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT ((?O1 + ?O2) AS ?O12) (COUNT(?O1) AS ?C) \n" +
+        "WHERE { ?S :p ?O1; :q ?O2 } GROUP BY (?S) \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `COUNT 11`() {
+    public fun `COUNT 11`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

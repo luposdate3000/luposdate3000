@@ -41,11 +41,22 @@ public class resourcessp2bq1sparql32978 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq1sparql32978.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq1sparql32978.query").readAsString()
+    internal val query = "PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n" +
+        "PREFIX dc:      <http://purl.org/dc/elements/1.1/>  \n" +
+        "PREFIX dcterms: <http://purl.org/dc/terms/>  \n" +
+        "PREFIX bench:   <http://localhost/vocabulary/bench/>  \n" +
+        "PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>  \n" +
+        "SELECT ?yr  \n" +
+        "WHERE {  \n" +
+        "  ?journal rdf:type bench:Journal .  \n" +
+        "  ?journal dc:title \"Journal 1 (1940)\"^^xsd:string .  \n" +
+        "  ?journal dcterms:issued ?yr .  \n" +
+        "}  \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq1sparql32978`() {
+    public fun `resourcessp2bq1sparql32978`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +86,7 @@ public class resourcessp2bq1sparql32978 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq1sparql32978 - in simulator`() {
+    public fun `resourcessp2bq1sparql32978 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

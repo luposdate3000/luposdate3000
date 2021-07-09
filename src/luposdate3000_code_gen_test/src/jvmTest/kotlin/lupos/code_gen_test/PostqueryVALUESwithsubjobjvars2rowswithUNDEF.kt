@@ -40,10 +40,22 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwithsubjobjvars2rowswithUNDEF.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwithsubjobjvars2rowswithUNDEF.query").readAsString()
+    internal val query = "PREFIX dc:   <http://purl.org/dc/elements/1.1/>  \n" +
+        "PREFIX :     <http://example.org/book/>  \n" +
+        "PREFIX ns:   <http://example.org/ns#>  \n" +
+        "SELECT ?book ?title ?price \n" +
+        "{ \n" +
+        "   ?book dc:title ?title ; \n" +
+        "         ns:price ?price . \n" +
+        "} \n" +
+        "VALUES (?book ?title) { \n" +
+        " (UNDEF \"SPARQL Tutorial\") \n" +
+        " (:book2 UNDEF) \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `Postquery VALUES with subjobjvars 2 rows with UNDEF`() {
+    public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +84,7 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     }
 
     @Test
-    fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator`() {
+    public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

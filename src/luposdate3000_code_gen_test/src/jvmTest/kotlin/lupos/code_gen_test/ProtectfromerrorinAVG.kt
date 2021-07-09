@@ -41,11 +41,19 @@ public class ProtectfromerrorinAVG {
     )
     internal val targetData = File("src/jvmTest/resources/ProtectfromerrorinAVG.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/ProtectfromerrorinAVG.query").readAsString()
+    internal val query = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "PREFIX : <http://example.com/data/#> \n" +
+        "SELECT ?g  \n" +
+        "(AVG(IF(isNumeric(?p), ?p, COALESCE(xsd:double(?p),0))) AS ?avg)  \n" +
+        "WHERE { \n" +
+        "  ?g :p ?p . \n" +
+        "} \n" +
+        "GROUP BY ?g \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Protect from error in AVG`() {
+    public fun `Protect from error in AVG`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +83,7 @@ public class ProtectfromerrorinAVG {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Protect from error in AVG - in simulator`() {
+    public fun `Protect from error in AVG - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,20 @@ public class papersparqldlQ5 {
     )
     internal val targetData = File("src/jvmTest/resources/papersparqldlQ5.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/papersparqldlQ5.query").readAsString()
+    internal val query = "PREFIX   ex:  <http://example.org/> \n" +
+        "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "PREFIX  owl:  <http://www.w3.org/2002/07/owl#>  \n" +
+        "SELECT ?p ?v \n" +
+        "WHERE {  \n" +
+        " ?p rdf:type owl:ObjectProperty .  \n" +
+        " ex:John ?p ?v . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `papersparqldlQ5`() {
+    public fun `papersparqldlQ5`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +84,7 @@ public class papersparqldlQ5 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `papersparqldlQ5 - in simulator`() {
+    public fun `papersparqldlQ5 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

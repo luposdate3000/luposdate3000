@@ -41,11 +41,17 @@ public class Expressionhasvariablethatmaybeunbound {
     )
     internal val targetData = File("src/jvmTest/resources/Expressionhasvariablethatmaybeunbound.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Expressionhasvariablethatmaybeunbound.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x (datatype(?l) as ?dt) where { \n" +
+        "  ?x ex:p ?y . \n" +
+        "  optional {?x ex:q ?l} \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Expression has variable that may be unbound`() {
+    public fun `Expression has variable that may be unbound`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class Expressionhasvariablethatmaybeunbound {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Expression has variable that may be unbound - in simulator`() {
+    public fun `Expression has variable that may be unbound - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

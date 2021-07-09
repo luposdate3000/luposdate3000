@@ -41,11 +41,15 @@ public class SHA256onUnicodedata {
     )
     internal val targetData = File("src/jvmTest/resources/SHA256onUnicodedata.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SHA256onUnicodedata.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (SHA256(?l) AS ?hash) WHERE { \n" +
+        " :s8 :str ?l \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug in SHA256-Function<
     @Test
-    fun `SHA256 on Unicode data`() {
+    public fun `SHA256 on Unicode data`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class SHA256onUnicodedata {
 
     @Ignore // Reason: >Bug in SHA256-Function<
     @Test
-    fun `SHA256 on Unicode data - in simulator`() {
+    public fun `SHA256 on Unicode data - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -54,10 +54,18 @@ public class INSERT04 {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/INSERT04.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "INSERT { \n" +
+        " ?s ?p \"q\" \n" +
+        "} \n" +
+        "USING :g1 \n" +
+        "WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `INSERT 04`() {
+    public fun `INSERT 04`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -113,7 +121,7 @@ public class INSERT04 {
     }
 
     @Test
-    fun `INSERT 04 - in simulator`() {
+    public fun `INSERT 04 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

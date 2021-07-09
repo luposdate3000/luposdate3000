@@ -41,11 +41,16 @@ public class REPLACEwithoverlappingpattern {
     )
     internal val targetData = File("src/jvmTest/resources/REPLACEwithoverlappingpattern.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/REPLACEwithoverlappingpattern.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT (REPLACE(?str,\"ana\", \"*\") AS ?new) WHERE { \n" +
+        " :s8 :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `REPLACE with overlapping pattern`() {
+    public fun `REPLACE with overlapping pattern`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class REPLACEwithoverlappingpattern {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `REPLACE with overlapping pattern - in simulator`() {
+    public fun `REPLACE with overlapping pattern - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

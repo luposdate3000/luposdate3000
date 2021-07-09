@@ -28,7 +28,7 @@ public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType): Unit = TODO()
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
-    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType? = TODO()
+    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
     override fun createNewBNode(s: String): DictionaryValueType = TODO()
     override fun isBnode(value: DictionaryValueType): Boolean = TODO()
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType = TODO()

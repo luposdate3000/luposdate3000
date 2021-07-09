@@ -41,11 +41,16 @@ public class REPLACE {
     )
     internal val targetData = File("src/jvmTest/resources/REPLACE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/REPLACE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s (REPLACE(?str,\"[^a-z0-9]\", \"-\") AS ?new) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `REPLACE`() {
+    public fun `REPLACE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class REPLACE {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `REPLACE - in simulator`() {
+    public fun `REPLACE - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,16 @@ public class resourcessp2bq10sparql1640 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq10sparql1640.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq10sparql1640.query").readAsString()
+    internal val query = "PREFIX person: <http://localhost/persons/> \n" +
+        "SELECT ?subject ?predicate \n" +
+        "WHERE { \n" +
+        "  ?subject ?predicate person:Paul_Erdoes \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq10sparql1640`() {
+    public fun `resourcessp2bq10sparql1640`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class resourcessp2bq10sparql1640 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq10sparql1640 - in simulator`() {
+    public fun `resourcessp2bq10sparql1640 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

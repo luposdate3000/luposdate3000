@@ -41,11 +41,15 @@ public class SUBSTR3argument {
     )
     internal val targetData = File("src/jvmTest/resources/SUBSTR3argument.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SUBSTR3argument.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s ?str (SUBSTR(?str,1,1) AS ?substr) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `SUBSTR 3argument`() {
+    public fun `SUBSTR 3argument`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class SUBSTR3argument {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `SUBSTR 3argument - in simulator`() {
+    public fun `SUBSTR 3argument - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

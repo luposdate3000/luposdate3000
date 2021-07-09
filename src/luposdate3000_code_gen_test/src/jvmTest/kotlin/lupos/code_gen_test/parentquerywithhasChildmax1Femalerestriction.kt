@@ -41,11 +41,20 @@ public class parentquerywithhasChildmax1Femalerestriction {
     )
     internal val targetData = File("src/jvmTest/resources/parentquerywithhasChildmax1Femalerestriction.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/parentquerywithhasChildmax1Femalerestriction.query").readAsString()
+    internal val query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT *  \n" +
+        "WHERE { ?parent a [ \n" +
+        "       a owl:Restriction ; \n" +
+        "       owl:onProperty :hasChild ; \n" +
+        "       owl:maxQualifiedCardinality \"1\"^^xsd:nonNegativeInteger ; \n" +
+        "       owl:onClass :Female ] . } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `parent query with hasChild max 1 Female restriction`() {
+    public fun `parent query with hasChild max 1 Female restriction`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +84,7 @@ public class parentquerywithhasChildmax1Femalerestriction {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `parent query with hasChild max 1 Female restriction - in simulator`() {
+    public fun `parent query with hasChild max 1 Female restriction - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

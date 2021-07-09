@@ -41,11 +41,16 @@ public class RDFSinferencetestrdfssubPropertyOf {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetestrdfssubPropertyOf.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetestrdfssubPropertyOf.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "SELECT ?x \n" +
+        "WHERE { \n" +
+        "  ?x ex:b2 ex:c . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `RDFS inference test rdfssubPropertyOf`() {
+    public fun `RDFS inference test rdfssubPropertyOf`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class RDFSinferencetestrdfssubPropertyOf {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `RDFS inference test rdfssubPropertyOf - in simulator`() {
+    public fun `RDFS inference test rdfssubPropertyOf - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

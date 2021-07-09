@@ -41,11 +41,17 @@ public class sq02Subquerywithingraphpatterngraphvariableisbound {
     )
     internal val targetData = File("src/jvmTest/resources/sq02Subquerywithingraphpatterngraphvariableisbound.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq02Subquerywithingraphpatterngraphvariableisbound.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select  ?x ?p where { \n" +
+        "graph ?g { \n" +
+        "{select * where {?x ?p ?g}} \n" +
+        "} \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq02  Subquery within graph pattern graph variable is bound`() {
+    public fun `sq02  Subquery within graph pattern graph variable is bound`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class sq02Subquerywithingraphpatterngraphvariableisbound {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq02  Subquery within graph pattern graph variable is bound - in simulator`() {
+    public fun `sq02  Subquery within graph pattern graph variable is bound - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

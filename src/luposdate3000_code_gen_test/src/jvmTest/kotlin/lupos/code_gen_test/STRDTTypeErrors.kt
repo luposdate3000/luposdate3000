@@ -41,11 +41,16 @@ public class STRDTTypeErrors {
     )
     internal val targetData = File("src/jvmTest/resources/STRDTTypeErrors.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRDTTypeErrors.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s (STRDT(?o,xsd:string) AS ?str1) WHERE { \n" +
+        " ?s ?p ?o \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `STRDT TypeErrors`() {
+    public fun `STRDT TypeErrors`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class STRDTTypeErrors {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `STRDT TypeErrors - in simulator`() {
+    public fun `STRDT TypeErrors - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -16,16 +16,16 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbadpname05 {
-    internal val query = File("src/jvmTest/resources/synbadpname05.query").readAsString()
+    internal val query = "PREFIX 1: <http://example/> \n" +
+        "ASK{}"
 
     @Test
-    fun `synbadpname05`() {
+    public fun `synbadpname05`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

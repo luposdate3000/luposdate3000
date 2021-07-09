@@ -40,10 +40,15 @@ public class CONCAT {
     )
     internal val targetData = File("src/jvmTest/resources/CONCAT.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/CONCAT.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT (CONCAT(?str1,?str2) AS ?str) WHERE { \n" +
+        " :s6 :str ?str1 . \n" +
+        " :s7 :str ?str2 . \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `CONCAT`() {
+    public fun `CONCAT`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +77,7 @@ public class CONCAT {
     }
 
     @Test
-    fun `CONCAT - in simulator`() {
+    public fun `CONCAT - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

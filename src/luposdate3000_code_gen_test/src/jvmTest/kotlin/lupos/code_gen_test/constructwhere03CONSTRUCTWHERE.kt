@@ -40,10 +40,11 @@ public class constructwhere03CONSTRUCTWHERE {
     )
     internal val targetData = File("src/jvmTest/resources/constructwhere03CONSTRUCTWHERE.output").readAsString()
     internal val targetType = ".ttl"
-    internal val query = File("src/jvmTest/resources/constructwhere03CONSTRUCTWHERE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "CONSTRUCT WHERE { :s2 :p ?o1, ?o2 }"
 
     @Test
-    fun `constructwhere03  CONSTRUCT WHERE`() {
+    public fun `constructwhere03  CONSTRUCT WHERE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +73,7 @@ public class constructwhere03CONSTRUCTWHERE {
     }
 
     @Test
-    fun `constructwhere03  CONSTRUCT WHERE - in simulator`() {
+    public fun `constructwhere03  CONSTRUCT WHERE - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -61,11 +61,23 @@ public class GraphspecificDELETE1WITH {
         ".ttl",
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/GraphspecificDELETE1WITH.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "WITH <http://example.org/g1> \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "} \n" +
+        "WHERE  \n" +
+        "{  \n" +
+        "  ?s foaf:knows :b . \n" +
+        "  ?s ?p ?o  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Graphspecific DELETE 1 WITH`() {
+    public fun `Graphspecific DELETE 1 WITH`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -145,7 +157,7 @@ public class GraphspecificDELETE1WITH {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Graphspecific DELETE 1 WITH - in simulator`() {
+    public fun `Graphspecific DELETE 1 WITH - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

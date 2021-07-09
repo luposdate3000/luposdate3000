@@ -48,10 +48,16 @@ public class SimpleDELETEWHERE3 {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/SimpleDELETEWHERE3.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "DELETE WHERE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows :c . \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `Simple DELETE WHERE 3`() {
+    public fun `Simple DELETE WHERE 3`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -84,7 +90,7 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
-    fun `Simple DELETE WHERE 3 - in simulator`() {
+    public fun `Simple DELETE WHERE 3 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

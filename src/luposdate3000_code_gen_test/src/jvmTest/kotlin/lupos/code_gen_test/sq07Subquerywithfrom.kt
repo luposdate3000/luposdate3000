@@ -41,11 +41,16 @@ public class sq07Subquerywithfrom {
     )
     internal val targetData = File("src/jvmTest/resources/sq07Subquerywithfrom.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sq07Subquerywithfrom.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select ?x \n" +
+        "where { \n" +
+        "{select * where {graph ?g {?x ?p ?y}}} \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq07  Subquery with from `() {
+    public fun `sq07  Subquery with from `() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class sq07Subquerywithfrom {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `sq07  Subquery with from  - in simulator`() {
+    public fun `sq07  Subquery with from  - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -40,10 +40,14 @@ public class YEAR {
     )
     internal val targetData = File("src/jvmTest/resources/YEAR.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/YEAR.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (YEAR(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `YEAR`() {
+    public fun `YEAR`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +76,7 @@ public class YEAR {
     }
 
     @Test
-    fun `YEAR - in simulator`() {
+    public fun `YEAR - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

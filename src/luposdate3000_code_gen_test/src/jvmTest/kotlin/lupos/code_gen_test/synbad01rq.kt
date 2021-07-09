@@ -16,18 +16,19 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class synbad01rq {
-    internal val query = File("src/jvmTest/resources/synbad01rq.query").readAsString()
+    internal val query = "# Not allowed with GROUP BY \n" +
+        "SELECT * { ?s ?p ?o } GROUP BY ?s \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    fun `synbad01rq`() {
+    public fun `synbad01rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

@@ -41,11 +41,18 @@ public class resourcesbtc002sparql46 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbtc002sparql46.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbtc002sparql46.query").readAsString()
+    internal val query = "#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008 \n" +
+        "select ?b ?p ?bn where { \n" +
+        " ?a ?c \"Tim Berners-Lee\" . \n" +
+        " ?a <http://dbpedia.org/property/dateOfBirth> ?b . \n" +
+        " ?a <http://dbpedia.org/property/placeOfBirth> ?p . \n" +
+        " ?a <http://dbpedia.org/property/name> ?bn. \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbtc002sparql46`() {
+    public fun `resourcesbtc002sparql46`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +82,7 @@ public class resourcesbtc002sparql46 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbtc002sparql46 - in simulator`() {
+    public fun `resourcesbtc002sparql46 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

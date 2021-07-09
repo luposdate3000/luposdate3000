@@ -40,10 +40,17 @@ public class RDFSinferencetestcontainers {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetestcontainers.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetestcontainers.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "SELECT ?f \n" +
+        "WHERE { \n" +
+        "  ex:favourite-fruit rdf:_2 ?f . \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `RDFS inference test containers`() {
+    public fun `RDFS inference test containers`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +79,7 @@ public class RDFSinferencetestcontainers {
     }
 
     @Test
-    fun `RDFS inference test containers - in simulator`() {
+    public fun `RDFS inference test containers - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

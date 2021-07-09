@@ -16,17 +16,23 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdate34ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate34ru.query").readAsString()
+    internal val query = "PREFIX  :     <http://example/> \n" +
+        "WITH :g \n" +
+        "INSERT { \n" +
+        "  <base:s> ?p ?o . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "  { ?s ?p ?o } \n" +
+        ""
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    fun `syntaxupdate34ru`() {
+    public fun `syntaxupdate34ru`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

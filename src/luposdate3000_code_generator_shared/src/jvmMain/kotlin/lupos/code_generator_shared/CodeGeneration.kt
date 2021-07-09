@@ -42,12 +42,7 @@ import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.physical.singleinput.POPVisualisation
-import lupos.shared.EIndexPatternExt
-import lupos.shared.ValueBoolean
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueInteger
-import lupos.shared.ValueIri
-import lupos.shared.ValueStringBase
+import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
@@ -433,41 +428,53 @@ private fun writeOperatorGraph(
     }
 }
 
-internal fun writeMethod(child: IOPBase, classes: MyPrintWriter?, variables: MutableSet<String>?) {
-    /**
-     val mop = MyOperatorPartFactory();
-     val operators = mutableListOf<MyOperator>()
-     OperatorBuilder.build(operators)
-     println("List size" + operators.size)
-     for(op in operators)
-     {
-     if(op.name.equals("Addition"))
-     {
-     val timp = mutableSetOf<String>()
-     val tempVar = mutableSetOf<String>()
-     val target = StringBuilder()
-     println(op.name)
-     op.generate("",EParamRepresentation.ID,timp,target,tempVar);
-     println(target.toString())
-     }
-     }
-     val tmpBuf = ByteArrayWrapper()
-     for(c in child.getChildren())
-     {
-     if(c is AOPVariable)
-     {
-     println(c.getUUID())
+internal fun convert(child: IOPBase): CodeGenClassHolder {
+    println("CALLED CONVERT")
+    val children = Array(child.getChildren().size) {
+        convert(child.getChildren()[it])
+    }
+    return when (child) {
+        is AOPVariable -> {
+            CodeGenClassHolder("AOPVariable", children, child.getName())
+        }
+        is AOPConstant -> {
+            val dict = child.getQuery().getDictionary()
+            val tmpBuf = ByteArrayWrapper()
+            dict.getValue(tmpBuf, child.getValue())
+            CodeGenClassHolder("AOPConstant", children, "", tmpBuf)
+        }
+        else -> {
+            println("CE" + child.getClassname())
+            CodeGenClassHolder(child.getClassname(), children)
+        }
+    }
+}
 
-     }else if(c is AOPBase)
-     {
-     println(c.getClassname())
-     }
-     }
-     **/
+internal fun writeMethod(
+    child: IOPBase,
+    classes: MyPrintWriter,
+    variables: MutableSet<String>,
+    imports: MutableSet<String>
+) {
+    val conversion = CodeGenClassHolder("ToDictionaryID", arrayOf(CodeGenClassHolder("ToByteArrayWrapper", arrayOf(convert(child)))))
+
+    val builder = StringBuilder()
 
     val target = StringBuilder()
-    generateMethod(child, "", arrayOf(""), "", "", mutableSetOf(""), target, mutableSetOf(""), mutableListOf())
+    val variables = mutableMapOf<String, String>()
+    val variableBuilder = StringBuilder()
+    generateMethod(conversion, "", arrayOf(""), "rowx", "", imports, target, mutableSetOf(""), mutableListOf(), false, builder, variables, false)
+    val buildString = builder.toString()
+
+    for ((k, v) in variables) {
+        if (buildString.contains(k) && v != "") {
+            variableBuilder.appendLine("var $k : $v = ${getDefaultValue(v)}")
+        }
+    }
+    classes.println(variableBuilder.toString())
     // println(target.toString());
+    println(builder.toString())
+    classes.println(builder.toString())
 }
 
 // Creates variables and the comparisons to filter, the root variable contains the filters result

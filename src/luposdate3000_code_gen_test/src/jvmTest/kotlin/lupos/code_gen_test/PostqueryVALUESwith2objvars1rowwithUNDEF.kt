@@ -41,11 +41,20 @@ public class PostqueryVALUESwith2objvars1rowwithUNDEF {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwith2objvars1rowwithUNDEF.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwith2objvars1rowwithUNDEF.query").readAsString()
+    internal val query = "# bindings with one element UNDEF \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?o1 ?o2 \n" +
+        "{ \n" +
+        "  ?s ?p1 ?o1 . \n" +
+        "  ?s ?p2 ?o2 . \n" +
+        "} VALUES (?o1 ?o2) { \n" +
+        " (\"Alan\" UNDEF) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Postquery VALUES with 2 objvars 1 row with UNDEF`() {
+    public fun `Postquery VALUES with 2 objvars 1 row with UNDEF`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +84,7 @@ public class PostqueryVALUESwith2objvars1rowwithUNDEF {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Postquery VALUES with 2 objvars 1 row with UNDEF - in simulator`() {
+    public fun `Postquery VALUES with 2 objvars 1 row with UNDEF - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

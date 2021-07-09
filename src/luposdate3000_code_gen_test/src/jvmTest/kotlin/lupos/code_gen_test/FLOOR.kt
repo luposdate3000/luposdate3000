@@ -40,10 +40,15 @@ public class FLOOR {
     )
     internal val targetData = File("src/jvmTest/resources/FLOOR.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/FLOOR.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT ?s ?num (FLOOR(?num) AS ?floor) WHERE { \n" +
+        " ?s :num ?num \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `FLOOR`() {
+    public fun `FLOOR`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +77,7 @@ public class FLOOR {
     }
 
     @Test
-    fun `FLOOR - in simulator`() {
+    public fun `FLOOR - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

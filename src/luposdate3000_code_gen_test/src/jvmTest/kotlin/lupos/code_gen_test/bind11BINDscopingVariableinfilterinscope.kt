@@ -40,10 +40,19 @@ public class bind11BINDscopingVariableinfilterinscope {
     )
     internal val targetData = File("src/jvmTest/resources/bind11BINDscopingVariableinfilterinscope.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/bind11BINDscopingVariableinfilterinscope.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?v ?z \n" +
+        "{ \n" +
+        "  # See also bind10.rq \n" +
+        "  BIND(4 AS ?z) \n" +
+        "  # ?z is in scope at the time of filter execution. \n" +
+        "  ?s :p ?v .  \n" +
+        "  FILTER(?v = ?z) \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `bind11  BIND scoping  Variable in filter in scope`() {
+    public fun `bind11  BIND scoping  Variable in filter in scope`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +81,7 @@ public class bind11BINDscopingVariableinfilterinscope {
     }
 
     @Test
-    fun `bind11  BIND scoping  Variable in filter in scope - in simulator`() {
+    public fun `bind11  BIND scoping  Variable in filter in scope - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

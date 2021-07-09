@@ -16,15 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class LOADSILENTINTO {
-    internal val query = File("src/jvmTest/resources/LOADSILENTINTO.query").readAsString()
+    internal val query = "LOAD SILENT <somescheme://www.example.com/THIS-GRAPH-DOES-NOT-EXIST/> INTO GRAPH <http://www.example.org/> \n" +
+        ""
 
     @Test
-    fun `LOAD SILENT INTO`() {
+    public fun `LOAD SILENT INTO`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

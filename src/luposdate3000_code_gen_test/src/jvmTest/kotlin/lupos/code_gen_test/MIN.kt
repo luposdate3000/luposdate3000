@@ -40,10 +40,15 @@ public class MIN {
     )
     internal val targetData = File("src/jvmTest/resources/MIN.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/MIN.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "SELECT (MIN(?o) AS ?min) \n" +
+        "WHERE { \n" +
+        " ?s :dec ?o \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `MIN`() {
+    public fun `MIN`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +77,7 @@ public class MIN {
     }
 
     @Test
-    fun `MIN - in simulator`() {
+    public fun `MIN - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

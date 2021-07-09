@@ -40,10 +40,15 @@ public class STRLANGSTR {
     )
     internal val targetData = File("src/jvmTest/resources/STRLANGSTR.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRLANGSTR.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (STRLANG(STR(?str),\"en-US\") AS ?s2) WHERE { \n" +
+        " ?s :str ?str \n" +
+        " FILTER(LANGMATCHES(LANG(?str), \"en\")) \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `STRLANGSTR`() {
+    public fun `STRLANGSTR`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +77,7 @@ public class STRLANGSTR {
     }
 
     @Test
-    fun `STRLANGSTR - in simulator`() {
+    public fun `STRLANGSTR - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,16 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
     )
     internal val targetData = File("src/jvmTest/resources/pp12Variablelengthpathandtwopathstosametargetnode.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp12Variablelengthpathandtwopathstosametargetnode.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select * where { \n" +
+        "in:a (ex:p1/ex:p2)+ ?x \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp12 Variable length path and two paths to same target node`() {
+    public fun `pp12 Variable length path and two paths to same target node`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp12 Variable length path and two paths to same target node - in simulator`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

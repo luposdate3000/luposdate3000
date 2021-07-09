@@ -144,8 +144,8 @@ public object LuposdateEndpoint {
         val key = "${query.getTransactionID()}"
         try {
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
-                query.setDictionaryUrl("${instance.tripleStoreManager!!.getLocalhost()}/distributed/query/dictionary?key=$key")
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key))
+                query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
             }
             instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
             var counter = 0L
@@ -228,13 +228,13 @@ public object LuposdateEndpoint {
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.tripleStoreManager!!.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             throw e
         }

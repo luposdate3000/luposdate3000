@@ -48,10 +48,11 @@ public class CLEARSILENTGRAPHiri {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/CLEARSILENTGRAPHiri.query").readAsString()
+    internal val query = "CLEAR SILENT GRAPH <http://www.example.org> \n" +
+        ""
 
     @Test
-    fun `CLEAR SILENT GRAPH iri`() {
+    public fun `CLEAR SILENT GRAPH iri`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -84,7 +85,7 @@ public class CLEARSILENTGRAPHiri {
     }
 
     @Test
-    fun `CLEAR SILENT GRAPH iri - in simulator`() {
+    public fun `CLEAR SILENT GRAPH iri - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

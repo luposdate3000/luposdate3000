@@ -41,11 +41,19 @@ public class resourcesbtc029sparql1198 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbtc029sparql1198.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbtc029sparql1198.query").readAsString()
+    internal val query = "#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012 \n" +
+        "SELECT ?p ?a WHERE { \n" +
+        " ?p <http://purl.uniprot.org/core/annotation> ?a . \n" +
+        " ?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> . \n" +
+        " ?p <http://purl.uniprot.org/core/organism> <http://purl.uniprot.org/taxonomy/9606> . \n" +
+        " ?a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Disease_Annotation> . \n" +
+        " ?a <http://www.w3.org/2000/01/rdf-schema#comment> ?text . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbtc029sparql1198`() {
+    public fun `resourcesbtc029sparql1198`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +83,7 @@ public class resourcesbtc029sparql1198 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbtc029sparql1198 - in simulator`() {
+    public fun `resourcesbtc029sparql1198 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

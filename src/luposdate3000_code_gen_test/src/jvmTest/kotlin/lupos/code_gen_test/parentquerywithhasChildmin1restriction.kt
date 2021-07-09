@@ -41,11 +41,20 @@ public class parentquerywithhasChildmin1restriction {
     )
     internal val targetData = File("src/jvmTest/resources/parentquerywithhasChildmin1restriction.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/parentquerywithhasChildmin1restriction.query").readAsString()
+    internal val query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" +
+        "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT *  \n" +
+        "WHERE { ?parent rdf:type [ \n" +
+        "       a owl:Restriction ; \n" +
+        "       owl:onProperty :hasChild ; \n" +
+        "       owl:minCardinality \"1\"^^xsd:nonNegativeInteger  ] . } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `parent query with hasChild min 1 restriction`() {
+    public fun `parent query with hasChild min 1 restriction`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +84,7 @@ public class parentquerywithhasChildmin1restriction {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `parent query with hasChild min 1 restriction - in simulator`() {
+    public fun `parent query with hasChild min 1 restriction - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

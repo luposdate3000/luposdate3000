@@ -16,17 +16,18 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxselectexpr04rq {
-    internal val query = File("src/jvmTest/resources/syntaxselectexpr04rq.query").readAsString()
+    internal val query = "PREFIX : <http://example/> \n" +
+        "SELECT (:function(?x +?y) AS ?F) ?z {} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `syntaxselectexpr04rq`() {
+    public fun `syntaxselectexpr04rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

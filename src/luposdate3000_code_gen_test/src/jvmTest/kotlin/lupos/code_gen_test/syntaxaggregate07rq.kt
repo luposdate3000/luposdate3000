@@ -16,15 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxaggregate07rq {
-    internal val query = File("src/jvmTest/resources/syntaxaggregate07rq.query").readAsString()
+    internal val query = "SELECT (MIN(?x) AS ?y) {} \n" +
+        ""
 
     @Test
-    fun `syntaxaggregate07rq`() {
+    public fun `syntaxaggregate07rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

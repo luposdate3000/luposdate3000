@@ -16,15 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxoneof02rq {
-    internal val query = File("src/jvmTest/resources/syntaxoneof02rq.query").readAsString()
+    internal val query = "SELECT * { ?s ?p ?o FILTER(?o NOT IN()) } \n" +
+        ""
 
     @Test
-    fun `syntaxoneof02rq`() {
+    public fun `syntaxoneof02rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

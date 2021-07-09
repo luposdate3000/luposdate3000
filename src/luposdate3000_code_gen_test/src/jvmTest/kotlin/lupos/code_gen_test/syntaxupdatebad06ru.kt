@@ -16,16 +16,17 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxupdatebad06ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdatebad06ru.query").readAsString()
+    internal val query = "# Missing template \n" +
+        "INSERT WHERE { ?s ?p ?o } \n" +
+        ""
 
     @Test
-    fun `syntaxupdatebad06ru`() {
+    public fun `syntaxupdatebad06ru`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

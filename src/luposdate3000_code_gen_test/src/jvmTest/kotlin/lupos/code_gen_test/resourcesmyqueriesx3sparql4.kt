@@ -41,11 +41,17 @@ public class resourcesmyqueriesx3sparql4 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesmyqueriesx3sparql4.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesmyqueriesx3sparql4.query").readAsString()
+    internal val query = "PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#> \n" +
+        "SELECT ?animal {  \n" +
+        "  ?animal a ex:Animal MINUS {  \n" +
+        "    ?animal a ?type  \n" +
+        "    FILTER(?type = ex:Reptile || ?type = ex:Insect)  \n" +
+        "  }  \n" +
+        "}"
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesmyqueriesx3sparql4`() {
+    public fun `resourcesmyqueriesx3sparql4`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class resourcesmyqueriesx3sparql4 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesmyqueriesx3sparql4 - in simulator`() {
+    public fun `resourcesmyqueriesx3sparql4 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,13 @@ public class pp36Arbitrarypathwithboundendpoints {
     )
     internal val targetData = File("src/jvmTest/resources/pp36Arbitrarypathwithboundendpoints.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp36Arbitrarypathwithboundendpoints.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT * WHERE { :a0 (:p)* :a1 } \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp36 Arbitrary path with bound endpoints`() {
+    public fun `pp36 Arbitrary path with bound endpoints`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +77,7 @@ public class pp36Arbitrarypathwithboundendpoints {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp36 Arbitrary path with bound endpoints - in simulator`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

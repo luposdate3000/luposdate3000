@@ -41,11 +41,26 @@ public class STRBEFOREdatatyping {
     )
     internal val targetData = File("src/jvmTest/resources/STRBEFOREdatatyping.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/STRBEFOREdatatyping.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "SELECT \n" +
+        " ?s \n" +
+        " ?str \n" +
+        " (STRBEFORE(?str,\"b\") AS ?bb) \n" +
+        " (STRBEFORE(?str,\"bc\") AS ?bbc) \n" +
+        " (STRBEFORE(?str,\"b\"@cy) AS ?bbcy) \n" +
+        " (STRBEFORE(?str,\"\") AS ?b) \n" +
+        " (STRBEFORE(?str,\"\"@en) AS ?ben) \n" +
+        " (STRBEFORE(?str,\"b\"^^xsd:string) AS ?bbx) \n" +
+        " (STRBEFORE(?str,\"xyz\"^^xsd:string) AS ?bxyzx) \n" +
+        "WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `STRBEFORE datatyping`() {
+    public fun `STRBEFORE datatyping`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +90,7 @@ public class STRBEFOREdatatyping {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `STRBEFORE datatyping - in simulator`() {
+    public fun `STRBEFORE datatyping - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -41,11 +41,21 @@ public class PostqueryVALUESwithOPTIONALobjvar1row {
     )
     internal val targetData = File("src/jvmTest/resources/PostqueryVALUESwithOPTIONALobjvar1row.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostqueryVALUESwithOPTIONALobjvar1row.query").readAsString()
+    internal val query = "# bindings with two variables and two sets of values \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "SELECT ?s ?o1 ?o2 \n" +
+        "{ \n" +
+        "  ?s ?p1 ?o1  \n" +
+        "  OPTIONAL { ?s foaf:knows ?o2 } \n" +
+        "} VALUES (?o2) { \n" +
+        " (:b) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Postquery VALUES with OPTIONAL objvar 1 row`() {
+    public fun `Postquery VALUES with OPTIONAL objvar 1 row`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +85,7 @@ public class PostqueryVALUESwithOPTIONALobjvar1row {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Postquery VALUES with OPTIONAL objvar 1 row - in simulator`() {
+    public fun `Postquery VALUES with OPTIONAL objvar 1 row - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

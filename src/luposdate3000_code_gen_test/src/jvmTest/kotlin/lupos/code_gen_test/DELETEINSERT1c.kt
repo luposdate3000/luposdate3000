@@ -49,11 +49,30 @@ public class DELETEINSERT1c {
     internal val outputType = arrayOf(
         ".ttl",
     )
-    internal val query = File("src/jvmTest/resources/DELETEINSERT1c.query").readAsString()
+    internal val query = "PREFIX     : <http://example.org/>  \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>  \n" +
+        "INSERT \n" +
+        "{ \n" +
+        "  ?b foaf:knows ?a . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?b . \n" +
+        "} \n" +
+        "; \n" +
+        "DELETE  \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?b . \n" +
+        "} \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?a foaf:knows ?b . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `DELETE INSERT 1c`() {
+    public fun `DELETE INSERT 1c`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -87,7 +106,7 @@ public class DELETEINSERT1c {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `DELETE INSERT 1c - in simulator`() {
+    public fun `DELETE INSERT 1c - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

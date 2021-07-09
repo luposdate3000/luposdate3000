@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.dynamicArray
-
 import lupos.shared.SanityCheck
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
@@ -27,22 +27,13 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     public constructor(buf: ByteArray, size: Int) {
         this.buf_ = buf
         this.size_ = size
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt:29"/*SOURCE_FILE_END*/ }, { size <= buf.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt:29"/*SOURCE_FILE_END*/ }, { size <= buf.size })
     }
     public constructor(buf: ByteArray) : this(buf, buf.size)
     public constructor() : this(ByteArray(20), 0)
 
     override fun compareTo(other: ByteArrayWrapper): Int {
-        var res = 0
-        var i = 0
-        while (i < size_ && i < other.size_ && res == 0) {
-            res = buf_[i] - other.buf_[i]
-            i++
-        }
-        if (res == 0) {
-            res = size_ - other.size_
-        }
-        return res
+        return ByteArrayWrapperExt.compare_slow(this, other)
     }
 
     override fun equals(other: Any?): Boolean {

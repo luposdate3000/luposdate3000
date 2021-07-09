@@ -41,11 +41,15 @@ public class TIMEZONE {
     )
     internal val targetData = File("src/jvmTest/resources/TIMEZONE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/TIMEZONE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (TIMEZONE(?date) AS ?x) WHERE { \n" +
+        " ?s :date ?date \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `TIMEZONE`() {
+    public fun `TIMEZONE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class TIMEZONE {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `TIMEZONE - in simulator`() {
+    public fun `TIMEZONE - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

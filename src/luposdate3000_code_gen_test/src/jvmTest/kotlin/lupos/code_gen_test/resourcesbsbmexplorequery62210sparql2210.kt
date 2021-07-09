@@ -41,11 +41,28 @@ public class resourcesbsbmexplorequery62210sparql2210 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbsbmexplorequery62210sparql2210.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbsbmexplorequery62210sparql2210.query").readAsString()
+    internal val query = "PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> \n" +
+        "PREFIX rev: <http://purl.org/stuff/rev#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>   \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>   \n" +
+        "PREFIX dc: <http://purl.org/dc/elements/1.1/>   \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>   \n" +
+        "PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>   \n" +
+        "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
+        "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
+        "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
+        "SELECT ?product ?label \n" +
+        "WHERE { \n" +
+        " ?product rdfs:label ?label . \n" +
+        "    ?product rdf:type bsbm:Product . \n" +
+        " FILTER regex(?label, \"decalcomania\") \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbsbmexplorequery62210sparql2210`() {
+    public fun `resourcesbsbmexplorequery62210sparql2210`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +92,7 @@ public class resourcesbsbmexplorequery62210sparql2210 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbsbmexplorequery62210sparql2210 - in simulator`() {
+    public fun `resourcesbsbmexplorequery62210sparql2210 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

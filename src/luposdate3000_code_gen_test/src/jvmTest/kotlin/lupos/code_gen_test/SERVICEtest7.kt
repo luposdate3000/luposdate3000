@@ -41,11 +41,19 @@ public class SERVICEtest7 {
     )
     internal val targetData = File("src/jvmTest/resources/SERVICEtest7.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SERVICEtest7.query").readAsString()
+    internal val query = "# invalid URI for a SERVICE with SILENT \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?o1 ?o2 \n" +
+        "{ \n" +
+        "  ?s ?p ?o1 . \n" +
+        "  SERVICE SILENT <http://invalid.endpoint.org/sparql> { \n" +
+        "    ?s ?p2 ?o2 } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `SERVICE test 7`() {
+    public fun `SERVICE test 7`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +83,7 @@ public class SERVICEtest7 {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `SERVICE test 7 - in simulator`() {
+    public fun `SERVICE test 7 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -30,10 +30,10 @@ public object XMLParser {
                     context,
                     onTAG = {
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParser.kt:32"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParser.kt:32"/*SOURCE_FILE_END*/ },
                             {
                                 val tag = context.getValue()
-                                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParser.kt:35"/*SOURCE_FILE_END*/ }, { stack[stack.size - 1].tag == tag })
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParser.kt:35"/*SOURCE_FILE_END*/ }, { stack[stack.size - 1].tag == tag })
                             }
                         )
                         stack.removeAt(stack.size - 1)

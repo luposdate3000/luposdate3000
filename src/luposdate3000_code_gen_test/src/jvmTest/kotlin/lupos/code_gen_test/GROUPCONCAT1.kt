@@ -41,11 +41,18 @@ public class GROUPCONCAT1 {
     )
     internal val targetData = File("src/jvmTest/resources/GROUPCONCAT1.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/GROUPCONCAT1.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "ASK { \n" +
+        " {SELECT (GROUP_CONCAT(?o) AS ?g) WHERE { \n" +
+        "  [] :p1 ?o \n" +
+        " }} \n" +
+        " FILTER(?g = \"1 22\" || ?g = \"22 1\") \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `GROUPCONCAT 1`() {
+    public fun `GROUPCONCAT 1`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +82,7 @@ public class GROUPCONCAT1 {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `GROUPCONCAT 1 - in simulator`() {
+    public fun `GROUPCONCAT 1 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

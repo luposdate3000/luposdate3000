@@ -41,11 +41,45 @@ public class resourcesbsbmexplorequery72553sparql2553 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbsbmexplorequery72553sparql2553.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbsbmexplorequery72553sparql2553.query").readAsString()
+    internal val query = "PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> \n" +
+        "PREFIX rev: <http://purl.org/stuff/rev#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>   \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>   \n" +
+        "PREFIX dc: <http://purl.org/dc/elements/1.1/>   \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>   \n" +
+        "PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>   \n" +
+        "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
+        "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
+        "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
+        "SELECT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle  \n" +
+        "       ?reviewer ?revName ?rating1 ?rating2 \n" +
+        "WHERE {  \n" +
+        " dataFromProducer1:Product3 rdfs:label ?productLabel . \n" +
+        "    OPTIONAL { \n" +
+        "        ?offer bsbm:product dataFromProducer1:Product3 . \n" +
+        "  ?offer bsbm:price ?price . \n" +
+        "  ?offer bsbm:vendor ?vendor . \n" +
+        "  ?vendor rdfs:label ?vendorTitle . \n" +
+        "        ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> . \n" +
+        "        ?offer dc:publisher ?vendor .  \n" +
+        "        ?offer bsbm:validTo ?date . \n" +
+        "        FILTER (?date > \"2007-09-04\"^^xsd:date ) \n" +
+        "    } \n" +
+        "    OPTIONAL { \n" +
+        " ?review bsbm:reviewFor dataFromProducer1:Product3 . \n" +
+        " ?review rev:reviewer ?reviewer . \n" +
+        " ?reviewer foaf:name ?revName . \n" +
+        " ?review dc:title ?revTitle . \n" +
+        "    OPTIONAL { ?review bsbm:rating1 ?rating1 . } \n" +
+        "    OPTIONAL { ?review bsbm:rating2 ?rating2 . }  \n" +
+        "    } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbsbmexplorequery72553sparql2553`() {
+    public fun `resourcesbsbmexplorequery72553sparql2553`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +109,7 @@ public class resourcesbsbmexplorequery72553sparql2553 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbsbmexplorequery72553sparql2553 - in simulator`() {
+    public fun `resourcesbsbmexplorequery72553sparql2553 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

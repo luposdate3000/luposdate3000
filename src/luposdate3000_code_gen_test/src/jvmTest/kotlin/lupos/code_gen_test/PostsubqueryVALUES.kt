@@ -40,10 +40,20 @@ public class PostsubqueryVALUES {
     )
     internal val targetData = File("src/jvmTest/resources/PostsubqueryVALUES.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/PostsubqueryVALUES.query").readAsString()
+    internal val query = "# bindings with one element and one value in the object variable \n" +
+        "PREFIX : <http://example.org/>  \n" +
+        "SELECT ?s ?o { \n" +
+        " { \n" +
+        "  SELECT * WHERE { \n" +
+        "   ?s ?p ?o . \n" +
+        "  } \n" +
+        "  VALUES (?o) { (:b) } \n" +
+        " } \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `Postsubquery VALUES`() {
+    public fun `Postsubquery VALUES`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +82,7 @@ public class PostsubqueryVALUES {
     }
 
     @Test
-    fun `Postsubquery VALUES - in simulator`() {
+    public fun `Postsubquery VALUES - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

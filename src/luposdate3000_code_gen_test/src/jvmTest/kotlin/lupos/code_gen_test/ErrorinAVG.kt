@@ -41,11 +41,17 @@ public class ErrorinAVG {
     )
     internal val targetData = File("src/jvmTest/resources/ErrorinAVG.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/ErrorinAVG.query").readAsString()
+    internal val query = "PREFIX : <http://example.com/data/#> \n" +
+        "SELECT ?g (AVG(?p) AS ?avg) ((MIN(?p) + MAX(?p)) / 2 AS ?c) \n" +
+        "WHERE { \n" +
+        "  ?g :p ?p . \n" +
+        "} \n" +
+        "GROUP BY ?g \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Error in AVG`() {
+    public fun `Error in AVG`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class ErrorinAVG {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Error in AVG - in simulator`() {
+    public fun `Error in AVG - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

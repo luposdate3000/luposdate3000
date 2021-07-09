@@ -41,11 +41,17 @@ public class RDFSinferencetesttransitivityofsubPropertyOf {
     )
     internal val targetData = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubPropertyOf.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RDFSinferencetesttransitivityofsubPropertyOf.query").readAsString()
+    internal val query = "PREFIX ex: <http://example.org/ns#> \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "SELECT ?x ?y \n" +
+        "WHERE { \n" +
+        "  ?x ex:f ?y . \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `RDFS inference test transitivity of subPropertyOf`() {
+    public fun `RDFS inference test transitivity of subPropertyOf`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +81,7 @@ public class RDFSinferencetesttransitivityofsubPropertyOf {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `RDFS inference test transitivity of subPropertyOf - in simulator`() {
+    public fun `RDFS inference test transitivity of subPropertyOf - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

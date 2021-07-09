@@ -41,11 +41,41 @@ public class resourcesbsbmexplorequery22553sparql2553 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesbsbmexplorequery22553sparql2553.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesbsbmexplorequery22553sparql2553.query").readAsString()
+    internal val query = "PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> \n" +
+        "PREFIX rev: <http://purl.org/stuff/rev#> \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   \n" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>   \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>   \n" +
+        "PREFIX dc: <http://purl.org/dc/elements/1.1/>   \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>   \n" +
+        "PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>   \n" +
+        "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
+        "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
+        "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
+        "SELECT ?label ?comment ?producer ?productFeature ?propertyTextual1 ?propertyTextual2 ?propertyTextual3 \n" +
+        " ?propertyNumeric1 ?propertyNumeric2 ?propertyTextual4 ?propertyTextual5 ?propertyNumeric4  \n" +
+        "WHERE { \n" +
+        "    dataFromProducer1:Product3 rdfs:label ?label . \n" +
+        "    dataFromProducer1:Product3 rdfs:comment ?comment . \n" +
+        "    dataFromProducer1:Product3 bsbm:producer ?p . \n" +
+        "    ?p rdfs:label ?producer . \n" +
+        "    dataFromProducer1:Product3 dc:publisher ?p .  \n" +
+        "    dataFromProducer1:Product3 bsbm:productFeature ?f . \n" +
+        "    ?f rdfs:label ?productFeature . \n" +
+        "    dataFromProducer1:Product3 bsbm:productPropertyTextual1 ?propertyTextual1 . \n" +
+        "    dataFromProducer1:Product3 bsbm:productPropertyTextual2 ?propertyTextual2 . \n" +
+        "    dataFromProducer1:Product3 bsbm:productPropertyTextual3 ?propertyTextual3 . \n" +
+        "    dataFromProducer1:Product3 bsbm:productPropertyNumeric1 ?propertyNumeric1 . \n" +
+        "    dataFromProducer1:Product3 bsbm:productPropertyNumeric2 ?propertyNumeric2 . \n" +
+        "    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyTextual4 ?propertyTextual4 } \n" +
+        "    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyTextual5 ?propertyTextual5 } \n" +
+        "    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyNumeric4 ?propertyNumeric4 } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbsbmexplorequery22553sparql2553`() {
+    public fun `resourcesbsbmexplorequery22553sparql2553`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +105,7 @@ public class resourcesbsbmexplorequery22553sparql2553 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesbsbmexplorequery22553sparql2553 - in simulator`() {
+    public fun `resourcesbsbmexplorequery22553sparql2553 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

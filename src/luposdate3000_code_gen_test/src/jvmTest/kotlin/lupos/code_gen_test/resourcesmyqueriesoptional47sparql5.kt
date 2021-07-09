@@ -41,11 +41,26 @@ public class resourcesmyqueriesoptional47sparql5 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcesmyqueriesoptional47sparql5.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcesmyqueriesoptional47sparql5.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s ?o1 (COALESCE(BOUND(?o2) && (?o2 != ?o1),!BOUND(?o2)) AS ?t1) (BOUND(?o2) && (?o2 != ?o1) AS ?t2) (?o2 != ?o1 AS ?t3) WHERE { \n" +
+        " { \n" +
+        "  ?s :b1 ?o1 . \n" +
+        " } UNION { \n" +
+        "  ?s :b1 ?o1 . \n" +
+        " } \n" +
+        " OPTIONAL { \n" +
+        "  { \n" +
+        "   ?s :b2 ?o2 . \n" +
+        "  } UNION { \n" +
+        "   ?s :b2 ?o2 . \n" +
+        "  } \n" +
+        " } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesmyqueriesoptional47sparql5`() {
+    public fun `resourcesmyqueriesoptional47sparql5`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +90,7 @@ public class resourcesmyqueriesoptional47sparql5 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcesmyqueriesoptional47sparql5 - in simulator`() {
+    public fun `resourcesmyqueriesoptional47sparql5 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

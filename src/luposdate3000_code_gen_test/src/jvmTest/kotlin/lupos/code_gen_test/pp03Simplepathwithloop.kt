@@ -41,11 +41,15 @@ public class pp03Simplepathwithloop {
     )
     internal val targetData = File("src/jvmTest/resources/pp03Simplepathwithloop.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/pp03Simplepathwithloop.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/schema#> \n" +
+        "prefix in: <http://www.example.org/instance#> \n" +
+        "select * where { \n" +
+        "in:a ex:p1/ex:p2/ex:p3/ex:p4 ?x \n" +
+        "}"
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp03 Simple path with loop`() {
+    public fun `pp03 Simple path with loop`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +79,7 @@ public class pp03Simplepathwithloop {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `pp03 Simple path with loop - in simulator`() {
+    public fun `pp03 Simple path with loop - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

@@ -16,15 +16,20 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxupdate31ru {
-    internal val query = File("src/jvmTest/resources/syntaxupdate31ru.query").readAsString()
+    internal val query = "DELETE DATA {  \n" +
+        "  <s1> <p1> <o1> \n" +
+        "  GRAPH <G> { <s> <p1> 'o1'; <p2> <o2> }  \n" +
+        "  GRAPH <G1> { <s> <p1> 'o1'; <p2> <o2> }  \n" +
+        "  <s1> <p1> <o1> \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `syntaxupdate31ru`() {
+    public fun `syntaxupdate31ru`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

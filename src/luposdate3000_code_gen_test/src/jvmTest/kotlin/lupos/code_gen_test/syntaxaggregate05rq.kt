@@ -16,15 +16,15 @@
  */
 package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 
 public class syntaxaggregate05rq {
-    internal val query = File("src/jvmTest/resources/syntaxaggregate05rq.query").readAsString()
+    internal val query = "SELECT (SUM(?x) AS ?y) {} \n" +
+        ""
 
     @Test
-    fun `syntaxaggregate05rq`() {
+    public fun `syntaxaggregate05rq`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)

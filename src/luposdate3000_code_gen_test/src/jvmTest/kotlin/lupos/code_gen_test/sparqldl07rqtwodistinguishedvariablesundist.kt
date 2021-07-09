@@ -41,11 +41,19 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl07rqtwodistinguishedvariablesundist.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl07rqtwodistinguishedvariablesundist.query").readAsString()
+    internal val query = "# Query6 - cycle with undistinguished variables \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT * \n" +
+        "WHERE \n" +
+        "{:a :p _:aa. \n" +
+        " ?X :t ?Y. \n" +
+        " ?Y :s _:aa. \n" +
+        " _:aa :r ?Z.}"
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl07rq two distinguished variables  undist`() {
+    public fun `sparqldl07rq two distinguished variables  undist`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +83,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl07rq two distinguished variables  undist - in simulator`() {
+    public fun `sparqldl07rq two distinguished variables  undist - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

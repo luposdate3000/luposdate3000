@@ -29,11 +29,14 @@ import kotlin.test.fail
 public class constructwhere04CONSTRUCTWHERE {
     internal val targetData = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.output").readAsString()
     internal val targetType = ".ttl"
-    internal val query = File("src/jvmTest/resources/constructwhere04CONSTRUCTWHERE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "CONSTRUCT  \n" +
+        "FROM <data.ttl> \n" +
+        "WHERE { ?s ?p ?o }"
 
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
-    fun `constructwhere04  CONSTRUCT WHERE`() {
+    public fun `constructwhere04  CONSTRUCT WHERE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -49,7 +52,7 @@ public class constructwhere04CONSTRUCTWHERE {
 
     @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
     @Test
-    fun `constructwhere04  CONSTRUCT WHERE - in simulator`() {
+    public fun `constructwhere04  CONSTRUCT WHERE - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)

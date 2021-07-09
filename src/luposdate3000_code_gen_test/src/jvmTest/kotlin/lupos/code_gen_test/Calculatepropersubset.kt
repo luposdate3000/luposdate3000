@@ -41,11 +41,47 @@ public class Calculatepropersubset {
     )
     internal val targetData = File("src/jvmTest/resources/Calculatepropersubset.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Calculatepropersubset.query").readAsString()
+    internal val query = "PREFIX :    <http://example/> \n" +
+        "PREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "SELECT (?s1 AS ?subset) (?s2 AS ?superset) \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "    # All pairs of sets except (S,S) \n" +
+        "    ?s2 rdf:type :Set . \n" +
+        "    ?s1 rdf:type :Set . \n" +
+        "    MINUS { \n" +
+        "        # See subset-01 ... \n" +
+        "        ?s1 rdf:type :Set . \n" +
+        "        ?s2 rdf:type :Set . \n" +
+        "        ?s1 :member ?x . \n" +
+        "        FILTER ( NOT EXISTS { ?s2 :member ?x . } ) \n" +
+        "    } \n" +
+        "    # Remove those that are the pairs with the same elements. \n" +
+        "    # See set-equals-1 \n" +
+        "    MINUS { \n" +
+        "        ?s2 rdf:type :Set . \n" +
+        "        ?s1 rdf:type :Set . \n" +
+        "        MINUS  \n" +
+        "        { \n" +
+        "            ?s1 rdf:type :Set . \n" +
+        "            ?s2 rdf:type :Set . \n" +
+        "            ?s1 :member ?x . \n" +
+        "            FILTER NOT EXISTS { ?s2 :member ?x . } \n" +
+        "        } \n" +
+        "        MINUS  \n" +
+        "        { \n" +
+        "            ?s1 rdf:type :Set . \n" +
+        "            ?s2 rdf:type :Set . \n" +
+        "            ?s2 :member ?x . \n" +
+        "            FILTER NOT EXISTS { ?s1 :member ?x . } \n" +
+        "        } \n" +
+        "    } \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Calculate proper subset`() {
+    public fun `Calculate proper subset`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +111,7 @@ public class Calculatepropersubset {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `Calculate proper subset - in simulator`() {
+    public fun `Calculate proper subset - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

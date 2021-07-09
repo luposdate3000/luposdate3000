@@ -41,11 +41,36 @@ public class resourcessp2bq7sparql1640 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq7sparql1640.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq7sparql1640.query").readAsString()
+    internal val query = "PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "PREFIX foaf:    <http://xmlns.com/foaf/0.1/> \n" +
+        "PREFIX dc:      <http://purl.org/dc/elements/1.1/> \n" +
+        "PREFIX dcterms: <http://purl.org/dc/terms/> \n" +
+        "SELECT DISTINCT ?title \n" +
+        "WHERE { \n" +
+        "  ?class rdfs:subClassOf foaf:Document . \n" +
+        "  ?doc rdf:type ?class . \n" +
+        "  ?doc dc:title ?title . \n" +
+        "  ?bag2 ?member2 ?doc . \n" +
+        "  ?doc2 dcterms:references ?bag2 . \n" +
+        "  OPTIONAL { \n" +
+        "    ?class3 rdfs:subClassOf foaf:Document . \n" +
+        "    ?doc3 rdf:type ?class3 . \n" +
+        "    ?doc3 dcterms:references ?bag3 . \n" +
+        "    ?bag3 ?member3 ?doc . \n" +
+        "    OPTIONAL { \n" +
+        "      ?class4 rdfs:subClassOf foaf:Document . \n" +
+        "      ?doc4 rdf:type ?class4 . \n" +
+        "      ?doc4 dcterms:references ?bag4 . \n" +
+        "      ?bag4 ?member4 ?doc3 . \n" +
+        "    } FILTER (!bound(?doc4)) \n" +
+        "  } FILTER (!bound(?doc3)) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq7sparql1640`() {
+    public fun `resourcessp2bq7sparql1640`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +100,7 @@ public class resourcessp2bq7sparql1640 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq7sparql1640 - in simulator`() {
+    public fun `resourcessp2bq7sparql1640 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

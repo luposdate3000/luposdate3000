@@ -40,10 +40,15 @@ public class bind06BIND {
     )
     internal val targetData = File("src/jvmTest/resources/bind06BIND.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/bind06BIND.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "SELECT * \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "  BIND(?o+10 AS ?z) \n" +
+        "}"
 
     @Test
-    fun `bind06  BIND`() {
+    public fun `bind06  BIND`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +77,7 @@ public class bind06BIND {
     }
 
     @Test
-    fun `bind06  BIND - in simulator`() {
+    public fun `bind06  BIND - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

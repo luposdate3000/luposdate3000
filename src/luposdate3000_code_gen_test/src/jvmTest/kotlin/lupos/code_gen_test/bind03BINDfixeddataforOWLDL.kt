@@ -41,11 +41,22 @@ public class bind03BINDfixeddataforOWLDL {
     )
     internal val targetData = File("src/jvmTest/resources/bind03BINDfixeddataforOWLDL.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/bind03BINDfixeddataforOWLDL.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" +
+        "SELECT ?z ?s1 \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "  ?p a owl:DatatypeProperty .  \n" +
+        "  BIND(?o+1 AS ?z) \n" +
+        "  ?s1 ?p1 ?z . \n" +
+        "  ?p1 a owl:DatatypeProperty .  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug in OWL-Inference<
     @Test
-    fun `bind03  BIND fixed data for OWL DL`() {
+    public fun `bind03  BIND fixed data for OWL DL`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +86,7 @@ public class bind03BINDfixeddataforOWLDL {
 
     @Ignore // Reason: >Bug in OWL-Inference<
     @Test
-    fun `bind03  BIND fixed data for OWL DL - in simulator`() {
+    public fun `bind03  BIND fixed data for OWL DL - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

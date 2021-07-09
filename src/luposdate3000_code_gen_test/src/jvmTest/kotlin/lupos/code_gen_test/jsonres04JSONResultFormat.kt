@@ -41,11 +41,12 @@ public class jsonres04JSONResultFormat {
     )
     internal val targetData = File("src/jvmTest/resources/jsonres04JSONResultFormat.output").readAsString()
     internal val targetType = ".srj"
-    internal val query = File("src/jvmTest/resources/jsonres04JSONResultFormat.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "ASK WHERE { :s1 :p1 :o1 }"
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `jsonres04  JSON Result Format`() {
+    public fun `jsonres04  JSON Result Format`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +76,7 @@ public class jsonres04JSONResultFormat {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `jsonres04  JSON Result Format - in simulator`() {
+    public fun `jsonres04  JSON Result Format - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

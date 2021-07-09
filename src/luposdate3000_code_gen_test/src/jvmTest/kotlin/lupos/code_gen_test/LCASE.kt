@@ -40,10 +40,14 @@ public class LCASE {
     )
     internal val targetData = File("src/jvmTest/resources/LCASE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/LCASE.query").readAsString()
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT ?s (LCASE(?str) AS ?lstr) WHERE { \n" +
+        " ?s :str ?str \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `LCASE`() {
+    public fun `LCASE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +76,7 @@ public class LCASE {
     }
 
     @Test
-    fun `LCASE - in simulator`() {
+    public fun `LCASE - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

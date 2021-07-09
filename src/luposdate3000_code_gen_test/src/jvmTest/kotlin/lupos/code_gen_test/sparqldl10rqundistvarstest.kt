@@ -41,11 +41,23 @@ public class sparqldl10rqundistvarstest {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl10rqundistvarstest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl10rqundistvarstest.query").readAsString()
+    internal val query = "# Query6 - articulation simplification test \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX owl:  <http://www.w3.org/2002/07/owl#>  \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT ?X ?Y \n" +
+        "WHERE \n" +
+        "{ \n" +
+        "  ?X :p ?a. \n" +
+        "  ?a owl:sameAs ?b. \n" +
+        "  ?b owl:sameAs ?Y. \n" +
+        "  ?Y :q ?c. \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl10rq undist vars test`() {
+    public fun `sparqldl10rq undist vars test`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +87,7 @@ public class sparqldl10rqundistvarstest {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl10rq undist vars test - in simulator`() {
+    public fun `sparqldl10rq undist vars test - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

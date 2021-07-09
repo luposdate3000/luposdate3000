@@ -40,10 +40,20 @@ public class SAMPLE {
     )
     internal val targetData = File("src/jvmTest/resources/SAMPLE.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/SAMPLE.query").readAsString()
+    internal val query = "PREFIX : <http://www.example.org/> \n" +
+        "ASK { \n" +
+        " { \n" +
+        "  SELECT (SAMPLE(?o) AS ?sample) \n" +
+        "  WHERE { \n" +
+        "   ?s :dec ?o \n" +
+        "  } \n" +
+        " } \n" +
+        " FILTER(?sample = 1.0 || ?sample = 2.2 || ?sample = 3.5) \n" +
+        "} \n" +
+        ""
 
     @Test
-    fun `SAMPLE`() {
+    public fun `SAMPLE`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -72,7 +82,7 @@ public class SAMPLE {
     }
 
     @Test
-    fun `SAMPLE - in simulator`() {
+    public fun `SAMPLE - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

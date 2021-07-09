@@ -41,11 +41,16 @@ public class RAND {
     )
     internal val targetData = File("src/jvmTest/resources/RAND.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/RAND.query").readAsString()
+    internal val query = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "ASK { \n" +
+        " BIND(RAND() AS ?r) \n" +
+        " FILTER(DATATYPE(?r) = xsd:double && ?r >= 0.0 && ?r < 1.0) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `RAND`() {
+    public fun `RAND`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class RAND {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `RAND - in simulator`() {
+    public fun `RAND - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

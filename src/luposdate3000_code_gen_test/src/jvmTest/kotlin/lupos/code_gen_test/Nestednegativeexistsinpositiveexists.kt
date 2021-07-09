@@ -41,11 +41,16 @@ public class Nestednegativeexistsinpositiveexists {
     )
     internal val targetData = File("src/jvmTest/resources/Nestednegativeexistsinpositiveexists.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/Nestednegativeexistsinpositiveexists.query").readAsString()
+    internal val query = "prefix ex: <http://www.example.org/> \n" +
+        "select * where { \n" +
+        "  ?s ?p ex:o \n" +
+        "  filter exists { ?s ?p ex:o1  filter not exists { ?s ?p ex:o2 } }  \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Nested negative exists in positive exists`() {
+    public fun `Nested negative exists in positive exists`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class Nestednegativeexistsinpositiveexists {
 
     @Ignore // Reason: >using not implemented feature<
     @Test
-    fun `Nested negative exists in positive exists - in simulator`() {
+    public fun `Nested negative exists in positive exists - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

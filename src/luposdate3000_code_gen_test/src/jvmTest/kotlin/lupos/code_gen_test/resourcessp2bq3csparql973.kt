@@ -41,11 +41,20 @@ public class resourcessp2bq3csparql973 {
     )
     internal val targetData = File("src/jvmTest/resources/resourcessp2bq3csparql973.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/resourcessp2bq3csparql973.query").readAsString()
+    internal val query = "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX swrc:  <http://swrc.ontoware.org/ontology#> \n" +
+        "PREFIX bench: <http://localhost/vocabulary/bench/> \n" +
+        "SELECT ?article \n" +
+        "WHERE { \n" +
+        "  ?article rdf:type bench:Article . \n" +
+        "  ?article ?property ?value . \n" +
+        "  FILTER (?property=swrc:isbn) \n" +
+        "} \n" +
+        ""
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq3csparql973`() {
+    public fun `resourcessp2bq3csparql973`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +84,7 @@ public class resourcessp2bq3csparql973 {
 
     @Ignore // Reason: >too slow<
     @Test
-    fun `resourcessp2bq3csparql973 - in simulator`() {
+    public fun `resourcessp2bq3csparql973 - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

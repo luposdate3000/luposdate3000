@@ -41,11 +41,16 @@ public class sparqldl12rqrangetest {
     )
     internal val targetData = File("src/jvmTest/resources/sparqldl12rqrangetest.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/sparqldl12rqrangetest.query").readAsString()
+    internal val query = "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+        "prefix owl: <http://www.w3.org/2002/07/owl#> \n" +
+        "prefix : <foo://bla/names#> \n" +
+        "select ?C \n" +
+        "where {:child rdfs:domain ?C} \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl12rq range test`() {
+    public fun `sparqldl12rq range test`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +80,7 @@ public class sparqldl12rqrangetest {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `sparqldl12rq range test - in simulator`() {
+    public fun `sparqldl12rq range test - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])

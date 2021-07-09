@@ -41,11 +41,18 @@ public class parentquerywithhasChildsomeThingrestriction {
     )
     internal val targetData = File("src/jvmTest/resources/parentquerywithhasChildsomeThingrestriction.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = File("src/jvmTest/resources/parentquerywithhasChildsomeThingrestriction.query").readAsString()
+    internal val query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n" +
+        "PREFIX : <http://example.org/test#> \n" +
+        "SELECT *  \n" +
+        "WHERE { ?parent a [ \n" +
+        "       a owl:Restriction ; \n" +
+        "       owl:onProperty :hasChild ; \n" +
+        "       owl:someValuesFrom owl:Thing ] . } \n" +
+        ""
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `parent query with hasChild some Thing restriction`() {
+    public fun `parent query with hasChild some Thing restriction`() {
         val instance = LuposdateEndpoint.initialize()
         instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
@@ -75,7 +82,7 @@ public class parentquerywithhasChildsomeThingrestriction {
 
     @Ignore // Reason: >Bug<
     @Test
-    fun `parent query with hasChild some Thing restriction - in simulator`() {
+    public fun `parent query with hasChild some Thing restriction - in simulator`() {
         // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
         val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
