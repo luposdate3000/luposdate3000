@@ -17,19 +17,19 @@
             "name": "park1",
             "dataSink": "Gateway of WSN 1",
             "rateInSec": 60,
-            "maxSamples": 30
+            "maxSamples": 10
         },
         {
             "name": "park2",
             "dataSink": "Gateway of WSN 2",
             "rateInSec": 32,
-            "maxSamples": 30
+            "maxSamples": 9
         },
         {
             "name": "park3",
             "dataSink": "Gateway of WSN 3",
             "rateInSec": 54,
-            "maxSamples": 30
+            "maxSamples": 8
         }
     ],
     "deviceType": [{

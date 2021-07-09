@@ -14,7 +14,6 @@ class IntegrationTest {
         IoTSimulation().simulate("${FilePaths.testResource}/anotherException_2Sensor1Database.json")
     }
 
-    @Ignore
     @Test
     fun test3() {
         IoTSimulation().simulate("${FilePaths.testResource}/Exception_2DBwith1Sensor.json")

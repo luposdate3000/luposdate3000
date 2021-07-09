@@ -6,7 +6,7 @@
             "name": "park1",
             "dataSink": "E",
             "rateInSec": 30,
-            "maxSamples": 50
+            "maxSamples": 1
         }
     ],
     "deviceType": [{

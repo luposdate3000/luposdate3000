@@ -1,5 +1,5 @@
 {
-    "dummyDatabase": false,
+    "dummyDatabase": true,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 100,
@@ -29,7 +29,7 @@
         "starRoot": "Fog1",
         "linkType": "WPAN",
         "deviceType": "Fog",
-        "number": 20
+        "number": 3
     }],
     "querySender": []
 }
