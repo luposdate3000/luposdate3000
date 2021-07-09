@@ -23,6 +23,7 @@ internal class Device(
     internal val performance: Double,
     supportedLinkTypes: IntArray,
     internal val deviceNameID: Int,
+    internal val isDeterministic: Boolean,
 ) : Entity() {
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
@@ -44,6 +45,9 @@ internal class Device(
     }
 
     private fun getProcessingDelay(): Long {
+        if (isDeterministic)
+            return 0
+
         val now = Time.stamp()
         val microDif = Time.differenceInMicroSec(deviceStart, now)
         val scaled = microDif * 100 / performance

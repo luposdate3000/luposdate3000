@@ -1,5 +1,6 @@
 {
     "dummyDatabase": true,
+    "deterministic": false,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 10,

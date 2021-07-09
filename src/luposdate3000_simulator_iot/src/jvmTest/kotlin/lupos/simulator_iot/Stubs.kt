@@ -6,11 +6,11 @@ internal object Stubs {
 
     internal fun createEmptyDevice(address: Int): Device {
         val loc = GeoLocation.getRandom()
-        return Device(loc, address, null, null, 100.0, intArrayOf(), -1)
+        return Device(loc, address, null, null, 100.0, intArrayOf(), -1, true)
     }
 
     internal fun createEmptyDevice(address: Int, linkTypes: IntArray): Device {
         val loc = GeoLocation.getRandom()
-        return Device(loc, address, null, null, 100.0, linkTypes, -1)
+        return Device(loc, address, null, null, 100.0, linkTypes, -1, true)
     }
 }

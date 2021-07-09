@@ -1,5 +1,6 @@
 {
     "dummyDatabase": true,
+    "deterministic": false,
     "linkType": [{
             "name": "WIFI",
             "rangeInMeters": 50,

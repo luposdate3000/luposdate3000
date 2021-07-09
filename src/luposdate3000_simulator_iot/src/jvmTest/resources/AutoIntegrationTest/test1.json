@@ -1,5 +1,6 @@
 {
     "dummyDatabase": false,
+    "deterministic": true,
     "linkType": [{
         "name": "WIRE",
         "rangeInMeters": 40000,
