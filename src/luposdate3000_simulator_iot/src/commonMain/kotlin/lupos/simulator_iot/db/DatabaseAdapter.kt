@@ -65,6 +65,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             is DBInternPackage -> sequenceKeeper.receive(payload)
             is DBQueryResultPackage -> sequenceKeeper.receive(payload)
             is DBSequenceEndPackage -> sequenceKeeper.receive(payload)
+            is DBQuerySenderPackage -> processIDatabasePackage(payload.content)
             else -> throw Exception("undefined payload")
         }
     }
@@ -114,7 +115,10 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     }
 
     internal fun isDatabasePackage(pck: IPayload): Boolean {
-        return pck is DBInternPackage || pck is DBQueryResultPackage || pck is DBSequenceEndPackage
+        return pck is DBInternPackage
+            || pck is DBQueryResultPackage
+            || pck is DBSequenceEndPackage
+            || pck is DBQuerySenderPackage
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
