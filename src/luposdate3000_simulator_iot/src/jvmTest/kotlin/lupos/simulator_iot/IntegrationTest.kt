@@ -1,5 +1,4 @@
 package lupos.simulator_iot
-
 import kotlin.test.Ignore
 import kotlin.test.Test
 
@@ -24,13 +23,12 @@ class IntegrationTest {
         IoTSimulation().simulate("${FilePaths.testResource}/star.json")
     }
 
-    @Ignore
     @Test
     fun test5() {
         IoTSimulation().simulate("${FilePaths.testResource}/sensorFromStarSendOverMeshWithDB.json")
     }
 
-    @Ignore
+    @Ignore // dieser Test is so nie für die Ausführung gedacht gewesen
     @Test
     fun test6() {
         IoTSimulation().simulate("${FilePaths.testResource}/AutoIntegrationTest/test1.json")
