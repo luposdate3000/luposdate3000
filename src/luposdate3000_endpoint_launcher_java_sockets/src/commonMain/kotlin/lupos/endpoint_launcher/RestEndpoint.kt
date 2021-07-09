@@ -31,6 +31,7 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dictionary.IDictionary
 import lupos.shared.inline.MyInputStream
 import lupos.shared.inline.MyOutputStream
 import lupos.shared.inline.MyPrintWriter
@@ -40,17 +41,17 @@ public object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
     private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
-public fun registerDictionary(key:String):IDictionary{
-return registerDictionary(key,DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance))
-}
-public fun registerDictionary(key:String,dict:IDictionary):IDictionary{
-            val dict2 = RemoteDictionaryServer(dict, instance)
-            dictionaryMapping[key] = dict2
-return dict2
-}
-public fun removeDictionary(key:String){
-            dictionaryMapping.remove(key)
-}
+    public fun registerDictionary(key: String, instance: Luposdate3000Instance): IDictionary {
+        return registerDictionary(key, DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
+    }
+    public fun registerDictionary(key: String, dict: IDictionary, instance: Luposdate3000Instance): IDictionary {
+        val dict2 = RemoteDictionaryServer(dict, instance)
+        dictionaryMapping[key] = dict2
+        return dict2
+    }
+    public fun removeDictionary(key: String) {
+        dictionaryMapping.remove(key)
+    }
     public fun distributed_graph_create(params: Map<String, String>, instance: Luposdate3000Instance) {
         val name = params["name"]!!
         val query = Query(instance)
@@ -286,12 +287,12 @@ public fun removeDictionary(key:String){
         }
         paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) {
             val key = params["key"]!!
-registerDictionary(key)
+            registerDictionary(key, instance)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) {
             val key = params["key"]!!
-removeDictionary(key)
+            removeDictionary(key)
             printHeaderSuccess(connectionOutMy)
         }
         paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {

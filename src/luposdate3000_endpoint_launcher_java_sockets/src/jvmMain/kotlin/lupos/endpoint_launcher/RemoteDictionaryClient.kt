@@ -17,6 +17,7 @@
 package lupos.endpoint_launcher
 
 import lupos.dictionary.ADictionary
+import lupos.dictionary.DictionaryCache
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
@@ -26,8 +27,8 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance,isLocal:Boolean) : ADictionary(instance, isLocal) {
-private val cache=DictionaryCache(instance)
+internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance, isLocal: Boolean) : ADictionary(instance, isLocal) {
+    private val cache = DictionaryCache(instance)
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
     override fun isInmemoryOnly(): Boolean = true
@@ -39,7 +40,7 @@ private val cache=DictionaryCache(instance)
         output.writeDictionaryValueType(value)
         output.flush()
         val res = input.readDictionaryValueType()
-return res
+        return res
     }
 
     override fun createNewBNode(): DictionaryValueType {
@@ -55,16 +56,16 @@ return res
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
-val tmp2=instance.nodeGlobalDictionary!!.hasValue(buffer)
-if(tmp2!=DictionaryValueHelper.nullValue){ 
-return tmp2
-}
-if(instance.dictionaryCacheCapacity>0){
-val tmp=cache.getValueByContent(buffer)
-if(tmp!=DictionaryValueHelper.nullValue){
-return tmp
-}
-}
+        val tmp2 = instance.nodeGlobalDictionary!!.hasValue(buffer)
+        if (tmp2 != DictionaryValueHelper.nullValue) {
+            return tmp2
+        }
+        if (instance.dictionaryCacheCapacity> 0) {
+            val tmp = cache.getValueByContent(buffer)
+            if (tmp != DictionaryValueHelper.nullValue) {
+                return tmp
+            }
+        }
         output.writeInt(2)
         output.writeInt(ByteArrayWrapperExt.getSize(buffer))
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
@@ -73,54 +74,54 @@ return tmp
         if (res == DictionaryValueHelper.nullValue) {
             return DictionaryValueHelper.nullValue
         }
-if(instance.dictionaryCacheCapacity>0){
-cache.insertValuePair(buffer,res)
-}
+        if (instance.dictionaryCacheCapacity> 0) {
+            cache.insertValuePair(buffer, res)
+        }
         return res
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-val tmp2=instance.nodeGlobalDictionary!!.hasValue(buffer)
-if(tmp2!=DictionaryValueHelper.nullValue){
-return tmp2
-}
-if(instance.dictionaryCacheCapacity>0){
-val tmp=cache.getValueByContent(buffer)
-if(tmp!=DictionaryValueHelper.nullValue){ 
-return tmp
-}
-}
+        val tmp2 = instance.nodeGlobalDictionary!!.hasValue(buffer)
+        if (tmp2 != DictionaryValueHelper.nullValue) {
+            return tmp2
+        }
+        if (instance.dictionaryCacheCapacity> 0) {
+            val tmp = cache.getValueByContent(buffer)
+            if (tmp != DictionaryValueHelper.nullValue) {
+                return tmp
+            }
+        }
         output.writeInt(5)
         output.writeInt(ByteArrayWrapperExt.getSize(buffer))
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
-        val res= input.readDictionaryValueType()
-if(instance.dictionaryCacheCapacity>0){
-cache.insertValuePair(buffer,res)
-}
-return res
+        val res = input.readDictionaryValueType()
+        if (instance.dictionaryCacheCapacity> 0) {
+            cache.insertValuePair(buffer, res)
+        }
+        return res
     }
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
-if(instance.dictionaryCacheCapacity>0){
-val tmp=cache.getValueById(buffer,value)
-if(tmp){
-return
-}
-}
-}else{
-return instance.nodeGlobalDictionary!!.getValue(buffer, value)
-}
+        if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
+            if (instance.dictionaryCacheCapacity> 0) {
+                val tmp = cache.getValueById(buffer, value)
+                if (tmp) {
+                    return
+                }
+            }
+        } else {
+            return instance.nodeGlobalDictionary!!.getValue(buffer, value)
+        }
         output.writeInt(6)
         output.writeDictionaryValueType(value)
         output.flush()
         val len = input.readInt()
         ByteArrayWrapperExt.setSize(buffer, len)
         input.read(ByteArrayWrapperExt.getBuf(buffer), len)
-if(instance.dictionaryCacheCapacity>0){
-cache.insertValuePair(buffer,value)
-}
+        if (instance.dictionaryCacheCapacity> 0) {
+            cache.insertValuePair(buffer, value)
+        }
     }
 
     override fun close() {

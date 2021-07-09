@@ -31,7 +31,7 @@ public abstract class ADictionary(
     @JvmField
     public val instance: Luposdate3000Instance,
     @JvmField
-    internal var isLocal: Boolean,
+    public var isLocal: Boolean,
 ) : IDictionary {
     @JvmField
     internal val bnodeMapToGlobal = mutableMapOf<DictionaryValueType, DictionaryValueType>()

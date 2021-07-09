@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.dynamicArray
-
 import lupos.shared.SanityCheck
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
@@ -33,7 +33,7 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     public constructor() : this(ByteArray(20), 0)
 
     override fun compareTo(other: ByteArrayWrapper): Int {
-return ByteArrayWrapperExt.compare_slow(this,other)
+        return ByteArrayWrapperExt.compare_slow(this, other)
     }
 
     override fun equals(other: Any?): Boolean {

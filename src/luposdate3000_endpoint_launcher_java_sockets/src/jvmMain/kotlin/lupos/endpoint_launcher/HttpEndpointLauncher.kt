@@ -57,9 +57,10 @@ public actual object HttpEndpointLauncher {
             }
         }
     }
+    private val key_global_dict = "global_dict"
 
     public actual /*suspend*/ fun start(instance: Luposdate3000Instance) {
-val localhost=instance.tripleStoreManager!!.getLocalhost()
+        val localhost = instance.tripleStoreManager!!.getLocalhost()
         val hosturl = localhost.split(":")
         val hostname = hosturl[0]
         val port = if (hosturl.size > 1) {
@@ -72,13 +73,12 @@ val localhost=instance.tripleStoreManager!!.getLocalhost()
             val server = ServerSocket()
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
-val key_global_dict="global_dict"
-if(localhost==instance.LUPOS_PROCESS_URLS[0]){
-RestEndpoint.registerDictionary(key_global_dict,instance.nodeGlobalDictionary)
-}else{
-val conn = instance.communicationHandler.openConnection(instance.LUPOS_PROCESS_URLS[0], "POST /distributed/query/dictionary?key=$key_global_dict\n\n")
-instance.nodeGlobalDictionary=RemoteDictionaryClient(conn.first, conn.second, instance,false)
-}
+            if (localhost == instance.LUPOS_PROCESS_URLS[0]) {
+                RestEndpoint.registerDictionary(key_global_dict, instance.nodeGlobalDictionary!!, instance)
+            } else {
+                val conn = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS[0], "POST /distributed/query/dictionary?key=$key_global_dict\n\n")
+                instance.nodeGlobalDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, false)
+            }
             while (true) {
                 val connection = server.accept()
                 println("received connection from ${connection.remoteSocketAddress}")
@@ -118,7 +118,7 @@ instance.nodeGlobalDictionary=RemoteDictionaryClient(conn.first, conn.second, in
                             RestEndpoint.initialize(instance, paths, params, connectionInMy, connectionOutMy, hostname, port)
 
                             paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
-RestEndpoint.removeDictionary()
+                                RestEndpoint.removeDictionary(key_global_dict)
                                 LuposdateEndpoint.close()
                                 exitProcess(0)
                             }
@@ -179,7 +179,7 @@ RestEndpoint.removeDictionary()
                                         if (requireDictionary) {
                                             val idx2 = dictionaryURL.indexOf("/")
                                             val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
-                                            val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance,true)
+                                            val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
                                             query.setDictionaryServer(remoteDictionary)
                                         } else {
                                             query.setDictionaryServer(DictionaryNotImplemented())

@@ -148,7 +148,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
             else -> {
                 if (isLocal) {
                     val tmp = instance.nodeGlobalDictionary!!.hasValue(buffer)
-                    if (tmp != null) {
+                    if (tmp != DictionaryValueHelper.nullValue) {
                         return tmp
                     }
                 }

@@ -79,28 +79,30 @@ public object ByteArrayWrapperExt {
         setSize(b, b.size_ + a.size)
         a.copyInto(b.buf_, offset, 0, a.size)
     }
-@Suppress("NOTHING_TO_INLINE")
-    public inline  fun compare_slow	(a: ByteArrayWrapper,b: ByteArrayWrapper): Int {
+
+    @Suppress("NOTHING_TO_INLINE")
+    public inline fun compare_slow(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         var res = 0
         var i = 0
         while (i < a.size_ && i < b.size_ && res == 0) {
-            res =a. buf_[i] - b.buf_[i]
+            res = a.buf_[i] - b.buf_[i]
             i++
         }
         if (res == 0) {
-            res =a. size_ - b.size_
+            res = a.size_ - b.size_
         }
         return res
     }
-@Suppress("NOTHING_TO_INLINE")
-    public inline  fun compare_fast	(a: ByteArrayWrapper,b: ByteArrayWrapper): Int {
+
+    @Suppress("NOTHING_TO_INLINE")
+    public inline fun compare_fast(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         var res = 0
         var i = 0
         if (res == 0) {
-            res =a. size_ - b.size_
+            res = a.size_ - b.size_
         }
         while (i < a.size_ && i < b.size_ && res == 0) {
-            res =a. buf_[i] - b.buf_[i]
+            res = a.buf_[i] - b.buf_[i]
             i++
         }
         return res
