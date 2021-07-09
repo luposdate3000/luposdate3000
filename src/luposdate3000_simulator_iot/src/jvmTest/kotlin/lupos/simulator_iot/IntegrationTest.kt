@@ -24,7 +24,6 @@ class IntegrationTest {
         IoTSimulation().simulate("${FilePaths.testResource}/star.json")
     }
 
-    @Ignore
     @Test
     fun test5() {
         IoTSimulation().simulate("${FilePaths.testResource}/sensorFromStarSendOverMeshWithDB.json")
