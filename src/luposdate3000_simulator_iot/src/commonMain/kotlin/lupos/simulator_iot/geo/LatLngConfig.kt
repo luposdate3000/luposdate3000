@@ -63,7 +63,6 @@ internal object LatLngConfig {
      * @param radius the Earth's spherical approximation radius.
      * @param unit the unit the radius is given in.
      */
-    @Synchronized
     internal fun setEarthRadius(radius: Double, unit: LengthUnit) {
         EARTH_RADIUS = DoubleArray(LengthUnit.values().size)
         for (toUnit in LengthUnit.values()) {

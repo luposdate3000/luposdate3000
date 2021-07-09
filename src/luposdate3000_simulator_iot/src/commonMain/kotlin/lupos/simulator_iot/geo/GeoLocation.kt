@@ -1,6 +1,7 @@
 package lupos.simulator_iot.geo
 
 import lupos.simulator_iot.RandomGenerator
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
@@ -40,12 +41,12 @@ internal class GeoLocation(internal var latitude: Double, internal var longitude
             val u = RandomGenerator.random.nextDouble()
             val v = RandomGenerator.random.nextDouble()
             val w = radiusInDegrees * sqrt(u)
-            val t = 2 * Math.PI * v
+            val t = 2 * PI * v
             val x = w * cos(t)
             val y = w * sin(t)
 
             // Adjust the x-coordinate for the shrinking of the east-west distances
-            val newX = x / cos(Math.toRadians(y0))
+            val newX = x / cos(y0 / 180.0 * PI)
             val foundLongitude = newX + x0
             val foundLatitude = y + y0
             return GeoLocation(foundLatitude, foundLongitude)
