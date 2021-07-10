@@ -28,6 +28,17 @@ class IntegrationTest {
         IoTSimulation().simulate("$prefix/databasesAsStarRoots.json")
     }
 
+    @Test
+    fun campusCentralCaseWithoutQuery() {
+        IoTSimulation().simulate("$prefix/campusCentralCaseWithoutQuery.json")
+    }
+
+    @Test
+    fun campusDistributedCaseWithoutQuery() {
+        IoTSimulation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
+    }
+
+
     @Ignore // dieser Test is so nie für die Ausführung gedacht gewesen
     @Test
     fun test6() {
