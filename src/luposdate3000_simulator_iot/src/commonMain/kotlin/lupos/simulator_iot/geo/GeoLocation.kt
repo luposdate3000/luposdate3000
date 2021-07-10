@@ -50,7 +50,12 @@ internal class GeoLocation(internal var latitude: Double, internal var longitude
             val newX = x / cos(y0 / 180.0 * PI)
             val foundLongitude = newX + x0
             val foundLatitude = y + y0
-            return GeoLocation(foundLatitude, foundLongitude)
+
+            // Check the result for possible rounding errors
+            val result = GeoLocation(foundLatitude, foundLongitude)
+            if(result.getDistanceInMeters(center) > radiusInMeters)
+                return getRandomLocationInRadius(center, radiusInMeters, random)
+            return result
         }
 
         internal fun getRandom(random: Random): GeoLocation {
