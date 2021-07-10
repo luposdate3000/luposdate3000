@@ -11,6 +11,7 @@ internal class ParkingSensor(
     internal val rateInSec: Int,
     internal val maxSamples: Int,
     private val dataSinkDeviceName: String,
+    private val parkingAreaID: Int,
 ) : ISensor {
 
     private val infinitySamples: Int = -1
@@ -91,7 +92,7 @@ internal class ParkingSensor(
             sampleTime = Logger.getSimulationTimeString(),
             isOccupied = Configuration.randomGenerator.getBoolean(0.5f),
             parkingSpotID = device.address,
-            area = device.address.toString()
+            area = parkingAreaID.toString()
         )
     }
 

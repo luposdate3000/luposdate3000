@@ -16,12 +16,14 @@
     "sensorType": [
         {
             "name": "park1",
+            "area": 1,
             "dataSink": "Gateway of WSN 1",
             "rateInSec": 60,
             "maxSamples": 10
         },
         {
             "name": "park2",
+            "area": 2,
             "dataSink": "Gateway of WSN 2",
             "rateInSec": 32,
             "maxSamples": 10

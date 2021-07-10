@@ -27,6 +27,7 @@ public data class LinkType(
 @Serializable
 public data class SensorType(
     val name: String = "",
+    val area: Int = 0,
     val dataSink: String = "",
     val rateInSec: Int = 0,
     val maxSamples: Int = -1,

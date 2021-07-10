@@ -16,6 +16,7 @@
     "sensorType": [
         {
             "name": "park1",
+            "area": 1,
             "dataSink": "Fog",
             "rateInSec": 60,
             "maxSamples": 4

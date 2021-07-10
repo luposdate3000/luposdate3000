@@ -276,7 +276,7 @@ internal object Configuration {
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         if (deviceType.parkingSensor.isNotEmpty()) {
             val sensorType = getSensorTypeByName(deviceType.parkingSensor)
-            return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink)
+            return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink, sensorType.area)
         }
         return null
     }

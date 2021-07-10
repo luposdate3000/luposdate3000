@@ -9,12 +9,14 @@
     "sensorType": [
         {
             "name": "park1",
+            "area": 1,
             "dataSink": "1",
             "rateInSec": 30,
             "maxSamples": -1
         },
         {
             "name": "park2",
+            "area": 2,
             "dataSink": "abc",
             "rateInSec": 30,
             "maxSamples": -1
