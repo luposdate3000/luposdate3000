@@ -84,13 +84,12 @@ internal class ParkingSensor(
         startSampling()
     }
 
-    // TODO setze die richtigen Daten
     private fun getSample(): ParkingSample {
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
             sampleTime = Logger.getSimulationTimeString(),
-            isOccupied = RandomGenerator.random.nextBoolean(),
+            isOccupied = Configuration.randomGenerator.getBoolean(0.5f),
             parkingSpotID = device.address,
             area = device.address.toString()
         )

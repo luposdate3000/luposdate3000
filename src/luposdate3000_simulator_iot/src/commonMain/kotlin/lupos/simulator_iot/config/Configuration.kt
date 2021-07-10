@@ -42,6 +42,8 @@ internal object Configuration {
 
     internal var linker = DeviceLinker()
 
+    internal val randomGenerator = RandomGenerator()
+
     internal fun parse(jsonObjects: JsonObjects) {
         resetVariables()
         initVariables(jsonObjects)
@@ -147,7 +149,7 @@ internal object Configuration {
     private fun getRandomDistance(maxDistance: Int): Int {
         val density = 0.7
         val percentage = round(maxDistance * density).toInt()
-        return RandomGenerator.getInt(percentage, maxDistance)
+        return randomGenerator.getInt(percentage, maxDistance)
     }
 
     private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
@@ -175,7 +177,7 @@ internal object Configuration {
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
-            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
+            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, randomGenerator.random)
             val leaf = createDevice(deviceType, location, childNameID)
             linker.linkIfPossible(root, leaf)
             leaf.isStarNetworkChild = true

@@ -6,6 +6,7 @@ import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 // adapter class for LatLng
 internal class GeoLocation(internal var latitude: Double, internal var longitude: Double) {
@@ -32,14 +33,14 @@ internal class GeoLocation(internal var latitude: Double, internal var longitude
             travel(start, distanceInMeters, LatLngTool.Bearing.EAST)
 
         // Adapted From: https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
-        internal fun getRandomLocationInRadius(center: GeoLocation, radiusInMeters: Int): GeoLocation {
+        internal fun getRandomLocationInRadius(center: GeoLocation, radiusInMeters: Int, random: Random): GeoLocation {
             val x0 = center.longitude
             val y0 = center.latitude
 
             // Convert radius from meters to degrees
             val radiusInDegrees = (radiusInMeters / 111000f).toDouble()
-            val u = RandomGenerator.random.nextDouble()
-            val v = RandomGenerator.random.nextDouble()
+            val u = random.nextDouble()
+            val v = random.nextDouble()
             val w = radiusInDegrees * sqrt(u)
             val t = 2 * PI * v
             val x = w * cos(t)
@@ -52,8 +53,8 @@ internal class GeoLocation(internal var latitude: Double, internal var longitude
             return GeoLocation(foundLatitude, foundLongitude)
         }
 
-        internal fun getRandom(): GeoLocation {
-            val loc = LatLng.random(RandomGenerator.random)
+        internal fun getRandom(random: Random): GeoLocation {
+            val loc = LatLng.random(random)
             return GeoLocation(loc.getLatitude(), loc.getLongitude())
         }
     }

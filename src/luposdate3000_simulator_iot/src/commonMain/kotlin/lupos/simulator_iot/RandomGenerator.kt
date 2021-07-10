@@ -2,7 +2,7 @@ package lupos.simulator_iot
 
 import kotlin.random.Random
 
-internal object RandomGenerator {
+internal class RandomGenerator {
     internal var seed: Int = 1
         set(value) {
             field = value

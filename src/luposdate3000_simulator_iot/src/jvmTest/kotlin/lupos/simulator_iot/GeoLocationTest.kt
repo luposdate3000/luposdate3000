@@ -17,9 +17,8 @@ class GeoLocationTest {
     }
 
     private fun `create random location within radius`(lat: Double, lng: Double, radius: Int) {
-        RandomGenerator.seed = Random.nextInt()
         val center = GeoLocation(lat, lng)
-        val createdLoc = GeoLocation.getRandomLocationInRadius(center, radius)
+        val createdLoc = GeoLocation.getRandomLocationInRadius(center, radius, Random.Default)
         val distance = center.getDistanceInMeters(createdLoc)
         assertTrue(distance <= radius)
     }

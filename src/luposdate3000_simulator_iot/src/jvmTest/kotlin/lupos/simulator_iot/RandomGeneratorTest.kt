@@ -10,9 +10,10 @@ class RandomGeneratorTest {
 
     @Test
     fun `change seed`() {
+        val randomGenerator = RandomGenerator()
         val firstSeed = 1
-        RandomGenerator.seed = firstSeed
-        val actualSeed = RandomGenerator.seed
+        randomGenerator.seed = firstSeed
+        val actualSeed = randomGenerator.seed
         assertEquals(firstSeed, actualSeed)
     }
 
@@ -24,9 +25,10 @@ class RandomGeneratorTest {
     }
 
     private fun `random double is between min and max`(min: Double, max: Double) {
-        RandomGenerator.seed = Random.nextInt()
+        val randomGenerator = RandomGenerator()
+        randomGenerator.seed = Random.nextInt(50)
         for (i in 1..30) {
-            val actual = RandomGenerator.getDouble(min, max)
+            val actual = randomGenerator.getDouble(min, max)
             assertTrue(actual >= min, "actual is $actual")
             assertTrue(actual <= max, "actual is $actual")
         }
@@ -41,19 +43,20 @@ class RandomGeneratorTest {
     }
 
     private fun `same seed results in same random sequence`(seed: Int) {
+        val randomGenerator = RandomGenerator()
         val sequenceSize = 1000
         val firstSequence = DoubleArray(sequenceSize)
         val secondSequence = DoubleArray(sequenceSize)
         val maxRandom = Double.MIN_VALUE
         val minRandom = sequenceSize.toDouble()
 
-        RandomGenerator.seed = seed
+        randomGenerator.seed = seed
         for (i in 0 until sequenceSize)
-            firstSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
+            firstSequence[i] = randomGenerator.getDouble(maxRandom, minRandom)
 
-        RandomGenerator.seed = seed
+        randomGenerator.seed = seed
         for (i in 0 until sequenceSize)
-            secondSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
+            secondSequence[i] = randomGenerator.getDouble(maxRandom, minRandom)
 
         for (i in 0 until sequenceSize)
             assertEquals(firstSequence[i], secondSequence[i])
@@ -61,13 +64,15 @@ class RandomGeneratorTest {
 
     @Test
     fun `get true`() {
-        RandomGenerator.seed = Random.nextInt()
-        assertTrue(RandomGenerator.getBoolean(1.0F))
+        val randomGenerator = RandomGenerator()
+        randomGenerator.seed = Random.nextInt(50)
+        assertTrue(randomGenerator.getBoolean(1.0F))
     }
 
     @Test
     fun `get false`() {
-        RandomGenerator.seed = Random.nextInt()
-        assertFalse(RandomGenerator.getBoolean(0.0F))
+        val randomGenerator = RandomGenerator()
+        randomGenerator.seed = Random.nextInt(50)
+        assertFalse(randomGenerator.getBoolean(0.0F))
     }
 }
