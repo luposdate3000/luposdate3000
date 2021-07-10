@@ -10,10 +10,10 @@ internal object SemanticData {
             "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
             "\n" +
             "INSERT DATA {\n" +
-            "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-            "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
-            "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
-            "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
+            "  <http://observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> rdf:type sosa:Observation;\n" +
+            "  sosa:hasFeatureOfInterest <http://parkingArea/${s.area}>;\n" +
+            "  sosa:observedProperty <http://parkingSpace/${s.parkingSpotID}>;\n" +
+            "  sosa:madeBySensor <http://sensor/${s.area}/${s.sensorID}>;\n" +
             "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
             "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
             "}\n"
@@ -23,7 +23,7 @@ internal object SemanticData {
         return "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }"
     }
 
-    internal fun getAllParkingAreas(): String {
+    internal fun getNumberOfParkingAreas(): String {
         return  "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                 "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
@@ -34,6 +34,17 @@ internal object SemanticData {
                 "}"
     }
 
+    internal fun getAllParkingAreas(): String {
+        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "\n" +
+            "select distinct ?x \n" +
+            "where {\n" +
+            " ?s sosa:hasFeatureOfInterest ?x\n" +
+            "}"
+    }
+
     internal fun getAllSpacesOfParkingArea(areaRDF: String): String {
         return  "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
@@ -42,7 +53,7 @@ internal object SemanticData {
                 "select  (count(distinct ?x) as ?count) \n" +
                 "where {\n" +
                 " ?b rdf:type sosa:Observation.\n" +
-                " ?b sosa:hasFeatureOfInterest  $areaRDF .\n" +
+                " ?b sosa:hasFeatureOfInterest  $areaRDF.\n" +
                 " ?b sosa:madeBySensor ?x.   \n" +
                 "}"
     }
