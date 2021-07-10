@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 class DatabaseSimulationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/DatabaseSimulationTest"
+        private const val prefix = "${FilePaths.testResource}/databaseSimulationTest"
     }
 
     /**

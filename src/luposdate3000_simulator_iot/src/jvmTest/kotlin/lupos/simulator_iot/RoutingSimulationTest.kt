@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 class RoutingSimulationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/RoutingSimulationTest"
+        private const val prefix = "${FilePaths.testResource}/routingSimulationTest"
     }
 
     @Test

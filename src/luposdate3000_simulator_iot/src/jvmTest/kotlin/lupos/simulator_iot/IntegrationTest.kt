@@ -5,7 +5,7 @@ import kotlin.test.Test
 class IntegrationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/IntegrationTest"
+        private const val prefix = "${FilePaths.testResource}/integrationTest"
     }
 
     @Test
@@ -31,6 +31,6 @@ class IntegrationTest {
     @Ignore // dieser Test is so nie für die Ausführung gedacht gewesen
     @Test
     fun test6() {
-        IoTSimulation().simulate("${FilePaths.testResource}/AutoIntegrationTest/test1.json")
+        IoTSimulation().simulate("${FilePaths.testResource}/autoIntegrationTest/test1.json")
     }
 }

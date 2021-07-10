@@ -2,7 +2,6 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.geo.GeoLocation
-import kotlin.random.Random
 
 internal object Stubs {
 
