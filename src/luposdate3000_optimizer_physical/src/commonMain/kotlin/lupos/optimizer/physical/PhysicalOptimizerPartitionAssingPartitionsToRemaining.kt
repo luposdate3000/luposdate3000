@@ -36,31 +36,34 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
             when (node) {
                 is POPTripleStoreIterator -> {
                     if (!node.hasSplitFromStore) {
-                        var partitionVariable = ""
-                        var new_count = -1
+                        var partitionVariableMax = ""
+                        var new_countMax = -1
                         for (c in node.children) {
                             if (c is AOPVariable) {
                                 try {
-                                    partitionVariable = c.name
-                                    new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
-                                    break
+                                    val partitionVariable = c.name
+                                    val new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
+                                    if (new_count> new_countMax) {
+                                        new_countMax = new_count
+                                        partitionVariableMax = partitionVariable
+                                    }
                                 } catch (e: Throwable) {
-// e.printStackTrace() this is handled correctly
+                                    // e.printStackTrace() this is handled correctly
                                 }
                             }
                         }
-                        if (new_count > 1) {
+                        if (new_countMax > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
                             if (node.projectedVariables.size > 0) {
-                                res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
+                                res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
                             } else {
-                                res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
+                                res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.size > 0) {
-                                res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)
+                                res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                             } else {
-                                res = POPMergePartitionCount(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)
+                                res = POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
