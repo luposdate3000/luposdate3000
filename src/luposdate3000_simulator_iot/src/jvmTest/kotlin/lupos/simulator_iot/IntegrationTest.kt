@@ -65,7 +65,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getSampleNumberOfSensor() {
         // TODO Throws Exception
@@ -74,7 +73,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getLastSampleOfSensor() {
         // TODO Throws Exception
@@ -83,7 +81,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInArea() {
         // TODO Throws Exception
