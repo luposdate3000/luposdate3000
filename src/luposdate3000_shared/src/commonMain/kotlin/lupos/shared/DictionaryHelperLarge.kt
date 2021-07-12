@@ -1,0 +1,524 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package lupos.shared
+
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import com.ionspin.kotlin.bignum.integer.Sign
+import com.ionspin.kotlin.bignum.integer.toBigInteger
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.ETripleComponentType
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.SanityCheck
+import lupos.shared.ValueBnode
+import lupos.shared.ValueDateTime
+import lupos.shared.ValueDecimal
+import lupos.shared.ValueDefinition
+import lupos.shared.ValueDouble
+import lupos.shared.ValueFloat
+import lupos.shared.ValueInteger
+import lupos.shared.ValueIri
+import lupos.shared.ValueLanguageTaggedLiteral
+import lupos.shared.ValueSimpleLiteral
+import lupos.shared.ValueTypedLiteral
+import lupos.shared.XMLElement
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+
+public object DictionaryHelperLarge {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, str: String) {
+        val year: String
+        val month: Int
+        val day: Int
+        val hours: Int
+        val minutes: Int
+        val seconds: String
+        val timezoneHours: Int
+        val timezoneMinutes: Int
+        val hasTimeZone: Boolean
+        var idx = 0
+        var idx2 = str.indexOf('-', 1)
+        if (idx2 < idx) {
+            idx2 = str.length - 1
+        }
+        if (idx2 > idx) {
+            year = str.substring(idx, idx2)
+            idx = idx2
+            idx2 = str.indexOf('-', idx + 1)
+            if (idx2 < idx) {
+                idx2 = str.length - 1
+            }
+            if (idx2 > idx) {
+                month = str.substring(idx + 1, idx2).toInt()
+                idx = idx2
+                idx2 = str.indexOf('T', idx + 1)
+                if (idx2 < idx) {
+                    idx2 = str.length - 1
+                }
+                if (idx2 > idx) {
+                    day = str.substring(idx + 1, idx2).toInt()
+                    idx = idx2
+                    idx2 = str.indexOf(':', idx + 1)
+                    if (idx2 < idx) {
+                        idx2 = str.length - 1
+                    }
+                    if (idx2 > idx) {
+                        hours = str.substring(idx + 1, idx2).toInt()
+                        idx = idx2
+                        idx2 = str.indexOf(':', idx + 1)
+                        if (idx2 < idx) {
+                            idx2 = str.length - 1
+                        }
+                        if (idx2 > idx) {
+                            minutes = str.substring(idx + 1, idx2).toInt()
+                            idx = idx2
+                            val idxa = str.indexOf('Z', idx + 1)
+                            val idxb = str.indexOf('+', idx + 1)
+                            val idxc = str.indexOf('-', idx + 1)
+                            if (idxa > idx) {
+                                seconds = str.substring(idx + 1, idxa)
+                                timezoneHours = 0
+                                timezoneMinutes = 0
+                                hasTimeZone = true
+                            } else if (idxb > idx) {
+                                seconds = str.substring(idx + 1, idxb)
+                                idx = idxb
+                                idx2 = str.indexOf(':', idx + 1)
+                                if (idx2 > idx) {
+                                    timezoneHours = str.substring(idx, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length).toInt()
+                                    hasTimeZone = true
+                                } else {
+                                    timezoneHours = -99
+                                    timezoneMinutes = -99
+                                    hasTimeZone = false
+                                }
+                          } else if (idxc > idx) {
+                                seconds = str.substring(idx + 1, idxc)
+                                idx = idxc
+                                idx2 = str.indexOf(':', idx + 1)
+                                if (idx2 > idx) {
+                                    timezoneHours = str.substring(idx, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length).toInt()
+                                    hasTimeZone = true
+                                } else {
+                                    timezoneHours = -99
+                                    timezoneMinutes = -99
+                                    hasTimeZone = false
+                                }
+                            } else {
+                                seconds = str.substring(idx + 1, str.length)
+                                timezoneHours = -99
+                                timezoneMinutes = -99
+                                hasTimeZone = false
+                            }
+                        } else {
+                            minutes = 0
+                            seconds = "0.0"
+                            timezoneHours = -99
+                            timezoneMinutes = -99
+                            hasTimeZone = false
+                        }
+                    } else {
+                        hours = 0
+                        minutes = 0
+                        seconds = "0.0"
+                        timezoneHours = -99
+                        timezoneMinutes = -99
+                        hasTimeZone = false
+                    }
+                } else {
+                    day = 0
+                    hours = 0
+                    minutes = 0
+                    seconds = "0.0"
+                    timezoneHours = -99
+                    timezoneMinutes = -99
+                    hasTimeZone = false
+                }
+            } else {
+                month = 0
+                day = 0
+                hours = 0
+                minutes = 0
+                seconds = "0.0"
+                timezoneHours = -99
+                timezoneMinutes = -99
+                hasTimeZone = false
+            }
+        } else {
+            year = "0"
+            month = 0
+            day = 0
+            hours = 0
+            minutes = 0
+            seconds = "0.0"
+            timezoneHours = -99
+            timezoneMinutes = -99
+            hasTimeZone = false
+        }
+        var done = false
+        if (timezoneHours == -99 && timezoneMinutes == -99) {
+            var shortEncoding = true
+            var secondsBeforeDot = 0L
+            var secondsAfterDot = 0L
+            var digitsAfterDot = 0
+            var si = 0
+            while (si < seconds.length) {
+                val s = seconds[si]
+                si++
+                when (s) {
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
+                        secondsBeforeDot = secondsBeforeDot * 10 + (s - '0')
+                        if (secondsBeforeDot >= 60) {
+                            shortEncoding = false
+                            break
+                        }
+                    }
+                    '.' -> {
+                        while (si < seconds.length) {
+                            val s = seconds[si]
+                            si++
+                            when (s) {
+                                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
+                                    digitsAfterDot++
+                                    secondsAfterDot = secondsAfterDot * 10 + (s - '0')
+                                    if (secondsAfterDot >= 1000) {
+                                        shortEncoding = false
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (shortEncoding) {
+                var componentMilliseconds = secondsBeforeDot * 1000L
+                when (digitsAfterDot) {
+                    0 -> {
+                    }
+                    1 -> {
+                        componentMilliseconds = componentMilliseconds + digitsAfterDot * 100
+                    }
+                    2 -> {
+                        componentMilliseconds = componentMilliseconds + digitsAfterDot * 10
+                    }
+                    3 -> {
+                        componentMilliseconds = componentMilliseconds + digitsAfterDot
+                    }
+                    else -> {
+                        shortEncoding = false
+                    }
+                }
+                if (shortEncoding) {
+                    componentMilliseconds += (minutes * 1000L * 60L)
+                    componentMilliseconds += (hours * 1000L * 60L * 60L)
+  SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:270"/*SOURCE_FILE_END*/ }, { componentMilliseconds >= 0 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:271"/*SOURCE_FILE_END*/ }, { componentMilliseconds < (1L shl 27) })
+                    if (day < 32 && month <16) {
+                        val componentDay = day.toLong() shl 27
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:274"/*SOURCE_FILE_END*/ }, { componentDay >= (1L shl 27) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:275"/*SOURCE_FILE_END*/ }, { componentDay < (1L shl 32) })
+                        val componentMonth = month.toLong() shl 32
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:277"/*SOURCE_FILE_END*/ }, { componentMonth >= (1L shl 32) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:278"/*SOURCE_FILE_END*/ }, { componentMonth < (1L shl 36) })
+                        var componentYearSign = 1L shl 36
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:280"/*SOURCE_FILE_END*/ }, { componentYearSign >= (1L shl 36) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:281"/*SOURCE_FILE_END*/ }, { componentYearSign < (1L shl 37) })
+                        var componentYear = 0L
+                        var si = 0
+                        while (si < year.length) {
+                            val s = year[si]
+                            si++
+                            when (s) {
+                                '-' -> {
+                                    componentYearSign = 0L
+                                }
+                                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
+                                    componentYear = componentYear * 10 + (s - '0')
+                                }
+                            }
+                        }
+                        if (componentYear < (1L shl 19)) {
+                            componentYear = componentYear shl 37
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:298"/*SOURCE_FILE_END*/ }, { componentYear >= (1L shl 37) })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:299"/*SOURCE_FILE_END*/ }, { componentYear < (1L shl 56) })
+                            val componentAll = componentMilliseconds or componentDay or componentMonth or componentYearSign or componentYear
+                            ByteArrayWrapperExt.setSize(buffer, headerSize() + 7)
+                            headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0x80)
+                            ByteArrayHelper.writeLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize(), componentAll)
+                            done = true
+                        }
+                    }
+                }
+            }
+        }
+
+/*
+ * 56 bits = 7 bytes total
+ *
+ * 27 bits milliseconds on day   (max 86400000)
+ *  1 bit year-sign
+ *  5 bits day in month
+ *  4 bits month in year
+ * 19 seconds year
+ * no timezone
+ */
+        if (!done) {
+            dateTimeToByteArray(buffer, BigInteger.parseString(year, 10), month, day, hours, minutes, BigDecimal.parseString(seconds, 10), timezoneHours, timezoneMinutes, hasTimeZone)
+        }
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int, hasTimeZone: Boolean) {
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:334"/*SOURCE_FILE_END*/ }, { month >= 0 }, { "dateTimeToByteArray.month : $month" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:335"/*SOURCE_FILE_END*/ }, { month <= 99 }, { "dateTimeToByteArray.month : $month" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:336"/*SOURCE_FILE_END*/ }, { day >= 0 }, { "dateTimeToByteArray.day : $day" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:337"/*SOURCE_FILE_END*/ }, { day <= 99 }, { "dateTimeToByteArray.day : $day" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:338"/*SOURCE_FILE_END*/ }, { hours >= 0 }, { "dateTimeToByteArray.hours : $hours" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:339"/*SOURCE_FILE_END*/ }, { hours <= 24 }, { "dateTimeToByteArray.hours : $hours" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:340"/*SOURCE_FILE_END*/ }, { minutes >= 0 }, { "dateTimeToByteArray.minutes : $minutes" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:341"/*SOURCE_FILE_END*/ }, { minutes <= 99 }, { "dateTimeToByteArray.minutes : $minutes" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:342"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneHours >= -24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:343"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneHours <= 24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:344"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneMinutes >= 0 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:345"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneMinutes <= 99 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
+        val buf1 = year.toByteArray()
+        val buf2 = seconds.significand.toByteArray()
+        val l1 = buf1.size
+        val l2 = buf2.size
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + 38 + l1 + l2)
+        var off = 0
+        headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0)
+        off += headerSize()
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, l1)
+        off += 4
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, month)
+        off += 4
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, day)
+        off += 4
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, hours)
+        off += 4
+        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, minutes)
+        off += 4
+        if (hasTimeZone) {
+            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, timezoneHours)
+            off += 4
+            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, timezoneMinutes)
+            off += 4
+        } else {
+            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, -99)
+            off += 4
+            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, -99)
+            off += 4
+        }
+        ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), off, seconds.exponent)
+        off += 8
+        ByteArrayWrapperExt.getBuf(buffer)[off] = year.signum().toByte()
+        off++
+        ByteArrayWrapperExt.getBuf(buffer)[off] = seconds.signum().toByte()
+        off++
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
+        off += l1
+        buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
+        off += l2
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:385"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
+    }
+@Suppress("NOTHING_TO_INLINE")
+    internal inline fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
+        if (headerDecodeFlag(buffer) == 0x80) {
+            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+            val componentMilliseconds = (componentAll and 0x7FFFFFF)
+            val milliseconds = componentMilliseconds % (60 * 1000)
+            val minutes = (componentMilliseconds / (1000 * 60)) % 60
+            val hours = componentMilliseconds / (1000 * 60 * 60)
+            val day = ((componentAll shr 27) and 0x1F)
+            val month = ((componentAll shr 32) and 0xF)
+            var year = ((componentAll shr 37) and 0x7FFFF)
+            if ((componentAll and (1L shl 36)) == (1L shl 36)) {
+                year = -year
+            }
+            val secondsString = if ((milliseconds % 1000) != 0L) {
+                (milliseconds / 1000).toString().padStart(2, '0') + "." + (milliseconds % 1000).toString().padStart(1, '0')
+            } else {
+                (milliseconds / 1000).toString().padStart(2, '0')
+            }
+            return "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:$secondsString"
+        } else {
+            var off = 0
+            off += headerSize()
+            val l1 = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 4
+            val month = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 4
+            val day = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 4
+            val hours = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 4
+            val minutes = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 4
+            val timezoneHours = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 4
+            val timezoneMinutes = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 4
+            val secondsExponent = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += 8
+            val yearSignum = when (ByteArrayWrapperExt.getBuf(buffer)[off]) {
+                (-1).toByte() -> Sign.NEGATIVE
+                1.toByte() -> Sign.POSITIVE
+                else -> Sign.ZERO
+            }
+            off++
+            val secondsSignum = when (ByteArrayWrapperExt.getBuf(buffer)[off]) {
+                (-1).toByte() -> Sign.NEGATIVE
+                1.toByte() -> Sign.POSITIVE
+                else -> Sign.ZERO
+            }
+            off++
+            val buf1 = ByteArray(l1)
+            ByteArrayWrapperExt.getBuf(buffer).copyInto(buf1, 0, off, off + l1)
+            off += l1
+            val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 38
+            val buf2 = ByteArray(l2)
+            ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
+            buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
+            off += l2
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:588"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
+            val year = BigInteger.fromByteArray(buf1, yearSignum)
+            val seconds = BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf2, secondsSignum), secondsExponent)
+            val secondsString2 = seconds.toStringExpanded().split(".")
+            var secondsString = secondsString2[0].padStart(2, '0')
+            if (secondsString2.size > 1) {
+                var tmp = secondsString2[1]
+                while (tmp.endsWith('0')) {
+                    tmp = tmp.substring(0, tmp.length - 1)
+                }
+                if (tmp.length > 0) {
+                    secondsString += "." + tmp
+                }
+            }
+            return if (timezoneHours == -99 && timezoneMinutes == -99) {
+                "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:$secondsString"
+            } else if (timezoneHours == 0 && timezoneMinutes == 0) {
+                "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}Z"
+            } else {
+                var timezoneHoursLocal = timezoneHours.toString()
+                if (timezoneHoursLocal[0] == '-' || timezoneHoursLocal[0] == '+') {
+                    timezoneHoursLocal = "" + timezoneHoursLocal[0] + timezoneHoursLocal.substring(1).padStart(2, '0')
+                } else {
+                    timezoneHoursLocal = "+" + timezoneHoursLocal.padStart(2, '0')
+                }
+                "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}$timezoneHoursLocal:${timezoneMinutes.toString().padStart(2, '0')}"
+            }
+        }
+    }
+@Suppress("NOTHING_TO_INLINE")
+    internal inline fun typedToByteArray(buffer: ByteArrayWrapper, content: String, type: String) {
+        try {
+            when (type) {
+                "http://www.w3.org/2001/XMLSchema#integer" -> integerToByteArray(buffer, content)
+                "http://www.w3.org/2001/XMLSchema#decimal" -> decimalToByteArray(buffer, content)
+                "http://www.w3.org/2001/XMLSchema#double" -> doubleToByteArray(buffer, content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#float" -> floatToByteArray(buffer, content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#boolean" -> booleanToByteArray(buffer, content.lowercase() == "true")
+                "http://www.w3.org/2001/XMLSchema#dateTime" -> dateTimeToByteArray(buffer, content)
+                else -> {
+                    val buf1 = type.encodeToByteArray()
+                    val buf2 = content.encodeToByteArray()
+                    ByteArrayWrapperExt.setSize(buffer, headerSize() + 4 + buf1.size + buf2.size)
+                    headerEncode(buffer, ETripleComponentTypeExt.STRING_TYPED, 0)
+                    ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size + buf2.size, buf1.size)
+                    buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+                    buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            stringToByteArray(buffer, content)
+        }
+    }
+ @Suppress("NOTHING_TO_INLINE")
+    internal inline fun sparqlToByteArray(buffer: ByteArrayWrapper, value: String?) {
+        if (value == null || value.isEmpty() || value.lowercase() == "undef") {
+            undefToByteArray(buffer)
+            return
+        }
+        if (value.lowercase() == "error") {
+            errorToByteArray(buffer)
+            return
+        }
+        if (value.lowercase() == "true") {
+            booleanToByteArray(buffer, true)
+            return
+        }
+        if (value.lowercase() == "false") {
+            booleanToByteArray(buffer, false)
+            return
+        }
+        if (value.startsWith("_:")) {
+            bnodeToByteArray(buffer, value.substring(2, value.length))
+            return
+        }
+        if (value.startsWith("<") && value.endsWith(">")) {
+            iriToByteArray(buffer, value.substring(1, value.length - 1))
+            return
+        }
+        if (!value.contains('.')) {
+            try {
+                val i = BigInteger.parseString(value, 10)
+                integerToByteArray(buffer, i)
+                return
+            } catch (e: Exception) {
+                // e.printStackTrace() this is handled correctly
+            }
+        }
+        if (!value.contains("e") && !value.contains("E")) {
+            try {
+                val d = BigDecimal.parseString(value, 10)
+                decimalToByteArray(buffer, d)
+                return
+            } catch (e: Exception) {
+                // e.printStackTrace() this is handled correctly
+            }
+        }
+        try {
+            val d = value.toDouble()
+            doubleToByteArray(buffer, d)
+            return
+        } catch (e: Exception) {
+            // e.printStackTrace() this is handled correctly
+        }
+        if (!value.endsWith("" + value[0])) {
+            val typeIdx = value.lastIndexOf("" + value[0] + "^^<")
+            val langIdx = value.lastIndexOf("" + value[0] + "@")
+            if (value.endsWith(">") && typeIdx > 0) {
+                typedToByteArray(buffer, removeQuotesFromString(value.substring(0, typeIdx + 1)), value.substring(typeIdx + 4, value.length - 1))
+                return
+            } else {
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:1022"/*SOURCE_FILE_END*/ }, { langIdx > 0 }, { "$langIdx :: $value" })
+                langToByteArray(buffer, removeQuotesFromString(value.substring(0, langIdx + 1)), value.substring(langIdx + 2, value.length))
+                return
+            }
+        }
+        stringToByteArray(buffer, removeQuotesFromString(value))
+    }
+}
