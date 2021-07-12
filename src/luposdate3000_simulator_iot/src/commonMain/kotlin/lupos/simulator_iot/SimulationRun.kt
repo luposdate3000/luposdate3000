@@ -8,7 +8,7 @@ import lupos.simulator_iot.log.Logger
 
 internal class SimulationRun {
 
-    private var sim = Simulation(mutableListOf(), LifeCycleImpl())
+    private var sim = Simulation(mutableListOf())
 
     internal val randGenerator = RandomGenerator()
 
@@ -25,8 +25,6 @@ internal class SimulationRun {
     internal var simMaxClock: Long = notInitializedClock
 
     private inner class LifeCycleImpl() : ISimulationLifeCycle {
-
-        override lateinit var simulation: Simulation // TODO wird nicht gebraucht!
 
         override fun onStartUp() {
             timeMeasure.onStartUp()
@@ -52,13 +50,12 @@ internal class SimulationRun {
     }
 
     internal fun startSimulation(configuration: Configuration) {
-        sim = Simulation(configuration.getEntities(), LifeCycleImpl())
+        sim = Simulation(configuration.getEntities())
+        sim.callback = LifeCycleImpl()
         sim.maxClock = if(simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if(simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
         sim.startSimulation()
     }
-
-
 
     internal fun getCurrentSimulationClock(): Long {
         return sim.clock

@@ -1,8 +1,6 @@
 package lupos.simulator_core
 
-public class LoggerStub() : ISimulationLifeCycle {
-
-    override lateinit var simulation: Simulation
+internal class LoggerStub(private val simulation: Simulation) : ISimulationLifeCycle {
 
     override fun onStartUp() {
         logSimulationStart()
@@ -36,7 +34,7 @@ public class LoggerStub() : ISimulationLifeCycle {
     private fun logSimulationEnd() {
         log("")
         log("Number of processed events: ${simulation.addedEventCounter}")
-        // log("Simulation clock: ${simulation.currentClock}")
+        log("Simulation clock: ${simulation.clock}")
         log("Simulation completed")
         log("================================================")
         log("")

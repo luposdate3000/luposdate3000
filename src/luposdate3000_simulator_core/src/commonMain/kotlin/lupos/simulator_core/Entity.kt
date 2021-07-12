@@ -2,7 +2,7 @@ package lupos.simulator_core
 
 public abstract class Entity : ISimulationLifeCycle {
 
-    override lateinit var simulation: Simulation
+    internal lateinit var simulation: Simulation
 
     private var isTerminated = false
 

@@ -1,13 +1,8 @@
 package lupos.simulator_iot.log
 
-import kotlinx.datetime.Instant
 import lupos.shared.inline.File
-import lupos.simulator_core.ISimulationLifeCycle
-import lupos.simulator_core.Simulation
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
-import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.Time
 import lupos.simulator_iot.TimeMeasure
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.LinkManager
