@@ -369,12 +369,12 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         if (moduleArgs.intellijMode == IntellijMode.Enable) {
             shared_inline_base_folder += "xxx_generated_xxx/${moduleArgs.moduleFolder}"
             shared_config_base_folder = shared_inline_base_folder
+            File("$shared_inline_base_folder/src/commonMain/kotlin/lupos/shared").deleteRecursively()
         } else {
             shared_config_base_folder = shared_inline_base_folder + "xxx_generated_xxx/${moduleArgs.moduleFolder}"
             shared_inline_base_folder += "luposdate3000_shared_inline"
+            File("$shared_config_base_folder/src/commonMain/kotlin/lupos/shared").deleteRecursively()
         }
-        File("$shared_config_base_folder/src/commonMain/kotlin/lupos/shared").deleteRecursively()
-        File("$shared_inline_base_folder/src/commonMain/kotlin/lupos/shared").deleteRecursively()
         File("$shared_config_base_folder/src/commonMain/kotlin/lupos/shared").mkdirs()
         File("$shared_inline_base_folder/src/commonMain/kotlin/lupos/shared").mkdirs()
         for (filename in listOf("${moduleArgs.moduleFolder}/build.gradle.kts")) {
