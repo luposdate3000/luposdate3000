@@ -1,10 +1,8 @@
 package lupos.simulator_iot
-import lupos.simulator_core.Simulation
+
 import lupos.simulator_db.QueryPackage
-import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.db.SemanticData
-import lupos.simulator_iot.log.Logger
 import kotlin.test.Ignore
 import kotlin.test.Test
 
@@ -205,11 +203,12 @@ class IntegrationTest {
             maxNumberOfQueries = 1,
             sendStartClockInSec = 10 * 60,
             query = queryString)
-        val jsonObjects = Configuration.readJsonFile(configFile)
-        jsonObjects.querySender.add(querySender)
-        Configuration.parse(jsonObjects)
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startSimulation()
+
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile(configFile)
+        json.querySender.add(querySender)
+        val config = simRun.parseJsonObjects(json)
+        simRun.startSimulation(config)
     }
 
 
@@ -222,9 +221,10 @@ class IntegrationTest {
     @Ignore //TODO dieser Test is so nie für die Ausführung gedacht gewesen
     @Test
     fun test6() {
-        Configuration.parse("${FilePaths.testResource}/autoIntegrationTest/test1.json")
-        Configuration.querySenders[0].queryPck = QueryPackage(0, byteArrayOf()) //TODO insert your package here
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startSimulation()
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("${FilePaths.testResource}/autoIntegrationTest/test1.json")
+        val config = simRun.parseJsonObjects(json)
+        config.querySenders[0].queryPck = QueryPackage(0, "dummy".encodeToByteArray()) //TODO insert your package here
+        simRun.startSimulation(config)
     }
 }

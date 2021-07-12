@@ -2,7 +2,6 @@ package lupos.simulator_iot
 
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
-import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.log.Logger
@@ -15,6 +14,7 @@ import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 
 internal class Device(
+    internal val simRun: SimulationRun,
     internal var location: GeoLocation,
     internal val address: Int,
     internal var database: DatabaseAdapter?,
@@ -104,14 +104,14 @@ internal class Device(
     private fun forwardPackage(pck: NetworkPackage) {
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
-        scheduleEvent(Configuration.devices[nextHop], pck, delay)
+        scheduleEvent(simRun.config.devices[nextHop], pck, delay)
     }
 
     internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
         logSendPackage(pck, delay)
-        scheduleEvent(Configuration.devices[destinationNeighbour], pck, delay)
+        scheduleEvent(simRun.getDeviceByAddress(destinationNeighbour), pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
@@ -119,7 +119,7 @@ internal class Device(
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
         logSendPackage(pck, delay)
-        scheduleEvent(Configuration.devices[nextHop], pck, delay)
+        scheduleEvent(simRun.getDeviceByAddress(nextHop), pck, delay)
     }
 
     internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {
@@ -129,11 +129,11 @@ internal class Device(
     internal fun hasDatabase(): Boolean = database != null
 
     private fun logReceivePackage(pck: NetworkPackage) {
-        Logger.log("> $this receives $pck at clock ${simulation.getCurrentClock()}")
+        simRun.logger.log("> $this receives $pck at clock ${simRun.getCurrentSimulationClock()}")
     }
 
     private fun logSendPackage(pck: NetworkPackage, delay: Long) {
-        Logger.log("> $this sends $pck at clock ${simulation.getCurrentClock()} with delay $delay")
+        simRun.logger.log("> $this sends $pck at clock ${simRun.getCurrentSimulationClock()} with delay $delay")
     }
 
     override fun equals(other: Any?): Boolean {
@@ -153,7 +153,7 @@ internal class Device(
     }
 
     override fun toString(): String {
-        return "Device(addr $address, name '${Configuration.getDeviceName(deviceNameID)}')"
+        return "Device(addr $address, name '${simRun.config.getDeviceName(deviceNameID)}')"
     }
 
     internal companion object {

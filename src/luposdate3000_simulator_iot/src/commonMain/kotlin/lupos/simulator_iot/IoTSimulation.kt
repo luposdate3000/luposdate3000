@@ -1,19 +1,14 @@
 package lupos.simulator_iot
 
-import lupos.simulator_core.Simulation
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.log.LoggerCollection
 
 public class IoTSimulation {
     public constructor() {}
     public fun simulate(configFileName: String) {
-        Configuration.parse(configFileName)
-        val sim = Simulation(
-            entities = Configuration.getEntities(),
-            callback = Logger
-        )
-        sim.startSimulation()
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile(configFileName)
+        val config = simRun.parseJsonObjects(json)
+        simRun.startSimulation(config)
     }
 
     public fun measureStarPerformance(withDummyDatabase: Boolean) {
@@ -36,15 +31,16 @@ public class IoTSimulation {
     }
 
     private fun runSimulationStarPerformance(numberOfChilds: Int, collection: LoggerCollection, withDummyDatabase: Boolean) {
-        Logger.reset()
-        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
-        val jsonObjects = Configuration.readJsonFile(configFileName)
-        jsonObjects.randomStarNetwork[0].number = numberOfChilds
-        jsonObjects.dummyDatabase = withDummyDatabase
-        Configuration.parse(jsonObjects)
-        val entities = Configuration.getEntities()
-        val sim = Simulation(entities = entities, callback = Logger)
-        sim.startSimulation()
-        collection.add(Logger, entities.size)
+        //TODO
+//        Logger.reset()
+//        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
+//        val jsonObjects = Configuration.readJsonFile(configFileName)
+//        jsonObjects.randomStarNetwork[0].number = numberOfChilds
+//        jsonObjects.dummyDatabase = withDummyDatabase
+//        Configuration.parse(jsonObjects)
+//        val entities = Configuration.getEntities()
+//        val sim = Simulation(entities = entities, callback = Logger)
+//        sim.startSimulation()
+//        collection.add(Logger, entities.size)
     }
 }

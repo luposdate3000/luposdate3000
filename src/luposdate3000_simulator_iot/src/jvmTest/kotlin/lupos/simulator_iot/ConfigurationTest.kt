@@ -1,6 +1,5 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.RandomStarNetwork
 import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
@@ -22,20 +21,22 @@ class ConfigurationTest {
 
     @Test
     fun parseEmptyConfigFile() {
-        Configuration.parse("$prefix/parseEmptyConfigFile.json")
-        assertTrue(Configuration.devices.isEmpty())
+        val config = SimulationRun().config
+        config.parse("$prefix/parseEmptyConfigFile.json")
+        assertTrue(config.devices.isEmpty())
     }
 
     @Test
     fun oneFixedDevice() {
-        Configuration.parse("$prefix/oneFixedDevice.json")
-        val deviceName = Configuration.jsonObjects.fixedDevice[0].name
-        val lat = Configuration.jsonObjects.fixedDevice[0].latitude
-        val lon = Configuration.jsonObjects.fixedDevice[0].longitude
+        val config = SimulationRun().config
+        config.parse("$prefix/oneFixedDevice.json")
+        val deviceName = config.jsonObjects.fixedDevice[0].name
+        val lat = config.jsonObjects.fixedDevice[0].latitude
+        val lon = config.jsonObjects.fixedDevice[0].longitude
         val location = GeoLocation(lat, lon)
-        val device = Configuration.getNamedDevice(deviceName)
+        val device = config.getNamedDevice(deviceName)
 
-        assertEquals(Configuration.jsonObjects.fixedDevice.size, Configuration.devices.size)
+        assertEquals(config.jsonObjects.fixedDevice.size, config.devices.size)
         assertEquals(0, device.address)
         assertEquals(location, device.location)
         assertNull(device.database)
@@ -44,37 +45,41 @@ class ConfigurationTest {
 
     @Test
     fun oneDatabaseDeviceWithSensor() {
-        Configuration.parse("$prefix/oneDatabaseDeviceWithSensor.json")
-        val deviceName = Configuration.jsonObjects.fixedDevice[0].name
-        val device = Configuration.getNamedDevice(deviceName)
+        val config = SimulationRun().config
+        config.parse("$prefix/oneDatabaseDeviceWithSensor.json")
+        val deviceName = config.jsonObjects.fixedDevice[0].name
+        val device = config.getNamedDevice(deviceName)
         assertTrue(device.database is DatabaseAdapter)
         assertNotNull(device.sensor)
     }
 
     @Test
     fun sensorsKnowTheirDevice() {
-        Configuration.parse("$prefix/sensorsKnowTheirDevice.json")
-        val device = Configuration.getNamedDevice("Tower1")
+        val config = SimulationRun().config
+        config.parse("$prefix/sensorsKnowTheirDevice.json")
+        val device = config.getNamedDevice("Tower1")
         val parkingSensor = device.sensor!! as ParkingSensor
         assertSame(device, parkingSensor.device)
     }
 
     @Test
     fun starRootIsDataSinkOfItsSensors() {
-        Configuration.parse("$prefix/starRootIsDataSinkOfItsSensors.json")
-        val root = Configuration.getNamedDevice("Tower1")
-        val starNet = Configuration.randStarNetworks["garageA"]!!
+        val config = SimulationRun().config
+        config.parse("$prefix/starRootIsDataSinkOfItsSensors.json")
+        val root = config.getNamedDevice("Tower1")
+        val starNet = config.randStarNetworks["garageA"]!!
         val parkingSensor = starNet.children[0].sensor as ParkingSensor
         assertEquals(root.address, parkingSensor.getSinkAddress())
     }
 
     @Test
     fun twoDevicesHaveOneConnection() {
-        Configuration.parse("$prefix/twoDevicesHaveOneConnection.json")
-        val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
-        val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
-        val deviceA = Configuration.getNamedDevice(deviceAName)
-        val deviceB = Configuration.getNamedDevice(deviceBName)
+        val config = SimulationRun().config
+        config.parse("$prefix/twoDevicesHaveOneConnection.json")
+        val deviceAName = config.jsonObjects.fixedLink[0].fixedDeviceA
+        val deviceBName = config.jsonObjects.fixedLink[0].fixedDeviceB
+        val deviceA = config.getNamedDevice(deviceAName)
+        val deviceB = config.getNamedDevice(deviceBName)
 
         assertNotNull(deviceA.linkManager.getLink(deviceB))
         assertNotNull(deviceB.linkManager.getLink(deviceA))
@@ -82,11 +87,12 @@ class ConfigurationTest {
 
     @Test
     fun twoLinkedDevicesShareTheirLinkObject() {
-        Configuration.parse("$prefix/twoLinkedDevicesShareTheirLinkObject.json")
-        val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
-        val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
-        val deviceA = Configuration.getNamedDevice(deviceAName)
-        val deviceB = Configuration.getNamedDevice(deviceBName)
+        val config = SimulationRun().config
+        config.parse("$prefix/twoLinkedDevicesShareTheirLinkObject.json")
+        val deviceAName = config.jsonObjects.fixedLink[0].fixedDeviceA
+        val deviceBName = config.jsonObjects.fixedLink[0].fixedDeviceB
+        val deviceA = config.getNamedDevice(deviceAName)
+        val deviceB = config.getNamedDevice(deviceBName)
         val linkA = deviceA.linkManager.getLink(deviceB)
         val linkB = deviceB.linkManager.getLink(deviceA)
 
@@ -97,19 +103,21 @@ class ConfigurationTest {
 
     @Test
     fun countNumberOfDevicesInRandomNetwork() {
-        Configuration.parse("$prefix/countNumberOfDevicesInRandomNetwork.json")
-        val devices = Configuration.devices
-        val network = Configuration.jsonObjects.randomStarNetwork[0]
-        val starNet = Configuration.randStarNetworks[network.networkPrefix]!!
+        val config = SimulationRun().config
+        config.parse("$prefix/countNumberOfDevicesInRandomNetwork.json")
+        val devices = config.devices
+        val network = config.jsonObjects.randomStarNetwork[0]
+        val starNet = config.randStarNetworks[network.networkPrefix]!!
         assertEquals(1 + network.number, devices.size)
         assertEquals(network.number, starNet.children.size)
     }
 
     @Test
     fun checkLinksInStarNetwork() {
-        Configuration.parse("$prefix/checkLinksInStarNetwork.json")
-        val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
-        val starNet = Configuration.randStarNetworks[networkPrefix]!!
+        val config = SimulationRun().config
+        config.parse("$prefix/checkLinksInStarNetwork.json")
+        val networkPrefix = config.jsonObjects.randomStarNetwork[0].networkPrefix
+        val starNet = config.randStarNetworks[networkPrefix]!!
         for (child in starNet.children) {
             assertTrue(child.linkManager.hasLink(starNet.root))
             assertTrue(starNet.root.linkManager.hasLink(child))
@@ -118,8 +126,9 @@ class ConfigurationTest {
 
     @Test
     fun inStarNetworkChildrenDoNotKnowEachOther() {
-        Configuration.parse("$prefix/inStarNetworkChildrenDoNotKnowEachOther.json")
-        val starNet = Configuration.randStarNetworks["garageA"]!!
+        val config = SimulationRun().config
+        config.parse("$prefix/inStarNetworkChildrenDoNotKnowEachOther.json")
+        val starNet = config.randStarNetworks["garageA"]!!
         for (childA in starNet.children)
             for (childB in starNet.children)
                 assertFalse(childA.linkManager.hasLink(childB))
@@ -127,10 +136,11 @@ class ConfigurationTest {
 
     @Test
     fun severalStarNetworksDifferInTheNetworkPrefix() {
-        Configuration.parse("$prefix/severalStarNetworksDifferInTheNetworkPrefix.json")
-        val starNetA = Configuration.randStarNetworks["garageA"]!!
-        val starNetB = Configuration.randStarNetworks["garageB"]!!
-        val starNetC = Configuration.randStarNetworks["garageC"]!!
+        val config = SimulationRun().config
+        config.parse("$prefix/severalStarNetworksDifferInTheNetworkPrefix.json")
+        val starNetA = config.randStarNetworks["garageA"]!!
+        val starNetB = config.randStarNetworks["garageB"]!!
+        val starNetC = config.randStarNetworks["garageC"]!!
 
         assertEquals(10, starNetA.children.size)
         assertEquals(11, starNetB.children.size)
@@ -139,11 +149,12 @@ class ConfigurationTest {
 
     @Test
     fun checkLinkData() {
-        Configuration.parse("$prefix/checkLinkData.json")
-        val device1Address = Configuration.jsonObjects.fixedDevice[0].name
-        val device2Address = Configuration.jsonObjects.fixedDevice[1].name
-        val device1 = Configuration.getNamedDevice(device1Address)
-        val device2 = Configuration.getNamedDevice(device2Address)
+        val config = SimulationRun().config
+        config.parse("$prefix/checkLinkData.json")
+        val device1Address = config.jsonObjects.fixedDevice[0].name
+        val device2Address = config.jsonObjects.fixedDevice[1].name
+        val device1 = config.getNamedDevice(device1Address)
+        val device2 = config.getNamedDevice(device2Address)
         val link1 = device1.linkManager.getLink(device2)
         val link2 = device2.linkManager.getLink(device1)
 
@@ -156,32 +167,35 @@ class ConfigurationTest {
 
     @Test
     fun onlyOneMeshDevice() {
-        Configuration.parse("$prefix/onlyOneMeshDevice.json")
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
+        val config = SimulationRun().config
+        config.parse("$prefix/onlyOneMeshDevice.json")
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = config.randMeshNetworks[networkPrefix]!!
         assertEquals(1, meshNet.numOfDevices())
-        assertEquals(1, Configuration.devices.size)
+        assertEquals(1, config.devices.size)
     }
 
     @Test
     fun onlySouthernMeshDevices() {
-        Configuration.parse("$prefix/onlySouthernMeshDevices.json")
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
+        val config = SimulationRun().config
+        config.parse("$prefix/onlySouthernMeshDevices.json")
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = config.randMeshNetworks[networkPrefix]!!
         assertEquals(1, meshNet.mesh.size)
-        assertTrue(Configuration.devices.size > 1)
+        assertTrue(config.devices.size > 1)
         assertTrue(meshNet.mesh[0].size > 1)
-        assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        assertEquals(meshNet.numOfDevices(), config.devices.size)
     }
 
     @Test
     fun onlyEasternMeshDevices() {
-        Configuration.parse("$prefix/onlyEasternMeshDevices.json")
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
-        assertTrue(Configuration.devices.size > 1)
+        val config = SimulationRun().config
+        config.parse("$prefix/onlyEasternMeshDevices.json")
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = config.randMeshNetworks[networkPrefix]!!
+        assertTrue(config.devices.size > 1)
         assertTrue(meshNet.mesh.size > 1)
-        assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        assertEquals(meshNet.numOfDevices(), config.devices.size)
         for (col in meshNet.mesh) {
             assertEquals(1, col.size)
         }
@@ -189,12 +203,13 @@ class ConfigurationTest {
 
     @Test
     fun moreSouthernThanEasternMeshDevices() {
-        Configuration.parse("$prefix/moreSouthernThanEasternMeshDevices.json")
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
-        assertTrue(Configuration.devices.size > 1)
+        val config = SimulationRun().config
+        config.parse("$prefix/moreSouthernThanEasternMeshDevices.json")
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = config.randMeshNetworks[networkPrefix]!!
+        assertTrue(config.devices.size > 1)
         assertTrue(meshNet.mesh.size > 1)
-        assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        assertEquals(meshNet.numOfDevices(), config.devices.size)
         val rowSize = meshNet.mesh.size
         for (col in meshNet.mesh) {
             assertTrue(col.size > rowSize)
@@ -203,9 +218,10 @@ class ConfigurationTest {
 
     @Test
     fun edgeMeshDevicesCannotReachEachOther() {
-        Configuration.parse("$prefix/edgeMeshDevicesCannotReachEachOther.json")
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val config = SimulationRun().config
+        config.parse("$prefix/edgeMeshDevicesCannotReachEachOther.json")
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val mesh = config.randMeshNetworks[networkPrefix]!!.mesh
         val northWest = mesh[0][0]
         val southWest = mesh[0][mesh[0].size - 1]
         val northEast = mesh[mesh.size - 1][0]
@@ -221,16 +237,17 @@ class ConfigurationTest {
 
     @Test
     fun distanceToNeighboringDevicesIsSmaller() {
-        Configuration.parse("$prefix/distanceToNeighboringDevicesIsSmaller.json")
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val maxLinkRange = Configuration.jsonObjects.linkType[0].rangeInMeters
-        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val config = SimulationRun().config
+        config.parse("$prefix/distanceToNeighboringDevicesIsSmaller.json")
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val maxLinkRange = config.jsonObjects.linkType[0].rangeInMeters
+        val mesh = config.randMeshNetworks[networkPrefix]!!.mesh
         val device = mesh[0][0]
         val neighbour = mesh[1][0]
         val neighbourNeighbour = mesh[2][0]
 
-        val distanceToNeighbour = Configuration.linker.getDistanceInMeters(device, neighbour)
-        val distanceToNeighbourNeighbour = Configuration.linker.getDistanceInMeters(device, neighbourNeighbour)
+        val distanceToNeighbour = config.linker.getDistanceInMeters(device, neighbour)
+        val distanceToNeighbourNeighbour = config.linker.getDistanceInMeters(device, neighbourNeighbour)
 
         assertTrue(distanceToNeighbour <= maxLinkRange)
         assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
@@ -238,12 +255,13 @@ class ConfigurationTest {
 
     @Test
     fun fixedAndMeshedDevicesAreLinkable() {
-        Configuration.parse("$prefix/fixedAndMeshedDevicesAreLinkable.json")
-        val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
-        val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
+        val config = SimulationRun().config
+        config.parse("$prefix/fixedAndMeshedDevicesAreLinkable.json")
+        val fixedDeviceName = config.jsonObjects.fixedDevice[0].name
+        val fixedDevice = config.getNamedDevice(fixedDeviceName)
 
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val mesh = config.randMeshNetworks[networkPrefix]!!.mesh
         val meshOrigin = mesh[0][0]
 
         assertTrue(fixedDevice.linkManager.hasLink(meshOrigin))
@@ -252,12 +270,13 @@ class ConfigurationTest {
 
     @Test
     fun fixedAndMeshedDevicesAreNotLinkable() {
-        Configuration.parse("$prefix/fixedAndMeshedDevicesAreNotLinkable.json")
-        val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
-        val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
+        val config = SimulationRun().config
+        config.parse("$prefix/fixedAndMeshedDevicesAreNotLinkable.json")
+        val fixedDeviceName = config.jsonObjects.fixedDevice[0].name
+        val fixedDevice = config.getNamedDevice(fixedDeviceName)
 
-        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val mesh = config.randMeshNetworks[networkPrefix]!!.mesh
         val meshOrigin = mesh[0][0]
 
         assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
@@ -266,18 +285,20 @@ class ConfigurationTest {
 
     @Test
     fun configOneQuerySender() {
-        Configuration.parse("$prefix/configOneQuerySender.json")
-        assertEquals(1, Configuration.querySenders.size)
-        val querySender = Configuration.querySenders[0]
+        val config = SimulationRun().config
+        config.parse("$prefix/configOneQuerySender.json")
+        assertEquals(1, config.querySenders.size)
+        val querySender = config.querySenders[0]
         assertEquals("Driver1", querySender.name)
         assertEquals(30, querySender.sendRateInSec)
-        assertEquals(Configuration.getNamedDevice("Tower1"), querySender.receiver)
+        assertEquals(config.getNamedDevice("Tower1"), querySender.receiver)
         assertEquals("Select dummy From dum", querySender.query)
     }
 
     @Test
     fun manipulateJsonObjects() {
-        val jsonObjects = Configuration.readJsonFile("$prefix/manipulateJsonObjects.json")
+        val config = SimulationRun().config
+        val jsonObjects = config.readJsonFile("$prefix/manipulateJsonObjects.json")
         jsonObjects.randomStarNetwork.add(
             RandomStarNetwork(
                 networkPrefix = "star2",
@@ -287,7 +308,7 @@ class ConfigurationTest {
                 number = 3
             )
         )
-        Configuration.parse(jsonObjects)
-        assertEquals(2, Configuration.randStarNetworks.size)
+        config.parse(jsonObjects)
+        assertEquals(2, config.randStarNetworks.size)
     }
 }

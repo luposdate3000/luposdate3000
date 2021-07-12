@@ -2,8 +2,6 @@ package lupos.simulator_core
 
 public class Simulation(
     private val entities: List<Entity>,
-    internal var maxClock: Long = Long.MAX_VALUE,
-    private var steadyClock: Long = Long.MAX_VALUE,
     private var callback: ISimulationLifeCycle
 ) {
 
@@ -13,12 +11,16 @@ public class Simulation(
         callback.simulation = this
     }
 
-    private var clock: Long = 0
+    public var maxClock: Long = Long.MAX_VALUE
+
+    public var steadyClock: Long = Long.MAX_VALUE
+
+    public var clock: Long = 0
+        private set
 
     internal var addedEventCounter: Int = 0
         private set
 
-    public fun getCurrentClock(): Long = clock
 
     public fun startSimulation() {
         startUp()

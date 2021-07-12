@@ -6,6 +6,7 @@ import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.RandomGenerator
+import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.net.MeshNetwork
@@ -13,7 +14,7 @@ import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.math.round
 
-internal object Configuration {
+internal class Configuration(private val simRun: SimulationRun) {
 
     internal var devices: MutableList<Device> = mutableListOf()
         private set
@@ -41,8 +42,6 @@ internal object Configuration {
     private var deviceNames: MutableList<String> = mutableListOf()
 
     internal var linker = DeviceLinker()
-
-    internal val randomGenerator = RandomGenerator()
 
     internal fun parse(jsonObjects: JsonObjects) {
         resetVariables()
@@ -149,7 +148,7 @@ internal object Configuration {
     private fun getRandomDistance(maxDistance: Int): Int {
         val density = 0.7
         val percentage = round(maxDistance * density).toInt()
-        return randomGenerator.getInt(percentage, maxDistance)
+        return simRun.randGenerator.getInt(percentage, maxDistance)
     }
 
     private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
@@ -177,7 +176,7 @@ internal object Configuration {
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
-            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, randomGenerator.random)
+            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, simRun.randGenerator.random)
             val leaf = createDevice(deviceType, location, childNameID)
             linker.linkIfPossible(root, leaf)
             leaf.isStarNetworkChild = true
@@ -238,7 +237,7 @@ internal object Configuration {
     private fun createDevice(deviceType: DeviceType, location: GeoLocation, nameIndex: Int): Device {
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.supportedLinkTypes)
         require(deviceType.performance != 0.0) { "The performance level of a device can not be 0.0 %" }
-        val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes, nameIndex, jsonObjects.deterministic)
+        val device = Device(simRun, location, devices.size, null, null, deviceType.performance, linkTypes, nameIndex, jsonObjects.deterministic)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         val database = getDatabase(deviceType, device)

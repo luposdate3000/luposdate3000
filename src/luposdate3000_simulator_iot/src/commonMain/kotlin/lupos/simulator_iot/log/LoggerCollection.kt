@@ -32,8 +32,9 @@ internal class LoggerCollection {
     }
 
     internal fun add(logger: Logger, nodeCount: Int) {
-        val line = "$nodeCount$delimiter${logger.getInitDuration()}$delimiter" +
-            "${logger.getRealSimulationDuration()}$delimiter${Device.packageCounter}$delimiter${Device.getNetworkLoadKBytes()}"
-        printLine(line)
+        //TODO
+//        val line = "$nodeCount$delimiter${logger.getInitDuration()}$delimiter" +
+//            "${logger.getRealSimulationDuration()}$delimiter${Device.packageCounter}$delimiter${Device.getNetworkLoadKBytes()}"
+//        printLine(line)
     }
 }
