@@ -108,7 +108,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getAllTriples() {
         // TODO Throws Exception

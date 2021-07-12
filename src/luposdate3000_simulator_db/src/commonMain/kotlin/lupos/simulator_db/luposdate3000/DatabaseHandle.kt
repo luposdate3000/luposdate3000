@@ -18,6 +18,7 @@
 // onFinish:IDatabasePackage?,expectedResult:MemoryTable?
 
 package lupos.simulator_db.luposdate3000
+import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.RestEndpoint
 import lupos.operator.base.OPBaseCompound
@@ -40,6 +41,7 @@ import lupos.shared.MyInputStreamFromByteArray
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
@@ -49,13 +51,34 @@ import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IRouter
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
-
 public class DatabaseHandle : IDatabase {
     private var ownAdress: Int = 0
     private var instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
     private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
     private var router: IRouter? = null
+    private var nodeGlobalDictionaryBackup: IDictionary? = null
+    private companion object {
+        // this is used for cheating .... because currently streams of data are not working in simulator
+        // streams would additionally depend on the possibility to suspend the database at any point, which is currently not implemented too
+        private var globalCheatDictionary: IDictionary? = null
+        private var globalCheatInstance: Luposdate3000Instance? = null
+        public fun globalCheatStart(instance: Luposdate3000Instance) {
+            if (globalCheatDictionary == null) {
+                globalCheatInstance = instance
+                globalCheatDictionary = DictionaryFactory.createGlobalDictionary(instance)
+            }
+        }
+        public fun globalCheatEnd() {
+            if (globalCheatDictionary != null) {
+                val backup = globalCheatInstance!!.nodeGlobalDictionary
+                globalCheatInstance!!.nodeGlobalDictionary = globalCheatDictionary!!
+                globalCheatDictionary!!.close()
+                globalCheatInstance!!.nodeGlobalDictionary = backup
+                globalCheatDictionary = null
+            }
+        }
+    }
 
     override fun start(initialState: DatabaseState) {
         println("DatabaseHandle.start ${initialState.allAddresses.map{it}} .. ${initialState.ownAddress}")
@@ -72,6 +95,9 @@ public class DatabaseHandle : IDatabase {
         instance.LUPOS_BUFFER_SIZE = 8192
         instance.communicationHandler = MySimulatorCommunicationHandler(instance, initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
+        globalCheatStart(instance)
+        nodeGlobalDictionaryBackup = instance.nodeGlobalDictionary
+        instance.nodeGlobalDictionary = globalCheatDictionary
         instance.distributedOptimizerQueryFactory = {
             MySimulatorDistributedOptimizer(initialState.sender)
         }
@@ -95,6 +121,8 @@ public class DatabaseHandle : IDatabase {
     }
 
     override fun end() {
+        instance.nodeGlobalDictionary = nodeGlobalDictionaryBackup
+        globalCheatEnd()
         LuposdateEndpoint.close(instance)
     }
 
@@ -163,7 +191,7 @@ public class DatabaseHandle : IDatabase {
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
             "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MyInputStreamFromByteArray(pck.data!!))
             "simulator-intermediate-result" -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:165"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:193"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
                 myPendingWorkData[pck.params["key"]!!] = pck.data!!
                 doWork()
             }
@@ -190,7 +218,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:192"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:220"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -272,9 +300,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:274"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:302"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()!!
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:276"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:304"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
