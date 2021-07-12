@@ -93,7 +93,7 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
+@Ignore
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInManyAreas() {
         // TODO Throws Exception
