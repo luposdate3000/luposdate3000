@@ -373,6 +373,10 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             shared_config_base_folder = shared_inline_base_folder + "xxx_generated_xxx/${moduleArgs.moduleFolder}"
             shared_inline_base_folder += "luposdate3000_shared_inline"
         }
+        File("$shared_config_base_folder/src/commonMain/kotlin/lupos/shared").deleteRecursively()
+        File("$shared_inline_base_folder/src/commonMain/kotlin/lupos/shared").deleteRecursively()
+        File("$shared_config_base_folder/src/commonMain/kotlin/lupos/shared").mkdirs()
+        File("$shared_inline_base_folder/src/commonMain/kotlin/lupos/shared").mkdirs()
         for (filename in listOf("${moduleArgs.moduleFolder}/build.gradle.kts")) {
             File(filename).printWriter().use { out ->
                 out.println("import org.gradle.api.tasks.testing.logging.TestExceptionFormat")
@@ -861,7 +865,6 @@ else -> TODO()
                     }
                 }
             }
-            File("$shared_inline_base_folder/src/commonMain/kotlin/lupos/shared").mkdirs()
             typeAliasUsed.putAll(typeAliasAll)
             if (moduleArgs.intellijMode == IntellijMode.Enable) {
                 try {
@@ -887,7 +890,6 @@ else -> TODO()
             }
         }
         var configFile: String
-        File("$shared_config_base_folder/src/commonMain/kotlin/lupos/shared").mkdirs()
         configFile = "$shared_config_base_folder/src/commonMain/kotlin/lupos/shared/Config-${moduleArgs.moduleName}.kt"
         println(typeAliasUsed.keys)
         println()
