@@ -119,15 +119,13 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getAllParkingAreas() {
         // TODO Throws Exception
         val query = SemanticData.getAllParkingAreas()
         distributedCaseWithQuery(query)
     }
-
-    @Ignore
+@Ignore
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea() {
         // TODO Throws Exception
@@ -136,7 +134,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getSampleNumberOfSensor() {
         // TODO Throws Exception
@@ -145,7 +142,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getLastSampleOfSensor() {
         // TODO Throws Exception
@@ -153,8 +149,7 @@ class IntegrationTest {
         val query = SemanticData.getLastSampleOfSensor(sensorRDF)
         distributedCaseWithQuery(query)
     }
-
-    @Ignore
+@Ignore
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInArea() {
         // TODO Throws Exception
@@ -162,8 +157,7 @@ class IntegrationTest {
         val query = SemanticData.getLastResultsOfEachSensorInArea(areaRDF)
         distributedCaseWithQuery(query)
     }
-
-    @Ignore
+@Ignore
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInManyAreas() {
         // TODO Throws Exception
@@ -171,8 +165,7 @@ class IntegrationTest {
         val query = SemanticData.getLastResultsOfEachSensorInManyAreas(areasRDF)
         distributedCaseWithQuery(query)
     }
-
-    @Ignore
+@Ignore
     @Test
     fun campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea() {
         // TODO Throws Exception
