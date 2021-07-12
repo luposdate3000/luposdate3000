@@ -5,7 +5,6 @@ import kotlinx.serialization.json.Json
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
@@ -34,6 +33,7 @@ internal class Configuration(private val simRun: SimulationRun) {
         private set
 
     internal var dbDeviceAddresses: IntArray = intArrayOf()
+        private set
 
     private var rootRouterAddress: Int = -1
 
@@ -42,6 +42,7 @@ internal class Configuration(private val simRun: SimulationRun) {
     private var deviceNames: MutableList<String> = mutableListOf()
 
     internal var linker = DeviceLinker()
+        private set
 
     internal fun parse(jsonObjects: JsonObjects) {
         initVariables(jsonObjects)
