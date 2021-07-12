@@ -304,7 +304,7 @@ internal class ValueKeyStoreWriter {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:303"/*SOURCE_FILE_END*/ }, { id != ValueKeyStore.ID_NULL })
         counter++
         var common = ByteArrayWrapperExt.commonBytes(buffer, lastBuffer)
-        ByteArrayWrapperExt.copyInto(buffer, lastBuffer)
+        ByteArrayWrapperExt.copyInto(buffer, lastBuffer, false)
         BufferManagerPage.writeInt4(page, offset, id)
         BufferManagerPage.writeInt4(page, offset + 4, ByteArrayWrapperExt.getSize(buffer))
         BufferManagerPage.writeInt4(page, offset + 8, common)
@@ -336,7 +336,7 @@ internal class ValueKeyStoreWriter {
         }
         if (writeEntryPoint) {
             BufferManagerPage.writeInt4(page, 8, offset)
-            ByteArrayWrapperExt.setSize(lastBuffer, 0)
+            ByteArrayWrapperExt.setSize(lastBuffer, 0, false)
             if (counter > ValueKeyStore.MIN_BRANCHING) {
                 counter = 0
                 onNextEntryPoint()
@@ -380,7 +380,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
         val len = BufferManagerPage.readInt4(page, offset + 4)
         var bufferOffset = BufferManagerPage.readInt4(page, offset + 8)
         offset += 12
-        ByteArrayWrapperExt.setSizeCopy(buffer, len)
+        ByteArrayWrapperExt.setSize(buffer, len, true)
         while (bufferOffset < len) {
             val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
             if (l1 > 0) {
@@ -434,7 +434,7 @@ internal class ValueKeyStoreIteratorSearch {
                     localChildPageID = BufferManagerPage.readInt4(page, offset)
                     offset += 4
                 }
-                ByteArrayWrapperExt.setSizeCopy(buffer, len)
+                ByteArrayWrapperExt.setSize(buffer, len, true)
                 while (bufferOffset < len) {
                     val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
                     if (l1 > 0) {

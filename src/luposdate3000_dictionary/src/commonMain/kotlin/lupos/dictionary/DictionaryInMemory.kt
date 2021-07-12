@@ -87,7 +87,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
             action(i or flag2)
         }
         for ((k, v) in dataV2I) {
-            ByteArrayWrapperExt.copyInto(k, buffer)
+            ByteArrayWrapperExt.copyInto(k, buffer, false)
             action(v or flag)
         }
     }
@@ -109,7 +109,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                         }
                         if (!done) {
                             val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
-                            ByteArrayWrapperExt.copyInto(buf, buffer)
+                            ByteArrayWrapperExt.copyInto(buf, buffer, false)
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:112"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "xxx" + value })
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:113"/*SOURCE_FILE_END*/ }, { (value and DictionaryValueHelper.maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
                         }
@@ -168,7 +168,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                 if (res == null) {
                     res = DictionaryValueHelper.fromInt(dataV2I.size)
                     val bufferCopy = ByteArrayWrapper()
-                    ByteArrayWrapperExt.copyInto(buffer, bufferCopy)
+                    ByteArrayWrapperExt.copyInto(buffer, bufferCopy, false)
                     dataV2I[bufferCopy] = res
                     if (dataI2V.size <= res) {
                         val tmp = dataI2V

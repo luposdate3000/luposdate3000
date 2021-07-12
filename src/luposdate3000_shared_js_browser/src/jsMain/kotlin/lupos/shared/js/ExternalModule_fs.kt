@@ -168,7 +168,7 @@ public class JSInputStream {
 
     public constructor(fd: Int) {
         buffer = ByteArray(0)
-        throw Exception("not implemented")
+        TODO()
     }
 
     public fun readInt(): Int {

@@ -55,7 +55,7 @@ public class AOPAggregationSUM public constructor(query: IQuery, @JvmField publi
                 dictionary.getValue(bufferCurrent, child())
                 try {
                     if (!hasInit) {
-                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer)
+                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer, false)
                         hasInit = true
                     } else {
                         AOPAggregationHelper.addition(buffer, bufferCurrent, buffer)

@@ -122,7 +122,7 @@ public class KeyValueStore public constructor(
         var p = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:121"/*SOURCE_FILE_END*/, page)
         var pid = page
         val l = BufferManagerPage.readInt4(p, off)
-        ByteArrayWrapperExt.setSize(data, l)
+        ByteArrayWrapperExt.setSize(data, l, false)
         var bufoff = 0
         var toread = l
         var pageoff = off + 4

@@ -242,7 +242,7 @@ public object DictionaryHelperLarge {
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:241"/*SOURCE_FILE_END*/ }, { componentYear >= (1L shl 37) })
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:242"/*SOURCE_FILE_END*/ }, { componentYear < (1L shl 56) })
                             val componentAll = componentMilliseconds or componentDay or componentMonth or componentYearSign or componentYear
-                            ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 7)
+                            ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 7, false)
                             DictionaryHelper.headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0x80)
                             ByteArrayHelper.writeLong7(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize(), componentAll)
                             done = true
@@ -284,7 +284,7 @@ public object DictionaryHelperLarge {
         val buf2 = DictionaryHelper.helper_decimalToByteArray(seconds)
         val l1 = buf1.size
         val l2 = buf2.size
-        ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 28 + l1 + l2)
+        ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 28 + l1 + l2, false)
         var off = 0
         DictionaryHelper.headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0)
         off += DictionaryHelper.headerSize()
@@ -402,7 +402,7 @@ public object DictionaryHelperLarge {
                 else -> {
                     val buf1 = type.encodeToByteArray()
                     val buf2 = content.encodeToByteArray()
-                    ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 4 + buf1.size + buf2.size)
+                    ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 4 + buf1.size + buf2.size, false)
                     DictionaryHelper.headerEncode(buffer, ETripleComponentTypeExt.STRING_TYPED, 0)
                     ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize() + buf1.size + buf2.size, buf1.size)
                     buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize())

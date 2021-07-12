@@ -30,7 +30,7 @@ internal actual class File {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getAbsolutePath(): String = throw Exception("not implemented")
+    internal actual inline fun getAbsolutePath(): String = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun exists(): Boolean = ExternalModule_fs.exists(filename)
@@ -54,15 +54,15 @@ internal actual class File {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readAsCharIterator(): CharIterator = throw NotImplementedException("File", "readAsCharIterator not implemented")
+    internal actual inline fun readAsCharIterator(): CharIterator = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun openInputStream(): IMyInputStream {
         return MyInputStream(filename)
     }
 
-    internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
-    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
+    internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = TODO()
+    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = TODO()
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
         val stream = MyInputStream(filename)
         val buffer = ByteArray(8192)
@@ -103,7 +103,7 @@ internal actual class File {
         stream.close()
     }
 
-    actual override fun equals(other: Any?): Boolean = throw NotImplementedException("File", "equals not implemented")
+    actual override fun equals(other: Any?): Boolean = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream {

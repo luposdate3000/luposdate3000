@@ -55,10 +55,10 @@ public class AOPAggregationMIN public constructor(query: IQuery, @JvmField publi
                 dictionary.getValue(bufferCurrent, child())
                 try {
                     if (!hasInit) {
-                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer)
+                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer, false)
                         hasInit = true
                     } else if (DictionaryHelper.byteArrayCompareAny(bufferCurrent, buffer) < 0) {
-                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer)
+                        ByteArrayWrapperExt.copyInto(bufferCurrent, buffer, false)
                     }
                 } catch (e: Throwable) {
                     isError = true

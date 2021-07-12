@@ -22,28 +22,28 @@ public object ExternalModule_fs {
     public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = writeSync_(fd, buffer, offset, length, position)
     public fun closeSync(fd: Int): Unit = closeSync_(fd)
     public fun readFileSync(filename: String): ByteArray = readFileSync_(filename)
-    public fun exists(filename: String): Boolean = throw Exception("not implemented")
-    public fun mkdirs(filename: String): Boolean = throw Exception("not implemented")
-    public fun deleteRecursively(filename: String): Boolean = throw Exception("not implemented")
-    public fun length(filename: String): Long = throw Exception("not implemented")
-    public fun createTempDirectory(): String = throw Exception("not implemented")
+    public fun exists(filename: String): Boolean = TODO()
+    public fun mkdirs(filename: String): Boolean = TODO()
+    public fun deleteRecursively(filename: String): Boolean = TODO()
+    public fun length(filename: String): Long = TODO()
+    public fun createTempDirectory(): String = TODO()
     public fun openOutputStream(filename: String, append: Boolean): JSOutputStream {
         return JSOutputStream(filename, append)
     }
 }
 
 public class JSOutputStream(private val filename: String, append: Boolean) {
-    public fun writeInt(value: Int): Unit = throw Exception("not implemented")
-    public fun write(buf: ByteArray): Unit = throw Exception("not implemented")
-    public fun write(buf: ByteArray, len: Int): Unit = throw Exception("not implemented")
-    public fun close(): Unit = throw Exception("not implemented")
-    public fun flush(): Unit = throw Exception("not implemented")
-    public fun println(x: String): Unit = throw Exception("not implemented")
-    public fun print(x: String): Unit = throw Exception("not implemented")
-    public fun print(x: Boolean): Unit = throw Exception("not implemented")
-    public fun print(x: Int): Unit = throw Exception("not implemented")
-    public fun print(x: Double): Unit = throw Exception("not implemented")
-    public fun println(): Unit = throw Exception("not implemented")
+    public fun writeInt(value: Int): Unit = TODO()
+    public fun write(buf: ByteArray): Unit = TODO()
+    public fun write(buf: ByteArray, len: Int): Unit = TODO()
+    public fun close(): Unit = TODO()
+    public fun flush(): Unit = TODO()
+    public fun println(x: String): Unit = TODO()
+    public fun print(x: String): Unit = TODO()
+    public fun print(x: Boolean): Unit = TODO()
+    public fun print(x: Int): Unit = TODO()
+    public fun print(x: Double): Unit = TODO()
+    public fun println(): Unit = TODO()
 }
 
 public class JSInputStream {

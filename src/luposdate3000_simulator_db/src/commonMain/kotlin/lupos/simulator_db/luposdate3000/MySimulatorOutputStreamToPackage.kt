@@ -56,6 +56,9 @@ internal class MySimulatorOutputStreamToPackage(val target: Int, val path: Strin
     }
 
     override fun write(buf: ByteArray) {
+        if (buffer.uuid == 20197) {
+            kotlin.io.println("MySimulatorOutputStreamToPackage.write ${buffer.uuid} ${buf.map{it}}")
+        }
         ByteArrayWrapperExt.appendTo(buf, buffer)
     }
 
@@ -64,17 +67,35 @@ internal class MySimulatorOutputStreamToPackage(val target: Int, val path: Strin
     }
     override fun writeDictionaryValueType(value: DictionaryValueType) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
-        ByteArrayWrapperExt.setSizeCopy(buffer, offset + DictionaryValueHelper.getSize())
+        if (buffer.uuid == 20197) {
+            kotlin.io.println("MySimulatorOutputStreamToPackage.writeDictionaryValueType ${buffer.uuid} $offset $value")
+        }
+        ByteArrayWrapperExt.setSize(buffer, offset + DictionaryValueHelper.getSize(), true)
         DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+        if (buffer.uuid == 20197) {
+            kotlin.io.println("MySimulatorOutputStreamToPackage.after ${buffer.uuid}  ${ByteArrayWrapperExt.getSize(buffer)} $buffer")
+        }
     }
     override fun writeLong(value: Long) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
-        ByteArrayWrapperExt.setSizeCopy(buffer, offset + 8)
+        if (buffer.uuid == 20197) {
+            kotlin.io.println("MySimulatorOutputStreamToPackage.writeLong ${buffer.uuid} $offset $value")
+        }
+        ByteArrayWrapperExt.setSize(buffer, offset + 8, true)
         ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+        if (buffer.uuid == 20197) {
+            kotlin.io.println("MySimulatorOutputStreamToPackage.after ${buffer.uuid}  ${ByteArrayWrapperExt.getSize(buffer)} $buffer")
+        }
     }
     override fun writeInt(value: Int) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
-        ByteArrayWrapperExt.setSizeCopy(buffer, offset + 4)
+        if (buffer.uuid == 20197) {
+            kotlin.io.println("MySimulatorOutputStreamToPackage.writeInt ${buffer.uuid} $offset $value")
+        }
+        ByteArrayWrapperExt.setSize(buffer, offset + 4, true)
         ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+        if (buffer.uuid == 20197) {
+            kotlin.io.println("MySimulatorOutputStreamToPackage.after ${buffer.uuid}  ${ByteArrayWrapperExt.getSize(buffer)} $buffer")
+        }
     }
 }

@@ -19,6 +19,7 @@ package lupos.shared.inline
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
+import lupos.shared.SanityCheck
 import java.io.OutputStream
 import kotlin.jvm.JvmField
 internal actual class MyOutputStream : IMyOutputStream {
@@ -61,20 +62,25 @@ internal actual class MyOutputStream : IMyOutputStream {
     }
 
     public actual override fun close() {
-        try {
-            throw Exception()
-        } catch (e: Throwable) {
-            if (closedBy == null) {
-                closedBy = mutableListOf(e)
-            } else {
-                closedBy!!.add(e)
+        SanityCheck(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:65"/*SOURCE_FILE_END*/ },
+            {
+                try {
+                    throw Exception()
+                } catch (e: Throwable) {
+                    if (closedBy == null) {
+                        closedBy = mutableListOf(e)
+                    } else {
+                        closedBy!!.add(e)
+                    }
+                }
+                if (stream == null) {
+                    for (e in closedBy!!) {
+                        e.printStackTrace()
+                    }
+                }
             }
-        }
-        if (stream == null) {
-            for (e in closedBy!!) {
-                e.printStackTrace()
-            }
-        }
+        )
         // kotlin.io.println("MyOutputStream.close $this")
         flush()
         stream!!.close()

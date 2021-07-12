@@ -28,7 +28,7 @@ public class DictionaryCache(private val instance: Luposdate3000Instance) {
     private val value_ids = DictionaryValueTypeArray(value_capacity) { DictionaryValueHelper.booleanTrueValue }
     private val value_content = Array(value_capacity) {
         val tmp = ByteArrayWrapper()
-        ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp)
+        ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp, false)
         tmp
     }
 
@@ -44,7 +44,7 @@ public class DictionaryCache(private val instance: Luposdate3000Instance) {
     public fun getValueById(buffer: ByteArrayWrapper, id: DictionaryValueType): Boolean {
         for (i in 0 until value_capacity) {
             if (value_ids[i] == id) {
-                ByteArrayWrapperExt.copyInto(value_content[i], buffer)
+                ByteArrayWrapperExt.copyInto(value_content[i], buffer, false)
                 return true
             }
         }
@@ -62,7 +62,7 @@ public class DictionaryCache(private val instance: Luposdate3000Instance) {
                 return // to be save, otherwise we miss the case where a local dictionary id is upgraded to a global one
             }
         }
-        ByteArrayWrapperExt.copyInto(buffer, value_content[offset])
+        ByteArrayWrapperExt.copyInto(buffer, value_content[offset], false)
         value_ids[offset] = id
         offset++
     }
