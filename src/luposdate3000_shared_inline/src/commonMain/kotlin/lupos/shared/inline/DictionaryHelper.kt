@@ -100,7 +100,7 @@ internal object DictionaryHelper {
         if (headerDecodeFlag(buffer) == 0x80) {
             val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             var year = ((componentAll shr 37) and 0x7FFFF)
-            if ((componentAll and (1L shl 36)) == (1L shl 36)) {
+            if ((componentAll and (1L shl 36)) != (1L shl 36)) {
                 year = -year
             }
             return year.toBigInteger()

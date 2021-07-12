@@ -333,7 +333,7 @@ public object DictionaryHelperLarge {
             val day = ((componentAll shr 27) and 0x1F)
             val month = ((componentAll shr 32) and 0xF)
             var year = ((componentAll shr 37) and 0x7FFFF)
-            if ((componentAll and (1L shl 36)) == (1L shl 36)) {
+            if ((componentAll and (1L shl 36)) != (1L shl 36)) {
                 year = -year
             }
             val secondsString = if ((milliseconds % 1000) != 0L) {
