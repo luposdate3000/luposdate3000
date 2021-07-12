@@ -26,26 +26,32 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
         //
         arrayOf(
             PhysicalOptimizerJoinType(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerTripleIndex(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerNaive(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerPartitionExpandPartitionTowardsStore(query), //
-            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
             PhysicalOptimizerPartitionExpandTowardsRoot(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerPartitionRespectMaxPartitions(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerPartitionRemoveUselessPartitions(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerPartitionAssingPartitionsToRemaining(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerDebug(query), //

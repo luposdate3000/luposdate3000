@@ -57,7 +57,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getAllSpacesOfParkingArea() {
         // TODO Throws Exception
@@ -93,7 +92,7 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-@Ignore
+    @Ignore
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInManyAreas() {
         // TODO Throws Exception

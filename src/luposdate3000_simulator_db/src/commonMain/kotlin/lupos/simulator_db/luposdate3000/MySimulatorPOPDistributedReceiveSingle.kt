@@ -45,7 +45,7 @@ public class MySimulatorPOPDistributedReceiveSingle public constructor(
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/MySimulatorPOPDistributedReceiveSingle.kt:44"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
-    override fun getPartitionCount(variable: String): Int = TODO()
+    override fun getPartitionCount(variable: String): Int = partitionCount
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = TODO()
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = TODO()
     override fun getRequiredVariableNames(): List<String> = listOf()

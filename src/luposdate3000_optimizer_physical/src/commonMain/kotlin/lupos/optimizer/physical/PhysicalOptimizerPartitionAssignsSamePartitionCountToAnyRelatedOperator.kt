@@ -33,9 +33,11 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID, "PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator") {
     // this optimizer makes sure, that every partitioning which belongs to the same section uses the same partition count
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+        println("PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator.optimize ${node.getUUID()} ${node.getClassname()}")
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
+                    println("POPSplitPartitionFromStore . id .. ${node.partitionID} a ${node.partitionCount}")
                     var storeNodeTmp = node.children[0]
                     while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
@@ -49,6 +51,7 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     if (new_count != max_count) {
                         onChange()
                     }
+                    println("POPSplitPartitionFromStore . id .. ${node.partitionID} b ${node.partitionCount}")
                 }
                 is POPSplitPartitionFromStoreCount -> {
                     var storeNodeTmp = node.children[0]
@@ -80,11 +83,13 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     }
                 }
                 is POPMergePartitionOrderedByIntId -> {
+                    println("POPMergePartitionOrderedByIntId . id .. ${node.partitionID} a ${node.partitionCount}")
                     val tmp = query.partitionOperatorCount[node.partitionID]
                     if (tmp != null && tmp != node.partitionCount) {
                         node.partitionCount = tmp
                         onChange()
                     }
+                    println("POPMergePartitionOrderedByIntId . id .. ${node.partitionID} b ${node.partitionCount}")
                 }
                 is POPSplitPartition -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]

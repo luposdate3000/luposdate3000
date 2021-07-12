@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.logical
 
-import lupos.shared.UnreachableException
 import kotlin.jvm.JvmField
 
 public object EOptimizerIDHelper {
@@ -67,7 +66,7 @@ public object EOptimizerIDHelper {
             EOptimizerIDExt.LogicalOptimizerDistinctUpID -> false
             EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> true
             EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
-            else -> throw UnreachableException()
+            else -> TODO()
         }
     }
 
@@ -118,7 +117,7 @@ public object EOptimizerIDHelper {
             EOptimizerIDExt.LogicalOptimizerDistinctUpID -> true
             EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> false
             EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
-            else -> throw UnreachableException()
+            else -> TODO()
         }
     }
 }
