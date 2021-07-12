@@ -8,7 +8,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 
-internal object Time {
+internal object TimeUtils {
 
     internal fun addMillis(instant: Instant, millis: Long): Instant = instant.plus(millis, DateTimeUnit.MILLISECOND, TimeZone.UTC)
 

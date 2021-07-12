@@ -2,27 +2,27 @@ package lupos.simulator_iot
 import lupos.simulator_core.Simulation
 import kotlinx.datetime.Instant
 
-internal class TimeMeasure(private val sim: Simulation) {
+internal class TimeMeasurement(private val sim: Simulation) {
 
     private lateinit var startUpTimeStamp: Instant
     private lateinit var shutDownTimeStamp: Instant
     private lateinit var realShutDownTimeStamp: Instant
-    private var initStartTimeStamp: Instant = Time.stamp()
+    private var initStartTimeStamp: Instant = TimeUtils.stamp()
 
 
     internal fun onStartUp() {
-        startUpTimeStamp = Time.stamp()
+        startUpTimeStamp = TimeUtils.stamp()
     }
 
     internal fun onShutDown() {
         shutDownTimeStamp = getSimulationTime()
-        realShutDownTimeStamp = Time.stamp()
+        realShutDownTimeStamp = TimeUtils.stamp()
     }
 
-    private fun getSimulationTime(): Instant = Time.addMillis(startUpTimeStamp, sim.clock)
+    private fun getSimulationTime(): Instant = TimeUtils.addMillis(startUpTimeStamp, sim.clock)
 
     internal fun getTimeString(time: Instant): String {
-        return Time.toISOString(time)
+        return TimeUtils.toISOString(time)
     }
 
     internal fun getSimulationTimeString(): String {
@@ -38,12 +38,12 @@ internal class TimeMeasure(private val sim: Simulation) {
     }
 
     internal fun getInitDuration(): Double =
-        Time.differenceInSeconds(initStartTimeStamp, startUpTimeStamp)
+        TimeUtils.differenceInSeconds(initStartTimeStamp, startUpTimeStamp)
 
     internal fun getSimulationDuration(): Double =
-        Time.differenceInSeconds(startUpTimeStamp, shutDownTimeStamp)
+        TimeUtils.differenceInSeconds(startUpTimeStamp, shutDownTimeStamp)
 
     internal fun getRealSimulationDuration(): Double =
-        Time.differenceInSeconds(startUpTimeStamp, realShutDownTimeStamp)
+        TimeUtils.differenceInSeconds(startUpTimeStamp, realShutDownTimeStamp)
 
 }

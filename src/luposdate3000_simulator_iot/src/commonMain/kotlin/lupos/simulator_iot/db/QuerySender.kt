@@ -4,7 +4,7 @@ import lupos.simulator_core.Entity
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.Time
+import lupos.simulator_iot.TimeUtils
 import lupos.simulator_iot.net.NetworkPackage
 
 internal class QuerySender(
@@ -27,7 +27,7 @@ internal class QuerySender(
 
     override fun onStartUp() {
         require(receiver.hasDatabase()) { "The query receiver device must have a database" }
-        setTimer(Time.toMillis(startClock), StartUpTimer())
+        setTimer(TimeUtils.toMillis(startClock), StartUpTimer())
     }
 
     override fun onSteadyState() {
@@ -46,7 +46,7 @@ internal class QuerySender(
         if (queryCounter < maxNumberOfQueries) {
             queryCounter++
             triggerQueryProcessing()
-            setTimer(Time.toMillis(sendRateInSec), SendTimer())
+            setTimer(TimeUtils.toMillis(sendRateInSec), SendTimer())
         }
     }
 

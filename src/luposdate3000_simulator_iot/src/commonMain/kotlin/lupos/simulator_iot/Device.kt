@@ -4,7 +4,6 @@ import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
-import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
@@ -48,15 +47,15 @@ internal class Device(
             return 0
         }
 
-        val now = Time.stamp()
-        val microDif = Time.differenceInMicroSec(deviceStart, now)
+        val now = TimeUtils.stamp()
+        val microDif = TimeUtils.differenceInMicroSec(deviceStart, now)
         val scaled = microDif * 100 / performance
         val millis = scaled / 1000
         return millis.toLong()
     }
 
     override fun onStartUp() {
-        deviceStart = Time.stamp()
+        deviceStart = TimeUtils.stamp()
         sensor?.startSampling()
         database?.startUp()
         router.startRouting()
@@ -67,7 +66,7 @@ internal class Device(
 
     override fun onEvent(source: Entity, data: Any) {
         val pck = data as NetworkPackage
-        deviceStart = Time.stamp()
+        deviceStart = TimeUtils.stamp()
         packageCounter++
         networkLoad += pck.pckSize
         if (pck.destinationAddress == address) {

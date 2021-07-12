@@ -14,7 +14,7 @@ internal class SimulationRun {
 
     internal val config = Configuration(this)
 
-    internal val timeMeasure = TimeMeasure(sim)
+    internal val timeMeasure = TimeMeasurement(sim)
 
     internal val logger = Logger(timeMeasure, config)
 

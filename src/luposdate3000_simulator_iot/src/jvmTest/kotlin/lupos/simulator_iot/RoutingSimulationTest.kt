@@ -115,7 +115,7 @@ class RoutingSimulationTest {
 
         val querySender = config.querySenders[0]
         val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec + querySender.startClock
-        assertEquals(Time.toMillis(expectedTimeSec), simRun.getCurrentSimulationClock())
+        assertEquals(TimeUtils.toMillis(expectedTimeSec), simRun.getCurrentSimulationClock())
     }
 
     @Test
