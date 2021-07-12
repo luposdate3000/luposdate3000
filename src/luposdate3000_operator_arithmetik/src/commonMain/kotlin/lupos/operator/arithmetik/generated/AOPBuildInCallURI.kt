@@ -48,7 +48,7 @@ public class AOPBuildInCallURI public constructor(query: IQuery, child0: AOPBase
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.IRI -> {
-                    ByteArrayWrapperExt.copyInto(tmp_0, tmp_2)
+                    ByteArrayWrapperExt.copyInto(tmp_0, tmp_2, false)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {

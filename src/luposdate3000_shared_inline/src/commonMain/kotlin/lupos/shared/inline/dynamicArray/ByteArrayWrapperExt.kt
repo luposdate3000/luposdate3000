@@ -30,20 +30,19 @@ public object ByteArrayWrapperExt {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun setSize(data: ByteArrayWrapper, c: Int) {
-        data.size_ = c
-        if (c > data.buf_.size) {
-            data.buf_ = ByteArray(c)
+    public inline fun setSize(data: ByteArrayWrapper, c: Int, copy: Boolean) {
+        if (data.uuid == 20197) {
+            kotlin.io.println("ByteArrayWrapperExt.setSize ${data.uuid} ${data.size_ } $c")
         }
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun setSizeCopy(data: ByteArrayWrapper, c: Int) {
         data.size_ = c
         if (c > data.buf_.size) {
-            val oldBuf = data.buf_
-            data.buf_ = ByteArray(c)
-            oldBuf.copyInto(data.buf_)
+            if (copy) {
+                val oldBuf = data.buf_
+                data.buf_ = ByteArray(c)
+                oldBuf.copyInto(data.buf_)
+            } else {
+                data.buf_ = ByteArray(c)
+            }
         }
     }
 
@@ -61,22 +60,22 @@ public object ByteArrayWrapperExt {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper) {
-        setSize(b, a.size_)
+    public inline fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper, copy: Boolean) {
+        setSize(b, a.size_, copy)
         a.buf_.copyInto(b.buf_, 0, 0, a.size_)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun appendTo(a: ByteArrayWrapper, b: ByteArrayWrapper) {
         val offset = b.size_
-        setSize(b, b.size_ + a.size_)
+        setSize(b, b.size_ + a.size_, true)
         a.buf_.copyInto(b.buf_, offset, 0, a.size_)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun appendTo(a: ByteArray, b: ByteArrayWrapper) {
         val offset = b.size_
-        setSize(b, b.size_ + a.size)
+        setSize(b, b.size_ + a.size, true)
         a.copyInto(b.buf_, offset, 0, a.size)
     }
 

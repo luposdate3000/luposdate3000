@@ -87,7 +87,7 @@ public class Simulation(
     }
 
     internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
-        require(delay >= 0) {"Clock cannot go backwards."}
+        require(delay >= 0) { "Clock cannot go backwards." }
         addedEventCounter++
         val occurringTime = clock + delay
         val ev = Event(addedEventCounter, occurringTime, src, dest, data)

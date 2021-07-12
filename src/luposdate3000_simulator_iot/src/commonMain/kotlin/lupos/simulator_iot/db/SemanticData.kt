@@ -24,14 +24,14 @@ internal object SemanticData {
     }
 
     internal fun getNumberOfParkingAreas(): String {
-        return  "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-                "\n" +
-                "select (count(distinct ?x) as ?count) \n" +
-                "where {\n" +
-                " ?s sosa:hasFeatureOfInterest ?x\n" +
-                "}"
+        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "\n" +
+            "select (count(distinct ?x) as ?count) \n" +
+            "where {\n" +
+            " ?s sosa:hasFeatureOfInterest ?x\n" +
+            "}"
     }
 
     internal fun getAllParkingAreas(): String {
@@ -46,16 +46,16 @@ internal object SemanticData {
     }
 
     internal fun getAllSpacesOfParkingArea(areaRDF: String): String {
-        return  "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-                "\n" +
-                "select  (count(distinct ?x) as ?count) \n" +
-                "where {\n" +
-                " ?b rdf:type sosa:Observation.\n" +
-                " ?b sosa:hasFeatureOfInterest  $areaRDF.\n" +
-                " ?b sosa:madeBySensor ?x.   \n" +
-                "}"
+        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "\n" +
+            "select  (count(distinct ?x) as ?count) \n" +
+            "where {\n" +
+            " ?b rdf:type sosa:Observation.\n" +
+            " ?b sosa:hasFeatureOfInterest  $areaRDF.\n" +
+            " ?b sosa:madeBySensor ?x.   \n" +
+            "}"
     }
 
     internal fun getSampleNumberOfSensor(sensorRDF: String): String {
@@ -154,5 +154,4 @@ internal object SemanticData {
             " }\n" +
             "}"
     }
-
 }

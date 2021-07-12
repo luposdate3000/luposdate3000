@@ -75,7 +75,7 @@ internal class Logger(private val timeMeasure: TimeMeasure, private val config: 
         val stream = File(logFile).openOutputStream(true)
         stream.println(content)
         stream.close()
-        println(content)
+//        println(content)
     }
 
     private fun getDODAGString(): String {

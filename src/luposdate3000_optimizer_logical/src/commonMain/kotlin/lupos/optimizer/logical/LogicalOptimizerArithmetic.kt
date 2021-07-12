@@ -18,6 +18,7 @@ package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.multiinput.AOPSet
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -40,7 +41,7 @@ public class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOp
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if (node is AOPBase && node !is AOPValue && node !is AOPBuildInCallNotExists && node !is AOPBuildInCallExists && node !is AOPVariable) {
+        if (node is AOPBase && node !is AOPValue && node !is AOPBuildInCallNotExists && node !is AOPBuildInCallExists && node !is AOPVariable && node !is AOPSet) {
             if (node.getChildren().isNotEmpty() && node.getRequiredVariableNamesRecoursive().isEmpty() && !hasAggregation(node)) {
                 var value = node.evaluateID(IteratorBundle(0))()
                 if (value == DictionaryValueHelper.errorValue) {

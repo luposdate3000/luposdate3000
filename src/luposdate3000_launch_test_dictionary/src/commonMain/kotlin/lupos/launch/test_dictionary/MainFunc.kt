@@ -82,7 +82,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:84"/*SOURCE_FILE_END*/)
+                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:84"/*SOURCE_FILE_END*/)
                         }
                         return DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
@@ -152,7 +152,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     }
                     usedGenerators[len]!!.add(seed)
                     val res = ByteArrayWrapper()
-                    ByteArrayWrapperExt.setSize(res, len)
+                    ByteArrayWrapperExt.setSize(res, len, false)
                     for (i in 0 until len) {
                         ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }

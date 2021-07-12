@@ -135,7 +135,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         output.writeDictionaryValueType(value)
         output.flush()
         val len = input.readInt()
-        ByteArrayWrapperExt.setSize(buffer, len)
+        ByteArrayWrapperExt.setSize(buffer, len, false)
         input.read(ByteArrayWrapperExt.getBuf(buffer), len)
         if (instance.dictionaryCacheCapacity> 0) {
             cache.insertValuePair(buffer, value)

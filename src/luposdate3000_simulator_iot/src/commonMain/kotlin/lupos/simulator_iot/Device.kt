@@ -44,8 +44,9 @@ internal class Device(
     }
 
     private fun getProcessingDelay(): Long {
-        if (isDeterministic)
+        if (isDeterministic) {
             return 0
+        }
 
         val now = Time.stamp()
         val microDif = Time.differenceInMicroSec(deviceStart, now)

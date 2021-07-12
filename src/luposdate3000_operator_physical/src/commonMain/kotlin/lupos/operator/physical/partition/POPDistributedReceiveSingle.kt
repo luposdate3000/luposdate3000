@@ -15,11 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
@@ -37,10 +40,29 @@ public class POPDistributedReceiveSingle public constructor(
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
     child: IOPBase,
-    @JvmField public val hosts: Map<String, String>, // key -> hostname
+    private val input: IMyInputStream,
+    private val output: IMyOutputStream? = null,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveSingleID, "POPDistributedReceiveSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    public companion object {
+        public operator fun invoke(
+            query: IQuery,
+            projectedVariables: List<String>,
+            partitionVariable: String,
+            partitionCount: Int,
+            partitionID: Int,
+            child: IOPBase,
+            hosts: Map<String, String>,
+        ): POPDistributedReceiveSingle {
+            val handler = query.getInstance().communicationHandler!!
+            for ((k, v) in hosts) {
+                val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
+                return POPDistributedReceiveSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, child, conn.first, conn.second)
+            }
+            TODO()
+        }
+    }
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:64"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -97,7 +119,6 @@ public class POPDistributedReceiveSingle public constructor(
         }
         return res
     }
-
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -109,44 +130,41 @@ public class POPDistributedReceiveSingle public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), input, output)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+        println("POPDistributedReceiveSingle.evaluate .. $projectedVariables")
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        val handler = query.getInstance().communicationHandler!!
-        var connection: MyConnection? = null
         var mapping = IntArray(variables.size)
-        for ((k, v) in hosts) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:121"/*SOURCE_FILE_END*/ }, { connection == null })
-            val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
-            val cnt = conn.first.readInt()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:124"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
-            for (i in 0 until variables.size) {
-                val len = conn.first.readInt()
-                val buf = ByteArray(len)
-                conn.first.read(buf, len)
-                val name = buf.decodeToString()
-                val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:131"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
-                mapping[i] = j
-            }
-            connection = MyConnection(conn.first, conn.second, mapping)
-        }
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)
+        val cnt = input.readInt()
+        println("received $cnt")
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:146"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
+        for (i in 0 until variables.size) {
+            val len = input.readInt()
+            val buf = ByteArray(len)
+            input.read(buf, len)
+            val name = buf.decodeToString()
+            val j = variables.indexOf(name)
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:153"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
+            mapping[i] = j
+        }
+        var closed = false
         iterator.next = {
             var res = -1
-            if (connection != null) {
+            if (!closed) {
                 for (i in 0 until variables.size) {
-                    iterator.buf[mapping[i]] = connection!!.input.readDictionaryValueType()
+                    iterator.buf[mapping[i]] = input.readDictionaryValueType()
                 }
                 if (iterator.buf[0] == DictionaryValueHelper.nullValue) {
-                    connection!!.input.close()
-                    connection!!.output.close()
-                    connection = null
+                    input.close()
+                    output?.close()
+                    closed = true
                 } else {
                     res = 0
                 }
@@ -154,8 +172,8 @@ public class POPDistributedReceiveSingle public constructor(
             res
         }
         iterator.close = {
-            connection?.input?.close()
-            connection?.output?.close()
+            input.close()
+            output?.close()
         }
         return IteratorBundle(iterator)
     }

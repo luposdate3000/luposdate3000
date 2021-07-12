@@ -61,6 +61,4 @@ internal class QuerySender(
         val netPck = NetworkPackage(receiver.address, receiver.address, pck)
         scheduleEvent(receiver, netPck, 0)
     }
-
-
 }

@@ -25,11 +25,15 @@ import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
 import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.physical.partition.POPDistributedReceiveMulti
+import lupos.operator.physical.partition.POPDistributedReceiveSingle
+import lupos.operator.physical.partition.POPDistributedSendMulti
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyInputStreamFromByteArray
@@ -159,7 +163,7 @@ public class DatabaseHandle : IDatabase {
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
             "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MyInputStreamFromByteArray(pck.data!!))
             "simulator-intermediate-result" -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:161"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:165"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
                 myPendingWorkData[pck.params["key"]!!] = pck.data!!
                 doWork()
             }
@@ -186,7 +190,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:188"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:192"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -236,7 +240,6 @@ public class DatabaseHandle : IDatabase {
                 p.destinations[k] = ownAdress
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:238"/*SOURCE_FILE_END*/ }, { packageMap.size == pck.operatorGraph.size })
         for ((k, v) in packages) {
             if (k != ownAdress) {
                 router!!.send(k, v)
@@ -269,12 +272,12 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:271"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:274"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()!!
-            SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:273"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:276"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
-            val res = MySimulatorPOPDistributedReceiveSingle(
+            val res = POPDistributedReceiveSingle(
                 query,
                 XMLElementToOPBase.createProjectedVariables(node),
                 node.attributes["partitionVariable"]!!,
@@ -299,7 +302,7 @@ public class DatabaseHandle : IDatabase {
                 myPendingWorkData.remove(key)
                 input as IMyInputStream
             }.toTypedArray()
-            val res = MySimulatorPOPDistributedReceiveMulti(
+            val res = POPDistributedReceiveMulti(
                 query,
                 XMLElementToOPBase.createProjectedVariables(node),
                 node.attributes["partitionVariable"]!!,
@@ -329,6 +332,15 @@ public class DatabaseHandle : IDatabase {
                             val out = MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
                             node.evaluate(out)
                             out.close()
+                        }
+                        is POPDistributedSendMulti -> {
+                            val out = Array<IMyOutputStream?>(node.hosts.size) {
+                                MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to node.hosts[it]), router!!)
+                            }
+                            node.evaluate(out)
+                            for (o in out) {
+                                o?.close()
+                            }
                         }
                         is OPBaseCompound -> {
                             if (w.expectedResult != null) {
@@ -364,7 +376,6 @@ public class DatabaseHandle : IDatabase {
     }
 
     override fun receive(pck: IDatabasePackage) {
-        println("receive $pck")
         when (pck) {
             is MySimulatorTestingImportPackage -> receive(pck)
             is MySimulatorTestingCompareGraphPackage -> receive(pck)

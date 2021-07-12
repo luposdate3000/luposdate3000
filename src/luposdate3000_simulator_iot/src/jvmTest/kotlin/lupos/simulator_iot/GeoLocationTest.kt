@@ -41,8 +41,5 @@ class GeoLocationTest {
 
         val loc1000m = GeoLocation.createNorthernLocation(location, 1000)
         assertEquals(1000, location.getDistanceInMeters(loc1000m))
-
     }
-
-
 }

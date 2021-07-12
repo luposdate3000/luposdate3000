@@ -1,6 +1,5 @@
 package lupos.simulator_iot.geo
 
-import lupos.simulator_iot.RandomGenerator
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.round
@@ -53,8 +52,9 @@ internal class GeoLocation(internal var latitude: Double, internal var longitude
 
             // Check the result for possible rounding errors
             val result = GeoLocation(foundLatitude, foundLongitude)
-            if(result.getDistanceInMeters(center) > radiusInMeters)
+            if (result.getDistanceInMeters(center) > radiusInMeters) {
                 return getRandomLocationInRadius(center, radiusInMeters, random)
+            }
             return result
         }
 

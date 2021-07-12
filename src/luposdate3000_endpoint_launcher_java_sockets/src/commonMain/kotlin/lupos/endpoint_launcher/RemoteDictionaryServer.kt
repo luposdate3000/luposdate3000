@@ -80,7 +80,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                 }
                 2 -> {
                     val len = input.readInt()
-                    ByteArrayWrapperExt.setSize(buffer, len)
+                    ByteArrayWrapperExt.setSize(buffer, len, false)
                     input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = hasValue(buffer)
                     if (res == null) {
@@ -95,7 +95,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary, ins
                 }
                 5 -> {
                     val len = input.readInt()
-                    ByteArrayWrapperExt.setSize(buffer, len)
+                    ByteArrayWrapperExt.setSize(buffer, len, false)
                     input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = createValue(buffer)
                     output.writeDictionaryValueType(res)

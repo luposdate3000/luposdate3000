@@ -57,17 +57,12 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                 ETripleComponentTypeExt.DATE_TIME -> {
                     val action = {
                         val tmp_7_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
-                        val tmp_7_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
-                        val tmp_7_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
-                        val tmp_7_day: BigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
-                        val tmp_7_hours: BigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
-                        val tmp_7_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
-                        val tmp_7_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
-                        val tmp_7_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
-                        val tmp_7_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
                         val tmp_8_content: String = tmp_7_typed_content
-                        val tmp_8_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                        DictionaryHelper.typedToByteArray(tmp_2, tmp_8_content, tmp_8_type)
+                        val action2 = {
+                            val tmp_8_type: String = "http://www.w3.org/2001/XMLSchema#string"
+                            DictionaryHelper.typedToByteArray(tmp_2, tmp_8_content, tmp_8_type)
+                        }
+                        action2()
                         query.getDictionary().createValue(tmp_2)
                     }
                     res = action()

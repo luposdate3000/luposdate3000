@@ -48,7 +48,7 @@ internal actual open class MyPrintWriter : IMyOutputStream {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.buffer.setLength(0)
         } else {
-            throw Exception("not supported")
+            TODO()
         }
     }
 
@@ -56,7 +56,7 @@ internal actual open class MyPrintWriter : IMyOutputStream {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             return buffer.toString()
         } else {
-            throw Exception("not supported")
+            TODO()
         }
     }
 
@@ -114,11 +114,11 @@ internal actual open class MyPrintWriter : IMyOutputStream {
         }
     }
 
-    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not supported")
-    actual override fun write(buf: ByteArray): Unit = throw Exception("not supported")
-    public actual override fun writeInt(value: Int): Unit = throw Exception("not supported")
-    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = throw Exception("not supported")
-    public actual override fun writeLong(value: Long): Unit = throw Exception("not supported")
-    actual override fun close(): Unit = throw Exception("not supported")
-    actual override fun flush(): Unit = throw Exception("not supported")
+    actual override fun write(buf: ByteArray, len: Int): Unit = TODO()
+    actual override fun write(buf: ByteArray): Unit = TODO()
+    public actual override fun writeInt(value: Int): Unit = TODO()
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = TODO()
+    public actual override fun writeLong(value: Long): Unit = TODO()
+    actual override fun close(): Unit = TODO()
+    actual override fun flush(): Unit = TODO()
 }

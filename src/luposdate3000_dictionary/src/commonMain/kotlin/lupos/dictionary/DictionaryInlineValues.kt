@@ -26,11 +26,11 @@ public object DictionaryInlineValues {
 
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck(
-            { /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:28"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:28"/*SOURCE_FILE_END*/ },
             {
                 val value = DictionaryHelper.byteArrayToType(buffer)
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:32"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:32"/*SOURCE_FILE_END*/ },
                     { ETripleComponentTypeExt.BLANK_NODE != value }
                 )
             }
@@ -58,20 +58,20 @@ public object DictionaryInlineValues {
         val id_masked = id and DictionaryValueHelper.flagInlineValue
         when (id_masked) {
             DictionaryValueHelper.flagInlineValue1 -> {
-                ByteArrayWrapperExt.setSize(buffer, 1)
+                ByteArrayWrapperExt.setSize(buffer, 1, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)
                 b[0] = ((id shr 0) and 0xFF).toByte()
                 return true
             }
             DictionaryValueHelper.flagInlineValue2 -> {
-                ByteArrayWrapperExt.setSize(buffer, 2)
+                ByteArrayWrapperExt.setSize(buffer, 2, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)
                 b[0] = ((id shr 0) and 0xFF).toByte()
                 b[1] = ((id shr 8) and 0xFF).toByte()
                 return true
             }
             DictionaryValueHelper.flagInlineValue3 -> {
-                ByteArrayWrapperExt.setSize(buffer, 3)
+                ByteArrayWrapperExt.setSize(buffer, 3, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)
                 b[0] = ((id shr 0) and 0xFF).toByte()
                 b[1] = ((id shr 8) and 0xFF).toByte()
@@ -79,7 +79,7 @@ public object DictionaryInlineValues {
                 return true
             }
             DictionaryValueHelper.flagInlineValue4 -> {
-                ByteArrayWrapperExt.setSize(buffer, 4)
+                ByteArrayWrapperExt.setSize(buffer, 4, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)
                 b[0] = ((id shr 0) and 0xFF).toByte()
                 b[1] = ((id shr 8) and 0xFF).toByte()
@@ -88,7 +88,7 @@ public object DictionaryInlineValues {
                 return true
             }
             DictionaryValueHelper.flagInlineValue5 -> {
-                ByteArrayWrapperExt.setSize(buffer, 5)
+                ByteArrayWrapperExt.setSize(buffer, 5, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)
                 b[0] = ((id shr 0) and 0xFF).toByte()
                 b[1] = ((id shr 8) and 0xFF).toByte()
@@ -98,7 +98,7 @@ public object DictionaryInlineValues {
                 return true
             }
             DictionaryValueHelper.flagInlineValue6 -> {
-                ByteArrayWrapperExt.setSize(buffer, 6)
+                ByteArrayWrapperExt.setSize(buffer, 6, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)
                 b[0] = ((id shr 0) and 0xFF).toByte()
                 b[1] = ((id shr 8) and 0xFF).toByte()
@@ -109,7 +109,7 @@ public object DictionaryInlineValues {
                 return true
             }
             DictionaryValueHelper.flagInlineValue7 -> {
-                ByteArrayWrapperExt.setSize(buffer, 7)
+                ByteArrayWrapperExt.setSize(buffer, 7, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)
                 b[0] = ((id shr 0) and 0xFF).toByte()
                 b[1] = ((id shr 8) and 0xFF).toByte()

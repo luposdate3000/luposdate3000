@@ -210,7 +210,7 @@ public object InputToIntermediate {
             } else {
                 val v2 = dictCounter++
                 val buf = ByteArrayWrapper()
-                ByteArrayWrapperExt.copyInto(data, buf)
+                ByteArrayWrapperExt.copyInto(data, buf, false)
                 dict[buf] = v2
                 dictSizeEstimated += ByteArrayWrapperExt.getSize(data) + 8
                 dicttotalcnt++
@@ -346,7 +346,7 @@ public object InputToIntermediate {
                 for (i in 0 until chunc) {
                     val d = dictionariesHead[i]
                     if (d != null && (current == null || d.data < current)) {
-                        ByteArrayWrapperExt.copyInto(d.data, buffer)
+                        ByteArrayWrapperExt.copyInto(d.data, buffer, false)
                         current = buffer
                     }
                 }

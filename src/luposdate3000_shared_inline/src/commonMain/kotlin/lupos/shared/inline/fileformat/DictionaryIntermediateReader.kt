@@ -47,7 +47,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
             close()
         } else {
             val len = streamIn!!.readInt()
-            ByteArrayWrapperExt.setSize(buffer, len)
+            ByteArrayWrapperExt.setSize(buffer, len, false)
             streamIn!!.read(ByteArrayWrapperExt.getBuf(buffer), len)
             action(id)
         }
