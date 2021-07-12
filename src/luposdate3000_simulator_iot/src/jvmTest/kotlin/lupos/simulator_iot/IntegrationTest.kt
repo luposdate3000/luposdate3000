@@ -73,7 +73,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getLastSampleOfSensor() {
         // TODO Throws Exception
@@ -82,7 +81,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInArea() {
         // TODO Throws Exception
@@ -99,7 +97,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getNumberOfCurrentlyFreeSpacesInArea() {
         // TODO Throws Exception
@@ -115,7 +112,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getNumberOfParkingAreas() {
         // TODO Throws Exception
