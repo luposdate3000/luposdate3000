@@ -117,7 +117,6 @@ public class POPDistributedSendMulti public constructor(
     }
 
     public fun evaluate(data: Array<IMyOutputStream?>) {
-        println("POPDistributedSendMulti.evaluate .. $projectedVariables")
         var variables = Array<String>(projectedVariables.size) { "" }
         var i = 0
         for (connectionOut in data) {
@@ -141,7 +140,7 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:143"/*SOURCE_FILE_END*/ }, { i == variables.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:142"/*SOURCE_FILE_END*/ }, { i == variables.size })
         var p = Partition()
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }

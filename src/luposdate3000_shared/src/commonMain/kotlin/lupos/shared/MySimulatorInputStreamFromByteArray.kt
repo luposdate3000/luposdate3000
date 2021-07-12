@@ -31,9 +31,6 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
     override fun read(buf: ByteArray, len: Int): Int {
         val l = min(len, ByteArrayWrapperExt.getSize(data) - offset)
         ByteArrayWrapperExt.getBuf(data).copyInto(buf, 0, offset, offset + l)
-        if (data.uuid == 20197) {
-            println("MyInputStreamFromByteArray.read ${data.uuid} $offset ${buf.map { it }.subList(0, len)}")
-        }
         offset += l
         return l
     }
@@ -46,29 +43,20 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
     }
 
     override fun readDictionaryValueType(): DictionaryValueType {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MySimulatorInputStreamFromByteArray.kt:48"/*SOURCE_FILE_END*/ }, { offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MySimulatorInputStreamFromByteArray.kt:45"/*SOURCE_FILE_END*/ }, { offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) })
         val res = DictionaryValueHelper.fromByteArray(ByteArrayWrapperExt.getBuf(data), offset)
-        if (data.uuid == 20197) {
-            println("MyInputStreamFromByteArray.readDictionaryValueType ${data.uuid} $offset $res")
-        }
         offset += DictionaryValueHelper.getSize()
         return res
     }
     override fun readLong(): Long {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MySimulatorInputStreamFromByteArray.kt:57"/*SOURCE_FILE_END*/ }, { offset + 8 <= ByteArrayWrapperExt.getSize(data) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MySimulatorInputStreamFromByteArray.kt:51"/*SOURCE_FILE_END*/ }, { offset + 8 <= ByteArrayWrapperExt.getSize(data) })
         val res = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(data), offset)
-        if (data.uuid == 20197) {
-            println("MyInputStreamFromByteArray.readLong ${data.uuid} $offset $res")
-        }
         offset += 8
         return res
     }
     override fun readInt(): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MySimulatorInputStreamFromByteArray.kt:66"/*SOURCE_FILE_END*/ }, { offset + 4 <= ByteArrayWrapperExt.getSize(data) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MySimulatorInputStreamFromByteArray.kt:57"/*SOURCE_FILE_END*/ }, { offset + 4 <= ByteArrayWrapperExt.getSize(data) })
         val res = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(data), offset)
-        if (data.uuid == 20197) {
-            println("MyInputStreamFromByteArray.readInt ${data.uuid} $offset $res")
-        }
         offset += 4
         return res
     }
