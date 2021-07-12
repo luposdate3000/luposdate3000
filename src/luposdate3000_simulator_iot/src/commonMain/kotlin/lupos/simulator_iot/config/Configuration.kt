@@ -15,8 +15,7 @@ import kotlin.math.round
 
 internal class Configuration(private val simRun: SimulationRun) {
 
-    internal var devices: MutableList<Device> = mutableListOf()
-        private set
+    private var devices: MutableList<Device> = mutableListOf()
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
@@ -146,7 +145,7 @@ internal class Configuration(private val simRun: SimulationRun) {
         return createDevice(deviceType, location, nameID)
     }
 
-    internal fun getNamedDevice(name: String): Device {
+    internal fun getDeviceByName(name: String): Device {
         val index = namedAddresses.getValue(name)
         return devices[index]
     }
@@ -157,7 +156,7 @@ internal class Configuration(private val simRun: SimulationRun) {
     internal fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
-        val root = getNamedDevice(network.starRoot)
+        val root = getDeviceByName(network.starRoot)
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val childNameID = addDeviceName("${starNetwork.networkPrefix}_child")
@@ -176,7 +175,7 @@ internal class Configuration(private val simRun: SimulationRun) {
     private fun setRootDevice() {
         val name = jsonObjects.rootRouter
         if (name.isNotEmpty()) {
-            val device = getNamedDevice(name)
+            val device = getDeviceByName(name)
             device.router.isRoot = true
             rootRouterAddress = device.address
         }
@@ -194,8 +193,8 @@ internal class Configuration(private val simRun: SimulationRun) {
 
     private fun createFixedLinks() {
         for (fixedLink in jsonObjects.fixedLink) {
-            val a = getNamedDevice(fixedLink.fixedDeviceA)
-            val b = getNamedDevice(fixedLink.fixedDeviceB)
+            val a = getDeviceByName(fixedLink.fixedDeviceA)
+            val b = getDeviceByName(fixedLink.fixedDeviceB)
             linker.link(a, b, fixedLink.dataRateInKbps)
         }
     }
@@ -210,7 +209,7 @@ internal class Configuration(private val simRun: SimulationRun) {
     }
 
     private fun createQuerySender(querySenderJson: QuerySender) {
-        val receiverDevice = getNamedDevice(jsonObjects.rootRouter)
+        val receiverDevice = getDeviceByName(jsonObjects.rootRouter)
         val querySender = lupos.simulator_iot.db.QuerySender(
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,
@@ -272,4 +271,13 @@ internal class Configuration(private val simRun: SimulationRun) {
         val addresses = devices.filter { it.hasDatabase() }.map { it.address }
         dbDeviceAddresses = IntArray(addresses.size) { addresses[it] }
     }
+
+    internal fun getNumberOfDevices(): Int {
+        return devices.size
+    }
+
+    internal fun getDeviceByAddress(address: Int): Device {
+        return devices[address]
+    }
+
 }

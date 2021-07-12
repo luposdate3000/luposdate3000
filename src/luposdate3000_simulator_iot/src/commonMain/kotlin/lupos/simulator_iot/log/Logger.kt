@@ -44,7 +44,7 @@ internal class Logger(private val timeMeasure: TimeMeasure, private val config: 
         log("================================================")
         log("Simulation has started at ${timeMeasure.getStartUpTimeString()}")
         log("Initialize..")
-        log("Number of devices: ${config.devices.size}")
+        log("Number of devices: ${config.getNumberOfDevices()}")
         log("Number of sensors: ${ParkingSensor.sensorCounter}")
         log("Number of databases: ${config.dbDeviceAddresses.size}")
         log("Number of links: ${LinkManager.linkCounter}")
@@ -81,7 +81,8 @@ internal class Logger(private val timeMeasure: TimeMeasure, private val config: 
     private fun getDODAGString(): String {
         val strBuilder = StringBuilder()
         strBuilder.appendLine("Constructed DODAG:")
-        for (device in config.devices) {
+        for (i in 0 until config.getNumberOfDevices()) {
+            val device = config.getDeviceByAddress(i)
             strBuilder.appendLine(device.router)
         }
         return strBuilder.toString()

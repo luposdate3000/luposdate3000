@@ -20,7 +20,7 @@ class DatabaseSimulationTest {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("$prefix/saveParkingSamplesInDummyTripleStore.json")
         val config = simRun.parseJsonObjects(json)
-        val g = config.getNamedDevice("G")
+        val g = config.getDeviceByName("G")
 
         simRun.simMaxClock = 100000000
         simRun.startSimulation(config)

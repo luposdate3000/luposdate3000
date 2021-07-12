@@ -1,8 +1,5 @@
 package lupos.simulator_iot
 
-import lupos.simulator_core.Simulation
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.net.routing.RoutingTable
 import kotlin.test.Test
@@ -20,17 +17,17 @@ class RoutingTableSimulationTest {
         val json = simRun.parseConfigFile("$prefix/multiHopDODAGRoutingTableTest.json")
         val config = simRun.parseJsonObjects(json)
 
-        val a = config.getNamedDevice("A")
+        val a = config.getDeviceByName("A")
         val aRouter = a.router as RPL
-        val b = config.getNamedDevice("B")
+        val b = config.getDeviceByName("B")
         val bRouter = b.router as RPL
-        val c = config.getNamedDevice("C")
+        val c = config.getDeviceByName("C")
         val cRouter = c.router as RPL
-        val d = config.getNamedDevice("D")
+        val d = config.getDeviceByName("D")
         val dRouter = d.router as RPL
-        val e = config.getNamedDevice("E")
+        val e = config.getDeviceByName("E")
         val eRouter = e.router as RPL
-        val f = config.getNamedDevice("F")
+        val f = config.getDeviceByName("F")
         val fRouter = f.router as RPL
 
         simRun.startSimulation(config)
@@ -94,9 +91,9 @@ class RoutingTableSimulationTest {
         val json = simRun.parseConfigFile("$prefix/getNextDBHops1.json")
         val config = simRun.parseJsonObjects(json)
 
-        val a = config.getNamedDevice("A")
-        val b = config.getNamedDevice("B")
-        val c = config.getNamedDevice("C")
+        val a = config.getDeviceByName("A")
+        val b = config.getDeviceByName("B")
+        val c = config.getDeviceByName("C")
 
         simRun.startSimulation(config)
 
@@ -128,10 +125,10 @@ class RoutingTableSimulationTest {
         val json = simRun.parseConfigFile("$prefix/getNextDBHops2.json")
         val config = simRun.parseJsonObjects(json)
 
-        val a = config.getNamedDevice("A")
-        val b = config.getNamedDevice("B")
-        val c = config.getNamedDevice("C")
-        val d = config.getNamedDevice("D")
+        val a = config.getDeviceByName("A")
+        val b = config.getDeviceByName("B")
+        val c = config.getDeviceByName("C")
+        val d = config.getDeviceByName("D")
 
         simRun.startSimulation(config)
 
@@ -158,13 +155,13 @@ class RoutingTableSimulationTest {
         val json = simRun.parseConfigFile("$prefix/getNextDBHops3.json")
         val config = simRun.parseJsonObjects(json)
 
-        val a = config.getNamedDevice("A")
-        val b = config.getNamedDevice("B")
-        val c = config.getNamedDevice("C")
-        val d = config.getNamedDevice("D")
-        val e = config.getNamedDevice("E")
-        val f = config.getNamedDevice("F")
-        val g = config.getNamedDevice("G")
+        val a = config.getDeviceByName("A")
+        val b = config.getDeviceByName("B")
+        val c = config.getDeviceByName("C")
+        val d = config.getDeviceByName("D")
+        val e = config.getDeviceByName("E")
+        val f = config.getDeviceByName("F")
+        val g = config.getDeviceByName("G")
 
         simRun.startSimulation(config)
 

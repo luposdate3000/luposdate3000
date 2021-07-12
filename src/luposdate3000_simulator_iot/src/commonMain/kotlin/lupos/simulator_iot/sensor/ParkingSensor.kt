@@ -55,7 +55,7 @@ internal class ParkingSensor(
         return if (dataSinkAddress != -1) {
             dataSinkAddress
         } else {
-            dataSinkAddress = device.simRun.getDeviceByName(dataSinkDeviceName).address
+            dataSinkAddress = device.simRun.config.getDeviceByName(dataSinkDeviceName).address
             dataSinkAddress
         }
     }

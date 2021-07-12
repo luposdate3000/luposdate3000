@@ -128,7 +128,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         preferredParent.address != notInitializedAddress
 
     override fun startRouting() {
-        val numberOfDevices = device.simRun.getNumberOfDevices()
+        val numberOfDevices = device.simRun.config.getNumberOfDevices()
         routingTable = RoutingTable(device.address, numberOfDevices, device.hasDatabase())
         if (isRoot) {
             rank = ROOT_RANK

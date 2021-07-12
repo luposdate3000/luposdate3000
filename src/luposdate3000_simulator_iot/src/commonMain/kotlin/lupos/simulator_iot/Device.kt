@@ -105,14 +105,14 @@ internal class Device(
     private fun forwardPackage(pck: NetworkPackage) {
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
-        scheduleEvent(simRun.config.devices[nextHop], pck, delay)
+        scheduleEvent(simRun.config.getDeviceByAddress(nextHop), pck, delay)
     }
 
     internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
         logSendPackage(pck, delay)
-        scheduleEvent(simRun.getDeviceByAddress(destinationNeighbour), pck, delay)
+        scheduleEvent(simRun.config.getDeviceByAddress(destinationNeighbour), pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
@@ -120,7 +120,7 @@ internal class Device(
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
         logSendPackage(pck, delay)
-        scheduleEvent(simRun.getDeviceByAddress(nextHop), pck, delay)
+        scheduleEvent(simRun.config.getDeviceByAddress(nextHop), pck, delay)
     }
 
     internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {

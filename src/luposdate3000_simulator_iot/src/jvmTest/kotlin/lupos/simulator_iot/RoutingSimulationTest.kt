@@ -63,7 +63,7 @@ class RoutingSimulationTest {
         val rootRouter = root.router as RPL
         simRun.startSimulation(config)
 
-        assertEquals(config.devices.size - 1, rootRouter.routingTable.destinationCounter)
+        assertEquals(config.getNumberOfDevices() - 1, rootRouter.routingTable.destinationCounter)
     }
 
     @Test
@@ -75,7 +75,7 @@ class RoutingSimulationTest {
         simRun.simMaxClock = 300 * 1000
         simRun.startSimulation(config)
 
-        val a = config.getNamedDevice("A")
+        val a = config.getDeviceByName("A")
         assertEquals(6, a.processedSensorDataPackages)
     }
 
@@ -88,7 +88,7 @@ class RoutingSimulationTest {
         simRun.simMaxClock = 200 * 1000
         simRun.startSimulation(config)
 
-        val f = config.getNamedDevice("F")
+        val f = config.getDeviceByName("F")
         assertEquals(4, f.processedSensorDataPackages)
     }
 
@@ -101,7 +101,7 @@ class RoutingSimulationTest {
         simRun.simMaxClock = 800 * 1000
         simRun.startSimulation(config)
 
-        val d = config.getNamedDevice("D")
+        val d = config.getDeviceByName("D")
         assertEquals(3, d.processedSensorDataPackages)
     }
 
@@ -136,7 +136,7 @@ class RoutingSimulationTest {
         val json = simRun.parseConfigFile("$prefix/sensorFromStarSendOverMesh.json")
         val config = simRun.parseJsonObjects(json)
 
-        val fog = config.getNamedDevice("Fog")
+        val fog = config.getDeviceByName("Fog")
         val starRoot = config.randStarNetworks.getValue("1")
         val child = starRoot.children[0]
         assertTrue(child.linkManager.hasLink(starRoot.root))

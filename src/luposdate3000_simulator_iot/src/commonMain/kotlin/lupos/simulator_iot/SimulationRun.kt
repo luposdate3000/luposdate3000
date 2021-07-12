@@ -59,17 +59,6 @@ internal class SimulationRun {
     }
 
 
-    internal fun getNumberOfDevices(): Int {
-        return config.devices.size
-    }
-
-    internal fun getDeviceByAddress(address: Int): Device {
-        return config.devices[address]
-    }
-
-    internal fun getDeviceByName(name: String): Device {
-        return config.getNamedDevice(name)
-    }
 
     internal fun getCurrentSimulationClock(): Long {
         return sim.clock

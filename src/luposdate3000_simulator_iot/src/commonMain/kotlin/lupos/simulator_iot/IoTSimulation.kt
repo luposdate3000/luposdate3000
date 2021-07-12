@@ -43,4 +43,20 @@ public class IoTSimulation {
 //        sim.startSimulation()
 //        collection.add(Logger, entities.size)
     }
+
+    internal fun evalStarPerformanceWithoutDatabase() {
+        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
+        val numberOfRepetitions = 30
+        for(repetition in 1..numberOfRepetitions) {
+            val simRun = SimulationRun()
+            val json = simRun.parseConfigFile(configFileName)
+            val config = simRun.parseJsonObjects(json)
+            simRun.startSimulation(config)
+            //speicher Ergebnisse
+        }
+        //werte Ergebnisse aus
+        //schreibe Ergebniss in CSV
+    }
+
+
 }
