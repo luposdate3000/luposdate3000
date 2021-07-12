@@ -44,7 +44,6 @@ internal class Configuration(private val simRun: SimulationRun) {
     internal var linker = DeviceLinker()
 
     internal fun parse(jsonObjects: JsonObjects) {
-        resetVariables()
         initVariables(jsonObjects)
         createFixedDevices()
         setRootDevice()
@@ -63,18 +62,6 @@ internal class Configuration(private val simRun: SimulationRun) {
     private fun initVariables(jsonObjects: JsonObjects) {
         this.jsonObjects = jsonObjects
         linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
-    }
-
-    private fun resetVariables() {
-        jsonObjects = JsonObjects()
-        devices = mutableListOf()
-        randStarNetworks = mutableMapOf()
-        randMeshNetworks = mutableMapOf()
-        namedAddresses = mutableMapOf()
-        querySenders = mutableListOf()
-        dbDeviceCounter = 0
-        deviceNames = mutableListOf()
-        linker = DeviceLinker()
     }
 
     internal fun readJsonFile(fileName: String): JsonObjects {
