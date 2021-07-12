@@ -40,9 +40,9 @@ public class POPDistributedReceiveMulti public constructor(
     @JvmField public var partitionID: Int,
     child: IOPBase,
     private val inputs: Array<IMyInputStream>,
-    private val outputs: Array<IMyOutputStream?> =Array(inputs.size){null},
+    private val outputs: Array<IMyOutputStream?> = Array(inputs.size) { null },
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiID, "POPDistributedReceiveMulti", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-public companion object {
+    public companion object {
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
@@ -53,14 +53,14 @@ public companion object {
             hosts: Map<String, String>,
         ): POPDistributedReceiveMulti {
             val handler = query.getInstance().communicationHandler!!
-val inputs=mutableListOf<IMyInputStream>()
-val outputs=mutableListOf<IMyOutputStream?>()
+            val inputs = mutableListOf<IMyInputStream>()
+            val outputs = mutableListOf<IMyOutputStream?>()
             for ((k, v) in hosts) {
                 val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
-inputs.add(conn.first)
-outputs.add(conn.second)
+                inputs.add(conn.first)
+                outputs.add(conn.second)
             }
-                return POPDistributedReceiveMulti(query, projectedVariables, partitionVariable, partitionCount, partitionID, child, inputs.toTypedArray(),outputs.toTypedArray())
+            return POPDistributedReceiveMulti(query, projectedVariables, partitionVariable, partitionCount, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray())
         }
     }
     init {
@@ -108,8 +108,8 @@ outputs.add(conn.second)
             for (i in 1 until partitionCount) {
                 theKey[partitionVariable] = theKey[partitionVariable]!! + 1
                 res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
- }
- }
+            }
+        }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
@@ -118,9 +118,9 @@ outputs.add(conn.second)
         res.addContent(projectedXML)
         for (variable in projectedVariables) {
             projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
-     }
+        }
         return res
- }
+    }
 
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
@@ -133,13 +133,12 @@ outputs.add(conn.second)
         }
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMulti(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), inputs,outputs)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveMulti(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), inputs, outputs)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMulti && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-println("POPDistributedReceiveMulti.evaluate .. ${projectedVariables}")
+        println("POPDistributedReceiveMulti.evaluate .. $projectedVariables")
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
         if (partitionVariable != "_" && variables.contains(partitionVariable)) {
@@ -149,11 +148,11 @@ println("POPDistributedReceiveMulti.evaluate .. ${projectedVariables}")
         var buffer = DictionaryValueTypeArray(partitionCount * variables.size)
 
         var connectionsIn = Array<IMyInputStream?>(partitionCount) { null }
-	val connectionsMapping=Array< IntArray?>(partitionCount) { null }
-val connectionsOut=Array<IMyOutputStream?>(partitionCount) { null }
+        val connectionsMapping = Array<IntArray?>(partitionCount) { null }
+        val connectionsOut = Array<IMyOutputStream?>(partitionCount) { null }
 
         var openConnections = 0
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:155"/*SOURCE_FILE_END*/ }, { inputs.size == partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:154"/*SOURCE_FILE_END*/ }, { inputs.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         for (k in 0 until inputs.size) {
             val conn = inputs[k]!!
@@ -165,19 +164,19 @@ val connectionsOut=Array<IMyOutputStream?>(partitionCount) { null }
                 conn.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:167"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:166"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 mapping[i] = j
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:170"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:169"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()
             }
             if (buffer[off] == DictionaryValueHelper.nullValue) {
                 conn.close()
-outputs[k]?.close()
+                outputs[k]?.close()
             } else {
-                connectionsIn[openConnections] = conn 
+                connectionsIn[openConnections] = conn
                 connectionsOut[openConnections] = outputs[k]
                 connectionsMapping[openConnections] = mapping
                 openConnections++
@@ -198,7 +197,7 @@ outputs[k]?.close()
                 }
                 val off = min * variables.size
                 val connMinIn = connectionsIn[min]!!
-                val connMinOut = connectionsOut[min]!!
+                val connMinOut = connectionsOut[min]
                 val connMinMapping = connectionsMapping[min]!!
                 buffer.copyInto(iterator.buf, 0, off, off + variables.size)
                 for (i in 0 until variables.size) {
@@ -210,7 +209,7 @@ outputs[k]?.close()
                     val off2 = (openConnections - 1) * variables.size
                     if (off != off2) {
                         val connOtherIn = connectionsIn[openConnections - 1]!!
-                        val connOtherOut = connectionsOut[openConnections - 1]!!
+                        val connOtherOut = connectionsOut[openConnections - 1]
                         val connOtherMapping = connectionsMapping[openConnections - 1]!!
                         for (i in 0 until variables.size) {
                             buffer[off + connMinMapping[i]] = buffer[off2 + connOtherMapping[i]]

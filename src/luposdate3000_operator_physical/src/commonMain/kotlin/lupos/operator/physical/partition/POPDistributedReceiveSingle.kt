@@ -135,7 +135,7 @@ public class POPDistributedReceiveSingle public constructor(
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-println("POPDistributedReceiveSingle.evaluate .. ${projectedVariables}")
+        println("POPDistributedReceiveSingle.evaluate .. $projectedVariables")
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
         var mapping = IntArray(variables.size)
@@ -143,7 +143,7 @@ println("POPDistributedReceiveSingle.evaluate .. ${projectedVariables}")
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)
         val cnt = input.readInt()
-println("received $cnt")
+        println("received $cnt")
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:146"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
         for (i in 0 until variables.size) {
             val len = input.readInt()

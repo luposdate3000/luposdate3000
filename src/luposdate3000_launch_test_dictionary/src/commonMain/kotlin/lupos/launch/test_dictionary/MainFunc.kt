@@ -152,7 +152,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     }
                     usedGenerators[len]!!.add(seed)
                     val res = ByteArrayWrapper()
-                    ByteArrayWrapperExt.setSize(res, len)
+                    ByteArrayWrapperExt.setSize(res, len, false)
                     for (i in 0 until len) {
                         ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }

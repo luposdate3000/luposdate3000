@@ -117,7 +117,7 @@ public class POPDistributedSendMulti public constructor(
     }
 
     public fun evaluate(data: Array<IMyOutputStream?>) {
-println("POPDistributedSendMulti.evaluate .. ${projectedVariables}")
+        println("POPDistributedSendMulti.evaluate .. $projectedVariables")
         var variables = Array<String>(projectedVariables.size) { "" }
         var i = 0
         for (connectionOut in data) {
