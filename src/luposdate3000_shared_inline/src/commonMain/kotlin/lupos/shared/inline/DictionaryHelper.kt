@@ -19,7 +19,6 @@ package lupos.shared.inline
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
-import com.ionspin.kotlin.bignum.integer.Sign
 import com.ionspin.kotlin.bignum.integer.toBigInteger
 import lupos.shared.DictionaryHelperLarge
 import lupos.shared.DictionaryValueHelper
@@ -43,15 +42,108 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 internal object DictionaryHelper {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_intToString(value: BigInteger): String {
+        return helper_intCheckString(value.toString())
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_intCheckString(value: String): String {
+        var v = value
+        var negative = false
+        if (v.startsWith('+')) {
+            v = v.substring(1)
+        } else if (v.startsWith('-')) {
+            negative = true
+            v = v.substring(1)
+        }
+        while (v.startsWith('0')) {
+            v = v.substring(1)
+        }
+        if (v.length == 0) {
+            v = "0"
+        }
+        if (negative) {
+            v = '-' + v
+        }
+        return v
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_intToByteArray(value: BigInteger): ByteArray {
+        return helper_intToString(value).encodeToByteArray()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_intFromString(value: String): BigInteger {
+        return BigInteger.parseString(value, 10)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_intFromByteArray(value: ByteArray): BigInteger {
+        return helper_intFromString(value.decodeToString())
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_decimalToString(value: BigDecimal): String {
+        return helper_decimalCheckString(value.toStringExpanded())
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_decimalCheckString(value: String): String {
+        var v = value
+        var negative = false
+        if (v.startsWith('+')) {
+            v = v.substring(1)
+        } else if (v.startsWith('-')) {
+            negative = true
+            v = v.substring(1)
+        }
+        while (v.startsWith('0')) {
+            v = v.substring(1)
+        }
+        if (v.contains('.')) {
+            while (v.endsWith('0')) {
+                v = v.substring(0, v.length - 1)
+            }
+        } else {
+            v = v + '.'
+        }
+        if (v.endsWith(".")) {
+            v = v + '0'
+        }
+        if (v.startsWith('.')) {
+            v = '0' + v
+        }
+        if (negative) {
+            v = '-' + v
+        }
+        return v
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_decimalToByteArray(value: BigDecimal): ByteArray {
+        return helper_decimalToString(value).encodeToByteArray()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_decimalFromString(value: String): BigDecimal {
+        return BigDecimal.parseString(value, 10)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun helper_decimalFromByteArray(value: ByteArray): BigDecimal {
+        return helper_decimalFromString(value.decodeToString())
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun headerSize(): Int = 1
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun headerEncode(buffer: ByteArrayWrapper, type: ETripleComponentType, flag: Int) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:51"/*SOURCE_FILE_END*/ }, { (type and ETripleComponentTypeExt.values_mask) == type }, { "DictionaryHelper.headerEncode type is bad ${type.toString(16)} ... ${ETripleComponentTypeExt.values_mask.toString(16)} " })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:52"/*SOURCE_FILE_END*/ }, { (flag and ETripleComponentTypeExt.values_mask_inversed) == flag }, { "DictionaryHelper.headerEncode flag is bad" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:53"/*SOURCE_FILE_END*/ }, { (type or flag) <= 0xff }, { "DictionaryHelper.headerEncode can not be encoded in 1 byte" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:143"/*SOURCE_FILE_END*/ }, { (type and ETripleComponentTypeExt.values_mask) == type }, { "DictionaryHelper.headerEncode type is bad ${type.toString(16)} ... ${ETripleComponentTypeExt.values_mask.toString(16)} " })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:144"/*SOURCE_FILE_END*/ }, { (flag and ETripleComponentTypeExt.values_mask_inversed) == flag }, { "DictionaryHelper.headerEncode flag is bad" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:145"/*SOURCE_FILE_END*/ }, { (type or flag) <= 0xff }, { "DictionaryHelper.headerEncode can not be encoded in 1 byte" })
         ByteArrayHelper.writeInt1(ByteArrayWrapperExt.getBuf(buffer), 0, type or flag)
     }
 
@@ -87,7 +179,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun dateTimeToByteArray(buffer: ByteArrayWrapper) {
         val dateNow = DateHelper()
-        DictionaryHelperLarge.dateTimeToByteArray(buffer, BigInteger.parseString(dateNow.year().toString(), 10), dateNow.month(), dateNow.day(), dateNow.hours(), dateNow.minutes(), BigDecimal.parseString(dateNow.seconds().toString(), 10), -99, -99, false)
+        DictionaryHelperLarge.dateTimeToByteArray(buffer, helper_intFromString(dateNow.year().toString()), dateNow.month(), dateNow.day(), dateNow.hours(), dateNow.minutes(), helper_decimalFromString(dateNow.seconds().toString()), -99, -99, false)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -115,21 +207,13 @@ internal object DictionaryHelper {
             off += 4
             off += 4
             off += 4
-            off += 8
-            val yearSignum = when (ByteArrayWrapperExt.getBuf(buffer)[off]) {
-                (-1).toByte() -> Sign.NEGATIVE
-                1.toByte() -> Sign.POSITIVE
-                else -> Sign.ZERO
-            }
-            off++
-            off++
             val buf1 = ByteArray(l1)
             ByteArrayWrapperExt.getBuf(buffer).copyInto(buf1, 0, off, off + l1)
             off += l1
-            val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 38
+            val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 28
             off += l2
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:130"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
-            val year = BigInteger.fromByteArray(buf1, yearSignum)
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:214"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) }, { "$off vs ${ByteArrayWrapperExt.getSize(buffer)}" })
+            val year = helper_intFromByteArray(buf1)
             return year
         }
     }
@@ -215,23 +299,14 @@ internal object DictionaryHelper {
             off += 4
             off += 4
             off += 4
-            val secondsExponent = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), off)
-            off += 8
-            off++
-            val secondsSignum = when (ByteArrayWrapperExt.getBuf(buffer)[off]) {
-                (-1).toByte() -> Sign.NEGATIVE
-                1.toByte() -> Sign.POSITIVE
-                else -> Sign.ZERO
-            }
-            off++
             off += l1
-            val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 38
+            val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 28
             val buf2 = ByteArray(l2)
             ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
             buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
             off += l2
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:232"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
-            val seconds = BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf2, secondsSignum), secondsExponent)
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:307"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
+            val seconds = helper_decimalFromByteArray(buf2)
             return seconds
         }
     }
@@ -299,94 +374,67 @@ internal object DictionaryHelper {
         } else {
             headerEncode(buffer, ETripleComponentTypeExt.BOOLEAN, 0x00)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:301"/*SOURCE_FILE_END*/ }, { byteArrayToBoolean(buffer) == value })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:376"/*SOURCE_FILE_END*/ }, { byteArrayToBoolean(buffer) == value })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToBoolean(buffer: ByteArrayWrapper): Boolean {
         val flag = headerDecodeFlag(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:307"/*SOURCE_FILE_END*/ }, { flag == 0x0 || flag == 0x80 }, { "0x${flag.toString(16)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:382"/*SOURCE_FILE_END*/ }, { flag == 0x0 || flag == 0x80 }, { "0x${flag.toString(16)}" })
         return flag == 0x80
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun integerToByteArray(buffer: ByteArrayWrapper, value: String) {
-        integerToByteArray(buffer, BigInteger.parseString(value, 10))
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun integerToByteArray(buffer: ByteArrayWrapper, value: BigInteger) {
-        val buf1 = value.toByteArray()
+        val buf1 = helper_intCheckString(value).encodeToByteArray()
         ByteArrayWrapperExt.setSize(buffer, headerSize() + buf1.size)
-        if (value.signum() < 0) {
-            headerEncode(buffer, ETripleComponentTypeExt.INTEGER, 0x80)
-        } else if (value.signum() > 0) {
-            headerEncode(buffer, ETripleComponentTypeExt.INTEGER, 0x40)
-        } else {
-            headerEncode(buffer, ETripleComponentTypeExt.INTEGER, 0)
-        }
+        headerEncode(buffer, ETripleComponentTypeExt.INTEGER, 0)
         buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
     }
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun integerToByteArray(buffer: ByteArrayWrapper, value: BigInteger) {
+        integerToByteArray(buffer, helper_intToString(value))
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToInteger_S(buffer: ByteArrayWrapper): String {
-        return byteArrayToInteger_I(buffer).toString()
+        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize()
+        val buf = ByteArray(l1)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize(), headerSize() + l1)
+        return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToInteger_I(buffer: ByteArrayWrapper): BigInteger {
-        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize()
-        val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize(), headerSize() + l1)
-        val sign = when (headerDecodeFlag(buffer)) {
-            0x80 -> Sign.NEGATIVE
-            0x40 -> Sign.POSITIVE
-            else -> Sign.ZERO
-        }
-        return BigInteger.fromByteArray(buf, sign)
+        return helper_intFromString(byteArrayToInteger_S(buffer))
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: String) {
-        decimalToByteArray(buffer, BigDecimal.parseString(value, 10))
+        val buf1 = helper_decimalCheckString(value).encodeToByteArray()
+        ByteArrayWrapperExt.setSize(buffer, headerSize() + buf1.size)
+        headerEncode(buffer, ETripleComponentTypeExt.DECIMAL, 0)
+        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: BigDecimal) {
-        val buf1 = value.significand.toByteArray()
-        ByteArrayWrapperExt.setSize(buffer, headerSize() + 8 + buf1.size)
-        if (value.signum() < 0) {
-            headerEncode(buffer, ETripleComponentTypeExt.DECIMAL, 0x80)
-        } else if (value.signum() > 0) {
-            headerEncode(buffer, ETripleComponentTypeExt.DECIMAL, 0x40)
-        } else {
-            headerEncode(buffer, ETripleComponentTypeExt.DECIMAL, 0)
-        }
-        ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), headerSize(), value.exponent)
-        buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + 8)
+        decimalToByteArray(buffer, helper_decimalToString(value))
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDecimal_I(buffer: ByteArrayWrapper): BigDecimal {
-        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize() - 8
-        val buf = ByteArray(l1)
-        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize() + 8, headerSize() + 8 + l1)
-        val exponent = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), headerSize())
-        val sign = when (headerDecodeFlag(buffer)) {
-            0x80 -> Sign.NEGATIVE
-            0x40 -> Sign.POSITIVE
-            else -> Sign.ZERO
-        }
-        return BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf, sign), exponent)
+        val res = helper_decimalFromString(byteArrayToDecimal_S(buffer))
+        return res
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDecimal_S(buffer: ByteArrayWrapper): String {
-        val tmp = byteArrayToDecimal_I(buffer).toStringExpanded()
-        if (tmp.contains('.')) {
-            return tmp
-        }
-        return tmp + ".0"
+        val l1 = ByteArrayWrapperExt.getSize(buffer) - headerSize()
+        val buf = ByteArray(l1)
+        ByteArrayWrapperExt.getBuf(buffer).copyInto(buf, 0, headerSize(), headerSize() + l1)
+        return buf.decodeToString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -442,8 +490,8 @@ internal object DictionaryHelper {
         ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size + buf2.size, buf1.size)
         buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:444"/*SOURCE_FILE_END*/ }, { content == byteArrayToLang_Content(buffer) }, { "$content vs ${byteArrayToLang_Content(buffer)}" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:445"/*SOURCE_FILE_END*/ }, { lang == byteArrayToLang_Lang(buffer) }, { "$lang vs ${byteArrayToLang_Lang(buffer)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:492"/*SOURCE_FILE_END*/ }, { content == byteArrayToLang_Content(buffer) }, { "$content vs ${byteArrayToLang_Content(buffer)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:493"/*SOURCE_FILE_END*/ }, { lang == byteArrayToLang_Lang(buffer) }, { "$lang vs ${byteArrayToLang_Lang(buffer)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -599,8 +647,8 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
         val res = headerDecodeType(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:601"/*SOURCE_FILE_END*/ }, { res >= 0 }, { "$res" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:602"/*SOURCE_FILE_END*/ }, { res < ETripleComponentTypeExt.values_size }, { "$res" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:649"/*SOURCE_FILE_END*/ }, { res >= 0 }, { "$res" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:650"/*SOURCE_FILE_END*/ }, { res < ETripleComponentTypeExt.values_size }, { "$res" })
         return res
     }
 
