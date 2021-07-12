@@ -2,7 +2,6 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.log.Logger
 
@@ -11,6 +10,7 @@ internal class ParkingSensor(
     internal val rateInSec: Int,
     internal val maxSamples: Int,
     private val dataSinkDeviceName: String,
+    private val parkingAreaID: Int,
 ) : ISensor {
 
     private val infinitySamples: Int = -1
@@ -84,15 +84,14 @@ internal class ParkingSensor(
         startSampling()
     }
 
-    // TODO setze die richtigen Daten
     private fun getSample(): ParkingSample {
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
             sampleTime = Logger.getSimulationTimeString(),
-            isOccupied = RandomGenerator.random.nextBoolean(),
+            isOccupied = Configuration.randomGenerator.getBoolean(0.5f),
             parkingSpotID = device.address,
-            area = device.address.toString()
+            area = parkingAreaID.toString()
         )
     }
 

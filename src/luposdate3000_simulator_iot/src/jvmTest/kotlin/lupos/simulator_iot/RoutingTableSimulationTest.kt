@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 class RoutingTableSimulationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/RoutingTableSimulationTest"
+        private const val prefix = "${FilePaths.testResource}/routingTableSimulationTest"
     }
 
     @Test

@@ -1,0 +1,74 @@
+{
+    "dummyDatabase": true,
+    "deterministic": false,
+    "linkType": [{
+        "name": "WIRE",
+        "rangeInMeters": 100000,
+        "dataRateInKbps": 1000
+    }],
+    "sensorType": [
+    ],
+    "deviceType": [{
+        "name": "Fog",
+        "database": true,
+        "parkingSensor": "",
+        "performance": 20.0,
+        "supportedLinkTypes": ["WIRE"]
+    }],
+    "fixedDevice": [{
+            "name": "a",
+            "deviceType": "Fog",
+            "latitude": 53.83888843720394,
+            "longitude": 10.700656770895923
+        },
+        {
+            "name": "b",
+            "deviceType": "Fog",
+            "latitude": 53.83687244503617,
+            "longitude": 10.697563131918434
+        },
+        {
+            "name": "c",
+            "deviceType": "Fog",
+            "latitude": 53.83646931594126,
+            "longitude": 10.702478840514047
+        },
+        {
+            "name": "e",
+            "deviceType": "Fog",
+            "latitude": 53.8354389551468,
+            "longitude": 10.700618878980315
+        },
+        {
+            "name": "d",
+            "deviceType": "Fog",
+            "latitude": 53.835304533193344,
+            "longitude": 10.70409201724958
+        }
+    ],
+    "fixedLink": [{
+            "fixedDeviceA": "a",
+            "fixedDeviceB": "b",
+            "dataRateInKbps": 2500
+        },
+        {
+            "fixedDeviceA": "a",
+            "fixedDeviceB": "c",
+            "dataRateInKbps": 2500
+        },
+        {
+            "fixedDeviceA": "c",
+            "fixedDeviceB": "e",
+            "dataRateInKbps": 2500
+        },
+        {
+            "fixedDeviceA": "c",
+            "fixedDeviceB": "d",
+            "dataRateInKbps": 2500
+        }
+    ],
+    "rootRouter": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "querySender": []
+}

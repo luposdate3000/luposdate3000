@@ -5,6 +5,7 @@ import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.Time
+import lupos.simulator_iot.net.NetworkPackage
 
 internal class QuerySender(
     val name: String,
@@ -44,7 +45,7 @@ internal class QuerySender(
     private fun scheduleQuery() {
         if (queryCounter < maxNumberOfQueries) {
             queryCounter++
-            receiver.database!!.processIDatabasePackage(queryPck)
+            triggerQueryProcessing()
             setTimer(Time.toMillis(sendRateInSec), SendTimer())
         }
     }
@@ -53,5 +54,11 @@ internal class QuerySender(
         override fun onExpire() {
             scheduleQuery()
         }
+    }
+
+    private fun triggerQueryProcessing() {
+        val pck = DBQuerySenderPackage(queryPck)
+        val netPck = NetworkPackage(receiver.address, receiver.address, pck)
+        scheduleEvent(receiver, netPck, 0)
     }
 }

@@ -42,6 +42,8 @@ internal object Configuration {
 
     internal var linker = DeviceLinker()
 
+    internal val randomGenerator = RandomGenerator()
+
     internal fun parse(jsonObjects: JsonObjects) {
         resetVariables()
         initVariables(jsonObjects)
@@ -147,7 +149,7 @@ internal object Configuration {
     private fun getRandomDistance(maxDistance: Int): Int {
         val density = 0.7
         val percentage = round(maxDistance * density).toInt()
-        return RandomGenerator.getInt(percentage, maxDistance)
+        return randomGenerator.getInt(percentage, maxDistance)
     }
 
     private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
@@ -175,7 +177,7 @@ internal object Configuration {
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
-            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
+            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, randomGenerator.random)
             val leaf = createDevice(deviceType, location, childNameID)
             linker.linkIfPossible(root, leaf)
             leaf.isStarNetworkChild = true
@@ -236,7 +238,7 @@ internal object Configuration {
     private fun createDevice(deviceType: DeviceType, location: GeoLocation, nameIndex: Int): Device {
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.supportedLinkTypes)
         require(deviceType.performance != 0.0) { "The performance level of a device can not be 0.0 %" }
-        val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes, nameIndex)
+        val device = Device(location, devices.size, null, null, deviceType.performance, linkTypes, nameIndex, jsonObjects.deterministic)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         val database = getDatabase(deviceType, device)
@@ -274,7 +276,7 @@ internal object Configuration {
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         if (deviceType.parkingSensor.isNotEmpty()) {
             val sensorType = getSensorTypeByName(deviceType.parkingSensor)
-            return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink)
+            return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink, sensorType.area)
         }
         return null
     }

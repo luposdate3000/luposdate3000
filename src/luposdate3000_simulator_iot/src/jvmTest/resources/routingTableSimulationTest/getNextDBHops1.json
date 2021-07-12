@@ -1,0 +1,56 @@
+{
+    "dummyDatabase": true,
+    "deterministic": false,
+    "linkType": [],
+    "sensorType": [
+    ],
+    "deviceType": [{
+            "name": "Fog",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": []
+        },
+        {
+            "name": "FogWithDatabase",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": []
+        }
+    ],
+    "fixedDevice": [{
+            "name": "A",
+            "deviceType": "FogWithDatabase",
+            "latitude": 53.810130070613695,
+            "longitude": 10.373366256676398
+        },
+        {
+            "name": "B",
+            "deviceType": "Fog",
+            "latitude": 53.80805184108298,
+            "longitude": 10.373365961188053
+        },
+        {
+            "name": "C",
+            "deviceType": "FogWithDatabase",
+            "latitude": 53.80379401934398,
+            "longitude": 10.373365362591647
+        }
+    ],
+    "fixedLink": [{
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "B",
+            "dataRateInKbps": 304
+        },
+        {
+            "fixedDeviceA": "B",
+            "fixedDeviceB": "C",
+            "dataRateInKbps": 233
+        }
+    ],
+    "rootRouter": "A",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "querySender": []
+}

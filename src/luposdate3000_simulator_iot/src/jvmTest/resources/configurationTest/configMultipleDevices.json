@@ -1,0 +1,83 @@
+{
+    "dummyDatabase": true,
+    "deterministic": false,
+    "linkType": [{
+            "name": "WIFI",
+            "rangeInMeters": 50,
+            "dataRateInKbps": 54000
+        },
+        {
+            "name": "WPAN",
+            "rangeInMeters": 30,
+            "dataRateInKbps": 250
+        }
+    ],
+    "sensorType": [
+        {
+            "name": "park1",
+            "area": 1,
+            "dataSink": "Tower1",
+            "rateInSec": 30,
+            "maxSamples": -1
+        }
+    ],
+    "deviceType": [{
+            "name": "StandAloneParkingSensor",
+            "database": false,
+            "parkingSensor": "park1",
+            "performance": 20.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+
+        {
+            "name": "RadioTower",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Fog",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": ["WPAN"]
+        }
+    ],
+    "fixedDevice": [{
+            "name": "Tower1",
+            "deviceType": "RadioTower",
+            "latitude": 3.0,
+            "longitude": 3.0
+        },
+        {
+            "name": "Fog1",
+            "deviceType": "RadioTower",
+            "latitude": 3.0,
+            "longitude": 3.0
+        }
+    ],
+    "fixedLink": [{
+        "fixedDeviceA": "Tower1",
+        "fixedDeviceB": "Fog1",
+        "dataRateInKbps": 2500
+    }],
+    "rootRouter": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [{
+            "networkPrefix": "garageA",
+            "starRoot": "Fog1",
+            "linkType": "WPAN",
+            "deviceType": "StandAloneParkingSensor",
+            "number": "501"
+        },
+        {
+            "networkPrefix": "garageB",
+            "starRoot": "Tower1",
+            "linkType": "WPAN",
+            "deviceType": "StandAloneParkingSensor",
+            "number": "10002"
+        }
+    ],
+    "querySender": []
+}

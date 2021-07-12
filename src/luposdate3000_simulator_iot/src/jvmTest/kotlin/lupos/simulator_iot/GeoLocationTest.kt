@@ -1,8 +1,8 @@
 package lupos.simulator_iot
 
 import lupos.simulator_iot.geo.GeoLocation
-import kotlin.random.Random
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class GeoLocationTest {
@@ -17,10 +17,29 @@ class GeoLocationTest {
     }
 
     private fun `create random location within radius`(lat: Double, lng: Double, radius: Int) {
-        RandomGenerator.seed = Random.nextInt()
         val center = GeoLocation(lat, lng)
-        val createdLoc = GeoLocation.getRandomLocationInRadius(center, radius)
-        val distance = center.getDistanceInMeters(createdLoc)
-        assertTrue(distance <= radius)
+        val randGenerator = RandomGenerator()
+        for (i in 1 until 1000) {
+            val createdLoc = GeoLocation.getRandomLocationInRadius(center, radius, randGenerator.random)
+            val distance = center.getDistanceInMeters(createdLoc)
+            assertTrue(distance <= radius)
+        }
+    }
+
+    @Test
+    fun getDistanceInMeters() {
+        val location = GeoLocation(52.712294850491844, 9.960288525048137)
+
+        val loc0m = GeoLocation.createNorthernLocation(location, 0)
+        assertEquals(0, location.getDistanceInMeters(loc0m))
+
+        val loc1m = GeoLocation.createNorthernLocation(location, 1)
+        assertEquals(1, location.getDistanceInMeters(loc1m))
+
+        val loc5m = GeoLocation.createNorthernLocation(location, 5)
+        assertEquals(5, location.getDistanceInMeters(loc5m))
+
+        val loc1000m = GeoLocation.createNorthernLocation(location, 1000)
+        assertEquals(1000, location.getDistanceInMeters(loc1000m))
     }
 }

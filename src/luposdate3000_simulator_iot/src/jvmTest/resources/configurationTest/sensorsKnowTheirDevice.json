@@ -1,0 +1,32 @@
+{
+    "dummyDatabase": true,
+    "deterministic": false,
+    "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "area": 1,
+            "dataSink": "Tower1",
+            "rateInSec": 30,
+            "maxSamples": -1
+        }
+    ],
+    "deviceType": [{
+        "name": "RadioTower",
+        "database": true,
+        "parkingSensor": "park1",
+        "performance": 20.0,
+        "supportedLinkTypes": []
+    }],
+    "fixedDevice": [{
+        "name": "Tower1",
+        "deviceType": "RadioTower",
+        "latitude": 3.0,
+        "longitude": 3.0
+    }],
+    "fixedLink": [],
+    "rootRouter": "Tower1",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "querySender": []
+}

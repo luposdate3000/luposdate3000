@@ -64,6 +64,7 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
             is DBInternPackage -> sequenceKeeper.receive(payload)
             is DBQueryResultPackage -> sequenceKeeper.receive(payload)
             is DBSequenceEndPackage -> sequenceKeeper.receive(payload)
+            is DBQuerySenderPackage -> processIDatabasePackage(payload.content)
             else -> throw Exception("undefined payload")
         }
     }
@@ -91,29 +92,17 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     }
 
     internal fun saveParkingSample(sample: ParkingSample) {
-        val query = getInsertQueryString(sample)
+        val query = SemanticData.getInsertQueryString(sample)
         val bytes = query.encodeToByteArray()
         val pck = QueryPackage(device.address, bytes)
         processIDatabasePackage(pck)
     }
 
-    private fun getInsertQueryString(s: ParkingSample): String {
-        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
-            "\n" +
-            "INSERT DATA {\n" +
-            "  <observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> a sosa:Observation;\n" +
-            "  sosa:hasFeatureOfInterest <parkingArea/${s.area}>;\n" +
-            "  sosa:observedProperty <parkingSpace/${s.parkingSpotID}>;\n" +
-            "  sosa:madeBySensor <sensor/${s.area}/${s.sensorID}>;\n" +
-            "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
-            "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
-            "}\n"
-    }
-
     internal fun isDatabasePackage(pck: IPayload): Boolean {
-        return pck is DBInternPackage || pck is DBQueryResultPackage || pck is DBSequenceEndPackage
+        return pck is DBInternPackage ||
+            pck is DBQueryResultPackage ||
+            pck is DBSequenceEndPackage ||
+            pck is DBQuerySenderPackage
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {

@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class JsonObjects(
     var dummyDatabase: Boolean = true,
+    var deterministic: Boolean = true,
     val linkType: MutableList<LinkType> = arrayListOf(),
     val sensorType: MutableList<SensorType> = arrayListOf(),
     val deviceType: MutableList<DeviceType> = arrayListOf(),
@@ -26,6 +27,7 @@ public data class LinkType(
 @Serializable
 public data class SensorType(
     val name: String = "",
+    val area: Int = 0,
     val dataSink: String = "",
     val rateInSec: Int = 0,
     val maxSamples: Int = -1,
