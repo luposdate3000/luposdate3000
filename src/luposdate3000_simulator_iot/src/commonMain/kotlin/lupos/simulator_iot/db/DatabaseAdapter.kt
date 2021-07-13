@@ -16,7 +16,7 @@ import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 
-public class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
+internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
 
@@ -28,7 +28,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
 
     private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
-    public val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
+    private val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
 
     private lateinit var currentState: DatabaseState
 
