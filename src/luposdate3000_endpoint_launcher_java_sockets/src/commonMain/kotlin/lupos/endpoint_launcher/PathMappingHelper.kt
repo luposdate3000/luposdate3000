@@ -15,5 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
-
-internal class PathMappingHelper(val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/, val params: Map<Pair<String/*name*/, String/*default-value*/>, (String, String) -> String/*html-string of element*/>, val action: () -> Unit/*action to perform, when this is the called url*/)
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
+internal class PathMappingHelper(
+    val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/,
+    val params: Map<Pair<String/*name*/, String/*default-value*/>,
+        (String, String) -> String/*html-string of element*/>,
+    val action: (Map<String, String>, IMyInputStream, IMyOutputStream) -> Boolean/*action to perform, when this is the called url, return if the connection should be closed automatically*/
+)

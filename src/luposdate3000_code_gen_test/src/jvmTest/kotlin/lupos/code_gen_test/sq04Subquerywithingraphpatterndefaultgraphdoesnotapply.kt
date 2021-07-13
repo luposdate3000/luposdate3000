@@ -104,8 +104,9 @@ public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
     @Test
     public fun `sq04  Subquery within graph pattern default graph does not apply - in simulator`() {
         Configuration.parse("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
-        val dbDevice = Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle
-        val instance = dbDevice.instance
+        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
+        sim.startUp()
+        val instance = (Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
         pkg0.onFinish = pkg1
@@ -116,7 +117,7 @@ public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
         val pkg4 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
         pkg3.onFinish = pkg4
         Configuration.querySenders[0].queryPck = pkg0
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startSimulation()
+        sim.run()
+        sim.shutDown()
     }
 }

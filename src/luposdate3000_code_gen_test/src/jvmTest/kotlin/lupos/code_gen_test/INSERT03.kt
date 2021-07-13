@@ -126,8 +126,9 @@ public class INSERT03 {
     @Test
     public fun `INSERT 03 - in simulator`() {
         Configuration.parse("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
-        val dbDevice = Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle
-        val instance = dbDevice.instance
+        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
+        sim.startUp()
+        val instance = (Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
         pkg0.onFinish = pkg1
@@ -142,7 +143,7 @@ public class INSERT03 {
         val pkg6 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[1]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
         pkg5.onFinish = pkg6
         Configuration.querySenders[0].queryPck = pkg0
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startSimulation()
+        sim.run()
+        sim.shutDown()
     }
 }

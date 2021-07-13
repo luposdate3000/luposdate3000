@@ -389,12 +389,14 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
 
                     out.println("    public fun `$testCaseName2 - in simulator`() {")
                     out.println("        Configuration.parse(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
-                    out.println("        val dbDevice=Configuration.devices.filter { it.hasDatabase() }.map{it.database}.filter{it!=null}.map{it!!.db}.first() as DatabaseHandle")
-                    out.println("        val instance=dbDevice.instance")
+                    out.println("        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)")
+                    out.println("        sim.startUp()")
+                    out.println("        val instance=(Configuration.devices.filter { it.hasDatabase() }.map{it.database}.filter{it!=null}.map{it!!.db}.first() as DatabaseHandle).instance")
                     out.print(str)
                     out.println("        Configuration.querySenders[0].queryPck = pkg0")
-                    out.println("        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)")
-                    out.println("        sim.startSimulation()")
+                    out.println("        sim.run()")
+                    out.println("        sim.shutDown()")
+
                     out.println("    }")
                 }
                 if (!useCodeGen && withCodeGen) {

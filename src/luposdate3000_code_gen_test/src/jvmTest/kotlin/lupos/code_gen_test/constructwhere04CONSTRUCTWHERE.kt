@@ -58,11 +58,12 @@ public class constructwhere04CONSTRUCTWHERE {
     @Test
     public fun `constructwhere04  CONSTRUCT WHERE - in simulator`() {
         Configuration.parse("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
-        val dbDevice = Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle
-        val instance = dbDevice.instance
+        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
+        sim.startUp()
+        val instance = (Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
         Configuration.querySenders[0].queryPck = pkg0
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startSimulation()
+        sim.run()
+        sim.shutDown()
     }
 }

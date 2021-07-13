@@ -37,7 +37,7 @@ public class Simulation(
         }
     }
 
-    private fun run() {
+    public fun run() {
         var isFinished = false
         while (!isFinished)
             isFinished = runNextTimeStep()
@@ -92,12 +92,12 @@ public class Simulation(
         futureEvents.enqueue(ev)
     }
 
-    private fun startUp() {
+    public fun startUp() {
         callback.onStartUp()
         startUpAllEntities()
     }
 
-    private fun shutDown() {
+    public fun shutDown() {
         shutDownAllEntities()
         callback.onShutDown()
     }

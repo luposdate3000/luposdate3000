@@ -21,10 +21,9 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
 import lupos.shared.XMLElement
-import java.net.Socket
 import kotlin.jvm.JvmField
 
-internal class QueryMappingContainer(@JvmField internal val xml: XMLElement, @JvmField internal var inputStreams: Array<IMyInputStream?>, @JvmField internal var outputStreams: Array<IMyOutputStream?>, @JvmField internal var connections: Array<Socket?>) {
+internal class QueryMappingContainer(@JvmField internal val xml: XMLElement, @JvmField internal var inputStreams: Array<IMyInputStream?>, @JvmField internal var outputStreams: Array<IMyOutputStream?>) {
     @JvmField
     internal var instance: POPBase? = null
 
