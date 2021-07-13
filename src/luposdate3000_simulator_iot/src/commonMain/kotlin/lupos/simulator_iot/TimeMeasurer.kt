@@ -2,7 +2,7 @@ package lupos.simulator_iot
 import lupos.simulator_core.Simulation
 import kotlinx.datetime.Instant
 
-internal class TimeMeasurement(private val sim: Simulation) {
+internal class TimeMeasurer(private val sim: Simulation) {
 
     private lateinit var startUpTimeStamp: Instant
     private lateinit var shutDownTimeStamp: Instant

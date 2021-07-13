@@ -3,13 +3,13 @@ package lupos.simulator_iot.log
 import lupos.shared.inline.File
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
-import lupos.simulator_iot.TimeMeasurement
+import lupos.simulator_iot.TimeMeasurer
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ParkingSensor
 
-internal class Logger(private val timeMeasurement: TimeMeasurement, private val config: Configuration) {
+internal class Logger(private val timeMeasurer: TimeMeasurer, private val config: Configuration) {
 
 
     private val logFile = "${FilePaths.logDir}/log.txt"
@@ -37,13 +37,13 @@ internal class Logger(private val timeMeasurement: TimeMeasurement, private val 
         log("")
         log("")
         log("================================================")
-        log("Simulation has started at ${timeMeasurement.getStartUpTimeString()}")
+        log("Simulation has started at ${timeMeasurer.getStartUpTimeString()}")
         log("Initialize..")
         log("Number of devices: ${config.getNumberOfDevices()}")
         log("Number of sensors: ${ParkingSensor.sensorCounter}")
         log("Number of databases: ${config.dbDeviceAddresses.size}")
         log("Number of links: ${LinkManager.linkCounter}")
-        log("Initialization is finished after ${timeMeasurement.getInitDuration()}s")
+        log("Initialization is finished after ${timeMeasurer.getInitDuration()}s")
         log("")
         log("")
     }
@@ -58,8 +58,8 @@ internal class Logger(private val timeMeasurement: TimeMeasurement, private val 
         log("Number of data packages: ${Device.observationPackageCounter}")
         log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
         log("")
-        log("Simulation end time: ${timeMeasurement.getShutDownTimeString()}")
-        log("Difference to start time: ${timeMeasurement.getSimulationDuration()}s")
+        log("Simulation end time: ${timeMeasurer.getShutDownTimeString()}")
+        log("Difference to start time: ${timeMeasurer.getSimulationDuration()}s")
         log("Simulation completed")
         log("================================================")
         log("")

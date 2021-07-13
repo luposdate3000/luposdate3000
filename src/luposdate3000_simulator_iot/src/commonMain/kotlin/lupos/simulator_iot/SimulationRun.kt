@@ -14,7 +14,7 @@ internal class SimulationRun {
 
     internal val config = Configuration(this)
 
-    internal val timeMeasure = TimeMeasurement(sim)
+    internal val timeMeasure = TimeMeasurer(sim)
 
     internal val logger = Logger(timeMeasure, config)
 
@@ -23,6 +23,8 @@ internal class SimulationRun {
     internal var simSteadyClock: Long = notInitializedClock
 
     internal var simMaxClock: Long = notInitializedClock
+
+    internal var measurement = Measurement()
 
     private inner class LifeCycleImpl() : ISimulationLifeCycle {
 
