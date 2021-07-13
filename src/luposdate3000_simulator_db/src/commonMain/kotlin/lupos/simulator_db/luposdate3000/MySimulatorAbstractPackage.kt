@@ -21,6 +21,7 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IDatabasePackage
 
 internal class MySimulatorAbstractPackage(
+    val queryID: Int,
     val path: String,
     val params: Map<String, String>,
     val data: ByteArrayWrapper = ByteArrayWrapper()

@@ -145,7 +145,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     private val allIndices = mutableListOf<TripleStoreIndexDescription>()
     private val row = DictionaryValueTypeArray(3)
 
-    public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {
+    public constructor(query: IQuery, description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
         allConn = mutableListOf<MutableList<Pair<IMyInputStream?, IMyOutputStream>>>()
         for (index in description.indices) {
@@ -156,7 +156,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     if (host == localH) {
                         l.add(Pair(null, LocalSortedInputStream(key, type, idx, instance)))
                     } else {
-                        l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modifysorted", mapOf("key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type])))
+                        l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modifysorted", mapOf("key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt()))
                     }
                 }
                 allIndices.add(index)
@@ -164,7 +164,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
         }
     }
-    public constructor(description: TripleStoreDescription, type: EModifyType, instance: Luposdate3000Instance) {
+    public constructor(query: IQuery, description: TripleStoreDescription, type: EModifyType, instance: Luposdate3000Instance) {
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
         allConn = mutableListOf<MutableList<Pair<IMyInputStream?, IMyOutputStream>>>()
         for (index in description.indices) {
@@ -174,7 +174,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 if (host == localH) {
                     l.add(Pair(null, LocalInputStream(key, type, idx, instance)))
                 } else {
-                    l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modify", mapOf("key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type])))
+                    l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modify", mapOf("key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt()))
                 }
             }
             allIndices.add(index)

@@ -149,6 +149,7 @@ public class DatabaseHandle : IDatabase {
         val queryString = pck.query.decodeToString()
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
+        q.setTransactionID(pck.queryID.toLong())
         q.initialize(op)
 
         val parts = q.getOperatorgraphParts()
@@ -164,7 +165,7 @@ public class DatabaseHandle : IDatabase {
                 if (onFinish != null) {
                     receive(onFinish)
                 } else {
-                    router!!.send(pck.sourceAddress, QueryResponsePackage("success".encodeToByteArray()))
+                    router!!.send(pck.sourceAddress, QueryResponsePackage("success".encodeToByteArray(), pck.queryID))
                 }
             } else {
                 val out = MyPrintWriter(true)
@@ -173,12 +174,12 @@ public class DatabaseHandle : IDatabase {
                 if (onFinish != null) {
                     receive(onFinish)
                 } else {
-                    router!!.send(pck.sourceAddress, QueryResponsePackage(res))
+                    router!!.send(pck.sourceAddress, QueryResponsePackage(res, pck.queryID))
                 }
             }
         } else {
             val destinations = mutableMapOf("" to pck.sourceAddress)
-            receive(MySimulatorOperatorGraphPackage(parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown(), onFinish, expectedResult))
+            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown(), onFinish, expectedResult))
         }
     }
 
@@ -191,7 +192,7 @@ public class DatabaseHandle : IDatabase {
             "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
             "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MyInputStreamFromByteArray(pck.data!!))
             "simulator-intermediate-result" -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:193"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:194"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
                 myPendingWorkData[pck.params["key"]!!] = pck.data!!
                 doWork()
             }
@@ -206,9 +207,9 @@ public class DatabaseHandle : IDatabase {
         val nextHops = allHostAdresses
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in nextHops.toSet()) {
-            packages[i] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
+            packages[i] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         }
-        packages[ownAdress] = MySimulatorOperatorGraphPackage(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
+        packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
             packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
@@ -218,7 +219,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:220"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:221"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -277,6 +278,7 @@ public class DatabaseHandle : IDatabase {
         for ((k, v) in p.operatorGraph) {
             myPendingWork.add(
                 MySimulatorPendingWork(
+                    p.queryID,
                     p.operatorGraph[k]!!,
                     p.destinations[k]!!,
                     p.dependenciesMapTopDown[k]!!,
@@ -300,9 +302,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:302"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:304"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()!!
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:304"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:306"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -357,13 +359,13 @@ public class DatabaseHandle : IDatabase {
                     val node = localXMLElementToOPBase(query, w.operatorGraph)
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            val out = MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
+                            val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendMulti -> {
                             val out = Array<IMyOutputStream?>(node.hosts.size) {
-                                MySimulatorOutputStreamToPackage(w.destination, "simulator-intermediate-result", mapOf("key" to node.hosts[it]), router!!)
+                                MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to node.hosts[it]), router!!)
                             }
                             node.evaluate(out)
                             for (o in out) {
@@ -381,7 +383,7 @@ public class DatabaseHandle : IDatabase {
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
-                                    router!!.send(w.destination, QueryResponsePackage("success".encodeToByteArray()))
+                                    router!!.send(w.destination, QueryResponsePackage("success".encodeToByteArray(), w.queryID))
                                 }
                             } else {
                                 val buf = MyPrintWriter(true)
@@ -389,7 +391,7 @@ public class DatabaseHandle : IDatabase {
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
-                                    router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray()))
+                                    router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray(), w.queryID))
                                 }
                             }
                         }

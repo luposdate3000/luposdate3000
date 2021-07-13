@@ -17,7 +17,7 @@
 package lupos.shared
 
 public interface ICommunicationHandler {
-    public fun sendData(targetHost: String, path: String, params: Map<String, String>)
-    public fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream>
-    public fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream>
+    public fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int)
+    public fun openConnection(targetHost: String, path: String, params: Map<String, String>, queryID: Int): Pair<IMyInputStream, IMyOutputStream>
+    public fun openConnection(targetHost: String, header: String, queryID: Int): Pair<IMyInputStream, IMyOutputStream>
 }

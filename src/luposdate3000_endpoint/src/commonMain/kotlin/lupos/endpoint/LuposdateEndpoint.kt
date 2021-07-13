@@ -144,7 +144,7 @@ public object LuposdateEndpoint {
         val key = "${query.getTransactionID()}"
         try {
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
                 query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
             }
             instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
@@ -168,7 +168,7 @@ public object LuposdateEndpoint {
                 }
             }
             if (requireSorting) {
-                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
+                val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT)
                 val fileTriples = TriplesIntermediateReader("$fileName.spo")
                 fileTriples.readAll {
                     cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
@@ -210,7 +210,7 @@ public object LuposdateEndpoint {
                     val order = ordersReverse[o]
                     val orderName = orderNames[o]
                     val sortedBy = orderPatterns[o]
-                    val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
+                    val cache = store.modify_create_cache_sorted(query, EModifyTypeExt.INSERT, sortedBy)
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
@@ -228,13 +228,13 @@ public object LuposdateEndpoint {
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key))
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             throw e
         }

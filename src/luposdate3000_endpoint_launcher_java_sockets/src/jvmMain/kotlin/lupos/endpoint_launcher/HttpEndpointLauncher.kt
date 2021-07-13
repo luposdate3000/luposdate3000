@@ -76,7 +76,7 @@ public actual object HttpEndpointLauncher {
             if (localhost == instance.LUPOS_PROCESS_URLS[0]) {
                 RestEndpoint.registerDictionary(key_global_dict, instance.nodeGlobalDictionary!!, instance)
             } else {
-                val conn = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS[0], "POST /distributed/query/dictionary?key=$key_global_dict\n\n")
+                val conn = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS[0], "POST /distributed/query/dictionary?key=$key_global_dict\n\n", -1)
                 instance.nodeGlobalDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, false)
             }
             while (true) {
@@ -178,7 +178,7 @@ public actual object HttpEndpointLauncher {
                                         val requireDictionary = node.usesDictionary()
                                         if (requireDictionary) {
                                             val idx2 = dictionaryURL.indexOf("/")
-                                            val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
+                                            val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n", query.getTransactionID().toInt())
                                             val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
                                             query.setDictionaryServer(remoteDictionary)
                                         } else {

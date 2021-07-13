@@ -56,7 +56,7 @@ public class POPDistributedReceiveMulti public constructor(
             val inputs = mutableListOf<IMyInputStream>()
             val outputs = mutableListOf<IMyOutputStream?>()
             for ((k, v) in hosts) {
-                val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
+                val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
                 inputs.add(conn.first)
                 outputs.add(conn.second)
             }

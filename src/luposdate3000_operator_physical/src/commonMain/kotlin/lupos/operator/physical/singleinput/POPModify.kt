@@ -203,7 +203,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             val store = query.getInstance().tripleStoreManager!!.getGraph(graphName)
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
-                    val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
+                    val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT)
                     val iterator = Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }
                     while (true) {
                         val s = dict.valueToGlobal(iterator[0].next())

@@ -117,12 +117,12 @@ public class TripleStoreDescription(
         return res
     }
 
-    public override fun modify_create_cache(type: EModifyType): ITripleStoreDescriptionModifyCache {
-        return TripleStoreDescriptionModifyCache(this, type, instance)
+    public override fun modify_create_cache(query: IQuery, type: EModifyType): ITripleStoreDescriptionModifyCache {
+        return TripleStoreDescriptionModifyCache(query, this, type, instance)
     }
 
-    public override fun modify_create_cache_sorted(type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache {
-        return TripleStoreDescriptionModifyCache(this, type, sortedBy, instance)
+    public override fun modify_create_cache_sorted(query: IQuery, type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache {
+        return TripleStoreDescriptionModifyCache(query, this, type, sortedBy, instance)
     }
 
     public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
@@ -171,7 +171,7 @@ public class TripleStoreDescription(
                         first += tmp.first
                         second += tmp.second
                     } else {
-                        val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second))
+                        val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second), query.getTransactionID().toInt())
                         conn.second.writeInt(filter.size)
                         for (i in 0 until filter.size) {
                             conn.second.writeDictionaryValueType(filter[i])

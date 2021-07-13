@@ -263,7 +263,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 if (k == "") {
                     res = v
                 } else {
-                    query.getInstance().communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+                    query.getInstance().communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"), query.getTransactionID().toInt())
                 }
             }
             return XMLElementToOPBase(query, res!!)
