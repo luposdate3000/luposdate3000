@@ -106,12 +106,16 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+        if(destinationAddress != device.address) {
+            device.simRun.incNumberOfSentDatabasePackages()
+        }
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {
             sendDBInternPackage(destinationAddress, pck)
         }
     }
+
 
     private fun sendQueryResponse(destinationAddress: Int, pck: QueryResponsePackage) {
         val myResponsePackage = DBQueryResultPackage(device.address, destinationAddress, pck.result)

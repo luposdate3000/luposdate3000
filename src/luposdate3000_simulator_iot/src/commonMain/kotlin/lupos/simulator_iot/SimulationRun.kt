@@ -8,15 +8,17 @@ import lupos.simulator_iot.log.Logger
 
 internal class SimulationRun {
 
-    private var sim = Simulation(mutableListOf())
+    private lateinit var sim: Simulation
 
     internal val randGenerator = RandomGenerator()
 
     internal val config = Configuration(this)
 
-    internal val timeMeasure = TimeMeasurer(sim)
+    internal val timeMeasurer = TimeMeasurer(this)
 
-    internal val logger = Logger(timeMeasure, config)
+    internal var measurement = Measurement()
+
+    internal val logger = Logger(config, measurement)
 
     private var notInitializedClock: Long = -1
 
@@ -24,12 +26,12 @@ internal class SimulationRun {
 
     internal var simMaxClock: Long = notInitializedClock
 
-    internal var measurement = Measurement()
 
     private inner class LifeCycleImpl() : ISimulationLifeCycle {
 
         override fun onStartUp() {
-            timeMeasure.onStartUp()
+            timeMeasurer.onStartUp()
+            measureOnStartUp()
             logger.logStartUp()
         }
 
@@ -37,7 +39,8 @@ internal class SimulationRun {
         }
 
         override fun onShutDown() {
-            timeMeasure.onShutDown()
+            timeMeasurer.onShutDown()
+            measureOnShutDown()
             logger.logShutDown()
         }
     }
@@ -62,6 +65,57 @@ internal class SimulationRun {
     internal fun getCurrentSimulationClock(): Long {
         return sim.clock
     }
+
+    private fun measureOnStartUp() {
+        measurement.numberOfDevices = config.getNumberOfDevices()
+        measurement.numberOfSensorsDevices = config.numberOfSensors
+        measurement.numberOfDatabasesDevices = config.numberOfDatabases
+        measurement.numberOfQuerySenders = config.querySenders.size
+        measurement.initializationDurationInSec = timeMeasurer.getInitDuration()
+        measurement.realStartUpTimeStampInISO = timeMeasurer.getStartUpTimeString()
+        measurement.numberOfLinks = config.linker.numberOfLinks
+    }
+
+    private fun measureOnShutDown() {
+        measurement.realSimulationDurationInSec = timeMeasurer.getRealSimulationDuration()
+        measurement.simulationDurationInSec = timeMeasurer.getSimulationDuration()
+        measurement.shutDownTimeStampInISO = timeMeasurer.getShutDownTimeString()
+        measurement.realShutDownTimeStampInISO = timeMeasurer.getRealShutDownTimeString()
+    }
+
+    internal fun incNumberOfSentPackages() {
+        measurement.numberOfSentPackages++
+    }
+
+    internal fun incNetworkTraffic(bytesSent: Int) {
+        measurement.networkTrafficInBytes += bytesSent.toLong()
+    }
+
+    internal fun incNumberOfParkingSamples() {
+        measurement.numberOfParkingSamplesMade++
+    }
+
+    internal fun incNumberOfQueries() {
+        measurement.numberOfQueriesRequested++
+    }
+
+    internal fun incNumberOfSentDAOPackages() {
+        measurement.numberOfSentDAOPackages++
+    }
+
+    internal fun incNumberOfSentDIOPackages() {
+        measurement.numberOfSentDIOPackages++
+    }
+
+    internal fun incNumberOfSentDatabasePackages() {
+        measurement.numberOfSentDatabasePackages++
+    }
+
+    internal fun incNumberOfSentSamplePackages() {
+        measurement.numberOfSentSamplePackages++
+    }
+
+
 
 
 }

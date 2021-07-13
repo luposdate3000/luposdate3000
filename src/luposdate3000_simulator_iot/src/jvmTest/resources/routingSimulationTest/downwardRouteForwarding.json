@@ -1,6 +1,6 @@
 {
     "dummyDatabase": true,
-    "deterministic": false,
+    "deterministic": true,
     "linkType": [],
     "sensorType": [
         {

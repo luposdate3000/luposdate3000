@@ -3,24 +3,27 @@ package lupos.simulator_iot.log
 import lupos.shared.inline.File
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
-import lupos.simulator_iot.TimeMeasurer
+import lupos.simulator_iot.Measurement
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.routing.RPL
-import lupos.simulator_iot.sensor.ParkingSensor
 
-internal class Logger(private val timeMeasurer: TimeMeasurer, private val config: Configuration) {
+internal class Logger(
+    private val config: Configuration,
+    private val measurement: Measurement
+) {
+
+    private val directoryPath = FilePaths.logDir
+    private val filePath = "${directoryPath}/log.txt"
+    private val file = File(filePath)
 
 
     private val logFile = "${FilePaths.logDir}/log.txt"
 
     init {
-        refreshFiles()
+        refreshFile()
     }
 
-
-
-    internal fun refreshFiles() {
+    internal fun refreshFile() {
         File(logFile).deleteRecursively()
         File(FilePaths.logDir).mkdirs()
         File(logFile).withOutputStream { }
@@ -30,20 +33,18 @@ internal class Logger(private val timeMeasurer: TimeMeasurer, private val config
         File(FilePaths.dbStates).mkdirs()
     }
 
-
-
-
     internal fun logStartUp() {
         log("")
         log("")
         log("================================================")
-        log("Simulation has started at ${timeMeasurer.getStartUpTimeString()}")
+        log("Simulation has started at ${measurement.realStartUpTimeStampInISO}")
         log("Initialize..")
-        log("Number of devices: ${config.getNumberOfDevices()}")
-        log("Number of sensors: ${ParkingSensor.sensorCounter}")
-        log("Number of databases: ${config.dbDeviceAddresses.size}")
-        log("Number of links: ${LinkManager.linkCounter}")
-        log("Initialization is finished after ${timeMeasurer.getInitDuration()}s")
+        log("Number of devices: ${measurement.numberOfDevices}")
+        log("Number of sensor devices: ${measurement.numberOfSensorsDevices}")
+        log("Number of database devices: ${measurement.numberOfDatabasesDevices}")
+        log("Number of query senders: ${measurement.numberOfQuerySenders}")
+        log("Number of available links: ${measurement.numberOfLinks}")
+        log("Initialization is finished after ${measurement.initializationDurationInSec}s")
         log("")
         log("")
     }
@@ -51,15 +52,21 @@ internal class Logger(private val timeMeasurer: TimeMeasurer, private val config
     internal fun logShutDown() {
         log("")
         log("")
-        log(getDODAGString())
-        log("Total number of network packages: ${Device.packageCounter}")
-        log("Number of received DIOs: ${RPL.dioCounter}, of which further sent: ${RPL.forwardedDioCounter}")
-        log("Number of received DAOs: ${RPL.daoCounter}, of which further sent: ${RPL.forwardedDaoCounter}")
-        log("Number of data packages: ${Device.observationPackageCounter}")
-        log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
+        log("Number of parking samples made: ${measurement.numberOfParkingSamplesMade}")
+        log("Number of queries requested: ${measurement.numberOfQueriesRequested}")
         log("")
-        log("Simulation end time: ${timeMeasurer.getShutDownTimeString()}")
-        log("Difference to start time: ${timeMeasurer.getSimulationDuration()}s")
+        log("Number of packages sent: ${measurement.numberOfSentPackages}")
+        log("DIO packages: ${measurement.numberOfSentDIOPackages}")
+        log("DAO packages: ${measurement.numberOfSentDAOPackages}")
+        log("Sample packages: ${measurement.numberOfSentSamplePackages}")
+        log("Database packages: ${measurement.numberOfSentDatabasePackages}")
+        log("")
+        log(getDODAGString())
+        log("")
+        log("Simulation end time: ${measurement.shutDownTimeStampInISO}")
+        log("Difference to start time: ${measurement.simulationDurationInSec}s")
+        log("Real simulation end time: ${measurement.realShutDownTimeStampInISO}")
+        log("Real difference to start time: ${measurement.realSimulationDurationInSec}s")
         log("Simulation completed")
         log("================================================")
         log("")

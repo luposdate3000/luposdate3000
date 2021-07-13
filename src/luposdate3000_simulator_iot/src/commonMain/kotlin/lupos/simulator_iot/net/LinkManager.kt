@@ -32,13 +32,4 @@ internal class LinkManager(
     internal fun getNeighbours(): MutableSet<Int> =
         links.keys
 
-    internal companion object {
-
-        internal var linkCounter: Int = 0
-            private set
-
-        internal fun resetCounter() {
-            linkCounter = 0
-        }
-    }
 }

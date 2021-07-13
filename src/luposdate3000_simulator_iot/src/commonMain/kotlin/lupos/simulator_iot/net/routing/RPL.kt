@@ -23,18 +23,6 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     private var isDelayDAOTimerRunning = false
 
-    internal var dioSentCounter: Int = 0
-        private set
-
-    internal var dioReceivedCounter: Int = 0
-        private set
-
-    internal var daoSentCounter: Int = 0
-        private set
-
-    internal var daoReceivedCounter: Int = 0
-        private set
-
     internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = notInitializedRank)
 
     private fun broadcastDIO() {
@@ -47,7 +35,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     private fun sendDIO(destinationAddress: Int) {
         val dio = DIO(rank)
         device.sendUnRoutedPackage(destinationAddress, dio)
-        dioSentCounter++
+        device.simRun.incNumberOfSentDIOPackages()
     }
 
     private fun sendDAO(destinationAddress: Int) {
@@ -55,24 +43,21 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
         val dao = DAO(true, destinations, device.hasDatabase(), nextDatabaseHops)
         device.sendUnRoutedPackage(destinationAddress, dao)
-        daoSentCounter++
+        device.simRun.incNumberOfSentDAOPackages()
     }
 
     private fun sendDAONoPath(destinationAddress: Int) {
         val dao = DAO(false, IntArray(0), false, IntArray(0))
         device.sendUnRoutedPackage(destinationAddress, dao)
-        daoSentCounter++
+        device.simRun.incNumberOfSentDAOPackages()
     }
 
     private fun processDIO(pck: NetworkPackage) {
         val dio = pck.payload as DIO
-        dioReceivedCounter++
-        dioCounter++
         if (objectiveFunction(pck) >= rank) {
             return
         }
 
-        forwardedDioCounter++
         rank = objectiveFunction(pck)
         updateParent(Parent(pck.sourceAddress, dio.rank))
         broadcastDIO()
@@ -94,11 +79,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     private fun processDAO(pck: NetworkPackage) {
         val dao = pck.payload as DAO
-        daoReceivedCounter++
-        daoCounter++
-
         val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, dao)
-
         if (hasParent() && hasRoutingTableChanged) {
             if (!isDelayDAOTimerRunning) {
                 startDelayDAOTimer()
@@ -141,7 +122,6 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     private fun forwardDAO() {
         sendDAO(preferredParent.address)
-        forwardedDaoCounter++
     }
 
     internal inner class DelayDAOTimerExpired : Entity.ITimer {
@@ -179,10 +159,6 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
             .append(getParentString())
             .appendLine().append("  ")
             .append("children [${getChildrenString()}]")
-            .appendLine().append("  ")
-            .append("DIO (received: $dioReceivedCounter, sent: $dioSentCounter)")
-            .appendLine().append("  ")
-            .append("DAO (received: $daoReceivedCounter, sent: $daoSentCounter)")
 
         return strBuilder.toString()
     }
@@ -212,23 +188,5 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
         internal const val ROOT_RANK: Int = 0
 
-        internal var daoCounter: Int = 0
-            private set
-
-        internal var dioCounter: Int = 0
-            private set
-
-        internal var forwardedDaoCounter: Int = 0
-            private set
-
-        internal var forwardedDioCounter: Int = 0
-            private set
-
-        internal fun resetCounter() {
-            daoCounter = 0
-            dioCounter = 0
-            forwardedDaoCounter = 0
-            forwardedDioCounter = 0
-        }
     }
 }

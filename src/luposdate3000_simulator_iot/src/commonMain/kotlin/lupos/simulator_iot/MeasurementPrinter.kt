@@ -36,7 +36,7 @@ internal class MeasurementPrinter {
     }
 
     internal fun printMeasurement(m: Measurement) {
-        printLine("${m.numberOfNodes}$delimiter${m.initializationDuration}$delimiter${m.simulationDuration}$delimiter${m.numberOfNetworkPackages}")
+        printLine("${m.numberOfDevices}$delimiter${m.initializationDurationInSec}$delimiter${m.realSimulationDurationInSec}$delimiter${m.numberOfSentPackages}")
     }
 
 

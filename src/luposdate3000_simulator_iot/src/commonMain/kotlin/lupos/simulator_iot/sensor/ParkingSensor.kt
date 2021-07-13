@@ -17,26 +17,7 @@ internal class ParkingSensor(
 
     private var isStopped: Boolean = false
 
-    internal var sampleCounter: Int = 0
-        private set
-
-    init {
-        sensorCounter++
-    }
-
-    internal companion object {
-
-        internal var sensorCounter: Int = 0
-            private set
-
-        internal var totalSampleCounter: Int = 0
-            private set
-
-        internal fun resetCounter() {
-            totalSampleCounter = 0
-            sensorCounter = 0
-        }
-    }
+    private var sampleCounter: Int = 0
 
     private fun hasMaxSamplesReached() =
         maxSamples != infinitySamples && sampleCounter >= maxSamples
@@ -78,7 +59,7 @@ internal class ParkingSensor(
         val data = getSample()
         device.sendSensorSample(getSinkAddress(), data)
         sampleCounter++
-        totalSampleCounter++
+        device.simRun.incNumberOfParkingSamples()
         startSampling()
     }
 
@@ -86,7 +67,7 @@ internal class ParkingSensor(
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
-            sampleTime = device.simRun.timeMeasure.getSimulationTimeString(),
+            sampleTime = device.simRun.timeMeasurer.getSimulationTimeString(),
             isOccupied = device.simRun.randGenerator.getBoolean(0.5f),
             parkingSpotID = device.address,
             area = parkingAreaID.toString()

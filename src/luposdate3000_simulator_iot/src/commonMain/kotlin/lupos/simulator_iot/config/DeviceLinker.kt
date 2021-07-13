@@ -5,6 +5,9 @@ import lupos.simulator_iot.net.Link
 
 internal class DeviceLinker {
 
+    internal var numberOfLinks = 0
+        private set
+
     internal var sortedLinkTypes: Array<LinkType> = emptyArray()
         set(value) {
             field = value
@@ -91,5 +94,6 @@ internal class DeviceLinker {
         require(one != two) { "Self link is not allowed" }
         one.linkManager.links[two.address] = link
         two.linkManager.links[one.address] = link
+        numberOfLinks++
     }
 }

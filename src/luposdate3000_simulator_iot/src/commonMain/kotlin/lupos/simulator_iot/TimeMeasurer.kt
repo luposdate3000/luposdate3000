@@ -2,7 +2,7 @@ package lupos.simulator_iot
 import lupos.simulator_core.Simulation
 import kotlinx.datetime.Instant
 
-internal class TimeMeasurer(private val sim: Simulation) {
+internal class TimeMeasurer(private val simRun: SimulationRun) {
 
     private lateinit var startUpTimeStamp: Instant
     private lateinit var shutDownTimeStamp: Instant
@@ -19,7 +19,7 @@ internal class TimeMeasurer(private val sim: Simulation) {
         realShutDownTimeStamp = TimeUtils.stamp()
     }
 
-    private fun getSimulationTime(): Instant = TimeUtils.addMillis(startUpTimeStamp, sim.clock)
+    private fun getSimulationTime(): Instant = TimeUtils.addMillis(startUpTimeStamp, simRun.getCurrentSimulationClock())
 
     internal fun getTimeString(time: Instant): String {
         return TimeUtils.toISOString(time)
@@ -45,5 +45,9 @@ internal class TimeMeasurer(private val sim: Simulation) {
 
     internal fun getRealSimulationDuration(): Double =
         TimeUtils.differenceInSeconds(startUpTimeStamp, realShutDownTimeStamp)
+
+    internal fun getRealShutDownTimeString(): String {
+        return getTimeString(realShutDownTimeStamp)
+    }
 
 }

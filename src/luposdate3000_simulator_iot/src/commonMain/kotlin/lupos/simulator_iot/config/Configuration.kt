@@ -36,7 +36,11 @@ internal class Configuration(private val simRun: SimulationRun) {
 
     private var rootRouterAddress: Int = -1
 
-    private var dbDeviceCounter = 0
+    internal var numberOfDatabases = 0
+        private set
+
+    internal var numberOfSensors = 0
+        private set
 
     private var deviceNames: MutableList<String> = mutableListOf()
 
@@ -211,6 +215,7 @@ internal class Configuration(private val simRun: SimulationRun) {
     private fun createQuerySender(querySenderJson: QuerySender) {
         val receiverDevice = getDeviceByName(jsonObjects.rootRouter)
         val querySender = lupos.simulator_iot.db.QuerySender(
+            simRun = simRun,
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,
             maxNumberOfQueries = querySenderJson.maxNumberOfQueries,
@@ -253,7 +258,7 @@ internal class Configuration(private val simRun: SimulationRun) {
 
     private fun getDatabase(deviceType: DeviceType, device: Device): DatabaseAdapter? {
         if (deviceType.database) {
-            dbDeviceCounter++
+            numberOfDatabases++
             return DatabaseAdapter(device, jsonObjects.dummyDatabase)
         }
         return null
@@ -261,6 +266,7 @@ internal class Configuration(private val simRun: SimulationRun) {
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         if (deviceType.parkingSensor.isNotEmpty()) {
+            numberOfSensors++
             val sensorType = getSensorTypeByName(deviceType.parkingSensor)
             return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink, sensorType.area)
         }

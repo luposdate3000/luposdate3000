@@ -4,10 +4,12 @@ import lupos.simulator_core.Entity
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.Device
+import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.TimeUtils
 import lupos.simulator_iot.net.NetworkPackage
 
 internal class QuerySender(
+    val simRun: SimulationRun,
     val name: String,
     val sendRateInSec: Int,
     val maxNumberOfQueries: Int,
@@ -57,6 +59,7 @@ internal class QuerySender(
     }
 
     private fun triggerQueryProcessing() {
+        simRun.incNumberOfQueries()
         val pck = DBQuerySenderPackage(queryPck)
         val netPck = NetworkPackage(receiver.address, receiver.address, pck)
         scheduleEvent(receiver, netPck, 0)
