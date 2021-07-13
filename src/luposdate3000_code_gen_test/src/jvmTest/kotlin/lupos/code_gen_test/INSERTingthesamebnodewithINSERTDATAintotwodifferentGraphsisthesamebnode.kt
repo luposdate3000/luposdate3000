@@ -95,7 +95,7 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
         simRun.sim.startUp()
         val instance = (config.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingExecute(query)
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
         pkg0.onFinish = pkg1
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()

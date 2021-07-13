@@ -106,7 +106,7 @@ public class MOVE2 {
         pkg0.onFinish = pkg1
         val pkg2 = MySimulatorTestingExecute(query)
         pkg1.onFinish = pkg2
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${outputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
         pkg2.onFinish = pkg3
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()

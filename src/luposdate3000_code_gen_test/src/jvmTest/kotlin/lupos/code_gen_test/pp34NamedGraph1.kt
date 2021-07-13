@@ -132,11 +132,11 @@ public class pp34NamedGraph1 {
         pkg0.onFinish = pkg1
         val pkg2 = MySimulatorTestingImportPackage(inputData[2], inputGraph[2], inputType[2])
         pkg1.onFinish = pkg2
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
         pkg2.onFinish = pkg3
-        val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[1]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
+        val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
         pkg3.onFinish = pkg4
-        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[2]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!)
+        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[2]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!)
         pkg4.onFinish = pkg5
         val pkg6 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
         pkg5.onFinish = pkg6

@@ -95,7 +95,7 @@ public class sq01Subquerywithingraphpattern {
         simRun.sim.startUp()
         val instance = (config.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
         pkg0.onFinish = pkg1
         val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
         pkg1.onFinish = pkg2
