@@ -89,7 +89,6 @@ import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.logical.noinput.LOPTriple
-import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPMakeBooleanResult
 import lupos.operator.logical.singleinput.LOPSubGroup
 import lupos.operator.physical.POPBase
@@ -103,6 +102,7 @@ import lupos.operator.physical.multiinput.POPJoinWithStoreExists
 import lupos.operator.physical.multiinput.POPMinus
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.noinput.POPEmptyRow
+import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.partition.POPDistributedReceiveMulti
 import lupos.operator.physical.partition.POPDistributedReceiveMultiCount
@@ -196,12 +196,12 @@ public object XMLElementToOPBase {
         operatorMap["AOPBuildInCallIsNUMERIC"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallIsNUMERIC(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
-        operatorMap["OPNothing"] = { query, node, mapping, recursionFunc ->
+        operatorMap["POPNothing"] = { query, node, mapping, recursionFunc ->
             val list = mutableListOf<String>()
             for (c in node.childs) {
                 list.add(c.content)
             }
-            OPNothing(query, list)
+            POPNothing(query, list)
         }
         operatorMap["LOPSubGroup"] = { query, node, mapping, recursionFunc ->
             LOPSubGroup(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
@@ -576,7 +576,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, createProjectedVariables(node)),
+                POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
             query.addPartitionOperator(res.uuid, id)
@@ -596,7 +596,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, createProjectedVariables(node)),
+                POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
             query.addPartitionOperator(res.uuid, id)
@@ -616,7 +616,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, createProjectedVariables(node)),
+                POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
             query.addPartitionOperator(res.uuid, id)
@@ -636,7 +636,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, createProjectedVariables(node)),
+                POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
             query.addPartitionOperator(res.uuid, id)
@@ -656,7 +656,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, createProjectedVariables(node)),
+                POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
             query.addPartitionOperator(res.uuid, id)

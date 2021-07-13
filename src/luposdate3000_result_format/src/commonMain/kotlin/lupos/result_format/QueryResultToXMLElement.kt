@@ -17,7 +17,7 @@
 package lupos.result_format
 
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition
@@ -52,7 +52,7 @@ public object QueryResultToXMLElement {
             val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")
             nodeSparql.addContent(nodeHead)
-            if (node is OPNothing) {
+            if (node is POPNothing) {
                 val nodeResults = XMLElement("results")
                 nodeSparql.addContent(nodeResults)
                 for (variable in node.getProvidedVariableNames()) {

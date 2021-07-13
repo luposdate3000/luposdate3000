@@ -25,7 +25,7 @@ import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
-import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPDistributedReceiveMulti
 import lupos.operator.physical.partition.POPDistributedReceiveSingle
 import lupos.operator.physical.partition.POPDistributedSendMulti
@@ -319,7 +319,7 @@ public class DatabaseHandle : IDatabase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
+                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 input
             )
             query.addPartitionOperator(res.uuid, id)
@@ -344,7 +344,7 @@ public class DatabaseHandle : IDatabase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
+                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 inputs
             )
             query.addPartitionOperator(res.uuid, id)

@@ -23,8 +23,8 @@ import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
-import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPBind
+import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
@@ -35,7 +35,7 @@ import lupos.shared.operator.IOPBase
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
-        if (node is LOPTriple && REPLACE_STORE_WITH_VALUES) {
+        if (node is LOPTriple && query.getInstance().REPLACE_STORE_WITH_VALUES) {
             var hashCode = 0L
             for (c in node.getChildren()) {
                 hashCode += c.getUUID() + c.toString().hashCode()
@@ -70,7 +70,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
                         OPEmptyRow(query)
                     } else {
-                        OPNothing(query, node.getProvidedVariableNames())
+                        POPNothing(query, node.getProvidedVariableNames())
                     }
                     onChange()
                 } else if (variables.size == 1) {
@@ -102,7 +102,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     }
                     when {
                         i == 0 -> {
-                            res = OPNothing(query, node.getProvidedVariableNames())
+                            res = POPNothing(query, node.getProvidedVariableNames())
                             onChange()
                         }
                         i == 1 -> {

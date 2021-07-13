@@ -17,7 +17,7 @@
 package lupos.result_format
 
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
@@ -125,7 +125,7 @@ public object QueryResultToEmptyWithDictionaryStream {
         }
         for (i in nodes.indices) {
             val node = nodes[i]
-            if (node is OPNothing) {
+            if (node is POPNothing) {
                 node.getProvidedVariableNames()
             } else {
                 val columnNames: List<String>

@@ -17,8 +17,8 @@
 package lupos.operator.physical.singleinput
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.POPBase
+import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -44,7 +44,7 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
         val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = children[0].getProvidedVariableNames()
-        if (children[0] is OPNothing) {
+        if (children[0] is POPNothing) {
             flag = false
         } else if (children[0] is OPEmptyRow) {
             flag = true

@@ -88,6 +88,9 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var useDictionaryInlineEncoding: Boolean = true
+
+    @JvmField
+    public var REPLACE_STORE_WITH_VALUES: Boolean = false
     init {
         if (LUPOS_PROCESS_URLS.size> 1) {
             maxThreads = LUPOS_PROCESS_URLS.size

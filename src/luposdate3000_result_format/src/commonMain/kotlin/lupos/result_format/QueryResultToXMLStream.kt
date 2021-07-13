@@ -17,7 +17,7 @@
 package lupos.result_format
 
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
@@ -223,7 +223,7 @@ public object QueryResultToXMLStream {
         for (i in nodes.indices) {
             val node = nodes[i]
             output.print("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")
-            if (node is OPNothing) {
+            if (node is POPNothing) {
                 val variables = node.getProvidedVariableNames()
                 if (variables.isEmpty()) {
                     output.print(" <head/>\n")

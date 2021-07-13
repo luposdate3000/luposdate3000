@@ -380,8 +380,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
                 val str = distributedTest.toString()
-                if (!useCodeGen && str.length> 0 ) {
-                    if (ignored||!withSimulator) {
+                if (!useCodeGen && str.length> 0) {
+                    if (ignored || !withSimulator) {
                         val reason = ignoreList[testCaseName]
                         if (reason != null) {
                             out.println("    @Ignore // Reason: >$reason<")

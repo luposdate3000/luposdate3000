@@ -20,8 +20,8 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.multiinput.LOPJoin
-import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.ESortTypeExt
 import lupos.shared.EmptyResultException
 import lupos.shared.SanityCheck
@@ -44,7 +44,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 } else {
                     res.add(d)
                 }
-            } else if (c is OPNothing) {
+            } else if (c is POPNothing) {
                 // there can not be any result, if_ one of the children does not have any output.
                 throw EmptyResultException()
             } else if (c is OPEmptyRow) {
@@ -171,7 +171,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 }
             } catch (e: EmptyResultException) {
                 e.printStackTrace()
-                res = OPNothing(query, originalProvided)
+                res = POPNothing(query, originalProvided)
             }
         }
         return res

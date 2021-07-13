@@ -23,10 +23,10 @@ import lupos.operator.base.singleinput.LOPNOOP
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.multiinput.LOPUnion
-import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPMakeBooleanResult
 import lupos.operator.logical.singleinput.LOPSubGroup
+import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.IOPBase
 
@@ -40,8 +40,8 @@ public class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOp
             if (!node.optional) {
                 for (i in node.getChildren().indices) {
                     val c = node.getChildren()[i]
-                    if (c is OPNothing) {
-                        res = OPNothing(query, node.getProvidedVariableNames())
+                    if (c is POPNothing) {
+                        res = POPNothing(query, node.getProvidedVariableNames())
                         onChange()
                         break
                     } else if (c is OPEmptyRow) {
@@ -51,51 +51,51 @@ public class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOp
                     }
                 }
             } else {
-                if (node.getChildren()[0] is OPNothing) {
-                    res = OPNothing(query, node.getProvidedVariableNames())
+                if (node.getChildren()[0] is POPNothing) {
+                    res = POPNothing(query, node.getProvidedVariableNames())
                     onChange()
                 } else if (node.getChildren()[0] is OPEmptyRow) {
                     res = node.getChildren()[1]
                     onChange()
-                } else if (node.getChildren()[1] is OPNothing || node.getChildren()[1] is OPEmptyRow) {
-                    res = OPNothing(query, node.getProvidedVariableNames())
+                } else if (node.getChildren()[1] is POPNothing || node.getChildren()[1] is OPEmptyRow) {
+                    res = POPNothing(query, node.getProvidedVariableNames())
                     onChange()
                 }
             }
         } else if (node is LOPUnion) {
-            if (node.getChildren()[0] is OPNothing) {
+            if (node.getChildren()[0] is POPNothing) {
                 res = node.getChildren()[1]
                 onChange()
-            } else if (node.getChildren()[1] is OPNothing) {
+            } else if (node.getChildren()[1] is POPNothing) {
                 res = node.getChildren()[0]
                 onChange()
             }
         } else if (node is LOPFilter && node.getChildren()[1] is AOPConstant && (node.getChildren()[1] as AOPConstant).value == DictionaryValueHelper.booleanFalseValue) {
-            res = OPNothing(query, node.getProvidedVariableNames())
+            res = POPNothing(query, node.getProvidedVariableNames())
             onChange()
         } else if (node is LOPMinus) {
             when {
-                node.getChildren()[0] is OPNothing -> {
-                    res = OPNothing(query, node.getProvidedVariableNames())
+                node.getChildren()[0] is POPNothing -> {
+                    res = POPNothing(query, node.getProvidedVariableNames())
                     onChange()
                 }
                 node.getChildren()[0] is OPEmptyRow -> {
                     res = node.getChildren()[0]
                     onChange()
                 }
-                node.getChildren()[1] is OPNothing -> {
+                node.getChildren()[1] is POPNothing -> {
                     res = node.getChildren()[0]
                     onChange()
                 }
                 node.getChildren()[1] is OPEmptyRow -> {
-                    res = OPNothing(query, node.getProvidedVariableNames())
+                    res = POPNothing(query, node.getProvidedVariableNames())
                     onChange()
                 }
             }
         } else if (node.getChildren().isNotEmpty() && node !is LOPMakeBooleanResult) {
             for (c in node.getChildren()) {
-                if (c is OPNothing) {
-                    res = OPNothing(query, node.getProvidedVariableNames())
+                if (c is POPNothing) {
+                    res = POPNothing(query, node.getProvidedVariableNames())
                     onChange()
                     break
                 }
