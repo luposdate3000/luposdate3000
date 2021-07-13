@@ -1,8 +1,5 @@
 package lupos.simulator_iot
 
-import lupos.simulator_core.Simulation
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -20,12 +17,13 @@ class DatabaseSimulationTest {
      */
     @Test
     fun saveParkingSamplesInDummyTripleStore() {
-        Configuration.parse("$prefix/saveParkingSamplesInDummyTripleStore.json")
-        val g = Configuration.getNamedDevice("G")
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("$prefix/saveParkingSamplesInDummyTripleStore.json")
+        val config = simRun.parseJsonObjects(json)
+        val g = config.getNamedDevice("G")
 
-        val maxClock: Long = 100000000
-        val sim = Simulation(Configuration.devices, maxClock = maxClock, callback = Logger)
-        sim.startSimulation()
+        simRun.simMaxClock = 100000000
+        simRun.startSimulation(config)
 
         assertEquals(8, g.processedSensorDataPackages)
     }

@@ -1,48 +1,20 @@
 package lupos.simulator_iot.log
 
-import kotlinx.datetime.Instant
 import lupos.shared.inline.File
-import lupos.simulator_core.ISimulationLifeCycle
-import lupos.simulator_core.Simulation
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
-import lupos.simulator_iot.Time
+import lupos.simulator_iot.TimeMeasure
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ParkingSensor
 
-public object Logger : ISimulationLifeCycle {
+public class Logger(private val timeMeasure: TimeMeasure, private val config: Configuration) {
 
-    override lateinit var simulation: Simulation
-    private lateinit var startUpTimeStamp: Instant
-    private lateinit var shutDownTimeStamp: Instant
-    private lateinit var realShutDownTimeStamp: Instant
-    private var initStartTimeStamp: Instant = Time.stamp()
-
-    private const val logFile = "${FilePaths.logDir}/log.txt"
+    private val logFile = "${FilePaths.logDir}/log.txt"
 
     init {
         refreshFiles()
-    }
-
-    override fun onStartUp() {
-        startUpTimeStamp = Time.stamp()
-        resetCounters()
-        logStartUp()
-    }
-
-    override fun onSteadyState() {
-    }
-
-    override fun onShutDown() {
-        shutDownTimeStamp = getSimulationTime()
-        realShutDownTimeStamp = Time.stamp()
-        logShutDown()
-    }
-
-    internal fun reset() {
-        initStartTimeStamp = Time.stamp()
     }
 
     internal fun refreshFiles() {
@@ -55,35 +27,22 @@ public object Logger : ISimulationLifeCycle {
         File(FilePaths.dbStates).mkdirs()
     }
 
-    private fun getSimulationTime(): Instant = Time.addMillis(startUpTimeStamp, simulation.getCurrentClock())
-
-    internal fun getSimulationTimeString(): String = Time.toISOString(getSimulationTime())
-
-    internal fun getInitDuration(): Double =
-        Time.differenceInSeconds(initStartTimeStamp, startUpTimeStamp)
-
-    private fun getSimulationDuration(): Double =
-        Time.differenceInSeconds(startUpTimeStamp, shutDownTimeStamp)
-
-    internal fun getRealSimulationDuration(): Double =
-        Time.differenceInSeconds(startUpTimeStamp, realShutDownTimeStamp)
-
-    private fun logStartUp() {
+    internal fun logStartUp() {
         log("")
         log("")
         log("================================================")
-        log("Simulation has started at ${Time.toISOString(startUpTimeStamp)}")
+        log("Simulation has started at ${timeMeasure.getStartUpTimeString()}")
         log("Initialize..")
-        log("Number of devices: ${Configuration.devices.size}")
+        log("Number of devices: ${config.devices.size}")
         log("Number of sensors: ${ParkingSensor.sensorCounter}")
-        log("Number of databases: ${Configuration.dbDeviceAddresses.size}")
+        log("Number of databases: ${config.dbDeviceAddresses.size}")
         log("Number of links: ${LinkManager.linkCounter}")
-        log("Initialization is finished after ${getInitDuration()}s")
+        log("Initialization is finished after ${timeMeasure.getInitDuration()}s")
         log("")
         log("")
     }
 
-    private fun logShutDown() {
+    internal fun logShutDown() {
         log("")
         log("")
         log(getDODAGString())
@@ -93,8 +52,8 @@ public object Logger : ISimulationLifeCycle {
         log("Number of data packages: ${Device.observationPackageCounter}")
         log("Number of parking observations: ${ParkingSensor.totalSampleCounter}")
         log("")
-        log("Simulation end time: ${Time.toISOString(shutDownTimeStamp)}")
-        log("Difference to start time: ${getSimulationDuration()}s")
+        log("Simulation end time: ${timeMeasure.getShutDownTimeString()}")
+        log("Difference to start time: ${timeMeasure.getSimulationDuration()}s")
         log("Simulation completed")
         log("================================================")
         log("")
@@ -108,17 +67,10 @@ public object Logger : ISimulationLifeCycle {
 //        println(content)
     }
 
-    private fun resetCounters() {
-        LinkManager.resetCounter()
-        Device.resetCounter()
-        RPL.resetCounter()
-        ParkingSensor.resetCounter()
-    }
-
     private fun getDODAGString(): String {
         val strBuilder = StringBuilder()
         strBuilder.appendLine("Constructed DODAG:")
-        for (device in Configuration.devices) {
+        for (device in config.devices) {
             strBuilder.appendLine(device.router)
         }
         return strBuilder.toString()

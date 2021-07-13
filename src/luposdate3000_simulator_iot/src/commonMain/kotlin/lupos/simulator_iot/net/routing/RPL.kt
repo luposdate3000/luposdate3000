@@ -2,7 +2,6 @@ package lupos.simulator_iot.net.routing
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.net.NetworkPackage
 
 internal class RPL(internal val device: Device) : IRoutingProtocol {
@@ -128,7 +127,8 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         preferredParent.address != notInitializedAddress
 
     override fun startRouting() {
-        routingTable = RoutingTable(device.address, Configuration.devices.size, device.hasDatabase())
+        val numberOfDevices = device.simRun.getNumberOfDevices()
+        routingTable = RoutingTable(device.address, numberOfDevices, device.hasDatabase())
         if (isRoot) {
             rank = ROOT_RANK
             broadcastDIO()
@@ -173,7 +173,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         val strBuilder = StringBuilder()
         strBuilder
             .append("> Device ${device.address}").append(", ")
-            .append("name '${Configuration.getDeviceName(device.deviceNameID)}'").append(", ")
+            .append("name '${device.simRun.config.getDeviceName(device.deviceNameID)}'").append(", ")
             .append("rank $rank").append(", ")
             .append(getParentString())
             .appendLine().append("  ")

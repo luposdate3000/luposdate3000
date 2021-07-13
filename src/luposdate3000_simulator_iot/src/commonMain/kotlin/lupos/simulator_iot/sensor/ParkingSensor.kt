@@ -2,8 +2,6 @@ package lupos.simulator_iot.sensor
 
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 
 internal class ParkingSensor(
     internal var device: Device,
@@ -57,7 +55,7 @@ internal class ParkingSensor(
         return if (dataSinkAddress != -1) {
             dataSinkAddress
         } else {
-            dataSinkAddress = Configuration.getNamedDevice(dataSinkDeviceName).address
+            dataSinkAddress = device.simRun.getDeviceByName(dataSinkDeviceName).address
             dataSinkAddress
         }
     }
@@ -88,8 +86,8 @@ internal class ParkingSensor(
         return ParkingSample(
             sampleID = sampleCounter,
             sensorID = device.address,
-            sampleTime = Logger.getSimulationTimeString(),
-            isOccupied = Configuration.randomGenerator.getBoolean(0.5f),
+            sampleTime = device.simRun.timeMeasure.getSimulationTimeString(),
+            isOccupied = device.simRun.randGenerator.getBoolean(0.5f),
             parkingSpotID = device.address,
             area = parkingAreaID.toString()
         )

@@ -11,8 +11,6 @@ import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 
@@ -43,7 +41,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     private fun buildInitialStateObject(): DatabaseState {
         return object : DatabaseState(
             ownAddress = device.address,
-            allAddresses = Configuration.dbDeviceAddresses,
+            allAddresses = device.simRun.config.dbDeviceAddresses,
             sender = this@DatabaseAdapter,
             absolutePathToDataDirectory = pathDevice,
         ) {}
@@ -138,7 +136,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         }
 
         override fun receive(pck: SequencedPackage) {
-            Logger.log("> DB of Device $device receives $pck at clock ${device.simulation.getCurrentClock()}")
+            device.simRun.logger.log("> DB of Device $device receives $pck at clock ${device.simulation.clock}")
             when (pck) {
                 is DBInternPackage -> processIDatabasePackage(pck.content)
                 is DBQueryResultPackage -> processDBQueryResultPackage(pck)
