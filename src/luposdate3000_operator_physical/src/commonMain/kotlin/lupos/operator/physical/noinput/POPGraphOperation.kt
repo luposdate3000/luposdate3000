@@ -79,9 +79,6 @@ public class POPGraphOperation public constructor(
                 EGraphOperationTypeExt.CREATE -> {
                     res += "CREATE"
                 }
-                EGraphOperationTypeExt.COPY -> {
-                    res += "COPY"
-                }
                 EGraphOperationTypeExt.MOVE -> {
                     res += "MOVE"
                 }
@@ -111,7 +108,7 @@ public class POPGraphOperation public constructor(
                     throw UnreachableException()
                 }
             }
-            if (action == EGraphOperationTypeExt.COPY || action == EGraphOperationTypeExt.MOVE || action == EGraphOperationTypeExt.ADD) {
+            if (action == EGraphOperationTypeExt.MOVE || action == EGraphOperationTypeExt.ADD) {
                 res += " TO "
                 res += when (graph2type) {
                     EGraphRefTypeExt.AllGraphRef -> {
@@ -139,8 +136,7 @@ public class POPGraphOperation public constructor(
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
 
     /*suspend*/ private fun copyData(source: ITripleStoreDescription, target: ITripleStoreDescription, parent: Partition) {
-        val iterator = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
-val row=iterator.evaluate(parent)
+        val row = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         val cache = target.modify_create_cache(query, EModifyTypeExt.INSERT)
         while (true) {
@@ -237,49 +233,6 @@ val row=iterator.evaluate(parent)
                         cache.writeRow(s, p, o, query)
                     }
                     cache.close()
-                }
-                EGraphOperationTypeExt.COPY -> {
-                    when (graph1type) {
-                        EGraphRefTypeExt.DefaultGraphRef -> {
-                            when (graph2type) {
-                                EGraphRefTypeExt.DefaultGraphRef -> {
-                                }
-                                EGraphRefTypeExt.IriGraphRef -> {
-                                    val source = manager.getDefaultGraph()
-                                    val target = manager.getGraph(graph2iri!!)
-                                    manager.clearGraph(query, graph2iri!!)
-                                    copyData(source, target, parent)
-                                }
-                                else -> {
-                                    SanityCheck.checkUnreachable()
-                                }
-                            }
-                        }
-                        EGraphRefTypeExt.IriGraphRef -> {
-                            when (graph2type) {
-                                EGraphRefTypeExt.DefaultGraphRef -> {
-                                    val source = manager.getGraph(graph1iri!!)
-                                    val target = manager.getDefaultGraph()
-                                    manager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
-                                    copyData(source, target, parent)
-                                }
-                                EGraphRefTypeExt.IriGraphRef -> {
-                                    if (graph1iri != graph2iri) {
-                                        val source = manager.getGraph(graph1iri!!)
-                                        val target = manager.getGraph(graph2iri!!)
-                                        manager.clearGraph(query, graph2iri!!)
-                                        copyData(source, target, parent)
-                                    }
-                                }
-                                else -> {
-                                    SanityCheck.checkUnreachable()
-                                }
-                            }
-                        }
-                        else -> {
-                            SanityCheck.checkUnreachable()
-                        }
-                    }
                 }
                 EGraphOperationTypeExt.MOVE -> {
                     when (graph1type) {
@@ -387,10 +340,10 @@ val row=iterator.evaluate(parent)
         }
         return IteratorBundle(1)
     }
-    public open override fun usesDictionary(): Boolean {
+    public  override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:391"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:345"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }
