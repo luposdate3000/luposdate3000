@@ -8,7 +8,7 @@ import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.TimeUtils
 import lupos.simulator_iot.net.NetworkPackage
 
-internal class QuerySender(
+public class QuerySender(
     internal val simRun: SimulationRun,
     internal val name: String,
     internal val sendRateInSec: Int,

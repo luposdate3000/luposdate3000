@@ -13,7 +13,7 @@ import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.math.round
 
-internal class Configuration(private val simRun: SimulationRun) {
+public class Configuration(private val simRun: SimulationRun) {
 
     private var devices: MutableList<Device> = mutableListOf()
 

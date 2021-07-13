@@ -12,7 +12,7 @@ import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 
-internal class Device(
+public class Device(
     internal val simRun: SimulationRun,
     internal var location: GeoLocation,
     internal val address: Int,

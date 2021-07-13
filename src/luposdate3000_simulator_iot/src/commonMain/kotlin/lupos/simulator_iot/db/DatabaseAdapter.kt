@@ -14,7 +14,7 @@ import lupos.simulator_iot.FilePaths
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 
-internal class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
+public class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
     private var resultCounter = 0
 
