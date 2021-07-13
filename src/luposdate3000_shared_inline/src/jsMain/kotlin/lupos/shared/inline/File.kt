@@ -19,7 +19,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.NotImplementedException
 import lupos.shared.js.ExternalModule_fs
 
 internal actual class File {
