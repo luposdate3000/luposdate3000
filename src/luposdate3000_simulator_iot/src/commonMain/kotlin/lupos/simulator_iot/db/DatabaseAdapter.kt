@@ -106,9 +106,6 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        if(destinationAddress != device.address) {
-            device.simRun.incNumberOfSentDatabasePackages()
-        }
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {
@@ -138,11 +135,15 @@ internal class DatabaseAdapter(internal val device: Device, private val isDummy:
     private inner class SequencePackageSenderImpl : ISequencePackageSender {
 
         override fun send(pck: SequencedPackage) {
+            if(pck.destinationAddress != device.address) {
+                // ignore self packages
+                device.simRun.incNumberOfSentDatabasePackages()
+            }
             device.sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck as IPayload)
         }
 
         override fun receive(pck: SequencedPackage) {
-            device.simRun.logger.log("> DB of Device $device receives $pck at clock ${device.simRun.getCurrentSimulationClock()}")
+            // device.simRun.logger.log("> DB of Device $device receives $pck at clock ${device.simRun.getCurrentSimulationClock()}")
             when (pck) {
                 is DBInternPackage -> processIDatabasePackage(pck.content)
                 is DBQueryResultPackage -> processDBQueryResultPackage(pck)

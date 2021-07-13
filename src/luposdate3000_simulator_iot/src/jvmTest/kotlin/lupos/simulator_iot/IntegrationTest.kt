@@ -150,7 +150,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/9>"
         val query = SemanticData.getLastResultsOfEachSensorInArea(areaRDF)
         distributedCaseWithQuery(query)
@@ -158,7 +157,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInManyAreas() {
-        // TODO Throws Exception
         val areasRDF = "<http://parkingArea/9>, <http://parkingArea/4>"
         val query = SemanticData.getLastResultsOfEachSensorInManyAreas(areasRDF)
         distributedCaseWithQuery(query)
