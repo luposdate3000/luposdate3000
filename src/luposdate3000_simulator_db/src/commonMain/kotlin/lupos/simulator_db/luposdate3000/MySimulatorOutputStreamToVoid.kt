@@ -14,12 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.endpoint_launcher
-import lupos.shared.IMyInputStream
+package lupos.simulator_db.luposdate3000
+
+import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
-public class PathMappingHelper(
-    public val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/,
-    public val params: Map<Pair<String/*name*/, String/*default-value*/>,
-        (String, String) -> String/*html-string of element*/>,
-    public val action: (Map<String, String>, IMyInputStream, IMyOutputStream) -> Boolean/*action to perform, when this is the called url, return if the connection should be closed automatically*/
-)
+
+internal class MySimulatorOutputStreamToVoid() : IMyOutputStream {
+    override fun flush() {}
+    override fun close() { }
+    override fun print(x: Boolean) { }
+    override fun print(x: Double) { }
+    override fun print(x: Int) { }
+    override fun print(x: String) { }
+    override fun println() { }
+    override fun println(x: String) { }
+    override fun write(buf: ByteArray) { }
+    override fun write(buf: ByteArray, len: Int) { }
+    override fun writeDictionaryValueType(value: DictionaryValueType) { }
+    override fun writeLong(value: Long) { }
+    override fun writeInt(value: Int) { }
+}
