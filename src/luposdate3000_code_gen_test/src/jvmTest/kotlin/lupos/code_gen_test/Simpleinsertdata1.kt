@@ -23,6 +23,12 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_iot.LifeCycleImpl
+import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -57,5 +63,23 @@ public class Simpleinsertdata1 {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         LuposdateEndpoint.close(instance)
+    }
+
+    @Test
+    public fun `Simple insert data 1 - in simulator`() {
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
+        val config = simRun.parseJsonObjects(json)
+        simRun.sim = Simulation(config.getEntities(), LifeCycleImpl(simRun))
+        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
+        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
+        simRun.sim.startUp()
+        val instance = (config.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
+        val pkg0 = MySimulatorTestingExecute(query)
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        pkg0.onFinish = pkg1
+        config.querySenders[0].queryPck = pkg0
+        simRun.sim.run()
+        simRun.sim.shutDown()
     }
 }

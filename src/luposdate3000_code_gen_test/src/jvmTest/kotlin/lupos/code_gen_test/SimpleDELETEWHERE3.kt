@@ -23,6 +23,13 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_iot.LifeCycleImpl
+import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -84,5 +91,27 @@ public class SimpleDELETEWHERE3 {
             fail(expected2.toString() + " .. " + actual2.toString() + " .. " + buf_err2.toString() + " .. " + operator2)
         }
         LuposdateEndpoint.close(instance)
+    }
+
+    @Test
+    public fun `Simple DELETE WHERE 3 - in simulator`() {
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
+        val config = simRun.parseJsonObjects(json)
+        simRun.sim = Simulation(config.getEntities(), LifeCycleImpl(simRun))
+        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
+        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
+        simRun.sim.startUp()
+        val instance = (config.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
+        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        pkg0.onFinish = pkg1
+        val pkg2 = MySimulatorTestingExecute(query)
+        pkg1.onFinish = pkg2
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        pkg2.onFinish = pkg3
+        config.querySenders[0].queryPck = pkg0
+        simRun.sim.run()
+        simRun.sim.shutDown()
     }
 }

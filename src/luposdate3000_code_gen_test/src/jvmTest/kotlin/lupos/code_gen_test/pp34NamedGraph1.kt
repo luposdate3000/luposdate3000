@@ -23,6 +23,12 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_iot.LifeCycleImpl
+import lupos.simulator_iot.SimulationRun
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -108,5 +114,34 @@ public class pp34NamedGraph1 {
             fail(expected3.toString() + " .. " + actual3.toString() + " .. " + buf_err3.toString() + " .. " + operator3)
         }
         LuposdateEndpoint.close(instance)
+    }
+
+    @Ignore // Reason: >using not implemented feature<
+    @Test
+    public fun `pp34 Named Graph 1 - in simulator`() {
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
+        val config = simRun.parseJsonObjects(json)
+        simRun.sim = Simulation(config.getEntities(), LifeCycleImpl(simRun))
+        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
+        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
+        simRun.sim.startUp()
+        val instance = (config.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
+        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
+        val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
+        pkg0.onFinish = pkg1
+        val pkg2 = MySimulatorTestingImportPackage(inputData[2], inputGraph[2], inputType[2])
+        pkg1.onFinish = pkg2
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[0]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        pkg2.onFinish = pkg3
+        val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[1]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
+        pkg3.onFinish = pkg4
+        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH ${inputGraph[2]} { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!)
+        pkg4.onFinish = pkg5
+        val pkg6 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
+        pkg5.onFinish = pkg6
+        config.querySenders[0].queryPck = pkg0
+        simRun.sim.run()
+        simRun.sim.shutDown()
     }
 }
