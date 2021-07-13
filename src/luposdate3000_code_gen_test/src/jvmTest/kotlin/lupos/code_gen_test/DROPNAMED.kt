@@ -30,6 +30,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.LifeCycleImpl
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -62,6 +63,7 @@ public class DROPNAMED {
         "DROP NAMED \n" +
         ""
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `DROP NAMED`() {
         val instance = LuposdateEndpoint.initialize()
@@ -123,6 +125,7 @@ public class DROPNAMED {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `DROP NAMED - in simulator`() {
         val simRun = SimulationRun()

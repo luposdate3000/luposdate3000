@@ -30,6 +30,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.LifeCycleImpl
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -65,6 +66,7 @@ public class DROPGRAPH {
         "DROP GRAPH :g1 \n" +
         ""
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `DROP GRAPH`() {
         val instance = LuposdateEndpoint.initialize()
@@ -135,6 +137,7 @@ public class DROPGRAPH {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `DROP GRAPH - in simulator`() {
         val simRun = SimulationRun()

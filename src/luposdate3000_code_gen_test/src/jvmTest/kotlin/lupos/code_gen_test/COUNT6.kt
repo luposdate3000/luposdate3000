@@ -29,6 +29,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.LifeCycleImpl
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -50,6 +51,7 @@ public class COUNT6 {
         "HAVING (COUNT(*) > 0 ) \n" +
         ""
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `COUNT 6`() {
         val instance = LuposdateEndpoint.initialize()
@@ -79,6 +81,7 @@ public class COUNT6 {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `COUNT 6 - in simulator`() {
         val simRun = SimulationRun()

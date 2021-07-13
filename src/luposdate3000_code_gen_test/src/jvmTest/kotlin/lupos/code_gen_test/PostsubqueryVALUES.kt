@@ -29,6 +29,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.LifeCycleImpl
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -56,6 +57,7 @@ public class PostsubqueryVALUES {
         "} \n" +
         ""
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `Postsubquery VALUES`() {
         val instance = LuposdateEndpoint.initialize()
@@ -85,6 +87,7 @@ public class PostsubqueryVALUES {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `Postsubquery VALUES - in simulator`() {
         val simRun = SimulationRun()

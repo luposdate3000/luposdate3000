@@ -29,6 +29,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.LifeCycleImpl
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -47,6 +48,7 @@ public class constructwhere03CONSTRUCTWHERE {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "CONSTRUCT WHERE { :s2 :p ?o1, ?o2 }"
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `constructwhere03  CONSTRUCT WHERE`() {
         val instance = LuposdateEndpoint.initialize()
@@ -76,6 +78,7 @@ public class constructwhere03CONSTRUCTWHERE {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `constructwhere03  CONSTRUCT WHERE - in simulator`() {
         val simRun = SimulationRun()

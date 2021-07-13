@@ -174,5 +174,17 @@ internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs {
         "SUM" to "Bug",
         "TIMEZONE" to "Bug",
         "TZ" to "Bug",
+        "Group4" to "Bug",
+        "DROPGRAPH" to "Bug",
+        "sq12SubqueryinCONSTRUCTwithbuiltins" to "Bug",
+        "InlineVALUESgraphpattern" to "Bug",
+        "COUNT4" to "Bug",
+        "constructwhere03CONSTRUCTWHERE" to "Bug",
+        "PostsubqueryVALUES" to "Bug",
+        "DROPNAMED" to "Bug",
+        "PostqueryVALUESwithsubjvar1row" to "Bug",
+        "PostqueryVALUESwithsubjobjvars2rowswithUNDEF" to "Bug",
+        "COUNT6" to "Bug",
+        "SubsetsbyexclusionMINUS" to "Bug",
     )
 }

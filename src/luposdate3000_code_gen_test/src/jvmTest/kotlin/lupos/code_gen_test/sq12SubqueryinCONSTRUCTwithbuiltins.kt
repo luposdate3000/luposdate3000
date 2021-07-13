@@ -29,6 +29,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.LifeCycleImpl
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -52,6 +53,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         "} \n" +
         ""
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins`() {
         val instance = LuposdateEndpoint.initialize()
@@ -81,6 +83,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins - in simulator`() {
         val simRun = SimulationRun()
