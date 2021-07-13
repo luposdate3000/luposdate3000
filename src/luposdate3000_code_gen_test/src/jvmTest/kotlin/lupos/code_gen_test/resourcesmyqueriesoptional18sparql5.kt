@@ -23,12 +23,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -87,22 +81,5 @@ public class resourcesmyqueriesoptional18sparql5 {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         LuposdateEndpoint.close(instance)
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesmyqueriesoptional18sparql5 - in simulator`() {
-        Configuration.parse("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startUp()
-        val instance = (Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
-        pkg0.onFinish = pkg1
-        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
-        pkg1.onFinish = pkg2
-        Configuration.querySenders[0].queryPck = pkg0
-        sim.run()
-        sim.shutDown()
     }
 }

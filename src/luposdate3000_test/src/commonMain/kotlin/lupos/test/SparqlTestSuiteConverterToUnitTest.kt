@@ -20,6 +20,7 @@ import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
+    private val withSimulator = false
 
     @JvmField
     internal var counter = 0
@@ -376,7 +377,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
                 val str = distributedTest.toString()
-                if (!useCodeGen && str.length> 0) {
+                if (!useCodeGen && str.length> 0 && withSimulator) {
                     if (ignored) {
                         val reason = ignoreList[testCaseName]
                         if (reason != null) {
@@ -386,7 +387,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         }
                     }
                     out.println("    @Test")
-
                     out.println("    public fun `$testCaseName2 - in simulator`() {")
                     out.println("        Configuration.parse(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
                     out.println("        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)")

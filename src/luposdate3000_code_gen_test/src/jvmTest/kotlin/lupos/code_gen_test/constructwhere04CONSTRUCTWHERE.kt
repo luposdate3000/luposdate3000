@@ -21,11 +21,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -52,18 +47,5 @@ public class constructwhere04CONSTRUCTWHERE {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         LuposdateEndpoint.close(instance)
-    }
-
-    @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
-    @Test
-    public fun `constructwhere04  CONSTRUCT WHERE - in simulator`() {
-        Configuration.parse("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startUp()
-        val instance = (Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
-        Configuration.querySenders[0].queryPck = pkg0
-        sim.run()
-        sim.shutDown()
     }
 }
