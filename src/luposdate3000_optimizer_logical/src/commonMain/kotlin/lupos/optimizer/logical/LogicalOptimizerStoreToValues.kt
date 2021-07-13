@@ -59,12 +59,12 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                         query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
                     }
                     SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:68"/*SOURCE_FILE_END*/ }, { tmp2.hasCountMode() })
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
@@ -79,12 +79,12 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                         query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
                     }
                     val columns = tmp2.columns
                     SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:89"/*SOURCE_FILE_END*/ }, { columns.size == 1 })

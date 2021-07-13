@@ -489,12 +489,12 @@ public open class SparqlTestSuite {
                         val tmp2 = POPValues2(query, xmlQueryInput)
                         val key = "${query.getTransactionID()}"
                         if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                            instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                            instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                             query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
                         }
                         val tmp = tmp2.evaluateRoot()
                         val sstore = instance.tripleStoreManager!!.getDefaultGraph()
-                        val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
+                        val cache = sstore.modify_create_cache(query, EModifyTypeExt.INSERT)
                         val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
                         while (true) {
                             val s = iterator[0].next()
@@ -509,7 +509,7 @@ public open class SparqlTestSuite {
                         instance.tripleStoreManager!!.commit(query)
                         query.commited = true
                         if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                            instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                            instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
                         }
                     }
                     try {
@@ -535,12 +535,12 @@ public open class SparqlTestSuite {
                     val tmp2 = POPValues2(query, xmlQueryInput)
                     val key = "${query.getTransactionID()}"
                     if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                        instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                         query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
                     }
                     val tmp = tmp2.evaluateRoot()
                     val sstore = instance.tripleStoreManager!!.getGraph(it["name"]!!)
-                    val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
+                    val cache = sstore.modify_create_cache(query, EModifyTypeExt.INSERT)
                     val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
                     while (true) {
                         val s = iterator[0].next()
@@ -554,7 +554,7 @@ public open class SparqlTestSuite {
                     cache.close()
                     instance.tripleStoreManager!!.commit(query)
                     if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                        instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
                     }
                     query.commited = true
 

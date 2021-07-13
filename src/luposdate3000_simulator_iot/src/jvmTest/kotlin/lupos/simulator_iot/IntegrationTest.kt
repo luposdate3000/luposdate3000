@@ -71,7 +71,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getLastSampleOfSensor() {
         // TODO Throws Exception
@@ -80,7 +79,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInArea() {
         // TODO Throws Exception
@@ -97,7 +95,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusCentralCase_getNumberOfCurrentlyFreeSpacesInArea() {
         // TODO Throws Exception
@@ -106,7 +103,6 @@ class IntegrationTest {
         centralCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getAllTriples() {
         // TODO Throws Exception
@@ -114,7 +110,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getNumberOfParkingAreas() {
         // TODO Throws Exception
@@ -122,7 +117,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getAllParkingAreas() {
         // TODO Throws Exception
@@ -130,7 +124,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea() {
         // TODO Throws Exception
@@ -139,7 +132,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getSampleNumberOfSensor() {
         // TODO Throws Exception
@@ -148,7 +140,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getLastSampleOfSensor() {
         // TODO Throws Exception
@@ -157,7 +148,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInArea() {
         // TODO Throws Exception
@@ -166,7 +156,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInManyAreas() {
         // TODO Throws Exception
@@ -175,7 +164,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea() {
         // TODO Throws Exception
@@ -210,15 +198,5 @@ class IntegrationTest {
     @Test
     fun campusDistributedCaseWithoutQuery() {
         IoTSimulation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
-    }
-
-    @Ignore // TODO dieser Test is so nie für die Ausführung gedacht gewesen
-    @Test
-    fun test6() {
-        val simRun = SimulationRun()
-        val json = simRun.parseConfigFile("${FilePaths.testResource}/autoIntegrationTest/test1.json")
-        val config = simRun.parseJsonObjects(json)
-        config.querySenders[0].queryPck = QueryPackage(0, "dummy".encodeToByteArray()) //TODO insert your package here
-        simRun.startSimulation(config)
     }
 }

@@ -28,7 +28,7 @@ internal class Configuration(private val simRun: SimulationRun) {
     internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
-    internal var querySenders: MutableList<lupos.simulator_iot.db.QuerySender> = mutableListOf()
+    public var querySenders: MutableList<lupos.simulator_iot.db.QuerySender> = mutableListOf()
         private set
 
     internal var dbDeviceAddresses: IntArray = intArrayOf()

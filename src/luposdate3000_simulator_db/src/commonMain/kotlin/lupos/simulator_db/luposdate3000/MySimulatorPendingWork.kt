@@ -18,4 +18,4 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
-internal class MySimulatorPendingWork(val operatorGraph: XMLElement, val destination: Int, val dependencies: Set<String>, val key: String, val onFinish: IDatabasePackage?, val expectedResult: MemoryTable?)
+internal class MySimulatorPendingWork(val queryID: Int, val operatorGraph: XMLElement, val destination: Int, val dependencies: Set<String>, val key: String, val onFinish: IDatabasePackage?, val expectedResult: MemoryTable?)

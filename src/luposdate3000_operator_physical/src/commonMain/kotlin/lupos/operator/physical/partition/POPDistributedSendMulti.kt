@@ -40,7 +40,7 @@ public class POPDistributedSendMulti public constructor(
     @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendMultiID, "POPDistributedSendMulti", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -117,7 +117,6 @@ public class POPDistributedSendMulti public constructor(
     }
 
     public fun evaluate(data: Array<IMyOutputStream?>) {
-        println("POPDistributedSendMulti.evaluate .. $projectedVariables")
         var variables = Array<String>(projectedVariables.size) { "" }
         var i = 0
         for (connectionOut in data) {
@@ -141,7 +140,7 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:143"/*SOURCE_FILE_END*/ }, { i == variables.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:142"/*SOURCE_FILE_END*/ }, { i == variables.size })
         var p = Partition()
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }

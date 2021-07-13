@@ -17,11 +17,10 @@
 package lupos.endpoint_launcher
 
 import lupos.shared.inline.File
-import lupos.shared.inline.MyOutputStream
 
 internal object WebRootEndpoint {
 
-    internal fun initialize(paths: MutableMap<String, PathMappingHelper>, connectionOutMy: MyOutputStream) {
+    internal fun initialize(paths: MutableMap<String, PathMappingHelper>) {
         val webroot = "src/luposdate3000_spa_client/dist/" // relative to luposdate3000 or absolute path including trailling slash
         val basepath = "/" // base path in the browser url. this may be the empty path. this must include a trailing slash
         val f = File(webroot)
@@ -29,7 +28,7 @@ internal object WebRootEndpoint {
             f.walk { p ->
                 if (p.length > webroot.length) {
                     val targetPath = basepath + p.substring(webroot.length).replace("\\", "/").replace("//", "/")
-                    paths[targetPath] = PathMappingHelper(true, mapOf()) {
+                    paths[targetPath] = PathMappingHelper(true, mapOf()) { _, _, connectionOutMy ->
                         connectionOutMy.println("HTTP/1.1 200 OK")
                         if (targetPath.endsWith(".html")) {
                             connectionOutMy.println("Content-Type: text/html")
@@ -55,6 +54,7 @@ internal object WebRootEndpoint {
                                 len = input.read(buf)
                             }
                         }
+                        true
                     }
                 }
             }

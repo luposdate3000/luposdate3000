@@ -174,6 +174,9 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     }
 
     override fun getTransactionID(): Long = transactionID
+    override fun setTransactionID(id: Long) {
+        transactionID = id
+    }
     override fun getWorkingDirectory(): String = _workingDirectory
     override fun getDictionary(): IDictionary = dictionary
     override fun checkVariableExistence(): Boolean = !dontCheckVariableExistence

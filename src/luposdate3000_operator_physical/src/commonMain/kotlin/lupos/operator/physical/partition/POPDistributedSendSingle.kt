@@ -40,7 +40,7 @@ public class POPDistributedSendSingle public constructor(
     @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -117,7 +117,6 @@ public class POPDistributedSendSingle public constructor(
     }
 
     public fun evaluate(connectionOut: IMyOutputStream) {
-        println("POPDistributedSendSingle.evaluate .. $projectedVariables")
         var partitionNumber = -1
         for (j in hosts) {
             for (k in j.split(":")) {
@@ -128,10 +127,9 @@ public class POPDistributedSendSingle public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:130"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:129"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
         var variables = Array<String>(projectedVariables.size) { "" }
         var i = 0
-        println("sending ${variables.size}")
         connectionOut.writeInt(variables.size)
         for (v in projectedVariables) {
             variables[i++] = v

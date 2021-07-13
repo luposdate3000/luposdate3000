@@ -17,7 +17,6 @@
 package lupos.shared.inline
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
-import lupos.shared.NotImplementedException
 
 internal actual class MyOutputStream : IMyOutputStream {
     internal actual constructor() {}

@@ -84,6 +84,9 @@ public class Luposdate3000Instance {
     public var dictionaryCacheCapacity: Int = 200 // set to 0 for disable
 
     @JvmField
+    public var enableJoinOrderOnHistogram: Boolean = true
+
+    @JvmField
     public var useDictionaryInlineEncoding: Boolean = true
     init {
         if (LUPOS_PROCESS_URLS.size> 1) {

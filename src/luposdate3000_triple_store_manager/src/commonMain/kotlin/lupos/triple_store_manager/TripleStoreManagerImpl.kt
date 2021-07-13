@@ -532,7 +532,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         "name" to graphName,
                         "origin" to "false",
                         "metadata" to metadataStr,
-                    )
+                    ),
+                    query.getTransactionID().toInt()
                 )
             }
         }
@@ -565,7 +566,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                                     mapOf(
                                         "origin" to "false",
                                         "name" to graphName
-                                    )
+                                    ),
+                                    query.getTransactionID().toInt()
                                 )
                             }
                         }
@@ -594,7 +596,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                                 mapOf(
                                     "origin" to "false",
                                     "name" to graphName
-                                )
+                                ),
+                                query.getTransactionID().toInt()
                             )
                         }
                     }
@@ -687,7 +690,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                         "/distributed/graph/commit",
                         mapOf(
                             "origin" to "false",
-                        )
+                        ),
+                        query.getTransactionID().toInt()
                     )
                 }
             }

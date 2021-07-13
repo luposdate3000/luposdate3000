@@ -21,7 +21,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -48,16 +47,5 @@ public class constructwhere04CONSTRUCTWHERE {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         LuposdateEndpoint.close(instance)
-    }
-
-    @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
-    @Test
-    public fun `constructwhere04  CONSTRUCT WHERE - in simulator`() {
-        // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
-        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
-        val pkg0 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
-        // TODO send the package pkg0 to the selected database instance
-        // TODO wait for the simulation to finish sending ALL messages
-        // TODO verify that the test is finished
     }
 }

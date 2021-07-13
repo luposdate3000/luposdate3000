@@ -16,32 +16,19 @@
  */
 package lupos.endpoint_launcher
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.base.Query
-import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.physical.POPBase
-import lupos.operator.physical.partition.POPDistributedSendMulti
-import lupos.operator.physical.partition.POPDistributedSendSingle
-import lupos.operator.physical.partition.POPDistributedSendSingleCount
 import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
-import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.inline.MyInputStream
 import lupos.shared.inline.MyOutputStream
-import lupos.shared.inline.MyStringStream
-import lupos.shared.xmlParser.XMLParser
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.URLDecoder
-import kotlin.jvm.JvmField
 import kotlin.system.exitProcess
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
-
-    @JvmField
-    internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
 
     private fun printHeaderSuccess(stream: IMyOutputStream) {
         stream.println("HTTP/1.1 200 OK")
@@ -57,7 +44,6 @@ public actual object HttpEndpointLauncher {
             }
         }
     }
-    private val key_global_dict = "global_dict"
 
     public actual /*suspend*/ fun start(instance: Luposdate3000Instance) {
         val localhost = instance.tripleStoreManager!!.getLocalhost()
@@ -74,16 +60,16 @@ public actual object HttpEndpointLauncher {
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             if (localhost == instance.LUPOS_PROCESS_URLS[0]) {
-                RestEndpoint.registerDictionary(key_global_dict, instance.nodeGlobalDictionary!!, instance)
+                RestEndpoint.registerDictionary(RestEndpoint.key_global_dict, instance.nodeGlobalDictionary!!, instance)
             } else {
-                val conn = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS[0], "POST /distributed/query/dictionary?key=$key_global_dict\n\n")
+                val conn = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS[0], "POST /distributed/query/dictionary?key=${RestEndpoint.key_global_dict}\n\n", -1)
                 instance.nodeGlobalDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, false)
             }
             while (true) {
                 val connection = server.accept()
                 println("received connection from ${connection.remoteSocketAddress}")
                 Thread {
-                    var dontCloseSockets: Boolean = false
+                    var closeSockets: Boolean = true
                     Parallel.runBlocking {
                         val connectionInMy = MyInputStream(connection.getInputStream())
                         val connectionOutMy = MyOutputStream(connection.getOutputStream())
@@ -115,167 +101,14 @@ public actual object HttpEndpointLauncher {
                             }
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            RestEndpoint.initialize(instance, paths, params, connectionInMy, connectionOutMy, hostname, port)
-
-                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
-                                RestEndpoint.removeDictionary(key_global_dict)
+                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+                                RestEndpoint.removeDictionary(RestEndpoint.key_global_dict)
                                 LuposdateEndpoint.close()
                                 exitProcess(0)
+                                true
                             }
-                            paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
-                                val xml = XMLParser(MyStringStream(params["query"]!!))
-                                val keys = mutableListOf<String>()
-                                for (c in xml.childs) {
-                                    if (c.tag == "partitionDistributionProvideKey") {
-                                        keys.add(c.attributes["key"]!!)
-                                    }
-                                }
-                                val container = QueryMappingContainer(xml, Array(keys.size) { null }, Array(keys.size) { null }, Array(keys.size) { null })
-                                for (key in keys) {
-                                    queryMappings[key] = container
-                                }
-                                connectionOutMy.print("HTTP/1.1 200 OK\n\n")
-                            }
-                            paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
-                                val key = params["key"]!!
-                                val queryContainer = queryMappings[key]!!
-                                val queryXML = queryContainer.xml
-                                val dictionaryURL = params["dictionaryURL"]!!
-                                val comm = instance.communicationHandler!!
-// calculate current partition
-                                var partitionNumber: Int = 0
-                                if (queryContainer.inputStreams.size > 1) {
-                                    for (k in key.split(":")) {
-                                        val s = queryXML.attributes["partitionVariable"] + "="
-                                        if (k.startsWith(s)) {
-                                            partitionNumber = k.substring(s.length).toInt()
-                                            break
-                                        }
-                                    }
-                                }
-                                queryContainer.instanceLock.withLock {
-                                    queryContainer.outputStreams[partitionNumber] = connectionOutMy
-                                    queryContainer.inputStreams[partitionNumber] = connectionInMy
-                                    queryContainer.connections[partitionNumber] = connection
-                                    var flag = true
-                                    for (c in queryContainer.outputStreams) {
-                                        if (c == null) {
-                                            flag = false
-                                            break
-                                        }
-                                    }
-                                    if (flag) {
-// only launch if all receivers are started
-// init node
-                                        val query = Query(instance)
-                                        var node = queryContainer.instance
-                                        if (node == null) {
-                                            node = XMLElementToOPBase(query, queryXML) as POPBase
-                                            queryContainer.instance = node
-                                        }
-                                        query.root = node
-// init dictionary
-                                        val requireDictionary = node.usesDictionary()
-                                        if (requireDictionary) {
-                                            val idx2 = dictionaryURL.indexOf("/")
-                                            val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
-                                            val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
-                                            query.setDictionaryServer(remoteDictionary)
-                                        } else {
-                                            query.setDictionaryServer(DictionaryNotImplemented())
-                                        }
-                                        query.setDictionaryUrl(dictionaryURL)
-// evaluate
-                                        when (node) {
-                                            is POPDistributedSendSingle -> {
-                                                node.evaluate(connectionOutMy)
-                                            }
-                                            is POPDistributedSendSingleCount -> {
-                                                node.evaluate(connectionOutMy)
-                                            }
-                                            is POPDistributedSendMulti -> {
-                                                node.evaluate(queryContainer.outputStreams)
-                                            }
-                                            else -> throw Exception("unexpected node '${node.classname}'")
-                                        }
-// release
-                                        if (requireDictionary) {
-                                            query.getDictionary().close()
-                                        }
-                                        for (c in queryContainer.outputStreams) {
-                                            c!!.close()
-                                        }
-                                        for (c in queryContainer.inputStreams) {
-                                            c!!.close()
-                                        }
-                                        for (c in queryContainer.connections) {
-                                            c!!.close()
-                                        }
-                                    }
-// done
-                                }
-                                dontCloseSockets = true
-                                queryMappings.remove(key)
-                            }
-                            paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) {
-                                printHeaderSuccess(connectionOutMy)
-                                for ((k, v) in queryMappings) {
-                                    connectionOutMy.println("<p> $k :: $v </p>")
-                                }
-                            }
-
-                            paths["/debug.html"] = PathMappingHelper(true, mapOf()) {
-                                connectionOutMy.println("HTTP/1.1 200 OK")
-                                connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
-                                connectionOutMy.println()
-                                connectionOutMy.println("<!DOCTYPE html>")
-                                connectionOutMy.println("<html lang=\"en\">")
-                                connectionOutMy.println("   <head>")
-                                connectionOutMy.println("   <title>Luposdate3000</title>")
-                                connectionOutMy.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
-                                connectionOutMy.println("<script>")
-                                connectionOutMy.println("   $(document).ready(function() {")
-                                for ((k, v) in paths) {
-                                    if (k.length > 1) {
-                                        val formId = k.replace("/", "_")
-                                        connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
-                                        connectionOutMy.println("           var formData = {")
-                                        for (p in v.params.keys) {
-                                            connectionOutMy.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
-                                        }
-                                        connectionOutMy.println("           };")
-                                        connectionOutMy.println("           $.ajax({")
-                                        connectionOutMy.println("                   type: 'POST',")
-                                        connectionOutMy.println("                   url: '${k.substring(1)}',")
-                                        connectionOutMy.println("                   data: formData")
-                                        connectionOutMy.println("               })")
-                                        connectionOutMy.println("               .done(function(data) {")
-                                        connectionOutMy.println("                   $('#responseDiv').text(data);")
-                                        connectionOutMy.println("               });")
-                                        connectionOutMy.println("           event.preventDefault();")
-                                        connectionOutMy.println("       });")
-                                    }
-                                }
-                                connectionOutMy.println("   });")
-                                connectionOutMy.println("</script>")
-                                connectionOutMy.println("   </head>")
-                                connectionOutMy.println("   <body>")
-                                for ((k, v) in paths) {
-                                    if (k.length > 1) {
-                                        val formId = k.replace("/", "_")
-                                        connectionOutMy.println("<form id=\"$formId\" >")
-                                        for ((p, q) in v.params) {
-                                            connectionOutMy.println(q(p.first, p.second))
-                                        }
-                                        connectionOutMy.println("<input type=\"submit\" value=\"$k\" />")
-                                        connectionOutMy.println("</form>")
-                                    }
-                                }
-                                connectionOutMy.println("   <div id=\"responseDiv\"></div>")
-                                connectionOutMy.println("   </body>")
-                                connectionOutMy.println("</html>")
-                            }
-                            WebRootEndpoint.initialize(paths, connectionOutMy)
+                            RestEndpoint.initialize(instance, paths)
+                            WebRootEndpoint.initialize(paths)
                             val tmpRoot = paths["/index.html"]
                             if (tmpRoot != null) {
                                 paths[""] = tmpRoot
@@ -295,14 +128,14 @@ public actual object HttpEndpointLauncher {
                                     val content = buf.decodeToString()
                                     extractParamsFromString(content, params)
                                 }
-                                actionHelper.action()
+                                closeSockets = actionHelper.action(params, connectionInMy, connectionOutMy)
                             }
                         } catch (e: Throwable) {
                             e.printStackTrace()
                             connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
                             connectionOutMy.println()
                         } finally {
-                            if (!dontCloseSockets) {
+                            if (closeSockets) {
                                 connectionOutMy.close()
                                 connectionInMy.close()
                                 connection?.close()

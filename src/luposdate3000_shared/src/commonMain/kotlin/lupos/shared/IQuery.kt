@@ -26,7 +26,10 @@ public interface IQuery {
     public fun getWorkingDirectory(): String
     public fun initialize(newroot: IOPBase): IOPBase
     public fun setCommited()
+
     public fun getTransactionID(): Long
+    public fun setTransactionID(id: Long)
+
     public fun getDistributionKey(): Map<String, Int>
     public fun getDependenciesMapTopDown(): MutableMap<String, Set<String>>
 

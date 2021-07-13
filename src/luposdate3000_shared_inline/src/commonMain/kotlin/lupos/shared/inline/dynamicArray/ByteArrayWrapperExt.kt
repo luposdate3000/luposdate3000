@@ -31,9 +31,6 @@ public object ByteArrayWrapperExt {
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun setSize(data: ByteArrayWrapper, c: Int, copy: Boolean) {
-        if (data.uuid == 20197) {
-            kotlin.io.println("ByteArrayWrapperExt.setSize ${data.uuid} ${data.size_ } $c")
-        }
         data.size_ = c
         if (c > data.buf_.size) {
             if (copy) {

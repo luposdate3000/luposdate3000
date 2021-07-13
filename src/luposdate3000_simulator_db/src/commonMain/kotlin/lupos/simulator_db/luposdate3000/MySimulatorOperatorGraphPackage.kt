@@ -19,6 +19,7 @@ import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
 internal class MySimulatorOperatorGraphPackage(
+    val queryID: Int,
     val operatorGraph: MutableMap<String, XMLElement>,
     val destinations: MutableMap<String, Int>,
     val operatorGraphPartsToHostMap: MutableMap<String, String>,

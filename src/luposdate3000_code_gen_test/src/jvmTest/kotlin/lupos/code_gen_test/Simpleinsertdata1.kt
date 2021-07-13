@@ -23,8 +23,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -59,17 +57,5 @@ public class Simpleinsertdata1 {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         LuposdateEndpoint.close(instance)
-    }
-
-    @Test
-    public fun `Simple insert data 1 - in simulator`() {
-        // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
-        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
-        val pkg0 = MySimulatorTestingExecute(query)
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
-        pkg0.onFinish = pkg1
-        // TODO send the package pkg0 to the selected database instance
-        // TODO wait for the simulation to finish sending ALL messages
-        // TODO verify that the test is finished
     }
 }

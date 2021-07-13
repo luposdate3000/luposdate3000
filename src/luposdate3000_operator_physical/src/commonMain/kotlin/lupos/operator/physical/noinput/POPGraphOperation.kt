@@ -141,7 +141,7 @@ public class POPGraphOperation public constructor(
     /*suspend*/ private fun copyData(source: ITripleStoreDescription, target: ITripleStoreDescription, parent: Partition) {
         val row = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
-        val cache = target.modify_create_cache(EModifyTypeExt.INSERT)
+        val cache = target.modify_create_cache(query, EModifyTypeExt.INSERT)
         while (true) {
             val s = iterator[0].next()
             val p = iterator[1].next()
@@ -225,7 +225,7 @@ public class POPGraphOperation public constructor(
                         ColumnIteratorMultiValue3(pa, pa.size),
                         ColumnIteratorMultiValue3(oa, oa.size),
                     )
-                    val cache = target.modify_create_cache(EModifyTypeExt.INSERT)
+                    val cache = target.modify_create_cache(query, EModifyTypeExt.INSERT)
                     while (true) {
                         val s = iterator[0].next()
                         val p = iterator[1].next()

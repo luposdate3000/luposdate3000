@@ -20,6 +20,7 @@ import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
+    private val withSimulator = false
 
     @JvmField
     internal var counter = 0
@@ -164,10 +165,10 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 val distributedTest = StringBuilder()
                 var distributedTestCtr = 0
                 fun appendDistributedTest(s: String) {
-                    distributedTest.appendLine("val pkg$distributedTestCtr = $s")
+                    distributedTest.appendLine("        val pkg$distributedTestCtr = $s")
                     distributedTestCtr++
                     if (distributedTestCtr> 1) {
-                        distributedTest.appendLine("pkg${distributedTestCtr - 2}.onFinish = pkg${distributedTestCtr - 1}")
+                        distributedTest.appendLine("        pkg${distributedTestCtr - 2}.onFinish = pkg${distributedTestCtr - 1}")
                     }
                 }
                 var localCounter = 0
@@ -240,9 +241,13 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.shared.MemoryTable")
                 out.println("import lupos." + "shared.inline.File")
                 out.println("import lupos." + "shared.inline.MyPrintWriter")
+                out.println("import lupos.simulator_core.Simulation")
                 out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage")
                 out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage")
                 out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute")
+                out.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
+                out.println("import lupos.simulator_iot.config.Configuration")
+                out.println("import lupos.simulator_iot.log.Logger")
                 if (!useCodeGen) {
                     if (ignored) {
                         out.println("import kotlin.test.Ignore")
@@ -372,7 +377,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
                 val str = distributedTest.toString()
-                if (!useCodeGen && str.length> 0) {
+                if (!useCodeGen && str.length> 0 && withSimulator) {
                     if (ignored) {
                         val reason = ignoreList[testCaseName]
                         if (reason != null) {
@@ -382,14 +387,16 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         }
                     }
                     out.println("    @Test")
-
                     out.println("    public fun `$testCaseName2 - in simulator`() {")
-                    out.println("        //TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready")
-                    out.println("        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead")
+                    out.println("        Configuration.parse(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
+                    out.println("        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)")
+                    out.println("        sim.startUp()")
+                    out.println("        val instance=(Configuration.devices.filter { it.hasDatabase() }.map{it.database}.filter{it!=null}.map{it!!.db}.first() as DatabaseHandle).instance")
                     out.print(str)
-                    out.println("        //TODO send the package pkg0 to the selected database instance")
-                    out.println("        //TODO wait for the simulation to finish sending ALL messages")
-                    out.println("        //TODO verify that the test is finished")
+                    out.println("        Configuration.querySenders[0].queryPck = pkg0")
+                    out.println("        sim.run()")
+                    out.println("        sim.shutDown()")
+
                     out.println("    }")
                 }
                 if (!useCodeGen && withCodeGen) {
