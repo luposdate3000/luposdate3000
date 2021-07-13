@@ -61,6 +61,8 @@ internal class Logger(
         log("Sensor packages sent: ${measurement.numberOfSentSamplePackages}")
         log("Database packages sent: ${measurement.numberOfSentDatabasePackages}")
         log("")
+        log("Total number of packet forwards: ${measurement.numberOfForwardedPackages}")
+        log("")
         log("Total network traffic in whole kilobytes: ${measurement.networkTrafficInBytes / 1000}")
         log("")
         log(getDODAGString())

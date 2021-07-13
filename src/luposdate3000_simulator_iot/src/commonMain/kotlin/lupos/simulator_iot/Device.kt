@@ -102,14 +102,16 @@ internal class Device(
     private fun forwardPackage(pck: NetworkPackage) {
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
-        assignToSimulation(pck, delay)
+        measureForwarding(pck)
+        assignToSimulation(nextHop, pck, delay)
     }
 
     internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
         val pck = NetworkPackage(address, destinationNeighbour, data)
         val delay = getNetworkDelay(destinationNeighbour, pck)
         logSendPackage(pck, delay)
-        assignToSimulation(pck, delay)
+        measureSending(pck)
+        assignToSimulation(destinationNeighbour, pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
@@ -117,18 +119,28 @@ internal class Device(
         val nextHop = router.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop, pck)
         logSendPackage(pck, delay)
-        assignToSimulation(pck, delay)
+        measureSending(pck)
+        assignToSimulation(nextHop, pck, delay)
     }
 
-    private fun assignToSimulation(pck: NetworkPackage, delay: Long) {
+    private fun assignToSimulation(destinationAddress: Int, pck: NetworkPackage, delay: Long) {
+        val entity = simRun.config.getDeviceByAddress(destinationAddress)
+        scheduleEvent(entity, pck, delay)
+    }
+
+    private fun measureSending(pck: NetworkPackage) {
         if (pck.destinationAddress != address) {
             // ignore self packages
             simRun.incNumberOfSentPackages()
             simRun.incNetworkTraffic(pck.pckSize)
         }
-        val entity = simRun.config.getDeviceByAddress(pck.destinationAddress)
-        scheduleEvent(entity, pck, delay)
     }
+
+    private fun measureForwarding(pck: NetworkPackage) {
+        simRun.incNumberOfForwardedPackages()
+        simRun.incNetworkTraffic(pck.pckSize)
+    }
+
 
     internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {
         if(destinationAddress != address) {

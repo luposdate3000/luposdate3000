@@ -115,6 +115,10 @@ internal class SimulationRun {
         measurement.numberOfSentSamplePackages++
     }
 
+    internal fun incNumberOfForwardedPackages() {
+        measurement.numberOfForwardedPackages++
+    }
+
 
 
 

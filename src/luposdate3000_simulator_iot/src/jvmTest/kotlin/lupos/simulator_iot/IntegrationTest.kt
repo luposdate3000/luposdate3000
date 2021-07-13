@@ -166,7 +166,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/4>"
         val query = SemanticData.getNumberOfCurrentlyFreeSpacesInArea(areaRDF)
         distributedCaseWithQuery(query)
