@@ -206,7 +206,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         if (isDefaultGraph) {
                             q = "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
                         } else {
-                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH \${$graph} { ?s ?p ?o . }}\""
+                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
                         }
                     } else {
                         q = query

@@ -139,7 +139,8 @@ public class POPGraphOperation public constructor(
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
 
     /*suspend*/ private fun copyData(source: ITripleStoreDescription, target: ITripleStoreDescription, parent: Partition) {
-        val row = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO).evaluate(parent)
+        val iterator = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
+val row=iterator.evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         val cache = target.modify_create_cache(query, EModifyTypeExt.INSERT)
         while (true) {
