@@ -120,9 +120,11 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 if (result != null) {
                     return result
                 }
-                result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
-                if (result != null) {
-                    return result
+                if (query.getInstance().enableJoinOrderOnHistogram) {
+                    result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
+                    if (result != null) {
+                        return result
+                    }
                 }
                 result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
                 if (result != null) {
@@ -136,7 +138,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:138"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:140"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
                 return nodes[0]
             }
         }

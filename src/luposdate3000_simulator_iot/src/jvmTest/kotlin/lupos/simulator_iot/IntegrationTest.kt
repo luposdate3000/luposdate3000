@@ -1,11 +1,9 @@
 package lupos.simulator_iot
 import lupos.simulator_core.Simulation
-import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.db.SemanticData
 import lupos.simulator_iot.log.Logger
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 class IntegrationTest {
@@ -126,7 +124,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea() {
         // TODO Throws Exception
@@ -151,7 +148,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInArea() {
         // TODO Throws Exception
@@ -160,7 +156,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInManyAreas() {
         // TODO Throws Exception
@@ -169,7 +164,6 @@ class IntegrationTest {
         distributedCaseWithQuery(query)
     }
 
-    @Ignore
     @Test
     fun campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea() {
         // TODO Throws Exception
@@ -204,14 +198,5 @@ class IntegrationTest {
     @Test
     fun campusDistributedCaseWithoutQuery() {
         IoTSimulation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
-    }
-
-    @Ignore // TODO dieser Test is so nie für die Ausführung gedacht gewesen
-    @Test
-    fun test6() {
-        Configuration.parse("${FilePaths.testResource}/autoIntegrationTest/test1.json")
-        Configuration.querySenders[0].queryPck = QueryPackage(0, byteArrayOf()) // TODO insert your package here
-        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
-        sim.startSimulation()
     }
 }
