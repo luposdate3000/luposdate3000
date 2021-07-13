@@ -47,7 +47,6 @@ public class MemoryTableFromN3 : MemoryTableParser {
             }
             parser.parse()
         } catch (e: Throwable) {
-            e.printStackTrace()
             res = MemoryTable(arrayOf("s", "p", "o"))
             res.query = query
             dictionary = res.query!!.getDictionary()

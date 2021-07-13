@@ -17,8 +17,8 @@
 package lupos.operator.physical.singleinput
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.POPBase
+import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -31,7 +31,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 
 public class POPMakeBooleanResult public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPMakeBooleanResult.kt:33"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPMakeBooleanResult.kt:33"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -44,7 +44,7 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
         val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = children[0].getProvidedVariableNames()
-        if (children[0] is OPNothing) {
+        if (children[0] is POPNothing) {
             flag = false
         } else if (children[0] is OPEmptyRow) {
             flag = true

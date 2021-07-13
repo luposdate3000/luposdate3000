@@ -36,7 +36,9 @@ public interface IQuery {
     public fun getDictionaryUrl(): String?
     public fun setDictionaryUrl(url: String)
     public fun setDictionaryServer(dict: IDictionary)
+
     public fun getRoot(): IOPBase
+    public fun setRoot(node: IOPBase)
 
     public fun getOperatorgraphParts(): MutableMap<String, XMLElement>
     public fun getOperatorgraphPartsToHostMap(): MutableMap<String, String>

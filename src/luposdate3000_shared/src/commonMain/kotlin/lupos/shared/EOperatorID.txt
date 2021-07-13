@@ -98,7 +98,7 @@ LOPMinusID
 LOPValuesID
 OPCompoundID
 OPEmptyRowID
-OPNothingID
+POPNothingID
 POPMergePartitionOrderedByIntIdID
 POPChangePartitionOrderedByIntIdID
 POPBindID

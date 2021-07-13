@@ -16,7 +16,6 @@ public class Simulation(private val entities: List<Entity>) {
     internal var addedEventCounter: Int = 0
         private set
 
-
     public fun startSimulation() {
         startUp()
         run()

@@ -23,8 +23,8 @@ import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
-import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPBind
+import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
@@ -35,7 +35,7 @@ import lupos.shared.operator.IOPBase
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
-        if (node is LOPTriple && REPLACE_STORE_WITH_VALUES) {
+        if (node is LOPTriple && query.getInstance().REPLACE_STORE_WITH_VALUES) {
             var hashCode = 0L
             for (c in node.getChildren()) {
                 hashCode += c.getUUID() + c.toString().hashCode()
@@ -66,11 +66,11 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:68"/*SOURCE_FILE_END*/ }, { tmp2.hasCountMode() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:68"/*SOURCE_FILE_END*/ }, { tmp2.hasCountMode() })
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
                         OPEmptyRow(query)
                     } else {
-                        OPNothing(query, node.getProvidedVariableNames())
+                        POPNothing(query, node.getProvidedVariableNames())
                     }
                     onChange()
                 } else if (variables.size == 1) {
@@ -87,7 +87,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
                     }
                     val columns = tmp2.columns
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:89"/*SOURCE_FILE_END*/ }, { columns.size == 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:89"/*SOURCE_FILE_END*/ }, { columns.size == 1 })
                     val data = DictionaryValueTypeArray(5)
                     var i = 0
                     val iterator = columns[variables[0]]!!
@@ -102,7 +102,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     }
                     when {
                         i == 0 -> {
-                            res = OPNothing(query, node.getProvidedVariableNames())
+                            res = POPNothing(query, node.getProvidedVariableNames())
                             onChange()
                         }
                         i == 1 -> {

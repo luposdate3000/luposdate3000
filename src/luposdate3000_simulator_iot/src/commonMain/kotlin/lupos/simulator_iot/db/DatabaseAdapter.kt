@@ -11,8 +11,6 @@ import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
 

@@ -20,12 +20,14 @@
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
+import lupos.endpoint_launcher.PathMappingHelper
 import lupos.endpoint_launcher.RestEndpoint
+import lupos.endpoint_launcher.WebRootEndpoint
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
-import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPDistributedReceiveMulti
 import lupos.operator.physical.partition.POPDistributedReceiveSingle
 import lupos.operator.physical.partition.POPDistributedSendMulti
@@ -185,24 +187,30 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
-        when (pck.path) {
-            "/distributed/query/dictionary/register",
-            "/distributed/query/dictionary/remove" -> {
-                // dont use dictionaries right now
-            }
-            "/distributed/graph/commit" -> {
-                val query = Query(instance)
-                val origin = pck.params["origin"] == null || pck.params["origin"]!!.toBoolean()
-                instance.tripleStoreManager!!.remoteCommit(query, origin)
-            }
-            "/distributed/graph/create" -> RestEndpoint.distributed_graph_create(pck.params, instance)
-            "/distributed/graph/modify" -> RestEndpoint.distributed_graph_modify(pck.params, instance, MyInputStreamFromByteArray(pck.data!!))
-            "simulator-intermediate-result" -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:200"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
-                myPendingWorkData[pck.params["key"]!!] = pck.data!!
-                doWork()
-            }
-            else -> TODO("${pck.path} ${pck.params}")
+        val paths = mutableMapOf<String, PathMappingHelper>()
+        RestEndpoint.initialize(instance, paths)
+        WebRootEndpoint.initialize(paths)
+        paths["/distributed/query/dictionary/register"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+            true
+        }
+        paths["/distributed/query/dictionary/remove"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+            true
+        }
+        paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:199"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            myPendingWorkData[pck.params["key"]!!] = pck.data!!
+            doWork()
+            true
+        }
+        val target = paths[pck.path]
+        if (target == null) {
+            TODO(pck.path)
+        } else {
+            val input = MyInputStreamFromByteArray(pck.data)
+            val output = MySimulatorOutputStreamToVoid()
+            target.action(pck.params, input, output)
+            input.close()
+            output.close()
         }
     }
 
@@ -225,7 +233,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:227"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:235"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -308,9 +316,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:310"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:318"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()!!
-            SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:312"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:320"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -319,7 +327,7 @@ public class DatabaseHandle : IDatabase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
+                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 input
             )
             query.addPartitionOperator(res.uuid, id)
@@ -344,7 +352,7 @@ public class DatabaseHandle : IDatabase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
-                OPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
+                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 inputs
             )
             query.addPartitionOperator(res.uuid, id)

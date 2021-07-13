@@ -118,7 +118,7 @@ public object EOperatorIDExt {
     public const val LOPValuesID: EOperatorID = 96 // 0x00000060
     public const val OPCompoundID: EOperatorID = 97 // 0x00000061
     public const val OPEmptyRowID: EOperatorID = 98 // 0x00000062
-    public const val OPNothingID: EOperatorID = 99 // 0x00000063
+    public const val POPNothingID: EOperatorID = 99 // 0x00000063
     public const val POPBindID: EOperatorID = 100 // 0x00000064
     public const val POPChangePartitionOrderedByIntIdID: EOperatorID = 101 // 0x00000065
     public const val POPDebugID: EOperatorID = 102 // 0x00000066
@@ -266,7 +266,7 @@ public object EOperatorIDExt {
         "LOPValuesID",
         "OPCompoundID",
         "OPEmptyRowID",
-        "OPNothingID",
+        "POPNothingID",
         "POPBindID",
         "POPChangePartitionOrderedByIntIdID",
         "POPDebugID",

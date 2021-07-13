@@ -6,9 +6,9 @@ import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.log.Logger
 
-internal class SimulationRun {
+public class SimulationRun {
 
-    private lateinit var sim: Simulation
+    public lateinit var sim: Simulation
 
     internal val randGenerator = RandomGenerator()
 
@@ -20,11 +20,11 @@ internal class SimulationRun {
 
     internal val logger = Logger(config, measurement)
 
-    private var notInitializedClock: Long = -1
+    public var notInitializedClock: Long = -1
 
-    internal var simSteadyClock: Long = notInitializedClock
+    public var simSteadyClock: Long = notInitializedClock
 
-    internal var simMaxClock: Long = notInitializedClock
+    public var simMaxClock: Long = notInitializedClock
 
 
     private inner class LifeCycleImpl() : ISimulationLifeCycle {
@@ -45,11 +45,11 @@ internal class SimulationRun {
         }
     }
 
-    internal fun parseConfigFile(fileName: String): JsonObjects {
+    public fun parseConfigFile(fileName: String): JsonObjects {
         return config.readJsonFile(fileName)
     }
 
-    internal fun parseJsonObjects(jsonObjects: JsonObjects): Configuration {
+    public fun parseJsonObjects(jsonObjects: JsonObjects): Configuration {
         config.parse(jsonObjects)
         return config
     }

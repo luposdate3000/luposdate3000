@@ -17,7 +17,7 @@
 package lupos.result_format
 
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
@@ -120,7 +120,7 @@ public object QueryResultToMemoryTable {
         val resultList = mutableListOf<MemoryTable>()
         for (i in nodes.indices) {
             val node = nodes[i]
-            if (node is OPNothing) {
+            if (node is POPNothing) {
                 val variables = node.getProvidedVariableNames()
                 if (variables.isNotEmpty()) {
                     val res = MemoryTable(variables.toTypedArray())
@@ -131,7 +131,7 @@ public object QueryResultToMemoryTable {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:133"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:133"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }

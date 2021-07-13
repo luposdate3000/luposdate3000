@@ -20,7 +20,7 @@ import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
-    private val withSimulator = false
+    private val withSimulator = true
 
     @JvmField
     internal var counter = 0
@@ -206,7 +206,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         if (isDefaultGraph) {
                             q = "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
                         } else {
-                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH \${$graph} { ?s ?p ?o . }}\""
+                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
                         }
                     } else {
                         q = query
@@ -248,6 +248,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
                 out.println("import lupos.simulator_iot.config.Configuration")
                 out.println("import lupos.simulator_iot.log.Logger")
+                out.println("import lupos.simulator_iot.SimulationRun")
+                out.println("import lupos.simulator_iot.LifeCycleImpl")
+                out.println("")
                 if (!useCodeGen) {
                     if (ignored) {
                         out.println("import kotlin.test.Ignore")
@@ -377,8 +380,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
                 val str = distributedTest.toString()
-                if (!useCodeGen && str.length> 0 && withSimulator) {
-                    if (ignored) {
+                if (!useCodeGen && str.length> 0) {
+                    if (ignored || !withSimulator) {
                         val reason = ignoreList[testCaseName]
                         if (reason != null) {
                             out.println("    @Ignore // Reason: >$reason<")
@@ -388,14 +391,18 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     }
                     out.println("    @Test")
                     out.println("    public fun `$testCaseName2 - in simulator`() {")
-                    out.println("        Configuration.parse(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
-                    out.println("        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)")
-                    out.println("        sim.startUp()")
-                    out.println("        val instance=(Configuration.devices.filter { it.hasDatabase() }.map{it.database}.filter{it!=null}.map{it!!.db}.first() as DatabaseHandle).instance")
+                    out.println("        val simRun = SimulationRun()")
+                    out.println("        val json=simRun.parseConfigFile(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
+                    out.println("        val config = simRun.parseJsonObjects(json)")
+                    out.println("        simRun.sim = Simulation(config.getEntities(), LifeCycleImpl(simRun))")
+                    out.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
+                    out.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
+                    out.println("        simRun.sim.startUp()")
+                    out.println("        val instance=(config.devices.filter { it.hasDatabase() }.map{it.database}.filter{it!=null}.map{it!!.db}.first() as DatabaseHandle).instance")
                     out.print(str)
-                    out.println("        Configuration.querySenders[0].queryPck = pkg0")
-                    out.println("        sim.run()")
-                    out.println("        sim.shutDown()")
+                    out.println("        config.querySenders[0].queryPck = pkg0")
+                    out.println("        simRun.sim.run()")
+                    out.println("        simRun.sim.shutDown()")
 
                     out.println("    }")
                 }

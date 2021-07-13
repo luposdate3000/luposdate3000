@@ -17,9 +17,9 @@
 package lupos.endpoint_launcher
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-internal class PathMappingHelper(
-    val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/,
-    val params: Map<Pair<String/*name*/, String/*default-value*/>,
+public class PathMappingHelper(
+    public val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/,
+    public val params: Map<Pair<String/*name*/, String/*default-value*/>,
         (String, String) -> String/*html-string of element*/>,
-    val action: (Map<String, String>, IMyInputStream, IMyOutputStream) -> Boolean/*action to perform, when this is the called url, return if the connection should be closed automatically*/
+    public val action: (Map<String, String>, IMyInputStream, IMyOutputStream) -> Boolean/*action to perform, when this is the called url, return if the connection should be closed automatically*/
 )

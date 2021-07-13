@@ -21,6 +21,11 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_iot.LifeCycleImpl
+import lupos.simulator_iot.SimulationRun
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -47,5 +52,22 @@ public class constructwhere04CONSTRUCTWHERE {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         LuposdateEndpoint.close(instance)
+    }
+
+    @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
+    @Test
+    public fun `constructwhere04  CONSTRUCT WHERE - in simulator`() {
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
+        val config = simRun.parseJsonObjects(json)
+        simRun.sim = Simulation(config.getEntities(), LifeCycleImpl(simRun))
+        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
+        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
+        simRun.sim.startUp()
+        val instance = (config.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
+        val pkg0 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
+        config.querySenders[0].queryPck = pkg0
+        simRun.sim.run()
+        simRun.sim.shutDown()
     }
 }

@@ -252,6 +252,7 @@ public object LuposdateEndpoint {
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
+        println("evaluateSparqlToOperatorgraphB>>>$query<<<")
         val lcit = LexerCharIterator(query)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)

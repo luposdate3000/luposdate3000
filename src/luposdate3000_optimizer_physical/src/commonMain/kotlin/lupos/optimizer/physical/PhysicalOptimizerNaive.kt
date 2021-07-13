@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.physical
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.multiinput.LOPJoin
@@ -45,6 +45,7 @@ import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.noinput.POPEmptyRow
 import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.noinput.POPModifyData
+import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPFilter
@@ -58,7 +59,11 @@ import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
+import lupos.shared.EGraphOperationTypeExt
+import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EIndexPatternExt
+import lupos.shared.SanityCheck
+import lupos.shared.TripleStoreManager
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 
@@ -83,6 +88,30 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                 }
             }
             when (node) {
+                is OPBaseCompound -> {
+                    val cc = node.getChildren()
+                    if (cc.filter { it is OPBaseCompound }.size> 0) {
+                        val childs = mutableListOf<IOPBase>()
+                        val columns = mutableListOf<List<String>>()
+                        for (i in 0 until cc.size) {
+                            val c = cc[i]
+                            if (c is OPBaseCompound) {
+                                val c3 = c.getChildren()
+                                for (j in 0 until c3.size) {
+                                    val c4 = c3[j]
+                                    childs.add(c4)
+                                    columns.add(c.columnProjectionOrder[j])
+                                }
+                            } else {
+                                childs.add(c)
+                                columns.add(node.columnProjectionOrder[i])
+                            }
+                        }
+                        res = OPBaseCompound(query, childs.toTypedArray(), columns)
+                    } else {
+                        change = false
+                    }
+                }
                 is LOPSortAny -> {
                     val child = node.getChildren()[0]
                     val v1 = node.possibleSortOrder
@@ -102,10 +131,215 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     }
                 }
                 is LOPGraphOperation -> {
-                    res = POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
-                    res.sortPriorities = node.sortPriorities
-                    res.mySortPriority = node.mySortPriority
-                    res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
+                    println(query.getRoot())
+                    SanityCheck.check(
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerNaive.kt:135"/*SOURCE_FILE_END*/ },
+                        { parent is OPBaseCompound }
+                    )
+                    val manager = query.getInstance().tripleStoreManager!!
+                    fun createCopy(sourceName: String, targetName: String): POPBase {
+                        try {
+                            manager.createGraph(query, sourceName) // TODO this is very bad, because it is an modification during query optimisation phase
+                        } catch (e: Throwable) {
+                        }
+                        return POPModify(
+                            query,
+                            listOf(),
+                            listOf(LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), targetName, false)),
+                            listOf(),
+                            manager.getGraph(sourceName)
+                                .getIterator(
+                                    query,
+                                    arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")),
+                                    EIndexPatternExt.SPO
+                                )
+                        )
+                    }
+                    when (node.action) {
+                        EGraphOperationTypeExt.COPY -> {
+                            when (node.graph1type) {
+                                EGraphRefTypeExt.DefaultGraphRef -> {
+                                    when (node.graph2type) {
+                                        EGraphRefTypeExt.DefaultGraphRef -> {
+                                            res = POPNothing(query, listOf())
+                                        }
+                                        EGraphRefTypeExt.IriGraphRef -> {
+                                            res = OPBaseCompound(
+                                                query,
+                                                arrayOf(
+                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    createCopy(TripleStoreManager.DEFAULT_GRAPH_NAME, node.graph2iri!!),
+                                                ),
+                                                listOf(listOf(), listOf())
+                                            )
+                                        }
+                                        else -> {
+                                            SanityCheck.checkUnreachable()
+                                        }
+                                    }
+                                }
+                                EGraphRefTypeExt.IriGraphRef -> {
+                                    when (node.graph2type) {
+                                        EGraphRefTypeExt.DefaultGraphRef -> {
+                                            res = OPBaseCompound(
+                                                query,
+                                                arrayOf(
+                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    createCopy(node.graph1iri!!, TripleStoreManager.DEFAULT_GRAPH_NAME),
+                                                ),
+                                                listOf(listOf(), listOf())
+                                            )
+                                        }
+                                        EGraphRefTypeExt.IriGraphRef -> {
+                                            if (node.graph1iri != node.graph2iri) {
+                                                res = OPBaseCompound(
+                                                    query,
+                                                    arrayOf(
+                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                        createCopy(node.graph1iri!!, node.graph2iri!!),
+                                                    ),
+                                                    listOf(listOf(), listOf())
+                                                )
+                                            } else {
+                                                res = POPNothing(query, listOf())
+                                            }
+                                        }
+                                        else -> {
+                                            SanityCheck.checkUnreachable()
+                                        }
+                                    }
+                                }
+                                else -> {
+                                    SanityCheck.checkUnreachable()
+                                }
+                            }
+                        }
+                        EGraphOperationTypeExt.MOVE -> {
+                            when (node.graph1type) {
+                                EGraphRefTypeExt.DefaultGraphRef -> {
+                                    when (node.graph2type) {
+                                        EGraphRefTypeExt.DefaultGraphRef -> {
+                                            res = POPNothing(query, listOf())
+                                        }
+                                        EGraphRefTypeExt.IriGraphRef -> {
+                                            res = OPBaseCompound(
+                                                query,
+                                                arrayOf(
+                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    createCopy(TripleStoreManager.DEFAULT_GRAPH_NAME, node.graph2iri!!),
+                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
+                                                ),
+                                                listOf(listOf(), listOf(), listOf())
+                                            )
+                                        }
+                                        else -> {
+                                            SanityCheck.checkUnreachable()
+                                        }
+                                    }
+                                }
+                                EGraphRefTypeExt.IriGraphRef -> {
+                                    when (node.graph2type) {
+                                        EGraphRefTypeExt.DefaultGraphRef -> {
+                                            res = OPBaseCompound(
+                                                query,
+                                                arrayOf(
+                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    createCopy(node.graph1iri!!, TripleStoreManager.DEFAULT_GRAPH_NAME),
+                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
+                                                ),
+                                                listOf(listOf(), listOf(), listOf())
+                                            )
+                                        }
+                                        EGraphRefTypeExt.IriGraphRef -> {
+                                            if (node.graph1iri != node.graph2iri) {
+                                                res = OPBaseCompound(
+                                                    query,
+                                                    arrayOf(
+                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                        createCopy(node.graph1iri!!, node.graph2iri!!),
+                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
+                                                    ),
+                                                    listOf(listOf(), listOf(), listOf())
+                                                )
+                                            } else {
+                                                res = POPNothing(query, listOf())
+                                            }
+                                        }
+                                        else -> {
+                                            SanityCheck.checkUnreachable()
+                                        }
+                                    }
+                                }
+                                else -> {
+                                    SanityCheck.checkUnreachable()
+                                }
+                            }
+                        }
+                        EGraphOperationTypeExt.ADD -> {
+                            when (node.graph1type) {
+                                EGraphRefTypeExt.DefaultGraphRef -> {
+                                    when (node.graph2type) {
+                                        EGraphRefTypeExt.DefaultGraphRef -> {
+                                            res = POPNothing(query, listOf())
+                                        }
+                                        EGraphRefTypeExt.IriGraphRef -> {
+                                            res = OPBaseCompound(
+                                                query,
+                                                arrayOf(
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                    createCopy(TripleStoreManager.DEFAULT_GRAPH_NAME, node.graph2iri!!),
+                                                ),
+                                                listOf(listOf(), listOf())
+                                            )
+                                        }
+                                        else -> {
+                                            SanityCheck.checkUnreachable()
+                                        }
+                                    }
+                                }
+                                EGraphRefTypeExt.IriGraphRef -> {
+                                    when (node.graph2type) {
+                                        EGraphRefTypeExt.DefaultGraphRef -> {
+                                            res = OPBaseCompound(
+                                                query,
+                                                arrayOf(
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                    createCopy(node.graph1iri!!, TripleStoreManager.DEFAULT_GRAPH_NAME),
+                                                ),
+                                                listOf(listOf(), listOf())
+                                            )
+                                        }
+                                        EGraphRefTypeExt.IriGraphRef -> {
+                                            if (node.graph1iri != node.graph2iri) {
+                                                res = OPBaseCompound(
+                                                    query,
+                                                    arrayOf(
+                                                        POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                        createCopy(node.graph1iri!!, node.graph2iri!!),
+                                                    ),
+                                                    listOf(listOf(), listOf())
+                                                )
+                                            } else {
+                                                res = POPNothing(query, listOf())
+                                            }
+                                        }
+                                        else -> {
+                                            SanityCheck.checkUnreachable()
+                                        }
+                                    }
+                                }
+                                else -> {
+                                    SanityCheck.checkUnreachable()
+                                }
+                            }
+                        }
+                        else -> {
+                            res = POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
+                            res.sortPriorities = node.sortPriorities
+                            res.mySortPriority = node.mySortPriority
+                            res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
+                        }
+                    }
                 }
                 is LOPModify -> {
                     res = POPModify(query, projectedVariables, node.insert, node.delete, node.getChildren()[0])

@@ -31,7 +31,7 @@ public class IoTSimulation {
     }
 
     private fun runSimulationStarPerformance(numberOfChilds: Int, collection: LoggerCollection, withDummyDatabase: Boolean) {
-        //TODO
+        // TODO
 //        Logger.reset()
 //        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
 //        val jsonObjects = Configuration.readJsonFile(configFileName)
