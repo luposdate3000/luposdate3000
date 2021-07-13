@@ -13,9 +13,9 @@ import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor
 import kotlin.math.round
 
-internal object Configuration {
+public object Configuration {
 
-    internal var devices: MutableList<Device> = mutableListOf()
+    public var devices: MutableList<Device> = mutableListOf()
         private set
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
@@ -29,7 +29,7 @@ internal object Configuration {
     internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
-    internal var querySenders: MutableList<lupos.simulator_iot.db.QuerySender> = mutableListOf()
+    public var querySenders: MutableList<lupos.simulator_iot.db.QuerySender> = mutableListOf()
         private set
 
     internal var dbDeviceAddresses: IntArray = intArrayOf()
@@ -44,7 +44,7 @@ internal object Configuration {
 
     internal val randomGenerator = RandomGenerator()
 
-    internal fun parse(jsonObjects: JsonObjects) {
+    public fun parse(jsonObjects: JsonObjects) {
         resetVariables()
         initVariables(jsonObjects)
         createFixedDevices()
@@ -57,7 +57,7 @@ internal object Configuration {
         createDbDeviceAddresses()
     }
 
-    internal fun parse(fileName: String) {
+    public fun parse(fileName: String) {
         parse(readJsonFile(fileName))
     }
 
@@ -83,7 +83,7 @@ internal object Configuration {
         return Json.decodeFromString(fileStr)
     }
 
-    internal fun getEntities(): MutableList<Entity> {
+    public fun getEntities(): MutableList<Entity> {
         val entities: MutableList<Entity> = mutableListOf()
         entities.addAll(devices)
         entities.addAll(querySenders)

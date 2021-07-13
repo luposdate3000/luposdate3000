@@ -12,7 +12,7 @@ import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ParkingSensor
 
-internal object Logger : ISimulationLifeCycle {
+public object Logger : ISimulationLifeCycle {
 
     override lateinit var simulation: Simulation
     private lateinit var startUpTimeStamp: Instant

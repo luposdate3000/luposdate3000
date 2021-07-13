@@ -53,7 +53,7 @@ import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
 public class DatabaseHandle : IDatabase {
     private var ownAdress: Int = 0
-    private var instance = Luposdate3000Instance()
+    public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
     private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
     private var router: IRouter? = null

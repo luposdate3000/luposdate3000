@@ -7,19 +7,19 @@ import lupos.simulator_iot.Device
 import lupos.simulator_iot.Time
 import lupos.simulator_iot.net.NetworkPackage
 
-internal class QuerySender(
-    val name: String,
-    val sendRateInSec: Int,
-    val maxNumberOfQueries: Int,
-    val startClock: Int,
-    val receiver: Device,
-    val query: String,
+public class QuerySender(
+    internal val name: String,
+    internal val sendRateInSec: Int,
+    internal val maxNumberOfQueries: Int,
+    internal val startClock: Int,
+    internal val receiver: Device,
+    internal val query: String,
 ) : Entity() {
 
     internal var queryCounter = 0
         private set
 
-    internal var queryPck: IDatabasePackage = QueryPackage(receiver.address, query.encodeToByteArray())
+    public var queryPck: IDatabasePackage = QueryPackage(receiver.address, query.encodeToByteArray())
 
     override fun onEvent(source: Entity, data: Any) {
         throw Exception("Wrong way. A QuerySender is only a sender.")

@@ -14,10 +14,10 @@ import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 
-internal class Device(
+public class Device(
     internal var location: GeoLocation,
     internal val address: Int,
-    internal var database: DatabaseAdapter?,
+    public var database: DatabaseAdapter?,
     internal var sensor: ISensor?,
     internal val performance: Double,
     supportedLinkTypes: IntArray,
@@ -127,7 +127,7 @@ internal class Device(
         sendRoutedPackage(address, destinationAddress, data)
     }
 
-    internal fun hasDatabase(): Boolean = database != null
+    public fun hasDatabase(): Boolean = database != null
 
     private fun logReceivePackage(pck: NetworkPackage) {
         Logger.log("> $this receives $pck at clock ${simulation.getCurrentClock()}")

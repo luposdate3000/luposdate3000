@@ -23,8 +23,12 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.log.Logger
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -94,15 +98,16 @@ public class resourcessp2bq42sparql1640 {
     @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq42sparql1640 - in simulator`() {
-        // TODO setup the simulator, initialize the DODAG, and obtain any database instance, when the simulation is ready
-        val instance = LuposdateEndpoint.initialize() // TODO use the instance of the simulator-node instead
+        Configuration.parse("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
+        val dbDevice = Configuration.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle
+        val instance = dbDevice.instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
         pkg0.onFinish = pkg1
         val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
         pkg1.onFinish = pkg2
-        // TODO send the package pkg0 to the selected database instance
-        // TODO wait for the simulation to finish sending ALL messages
-        // TODO verify that the test is finished
+        Configuration.querySenders[0].queryPck = pkg0
+        val sim = Simulation(entities = Configuration.getEntities(), callback = Logger)
+        sim.startSimulation()
     }
 }
