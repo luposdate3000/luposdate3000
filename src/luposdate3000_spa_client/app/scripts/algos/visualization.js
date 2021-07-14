@@ -75,7 +75,7 @@ function initVisualization() { //first time initialization - called by main.coff
         App.config.animationSpeed = v
     });
     toggle = new Nexus.Toggle('#sonification-follow', { //TODO config file
-        'size': [40, 30],
+        'size': [130, 30],
         'state': false
     });
     var html = '';
@@ -88,7 +88,7 @@ function initVisualization() { //first time initialization - called by main.coff
         var i = App.operators.audioDimension[j]
         var selectAudioIdentifier = '#selectAudio-' + j;
         selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
-            'size': [200, 40],
+            'size': [290, 40],
             'options': App.operators.information[i].values
         });
         selectAudio[i].myIdentifier = App.mappingIdentifiers[i]

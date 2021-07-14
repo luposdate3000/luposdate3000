@@ -710,3 +710,9 @@ div.read-only {
     display: block;
     height: calc(100% - 60px);
 }
+.right-off-canvas-menu {
+    width: 20rem;
+}
+.move-left > .inner-wrap {
+    transform: translate3d(-20rem, 0, 0); /*this must be the same as the width in '.right-off-canvas-menu' */
+}
