@@ -1,6 +1,8 @@
 package lupos.simulator_iot
 
+import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.LoggerCollection
+import lupos.simulator_iot.measure.MeasurementPrinter
 
 public class Evaluation {
     public constructor() {}
@@ -44,18 +46,19 @@ public class Evaluation {
 //        collection.add(Logger, entities.size)
     }
 
-    internal fun evalStarPerformanceWithoutDatabase() {
+    public fun evalStarPerformanceWithoutDatabase() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
-        val numberOfRepetitions = 30
-        for(repetition in 1..numberOfRepetitions) {
-            val simRun = SimulationRun()
-            val json = simRun.parseConfigFile(configFileName)
-            val config = simRun.parseJsonObjects(json)
-            simRun.startSimulation(config)
-            //speicher Ergebnisse
+        val nodeSizes = buildNodeSizesArray(100, 1000)
+        val printer = MeasurementPrinter()
+        for(numberOfNodes in nodeSizes) {
+            val callback = object: IConfigManipulator {
+                override fun manipulateJsonObjects(jsonObjects: JsonObjects) {
+                    jsonObjects.dummyDatabase = true
+                    jsonObjects.randomStarNetwork[0].number = numberOfNodes
+                }
+            }
+            MultipleSimulationRuns(configFileName, 10, callback, printer).startSimulationRuns()
         }
-        //werte Ergebnisse aus
-        //schreibe Ergebniss in CSV
     }
 
 
