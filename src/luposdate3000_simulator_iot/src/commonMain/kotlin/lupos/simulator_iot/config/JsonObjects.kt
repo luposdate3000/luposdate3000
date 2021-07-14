@@ -1,5 +1,5 @@
-package lupos.simulator_iot.iot.config
 
+package lupos.simulator_iot.config
 import kotlinx.serialization.Serializable
 
 @Serializable

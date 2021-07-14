@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.iot.config.JsonObjects
+import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.LoggerCollection
 import lupos.simulator_iot.measure.MeasurementPrinter
 

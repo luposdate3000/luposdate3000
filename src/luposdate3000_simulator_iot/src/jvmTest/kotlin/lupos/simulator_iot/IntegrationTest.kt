@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.iot.config.QuerySender
+import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.iot.db.SemanticData
 import kotlin.test.Test
 

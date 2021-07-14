@@ -246,7 +246,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage")
                 out.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute")
                 out.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
-                out.println("import lupos.simulator_iot.iot.config.Configuration")
+                out.println("import lupos.simulator_iot.config.Configuration")
                 out.println("import lupos.simulator_iot.log.Logger")
                 out.println("import lupos.simulator_iot.SimulationRun")
                 out.println("import lupos.simulator_iot.LifeCycleImpl")
