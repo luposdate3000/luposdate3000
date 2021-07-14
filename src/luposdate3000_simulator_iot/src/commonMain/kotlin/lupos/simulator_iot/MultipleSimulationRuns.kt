@@ -6,7 +6,7 @@ import lupos.simulator_iot.measure.MeasurementPrinter
 internal class MultipleSimulationRuns(
     private val configFileName: String,
     private val numberOfRepetitions: Int,
-    private val callback: IConfigManipulator,
+    private val callback: ISimRunPreparation,
     private val printer: MeasurementPrinter
 ) {
 
@@ -22,7 +22,7 @@ internal class MultipleSimulationRuns(
     private fun startSimulationRun() {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile(configFileName)
-        callback.manipulateJsonObjects(json)
+        callback.perpareJsonObjects(json)
         val config = simRun.parseJsonObjects(json)
         simRun.startSimulation(config)
         measurements.add(simRun.measurement)

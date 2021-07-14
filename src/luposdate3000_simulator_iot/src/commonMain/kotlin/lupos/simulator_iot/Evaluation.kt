@@ -51,13 +51,13 @@ public class Evaluation {
         val nodeSizes = buildNodeSizesArray(100, 1000)
         val printer = MeasurementPrinter()
         for(numberOfNodes in nodeSizes) {
-            val callback = object: IConfigManipulator {
-                override fun manipulateJsonObjects(jsonObjects: JsonObjects) {
+            val prep = object: ISimRunPreparation {
+                override fun perpareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.dummyDatabase = true
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
                 }
             }
-            MultipleSimulationRuns(configFileName, 10, callback, printer).startSimulationRuns()
+            MultipleSimulationRuns(configFileName, 10, prep, printer).startSimulationRuns()
         }
     }
 

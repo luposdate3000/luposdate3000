@@ -12,7 +12,7 @@ internal class MultipleSimulationRunsTest {
 
     @Test
     fun runMultipleStarNetworkSimulations() {
-        val callback = object: IConfigManipulator {
+        val callback = object: ISimRunPreparation {
             override fun manipulateJsonObjects(jsonObjects: JsonObjects) {
                 jsonObjects.randomStarNetwork[0].number = 4
             }
