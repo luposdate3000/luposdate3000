@@ -18,15 +18,30 @@ internal class MultipleSimulationRunsTest {
                 jsonObjects.randomStarNetwork[0].number = 4
             }
         }
-
         val runs = MultipleSimulationRuns(
             configFileName = "$prefix/runMultipleStarNetworkSimulations.json",
             numberOfRepetitions = 5,
             callback = callback,
             printer = MeasurementPrinter()
         )
+        runs.startSimulationRuns()
+    }
 
+    @Test
+    fun test_1() {
+        val callback = object: ISimRunPreparation {
+            override fun prepareJsonObjects(jsonObjects: JsonObjects) {
+            }
+        }
+        val runs = MultipleSimulationRuns(
+            configFileName = "$prefix/meshToDODAG.json",
+            numberOfRepetitions = 5,
+            callback = callback,
+            printer = MeasurementPrinter()
+        )
         runs.startSimulationRuns()
 
     }
+
+
 }

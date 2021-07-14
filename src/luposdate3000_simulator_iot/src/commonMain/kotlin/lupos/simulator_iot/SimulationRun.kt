@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import lupos.shared.inline.File
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
@@ -7,8 +8,14 @@ import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.Logger
 import lupos.simulator_iot.measure.Measurement
 import lupos.simulator_iot.measure.TimeMeasurer
+import lupos.simulator_iot.utils.FilePaths
 
 public class SimulationRun {
+
+    init {
+        createOutputDirectory()
+        refreshDatabaseDirectories()
+    }
 
     public lateinit var sim: Simulation
 
@@ -28,6 +35,19 @@ public class SimulationRun {
 
     public var simMaxClock: Long = notInitializedClock
 
+    private fun createOutputDirectory() {
+        val directory = File(FilePaths.outputDir)
+        if(!directory.exists()) {
+            directory.mkdirs()
+        }
+    }
+
+    private fun refreshDatabaseDirectories() {
+        File(FilePaths.queryResult).deleteRecursively()
+        File(FilePaths.dbStates).deleteRecursively()
+        File(FilePaths.queryResult).mkdirs()
+        File(FilePaths.dbStates).mkdirs()
+    }
 
     private inner class LifeCycleImpl() : ISimulationLifeCycle {
 

@@ -9,25 +9,15 @@ internal class Logger(
     private val measurement: Measurement
 ) {
 
-    private val directoryPath = FilePaths.logDir
-    private val filePath = "${directoryPath}/log.txt"
-    private val file = File(filePath)
-
-
-    private val logFile = "${FilePaths.logDir}/log.txt"
+    private val logFile = File("${FilePaths.outputDir}/log.txt")
 
     init {
-        refreshFile()
+        refreshLogFile()
     }
 
-    internal fun refreshFile() {
-        File(logFile).deleteRecursively()
-        File(FilePaths.logDir).mkdirs()
-        File(logFile).withOutputStream { }
-        File(FilePaths.queryResult).deleteRecursively()
-        File(FilePaths.queryResult).mkdirs()
-        File(FilePaths.dbStates).deleteRecursively()
-        File(FilePaths.dbStates).mkdirs()
+    private fun refreshLogFile() {
+        logFile.deleteRecursively()
+        logFile.withOutputStream { }
     }
 
     internal fun logStartUp() {
@@ -77,10 +67,9 @@ internal class Logger(
     }
 
     internal fun log(content: String) {
-        val stream = File(logFile).openOutputStream(true)
+        val stream = logFile.openOutputStream(true)
         stream.println(content)
         stream.close()
-//        println(content)
     }
 
     private fun getDODAGString(): String {

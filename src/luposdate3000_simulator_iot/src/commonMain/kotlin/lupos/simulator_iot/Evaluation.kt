@@ -1,7 +1,6 @@
 package lupos.simulator_iot
 
 import lupos.simulator_iot.config.JsonObjects
-import lupos.simulator_iot.measure.LoggerCollection
 import lupos.simulator_iot.measure.MeasurementPrinter
 import lupos.simulator_iot.utils.FilePaths
 
@@ -15,7 +14,6 @@ public class Evaluation {
     }
 
     public fun measureStarPerformance(withDummyDatabase: Boolean) {
-        val loggerCollection = LoggerCollection()
         var arr: IntArray = if (!withDummyDatabase) {
             buildNodeSizesArray(130, 10) // OutOfMemoryError >1330 DBs with 2048 heap space
         } else {
@@ -23,7 +21,7 @@ public class Evaluation {
         }
 
         for (numberOfChilds in arr)
-            runSimulationStarPerformance(numberOfChilds, loggerCollection, withDummyDatabase)
+            runSimulationStarPerformance(numberOfChilds,  withDummyDatabase)
     }
 
     private fun buildNodeSizesArray(arrSize: Int, delta: Int): IntArray {
@@ -33,7 +31,7 @@ public class Evaluation {
         return arr
     }
 
-    private fun runSimulationStarPerformance(numberOfChilds: Int, collection: LoggerCollection, withDummyDatabase: Boolean) {
+    private fun runSimulationStarPerformance(numberOfChilds: Int, withDummyDatabase: Boolean) {
         // TODO
 //        Logger.reset()
 //        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
@@ -49,9 +47,9 @@ public class Evaluation {
 
     public fun evalStarPerformanceWithoutDatabase() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
-        val nodeSizes = buildNodeSizesArray(100, 1000)
+        val nodeSizes = buildNodeSizesArray(5, 1000)
         val printer = MeasurementPrinter()
-        for(numberOfNodes in nodeSizes) {
+        for((index, numberOfNodes) in nodeSizes.withIndex()) {
             val prep = object: ISimRunPreparation {
                 override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.dummyDatabase = true
@@ -59,6 +57,7 @@ public class Evaluation {
                 }
             }
             MultipleSimulationRuns(configFileName, 10, prep, printer).startSimulationRuns()
+            println("Run ${index+1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
 

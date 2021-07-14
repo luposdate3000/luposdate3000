@@ -21,13 +21,7 @@ import lupos.simulator_iot.iot.sensor.ParkingSample
 
 public class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
-    private var resultCounter = 0
-
-    private var resultDevicePath = "${FilePaths.queryResult}/device${device.address}"
-
-    private var resultFileName = "$resultDevicePath/file.txt"
-
-    private var pathDevice = "${FilePaths.dbStates}/device${device.address}"
+    private var pathToStateOfThisDevice = "${FilePaths.dbStates}/device${device.address}"
 
     private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
@@ -35,8 +29,11 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
 
     private lateinit var currentState: DatabaseState
 
+    init {
+        File(pathToStateOfThisDevice).mkdirs()
+    }
+
     internal fun startUp() {
-        createFiles()
         currentState = buildInitialStateObject()
         db.start(currentState)
         db.deactivate()
@@ -48,7 +45,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
             ownAddress = device.address,
             allAddresses = device.simRun.config.dbDeviceAddresses,
             sender = this@DatabaseAdapter,
-            absolutePathToDataDirectory = pathDevice,
+            absolutePathToDataDirectory = pathToStateOfThisDevice,
         ) {}
     }
 
@@ -56,9 +53,6 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         db.activate()
         db.end()
         sequenceKeeper.markSequenceEnd()
-        if (!isDummy) {
-            File(pathDevice).deleteRecursively()
-        }
         currentState = buildInitialStateObject()
     }
 
@@ -72,19 +66,8 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         }
     }
 
-    private fun createFiles() {
-        File(pathDevice).mkdirs()
-        File(resultDevicePath).mkdirs()
-        File(resultFileName).withOutputStream { }
-    }
-
     private fun processDBQueryResultPackage(pck: DBQueryResultPackage) {
-        val stream = File(resultFileName).openOutputStream(true)
-        resultCounter++
-        stream.println("Query result number $resultCounter")
-        stream.println()
-        stream.println(pck.result.decodeToString())
-        stream.close()
+        // TODO write the result with the corresponding query in a file
     }
 
     internal fun processIDatabasePackage(pck: IDatabasePackage) {

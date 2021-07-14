@@ -6,9 +6,7 @@ internal object FilePaths {
 
     const val jvmResource = "src/luposdate3000_simulator_iot/src/jvmMain/resources"
 
-    private const val outputDir = "src/luposdate3000_simulator_iot/simulator_output"
-
-    const val logDir = "$outputDir/log"
+    const val outputDir = "src/luposdate3000_simulator_iot/simulator_output"
 
     const val queryResult = "$outputDir/query_result"
 
