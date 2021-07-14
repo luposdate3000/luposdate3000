@@ -14,11 +14,16 @@ public object PostProcessSend {
                     "/distributed/query/dictionary/register" -> {
 // ignore dictionary right now
                     }
+                    "/distributed/graph/create" -> {
+                        visual.addDistributedStorage(source, destination, clock, pck.params["name"]!!, pck.params["metadata"]!!)
+                    }
                     "/distributed/graph/modify" -> {
-                        visual.addMessage(VisualisationMessage(source, destination, clock, "modify ${pck.params["mode"]} ${pck.params["idx"]}@$destination:${pck.params["key"]} .. count=${(ByteArrayWrapperExt.getSize(pck.data) / DictionaryValueHelper.getSize()) - 1}"))
+                        val count = ((ByteArrayWrapperExt.getSize(pck.data) / DictionaryValueHelper.getSize()) - 1) / 3
+                        visual.addMessage(VisualisationMessage(source, destination, clock, "modify ${pck.params["mode"]} ${pck.params["idx"]}@$destination:${pck.params["key"]} .. triples=$count"))
                     }
                     "simulator-intermediate-result" -> {
-                        visual.addMessage(VisualisationMessage(source, destination, clock, "intermediate ${pck.params["key"]} .. count=${(ByteArrayWrapperExt.getSize(pck.data) / DictionaryValueHelper.getSize()) - 1}"))
+                        val bytes = ByteArrayWrapperExt.getSize(pck.data)
+                        visual.addMessage(VisualisationMessage(source, destination, clock, "intermediate ${pck.params["key"]} .. count=$bytes"))
                     }
                     else -> visual.addMessage(VisualisationMessage(source, destination, clock, pck.toString()))
                 }
@@ -30,7 +35,7 @@ public object PostProcessSend {
                 visual.addMessage(VisualisationMessage(source, destination, clock, "response ${pck.queryID} .. ${pck.result.size}"))
             }
             is QueryPackage -> {
-                visual.addMessage(VisualisationMessage(source, destination, clock, "query ${pck.queryID} .. ${pck.query.size}"))
+                visual.addMessage(VisualisationMessage(source, destination, clock, "query ${pck.queryID} .. ${pck.query.decodeToString()}"))
             }
             else -> visual.addMessage(VisualisationMessage(source, destination, clock, pck.toString()))
         }
