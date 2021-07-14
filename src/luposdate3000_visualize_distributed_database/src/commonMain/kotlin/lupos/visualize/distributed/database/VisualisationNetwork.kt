@@ -125,7 +125,7 @@ public class VisualisationNetwork {
                 val b = getDeviceById(message.destination)
                 img.addLine(messageLayer, a.x, a.y, b.x, b.y, listOf("message-fade-$messageTime"))
             }
-            File("visual-frame-$i.svg").withOutputStream { out ->
+            File("visual-frame-${i.toString().padStart(4,'0')}.svg").withOutputStream { out ->
                 out.println(img.toString())
             }
         }

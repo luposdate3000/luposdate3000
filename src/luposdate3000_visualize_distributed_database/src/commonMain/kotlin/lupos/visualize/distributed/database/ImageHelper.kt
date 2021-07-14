@@ -89,7 +89,7 @@ public class ImageHelper {
             buffer.appendLine("        }")
         }
         buffer.appendLine("    </style>")
-
+        buffer.appendLine("    <rect width=\"100%\" height=\"100%\" fill=\"#FFFFFF\"/>")
         for (layer in layers) {
             for (line in layer) {
                 buffer.appendLine(line)
