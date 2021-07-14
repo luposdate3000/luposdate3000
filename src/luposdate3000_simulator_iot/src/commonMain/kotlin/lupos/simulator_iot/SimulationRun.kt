@@ -37,7 +37,10 @@ public class SimulationRun {
     internal fun startSimulation(configuration: Configuration) {
         sim = Simulation(configuration.getEntities(), LifeCycleImpl(this))
         for (d in configuration.devices) {
-            sim.visualisationNetwork.addDevice(VisualisationDevice(d.address, d.database != null, d.sensor != null)) // public val id:Int,public val hasDatabase:Boolean
+            val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
+            vis.x = d.location.latitude
+            vis.y = d.location.longitude
+            sim.visualisationNetwork.addDevice(vis)
             for (n in d.linkManager.getNeighbours()) {
                 sim.visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
             }

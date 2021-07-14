@@ -1,4 +1,4 @@
-*
+/*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -16,6 +16,8 @@
  */
 package lupos.visualize.distributed.database
 public class VisualisationDevice(public val id: Int, public val hasDatabase: Boolean, public val hasSensor: Boolean) {
+public var x:Double=0.0
+public var y:Double=0.0
     override fun equals(other: Any?): Boolean = other is VisualisationDevice && id == other.id
     override fun hashCode(): Int = id
     override fun toString(): String = "VisualisationDevice(id=$id, hasDatabase=$hasDatabase, hasSensor=$hasSensor)"
