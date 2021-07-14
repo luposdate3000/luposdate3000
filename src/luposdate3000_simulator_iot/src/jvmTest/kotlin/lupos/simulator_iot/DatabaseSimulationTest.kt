@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

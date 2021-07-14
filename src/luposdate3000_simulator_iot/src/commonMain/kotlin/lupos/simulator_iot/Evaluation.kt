@@ -3,6 +3,7 @@ package lupos.simulator_iot
 import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.LoggerCollection
 import lupos.simulator_iot.measure.MeasurementPrinter
+import lupos.simulator_iot.utils.FilePaths
 
 public class Evaluation {
     public constructor() {}

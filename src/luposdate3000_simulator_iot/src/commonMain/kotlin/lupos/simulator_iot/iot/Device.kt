@@ -3,7 +3,7 @@ package lupos.simulator_iot.iot
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.TimeUtils
+import lupos.simulator_iot.utils.TimeUtils
 import lupos.simulator_iot.iot.db.DatabaseAdapter
 import lupos.simulator_iot.iot.geo.GeoLocation
 import lupos.simulator_iot.iot.net.IPayload

@@ -1,7 +1,7 @@
 package lupos.simulator_iot.measure
 import kotlinx.datetime.Instant
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.TimeUtils
+import lupos.simulator_iot.utils.TimeUtils
 
 public class TimeMeasurer(private val simRun: SimulationRun) {
 

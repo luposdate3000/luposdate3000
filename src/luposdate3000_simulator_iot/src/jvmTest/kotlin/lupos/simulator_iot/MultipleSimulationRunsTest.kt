@@ -1,6 +1,7 @@
 package lupos.simulator_iot
 import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.MeasurementPrinter
+import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 
 internal class MultipleSimulationRunsTest {

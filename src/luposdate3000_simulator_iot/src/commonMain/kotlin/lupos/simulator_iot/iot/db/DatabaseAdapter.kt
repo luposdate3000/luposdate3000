@@ -10,7 +10,7 @@ import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.iot.Device
-import lupos.simulator_iot.FilePaths
+import lupos.simulator_iot.utils.FilePaths
 import lupos.simulator_iot.iot.db.pck.DBInternPackage
 import lupos.simulator_iot.iot.db.pck.DBQueryResultPackage
 import lupos.simulator_iot.iot.db.pck.DBQuerySenderPackage

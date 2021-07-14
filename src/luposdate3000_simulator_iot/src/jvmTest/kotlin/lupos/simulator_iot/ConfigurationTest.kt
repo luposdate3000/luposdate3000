@@ -4,6 +4,7 @@ import lupos.simulator_iot.config.RandomStarNetwork
 import lupos.simulator_iot.iot.db.DatabaseAdapter
 import lupos.simulator_iot.iot.geo.GeoLocation
 import lupos.simulator_iot.iot.sensor.ParkingSensor
+import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
