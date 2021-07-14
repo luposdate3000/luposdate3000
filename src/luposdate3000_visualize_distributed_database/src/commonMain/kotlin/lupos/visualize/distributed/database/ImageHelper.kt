@@ -20,13 +20,31 @@ public class ImageHelper {
     private val layers = mutableListOf(mutableSetOf<String>())
     private val classes = mutableMapOf<String, MutableMap<String, String>>()
 
-internal val margin=10
-internal val width=600
-internal val height=600
+    internal val margin = 50
+    internal val width = 3000
+    internal val height = 3000
     internal val minX: Int = margin
-    internal val maxX: Int = width-margin
+    internal val maxX: Int = width - margin
     internal val minY: Int = margin
-    internal val maxY: Int = height-margin
+    internal val maxY: Int = height - margin
+
+    public fun deepCopy(): ImageHelper {
+        val res = ImageHelper()
+        var i = 0
+        for (layer in layers) {
+            res.layers.add(mutableSetOf<String>())
+            res.layers[i].clear()
+            res.layers[i].addAll(layer)
+            i++
+        }
+        res.classes.clear()
+        for ((k, v)in classes) {
+            val m = mutableMapOf<String, String>()
+            res.classes[k] = m
+            m.putAll(v)
+        }
+        return res
+    }
 
     public fun createClass(name: String, attributes: Map<String, String>) {
         var m = classes[name]
@@ -37,16 +55,30 @@ internal val height=600
         m.putAll(attributes)
     }
 
-    public fun addCircle(layer: Int, cx: Int, cy: Int, r: Int, classes: List<String>) {
-        while (layers.size <layer) {
+    private fun checkLayer(layer: Int) {
+        while (layers.size <= layer) {
             layers.add(mutableSetOf<String>())
         }
-        layers[layer].add("    <circle cx=\"$cx\" cy=\"$cy\" r=\"$r\" class=\"${classes.joinToString(" ")}\" />")
+    }
+    private fun classString(classes: List<String>): String {
+        if (classes.size == 0) {
+            return ""
+        } else {
+            return " class=\"${classes.joinToString(" ")}\""
+        }
+    }
+    public fun addCircle(layer: Int, cx: Double, cy: Double, r: Double, classes: List<String>) {
+        checkLayer(layer)
+        layers[layer].add("    <circle cx=\"$cx\" cy=\"$cy\" r=\"$r\"${classString(classes)} />")
+    }
+    public fun addLine(layer: Int, x1: Double, y1: Double, x2: Double, y2: Double, classes: List<String>) {
+        checkLayer(layer)
+        layers[layer].add("    <line x1=\"$x1\" y1=\"$y1\" x2=\"$x2\" y2=\"$y2\"${classString(classes)} />")
     }
 
     public override fun toString(): String {
         val buffer = StringBuilder()
-        buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"${minX - margin} ${minY - margin} ${maxX + margin} ${maxY + margin}\" >")
+        buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 $width $height\" >")
 
         buffer.appendLine("    <style type=\"text/css\">")
         for ((name, attrs) in classes) {

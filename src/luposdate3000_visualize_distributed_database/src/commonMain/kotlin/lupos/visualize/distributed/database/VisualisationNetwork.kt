@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
-
+import lupos.shared.inline.File
 public class VisualisationNetwork {
 
     private val devices = mutableSetOf<VisualisationDevice>()
@@ -24,10 +24,52 @@ public class VisualisationNetwork {
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>()
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>()
     public fun toImage(): String {
-        val helper = ImageHelper()
-        helper.createClass("device", mapOf("fill" to "#FFFFFF", "stroke" to "#000000", "stroke-width" to "2"))
-        helper.createClass("device-database", mapOf("stroke" to "#FF0000", "stroke-width" to "4"))
-        helper.createClass("device-sensor", mapOf("stroke-miterlimit" to "10"))
+        val connectionLayer = 0
+        val deviceLayer = 1
+        val messageLayer = 2
+        val messagesToFade = 10
+        var deviceRadius = 20.0
+        val imageHelperBase = ImageHelper()
+        imageHelperBase.createClass(
+            "device",
+            mapOf(
+                "fill" to "#FFFFFF",
+                "stroke" to "#000000",
+                "stroke-width" to "1",
+            )
+        )
+        imageHelperBase.createClass(
+            "device-database",
+            mapOf(
+                "stroke" to "#FF0000",
+                "stroke-width" to "4",
+            )
+        )
+        imageHelperBase.createClass(
+            "device-sensor",
+            mapOf(
+                "stroke" to "#00FF00",
+                "stroke-dasharray" to "3",
+            )
+        )
+        imageHelperBase.createClass(
+            "connection",
+            mapOf(
+                "stroke-width" to "1",
+                "stroke" to "#000000",
+            )
+        )
+        for (i in 0 until messagesToFade) {
+            val c = (255 * (i + 1) / messagesToFade).toString(16).padStart(2, '0')
+            imageHelperBase.createClass(
+                "message-fade-$i",
+                mapOf(
+                    "stroke-width" to "1",
+                    "stroke" to "#$c$c$c",
+                    "marker-end" to "url(#arrowhead)",
+                )
+            )
+        }
         var minX = devices.first().x
         var minY = devices.first().y
         var maxX = devices.first().x
@@ -47,8 +89,8 @@ public class VisualisationNetwork {
             }
         }
         for (device in devices) {
-            var newX = helper.minX + ((device.x - minX) / (maxX - minX)) * (helper.maxX - helper.minX)
-            var newY = helper.minY + ((device.y - minY) / (maxY - minY)) * (helper.maxY - helper.minY)
+            var newX = imageHelperBase.minX + ((device.x - minX) / (maxX - minX)) * (imageHelperBase.maxX - imageHelperBase.minX)
+            var newY = imageHelperBase.minY + ((device.y - minY) / (maxY - minY)) * (imageHelperBase.maxY - imageHelperBase.minY)
             device.x = newX
             device.y = newY
 
@@ -59,11 +101,40 @@ public class VisualisationNetwork {
             if (device.hasSensor) {
                 classes.add("device-sensor")
             }
-            helper.addCircle(0, device.x.toInt(), device.y.toInt(), 4, classes)
+            imageHelperBase.addCircle(deviceLayer, device.x, device.y, deviceRadius, classes)
         }
-        return helper.toString()
+        for (connection in connections) {
+            val a = getDeviceById(connection.source)
+            val b = getDeviceById(connection.destination)
+            imageHelperBase.addLine(connectionLayer, a.x, a.y, b.x, b.y, listOf("connection"))
+        }
+        val res = imageHelperBase.toString()
+        File("visual.svg").withOutputStream { out ->
+            out.println(res)
+        }
+        for (i in 0 until messages.size) {
+            val img = imageHelperBase.deepCopy()
+            var j = i - messagesToFade
+            if (j <0) {
+                j = 0
+            }
+            for (messageIndex in j until i + 1) {
+                val messageTime = i - messageIndex // 0 current, $messagesToFade oldest
+                val message = messages[messageIndex]
+                val a = getDeviceById(message.source)
+                val b = getDeviceById(message.destination)
+                img.addLine(messageLayer, a.x, a.y, b.x, b.y, listOf("message-fade-$messageTime"))
+            }
+            File("visual-frame-$i.svg").withOutputStream { out ->
+                out.println(img.toString())
+            }
+        }
+        return res
     }
 
+    private fun getDeviceById(id: Int): VisualisationDevice {
+        return devices.filter { it.id == id }.first()
+    }
     public fun addDistributedStorage(source: Int, destination: Int, time: Long, graphname: String, metaString: String) {
         addMessage(VisualisationMessage(source, destination, time, "create '$graphname'"))
         val metad = metaString.split("|")

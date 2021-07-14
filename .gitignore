@@ -39,3 +39,6 @@ tmp
 tmpparams
 x
 simulator_output
+visual-frame*svg
+visual.svg
+out.mp4
