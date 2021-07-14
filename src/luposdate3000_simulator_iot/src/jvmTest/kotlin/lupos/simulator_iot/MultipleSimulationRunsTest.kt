@@ -1,5 +1,5 @@
 package lupos.simulator_iot
-import lupos.simulator_iot.config.JsonObjects
+import lupos.simulator_iot.iot.config.JsonObjects
 import lupos.simulator_iot.measure.MeasurementPrinter
 import kotlin.test.Test
 
@@ -13,7 +13,7 @@ internal class MultipleSimulationRunsTest {
     @Test
     fun runMultipleStarNetworkSimulations() {
         val callback = object: ISimRunPreparation {
-            override fun manipulateJsonObjects(jsonObjects: JsonObjects) {
+            override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                 jsonObjects.randomStarNetwork[0].number = 4
             }
         }

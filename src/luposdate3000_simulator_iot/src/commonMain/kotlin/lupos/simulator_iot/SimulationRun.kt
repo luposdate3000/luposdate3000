@@ -2,8 +2,8 @@ package lupos.simulator_iot
 
 import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.config.JsonObjects
+import lupos.simulator_iot.iot.config.Configuration
+import lupos.simulator_iot.iot.config.JsonObjects
 import lupos.simulator_iot.measure.Logger
 import lupos.simulator_iot.measure.Measurement
 import lupos.simulator_iot.measure.TimeMeasurer

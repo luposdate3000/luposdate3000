@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.config.JsonObjects
+import lupos.simulator_iot.iot.config.JsonObjects
 import lupos.simulator_iot.measure.LoggerCollection
 import lupos.simulator_iot.measure.MeasurementPrinter
 
@@ -52,7 +52,7 @@ public class Evaluation {
         val printer = MeasurementPrinter()
         for(numberOfNodes in nodeSizes) {
             val prep = object: ISimRunPreparation {
-                override fun perpareJsonObjects(jsonObjects: JsonObjects) {
+                override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.dummyDatabase = true
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
                 }

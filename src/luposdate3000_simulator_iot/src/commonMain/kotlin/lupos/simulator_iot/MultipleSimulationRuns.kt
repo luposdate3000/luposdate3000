@@ -22,7 +22,7 @@ internal class MultipleSimulationRuns(
     private fun startSimulationRun() {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile(configFileName)
-        callback.perpareJsonObjects(json)
+        callback.prepareJsonObjects(json)
         val config = simRun.parseJsonObjects(json)
         simRun.startSimulation(config)
         measurements.add(simRun.measurement)

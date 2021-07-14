@@ -1,6 +1,7 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.iot.geo.GeoLocation
+import lupos.simulator_iot.iot.Device
 
 internal object Stubs {
 
