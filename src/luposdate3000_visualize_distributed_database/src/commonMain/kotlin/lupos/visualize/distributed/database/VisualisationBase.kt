@@ -31,9 +31,10 @@ public class VisualisationNetwork {
     }
 
     public fun addMessage(message: VisualisationMessage) {
+        message.messageCounter = messages.size
         messages.add(message)
     }
-    override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${messages.map{it.toString() + "\n"}}"
+    override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${messages.sorted().map{it.toString() + "\n"}}"
 }
 
 public class VisualisationDevice(public val id: Int, public val hasDatabase: Boolean, public val hasSensor: Boolean) {
@@ -48,6 +49,23 @@ public class VisualisationConnection(public val source: Int, public val destinat
     override fun toString(): String = "VisualisationConnection($source -> $destination)"
 }
 
-public class VisualisationMessage(public val source: Int, public val destination: Int, public val time: Long, public val shortText: String) {
-    override fun toString(): String = "VisualisationMessage($source -> $destination at $time : '$shortText')"
+public class VisualisationMessage(public val source: Int, public val destination: Int, public val time: Long, public val shortText: String) : Comparable<VisualisationMessage> {
+    internal var messageCounter: Int = 0
+    override fun toString(): String = "VisualisationMessage($source -> $destination at $time.$messageCounter : '$shortText')"
+    override operator fun compareTo(other: VisualisationMessage): Int {
+        var res = (time - other.time).toInt()
+        if (res != 0) {
+            return res
+        }
+        res = messageCounter - other.messageCounter
+        if (res != 0) {
+            return res
+        }
+        res = source - other.source
+        if (res != 0) {
+            return res
+        }
+        res = destination - other.destination
+        return res
+    }
 }

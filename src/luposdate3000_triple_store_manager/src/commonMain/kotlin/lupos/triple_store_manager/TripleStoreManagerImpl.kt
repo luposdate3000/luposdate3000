@@ -371,31 +371,35 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 .addIndex { it.simple(EIndexPatternExt.OSP) } //
                 .addIndex { it.simple(EIndexPatternExt.OPS) } //
         } else {
+            var partitionCount = 4
+            while (partitionCount <instance.LUPOS_PROCESS_URLS.size) {
+                partitionCount = partitionCount * 2
+            }
             when (0) {
                 0 -> { // use partitions as default
                     defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 2) } //
                 }
                 1 -> { // use hashing as default
                     defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = 4) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = 4) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = 4) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = 4) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = 4) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = 4) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = 4) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = partitionCount) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = partitionCount) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = partitionCount) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = partitionCount) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = partitionCount) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = partitionCount) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = partitionCount) } //
                 }
             }
         }
@@ -446,9 +450,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
                 }
                 val b = stream.readDictionaryValueType()
                 val c = stream.readDictionaryValueType()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:448"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(a) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:449"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(b) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:450"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(c) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:452"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(a) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:453"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(b) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:454"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(c) })
                 buf[i++] = a
                 buf[i++] = b
                 buf[i++] = c
@@ -501,7 +505,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         for (index in graph.indices) {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:503"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:507"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(store.second, tripleStore)
