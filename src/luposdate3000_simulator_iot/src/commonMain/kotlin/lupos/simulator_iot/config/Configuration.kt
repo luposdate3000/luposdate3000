@@ -8,6 +8,7 @@ import lupos.simulator_iot.Device
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.db.DatabaseAdapter
 import lupos.simulator_iot.geo.GeoLocation
+import lupos.simulator_iot.net.DeviceLinker
 import lupos.simulator_iot.net.MeshNetwork
 import lupos.simulator_iot.net.StarNetwork
 import lupos.simulator_iot.sensor.ParkingSensor

@@ -1,7 +1,7 @@
-package lupos.simulator_iot.config
+package lupos.simulator_iot.net
 
 import lupos.simulator_iot.Device
-import lupos.simulator_iot.net.Link
+import lupos.simulator_iot.config.LinkType
 
 internal class DeviceLinker {
 
