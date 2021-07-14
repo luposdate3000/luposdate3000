@@ -89,13 +89,13 @@ public class SimulationRun {
     }
 
     private fun measureOnStartUp() {
-        measurement.numberOfDevices = config.getNumberOfDevices()
-        measurement.numberOfSensorsDevices = config.numberOfSensors
-        measurement.numberOfDatabasesDevices = config.numberOfDatabases
-        measurement.numberOfQuerySenders = config.querySenders.size
+        measurement.numberOfDevices = config.getNumberOfDevices().toDouble()
+        measurement.numberOfSensorDevices = config.numberOfSensors.toDouble()
+        measurement.numberOfDatabaseDevices = config.numberOfDatabases.toDouble()
+        measurement.numberOfQuerySenders = config.querySenders.size.toDouble()
         measurement.initializationDurationInSec = timeMeasurer.getInitDuration()
         measurement.realStartUpTimeStampInISO = timeMeasurer.getStartUpTimeString()
-        measurement.numberOfLinks = config.linker.numberOfLinks
+        measurement.numberOfLinks = config.linker.numberOfLinks.toDouble()
     }
 
     private fun measureOnShutDown() {
@@ -110,7 +110,7 @@ public class SimulationRun {
     }
 
     internal fun incNetworkTraffic(bytesSent: Int) {
-        measurement.networkTrafficInBytes += bytesSent.toLong()
+        measurement.networkTrafficInKiloBytes += (bytesSent.toDouble() / 1000)
     }
 
     internal fun incNumberOfParkingSamples() {

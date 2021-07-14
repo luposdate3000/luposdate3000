@@ -47,7 +47,7 @@ public class Evaluation {
 
     public fun evalStarPerformanceWithoutDatabase() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
-        val nodeSizes = buildNodeSizesArray(5, 1000)
+        val nodeSizes = buildNodeSizesArray(5, 500)
         val printer = MeasurementPrinter()
         for((index, numberOfNodes) in nodeSizes.withIndex()) {
             val prep = object: ISimRunPreparation {
