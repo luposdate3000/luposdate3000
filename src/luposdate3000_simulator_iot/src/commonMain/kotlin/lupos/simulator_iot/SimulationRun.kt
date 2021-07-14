@@ -4,9 +4,8 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.log.Logger
-
-import lupos.visualize.distributed.database.VisualisationDevice
 import lupos.visualize.distributed.database.VisualisationConnection
+import lupos.visualize.distributed.database.VisualisationDevice
 
 public class SimulationRun {
 
@@ -37,7 +36,12 @@ public class SimulationRun {
 
     internal fun startSimulation(configuration: Configuration) {
         sim = Simulation(configuration.getEntities(), LifeCycleImpl(this))
-sim.setupVisualisation(configuration)
+        for (d in configuration.devices) {
+            sim.visualisationNetwork.addDevice(VisualisationDevice(d.address, d.database != null, d.sensor != null)) // public val id:Int,public val hasDatabase:Boolean
+            for (n in d.linkManager.getNeighbours()) {
+                sim.visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
+            }
+        }
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if (simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
         sim.startSimulation()

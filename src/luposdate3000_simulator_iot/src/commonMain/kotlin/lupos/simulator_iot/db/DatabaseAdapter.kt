@@ -13,6 +13,7 @@ import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.sensor.ParkingSample
+import lupos.visualize.distributed.database.VisualisationMessage
 
 public class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
@@ -104,7 +105,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-device.simRun.sim.visualisationNetwork.addMessage(VisualisationMessage(device.address,destinationAddress,pck.toString()))
+        device.simRun.sim.visualisationNetwork.addMessage(VisualisationMessage(device.address, destinationAddress, device.simRun.sim.clock, pck.toString()))
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {

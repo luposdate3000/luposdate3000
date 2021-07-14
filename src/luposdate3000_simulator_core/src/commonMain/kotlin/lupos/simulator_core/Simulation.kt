@@ -1,26 +1,15 @@
 package lupos.simulator_core
-import lupos.visualize.distributed.database.VisualisationDevice
-import lupos.visualize.distributed.database.VisualisationConnection
 import lupos.visualize.distributed.database.VisualisationNetwork
 public class Simulation(
     private val entities: List<Entity>,
     private var callback: ISimulationLifeCycle
 ) {
-public val visualisationNetwork :VisualisationNetwork=VisualisationNetwork()
+    public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
     init {
         callback.simulation = this
     }
-
-public fun setupVisualisation(config:Configuration){
-for(d in config.devices){
-visualisationNetwork.addDevice(VisualisationDevice(d.address,d.database!=null,d.sensor!=null))//public val id:Int,public val hasDatabase:Boolean
-for(n in d.linkManager.getNeighbours()){
-visualisationNetwork.addConnection(VisualisationConnection(d.address,n))
-}
-}
-}
 
     public var maxClock: Long = Long.MAX_VALUE
 
@@ -40,7 +29,6 @@ visualisationNetwork.addConnection(VisualisationConnection(d.address,n))
 
     public fun endSimulation() {
         maxClock = clock
-println(visualisationNetwork)
     }
 
     private fun startUpAllEntities() {
@@ -113,6 +101,7 @@ println(visualisationNetwork)
     public fun shutDown() {
         shutDownAllEntities()
         callback.onShutDown()
+        println(visualisationNetwork)
     }
 
     private fun shutDownAllEntities() {
