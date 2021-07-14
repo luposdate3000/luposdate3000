@@ -2,7 +2,7 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.measure.LoggerCollection
 
-public class IoTSimulation {
+public class Evaluation {
     public constructor() {}
     public fun simulate(configFileName: String) {
         val simRun = SimulationRun()

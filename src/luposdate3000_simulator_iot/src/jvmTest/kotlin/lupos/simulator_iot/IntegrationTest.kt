@@ -12,27 +12,27 @@ class IntegrationTest {
 
     @Test
     fun twoSensorOneDB() {
-        IoTSimulation().simulate("$prefix/twoSensorOneDB.json")
+        Evaluation().simulate("$prefix/twoSensorOneDB.json")
     }
 
     @Test
     fun twoDBWithOneSensor() {
-        IoTSimulation().simulate("$prefix/twoDBWithOneSensor.json")
+        Evaluation().simulate("$prefix/twoDBWithOneSensor.json")
     }
 
     @Test
     fun sensorFromStarSendOverMeshWithDB() {
-        IoTSimulation().simulate("$prefix/sensorFromStarSendOverMeshWithDB.json")
+        Evaluation().simulate("$prefix/sensorFromStarSendOverMeshWithDB.json")
     }
 
     @Test
     fun databasesAsStarRoots() {
-        IoTSimulation().simulate("$prefix/databasesAsStarRoots.json")
+        Evaluation().simulate("$prefix/databasesAsStarRoots.json")
     }
 
     @Test
     fun campusCentralCaseWithoutQuery() {
-        IoTSimulation().simulate("$prefix/campusCentralCaseWithoutQuery.json")
+        Evaluation().simulate("$prefix/campusCentralCaseWithoutQuery.json")
     }
 
     @Test
@@ -180,6 +180,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCaseWithoutQuery() {
-        IoTSimulation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
+        Evaluation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
     }
 }
