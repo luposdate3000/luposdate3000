@@ -272,32 +272,41 @@ App.bindEvents = ->
                 App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
             if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
-                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
+                    try
+                        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
+                    catch e
+                        App.logError e, 'rdf'
                 #Receive optimized steps for logical and physical operator graph
                 if withGraph
-                    eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
-                    tmp = eev.getOptimizedStepsLogical();
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v.toJson())
-                    App.logGraph = tmp
-                    tmp = eev.getOptimizedStepsPhysical();
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v.toJson())
-                    App.physGraph = tmp
-                    #Result from the query
-                    App.result = eev.getResult();
-                    tmp = eev.getDataSteps()
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v)
-                    App.globalAnimationList = tmp
-                    formatResultData();
-                    App.additionalHiddenTabs = ["graph", "op-graph"]
+                    try
+                        eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
+                        tmp = eev.getOptimizedStepsLogical();
+                        for v,k in tmp
+                            tmp[k] = JSON.parse(v.toJson())
+                        App.logGraph = tmp
+                        tmp = eev.getOptimizedStepsPhysical();
+                        for v,k in tmp
+                            tmp[k] = JSON.parse(v.toJson())
+                        App.physGraph = tmp
+                        #Result from the query
+                        App.result = eev.getResult();
+                        tmp = eev.getDataSteps()
+                        for v,k in tmp
+                            tmp[k] = JSON.parse(v)
+                        App.globalAnimationList = tmp
+                        formatResultData();
+                        App.additionalHiddenTabs = ["graph", "op-graph"]
+                    catch e
+                        App.logError e, target
+                        App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"]
                     App.initConfigComponentsHideTabs()
                 else
-                    res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query)
-                    App.processResults(res, "sparql")
-                    App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph",
-                        "luposdate3000-sonification"]
+                    try
+                        res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query)
+                        App.processResults(res, "sparql")
+                    catch e
+                        App.logError e, target
+                    App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"]
                     App.initConfigComponentsHideTabs()
             else
                 if App.config.sendRDF
@@ -733,7 +742,7 @@ App.logError = (msg, editor, line) ->
         line--
         App.cm[editor].setSelection {line: (line), ch: 0}, {line: (line), ch: 80}
         $(".#{editor}-tab a").click()
-    localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre>"
+    localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre style='white-space: pre-wrap;'>"
     localhtml += _.escape(msg)
     localhtml += "</pre>"
     $('#result-tab').html localhtml
