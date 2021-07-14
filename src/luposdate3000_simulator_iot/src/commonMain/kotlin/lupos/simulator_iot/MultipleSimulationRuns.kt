@@ -1,10 +1,14 @@
 package lupos.simulator_iot
 
+import lupos.simulator_iot.measure.Measurement
+import lupos.simulator_iot.measure.MeasurementPrinter
+
 internal class MultipleSimulationRuns(
     private val configFileName: String,
     private val numberOfRepetitions: Int,
     private val callback: IConfigManipulator,
-    private val printer: MeasurementPrinter) {
+    private val printer: MeasurementPrinter
+) {
 
     private val measurements: MutableList<Measurement> = mutableListOf()
 

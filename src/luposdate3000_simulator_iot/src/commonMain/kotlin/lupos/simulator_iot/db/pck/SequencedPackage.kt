@@ -1,4 +1,4 @@
-package lupos.simulator_iot.db
+package lupos.simulator_iot.db.pck
 
 internal abstract class SequencedPackage(
     val sourceAddress: Int,

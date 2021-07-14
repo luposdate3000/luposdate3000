@@ -1,5 +1,8 @@
 package lupos.simulator_iot.db
 
+import lupos.simulator_iot.db.pck.DBSequenceEndPackage
+import lupos.simulator_iot.db.pck.SequencedPackage
+
 internal class SequenceKeeper(private val sender: ISequencePackageSender) {
 
     private val sequenceCounters: MutableMap<Int, Int> = mutableMapOf()

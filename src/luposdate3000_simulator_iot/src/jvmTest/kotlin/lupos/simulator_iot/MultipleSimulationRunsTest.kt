@@ -1,7 +1,7 @@
 package lupos.simulator_iot
 import lupos.simulator_iot.config.JsonObjects
+import lupos.simulator_iot.measure.MeasurementPrinter
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 internal class MultipleSimulationRunsTest {
 
@@ -22,7 +22,8 @@ internal class MultipleSimulationRunsTest {
             configFileName = "$prefix/runMultipleStarNetworkSimulations.json",
             numberOfRepetitions = 5,
             callback = callback,
-            printer = MeasurementPrinter())
+            printer = MeasurementPrinter()
+        )
 
         runs.startSimulationRuns()
 

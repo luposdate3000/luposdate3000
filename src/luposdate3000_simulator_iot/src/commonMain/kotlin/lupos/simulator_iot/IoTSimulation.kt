@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.log.LoggerCollection
+import lupos.simulator_iot.measure.LoggerCollection
 
 public class IoTSimulation {
     public constructor() {}

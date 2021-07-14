@@ -1,4 +1,4 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.measure
 
 internal class Measurement {
 

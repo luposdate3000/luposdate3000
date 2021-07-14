@@ -1,6 +1,7 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.measure
 
 import lupos.shared.inline.File
+import lupos.simulator_iot.FilePaths
 
 internal class MeasurementPrinter {
 

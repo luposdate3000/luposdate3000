@@ -1,11 +1,8 @@
-package lupos.simulator_iot.log
+package lupos.simulator_iot.measure
 
 import lupos.shared.inline.File
-import lupos.simulator_iot.Device
 import lupos.simulator_iot.FilePaths
-import lupos.simulator_iot.Measurement
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.net.routing.RPL
 
 internal class Logger(
     private val config: Configuration,
