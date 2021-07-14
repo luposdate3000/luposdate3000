@@ -104,6 +104,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+device.simRun.sim.visualisationNetwork.addMessage(VisualisationMessage(device.address,destinationAddress,pck.toString()))
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {

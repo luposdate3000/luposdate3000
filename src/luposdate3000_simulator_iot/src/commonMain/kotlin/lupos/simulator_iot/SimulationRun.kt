@@ -5,6 +5,9 @@ import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.log.Logger
 
+import lupos.visualize.distributed.database.VisualisationDevice
+import lupos.visualize.distributed.database.VisualisationConnection
+
 public class SimulationRun {
 
     public var sim: Simulation = Simulation(mutableListOf(), LifeCycleImpl(this))
@@ -34,6 +37,7 @@ public class SimulationRun {
 
     internal fun startSimulation(configuration: Configuration) {
         sim = Simulation(configuration.getEntities(), LifeCycleImpl(this))
+sim.setupVisualisation(configuration)
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if (simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
         sim.startSimulation()
