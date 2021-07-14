@@ -27,6 +27,8 @@ internal abstract class DictionaryIntermediate(@JvmField internal val filename: 
 
     @JvmField
     internal var streamIn: IMyInputStream? = null
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun getFile(): File {
         return getFile(filename)
     }
@@ -34,10 +36,13 @@ internal abstract class DictionaryIntermediate(@JvmField internal val filename: 
     internal companion object {
         internal val version: Int = 2
         internal const val filenameEnding = ".dictionary"
+
+        @Suppress("NOTHING_TO_INLINE")
         internal inline fun getFile(filename: String): File {
             return File("$filename$filenameEnding")
         }
 
+        @Suppress("NOTHING_TO_INLINE")
         internal inline fun fileExists(filename: String): Boolean {
             val f = File("$filename$filenameEnding")
             var res = f.exists()
@@ -52,6 +57,7 @@ internal abstract class DictionaryIntermediate(@JvmField internal val filename: 
             return res
         }
 
+        @Suppress("NOTHING_TO_INLINE")
         internal inline fun delete(filename: String) {
             DictionaryIntermediateReader(filename).getFile().deleteRecursively()
         }
