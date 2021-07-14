@@ -1,4 +1,4 @@
-package lupos.simulator_iot.net.routing
+package lupos.simulator_iot.routing
 
 internal class RoutingTable(
     private val ownAddress: Int,

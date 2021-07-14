@@ -7,8 +7,8 @@ import lupos.simulator_iot.geo.GeoLocation
 import lupos.simulator_iot.net.IPayload
 import lupos.simulator_iot.net.LinkManager
 import lupos.simulator_iot.net.NetworkPackage
-import lupos.simulator_iot.net.routing.IRoutingProtocol
-import lupos.simulator_iot.net.routing.RPL
+import lupos.simulator_iot.routing.IRoutingProtocol
+import lupos.simulator_iot.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
 
