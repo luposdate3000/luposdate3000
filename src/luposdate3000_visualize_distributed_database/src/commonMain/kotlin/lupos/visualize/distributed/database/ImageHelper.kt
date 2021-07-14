@@ -16,48 +16,55 @@
  */
 package lupos.visualize.distributed.database
 
-public class ImageHelper{
-private val layers=mutableListOf(mutableSetOf<String>())
-private val classes=mutableMapOf<String,MutableMap<String,String>>()
+public class ImageHelper {
+    private val layers = mutableListOf(mutableSetOf<String>())
+    private val classes = mutableMapOf<String, MutableMap<String, String>>()
 
-public fun createClass(name:String,attributes:Map<String,String>){
-var m=classes[name]
-if(m==null){
-m=mutableMapOf<String,String>()
-classes[name]=m
-}
-m.putAll(attributes)
-}
+internal val margin=10
+internal val width=600
+internal val height=600
+    internal val minX: Int = margin
+    internal val maxX: Int = width-margin
+    internal val minY: Int = margin
+    internal val maxY: Int = height-margin
 
-public fun addCircle(layer:Int,cx:Double,cy:Double,r:Double,classes:List<String>){
-while(layers.size<layer){
-layers.add(mutableSetOf<String>())
-}
-layers[layer].add("<circle cx=\"$cx\" cy=\"$cy\" r=\"$r\" class=\"${classes.joinToString(" ")}\" />")
-}
+    public fun createClass(name: String, attributes: Map<String, String>) {
+        var m = classes[name]
+        if (m == null) {
+            m = mutableMapOf<String, String>()
+            classes[name] = m
+        }
+        m.putAll(attributes)
+    }
 
-override public fun toString():String{
-val buffer=StringBuilder()
-buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">")
+    public fun addCircle(layer: Int, cx: Int, cy: Int, r: Int, classes: List<String>) {
+        while (layers.size <layer) {
+            layers.add(mutableSetOf<String>())
+        }
+        layers[layer].add("    <circle cx=\"$cx\" cy=\"$cy\" r=\"$r\" class=\"${classes.joinToString(" ")}\" />")
+    }
 
-buffer.appendLine("    <style type=\"text/css\">")
-for((name,attrs) in classes){
-buffer.appendLine("        .$name{")
-for((k,v) in attrs){
-buffer.appendLine("            $k:$v;")
-}
-buffer.appendLine("        }")
-}
-buffer.appendLine("    </style>")
+    public override fun toString(): String {
+        val buffer = StringBuilder()
+        buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"${minX - margin} ${minY - margin} ${maxX + margin} ${maxY + margin}\" >")
 
+        buffer.appendLine("    <style type=\"text/css\">")
+        for ((name, attrs) in classes) {
+            buffer.appendLine("        .$name{")
+            for ((k, v) in attrs) {
+                buffer.appendLine("            $k:$v;")
+            }
+            buffer.appendLine("        }")
+        }
+        buffer.appendLine("    </style>")
 
-for(layer in layers){
-for(line in layer){
-buffer.appendLine(line)
-}
-}
+        for (layer in layers) {
+            for (line in layer) {
+                buffer.appendLine(line)
+            }
+        }
 
-buffer.appendLine("</svg>")
-return buffer.toString()
-}
+        buffer.appendLine("</svg>")
+        return buffer.toString()
+    }
 }

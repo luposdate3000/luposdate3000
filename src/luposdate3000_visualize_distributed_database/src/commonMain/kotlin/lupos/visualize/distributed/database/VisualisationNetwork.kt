@@ -23,23 +23,46 @@ public class VisualisationNetwork {
     private val messages = mutableListOf<VisualisationMessage>()
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>()
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>()
-public fun toImage():String{
-val helper=ImageHelper()
-helper.createClass("device",mapOf("fill" to "#FFFFFF" ,"stroke" to "#000000" , "stroke-width" to "2"))
-helper.createClass("device-database",mapOf("stroke" to "#FF0000" ,  "stroke-width" to "4"))
-helper.createClass("device-sensor",mapOf("stroke-miterlimit" to "10"))
-for(device in devices){
-val classes=mutableListOf("device")
-if(device.hasDatabase){
-classes.add("device-database")
-}
-if(device.hasSensor){
-classes.add("device-sensor")
-}
-helper.addCircle(0,device.x,device.y,1.0,classes)
-}
-return helper.toString()
-}
+    public fun toImage(): String {
+        val helper = ImageHelper()
+        helper.createClass("device", mapOf("fill" to "#FFFFFF", "stroke" to "#000000", "stroke-width" to "2"))
+        helper.createClass("device-database", mapOf("stroke" to "#FF0000", "stroke-width" to "4"))
+        helper.createClass("device-sensor", mapOf("stroke-miterlimit" to "10"))
+        var minX = devices.first().x
+        var minY = devices.first().y
+        var maxX = devices.first().x
+        var maxY = devices.first().y
+        for (device in devices) {
+            if (minX> device.x) {
+                minX = device.x
+            }
+            if (maxX <device.x) {
+                maxX = device.x
+            }
+            if (minY> device.y) {
+                minY = device.y
+            }
+            if (maxY <device.y) {
+                maxY = device.y
+            }
+        }
+        for (device in devices) {
+            var newX = helper.minX + ((device.x - minX) / (maxX - minX)) * (helper.maxX - helper.minX)
+            var newY = helper.minY + ((device.y - minY) / (maxY - minY)) * (helper.maxY - helper.minY)
+            device.x = newX
+            device.y = newY
+
+            val classes = mutableListOf("device")
+            if (device.hasDatabase) {
+                classes.add("device-database")
+            }
+            if (device.hasSensor) {
+                classes.add("device-sensor")
+            }
+            helper.addCircle(0, device.x.toInt(), device.y.toInt(), 4, classes)
+        }
+        return helper.toString()
+    }
 
     public fun addDistributedStorage(source: Int, destination: Int, time: Long, graphname: String, metaString: String) {
         addMessage(VisualisationMessage(source, destination, time, "create '$graphname'"))
@@ -112,5 +135,3 @@ return helper.toString()
     }
     override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}\n\n${toImage()}"
 }
-
-
