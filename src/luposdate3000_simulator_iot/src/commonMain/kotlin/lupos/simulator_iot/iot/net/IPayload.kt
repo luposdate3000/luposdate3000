@@ -1,5 +1,5 @@
 package lupos.simulator_iot.iot.net
 
-internal interface IPayload {
-    fun getSizeInBytes(): Int
+public interface IPayload {
+    public fun getSizeInBytes(): Int
 }

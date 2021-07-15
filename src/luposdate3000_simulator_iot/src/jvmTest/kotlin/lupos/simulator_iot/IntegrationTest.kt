@@ -170,7 +170,8 @@ class IntegrationTest {
             sendRateInSeconds = 1,
             maxNumberOfQueries = 1,
             sendStartClockInSec = 10 * 60,
-            query = queryString)
+            query = queryString
+        )
 
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile(configFile)

@@ -11,7 +11,6 @@ import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.iot.Device
-import lupos.simulator_iot.utils.FilePaths
 import lupos.simulator_iot.iot.db.pck.DBInternPackage
 import lupos.simulator_iot.iot.db.pck.DBQueryResultPackage
 import lupos.simulator_iot.iot.db.pck.DBQuerySenderPackage
@@ -19,6 +18,7 @@ import lupos.simulator_iot.iot.db.pck.DBSequenceEndPackage
 import lupos.simulator_iot.iot.db.pck.SequencedPackage
 import lupos.simulator_iot.iot.net.IPayload
 import lupos.simulator_iot.iot.sensor.ParkingSample
+import lupos.simulator_iot.utils.FilePaths
 
 public class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
@@ -26,7 +26,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
 
     private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
-    private val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
+    public val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
 
     private lateinit var currentState: DatabaseState
 
@@ -102,7 +102,6 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         }
     }
 
-
     private fun sendQueryResponse(destinationAddress: Int, pck: QueryResponsePackage) {
         val myResponsePackage = DBQueryResultPackage(device.address, destinationAddress, pck.result)
         if (device.address == destinationAddress) {
@@ -124,7 +123,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     private inner class SequencePackageSenderImpl : ISequencePackageSender {
 
         override fun send(pck: SequencedPackage) {
-            if(pck.destinationAddress != device.address) {
+            if (pck.destinationAddress != device.address) {
                 // ignore self packages
                 device.simRun.incNumberOfSentDatabasePackages()
             }

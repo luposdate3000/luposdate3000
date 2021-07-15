@@ -23,6 +23,6 @@ internal fun mainFunc(): Unit = Parallel.runBlocking {
     // Evaluation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")
     // Evaluation().simulate("${FilePaths.jvmResource}/Exception_2DBwith1Sensor.json")
     // Evaluation().simulate("${FilePaths.jvmResource}/star.json")
-    //Evaluation().measureStarPerformance(true)
+    // Evaluation().measureStarPerformance(true)
     Evaluation().evalStarPerformanceWithoutDatabase()
 }

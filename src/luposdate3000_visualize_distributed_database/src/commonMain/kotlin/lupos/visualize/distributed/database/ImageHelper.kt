@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
-
+import kotlin.math.sqrt
 public class ImageHelper {
     private val layers = mutableListOf(mutableSetOf<String>())
     private val classes = mutableMapOf<String, MutableMap<String, String>>()
@@ -75,11 +75,72 @@ public class ImageHelper {
         checkLayer(layer)
         layers[layer].add("    <line x1=\"$x1\" y1=\"$y1\" x2=\"$x2\" y2=\"$y2\"${classString(classes)} />")
     }
+    private inline fun getLength(p: Pair<Double, Double>): Double {
+        return sqrt(p.first * p.first + p.second * p.second)
+    }
+    private inline fun setLength(p: Pair<Double, Double>, l: Double): Pair<Double, Double> {
+        val f = l / getLength(p)
+        return (p.first * f)to(p.second * f)
+    }
+    private inline fun getDirection(p1: Pair<Double, Double>, p2: Pair<Double, Double>): Pair<Double, Double> {
+        return (p2.first - p1.first)to(p2.second - p1.second)
+    }
+    private fun rotate90Degree(p: Pair<Double, Double>): Pair<Double, Double> {
+        return p.second to (-p.first)
+    }
+    private inline fun shortenPath(p: Pair<Double, Double>, a: Pair<Double, Double>, b: Pair<Double, Double>, dir: Pair<Double, Double>, len: Double): Pair<Double, Double> {
+        val mov = rotate90Degree(setLength(dir, len))
+        val p1 = p.first + mov.first to p.second + mov.second
+        val p2 = p.first - mov.first to p.second - mov.second
+        val l1 = getLength(getDirection(a, p1)) + getLength(getDirection(b, p1))
+        val l2 = getLength(getDirection(a, p2)) + getLength(getDirection(b, p2))
+        if (l1 <l2) {
+            return p1
+        } else {
+            return p2
+        }
+    }
 
+    public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double) {
+        checkLayer(layer)
+        var directions = mutableListOf<Pair<Double, Double>>()
+        var correctedPoints = mutableListOf<Pair<Double, Double>>()
+        for (i in 0 until points.size) {
+            var im = if (i> 0)i - 1 else i // i-1
+            var ip = if (i <points.size - 1) i + 1 else i // i+1
+            val dir = getDirection(points[im], points[ip])
+            directions.add(dir)
+            if (i == 0 || i == points.size - 1) {
+                correctedPoints.add(points[i])
+            } else {
+                correctedPoints.add(shortenPath(points[i], points[im], points[ip], dir, pointRadius))
+            }
+        }
+        val (x, y) = correctedPoints.first()
+        var s = "    <path d=\"M $x,$y"
+        for (i in 0 until correctedPoints.size - 1) {
+            val (x1, y1) = correctedPoints[i]
+            val (x2, y2) = correctedPoints[i + 1]
+            val len = getLength(getDirection(correctedPoints[i], correctedPoints[i + 1])) / 5.0
+            val (dx1, dy1) = setLength(directions[i], len)
+            val (dx2, dy2) = setLength(directions[i + 1], len)
+            val cx1 = x1 + dx1
+            val cy1 = y1 + dy1
+            val cx2 = x2 - dx2
+            val cy2 = y2 - dy2
+            s += " C $cx1,$cy1 $cx2,$cy2 $x2,$y2"
+        }
+        s += "\"${classString(classes)} />"
+        layers[layer].add(s)
+    }
     public override fun toString(): String {
         val buffer = StringBuilder()
         buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 $width $height\" >")
-
+        buffer.appendLine("    <defs>")
+        buffer.appendLine("        <marker id=\"arrowhead\" orient=\"auto\" markerWidth=\"2\" markerHeight=\"4\" refX=\"0.1\" refY=\"2\">")
+        buffer.appendLine("            <path d=\"M0,0 V4 L2,2 Z\" fill=\"#000000\" />")
+        buffer.appendLine("        </marker>")
+        buffer.appendLine("    </defs>")
         buffer.appendLine("    <style type=\"text/css\">")
         for ((name, attrs) in classes) {
             buffer.appendLine("        .$name{")

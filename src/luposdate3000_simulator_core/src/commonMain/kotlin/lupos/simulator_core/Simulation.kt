@@ -1,7 +1,6 @@
 package lupos.simulator_core
 import lupos.visualize.distributed.database.VisualisationNetwork
 
-
 public class Simulation(private val entities: List<Entity>) {
 
     public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
@@ -99,6 +98,8 @@ public class Simulation(private val entities: List<Entity>) {
 
     public fun shutDown() {
         shutDownAllEntities()
+//        println(visualisationNetwork.toString())
+//        visualisationNetwork.toImage()
         callback?.onShutDown()
     }
 

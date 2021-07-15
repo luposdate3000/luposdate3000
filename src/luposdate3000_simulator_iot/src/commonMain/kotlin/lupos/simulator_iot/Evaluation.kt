@@ -21,7 +21,7 @@ public class Evaluation {
         }
 
         for (numberOfChilds in arr)
-            runSimulationStarPerformance(numberOfChilds,  withDummyDatabase)
+            runSimulationStarPerformance(numberOfChilds, withDummyDatabase)
     }
 
     private fun buildNodeSizesArray(arrSize: Int, delta: Int): IntArray {
@@ -56,17 +56,15 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         val nodeSizes = buildNodeSizesArray(10, 500)
         val printer = MeasurementPrinter()
-        for((index, numberOfNodes) in nodeSizes.withIndex()) {
-            val prep = object: ISimRunPreparation {
+        for ((index, numberOfNodes) in nodeSizes.withIndex()) {
+            val prep = object : ISimRunPreparation {
                 override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.dummyDatabase = true
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
                 }
             }
             MultipleSimulationRuns(configFileName, 20, prep, printer).startSimulationRuns()
-            println("Run ${index+1} finished. ${nodeSizes.size - index - 1 } runs left..")
+            println("Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
-
-
 }

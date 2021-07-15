@@ -4,8 +4,8 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
-import lupos.simulator_iot.iot.Device
 import lupos.simulator_iot.SimulationRun
+import lupos.simulator_iot.iot.Device
 import lupos.simulator_iot.iot.db.DatabaseAdapter
 import lupos.simulator_iot.iot.geo.GeoLocation
 import lupos.simulator_iot.iot.net.DeviceLinker
@@ -16,7 +16,7 @@ import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
 
-    private var devices: MutableList<Device> = mutableListOf()
+    public var devices: MutableList<Device> = mutableListOf()
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
@@ -74,7 +74,7 @@ public class Configuration(private val simRun: SimulationRun) {
         return Json.decodeFromString(fileStr)
     }
 
-    internal fun getEntities(): MutableList<Entity> {
+    public fun getEntities(): MutableList<Entity> {
         val entities: MutableList<Entity> = mutableListOf()
         entities.addAll(devices)
         entities.addAll(querySenders)
@@ -286,5 +286,4 @@ public class Configuration(private val simRun: SimulationRun) {
     internal fun getDeviceByAddress(address: Int): Device {
         return devices[address]
     }
-
 }

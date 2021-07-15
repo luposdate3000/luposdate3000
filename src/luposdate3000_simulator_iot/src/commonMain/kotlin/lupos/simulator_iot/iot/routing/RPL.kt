@@ -187,6 +187,5 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         internal val daoDelay: Long = 2 // DEFAULT_DAO_DELAY * 3
 
         internal const val ROOT_RANK: Int = 0
-
     }
 }

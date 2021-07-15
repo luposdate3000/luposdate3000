@@ -1,8 +1,8 @@
 package lupos.simulator_iot.measure
 
 import lupos.shared.inline.File
-import lupos.simulator_iot.utils.FilePaths
 import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.utils.FilePaths
 
 internal class Logger(
     private val config: Configuration,

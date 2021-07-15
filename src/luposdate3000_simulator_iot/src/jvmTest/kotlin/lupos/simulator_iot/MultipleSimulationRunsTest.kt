@@ -10,10 +10,9 @@ internal class MultipleSimulationRunsTest {
         private const val prefix = "${FilePaths.testResource}/multipleSimulationRunsTest"
     }
 
-
     @Test
     fun runMultipleStarNetworkSimulations() {
-        val callback = object: ISimRunPreparation {
+        val callback = object : ISimRunPreparation {
             override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                 jsonObjects.randomStarNetwork[0].number = 4
             }
@@ -29,7 +28,7 @@ internal class MultipleSimulationRunsTest {
 
     @Test
     fun test_1() {
-        val callback = object: ISimRunPreparation {
+        val callback = object : ISimRunPreparation {
             override fun prepareJsonObjects(jsonObjects: JsonObjects) {
             }
         }
@@ -40,8 +39,5 @@ internal class MultipleSimulationRunsTest {
             printer = MeasurementPrinter()
         )
         runs.startSimulationRuns()
-
     }
-
-
 }

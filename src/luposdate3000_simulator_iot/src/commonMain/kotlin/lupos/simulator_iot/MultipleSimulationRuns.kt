@@ -15,7 +15,7 @@ internal class MultipleSimulationRuns(
     private val measurements: MutableList<Measurement> = mutableListOf()
 
     internal fun startSimulationRuns() {
-        for(repetition in 1..numberOfRepetitions) {
+        for (repetition in 1..numberOfRepetitions) {
             startSimulationRun()
         }
         evaluate()
@@ -49,12 +49,12 @@ internal class MultipleSimulationRuns(
         avg.numberOfQuerySenders = sum.numberOfQuerySenders / size
         avg.numberOfLinks = sum.numberOfLinks / size
 
-        //times
+        // times
         avg.initializationDurationInSec = sum.initializationDurationInSec / size
         avg.realSimulationDurationInSec = sum.realSimulationDurationInSec / size
         avg.simulationDurationInSec = sum.simulationDurationInSec / size
 
-        //traffic
+        // traffic
         avg.numberOfSentPackages = sum.numberOfSentPackages / size
         avg.networkTrafficInKiloBytes = sum.networkTrafficInKiloBytes / size
         avg.numberOfSentDAOPackages = sum.numberOfSentDAOPackages / size
@@ -70,7 +70,7 @@ internal class MultipleSimulationRuns(
 
     private fun sum(list: MutableList<Measurement>): Measurement {
         val sum = Measurement()
-        for(m in list) {
+        for (m in list) {
             // topology
             sum.numberOfDevices += m.numberOfDevices
             sum.numberOfSensorDevices += m.numberOfSensorDevices
@@ -78,12 +78,12 @@ internal class MultipleSimulationRuns(
             sum.numberOfQuerySenders += m.numberOfQuerySenders
             sum.numberOfLinks += m.numberOfLinks
 
-            //times
+            // times
             sum.initializationDurationInSec += m.initializationDurationInSec
             sum.realSimulationDurationInSec += m.realSimulationDurationInSec
             sum.simulationDurationInSec += m.simulationDurationInSec
 
-            //traffic
+            // traffic
             sum.numberOfSentPackages += m.numberOfSentPackages
             sum.networkTrafficInKiloBytes += m.networkTrafficInKiloBytes
             sum.numberOfSentDAOPackages += m.numberOfSentDAOPackages
@@ -98,7 +98,7 @@ internal class MultipleSimulationRuns(
     }
 
     private fun step(observedValue: Double, avgValue: Double): Double {
-        if(observedValue == 0.0) {
+        if (observedValue == 0.0) {
             return 0.0
         }
         return (observedValue - avgValue).pow(2)
@@ -157,5 +157,4 @@ internal class MultipleSimulationRuns(
 
         return tmp
     }
-
 }

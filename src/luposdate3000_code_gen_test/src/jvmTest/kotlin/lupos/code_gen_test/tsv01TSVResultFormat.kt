@@ -27,7 +27,6 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
-import lupos.simulator_iot.LifeCycleImpl
 import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
@@ -81,7 +80,7 @@ public class tsv01TSVResultFormat {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
         val config = simRun.parseJsonObjects(json)
-        simRun.sim = Simulation(config.getEntities(), LifeCycleImpl(simRun))
+        simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()

@@ -1,4 +1,6 @@
 /*
+
+src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -15,27 +17,46 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 public class VisualisationNetwork {
 
-    private val devices = mutableSetOf<VisualisationDevice>()
-    private val connections = mutableSetOf<VisualisationConnection>()
-    private val messages = mutableListOf<VisualisationMessage>()
-    private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>()
-    private val device_to_key = mutableMapOf<Int, MutableSet<String>>()
-    public fun toImage(): String {
-        val connectionLayer = 0
-        val deviceLayer = 1
-        val messageLayer = 2
+    private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
+    private var devicesMaxID = 0
+    private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
+    private val connectionsInRouting = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
+    private var connectionTable = IntArray(0) // src*devicesMaxID+dest -> nexthop
+    private val messages = mutableListOf<VisualisationMessage>() // alle gesendeten Nachrichten
+    private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
+    private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
+    private companion object {
+        val layerConnection = 0
+        val layerConnectionInRouting = 1
+        val layerDevice = 2
+        val layerMessage = 3
+
         val messagesToFade = 10
         var deviceRadius = 20.0
+    }
+    private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
+        var tmp = mutableListOf<Int>()
+        var s = src
+        while (s != dest) {
+            tmp.add(s)
+            val idx = s * devicesMaxID + dest
+            s = connectionTable[idx]
+        }
+        tmp.add(dest)
+        return tmp
+    }
+    public fun toBaseImage(): ImageHelper {
         val imageHelperBase = ImageHelper()
         imageHelperBase.createClass(
             "device",
             mapOf(
                 "fill" to "#FFFFFF",
                 "stroke" to "#000000",
-                "stroke-width" to "1",
+                "stroke-width" to "2",
             )
         )
         imageHelperBase.createClass(
@@ -59,14 +80,31 @@ public class VisualisationNetwork {
                 "stroke" to "#000000",
             )
         )
+        imageHelperBase.createClass(
+            "connectionInRouting",
+            mapOf(
+                "stroke-width" to "2",
+                "stroke" to "#0000FF",
+            )
+        )
+        imageHelperBase.createClass(
+            "message",
+            mapOf(
+                "stroke-width" to "4",
+                "stroke" to "#FF00FF",
+                "marker-end" to "url(#arrowhead)",
+                "fill-opacity" to "0",
+            )
+        )
         for (i in 0 until messagesToFade) {
-            val c = (255 * (i + 1) / messagesToFade).toString(16).padStart(2, '0')
+            val c = (255 * i / messagesToFade).toString(16).padStart(2, '0')
             imageHelperBase.createClass(
                 "message-fade-$i",
                 mapOf(
-                    "stroke-width" to "1",
+                    "stroke-width" to "4",
                     "stroke" to "#$c$c$c",
                     "marker-end" to "url(#arrowhead)",
+                    "fill-opacity" to "0",
                 )
             )
         }
@@ -91,8 +129,8 @@ public class VisualisationNetwork {
         for (device in devices) {
             var newX = imageHelperBase.minX + ((device.x - minX) / (maxX - minX)) * (imageHelperBase.maxX - imageHelperBase.minX)
             var newY = imageHelperBase.minY + ((device.y - minY) / (maxY - minY)) * (imageHelperBase.maxY - imageHelperBase.minY)
-            device.x = newX
-            device.y = newY
+            device.xnew = newX
+            device.ynew = newY
 
             val classes = mutableListOf("device")
             if (device.hasDatabase) {
@@ -101,34 +139,111 @@ public class VisualisationNetwork {
             if (device.hasSensor) {
                 classes.add("device-sensor")
             }
-            imageHelperBase.addCircle(deviceLayer, device.x, device.y, deviceRadius, classes)
+            imageHelperBase.addCircle(layerDevice, device.xnew, device.ynew, deviceRadius, classes)
         }
         for (connection in connections) {
             val a = getDeviceById(connection.source)
             val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(connectionLayer, a.x, a.y, b.x, b.y, listOf("connection"))
+            imageHelperBase.addLine(layerConnection, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connection"))
         }
+        for (connection in connectionsInRouting) {
+            val a = getDeviceById(connection.source)
+            val b = getDeviceById(connection.destination)
+            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+        }
+        return imageHelperBase
+    }
+
+    public fun saveMessagesImageVideo(imageHelperBase: ImageHelper, queryNumber: Int): Boolean {
+        fun displayMessage(message: VisualisationMessage, messageTime: Int, img: ImageHelper) {
+            val cc = messageToRoutingPath(message.source, message.destination)
+            if (cc.size == 1) {
+// self message
+            } else {
+                var points = mutableListOf<Pair<Double, Double>>()
+                var classes = mutableListOf<String>()
+                if (messageTime != -1) {
+                    classes.add("message-fade-$messageTime")
+                } else {
+                    classes.add("message")
+                }
+                for (c in 0 until cc.size) {
+                    val a = getDeviceById(cc[c])
+                    points.add(a.xnew to a.ynew)
+                }
+                img.addPath(layerMessage, points, classes, deviceRadius * 1.5)
+            }
+        }
+        var first = 0
+        var last = messages.size
+        if (queryNumber != -1) {
+            var currQuery = 0
+            while (first <messages.size && currQuery <queryNumber) {
+                val message = messages[first]
+                if (message.shortText.startsWith("query")) {
+                    currQuery++
+                }
+                first++
+            }
+            if (currQuery != queryNumber) {
+                return false
+            }
+            last = first
+            while (last <messages.size) {
+                val message = messages[last]
+                if (message.shortText.startsWith("response")) {
+                    break
+                }
+                last++
+            }
+        }
+        val imgOverview = imageHelperBase.deepCopy()
+        for (i in first until last) {
+            val img = imageHelperBase.deepCopy()
+            var j = i - messagesToFade
+            if (j <first) {
+                j = first
+            }
+            displayMessage(messages[i], -1, imgOverview)
+            for (messageIndex in j until i + 1) {
+                val messageTime = i - messageIndex // 0 current, $messagesToFade oldest
+                val message = messages[messageIndex]
+                displayMessage(message, messageTime, img)
+            }
+            val name = if (queryNumber == -1) {
+                "visual-frame-${i.toString().padStart(4,'0')}.svg"
+            } else {
+                "visual-frame-${queryNumber.toString().padStart(4,'0')}-${i.toString().padStart(4,'0')}.svg"
+            }
+            File(name).withOutputStream { out ->
+                out.println(img.toString())
+            }
+        }
+        val name = if (queryNumber == -1) {
+            "visual-overview.svg"
+        } else {
+            "visual-overview-${queryNumber.toString().padStart(4,'0')}.svg"
+        }
+        File(name).withOutputStream { out ->
+            out.println(imgOverview.toString())
+        }
+        return true
+    }
+
+    public fun toImage(): String {
+        val imageHelperBase = toBaseImage()
+// ---->>>> save it as file
         val res = imageHelperBase.toString()
         File("visual.svg").withOutputStream { out ->
             out.println(res)
         }
-        for (i in 0 until messages.size) {
-            val img = imageHelperBase.deepCopy()
-            var j = i - messagesToFade
-            if (j <0) {
-                j = 0
-            }
-            for (messageIndex in j until i + 1) {
-                val messageTime = i - messageIndex // 0 current, $messagesToFade oldest
-                val message = messages[messageIndex]
-                val a = getDeviceById(message.source)
-                val b = getDeviceById(message.destination)
-                img.addLine(messageLayer, a.x, a.y, b.x, b.y, listOf("message-fade-$messageTime"))
-            }
-            File("visual-frame-${i.toString().padStart(4,'0')}.svg").withOutputStream { out ->
-                out.println(img.toString())
-            }
+        var flag = true
+        var counter = 0
+        while (flag) {
+            flag = saveMessagesImageVideo(imageHelperBase, counter)
+            counter++
         }
+// <<<<---- save it as file
         return res
     }
 
@@ -193,9 +308,24 @@ public class VisualisationNetwork {
         }
     }
     public fun addDevice(device: VisualisationDevice) {
+        if (device.id> devicesMaxID) {
+            devicesMaxID = device.id
+        }
         devices.add(device)
     }
 
+    public fun addConnectionTable(src: Int, dest: Int, hop: Int) {
+        val idx = src * devicesMaxID + dest
+        val size = devicesMaxID * devicesMaxID
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:319"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:320"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:321"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+        if (connectionTable.size <size) {
+            connectionTable = IntArray(size) { -1 }
+        }
+        connectionTable[idx] = hop
+        connectionsInRouting.add(VisualisationConnection(src, hop))
+    }
     public fun addConnection(connection: VisualisationConnection) {
         connections.add(connection)
     }
@@ -204,5 +334,5 @@ public class VisualisationNetwork {
         message.messageCounter = messages.size
         messages.add(message)
     }
-    override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}\n\n${toImage()}"
+    override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}"
 }

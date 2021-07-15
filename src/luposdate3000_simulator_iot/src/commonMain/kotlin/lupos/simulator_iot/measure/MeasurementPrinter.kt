@@ -15,7 +15,7 @@ internal class MeasurementPrinter {
 
     private fun refreshFile() {
         val directory = File(FilePaths.outputDir)
-        if(!directory.exists()) {
+        if (!directory.exists()) {
             directory.mkdirs()
         }
         avgFile.deleteRecursively()
@@ -26,7 +26,6 @@ internal class MeasurementPrinter {
         deviationFile.withOutputStream { }
         printDeviationHeaderLine()
     }
-
 
     private fun printAvgHeaderLine() {
         printLine(getHeaderLine(), avgFile)
@@ -66,33 +65,29 @@ internal class MeasurementPrinter {
     }
 
     private fun getHeaderLine(): String {
-        return "Devices${delimiter}" +
-            "Sensors${delimiter}" +
-            "Databases${delimiter}" +
-            "QuerySenders${delimiter}" +
-            "Links${delimiter}" +
-            "DODAG Links${delimiter}" +
-            "RealInitDuration${delimiter}" +
-            "RealSimDuration${delimiter}" +
-            "SimDuration${delimiter}" +
-            "SentPackages${delimiter}" +
-            "TrafficInKBytes${delimiter}" +
-            "SentDatabasePackages${delimiter}" +
-            "SentSamplePackages${delimiter}" +
-            "SentDIOPackages${delimiter}" +
-            "SentDAOPackages${delimiter}" +
-            "ForwardedPackages${delimiter}" +
-            "SamplesMade${delimiter}" +
-            "QueriesMade${delimiter}"
+        return "Devices$delimiter" +
+            "Sensors$delimiter" +
+            "Databases$delimiter" +
+            "QuerySenders$delimiter" +
+            "Links$delimiter" +
+            "DODAG Links$delimiter" +
+            "RealInitDuration$delimiter" +
+            "RealSimDuration$delimiter" +
+            "SimDuration$delimiter" +
+            "SentPackages$delimiter" +
+            "TrafficInKBytes$delimiter" +
+            "SentDatabasePackages$delimiter" +
+            "SentSamplePackages$delimiter" +
+            "SentDIOPackages$delimiter" +
+            "SentDAOPackages$delimiter" +
+            "ForwardedPackages$delimiter" +
+            "SamplesMade$delimiter" +
+            "QueriesMade$delimiter"
     }
-
-
 
     private fun printLine(line: String, file: File) {
         val stream = file.openOutputStream(true)
         stream.println(line)
         stream.close()
     }
-
-
 }

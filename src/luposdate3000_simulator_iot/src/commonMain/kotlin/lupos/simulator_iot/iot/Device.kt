@@ -3,7 +3,6 @@ package lupos.simulator_iot.iot
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.utils.TimeUtils
 import lupos.simulator_iot.iot.db.DatabaseAdapter
 import lupos.simulator_iot.iot.geo.GeoLocation
 import lupos.simulator_iot.iot.net.IPayload
@@ -13,12 +12,13 @@ import lupos.simulator_iot.iot.routing.IRoutingProtocol
 import lupos.simulator_iot.iot.routing.RPL
 import lupos.simulator_iot.iot.sensor.ISensor
 import lupos.simulator_iot.iot.sensor.ParkingSample
+import lupos.simulator_iot.utils.TimeUtils
 
 public class Device(
     internal val simRun: SimulationRun,
     internal var location: GeoLocation,
     internal val address: Int,
-    internal var database: DatabaseAdapter?,
+    public var database: DatabaseAdapter?,
     internal var sensor: ISensor?,
     internal val performance: Double,
     supportedLinkTypes: IntArray,
@@ -97,6 +97,13 @@ public class Device(
     }
 
     override fun onShutDown() {
+        for (dest in 0 until simRun.config.devices.size) {
+            try {
+                val hop = router.getNextHop(dest)
+                simRun.sim.visualisationNetwork.addConnectionTable(address, dest, hop)
+            } catch (e: Throwable) {
+            }
+        }
         sensor?.stopSampling()
         database?.shutDown()
     }
@@ -143,16 +150,15 @@ public class Device(
         simRun.incNetworkTraffic(pck.pckSize)
     }
 
-
     internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {
-        if(destinationAddress != address) {
+        if (destinationAddress != address) {
             // ignore self packages
             simRun.incNumberOfSentSamplePackages()
         }
         sendRoutedPackage(address, destinationAddress, data)
     }
 
-    internal fun hasDatabase(): Boolean = database != null
+    public fun hasDatabase(): Boolean = database != null
 
     private fun logReceivePackage(pck: NetworkPackage) {
         simRun.logger.log("> $this receives $pck at clock ${simRun.getCurrentSimulationClock()}")

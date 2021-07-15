@@ -27,6 +27,4 @@ internal class Measurement {
     internal var numberOfSentDIOPackages: Double = 0.0
     internal var numberOfSentDAOPackages: Double = 0.0
     internal var numberOfForwardedPackages: Double = 0.0
-
-
 }

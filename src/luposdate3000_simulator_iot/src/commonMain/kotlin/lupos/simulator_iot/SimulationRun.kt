@@ -1,7 +1,6 @@
 package lupos.simulator_iot
 
 import lupos.shared.inline.File
-import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.JsonObjects
@@ -39,7 +38,7 @@ public class SimulationRun {
 
     private fun createOutputDirectory() {
         val directory = File(FilePaths.outputDir)
-        if(!directory.exists()) {
+        if (!directory.exists()) {
             directory.mkdirs()
         }
     }
@@ -49,24 +48,6 @@ public class SimulationRun {
         File(FilePaths.dbStates).deleteRecursively()
         File(FilePaths.queryResult).mkdirs()
         File(FilePaths.dbStates).mkdirs()
-    }
-
-    private inner class LifeCycleImpl() : ISimulationLifeCycle {
-
-        override fun onStartUp() {
-            timeMeasurer.onStartUp()
-            measureOnStartUp()
-            logger.logStartUp()
-        }
-
-        override fun onSteadyState() {
-        }
-
-        override fun onShutDown() {
-            timeMeasurer.onShutDown()
-            measureOnShutDown()
-            logger.logShutDown()
-        }
     }
 
     public fun parseConfigFile(fileName: String): JsonObjects {
@@ -80,9 +61,9 @@ public class SimulationRun {
 
     internal fun startSimulation(configuration: Configuration) {
         sim = Simulation(configuration.getEntities())
-        sim.callback = LifeCycleImpl()
-        sim.maxClock = if(simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
-        sim.steadyClock = if(simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
+        sim.callback = LifeCycleImpl(this)
+        sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
+        sim.steadyClock = if (simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
 
         for (d in configuration.devices) {
             val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
@@ -101,7 +82,7 @@ public class SimulationRun {
         return sim.clock
     }
 
-    private fun measureOnStartUp() {
+    internal fun measureOnStartUp() {
         measurement.numberOfDevices = config.getNumberOfDevices().toDouble()
         measurement.numberOfSensorDevices = config.numberOfSensors.toDouble()
         measurement.numberOfDatabaseDevices = config.numberOfDatabases.toDouble()
@@ -111,7 +92,7 @@ public class SimulationRun {
         measurement.numberOfLinks = config.linker.numberOfLinks.toDouble()
     }
 
-    private fun measureOnShutDown() {
+    internal fun measureOnShutDown() {
         measurement.realSimulationDurationInSec = timeMeasurer.getRealSimulationDuration()
         measurement.simulationDurationInSec = timeMeasurer.getSimulationDuration()
         measurement.shutDownTimeStampInISO = timeMeasurer.getShutDownTimeString()
@@ -153,8 +134,4 @@ public class SimulationRun {
     internal fun incNumberOfForwardedPackages() {
         measurement.numberOfForwardedPackages++
     }
-
-
-
-
 }

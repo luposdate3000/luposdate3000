@@ -31,5 +31,4 @@ internal class LinkManager(
 
     internal fun getNeighbours(): MutableSet<Int> =
         links.keys
-
 }

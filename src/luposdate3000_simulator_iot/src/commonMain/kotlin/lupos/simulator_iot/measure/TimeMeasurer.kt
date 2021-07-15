@@ -49,5 +49,4 @@ public class TimeMeasurer(private val simRun: SimulationRun) {
     internal fun getRealShutDownTimeString(): String {
         return getTimeString(realShutDownTimeStamp)
     }
-
 }

@@ -1,6 +1,6 @@
 package lupos.simulator_iot.iot.net
 
-internal class NetworkPackage(
+public class NetworkPackage(
     internal val sourceAddress: Int,
     internal val destinationAddress: Int,
     internal val payload: IPayload
