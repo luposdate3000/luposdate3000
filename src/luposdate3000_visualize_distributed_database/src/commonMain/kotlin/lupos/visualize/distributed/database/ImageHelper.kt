@@ -79,7 +79,11 @@ public class ImageHelper {
     public override fun toString(): String {
         val buffer = StringBuilder()
         buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 $width $height\" >")
-
+        buffer.appendLine("    <defs>")
+        buffer.appendLine("        <marker id=\"arrowhead\" orient=\"auto\" markerWidth=\"2\" markerHeight=\"4\" refX=\"0.1\" refY=\"2\">")
+        buffer.appendLine("            <path d=\"M0,0 V4 L2,2 Z\" fill=\"#000000\" />")
+        buffer.appendLine("        </marker>")
+        buffer.appendLine("    </defs>")
         buffer.appendLine("    <style type=\"text/css\">")
         for ((name, attrs) in classes) {
             buffer.appendLine("        .$name{")

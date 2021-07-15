@@ -101,7 +101,8 @@ public class Simulation(
     public fun shutDown() {
         shutDownAllEntities()
         callback.onShutDown()
-//        println(visualisationNetwork)
+        println(visualisationNetwork.toString())
+        visualisationNetwork.toImage()
     }
 
     private fun shutDownAllEntities() {

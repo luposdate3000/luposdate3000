@@ -18,6 +18,8 @@ package lupos.visualize.distributed.database
 public class VisualisationDevice(public val id: Int, public val hasDatabase: Boolean, public val hasSensor: Boolean) {
     public var x: Double = 0.0
     public var y: Double = 0.0
+    public var xnew: Double = 0.0
+    public var ynew: Double = 0.0
     override fun equals(other: Any?): Boolean = other is VisualisationDevice && id == other.id
     override fun hashCode(): Int = id
     override fun toString(): String = "VisualisationDevice(id=$id, hasDatabase=$hasDatabase, hasSensor=$hasSensor)"

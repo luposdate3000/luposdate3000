@@ -11,6 +11,7 @@ import lupos.simulator_iot.net.routing.IRoutingProtocol
 import lupos.simulator_iot.net.routing.RPL
 import lupos.simulator_iot.sensor.ISensor
 import lupos.simulator_iot.sensor.ParkingSample
+import lupos.visualize.distributed.database.VisualisationConnection
 
 public class Device(
     internal val simRun: SimulationRun,
@@ -97,6 +98,13 @@ public class Device(
     }
 
     override fun onShutDown() {
+        for (dest in 0 until simRun.config.devices.size) {
+            try {
+                val hop = router.getNextHop(dest)
+                simRun.sim.visualisationNetwork.addConnectionInRouting(VisualisationConnection(address, hop))
+            } catch (e: Throwable) {
+            }
+        }
         sensor?.stopSampling()
         database?.shutDown()
     }
