@@ -40,6 +40,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
         i2 = EIndexPatternHelper.tripleIndicees[writeOrder][2]
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun readAll(crossinline action: (DictionaryValueTypeArray) -> Unit) {
         var tmp = next()
         while (tmp != null) {
@@ -54,6 +55,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
     @JvmField
     internal val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun next(): DictionaryValueTypeArray? {
         val header = streamIn!!.readByte()
         if (header == 125.toByte()) {
@@ -77,6 +79,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun close() {
         streamIn?.close()
         streamIn = null

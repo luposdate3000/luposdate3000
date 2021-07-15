@@ -49,7 +49,10 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
         streamOut!!.writeInt(writeOrder)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun getCount(): Long = count
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun write(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType) {
         val l0: DictionaryValueType
         val l1: DictionaryValueType
@@ -110,6 +113,7 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun close() {
         buf[0] = 125
         streamOut?.write(buf, 1)

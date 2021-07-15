@@ -1,6 +1,10 @@
 package lupos.simulator_core
+import lupos.visualize.distributed.database.VisualisationNetwork
+
 
 public class Simulation(private val entities: List<Entity>) {
+
+    public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
 
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
@@ -33,7 +37,7 @@ public class Simulation(private val entities: List<Entity>) {
         }
     }
 
-    private fun run() {
+    public fun run() {
         var isFinished = false
         while (!isFinished)
             isFinished = runNextTimeStep()
@@ -88,12 +92,12 @@ public class Simulation(private val entities: List<Entity>) {
         futureEvents.enqueue(ev)
     }
 
-    private fun startUp() {
-        callback?.onStartUp()
+    public fun startUp() {
+        callback.onStartUp()
         startUpAllEntities()
     }
 
-    private fun shutDown() {
+    public fun shutDown() {
         shutDownAllEntities()
         callback?.onShutDown()
     }

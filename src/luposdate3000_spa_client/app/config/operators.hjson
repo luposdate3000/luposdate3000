@@ -1,13 +1,16 @@
 {
     "Octave": {
+hinttext:"octave:",
 standard:"4",
 values:["1", "2", "3", "4", "5", "6", "7"],
 },
     "Instrument": {
+hinttext:"instrument:",
 standard:"piano",
 values:["piano", "bass-electric", "bassoon", "cello", "clarinet", "contrabass", "flute", "french-horn", "guitar-acoustic", "guitar-electric", "guitar-nylon", "harmonium", "harp", "organ", "saxophone", "trombone", "trumpet", "tuba", "violin", "xylophone"],
 },
     "Pitch":{
+hinttext:"note:",
 standard:"C",
 values: ["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"],
 },
@@ -49,22 +52,27 @@ values: ["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab"
     "audioDimension": ["Pitch", "Instrument", "Loudness", "Spatialization", "Duration", "Melody", "Chord", "Octave"],
     "defaultArpeggio": false,
     "Spatialization": {
+hinttext:"",
 standard:0
 values:["0"],
 },
     "Loudness": {
+hinttext:"loudness:",
 standard:1
 values:["1"],
 },
     "Duration": {
+hinttext:"duration:",
 standard:"4n",
 values:["1n", "2n", "4n", "8n", "16n"],
 },
     "Octave": {
+hinttext:"octave:",
 standard:"4",
 values:[1, 2, 3, 4, 5, 6, 7],
 },
     "Chord": {
+hinttext:"chord:",
 standard:"C",
 values:{
         "C": {

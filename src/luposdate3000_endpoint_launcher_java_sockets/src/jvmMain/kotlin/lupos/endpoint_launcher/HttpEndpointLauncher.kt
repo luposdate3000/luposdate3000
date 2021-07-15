@@ -134,6 +134,7 @@ public actual object HttpEndpointLauncher {
                             e.printStackTrace()
                             connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
                             connectionOutMy.println()
+                            connectionOutMy.println(e.stackTraceToString())
                         } finally {
                             if (closeSockets) {
                                 connectionOutMy.close()

@@ -75,7 +75,7 @@ function initVisualization() { //first time initialization - called by main.coff
         App.config.animationSpeed = v
     });
     toggle = new Nexus.Toggle('#sonification-follow', { //TODO config file
-        'size': [40, 30],
+        'size': [130, 30],
         'state': false
     });
     var html = '';
@@ -88,7 +88,7 @@ function initVisualization() { //first time initialization - called by main.coff
         var i = App.operators.audioDimension[j]
         var selectAudioIdentifier = '#selectAudio-' + j;
         selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
-            'size': [200, 40],
+            'size': [290, 40],
             'options': App.operators.information[i].values
         });
         selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
@@ -430,20 +430,27 @@ function replacePrefix() { //
             }
         }
     }
-    for (j = 0; j <= dataNodes.length - 1; j++) {
-        for (i = 0; i <= prefixes.length - 1; i++) {
-            if (dataNodes[j].label.includes(prefixes[i][1])) {
-                var string = dataNodes[j].label.replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
-                string = string.replaceAll("<", "");
-                string = string.replaceAll(">", "");
-                dataNodes[j].label = string;
-            }
-        }
-    }
+for(s=0;s<App.logGraph.length;s++){
+replacePrefixHelper(App.logGraph[s].nodes,prefixes)
+}
+for(s=0;s<App.physGraph.length;s++){
+replacePrefixHelper(App.physGraph[s].nodes,prefixes)
+}
     selectMapping()
     App.processResults(App.result, "sparql");
 }
-
+function replacePrefixHelper(nodes,prefixes) { //
+    for (j = 0; j <= nodes.length - 1; j++) {
+        for (i = 0; i <= prefixes.length - 1; i++) {
+            if (nodes[j].label.includes(prefixes[i][1])) {
+                var string = nodes[j].label.replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
+                string = string.replaceAll("<", "");
+                string = string.replaceAll(">", "");
+                nodes[j].label = string;
+            }
+        }
+    }
+}
 //Avoid buffer problem when instrument files are not yet loaded
 function triggerNote(chord, duration, delay, velocity, currentname) {
     if (typeof App.samples[currentname] === "undefined") {

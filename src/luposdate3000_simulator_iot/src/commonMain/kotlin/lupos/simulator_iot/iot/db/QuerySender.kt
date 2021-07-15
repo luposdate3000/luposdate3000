@@ -2,6 +2,7 @@ package lupos.simulator_iot.iot.db
 
 import lupos.simulator_core.Entity
 import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.PostProcessSend
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.iot.Device
 import lupos.simulator_iot.SimulationRun
@@ -63,6 +64,7 @@ public class QuerySender(
         simRun.incNumberOfQueries()
         val pck = DBQuerySenderPackage(queryPck)
         val netPck = NetworkPackage(receiver.address, receiver.address, pck)
+        PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock, receiver.simRun.sim.visualisationNetwork, queryPck)
         scheduleEvent(receiver, netPck, 0)
     }
 }

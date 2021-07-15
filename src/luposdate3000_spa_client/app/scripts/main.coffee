@@ -113,9 +113,10 @@ App.getGraphData = (data, urlPrefix, method, target)->
         method: method
         data: JSON.stringify(request)
         success: (data) ->
-            createGraph(data, target)
+            if App.checkErrorString data
+                createGraph(data, target)
         error: (xhr, status, error) ->
-            App.logError error
+            App.logError xhr.responseText
 
     # Operator-Graph Request
     $.ajax
@@ -123,9 +124,10 @@ App.getGraphData = (data, urlPrefix, method, target)->
         method: method
         data: JSON.stringify(data)
         success: (data) ->
-            createOPGraph(data, target)
+            if App.checkErrorString data  
+                createOPGraph(data, target)
         error: (xhr, status, error) ->
-            App.logError error
+            App.logError xhr.responseText
 
 
 App.loadluposdate3000 = (data, url, withGraph) ->
@@ -138,6 +140,7 @@ App.loadluposdate3000 = (data, url, withGraph) ->
             method: "POST"
             data: queryData
             success: (sessionID) ->
+              if App.checkErrorString sessionID, 'sparql'
                 sessionData =
                     sessionID: sessionID
                 $.ajax
@@ -145,57 +148,70 @@ App.loadluposdate3000 = (data, url, withGraph) ->
                     method: "POST"
                     data: sessionData
                     success: (logSteps) ->
+                     if App.checkErrorString logSteps, 'sparql'  
                         App.logGraph = JSON.parse(logSteps)
                         $.ajax
                             url: url + 'sparql/getPhysicalVisual'
                             method: "POST"
                             data: sessionData
                             success: (phySteps) ->
+                              if App.checkErrorString phySteps, 'sparql'  
                                 App.physGraph = JSON.parse(phySteps)
                                 $.ajax
                                     url: url + 'sparql/getVisualisationData'
                                     method: "POST"
                                     data: sessionData
                                     success: (visData) ->
+                                      if App.checkErrorString visData, 'sparql'  
                                         App.globalAnimationList = JSON.parse(visData)
                                         $.ajax
                                             url: url + 'sparql/getResult'
                                             method: "POST"
                                             data: sessionData
                                             success: (resultData) ->
+                                              if App.checkErrorString resultData, 'sparql'  
                                                 App.result = resultData
                                                 $.ajax
                                                     url: url + 'sparql/closeSession'
                                                     method: "POST"
                                                     data: sessionData
                                                     success: (closeResponse) ->
+                                                      if App.checkErrorString closeResponse, 'sparql'
                                                         formatResultData();
                                                         App.additionalHiddenTabs = ["graph", "op-graph"]
                                                         App.initConfigComponentsHideTabs()
                                                     error: (xhr, status, error) ->
-                                                        App.logError error
+                                                        App.logError xhr.responseText
                                             error: (xhr, status, error) ->
-                                                App.logError error
+                                                App.logError xhr.responseText
                                     error: (xhr, status, error) ->
-                                        App.logError error
+                                        App.logError xhr.responseText
                             error: (xhr, status, error) ->
-                                App.logError error
+                                App.logError xhr.responseText
                     error: (xhr, status, error) ->
-                        App.logError error
+                        App.logError xhr.responseText
             error: (xhr, status, error) ->
-                App.logError error
+                App.logError xhr.responseText
     else
         $.ajax
             url: url + 'sparql/query'
             method: "POST"
             data: queryData
             success: (xml) ->
+              if App.checkErrorString xml, 'sparql'
                 App.processResults(xml, "sparql")
                 App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"]
                 App.initConfigComponentsHideTabs()
             error: (xhr, status, error) ->
-                App.logError error
+                App.logError xhr.responseText
 
+App.checkErrorString = (data, target) ->
+    if data.indexOf("HTTP/1.1 500 Internal Server Error") !=-1
+        App.logError data, target
+        return false
+    else
+        return true
+        
 App.bindEvents = ->
     $('#sonificationsettings').click ->
         $('#sonificationsettings-menu').show()
@@ -272,33 +288,41 @@ App.bindEvents = ->
                 App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
             if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
-                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
+                    try
+                        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
+                    catch e
+                        App.logError e, 'rdf'
                 #Receive optimized steps for logical and physical operator graph
                 if withGraph
-                    eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
-                    tmp = eev.getOptimizedStepsLogical();
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v.toJson())
-                    App.logGraph = tmp
-                    tmp = eev.getOptimizedStepsPhysical();
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v.toJson())
-                    App.physGraph = tmp
-                    #Result from the query
-                    App.result = eev.getResult();
-                    tmp = eev.getDataSteps()
-                    for v,k in tmp
-                        tmp[k] = JSON.parse(v)
-                    App.globalAnimationList = tmp
-                    formatResultData();
-                    App.additionalHiddenTabs = ["graph", "op-graph"]
-                    App.initConfigComponentsHideTabs()
+                    try
+                        eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
+                        tmp = eev.getOptimizedStepsLogical();
+                        for v,k in tmp
+                            tmp[k] = JSON.parse(v.toJson())
+                        App.logGraph = tmp
+                        tmp = eev.getOptimizedStepsPhysical();
+                        for v,k in tmp
+                            tmp[k] = JSON.parse(v.toJson())
+                        App.physGraph = tmp
+                        #Result from the query
+                        App.result = eev.getResult();
+                        tmp = eev.getDataSteps()
+                        for v,k in tmp
+                            tmp[k] = JSON.parse(v)
+                        App.globalAnimationList = tmp
+                        formatResultData();
+                        App.additionalHiddenTabs = ["graph", "op-graph"]
+                        App.initConfigComponentsHideTabs()
+                    catch e
+                        App.logError e, target
                 else
-                    res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query)
-                    App.processResults(res, "sparql")
-                    App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph",
-                        "luposdate3000-sonification"]
-                    App.initConfigComponentsHideTabs()
+                    try
+                        res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query)
+                        App.processResults(res, "sparql")
+                        App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"]
+                        App.initConfigComponentsHideTabs()
+                    catch e
+                        App.logError e, target
             else
                 if App.config.sendRDF
                     rdfData =
@@ -308,9 +332,10 @@ App.bindEvents = ->
                         method: "POST"
                         data: rdfData
                         success: (loadResponse) ->
-                            App.loadluposdate3000 data, url, withGraph
+                            if App.checkErrorString loadResponse, 'rdf'
+                                App.loadluposdate3000 data, url, withGraph
                         error: (xhr, status, error) ->
-                            App.logError error
+                            App.logError xhr.responseText, 'rdf'
                 else
                     App.loadluposdate3000 data, url, withGraph
         else
@@ -366,7 +391,7 @@ App.bindEvents = ->
                             "op-graph"]
                         App.initConfigComponentsHideTabs()
                 error: (xhr, status, error) ->
-                    App.logError error
+                    App.logError xhr.responseText
 
     # Reload editor when changing tabs
     $(document).foundation
@@ -733,10 +758,13 @@ App.logError = (msg, editor, line) ->
         line--
         App.cm[editor].setSelection {line: (line), ch: 0}, {line: (line), ch: 80}
         $(".#{editor}-tab a").click()
-    localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre>"
+    localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre style='white-space: pre-wrap;'>"
     localhtml += _.escape(msg)
     localhtml += "</pre>"
     $('#result-tab').html localhtml
+    App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"]
+    App.initConfigComponentsHideTabs()
+
 
 App.baseName = (str) ->
     base = new String(str).substring(str.lastIndexOf('/') + 1)

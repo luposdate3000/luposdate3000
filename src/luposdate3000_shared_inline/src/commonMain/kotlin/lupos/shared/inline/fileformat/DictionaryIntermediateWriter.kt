@@ -52,6 +52,7 @@ internal class DictionaryIntermediateWriter : DictionaryIntermediate {
         close()
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun close() {
         if (streamOut != null) {
             if (DictionaryValueHelper.getSize() == 8) {

@@ -14,28 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-package lupos.shared.inline.fileformat
-
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared.inline.File
-import kotlin.jvm.JvmField
-
-internal abstract class TriplesIntermediate(@JvmField internal val filename: String) {
-    @JvmField
-    internal var streamOut: IMyOutputStream? = null
-
-    @JvmField
-    internal var streamIn: IMyInputStream? = null
-
-    internal companion object {
-        internal const val version: Int = 2
-        internal const val filenameEnding = ".triples"
-
-        @Suppress("NOTHING_TO_INLINE")
-        internal inline fun delete(filename: String) {
-            File("$filename$filenameEnding").deleteRecursively()
-        }
-    }
+package lupos.visualize.distributed.database
+public class VisualisationDevice(public val id: Int, public val hasDatabase: Boolean, public val hasSensor: Boolean) {
+    public var x: Double = 0.0
+    public var y: Double = 0.0
+    override fun equals(other: Any?): Boolean = other is VisualisationDevice && id == other.id
+    override fun hashCode(): Int = id
+    override fun toString(): String = "VisualisationDevice(id=$id, hasDatabase=$hasDatabase, hasSensor=$hasSensor)"
 }

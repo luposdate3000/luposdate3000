@@ -9,6 +9,8 @@ import lupos.simulator_iot.measure.Logger
 import lupos.simulator_iot.measure.Measurement
 import lupos.simulator_iot.measure.TimeMeasurer
 import lupos.simulator_iot.utils.FilePaths
+import lupos.visualize.distributed.database.VisualisationConnection
+import lupos.visualize.distributed.database.VisualisationDevice
 
 public class SimulationRun {
 
@@ -81,6 +83,17 @@ public class SimulationRun {
         sim.callback = LifeCycleImpl()
         sim.maxClock = if(simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if(simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
+
+        for (d in configuration.devices) {
+            val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
+            vis.x = d.location.latitude
+            vis.y = d.location.longitude
+            sim.visualisationNetwork.addDevice(vis)
+            for (n in d.linkManager.getNeighbours()) {
+                sim.visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
+            }
+        }
+
         sim.startSimulation()
     }
 

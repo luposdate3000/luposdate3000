@@ -5,6 +5,7 @@ import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IRouter
+import lupos.simulator_db.PostProcessSend
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
@@ -81,6 +82,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         val query = SemanticData.getInsertQueryString(sample)
         val bytes = query.encodeToByteArray()
         val pck = QueryPackage(device.address, bytes)
+        PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.sim.visualisationNetwork, pck)
         processIDatabasePackage(pck)
     }
 
@@ -92,6 +94,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+        PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.sim.visualisationNetwork, pck)
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {

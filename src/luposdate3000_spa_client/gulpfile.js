@@ -238,10 +238,6 @@ gulp.task('resources', function() {
         ])
         .pipe(gulp.dest('dist/resources/RIF')),
         gulp.src([
-            "app/resources/config.json",
-        ])
-        .pipe(gulp.dest('dist/resources/')),
-        gulp.src([
             "app/resources/uebungen/CloudAndWebTechnologiesSparql1/Luebeck.n3",
             "app/resources/uebungen/CloudAndWebTechnologiesSparql1/s1a.sparql",
             "app/resources/uebungen/CloudAndWebTechnologiesSparql1/config.json",

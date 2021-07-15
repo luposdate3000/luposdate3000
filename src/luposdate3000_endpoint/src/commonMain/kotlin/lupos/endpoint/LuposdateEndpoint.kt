@@ -155,7 +155,10 @@ public object LuposdateEndpoint {
             if (instance.tripleStoreManager!!.getGraphNames().contains(graphName)) {
                 instance.tripleStoreManager!!.dropGraph(query, graphName)
             }
-            instance.tripleStoreManager!!.createGraph(query, graphName)
+            try {
+                instance.tripleStoreManager!!.createGraph(query, graphName)
+            } catch (e: Throwable) {
+            }
             val store = instance.tripleStoreManager!!.getGraph(graphName)
             val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
             val dictTime = DateHelperRelative.elapsedSeconds(startTime)
@@ -252,7 +255,6 @@ public object LuposdateEndpoint {
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
-        println("evaluateSparqlToOperatorgraphB>>>$query<<<")
         val lcit = LexerCharIterator(query)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)

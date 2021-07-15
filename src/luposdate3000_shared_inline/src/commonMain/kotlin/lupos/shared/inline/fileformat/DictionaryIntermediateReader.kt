@@ -30,6 +30,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
         while (hasNext()) {
             next(buffer, action)
@@ -41,6 +42,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
         return streamIn != null
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
         val id = streamIn!!.readDictionaryValueType()
         if (id < 0) {
@@ -53,6 +55,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun next(buffer: ByteArrayWrapper): DictionaryIntermediateRow? {
         var res: DictionaryIntermediateRow? = null
         next(buffer) { id ->
@@ -61,6 +64,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
         return res
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun close() {
         streamIn?.close()
         streamIn = null

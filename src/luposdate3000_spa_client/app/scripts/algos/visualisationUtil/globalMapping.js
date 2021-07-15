@@ -103,7 +103,7 @@ function getAudioData(idMappings, id, label, index, audioDimension) {
 function createMyMenu(audioDimension, selector) {
     if (audioDimension == "Loudness") {
         return new Nexus.Slider(selector, {
-            'size': [120, 40],
+            'size': [180, 40],
             'mode': 'relative',
             'min': 0,
             'max': 1,
@@ -112,7 +112,7 @@ function createMyMenu(audioDimension, selector) {
         });
     } else if (audioDimension == "Spatialization") {
         return new Nexus.Slider(selector, {
-            'size': [120, 40],
+            'size': [180, 40],
             'mode': 'relative',
             'min': -1,
             'max': 1,
@@ -125,12 +125,12 @@ function createMyMenu(audioDimension, selector) {
             values.push(v)
         }
         return new Nexus.Select(selector, {
-            'size': [100, 40],
+            'size': [180, 40],
             'options': values
         });
     } else {
         return new Nexus.Select(selector, {
-            'size': [100, 40],
+            'size': [180, 40],
             'options': App.operators[audioDimension].values
         });
     }
@@ -178,11 +178,15 @@ function createArraySelector(audioDimension, labels, mode) {
         var selector = audioDimension.toLowerCase() + i
         html += '<h7>' + labels[i] + '</h7><br>';
         html += '<div style=overflow:hidden;>';
-        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+        html += '<div style=overflow:hidden;>';
+        html += '<p style=float:left;margin-right:10px;margin-top:9px;>'+App.operators[audioDimension].hinttext+'</p>';
         html += '<div nexus-ui=select id=' + selector + ' style=float:left;margin-right:10px;></div>';
+html += '</div>';
         if (audioDimension == "Chord") {
+html += '<div style=overflow:hidden;>';
             html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-            html += '<input type=checkbox id=arpeggio' + selector + ' style=overflow:hidden;margin-top:12px;><br>';
+            html += '<input type=checkbox myindex='+i+' id=arpeggio' + selector + ' style=overflow:hidden;margin-top:12px;><br>';
+html += '</div>';
             arpeggioSettings.push(App.operators.defaultArpeggio);
         }
         html += '</div>';
@@ -209,7 +213,7 @@ function createArraySelector(audioDimension, labels, mode) {
             var arpeggio = $("#arpeggio" + selector)
             arpeggio.prop('checked', App.config.sonification[audioDimension][mode].arpeggio[i]);
             arpeggio.on('change', function(v) {
-                App.config.sonification[audioDimension][mode].arpeggio[i] = arpeggio.is(':checked');
+                App.config.sonification[audioDimension][mode].arpeggio[this.attributes.myindex.nodeValue] = this.checked;
             });
         }
     }
@@ -223,11 +227,15 @@ function createSimpleSelector(audioDimension, label, mode) {
     var selector = audioDimension.toLowerCase() + 'Simple'
     html += '<h7>' + label + '</h7><br>';
     html += '<div style=overflow:hidden;>';
-    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+    html += '<div style=overflow:hidden;>';
+    html += '<p style=float:left;margin-right:10px;margin-top:9px;>'+App.operators[audioDimension].hinttext+'</p>';
     html += '<div nexus-ui=select id=' + selector + ' style=float:left;margin-right:10px;></div>';
+html += '</div>';
     if (audioDimension == "Chord") {
+    html += '<div style=overflow:hidden;>';
         html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
         html += '<input type=checkbox id=arpeggio' + selector + ' style=overflow:hidden;margin-top:12px;><br>';
+html += '</div>';
     }
     html += '</div>';
     html += '</fieldset>';
@@ -416,6 +424,7 @@ function calculateMinMaxIndex() {
 
 function getChordTones(mode, j, isArray) {
     if (isArray) {
+
         var basicTone = App.operators.Chord.values[App.config.sonification.Chord[mode].value[j]].basic;
         var firstTone = App.operators.Chord.values[App.config.sonification.Chord[mode].value[j]].first;
         var secondTone = App.operators.Chord.values[App.config.sonification.Chord[mode].value[j]].second;
