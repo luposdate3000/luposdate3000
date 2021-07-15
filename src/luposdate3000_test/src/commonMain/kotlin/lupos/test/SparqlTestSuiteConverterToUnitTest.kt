@@ -249,7 +249,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.simulator_iot.config.Configuration")
                 out.println("import lupos.simulator_iot.log.Logger")
                 out.println("import lupos.simulator_iot.SimulationRun")
-                out.println("import lupos.simulator_iot.LifeCycleImpl")
                 out.println("")
                 if (!useCodeGen) {
                     if (ignored) {
@@ -394,7 +393,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("        val simRun = SimulationRun()")
                     out.println("        val json=simRun.parseConfigFile(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
                     out.println("        val config = simRun.parseJsonObjects(json)")
-                    out.println("        simRun.sim = Simulation(config.getEntities(), LifeCycleImpl(simRun))")
+                    out.println("        simRun.sim = Simulation(config.getEntities())")
                     out.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
                     out.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
                     out.println("        simRun.sim.startUp()")

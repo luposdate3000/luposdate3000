@@ -1,7 +1,6 @@
 package lupos.simulator_iot
 
 import lupos.shared.inline.File
-import lupos.simulator_core.ISimulationLifeCycle
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.config.JsonObjects
@@ -83,7 +82,7 @@ public class SimulationRun {
         return sim.clock
     }
 
-    private fun measureOnStartUp() {
+    internal fun measureOnStartUp() {
         measurement.numberOfDevices = config.getNumberOfDevices().toDouble()
         measurement.numberOfSensorDevices = config.numberOfSensors.toDouble()
         measurement.numberOfDatabaseDevices = config.numberOfDatabases.toDouble()
@@ -93,7 +92,7 @@ public class SimulationRun {
         measurement.numberOfLinks = config.linker.numberOfLinks.toDouble()
     }
 
-    private fun measureOnShutDown() {
+    internal fun measureOnShutDown() {
         measurement.realSimulationDurationInSec = timeMeasurer.getRealSimulationDuration()
         measurement.simulationDurationInSec = timeMeasurer.getSimulationDuration()
         measurement.shutDownTimeStampInISO = timeMeasurer.getShutDownTimeString()
