@@ -171,7 +171,7 @@ public class VisualisationNetwork {
                     val a = getDeviceById(cc[c])
                     points.add(a.xnew to a.ynew)
                 }
-                img.addPath(layerMessage, points, classes)
+                img.addPath(layerMessage, points, classes, deviceRadius * 1.5)
             }
         }
         var first = 0

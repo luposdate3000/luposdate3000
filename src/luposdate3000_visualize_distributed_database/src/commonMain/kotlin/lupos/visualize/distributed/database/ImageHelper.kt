@@ -85,21 +85,43 @@ public class ImageHelper {
     private inline fun getDirection(p1: Pair<Double, Double>, p2: Pair<Double, Double>): Pair<Double, Double> {
         return (p2.first - p1.first)to(p2.second - p1.second)
     }
+    private fun rotate90Degree(p: Pair<Double, Double>): Pair<Double, Double> {
+        return p.second to (-p.first)
+    }
+    private inline fun shortenPath(p: Pair<Double, Double>, a: Pair<Double, Double>, b: Pair<Double, Double>, dir: Pair<Double, Double>, len: Double): Pair<Double, Double> {
+        val mov = rotate90Degree(setLength(dir, len))
+        val p1 = p.first + mov.first to p.second + mov.second
+        val p2 = p.first - mov.first to p.second - mov.second
+        val l1 = getLength(getDirection(a, p1)) + getLength(getDirection(b, p1))
+        val l2 = getLength(getDirection(a, p2)) + getLength(getDirection(b, p2))
+        if (l1 <l2) {
+            return p1
+        } else {
+            return p2
+        }
+    }
 
-    public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>) {
+    public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double) {
         checkLayer(layer)
         var directions = mutableListOf<Pair<Double, Double>>()
+        var correctedPoints = mutableListOf<Pair<Double, Double>>()
         for (i in 0 until points.size) {
             var im = if (i> 0)i - 1 else i // i-1
             var ip = if (i <points.size - 1) i + 1 else i // i+1
-            directions.add(getDirection(points[im], points[ip]))
+            val dir = getDirection(points[im], points[ip])
+            directions.add(dir)
+            if (i == 0 || i == points.size - 1) {
+                correctedPoints.add(points[i])
+            } else {
+                correctedPoints.add(shortenPath(points[i], points[im], points[ip], dir, pointRadius))
+            }
         }
-        val (x, y) = points.first()
+        val (x, y) = correctedPoints.first()
         var s = "    <path d=\"M $x,$y"
-        for (i in 0 until points.size - 1) {
-            val (x1, y1) = points[i]
-            val (x2, y2) = points[i + 1]
-            val len = getLength(getDirection(points[i], points[i + 1])) / 5.0
+        for (i in 0 until correctedPoints.size - 1) {
+            val (x1, y1) = correctedPoints[i]
+            val (x2, y2) = correctedPoints[i + 1]
+            val len = getLength(getDirection(correctedPoints[i], correctedPoints[i + 1])) / 5.0
             val (dx1, dy1) = setLength(directions[i], len)
             val (dx2, dy2) = setLength(directions[i + 1], len)
             val cx1 = x1 + dx1
