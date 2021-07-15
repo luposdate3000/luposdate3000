@@ -30,10 +30,6 @@ public abstract class Entity : ISimulationLifeCycle {
         scheduleEvent(this, callback, time)
     }
 
-    public interface ITimer {
-        public fun onExpire()
-    }
-
     protected fun terminate() {
         onShutDown()
         isTerminated = true

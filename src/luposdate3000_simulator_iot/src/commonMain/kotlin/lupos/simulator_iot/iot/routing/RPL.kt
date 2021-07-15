@@ -1,6 +1,7 @@
 package lupos.simulator_iot.iot.routing
 
 import lupos.simulator_core.Entity
+import lupos.simulator_core.ITimer
 import lupos.simulator_iot.iot.Device
 import lupos.simulator_iot.iot.net.NetworkPackage
 
@@ -123,7 +124,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         sendDAO(preferredParent.address)
     }
 
-    internal inner class DelayDAOTimerExpired : Entity.ITimer {
+    internal inner class DelayDAOTimerExpired : ITimer {
         override fun onExpire() {
             isDelayDAOTimerRunning = false
             forwardDAO()

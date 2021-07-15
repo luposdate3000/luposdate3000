@@ -1,6 +1,7 @@
 package lupos.simulator_iot.iot.sensor
 
 import lupos.simulator_core.Entity
+import lupos.simulator_core.ITimer
 import lupos.simulator_iot.iot.Device
 
 internal class ParkingSensor(
@@ -22,7 +23,7 @@ internal class ParkingSensor(
     private fun hasMaxSamplesReached() =
         maxSamples != infinitySamples && sampleCounter >= maxSamples
 
-    internal inner class SamplingProcessFinished : Entity.ITimer {
+    internal inner class SamplingProcessFinished : ITimer {
         override fun onExpire() {
             onSampleTaken()
         }
