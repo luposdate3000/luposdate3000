@@ -1,0 +1,18 @@
+package lupos.simulator_iot.iot.db.pck
+
+import lupos.simulator_iot.iot.net.IPayload
+
+internal class DBQueryResultPackage(
+    sourceAddress: Int,
+    destinationAddress: Int,
+    internal val result: ByteArray
+) : IPayload, SequencedPackage(sourceAddress, destinationAddress) {
+
+    override fun getSizeInBytes(): Int {
+        return result.size
+    }
+
+    override fun toString(): String {
+        return "DBQueryResultPck"
+    }
+}

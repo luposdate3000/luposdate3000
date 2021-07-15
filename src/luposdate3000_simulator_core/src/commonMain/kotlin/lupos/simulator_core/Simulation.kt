@@ -1,19 +1,17 @@
 package lupos.simulator_core
 import lupos.visualize.distributed.database.VisualisationNetwork
-public class Simulation(
-    private val entities: List<Entity>,
-    private var callback: ISimulationLifeCycle
-) {
-    public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
-    private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
-    init {
-        callback.simulation = this
-    }
+public class Simulation(private val entities: List<Entity>) {
+
+    public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
+
+    private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
     public var maxClock: Long = Long.MAX_VALUE
 
     public var steadyClock: Long = Long.MAX_VALUE
+
+    public var callback: ISimulationLifeCycle? = null
 
     public var clock: Long = 0
         private set
@@ -82,7 +80,7 @@ public class Simulation(
     private fun notifyAboutSteadyState() {
         for (entity in entities)
             entity.onSteadyState()
-        callback.onSteadyState()
+        callback?.onSteadyState()
     }
 
     internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
@@ -94,15 +92,15 @@ public class Simulation(
     }
 
     public fun startUp() {
-        callback.onStartUp()
+        callback?.onStartUp()
         startUpAllEntities()
     }
 
     public fun shutDown() {
         shutDownAllEntities()
-        callback.onShutDown()
 //        println(visualisationNetwork.toString())
 //        visualisationNetwork.toImage()
+        callback?.onShutDown()
     }
 
     private fun shutDownAllEntities() {

@@ -1,3 +1,5 @@
+@file:Suppress("UnusedImport")
+
 package lupos.simulator_iot.config
 
 import kotlinx.serialization.Serializable

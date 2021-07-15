@@ -1,8 +1,8 @@
 package lupos.simulator_iot
-import lupos.simulator_db.QueryPackage
+
 import lupos.simulator_iot.config.QuerySender
-import lupos.simulator_iot.db.SemanticData
-import kotlin.test.Ignore
+import lupos.simulator_iot.iot.db.SemanticData
+import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 
 class IntegrationTest {
@@ -13,27 +13,27 @@ class IntegrationTest {
 
     @Test
     fun twoSensorOneDB() {
-        IoTSimulation().simulate("$prefix/twoSensorOneDB.json")
+        Evaluation().simulate("$prefix/twoSensorOneDB.json")
     }
 
     @Test
     fun twoDBWithOneSensor() {
-        IoTSimulation().simulate("$prefix/twoDBWithOneSensor.json")
+        Evaluation().simulate("$prefix/twoDBWithOneSensor.json")
     }
 
     @Test
     fun sensorFromStarSendOverMeshWithDB() {
-        IoTSimulation().simulate("$prefix/sensorFromStarSendOverMeshWithDB.json")
+        Evaluation().simulate("$prefix/sensorFromStarSendOverMeshWithDB.json")
     }
 
     @Test
     fun databasesAsStarRoots() {
-        IoTSimulation().simulate("$prefix/databasesAsStarRoots.json")
+        Evaluation().simulate("$prefix/databasesAsStarRoots.json")
     }
 
     @Test
     fun campusCentralCaseWithoutQuery() {
-        IoTSimulation().simulate("$prefix/campusCentralCaseWithoutQuery.json")
+        Evaluation().simulate("$prefix/campusCentralCaseWithoutQuery.json")
     }
 
     @Test
@@ -56,7 +56,6 @@ class IntegrationTest {
 
     @Test
     fun campusCentralCase_getAllSpacesOfParkingArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/6>"
         val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
         centralCaseWithQuery(query)
@@ -64,7 +63,6 @@ class IntegrationTest {
 
     @Test
     fun campusCentralCase_getSampleNumberOfSensor() {
-        // TODO Throws Exception
         val sensorRDF = "<http://sensor/2/162>"
         val query = SemanticData.getSampleNumberOfSensor(sensorRDF)
         centralCaseWithQuery(query)
@@ -72,7 +70,6 @@ class IntegrationTest {
 
     @Test
     fun campusCentralCase_getLastSampleOfSensor() {
-        // TODO Throws Exception
         val sensorRDF = "<http://sensor/2/162>"
         val query = SemanticData.getLastSampleOfSensor(sensorRDF)
         centralCaseWithQuery(query)
@@ -80,7 +77,6 @@ class IntegrationTest {
 
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/9>"
         val query = SemanticData.getLastResultsOfEachSensorInArea(areaRDF)
         centralCaseWithQuery(query)
@@ -88,7 +84,6 @@ class IntegrationTest {
 
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInManyAreas() {
-        // TODO Throws Exception
         val areasRDF = "<http://parkingArea/9>, <http://parkingArea/4>"
         val query = SemanticData.getLastResultsOfEachSensorInManyAreas(areasRDF)
         centralCaseWithQuery(query)
@@ -96,7 +91,6 @@ class IntegrationTest {
 
     @Test
     fun campusCentralCase_getNumberOfCurrentlyFreeSpacesInArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/4>"
         val query = SemanticData.getNumberOfCurrentlyFreeSpacesInArea(areaRDF)
         centralCaseWithQuery(query)
@@ -104,28 +98,24 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getAllTriples() {
-        // TODO Throws Exception
         val query = SemanticData.getAllTriples()
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getNumberOfParkingAreas() {
-        // TODO Throws Exception
         val query = SemanticData.getNumberOfParkingAreas()
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getAllParkingAreas() {
-        // TODO Throws Exception
         val query = SemanticData.getAllParkingAreas()
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/6>"
         val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
         distributedCaseWithQuery(query)
@@ -133,7 +123,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getSampleNumberOfSensor() {
-        // TODO Throws Exception
         val sensorRDF = "<http://sensor/2/162>"
         val query = SemanticData.getSampleNumberOfSensor(sensorRDF)
         distributedCaseWithQuery(query)
@@ -141,7 +130,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getLastSampleOfSensor() {
-        // TODO Throws Exception
         val sensorRDF = "<http://sensor/2/162>"
         val query = SemanticData.getLastSampleOfSensor(sensorRDF)
         distributedCaseWithQuery(query)
@@ -149,7 +137,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/9>"
         val query = SemanticData.getLastResultsOfEachSensorInArea(areaRDF)
         distributedCaseWithQuery(query)
@@ -157,7 +144,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInManyAreas() {
-        // TODO Throws Exception
         val areasRDF = "<http://parkingArea/9>, <http://parkingArea/4>"
         val query = SemanticData.getLastResultsOfEachSensorInManyAreas(areasRDF)
         distributedCaseWithQuery(query)
@@ -165,7 +151,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea() {
-        // TODO Throws Exception
         val areaRDF = "<http://parkingArea/4>"
         val query = SemanticData.getNumberOfCurrentlyFreeSpacesInArea(areaRDF)
         distributedCaseWithQuery(query)
@@ -197,16 +182,6 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCaseWithoutQuery() {
-        IoTSimulation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
-    }
-
-    @Ignore // TODO dieser Test is so nie für die Ausführung gedacht gewesen
-    @Test
-    fun test6() {
-        val simRun = SimulationRun()
-        val json = simRun.parseConfigFile("${FilePaths.testResource}/autoIntegrationTest/test1.json")
-        val config = simRun.parseJsonObjects(json)
-        config.querySenders[0].queryPck = QueryPackage(0, "dummy".encodeToByteArray()) // TODO insert your package here
-        simRun.startSimulation(config)
+        Evaluation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
     }
 }

@@ -1,5 +1,6 @@
 package lupos.simulator_iot
 
+import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -20,7 +21,7 @@ class DatabaseSimulationTest {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("$prefix/saveParkingSamplesInDummyTripleStore.json")
         val config = simRun.parseJsonObjects(json)
-        val g = config.getNamedDevice("G")
+        val g = config.getDeviceByName("G")
 
         simRun.simMaxClock = 100000000
         simRun.startSimulation(config)

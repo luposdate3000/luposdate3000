@@ -4,19 +4,19 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
-import lupos.simulator_iot.Device
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.db.DatabaseAdapter
-import lupos.simulator_iot.geo.GeoLocation
-import lupos.simulator_iot.net.MeshNetwork
-import lupos.simulator_iot.net.StarNetwork
-import lupos.simulator_iot.sensor.ParkingSensor
+import lupos.simulator_iot.iot.Device
+import lupos.simulator_iot.iot.db.DatabaseAdapter
+import lupos.simulator_iot.iot.geo.GeoLocation
+import lupos.simulator_iot.iot.net.DeviceLinker
+import lupos.simulator_iot.iot.net.MeshNetwork
+import lupos.simulator_iot.iot.net.StarNetwork
+import lupos.simulator_iot.iot.sensor.ParkingSensor
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
 
     public var devices: MutableList<Device> = mutableListOf()
-        private set
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
@@ -29,21 +29,26 @@ public class Configuration(private val simRun: SimulationRun) {
     internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
-    public var querySenders: MutableList<lupos.simulator_iot.db.QuerySender> = mutableListOf()
+    public var querySenders: MutableList<lupos.simulator_iot.iot.db.QuerySender> = mutableListOf()
         private set
 
     internal var dbDeviceAddresses: IntArray = intArrayOf()
+        private set
 
     private var rootRouterAddress: Int = -1
 
-    private var dbDeviceCounter = 0
+    internal var numberOfDatabases = 0
+        private set
+
+    internal var numberOfSensors = 0
+        private set
 
     private var deviceNames: MutableList<String> = mutableListOf()
 
     internal var linker = DeviceLinker()
+        private set
 
-    public fun parse(jsonObjects: JsonObjects) {
-        resetVariables()
+    internal fun parse(jsonObjects: JsonObjects) {
         initVariables(jsonObjects)
         createFixedDevices()
         setRootDevice()
@@ -55,25 +60,13 @@ public class Configuration(private val simRun: SimulationRun) {
         createDbDeviceAddresses()
     }
 
-    public fun parse(fileName: String) {
+    internal fun parse(fileName: String) {
         parse(readJsonFile(fileName))
     }
 
     private fun initVariables(jsonObjects: JsonObjects) {
         this.jsonObjects = jsonObjects
         linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
-    }
-
-    private fun resetVariables() {
-        jsonObjects = JsonObjects()
-        devices = mutableListOf()
-        randStarNetworks = mutableMapOf()
-        randMeshNetworks = mutableMapOf()
-        namedAddresses = mutableMapOf()
-        querySenders = mutableListOf()
-        dbDeviceCounter = 0
-        deviceNames = mutableListOf()
-        linker = DeviceLinker()
     }
 
     internal fun readJsonFile(fileName: String): JsonObjects {
@@ -157,7 +150,7 @@ public class Configuration(private val simRun: SimulationRun) {
         return createDevice(deviceType, location, nameID)
     }
 
-    internal fun getNamedDevice(name: String): Device {
+    internal fun getDeviceByName(name: String): Device {
         val index = namedAddresses.getValue(name)
         return devices[index]
     }
@@ -168,7 +161,7 @@ public class Configuration(private val simRun: SimulationRun) {
     internal fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
-        val root = getNamedDevice(network.starRoot)
+        val root = getDeviceByName(network.starRoot)
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val childNameID = addDeviceName("${starNetwork.networkPrefix}_child")
@@ -187,7 +180,7 @@ public class Configuration(private val simRun: SimulationRun) {
     private fun setRootDevice() {
         val name = jsonObjects.rootRouter
         if (name.isNotEmpty()) {
-            val device = getNamedDevice(name)
+            val device = getDeviceByName(name)
             device.router.isRoot = true
             rootRouterAddress = device.address
         }
@@ -205,8 +198,8 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun createFixedLinks() {
         for (fixedLink in jsonObjects.fixedLink) {
-            val a = getNamedDevice(fixedLink.fixedDeviceA)
-            val b = getNamedDevice(fixedLink.fixedDeviceB)
+            val a = getDeviceByName(fixedLink.fixedDeviceA)
+            val b = getDeviceByName(fixedLink.fixedDeviceB)
             linker.link(a, b, fixedLink.dataRateInKbps)
         }
     }
@@ -221,8 +214,9 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     private fun createQuerySender(querySenderJson: QuerySender) {
-        val receiverDevice = getNamedDevice(jsonObjects.rootRouter)
-        val querySender = lupos.simulator_iot.db.QuerySender(
+        val receiverDevice = getDeviceByName(jsonObjects.rootRouter)
+        val querySender = lupos.simulator_iot.iot.db.QuerySender(
+            simRun = simRun,
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,
             maxNumberOfQueries = querySenderJson.maxNumberOfQueries,
@@ -265,7 +259,7 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun getDatabase(deviceType: DeviceType, device: Device): DatabaseAdapter? {
         if (deviceType.database) {
-            dbDeviceCounter++
+            numberOfDatabases++
             return DatabaseAdapter(device, jsonObjects.dummyDatabase)
         }
         return null
@@ -273,6 +267,7 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         if (deviceType.parkingSensor.isNotEmpty()) {
+            numberOfSensors++
             val sensorType = getSensorTypeByName(deviceType.parkingSensor)
             return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink, sensorType.area)
         }
@@ -282,5 +277,13 @@ public class Configuration(private val simRun: SimulationRun) {
     private fun createDbDeviceAddresses() {
         val addresses = devices.filter { it.hasDatabase() }.map { it.address }
         dbDeviceAddresses = IntArray(addresses.size) { addresses[it] }
+    }
+
+    internal fun getNumberOfDevices(): Int {
+        return devices.size
+    }
+
+    internal fun getDeviceByAddress(address: Int): Device {
+        return devices[address]
     }
 }

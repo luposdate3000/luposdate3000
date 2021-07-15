@@ -17,11 +17,12 @@
 package lupos.launch.simulator
 
 import lupos.shared.Parallel
-import lupos.simulator_iot.IoTSimulation
+import lupos.simulator_iot.Evaluation
 internal fun mainFunc(): Unit = Parallel.runBlocking {
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2Sensors1Database.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/Exception_2DBwith1Sensor.json")
-    // IoTSimulation().simulate("${FilePaths.jvmResource}/star.json")
-    IoTSimulation().measureStarPerformance(true)
+    // Evaluation().simulate("${FilePaths.jvmResource}/Exception_2Sensors1Database.json")
+    // Evaluation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")
+    // Evaluation().simulate("${FilePaths.jvmResource}/Exception_2DBwith1Sensor.json")
+    // Evaluation().simulate("${FilePaths.jvmResource}/star.json")
+    // Evaluation().measureStarPerformance(true)
+    Evaluation().evalStarPerformanceWithoutDatabase()
 }
