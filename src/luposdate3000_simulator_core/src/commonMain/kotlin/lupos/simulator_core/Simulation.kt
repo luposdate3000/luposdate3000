@@ -93,7 +93,7 @@ public class Simulation(private val entities: List<Entity>) {
     }
 
     public fun startUp() {
-        callback.onStartUp()
+        callback?.onStartUp()
         startUpAllEntities()
     }
 
