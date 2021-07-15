@@ -17,12 +17,15 @@ src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/vis
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 public class VisualisationNetwork {
 
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
+    private var devicesMaxID = 0
     private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
     private val connectionsInRouting = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
+    private var connectionTable = IntArray(0) // src*devicesMaxID+dest -> nexthop
     private val messages = mutableListOf<VisualisationMessage>() // alle gesendeten Nachrichten
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
@@ -34,6 +37,17 @@ public class VisualisationNetwork {
 
         val messagesToFade = 10
         var deviceRadius = 20.0
+    }
+    private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
+        var tmp = mutableListOf<Int>()
+        var s = src
+        while (s != dest) {
+            tmp.add(s)
+            val idx = s * devicesMaxID + dest
+            s = connectionTable[idx]
+        }
+        tmp.add(dest)
+        return tmp
     }
     public fun toBaseImage(): ImageHelper {
         val imageHelperBase = ImageHelper()
@@ -73,14 +87,24 @@ public class VisualisationNetwork {
                 "stroke" to "#0000FF",
             )
         )
+        imageHelperBase.createClass(
+            "message",
+            mapOf(
+                "stroke-width" to "4",
+                "stroke" to "#FF00FF",
+                "marker-end" to "url(#arrowhead)",
+                "fill-opacity" to "0",
+            )
+        )
         for (i in 0 until messagesToFade) {
-            val c = (255 * (i + 1) / messagesToFade).toString(16).padStart(2, '0')
+            val c = (255 * i / messagesToFade).toString(16).padStart(2, '0')
             imageHelperBase.createClass(
                 "message-fade-$i",
                 mapOf(
-                    "stroke-width" to "1",
+                    "stroke-width" to "4",
                     "stroke" to "#$c$c$c",
                     "marker-end" to "url(#arrowhead)",
+                    "fill-opacity" to "0",
                 )
             )
         }
@@ -131,6 +155,25 @@ public class VisualisationNetwork {
     }
 
     public fun saveMessagesImageVideo(imageHelperBase: ImageHelper, queryNumber: Int): Boolean {
+        fun displayMessage(message: VisualisationMessage, messageTime: Int, img: ImageHelper) {
+            val cc = messageToRoutingPath(message.source, message.destination)
+            if (cc.size == 1) {
+// self message
+            } else {
+                var points = mutableListOf<Pair<Double, Double>>()
+                var classes = mutableListOf<String>()
+                if (messageTime != -1) {
+                    classes.add("message-fade-$messageTime")
+                } else {
+                    classes.add("message")
+                }
+                for (c in 0 until cc.size) {
+                    val a = getDeviceById(cc[c])
+                    points.add(a.xnew to a.ynew)
+                }
+                img.addPath(layerMessage, points, classes)
+            }
+        }
         var first = 0
         var last = messages.size
         if (queryNumber != -1) {
@@ -154,19 +197,18 @@ public class VisualisationNetwork {
                 last++
             }
         }
-
+        val imgOverview = imageHelperBase.deepCopy()
         for (i in first until last) {
             val img = imageHelperBase.deepCopy()
             var j = i - messagesToFade
-            if (j <0) {
-                j = 0
+            if (j <first) {
+                j = first
             }
+            displayMessage(messages[i], -1, imgOverview)
             for (messageIndex in j until i + 1) {
                 val messageTime = i - messageIndex // 0 current, $messagesToFade oldest
                 val message = messages[messageIndex]
-                val a = getDeviceById(message.source)
-                val b = getDeviceById(message.destination)
-                img.addLine(layerMessage, a.xnew, a.ynew, b.xnew, b.ynew, listOf("message-fade-$messageTime"))
+                displayMessage(message, messageTime, img)
             }
             val name = if (queryNumber == -1) {
                 "visual-frame-${i.toString().padStart(4,'0')}.svg"
@@ -176,6 +218,14 @@ public class VisualisationNetwork {
             File(name).withOutputStream { out ->
                 out.println(img.toString())
             }
+        }
+        val name = if (queryNumber == -1) {
+            "visual-overview.svg"
+        } else {
+            "visual-overview-${queryNumber.toString().padStart(4,'0')}.svg"
+        }
+        File(name).withOutputStream { out ->
+            out.println(imgOverview.toString())
         }
         return true
     }
@@ -258,11 +308,23 @@ public class VisualisationNetwork {
         }
     }
     public fun addDevice(device: VisualisationDevice) {
+        if (device.id> devicesMaxID) {
+            devicesMaxID = device.id
+        }
         devices.add(device)
     }
 
-    public fun addConnectionInRouting(connection: VisualisationConnection) {
-        connectionsInRouting.add(connection)
+    public fun addConnectionTable(src: Int, dest: Int, hop: Int) {
+        val idx = src * devicesMaxID + dest
+        val size = devicesMaxID * devicesMaxID
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:319"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:320"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:321"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+        if (connectionTable.size <size) {
+            connectionTable = IntArray(size) { -1 }
+        }
+        connectionTable[idx] = hop
+        connectionsInRouting.add(VisualisationConnection(src, hop))
     }
     public fun addConnection(connection: VisualisationConnection) {
         connections.add(connection)

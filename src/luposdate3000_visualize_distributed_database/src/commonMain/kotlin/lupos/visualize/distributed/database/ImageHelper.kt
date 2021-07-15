@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
-
+import kotlin.math.sqrt
 public class ImageHelper {
     private val layers = mutableListOf(mutableSetOf<String>())
     private val classes = mutableMapOf<String, MutableMap<String, String>>()
@@ -75,7 +75,42 @@ public class ImageHelper {
         checkLayer(layer)
         layers[layer].add("    <line x1=\"$x1\" y1=\"$y1\" x2=\"$x2\" y2=\"$y2\"${classString(classes)} />")
     }
+    private inline fun getLength(p: Pair<Double, Double>): Double {
+        return sqrt(p.first * p.first + p.second * p.second)
+    }
+    private inline fun setLength(p: Pair<Double, Double>, l: Double): Pair<Double, Double> {
+        val f = l / getLength(p)
+        return (p.first * f)to(p.second * f)
+    }
+    private inline fun getDirection(p1: Pair<Double, Double>, p2: Pair<Double, Double>): Pair<Double, Double> {
+        return (p2.first - p1.first)to(p2.second - p1.second)
+    }
 
+    public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>) {
+        checkLayer(layer)
+        var directions = mutableListOf<Pair<Double, Double>>()
+        for (i in 0 until points.size) {
+            var im = if (i> 0)i - 1 else i // i-1
+            var ip = if (i <points.size - 1) i + 1 else i // i+1
+            directions.add(getDirection(points[im], points[ip]))
+        }
+        val (x, y) = points.first()
+        var s = "    <path d=\"M $x,$y"
+        for (i in 0 until points.size - 1) {
+            val (x1, y1) = points[i]
+            val (x2, y2) = points[i + 1]
+            val len = getLength(getDirection(points[i], points[i + 1])) / 5.0
+            val (dx1, dy1) = setLength(directions[i], len)
+            val (dx2, dy2) = setLength(directions[i + 1], len)
+            val cx1 = x1 + dx1
+            val cy1 = y1 + dy1
+            val cx2 = x2 - dx2
+            val cy2 = y2 - dy2
+            s += " C $cx1,$cy1 $cx2,$cy2 $x2,$y2"
+        }
+        s += "\"${classString(classes)} />"
+        layers[layer].add(s)
+    }
     public override fun toString(): String {
         val buffer = StringBuilder()
         buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 $width $height\" >")
