@@ -1,18 +1,18 @@
-package lupos.simulator_iot.models.queryproc.pck
+package lupos.simulator_iot.queryproc.pck
 
 import lupos.simulator_iot.models.net.IPayload
 
-internal class DBSequenceEndPackage(
+internal class DBQueryResultPackage(
     sourceAddress: Int,
     destinationAddress: Int,
-    val numberOfPackages: Int
+    internal val result: ByteArray
 ) : IPayload, SequencedPackage(sourceAddress, destinationAddress) {
 
     override fun getSizeInBytes(): Int {
-        return 0
+        return result.size
     }
 
     override fun toString(): String {
-        return "DBSequenceEndPck(numberOfPacks $numberOfPackages)"
+        return "DBQueryResultPck"
     }
 }

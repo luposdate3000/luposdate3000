@@ -1,4 +1,4 @@
-package lupos.simulator_iot.models.queryproc.pck
+package lupos.simulator_iot.queryproc.pck
 
 internal abstract class SequencedPackage(
     val sourceAddress: Int,

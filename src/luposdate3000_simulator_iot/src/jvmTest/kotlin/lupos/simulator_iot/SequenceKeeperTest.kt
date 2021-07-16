@@ -1,8 +1,8 @@
 package lupos.simulator_iot
-import lupos.simulator_iot.models.queryproc.ISequencePackageSender
-import lupos.simulator_iot.models.queryproc.SequenceKeeper
-import lupos.simulator_iot.models.queryproc.pck.DBSequenceEndPackage
-import lupos.simulator_iot.models.queryproc.pck.SequencedPackage
+import lupos.simulator_iot.queryproc.ISequencePackageSender
+import lupos.simulator_iot.queryproc.SequenceKeeper
+import lupos.simulator_iot.queryproc.pck.DBSequenceEndPackage
+import lupos.simulator_iot.queryproc.pck.SequencedPackage
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

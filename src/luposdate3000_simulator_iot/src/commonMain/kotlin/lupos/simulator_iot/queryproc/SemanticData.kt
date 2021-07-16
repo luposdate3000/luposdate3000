@@ -1,4 +1,4 @@
-package lupos.simulator_iot.models.queryproc
+package lupos.simulator_iot.queryproc
 
 import lupos.simulator_iot.models.sensor.ParkingSample
 

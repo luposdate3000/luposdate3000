@@ -6,7 +6,7 @@ import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.models.queryproc.DatabaseAdapter
+import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.DeviceLinker
 import lupos.simulator_iot.models.net.MeshNetwork
@@ -29,7 +29,7 @@ public class Configuration(private val simRun: SimulationRun) {
     internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
-    public var querySenders: MutableList<lupos.simulator_iot.models.queryproc.QuerySender> = mutableListOf()
+    public var querySenders: MutableList<lupos.simulator_iot.queryproc.QuerySender> = mutableListOf()
         private set
 
     internal var dbDeviceAddresses: IntArray = intArrayOf()
@@ -215,7 +215,7 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun createQuerySender(querySenderJson: QuerySender) {
         val receiverDevice = getDeviceByName(jsonObjects.rootRouter)
-        val querySender = lupos.simulator_iot.models.queryproc.QuerySender(
+        val querySender = lupos.simulator_iot.queryproc.QuerySender(
             simRun = simRun,
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,

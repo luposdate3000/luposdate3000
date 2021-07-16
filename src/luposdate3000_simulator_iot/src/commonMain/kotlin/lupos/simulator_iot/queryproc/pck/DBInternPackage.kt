@@ -1,4 +1,4 @@
-package lupos.simulator_iot.models.queryproc.pck
+package lupos.simulator_iot.queryproc.pck
 
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_iot.models.net.IPayload

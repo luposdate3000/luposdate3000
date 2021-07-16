@@ -1,6 +1,6 @@
-package lupos.simulator_iot.models.queryproc
+package lupos.simulator_iot.queryproc
 
-import lupos.simulator_iot.models.queryproc.pck.SequencedPackage
+import lupos.simulator_iot.queryproc.pck.SequencedPackage
 
 internal interface ISequencePackageSender {
     fun send(pck: SequencedPackage)

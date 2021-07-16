@@ -1,4 +1,4 @@
-package lupos.simulator_iot.models.queryproc
+package lupos.simulator_iot.queryproc
 
 import lupos.shared.inline.File
 import lupos.simulator_db.DatabaseState
@@ -11,11 +11,11 @@ import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.models.queryproc.pck.DBInternPackage
-import lupos.simulator_iot.models.queryproc.pck.DBQueryResultPackage
-import lupos.simulator_iot.models.queryproc.pck.DBQuerySenderPackage
-import lupos.simulator_iot.models.queryproc.pck.DBSequenceEndPackage
-import lupos.simulator_iot.models.queryproc.pck.SequencedPackage
+import lupos.simulator_iot.queryproc.pck.DBInternPackage
+import lupos.simulator_iot.queryproc.pck.DBQueryResultPackage
+import lupos.simulator_iot.queryproc.pck.DBQuerySenderPackage
+import lupos.simulator_iot.queryproc.pck.DBSequenceEndPackage
+import lupos.simulator_iot.queryproc.pck.SequencedPackage
 import lupos.simulator_iot.models.net.IPayload
 import lupos.simulator_iot.models.sensor.ParkingSample
 import lupos.simulator_iot.utils.FilePaths
