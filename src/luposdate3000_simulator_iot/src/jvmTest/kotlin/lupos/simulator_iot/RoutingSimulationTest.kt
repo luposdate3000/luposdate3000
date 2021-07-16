@@ -146,4 +146,17 @@ class RoutingSimulationTest {
         simRun.startSimulation(config)
         assertEquals(4, fog.processedSensorDataPackages)
     }
+
+    @Test
+    fun sensorsFromStarSendOverFixedLinks() {
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("$prefix/sensorsFromStarSendOverFixedLinks.json")
+        val config = simRun.parseJsonObjects(json)
+
+        val fog = config.getDeviceByName("DODAG ROOT")
+
+
+        simRun.startSimulation(config)
+        assertEquals(5, fog.processedSensorDataPackages)
+    }
 }

@@ -152,8 +152,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     override fun toString(): String {
         val strBuilder = StringBuilder()
         strBuilder
-            .append("> Device ${device.address}").append(", ")
-            .append("name '${device.simRun.config.getDeviceName(device.deviceNameID)}'").append(", ")
+            .append("> $device").append(", ")
             .append("rank $rank").append(", ")
             .append(getParentString())
             .appendLine().append("  ")
@@ -163,14 +162,15 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     }
 
     private fun getParentString() =
-        if (hasParent()) "parent ${preferredParent.address}" else "root"
+        if (hasParent()) "parent ${device.simRun.config.getDeviceByAddress(preferredParent.address)}" else "root"
 
     private fun getChildrenString(): StringBuilder {
         val strBuilder = StringBuilder()
         val separator = ", "
         for (children in routingTable.getHops()) {
             val link = device.linkManager.links[children]!!
-            strBuilder.append("$link to $children").append(separator)
+            val device = device.simRun.config.getDeviceByAddress(children)
+            strBuilder.append("$link to $device").append(separator).append("\n  ")
         }
         if (strBuilder.length >= separator.length) {
             strBuilder.deleteRange(strBuilder.length - separator.length, strBuilder.length)

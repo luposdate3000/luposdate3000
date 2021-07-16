@@ -4,13 +4,8 @@
     "linkType": [
         {
         "name": "WPAN",
-        "rangeInMeters": 30,
+        "rangeInMeters": 1,
         "dataRateInKbps": 250
-        },
-        {
-            "name": "WLAN",
-            "rangeInMeters": 50,
-            "dataRateInKbps": 25000
         }
     ],
     "sensorType": [
@@ -185,7 +180,7 @@
             "starRoot": "Root WSN 1",
             "linkType": "WPAN",
             "deviceType": "Sensor Device WSN 1",
-            "number": 5
+            "number":5
         },
         {
             "networkPrefix": "WSN 2",

@@ -186,6 +186,7 @@ class IntegrationTest {
         Evaluation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
     }
 
+
     @Ignore
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db() {
