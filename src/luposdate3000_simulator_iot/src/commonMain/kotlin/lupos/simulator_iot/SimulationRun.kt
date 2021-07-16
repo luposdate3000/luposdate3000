@@ -30,11 +30,11 @@ public class SimulationRun {
 
     internal val logger = Logger(config, measurement)
 
-    public var notInitializedClock: Double = -1.0
+    public var notInitializedClock: Long = -1
 
-    public var simSteadyClock: Double = notInitializedClock
+    public var simSteadyClock: Long = notInitializedClock
 
-    public var simMaxClock: Double = notInitializedClock
+    public var simMaxClock: Long = notInitializedClock
 
     private fun createOutputDirectory() {
         val directory = File(FilePaths.outputDir)
@@ -78,7 +78,7 @@ public class SimulationRun {
         sim.startSimulation()
     }
 
-    internal fun getCurrentSimulationClock(): Double {
+    internal fun getCurrentSimulationClock(): Long {
         return sim.clock
     }
 

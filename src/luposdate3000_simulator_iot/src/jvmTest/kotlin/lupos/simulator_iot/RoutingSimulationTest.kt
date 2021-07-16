@@ -21,7 +21,7 @@ class RoutingSimulationTest {
         val config = simRun.parseJsonObjects(json)
         simRun.startSimulation(config)
 
-        assertEquals(0.0, simRun.getCurrentSimulationClock())
+        assertEquals(0, simRun.getCurrentSimulationClock())
     }
 
     @Test
@@ -41,7 +41,7 @@ class RoutingSimulationTest {
         assertFalse(child1Router.hasParent())
         assertFalse(child2Router.hasParent())
 
-        simRun.simMaxClock = 200.1
+        simRun.simMaxClock = 200
         simRun.startSimulation(config)
 
         assertTrue(child1Router.hasParent())
@@ -74,7 +74,7 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("$prefix/upwardRouteForwarding.json")
         val config = simRun.parseJsonObjects(json)
-        simRun.simMaxClock = (300 * 1000).toDouble()
+        simRun.simMaxClock = 300 * 1000
         simRun.startSimulation(config)
 
         val a = config.getDeviceByName("A")
@@ -87,7 +87,7 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("$prefix/downwardRouteForwarding.json")
         val config = simRun.parseJsonObjects(json)
-        simRun.simMaxClock = (200 * 1000).toDouble()
+        simRun.simMaxClock = 200 * 1000
         simRun.startSimulation(config)
 
         val f = config.getDeviceByName("F")
@@ -100,7 +100,7 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("$prefix/upAndDownwardRouteForwarding.json")
         val config = simRun.parseJsonObjects(json)
-        simRun.simMaxClock = (800 * 1000).toDouble()
+        simRun.simMaxClock = 800 * 1000
         simRun.startSimulation(config)
 
         val d = config.getDeviceByName("D")
@@ -112,12 +112,12 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("$prefix/sendQueries.json")
         val config = simRun.parseJsonObjects(json)
-        simRun.simMaxClock = (800 * 1000).toDouble()
+        simRun.simMaxClock = 800 * 1000
         simRun.startSimulation(config)
 
         val querySender = config.querySenders[0]
         val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec + querySender.startClock
-        assertEquals(TimeUtils.toMillis(expectedTimeSec).toDouble(), simRun.getCurrentSimulationClock())
+        assertEquals(TimeUtils.toMillis(expectedTimeSec), simRun.getCurrentSimulationClock())
     }
 
     @Test

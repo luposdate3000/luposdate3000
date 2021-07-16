@@ -19,7 +19,6 @@ import lupos.simulator_iot.queryproc.pck.SequencedPackage
 import lupos.simulator_iot.models.net.IPayload
 import lupos.simulator_iot.models.sensor.ParkingSample
 import lupos.simulator_iot.utils.FilePaths
-import kotlin.math.roundToLong
 
 public class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
 
@@ -83,7 +82,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         val query = SemanticData.getInsertQueryString(sample)
         val bytes = query.encodeToByteArray()
         val pck = QueryPackage(device.address, bytes)
-        PostProcessSend.process(device.address, device.address, device.simRun.sim.clock.roundToLong(), device.simRun.sim.visualisationNetwork, pck)
+        PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.sim.visualisationNetwork, pck)
         processIDatabasePackage(pck)
     }
 
@@ -95,7 +94,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock.roundToLong(), device.simRun.sim.visualisationNetwork, pck)
+        PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.sim.visualisationNetwork, pck)
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {
