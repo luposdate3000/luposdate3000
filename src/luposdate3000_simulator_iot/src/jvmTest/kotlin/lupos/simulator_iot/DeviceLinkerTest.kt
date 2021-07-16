@@ -1,10 +1,10 @@
 package lupos.simulator_iot
 
 import lupos.simulator_iot.config.LinkType
-import lupos.simulator_iot.iot.Device
-import lupos.simulator_iot.iot.geo.GeoLocation
-import lupos.simulator_iot.iot.net.DeviceLinker
-import lupos.simulator_iot.iot.net.Link
+import lupos.simulator_iot.models.Device
+import lupos.simulator_iot.models.geo.GeoLocation
+import lupos.simulator_iot.models.net.DeviceLinker
+import lupos.simulator_iot.models.net.Link
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

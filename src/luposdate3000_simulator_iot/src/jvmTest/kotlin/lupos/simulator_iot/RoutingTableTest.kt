@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.iot.routing.RoutingTable
+import lupos.simulator_iot.models.routing.RoutingTable
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

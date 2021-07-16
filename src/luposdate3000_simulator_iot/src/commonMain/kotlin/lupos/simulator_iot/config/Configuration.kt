@@ -5,13 +5,13 @@ import kotlinx.serialization.json.Json
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.iot.Device
-import lupos.simulator_iot.iot.db.DatabaseAdapter
-import lupos.simulator_iot.iot.geo.GeoLocation
-import lupos.simulator_iot.iot.net.DeviceLinker
-import lupos.simulator_iot.iot.net.MeshNetwork
-import lupos.simulator_iot.iot.net.StarNetwork
-import lupos.simulator_iot.iot.sensor.ParkingSensor
+import lupos.simulator_iot.models.Device
+import lupos.simulator_iot.models.geo.GeoLocation
+import lupos.simulator_iot.models.net.DeviceLinker
+import lupos.simulator_iot.models.net.MeshNetwork
+import lupos.simulator_iot.models.net.StarNetwork
+import lupos.simulator_iot.models.sensor.ParkingSensor
+import lupos.simulator_iot.queryproc.DatabaseAdapter
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
@@ -29,7 +29,7 @@ public class Configuration(private val simRun: SimulationRun) {
     internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
         private set
 
-    public var querySenders: MutableList<lupos.simulator_iot.iot.db.QuerySender> = mutableListOf()
+    public var querySenders: MutableList<lupos.simulator_iot.queryproc.QuerySender> = mutableListOf()
         private set
 
     internal var dbDeviceAddresses: IntArray = intArrayOf()
@@ -215,7 +215,7 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun createQuerySender(querySenderJson: QuerySender) {
         val receiverDevice = getDeviceByName(jsonObjects.rootRouter)
-        val querySender = lupos.simulator_iot.iot.db.QuerySender(
+        val querySender = lupos.simulator_iot.queryproc.QuerySender(
             simRun = simRun,
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,

@@ -419,8 +419,6 @@ public class DatabaseHandle : IDatabase {
         }
     }
     override fun receive(pck: IDatabasePackage) {
-        try {
-            println(pck)
             when (pck) {
                 is MySimulatorTestingImportPackage -> receive(pck)
                 is MySimulatorTestingCompareGraphPackage -> receive(pck)
@@ -430,8 +428,5 @@ public class DatabaseHandle : IDatabase {
                 is MySimulatorOperatorGraphPackage -> receive(pck)
                 else -> TODO("$pck")
             }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }
     }
 }

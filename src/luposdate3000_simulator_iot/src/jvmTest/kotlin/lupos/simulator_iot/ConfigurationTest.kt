@@ -1,9 +1,9 @@
 package lupos.simulator_iot
 
 import lupos.simulator_iot.config.RandomStarNetwork
-import lupos.simulator_iot.iot.db.DatabaseAdapter
-import lupos.simulator_iot.iot.geo.GeoLocation
-import lupos.simulator_iot.iot.sensor.ParkingSensor
+import lupos.simulator_iot.models.geo.GeoLocation
+import lupos.simulator_iot.models.sensor.ParkingSensor
+import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals

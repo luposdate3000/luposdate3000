@@ -20,18 +20,14 @@ public abstract class Entity : ISimulationLifeCycle {
         }
     }
 
-    protected fun scheduleEvent(destination: Entity, data: Any, delay: Long) {
+    protected fun scheduleEvent(destination: Entity, data: Any, delay: Double) {
         require(!isTerminated)
         val sim = simulation
         sim.addEvent(delay, this, destination, data)
     }
 
-    public fun setTimer(time: Long, callback: ITimer) {
+    public fun setTimer(time: Double, callback: ITimer) {
         scheduleEvent(this, callback, time)
-    }
-
-    public interface ITimer {
-        public fun onExpire()
     }
 
     protected fun terminate() {
