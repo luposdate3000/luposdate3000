@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.iot.net.DeviceLinker
+import lupos.simulator_iot.models.net.DeviceLinker
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
