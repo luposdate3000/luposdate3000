@@ -1,6 +1,6 @@
 package lupos.simulator_iot
 
-import lupos.simulator_iot.models.db.DatabaseAdapter
+import lupos.simulator_iot.models.queryproc.DatabaseAdapter
 import kotlin.test.Test
 
 class DatabaseAdapterTest {

@@ -1,7 +1,7 @@
-package lupos.simulator_iot.models.db
+package lupos.simulator_iot.models.queryproc
 
-import lupos.simulator_iot.models.db.pck.DBSequenceEndPackage
-import lupos.simulator_iot.models.db.pck.SequencedPackage
+import lupos.simulator_iot.models.queryproc.pck.DBSequenceEndPackage
+import lupos.simulator_iot.models.queryproc.pck.SequencedPackage
 
 internal class SequenceKeeper(private val sender: ISequencePackageSender) {
 

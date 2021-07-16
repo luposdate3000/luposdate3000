@@ -1,6 +1,5 @@
 package lupos.simulator_iot.models.routing
 
-import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage

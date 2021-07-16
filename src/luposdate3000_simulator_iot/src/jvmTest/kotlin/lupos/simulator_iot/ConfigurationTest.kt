@@ -1,7 +1,7 @@
 package lupos.simulator_iot
 
 import lupos.simulator_iot.config.RandomStarNetwork
-import lupos.simulator_iot.models.db.DatabaseAdapter
+import lupos.simulator_iot.models.queryproc.DatabaseAdapter
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.sensor.ParkingSensor
 import lupos.simulator_iot.utils.FilePaths

@@ -1,4 +1,4 @@
-package lupos.simulator_iot.models.db
+package lupos.simulator_iot.models.queryproc
 
 import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
@@ -7,7 +7,7 @@ import lupos.simulator_db.PostProcessSend
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.models.db.pck.DBQuerySenderPackage
+import lupos.simulator_iot.models.queryproc.pck.DBQuerySenderPackage
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
 

@@ -1,6 +1,5 @@
 package lupos.simulator_iot.models.sensor
 
-import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.models.Device
 
