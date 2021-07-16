@@ -189,8 +189,42 @@ class IntegrationTest {
     @Ignore
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db() {
-        val areaRDF = "<http://parkingArea/6>"
+        val areaRDF = "<http://parkingArea/1>"
         val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
         campusWithQuery("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json", query)
+    }
+
+    @Test
+    fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db2() {
+        val querySender1 = QuerySender(
+            name = "Q-init",
+            sendRateInSeconds = 1,
+            maxNumberOfQueries = 1,
+            sendStartClockInSec = 1,
+            query = "SELECT * WHERE {?s ?p ?o} Limit 1"
+        )
+        val querySender2 = QuerySender(
+            name = "Q1",
+            sendRateInSeconds = 1,
+            maxNumberOfQueries = 1,
+            sendStartClockInSec = 10 * 60,
+            query = """
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    PREFIX sosa: <http://www.w3.org/ns/sosa/>
+    select * where {
+        ?b rdf:type sosa:Observation.
+        ?b sosa:hasFeatureOfInterest  <http://parkingArea/1>.
+        ?b sosa:madeBySensor ?x.
+    }
+"""
+        )
+
+        val simRun = SimulationRun()
+        val json = simRun.parseConfigFile("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json")
+        json.querySender.add(querySender1)
+        json.querySender.add(querySender2)
+        val config = simRun.parseJsonObjects(json)
+        simRun.startSimulation(config)
     }
 }

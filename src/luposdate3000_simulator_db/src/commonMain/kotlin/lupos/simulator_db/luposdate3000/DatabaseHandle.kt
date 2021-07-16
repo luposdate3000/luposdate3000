@@ -419,6 +419,7 @@ public class DatabaseHandle : IDatabase {
         }
     }
     override fun receive(pck: IDatabasePackage) {
+        println("receive $ownAdress .. $pck")
         when (pck) {
             is MySimulatorTestingImportPackage -> receive(pck)
             is MySimulatorTestingCompareGraphPackage -> receive(pck)

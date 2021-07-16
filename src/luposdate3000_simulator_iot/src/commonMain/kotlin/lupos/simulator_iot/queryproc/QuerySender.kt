@@ -10,7 +10,6 @@ import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.queryproc.pck.DBQuerySenderPackage
 import lupos.simulator_iot.utils.TimeUtils
-import kotlin.math.roundToLong
 
 public class QuerySender(
     internal val simRun: SimulationRun,
@@ -66,7 +65,7 @@ public class QuerySender(
         simRun.incNumberOfQueries()
         val pck = DBQuerySenderPackage(queryPck)
         val netPck = NetworkPackage(receiver.address, receiver.address, pck)
-        PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock.roundToLong(), receiver.simRun.sim.visualisationNetwork, queryPck)
+        PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock, receiver.simRun.sim.visualisationNetwork, queryPck)
         scheduleEvent(receiver, netPck, 0.0)
     }
 }
