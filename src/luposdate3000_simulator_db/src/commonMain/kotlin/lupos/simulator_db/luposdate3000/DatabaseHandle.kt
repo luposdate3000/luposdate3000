@@ -419,14 +419,18 @@ public class DatabaseHandle : IDatabase {
         }
     }
     override fun receive(pck: IDatabasePackage) {
-        when (pck) {
-            is MySimulatorTestingImportPackage -> receive(pck)
-            is MySimulatorTestingCompareGraphPackage -> receive(pck)
-            is MySimulatorTestingExecute -> receive(pck)
-            is QueryPackage -> receive(pck, null, null)
-            is MySimulatorAbstractPackage -> receive(pck)
-            is MySimulatorOperatorGraphPackage -> receive(pck)
-            else -> TODO("$pck")
+        try {
+            when (pck) {
+                is MySimulatorTestingImportPackage -> receive(pck)
+                is MySimulatorTestingCompareGraphPackage -> receive(pck)
+                is MySimulatorTestingExecute -> receive(pck)
+                is QueryPackage -> receive(pck, null, null)
+                is MySimulatorAbstractPackage -> receive(pck)
+                is MySimulatorOperatorGraphPackage -> receive(pck)
+                else -> TODO("$pck")
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
     }
 }

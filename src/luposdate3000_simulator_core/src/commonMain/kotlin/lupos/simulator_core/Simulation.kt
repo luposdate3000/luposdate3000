@@ -98,8 +98,8 @@ public class Simulation(private val entities: List<Entity>) {
 
     public fun shutDown() {
         shutDownAllEntities()
-//        println(visualisationNetwork.toString())
-//        visualisationNetwork.toImage()
+        println(visualisationNetwork.toString())
+        visualisationNetwork.toImage()
         callback?.onShutDown()
     }
 

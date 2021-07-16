@@ -15,14 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+import kotlin.math.abs
 import kotlin.math.sqrt
 public class ImageHelper {
     private val layers = mutableListOf(mutableSetOf<String>())
     private val classes = mutableMapOf<String, MutableMap<String, String>>()
 
     internal val margin = 50
-    internal val width = 3000
-    internal val height = 3000
+    internal val width = 6000
+    internal val height = 6000
     internal val minX: Int = margin
     internal val maxX: Int = width - margin
     internal val minY: Int = margin
@@ -94,26 +95,55 @@ public class ImageHelper {
         val p2 = p.first - mov.first to p.second - mov.second
         val l1 = getLength(getDirection(a, p1)) + getLength(getDirection(b, p1))
         val l2 = getLength(getDirection(a, p2)) + getLength(getDirection(b, p2))
-        if (l1 <l2) {
+        if (abs(l2 - l1) <20.0) { // sourth left first, if it does not matter
+            if (getLength(getDirection(p1, 0.0 to 0.0)) <getLength(getDirection(p2, 0.0 to 0.0))) {
+                return p1
+            } else {
+                return p2
+            }
+        } else if (l1 <l2) {
             return p1
         } else {
             return p2
         }
     }
-
-    public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double) {
+    private inner class LocalPoint(val p: Pair<Double, Double>) {
+        override fun equals(other: Any?): Boolean {
+            return other is LocalPoint && getLength(getDirection(p, other.p)) <1.0
+        }
+        override fun hashCode(): Int {
+            return getLength(p).toInt()
+        }
+    }
+    private var byPassMap = mutableMapOf<LocalPoint, Int>()
+    public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double, minDistToOtherPath: Double) {
         checkLayer(layer)
         var directions = mutableListOf<Pair<Double, Double>>()
         var correctedPoints = mutableListOf<Pair<Double, Double>>()
-        for (i in 0 until points.size) {
-            var im = if (i> 0)i - 1 else i // i-1
-            var ip = if (i <points.size - 1) i + 1 else i // i+1
-            val dir = getDirection(points[im], points[ip])
-            directions.add(dir)
-            if (i == 0 || i == points.size - 1) {
-                correctedPoints.add(points[i])
-            } else {
-                correctedPoints.add(shortenPath(points[i], points[im], points[ip], dir, pointRadius))
+        if (points.size == 1) {
+            correctedPoints.add(points[0])
+            correctedPoints.add(points[0])
+            directions.add(points[0].first + 10 to points[0].second + 10)
+            directions.add(points[0].first - 10 to points[0].second + 10)
+        } else {
+            for (i in 0 until points.size) {
+                var im = if (i> 0)i - 1 else i // i-1
+                var ip = if (i <points.size - 1) i + 1 else i // i+1
+                val dir = getDirection(points[im], points[ip])
+                directions.add(dir)
+                if (i == 0 || i == points.size - 1) {
+                    correctedPoints.add(points[i])
+                } else {
+                    val p = LocalPoint(points[i])
+                    var c = byPassMap[p]
+                    if (c == null) {
+                        c = 1
+                    } else {
+                        c++
+                    }
+                    byPassMap[p] = c
+                    correctedPoints.add(shortenPath(points[i], points[im], points[ip], dir, pointRadius + c * minDistToOtherPath))
+                }
             }
         }
         val (x, y) = correctedPoints.first()
@@ -121,7 +151,10 @@ public class ImageHelper {
         for (i in 0 until correctedPoints.size - 1) {
             val (x1, y1) = correctedPoints[i]
             val (x2, y2) = correctedPoints[i + 1]
-            val len = getLength(getDirection(correctedPoints[i], correctedPoints[i + 1])) / 5.0
+            var len = getLength(getDirection(correctedPoints[i], correctedPoints[i + 1])) / 5.0 // 1/5 der strecke
+            if (len <pointRadius * 2) { // minimum doppelter punkt-radius
+                len = pointRadius * 2
+            }
             val (dx1, dy1) = setLength(directions[i], len)
             val (dx2, dy2) = setLength(directions[i + 1], len)
             val cx1 = x1 + dx1

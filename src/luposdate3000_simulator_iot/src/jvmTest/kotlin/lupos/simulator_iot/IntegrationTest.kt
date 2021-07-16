@@ -184,4 +184,11 @@ class IntegrationTest {
     fun campusDistributedCaseWithoutQuery() {
         Evaluation().simulate("$prefix/campusDistributedCaseWithoutQuery.json")
     }
+
+    @Test
+    fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db() {
+        val areaRDF = "<http://parkingArea/6>"
+        val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
+        campusWithQuery("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json", query)
+    }
 }

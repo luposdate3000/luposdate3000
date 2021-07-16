@@ -17,6 +17,7 @@
 package lupos.visualize.distributed.database
 
 public class VisualisationMessage(public val source: Int, public val destination: Int, public val time: Long, public val shortText: String) : Comparable<VisualisationMessage> {
+    internal val type: String = shortText.split(" ").first()
     internal var messageCounter: Int = 0
     override fun toString(): String = "VisualisationMessage($source -> $destination at $time.$messageCounter : '$shortText')"
     override operator fun compareTo(other: VisualisationMessage): Int {
