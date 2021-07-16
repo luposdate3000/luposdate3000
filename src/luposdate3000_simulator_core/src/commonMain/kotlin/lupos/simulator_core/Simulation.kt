@@ -7,13 +7,13 @@ public class Simulation(private val entities: List<Entity>) {
 
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
 
-    public var maxClock: Long = Long.MAX_VALUE
+    public var maxClock: Double = Double.MAX_VALUE
 
-    public var steadyClock: Long = Long.MAX_VALUE
+    public var steadyClock: Double = Double.MAX_VALUE
 
     public var callback: ISimulationLifeCycle? = null
 
-    public var clock: Long = 0
+    public var clock: Double = 0.0
         private set
 
     internal var addedEventCounter: Int = 0
@@ -83,10 +83,10 @@ public class Simulation(private val entities: List<Entity>) {
         callback?.onSteadyState()
     }
 
-    internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
+    internal fun addEvent(delay: Double, src: Entity, dest: Entity, data: Any) {
         require(delay >= 0) { "Clock cannot go backwards." }
         addedEventCounter++
-        val occurringTime = clock + delay
+        val occurringTime: Double = clock + delay
         val ev = Event(addedEventCounter, occurringTime, src, dest, data)
         futureEvents.enqueue(ev)
     }

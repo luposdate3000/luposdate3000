@@ -183,7 +183,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         // RPL Constants and Variables (see RFC 6550)
         internal const val DEFAULT_DAO_DELAY: Int = 1 // seconds
 
-        internal val daoDelay: Long = 2 // DEFAULT_DAO_DELAY * 3
+        internal const val daoDelay = 2.0 // DEFAULT_DAO_DELAY * 3
 
         internal const val ROOT_RANK: Int = 0
     }

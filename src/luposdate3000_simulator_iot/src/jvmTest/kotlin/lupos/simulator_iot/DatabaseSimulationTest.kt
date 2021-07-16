@@ -23,7 +23,7 @@ class DatabaseSimulationTest {
         val config = simRun.parseJsonObjects(json)
         val g = config.getDeviceByName("G")
 
-        simRun.simMaxClock = 100000000
+        simRun.simMaxClock = 100000000.0
         simRun.startSimulation(config)
 
         assertEquals(8, g.processedSensorDataPackages)

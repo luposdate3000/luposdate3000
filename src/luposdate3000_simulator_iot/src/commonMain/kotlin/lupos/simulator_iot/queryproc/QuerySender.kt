@@ -10,6 +10,7 @@ import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.queryproc.pck.DBQuerySenderPackage
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
+import kotlin.math.roundToLong
 
 public class QuerySender(
     internal val simRun: SimulationRun,
@@ -32,7 +33,7 @@ public class QuerySender(
 
     override fun onStartUp() {
         require(receiver.hasDatabase()) { "The query receiver device must have a database" }
-        setTimer(TimeUtils.toMillis(startClock), StartUpTimer())
+        setTimer(TimeUtils.toMillis(startClock).toDouble(), StartUpTimer())
     }
 
     override fun onSteadyState() {
@@ -51,7 +52,7 @@ public class QuerySender(
         if (queryCounter < maxNumberOfQueries) {
             queryCounter++
             triggerQueryProcessing()
-            setTimer(TimeUtils.toMillis(sendRateInSec), SendTimer())
+            setTimer(TimeUtils.toMillis(sendRateInSec).toDouble(), SendTimer())
         }
     }
 
@@ -65,7 +66,7 @@ public class QuerySender(
         simRun.incNumberOfQueries()
         val pck = DBQuerySenderPackage(queryPck)
         val netPck = NetworkPackage(receiver.address, receiver.address, pck)
-        PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock, receiver.simRun.sim.visualisationNetwork, queryPck)
-        scheduleEvent(receiver, netPck, 0)
+        PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock.roundToLong(), receiver.simRun.sim.visualisationNetwork, queryPck)
+        scheduleEvent(receiver, netPck, 0.0)
     }
 }

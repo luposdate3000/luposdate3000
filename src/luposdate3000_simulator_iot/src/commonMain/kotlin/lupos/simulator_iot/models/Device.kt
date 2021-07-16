@@ -34,7 +34,7 @@ public class Device(
 
     private lateinit var deviceStart: Instant
 
-    private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
+    private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Double {
         return if (destinationAddress == address) {
             getProcessingDelay()
         } else {
@@ -44,16 +44,16 @@ public class Device(
         }
     }
 
-    private fun getProcessingDelay(): Long {
+    private fun getProcessingDelay(): Double {
         if (isDeterministic) {
-            return 0
+            return 0.1
         }
 
         val now = TimeUtils.stamp()
         val microDif = TimeUtils.differenceInMicroSec(deviceStart, now)
         val scaled = microDif * 100 / performance
         val millis = scaled / 1000
-        return millis.toLong()
+        return millis
     }
 
     override fun onStartUp() {
@@ -132,7 +132,7 @@ public class Device(
         assignToSimulation(nextHop, pck, delay)
     }
 
-    private fun assignToSimulation(destinationAddress: Int, pck: NetworkPackage, delay: Long) {
+    private fun assignToSimulation(destinationAddress: Int, pck: NetworkPackage, delay: Double) {
         val entity = simRun.config.getDeviceByAddress(destinationAddress)
         scheduleEvent(entity, pck, delay)
     }
@@ -164,7 +164,7 @@ public class Device(
         simRun.logger.log("> $this receives $pck at clock ${simRun.getCurrentSimulationClock()}")
     }
 
-    private fun logSendPackage(pck: NetworkPackage, delay: Long) {
+    private fun logSendPackage(pck: NetworkPackage, delay: Double) {
         simRun.logger.log("> $this sends $pck at clock ${simRun.getCurrentSimulationClock()} with delay $delay")
     }
 
