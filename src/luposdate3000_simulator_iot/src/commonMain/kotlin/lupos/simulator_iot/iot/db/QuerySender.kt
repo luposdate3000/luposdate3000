@@ -1,6 +1,7 @@
 package lupos.simulator_iot.iot.db
 
 import lupos.simulator_core.Entity
+import lupos.simulator_core.ITimer
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.PostProcessSend
 import lupos.simulator_db.QueryPackage

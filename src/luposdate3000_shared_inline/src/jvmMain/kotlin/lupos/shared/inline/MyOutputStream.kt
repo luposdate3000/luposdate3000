@@ -63,7 +63,7 @@ internal actual class MyOutputStream : IMyOutputStream {
 
     public actual override fun close() {
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:65"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"D:/ideaprojects/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:65"/*SOURCE_FILE_END*/ },
             {
                 try {
                     throw Exception()
