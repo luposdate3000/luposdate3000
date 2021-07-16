@@ -3,7 +3,6 @@ package lupos.simulator_iot.models
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.IPayload
 import lupos.simulator_iot.models.net.LinkManager
@@ -12,6 +11,7 @@ import lupos.simulator_iot.models.routing.IRoutingProtocol
 import lupos.simulator_iot.models.routing.RPL
 import lupos.simulator_iot.models.sensor.ISensor
 import lupos.simulator_iot.models.sensor.ParkingSample
+import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.utils.TimeUtils
 
 public class Device(

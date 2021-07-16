@@ -6,12 +6,12 @@ import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.DeviceLinker
 import lupos.simulator_iot.models.net.MeshNetwork
 import lupos.simulator_iot.models.net.StarNetwork
 import lupos.simulator_iot.models.sensor.ParkingSensor
+import lupos.simulator_iot.queryproc.DatabaseAdapter
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
