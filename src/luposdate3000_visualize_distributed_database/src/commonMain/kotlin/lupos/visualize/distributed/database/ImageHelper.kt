@@ -22,8 +22,8 @@ public class ImageHelper {
     private val classes = mutableMapOf<String, MutableMap<String, String>>()
 
     internal val margin = 50
-    internal val width = 6000
-    internal val height = 6000
+    internal val width = 2000
+    internal val height = 2000
     internal val minX: Int = margin
     internal val maxX: Int = width - margin
     internal val minY: Int = margin

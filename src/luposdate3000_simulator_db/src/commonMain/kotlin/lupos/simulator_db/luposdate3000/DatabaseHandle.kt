@@ -420,6 +420,7 @@ public class DatabaseHandle : IDatabase {
     }
     override fun receive(pck: IDatabasePackage) {
         try {
+            println(pck)
             when (pck) {
                 is MySimulatorTestingImportPackage -> receive(pck)
                 is MySimulatorTestingCompareGraphPackage -> receive(pck)
