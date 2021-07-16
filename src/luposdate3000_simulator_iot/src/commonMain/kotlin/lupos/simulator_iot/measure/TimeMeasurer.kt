@@ -19,7 +19,9 @@ public class TimeMeasurer(private val simRun: SimulationRun) {
         realShutDownTimeStamp = TimeUtils.stamp()
     }
 
-    private fun getSimulationTime(): Instant = TimeUtils.addMillis(startUpTimeStamp, simRun.getCurrentSimulationClock())
+    private fun getSimulationTime() : Instant {
+        return TimeUtils.addNanoSeconds(startUpTimeStamp, simRun.getCurrentSimulationClock())
+    }
 
     internal fun getTimeString(time: Instant): String {
         return TimeUtils.toISOString(time)
@@ -37,13 +39,13 @@ public class TimeMeasurer(private val simRun: SimulationRun) {
         return getTimeString(startUpTimeStamp)
     }
 
-    internal fun getInitDuration(): Double =
+    internal fun getInitDurationInSec(): Double =
         TimeUtils.differenceInSeconds(initStartTimeStamp, startUpTimeStamp)
 
-    internal fun getSimulationDuration(): Double =
+    internal fun getSimulationDurationInSec(): Double =
         TimeUtils.differenceInSeconds(startUpTimeStamp, shutDownTimeStamp)
 
-    internal fun getRealSimulationDuration(): Double =
+    internal fun getRealSimulationDurationInSec(): Double =
         TimeUtils.differenceInSeconds(startUpTimeStamp, realShutDownTimeStamp)
 
     internal fun getRealShutDownTimeString(): String {

@@ -6,11 +6,14 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
+import kotlin.math.roundToLong
 import kotlin.time.ExperimentalTime
 
 internal object TimeUtils {
 
-    internal fun addMillis(instant: Instant, millis: Long): Instant = instant.plus(millis, DateTimeUnit.MILLISECOND, TimeZone.UTC)
+    internal fun addNanoSeconds(instant: Instant, nanos: Long) : Instant {
+        return instant.plus(nanos, DateTimeUnit.NANOSECOND, TimeZone.UTC)
+    }
 
     internal fun toISOString(instant: Instant): String = instant.toLocalDateTime(TimeZone.currentSystemDefault()).toString()
 
@@ -26,13 +29,17 @@ internal object TimeUtils {
     }
 
     @OptIn(ExperimentalTime::class)
-    internal fun differenceInMicroSec(startInstant: Instant, endInstant: Instant): Long {
+    internal fun differenceInNanoSec(startInstant: Instant, endInstant: Instant): Long {
         val duration = endInstant - startInstant
-        return duration.inWholeMicroseconds
+        return duration.inWholeNanoseconds
     }
 
-    internal fun toMillis(seconds: Int): Long =
-        seconds.toLong() * 1000
+
+    internal fun toNanoSec(seconds: Int): Long =
+        seconds.toLong() * 1000 * 1000 * 1000
+
+    internal fun toNanoSec(seconds: Double): Long =
+        (seconds * 1000 * 1000 * 1000).roundToLong()
 
     internal fun stamp(): Instant =
         Clock.System.now()

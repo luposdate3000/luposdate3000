@@ -220,7 +220,7 @@ public class Configuration(private val simRun: SimulationRun) {
             name = querySenderJson.name,
             sendRateInSec = querySenderJson.sendRateInSeconds,
             maxNumberOfQueries = querySenderJson.maxNumberOfQueries,
-            startClock = querySenderJson.sendStartClockInSec,
+            startClockInSec = querySenderJson.sendStartClockInSec,
             receiver = receiverDevice,
             query = querySenderJson.query
         )

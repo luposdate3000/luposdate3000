@@ -1,6 +1,7 @@
 package lupos.simulator_iot.models.net
 
 import lupos.simulator_iot.models.Device
+import lupos.simulator_iot.utils.TimeUtils
 import kotlin.math.roundToLong
 
 internal class LinkManager(
@@ -15,8 +16,7 @@ internal class LinkManager(
         requireNotNull(link) { "The device $destinationAddress is not reachable!" }
         val kiloBits = bytesToKBits(numberOfBytesToSend)
         val seconds = kiloBits / link.dataRateInKbps.toDouble()
-        val millis = seconds * 1000
-        return millis.roundToLong()
+        return TimeUtils.toNanoSec(seconds)
     }
 
     private fun bytesToKBits(b: Int): Double =

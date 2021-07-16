@@ -16,7 +16,7 @@ public class QuerySender(
     internal val name: String,
     internal val sendRateInSec: Int,
     internal val maxNumberOfQueries: Int,
-    internal val startClock: Int,
+    internal val startClockInSec: Int,
     internal val receiver: Device,
     internal val query: String,
 ) : Entity() {
@@ -32,7 +32,7 @@ public class QuerySender(
 
     override fun onStartUp() {
         require(receiver.hasDatabase()) { "The query receiver device must have a database" }
-        setTimer(TimeUtils.toMillis(startClock), StartUpTimer())
+        setTimer(TimeUtils.toNanoSec(startClockInSec), StartUpTimer())
     }
 
     override fun onSteadyState() {
@@ -51,7 +51,7 @@ public class QuerySender(
         if (queryCounter < maxNumberOfQueries) {
             queryCounter++
             triggerQueryProcessing()
-            setTimer(TimeUtils.toMillis(sendRateInSec), SendTimer())
+            setTimer(TimeUtils.toNanoSec(sendRateInSec), SendTimer())
         }
     }
 

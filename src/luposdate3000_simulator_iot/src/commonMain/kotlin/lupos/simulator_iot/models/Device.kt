@@ -46,14 +46,13 @@ public class Device(
 
     private fun getProcessingDelay(): Long {
         if (isDeterministic) {
-            return 0
+            return 1
         }
 
         val now = TimeUtils.stamp()
-        val microDif = TimeUtils.differenceInMicroSec(deviceStart, now)
+        val microDif = TimeUtils.differenceInNanoSec(deviceStart, now)
         val scaled = microDif * 100 / performance
-        val millis = scaled / 1000
-        return millis.toLong()
+        return scaled.toLong()
     }
 
     override fun onStartUp() {

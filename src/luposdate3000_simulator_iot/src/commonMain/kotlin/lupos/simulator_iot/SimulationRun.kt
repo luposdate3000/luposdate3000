@@ -87,14 +87,14 @@ public class SimulationRun {
         measurement.numberOfSensorDevices = config.numberOfSensors.toDouble()
         measurement.numberOfDatabaseDevices = config.numberOfDatabases.toDouble()
         measurement.numberOfQuerySenders = config.querySenders.size.toDouble()
-        measurement.initializationDurationInSec = timeMeasurer.getInitDuration()
+        measurement.initializationDurationInSec = timeMeasurer.getInitDurationInSec()
         measurement.realStartUpTimeStampInISO = timeMeasurer.getStartUpTimeString()
         measurement.numberOfLinks = config.linker.numberOfLinks.toDouble()
     }
 
     internal fun measureOnShutDown() {
-        measurement.realSimulationDurationInSec = timeMeasurer.getRealSimulationDuration()
-        measurement.simulationDurationInSec = timeMeasurer.getSimulationDuration()
+        measurement.realSimulationDurationInSec = timeMeasurer.getRealSimulationDurationInSec()
+        measurement.simulationDurationInSec = timeMeasurer.getSimulationDurationInSec()
         measurement.shutDownTimeStampInISO = timeMeasurer.getShutDownTimeString()
         measurement.realShutDownTimeStampInISO = timeMeasurer.getRealShutDownTimeString()
     }

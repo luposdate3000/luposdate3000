@@ -2,6 +2,7 @@ package lupos.simulator_iot.models.sensor
 
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.models.Device
+import lupos.simulator_iot.utils.TimeUtils
 
 internal class ParkingSensor(
     internal var device: Device,
@@ -47,8 +48,7 @@ internal class ParkingSensor(
         }
 
         isStopped = false
-        val rateInMillis: Long = rateInSec.toLong() * 1000
-        device.setTimer(rateInMillis, SamplingProcessFinished())
+        device.setTimer(TimeUtils.toNanoSec(rateInSec), SamplingProcessFinished())
     }
 
     private fun onSampleTaken() {
