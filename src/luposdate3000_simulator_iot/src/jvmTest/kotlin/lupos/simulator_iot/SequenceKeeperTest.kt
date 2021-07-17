@@ -200,4 +200,80 @@ class SequenceKeeperTest {
         assertEquals(pck2.id, (receivedList[2] as SequencedPackageStub).id)
         assertEquals(pck4.id, (receivedList[3] as SequencedPackageStub).id)
     }
+
+    @Test
+    fun packagesUntilSequenceEndHaveSameID() {
+        val sentList: MutableList<SequencedPackage> = mutableListOf()
+        val sender = object : ISequencePackageSender {
+            override fun send(pck: SequencedPackage) {
+                sentList.add(pck)
+            }
+            override fun receive(pck: SequencedPackage) {
+
+            }
+            override fun getSenderAddress(): Int {
+                return 0
+            }
+        }
+        val keeper = SequenceKeeper(sender)
+        val pck1 = SequencedPackageStub(3, 4)
+        keeper.sendSequencedPackage(pck1)
+        val pck2 = SequencedPackageStub(3, 4)
+        keeper.sendSequencedPackage(pck2)
+        keeper.markSequenceEnd()
+        val pck3 = SequencedPackageStub(3, 4)
+        keeper.sendSequencedPackage(pck3)
+        keeper.markSequenceEnd()
+        val pck4 = SequencedPackageStub(3, 4)
+        keeper.sendSequencedPackage(pck4)
+
+        assertEquals(6, sentList.size)
+        assertEquals(keeper.firstSequenceID, sentList[0].sequenceID)
+        assertEquals(keeper.firstSequenceID, sentList[1].sequenceID)
+        assertEquals(keeper.firstSequenceID, sentList[2].sequenceID)
+        assertEquals(keeper.firstSequenceID + 1, sentList[3].sequenceID)
+        assertEquals(keeper.firstSequenceID + 1, sentList[4].sequenceID)
+        assertEquals(keeper.firstSequenceID + 1 + 1, sentList[5].sequenceID)
+    }
+
+    @Test
+    fun onlyPackagesWithSameIDAreReceived() {
+        val receivedList: MutableList<SequencedPackage> = mutableListOf()
+        val sender = object : ISequencePackageSender {
+            override fun send(pck: SequencedPackage) {}
+            override fun receive(pck: SequencedPackage) {
+                receivedList.add(pck)
+            }
+            override fun getSenderAddress(): Int {
+                return 0
+            }
+        }
+        val keeper = SequenceKeeper(sender)
+
+        val pck1 = SequencedPackageStub(3, 4)
+        pck1.sequenceID = 3
+        keeper.receive(pck1)
+
+        val pck2 = SequencedPackageStub(3, 4)
+        pck2.sequenceID = 4
+        keeper.receive(pck2)
+
+        val end = DBSequenceEndPackage(3, 4, 2)
+        end.sequenceID = 3
+        keeper.receive(end)
+
+        assertEquals(0, receivedList.size)
+
+        val pck3 = SequencedPackageStub(3, 4)
+        pck3.sequenceID = 4
+        keeper.receive(pck3)
+
+        assertEquals(0, receivedList.size)
+
+        val pck4 = SequencedPackageStub(3, 4)
+        pck4.sequenceID = 3
+        keeper.receive(pck4)
+
+        assertEquals(2, receivedList.size)
+    }
 }

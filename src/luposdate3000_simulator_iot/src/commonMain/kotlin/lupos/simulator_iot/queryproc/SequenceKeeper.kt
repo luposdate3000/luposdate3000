@@ -5,70 +5,70 @@ import lupos.simulator_iot.queryproc.pck.SequencedPackage
 
 internal class SequenceKeeper(private val sender: ISequencePackageSender) {
 
+    private val numOfPacksInitValue = -1
+
     private val sequenceCounters: MutableMap<Int, Int> = mutableMapOf()
 
-    private val receivedNumbersOfPackages: MutableMap<Int, Int> = mutableMapOf()
+    private val receiveBuffer: MutableMap<SequenceEndpoint, SequenceBuffer> = mutableMapOf()
 
-    private val receiveBuffer: MutableMap<Int, MutableList<SequencedPackage>> = mutableMapOf()
+    internal val firstSequenceID = 0
 
-    private var currentSequenceID = 0
+    private var currentSequenceID = firstSequenceID
 
     internal fun receive(pck: SequencedPackage) {
+        val endpoint = SequenceEndpoint(pck.sourceAddress, pck.sequenceID)
+        addNewEndpoint(endpoint)
         if (pck is DBSequenceEndPackage) {
-            processSequenceEnd(pck)
+            receiveBuffer[endpoint]!!.expectedNumberOfPackages = pck.numberOfPackages
         } else {
-            buff(pck)
+            receiveBuffer[endpoint]!!.packetsReceivedSoFar.add(pck)
         }
-
-        process(pck)
+        process(endpoint)
     }
 
-    private fun processSequenceEnd(pck: DBSequenceEndPackage) {
-        receivedNumbersOfPackages[pck.sourceAddress] = pck.numberOfPackages
-    }
-
-    private fun buff(pck: SequencedPackage) {
-        if (!receiveBuffer.containsKey(pck.sourceAddress)) {
-            receiveBuffer[pck.sourceAddress] = mutableListOf()
+    private fun addNewEndpoint(endpoint: SequenceEndpoint) {
+        if (!receiveBuffer.containsKey(endpoint)) {
+            receiveBuffer[endpoint] = SequenceBuffer(mutableListOf(), numOfPacksInitValue)
         }
-        receiveBuffer[pck.sourceAddress]!!.add(pck)
     }
 
-    private fun process(pck: SequencedPackage) {
-        if (!isEndPackageArrived(pck.sourceAddress)) {
+    private fun process(endpoint: SequenceEndpoint) {
+        if (!isEndPackageArrived(endpoint)) {
             return
         }
-
-        if (!isAtLeastOnePackageArrived(pck.sourceAddress)) {
+        if (!isAtLeastOnePackageArrived(endpoint)) {
             return
         }
-
-        val numberOfPackagesInSequence = receivedNumbersOfPackages[pck.sourceAddress]!!
-        val numberOfArrivedPackages = receiveBuffer[pck.sourceAddress]!!.size
-        if (numberOfArrivedPackages == numberOfPackagesInSequence) {
-            flushBuffer(pck.sourceAddress)
+        val buffer = receiveBuffer[endpoint]!!
+        if (buffer.packetsReceivedSoFar.size == buffer.expectedNumberOfPackages) {
+            flushBuffer(endpoint)
         }
     }
 
-    private fun isEndPackageArrived(src: Int): Boolean {
-        return receivedNumbersOfPackages.containsKey(src)
+    private fun isEndPackageArrived(endpoint: SequenceEndpoint): Boolean {
+        val buffer = receiveBuffer[endpoint]
+        if(buffer != null) {
+            if(buffer.expectedNumberOfPackages != numOfPacksInitValue)
+                return true
+        }
+        return false
     }
 
-    private fun isAtLeastOnePackageArrived(src: Int): Boolean {
-        return receiveBuffer.containsKey(src)
+    private fun isAtLeastOnePackageArrived(endpoint: SequenceEndpoint): Boolean {
+        return receiveBuffer.containsKey(endpoint)
     }
 
-    private fun flushBuffer(src: Int) {
-        val packages = receiveBuffer[src]!!
-        receiveInOrder(packages)
-        receiveBuffer.remove(src)
-        receivedNumbersOfPackages.remove(src)
+    private fun flushBuffer(endpoint: SequenceEndpoint) {
+        val packages = receiveBuffer[endpoint]!!
+        receiveInOrder(packages.packetsReceivedSoFar)
+        receiveBuffer.remove(endpoint)
     }
 
     private fun receiveInOrder(packages: MutableList<SequencedPackage>) {
         packages.sortBy { it.packageNumberInSequence }
-        for (pck in packages)
+        for (pck in packages) {
             sender.receive(pck)
+        }
     }
 
     private fun getSequenceNumber(destinationAddress: Int): Int {
@@ -77,20 +77,22 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
         } else {
             sequenceCounters[destinationAddress] = sequenceCounters[destinationAddress]!! + 1
         }
-
         return sequenceCounters[destinationAddress]!!
     }
 
     internal fun markSequenceEnd() {
         for ((dest, number) in sequenceCounters) {
             val endPck = DBSequenceEndPackage(sender.getSenderAddress(), dest, number)
+            endPck.sequenceID = currentSequenceID
             sender.send(endPck)
         }
         sequenceCounters.clear()
+        currentSequenceID++
     }
 
     internal fun sendSequencedPackage(pck: SequencedPackage) {
         pck.packageNumberInSequence = getSequenceNumber(pck.destinationAddress)
+        pck.sequenceID = currentSequenceID
         sender.send(pck)
     }
 }
