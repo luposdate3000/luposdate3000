@@ -55,7 +55,6 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         if (objectiveFunction(pck) >= rank) {
             return
         }
-
         rank = objectiveFunction(pck)
         updateParent(Parent(pck.sourceAddress, dio.rank))
         broadcastDIO()
