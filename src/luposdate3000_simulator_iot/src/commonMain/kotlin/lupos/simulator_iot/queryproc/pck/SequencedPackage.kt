@@ -4,5 +4,6 @@ internal abstract class SequencedPackage(
     val sourceAddress: Int,
     val destinationAddress: Int
 ) {
-    internal var sequenceNumber = -1
+    internal var packageNumberInSequence = -1
+    internal var sequenceID = -1
 }

@@ -111,15 +111,15 @@ class SequenceKeeperTest {
         val keeper = SequenceKeeper(sender)
         val pck1 = SequencedPackageStub(0, 4)
         keeper.sendSequencedPackage(pck1)
-        assertEquals(1, sentList[0].sequenceNumber)
+        assertEquals(1, sentList[0].packageNumberInSequence)
 
         val pck2 = SequencedPackageStub(0, 4)
         keeper.sendSequencedPackage(pck2)
-        assertEquals(2, sentList[1].sequenceNumber)
+        assertEquals(2, sentList[1].packageNumberInSequence)
 
         val pck3 = SequencedPackageStub(0, 4)
         keeper.sendSequencedPackage(pck3)
-        assertEquals(3, sentList[2].sequenceNumber)
+        assertEquals(3, sentList[2].packageNumberInSequence)
     }
 
     @Test
@@ -138,23 +138,23 @@ class SequenceKeeperTest {
         val keeper = SequenceKeeper(sender)
         val pck1 = SequencedPackageStub(0, 1)
         keeper.sendSequencedPackage(pck1)
-        assertEquals(1, sentList[0].sequenceNumber)
+        assertEquals(1, sentList[0].packageNumberInSequence)
 
         val pck2 = SequencedPackageStub(0, 4)
         keeper.sendSequencedPackage(pck2)
-        assertEquals(1, sentList[1].sequenceNumber)
+        assertEquals(1, sentList[1].packageNumberInSequence)
 
         val pck3 = SequencedPackageStub(0, 4)
         keeper.sendSequencedPackage(pck3)
-        assertEquals(2, sentList[2].sequenceNumber)
+        assertEquals(2, sentList[2].packageNumberInSequence)
 
         val pck4 = SequencedPackageStub(0, 1)
         keeper.sendSequencedPackage(pck4)
-        assertEquals(2, sentList[3].sequenceNumber)
+        assertEquals(2, sentList[3].packageNumberInSequence)
 
         val pck5 = SequencedPackageStub(0, 9)
         keeper.sendSequencedPackage(pck5)
-        assertEquals(1, sentList[4].sequenceNumber)
+        assertEquals(1, sentList[4].packageNumberInSequence)
     }
 
     @Test
@@ -173,12 +173,12 @@ class SequenceKeeperTest {
 
         val pck1 = SequencedPackageStub(3, 4)
         pck1.id = 1
-        pck1.sequenceNumber = 1
+        pck1.packageNumberInSequence = 1
         keeper.receive(pck1)
 
         val pck2 = SequencedPackageStub(3, 4)
         pck2.id = 2
-        pck2.sequenceNumber = 2
+        pck2.packageNumberInSequence = 2
         keeper.receive(pck2)
 
         val end = DBSequenceEndPackage(3, 4, 4)
@@ -186,12 +186,12 @@ class SequenceKeeperTest {
 
         val pck3 = SequencedPackageStub(3, 4)
         pck3.id = 3
-        pck3.sequenceNumber = 0
+        pck3.packageNumberInSequence = 0
         keeper.receive(pck3)
 
         val pck4 = SequencedPackageStub(3, 4)
         pck4.id = 4
-        pck4.sequenceNumber = 3
+        pck4.packageNumberInSequence = 3
         keeper.receive(pck4)
 
         assertEquals(4, receivedList.size)

@@ -11,6 +11,8 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
 
     private val receiveBuffer: MutableMap<Int, MutableList<SequencedPackage>> = mutableMapOf()
 
+    private var currentSequenceID = 0
+
     internal fun receive(pck: SequencedPackage) {
         if (pck is DBSequenceEndPackage) {
             processSequenceEnd(pck)
@@ -64,7 +66,7 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
     }
 
     private fun receiveInOrder(packages: MutableList<SequencedPackage>) {
-        packages.sortBy { it.sequenceNumber }
+        packages.sortBy { it.packageNumberInSequence }
         for (pck in packages)
             sender.receive(pck)
     }
@@ -88,7 +90,7 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
     }
 
     internal fun sendSequencedPackage(pck: SequencedPackage) {
-        pck.sequenceNumber = getSequenceNumber(pck.destinationAddress)
+        pck.packageNumberInSequence = getSequenceNumber(pck.destinationAddress)
         sender.send(pck)
     }
 }
