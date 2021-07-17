@@ -13,6 +13,6 @@ internal class DBInternPackage(
     }
 
     override fun toString(): String {
-        return "DBInternPck(content ${content.getContentLogString()})"
+        return "DBInternPck(seqID $sequenceID, numInSeq $packageNumberInSequence, content ${content.getContentLogString()})"
     }
 }

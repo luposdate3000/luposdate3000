@@ -30,15 +30,39 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
 
     private lateinit var currentState: DatabaseState
 
+    private var isActive = false
+
     init {
         File(pathToStateOfThisDevice).mkdirs()
     }
 
     internal fun startUp() {
-        currentState = buildInitialStateObject()
-        db.start(currentState)
+        startSession()
+        deactivateSession()
+    }
+
+    private fun activateSession() {
+        db.activate()
+        isActive = true
+    }
+
+    private fun deactivateSession() {
         db.deactivate()
         sequenceKeeper.markSequenceEnd()
+        isActive = false
+    }
+
+    private fun endSession() {
+        db.end()
+        sequenceKeeper.markSequenceEnd()
+        currentState = buildInitialStateObject()
+        isActive = false
+    }
+
+    private fun startSession() {
+        currentState = buildInitialStateObject()
+        db.start(currentState)
+        isActive = true
     }
 
     private fun buildInitialStateObject(): DatabaseState {
@@ -51,10 +75,8 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     internal fun shutDown() {
-        db.activate()
-        db.end()
-        sequenceKeeper.markSequenceEnd()
-        currentState = buildInitialStateObject()
+        activateSession()
+        endSession()
     }
 
     internal fun processPackage(payload: IPayload) {
@@ -72,10 +94,9 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     internal fun processIDatabasePackage(pck: IDatabasePackage) {
-        db.activate()
+        activateSession()
         db.receive(pck)
-        db.deactivate()
-        sequenceKeeper.markSequenceEnd()
+        deactivateSession()
     }
 
     internal fun saveParkingSample(sample: ParkingSample) {
@@ -94,6 +115,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+        checkActivation()
         PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.sim.visualisationNetwork, pck)
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
@@ -120,9 +142,14 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         return device.router.getNextDatabaseHops(destinationAddresses)
     }
 
+    private fun checkActivation() {
+        require(isActive) {"This DBMS Instance is not active!"}
+    }
+
     private inner class SequencePackageSenderImpl : ISequencePackageSender {
 
         override fun send(pck: SequencedPackage) {
+            checkActivation()
             if (pck.destinationAddress != device.address) {
                 // ignore self packages
                 device.simRun.incNumberOfSentDatabasePackages()
