@@ -8,13 +8,11 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     internal lateinit var routingTable: RoutingTable
 
-    private val notInitializedRank = Int.MAX_VALUE
-
     private val notInitializedAddress = -1
 
     override var isRoot: Boolean = false
 
-    internal var rank: Int = notInitializedRank
+    internal var rank: Int = INFINITE_RANK
         private set
 
     internal var preferredParent: Parent = Parent()
@@ -22,7 +20,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     private var isDelayDAOTimerRunning = false
 
-    internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = notInitializedRank)
+    internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = INFINITE_RANK)
 
     private fun broadcastDIO() {
         for (potentialChild in device.linkManager.getNeighbours())
@@ -101,7 +99,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     private fun objectiveFunction(pck: NetworkPackage): Int {
         val link = device.linkManager.links[pck.sourceAddress]!!
         val otherRank = (pck.payload as DIO).rank
-        return otherRank + link.distanceInMeters
+        return otherRank + link.distanceInMeters + MinHopRankIncrease
     }
 
     internal fun hasParent(): Boolean =
@@ -180,11 +178,18 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     internal companion object {
 
-        // RPL Constants and Variables (see RFC 6550)
+        // RPL Constants (see section 17. of RFC 6550)
         internal const val DEFAULT_DAO_DELAY: Int = 1 // seconds
 
         internal val daoDelay: Long = 2 // DEFAULT_DAO_DELAY * 3
 
-        internal const val ROOT_RANK: Int = 0
+        // The minimum increase in Rank between a node and any of its DODAG parents.
+        internal const val MinHopRankIncrease: Int = 1
+
+        // This is the Rank for a DODAG root. ROOT_RANK has a value of MinHopRankIncrease
+        internal const val ROOT_RANK: Int = MinHopRankIncrease
+
+        // This is the constant maximum for the Rank.
+        internal const val INFINITE_RANK: Int = Int.MAX_VALUE
     }
 }
