@@ -3,6 +3,7 @@ package lupos.simulator_iot.models.routing
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage
+import lupos.simulator_iot.utils.TimeUtils
 
 internal class RPL(internal val device: Device) : IRoutingProtocol {
 
@@ -129,6 +130,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     }
 
     private fun startDelayDAOTimer() {
+        val daoDelay = TimeUtils.toNanoSec(DEFAULT_DAO_DELAY)
         device.setTimer(daoDelay, DelayDAOTimerExpired())
         isDelayDAOTimerRunning = true
     }
@@ -179,9 +181,10 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     internal companion object {
 
         // RPL Constants (see section 17. of RFC 6550)
-        internal const val DEFAULT_DAO_DELAY: Int = 1 // seconds
+        //------------------------
 
-        internal val daoDelay: Long = 2 // DEFAULT_DAO_DELAY * 3
+        // This is the default value for the DelayDAO Timer. Default is 1 second.
+        internal const val DEFAULT_DAO_DELAY: Int = 1
 
         // The minimum increase in Rank between a node and any of its DODAG parents.
         internal const val MinHopRankIncrease: Int = 1
