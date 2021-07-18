@@ -18,5 +18,11 @@ public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeC
         simRun.timeMeasurer.onShutDown()
         simRun.measureOnShutDown()
         simRun.logger?.logShutDown()
+        //printVisualization()
+    }
+
+    private fun printVisualization() {
+        println(simRun.visualisationNetwork.toString())
+        simRun.visualisationNetwork.toImage()
     }
 }

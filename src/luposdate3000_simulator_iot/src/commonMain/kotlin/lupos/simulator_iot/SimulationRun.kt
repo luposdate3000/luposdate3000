@@ -10,6 +10,7 @@ import lupos.simulator_iot.measure.TimeMeasurer
 import lupos.simulator_iot.utils.FilePaths
 import lupos.visualize.distributed.database.VisualisationConnection
 import lupos.visualize.distributed.database.VisualisationDevice
+import lupos.visualize.distributed.database.VisualisationNetwork
 
 public class SimulationRun {
 
@@ -17,6 +18,8 @@ public class SimulationRun {
         createOutputDirectory()
         refreshDatabaseDirectories()
     }
+
+    public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
 
     public lateinit var sim: Simulation
 
@@ -74,9 +77,9 @@ public class SimulationRun {
             val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
             vis.x = d.location.latitude
             vis.y = d.location.longitude
-            sim.visualisationNetwork.addDevice(vis)
+            visualisationNetwork.addDevice(vis)
             for (n in d.linkManager.getNeighbours()) {
-                sim.visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
+                visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
             }
         }
     }

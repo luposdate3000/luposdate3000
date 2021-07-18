@@ -99,7 +99,7 @@ public class Device(
         for (dest in 0 until simRun.config.devices.size) {
             try {
                 val hop = router.getNextHop(dest)
-                simRun.sim.visualisationNetwork.addConnectionTable(address, dest, hop)
+                simRun.visualisationNetwork.addConnectionTable(address, dest, hop)
             } catch (e: Throwable) {
             }
         }
