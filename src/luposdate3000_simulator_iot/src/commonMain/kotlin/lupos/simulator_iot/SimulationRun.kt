@@ -28,7 +28,7 @@ public class SimulationRun {
 
     internal var measurement = Measurement()
 
-    internal val logger = Logger(config, measurement)
+    internal var logger: Logger? = null
 
     public var notInitializedClock: Long = -1
 
@@ -64,7 +64,12 @@ public class SimulationRun {
         sim.callback = LifeCycleImpl(this)
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if (simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
+        logger = if (configuration.jsonObjects.logging) Logger(configuration, measurement) else null
+        setUpVisualization(configuration)
+        sim.startSimulation()
+    }
 
+    private fun setUpVisualization(configuration: Configuration) {
         for (d in configuration.devices) {
             val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
             vis.x = d.location.latitude
@@ -74,9 +79,8 @@ public class SimulationRun {
                 sim.visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
             }
         }
-
-        sim.startSimulation()
     }
+
 
     internal fun getCurrentSimulationClock(): Long {
         return sim.clock

@@ -8,7 +8,7 @@ public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeC
     override fun onStartUp() {
         simRun.timeMeasurer.onStartUp()
         simRun.measureOnStartUp()
-        simRun.logger.logStartUp()
+        simRun.logger?.logStartUp()
     }
 
     override fun onSteadyState() {
@@ -17,6 +17,6 @@ public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeC
     override fun onShutDown() {
         simRun.timeMeasurer.onShutDown()
         simRun.measureOnShutDown()
-        simRun.logger.logShutDown()
+        simRun.logger?.logShutDown()
     }
 }
