@@ -5,7 +5,7 @@ public class Simulation(private val entities: List<Entity>) {
 
     public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
 
-    private var futureEvents: EventPriorityQueue = EventPriorityQueue()
+    private var futureEvents: PriorityQueue<Event> = PriorityQueue(compareBy<Event> { it.occurrenceTime }.thenBy { it.eventNumber })
 
     public var maxClock: Long = Long.MAX_VALUE
 

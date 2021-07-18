@@ -5,11 +5,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-public class EventPriorityQueueTest {
+public class PriorityQueueTest {
 
     @Test
     fun `queue should peak() lowest time`() {
-        val queue = EventPriorityQueue()
+        val queue = EventPriorityQueueStub().getEventPriorityQueue()
         val e1 = Event(1, 1, EntityStub(), EntityStub(), "")
         val e2 = Event(1, 2, EntityStub(), EntityStub(), "")
         val e4 = Event(1, 4, EntityStub(), EntityStub(), "")
@@ -30,14 +30,14 @@ public class EventPriorityQueueTest {
 
     @Test
     fun `hasNext() is false`() {
-        val queue = EventPriorityQueue()
+        val queue = EventPriorityQueueStub().getEventPriorityQueue()
         val isEmpty = !queue.hasNext()
         assertTrue(isEmpty)
     }
 
     @Test
     fun `hasNext() is true`() {
-        val queue = EventPriorityQueue()
+        val queue = EventPriorityQueueStub().getEventPriorityQueue()
         val e1 = Event(1, 1, EntityStub(), EntityStub(), "")
         queue.enqueue(e1)
         val isNotEmpty = queue.hasNext()
@@ -46,7 +46,7 @@ public class EventPriorityQueueTest {
 
     @Test
     fun `dequeue() return and remove lowest time`() {
-        val queue = EventPriorityQueue()
+        val queue = EventPriorityQueueStub().getEventPriorityQueue()
         val e1 = Event(1, 1, EntityStub(), EntityStub(), "")
         val e2 = Event(1, 2, EntityStub(), EntityStub(), "")
         val e3 = Event(1, 2, EntityStub(), EntityStub(), "")
@@ -72,7 +72,7 @@ public class EventPriorityQueueTest {
 
     @Test
     fun `after comparing occurrenceTime, sequenceNumber is compared`() {
-        val queue = EventPriorityQueue()
+        val queue = EventPriorityQueueStub().getEventPriorityQueue()
         val e1 = Event(10, 1, EntityStub(), EntityStub(), "")
         val e2 = Event(1, 2, EntityStub(), EntityStub(), "")
         val e3 = Event(2, 2, EntityStub(), EntityStub(), "")
