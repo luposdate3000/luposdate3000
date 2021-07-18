@@ -187,7 +187,7 @@ class IntegrationTest {
     }
 
 
-    @Ignore
+
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db() {
         val areaRDF = "<http://parkingArea/6>"

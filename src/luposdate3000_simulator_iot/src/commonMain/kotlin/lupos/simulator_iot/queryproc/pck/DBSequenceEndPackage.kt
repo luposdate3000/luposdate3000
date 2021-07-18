@@ -5,7 +5,6 @@ import lupos.simulator_iot.models.net.IPayload
 internal class DBSequenceEndPackage(
     sourceAddress: Int,
     destinationAddress: Int,
-    val numberOfPackages: Int,
 ) : IPayload, SequencedPackage(sourceAddress, destinationAddress) {
 
     override fun getSizeInBytes(): Int {
@@ -14,6 +13,6 @@ internal class DBSequenceEndPackage(
     }
 
     override fun toString(): String {
-        return "DBSequenceEndPck(numberOfPacks $numberOfPackages, sequenceID $sequenceID)"
+        return "DBSeqEndPck(seqNum $sequenceNumber, pckNum $packageNumber,)"
     }
 }
