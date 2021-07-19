@@ -157,7 +157,7 @@ public class DatabaseHandle : IDatabase {
         val q = op.getQuery()
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op)
-
+        visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
         val parts = q.getOperatorgraphParts()
         if (parts.size == 1) {
 // TODO wait for all ack - or assume ordered messages
