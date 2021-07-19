@@ -1,6 +1,7 @@
 {
-    "dummyDatabase": false,
+    "dummyDatabase": true,
     "deterministic": true,
+    "logging":  false,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 100,

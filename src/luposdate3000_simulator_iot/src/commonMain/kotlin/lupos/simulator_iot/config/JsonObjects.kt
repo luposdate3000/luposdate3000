@@ -39,7 +39,7 @@ public data class SensorType(
 @Serializable
 public data class DeviceType(
     val name: String = "",
-    val database: Boolean = false,
+    var database: Boolean = false,
     val parkingSensor: String = "",
     val performance: Double = 100.0,
     val supportedLinkTypes: List<String> = arrayListOf(),

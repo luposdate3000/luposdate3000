@@ -24,19 +24,25 @@ public class Evaluation {
             runSimulationStarPerformance(numberOfChilds, withDummyDatabase)
     }
 
-    private fun buildNodeSizesArray(arrSize: Int, delta: Int): IntArray {
-        val arr = IntArray(arrSize) { 0 }
-        for (i in arr.withIndex())
-            arr[i.index] = i.index * delta
+    private fun buildNodeSizesArray(arrSize: Int, delta: Int, skipFirst: Boolean = true): IntArray {
+        var numOfSkips = 3
+        val updatedArraySize = if (skipFirst) arrSize + numOfSkips else arrSize
+        val arr = IntArray(updatedArraySize) { 0 }
+        for (i in arr.withIndex()) {
+            if (skipFirst && numOfSkips > 0) {
+                arr[i.index] = 1
+                numOfSkips--
+            }
+            else {
+                arr[i.index] = i.index * delta
+            }
+
+        }
+
         return arr
     }
 
-    private fun buildNodeSizesArray(arrSize: Int): IntArray {
-        val arr = IntArray(arrSize) { 0 }
-        for (i in arr.withIndex())
-            arr[i.index] = arr[i.index] * 2
-        return arr
-    }
+
 
     private fun runSimulationStarPerformance(numberOfChilds: Int, withDummyDatabase: Boolean) {
         // TODO
@@ -54,13 +60,13 @@ public class Evaluation {
 
     public fun evalStarPerformanceWithoutDatabase() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
-        val nodeSizes = buildNodeSizesArray(10, 500)
+        val nodeSizes = buildNodeSizesArray(10, 1000, true)
         val printer = MeasurementPrinter()
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val prep = object : ISimRunPreparation {
                 override fun prepareJsonObjects(jsonObjects: JsonObjects) {
-                    jsonObjects.dummyDatabase = true
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
+                    jsonObjects.deviceType[0].database = false
                 }
             }
             MultipleSimulationRuns(configFileName, 20, prep, printer).startSimulationRuns()
