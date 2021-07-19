@@ -13,6 +13,6 @@ internal class DBQueryResultPackage(
     }
 
     override fun toString(): String {
-        return "DBQueryResultPck"
+        return "DBQueryResultPck(seqID $sequenceNumber, numInSeq $packageNumber)"
     }
 }

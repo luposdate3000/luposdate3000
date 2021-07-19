@@ -48,8 +48,7 @@ internal class ParkingSensor(
         }
 
         isStopped = false
-        val rateInMillis: Long = TimeUtils.toMillis(rateInSec)
-        device.setTimer(rateInMillis.toDouble(), SamplingProcessFinished())
+        device.setTimer(TimeUtils.toNanoSec(rateInSec), SamplingProcessFinished())
     }
 
     private fun onSampleTaken() {
