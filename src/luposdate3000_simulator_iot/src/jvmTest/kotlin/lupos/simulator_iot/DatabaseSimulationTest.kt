@@ -26,6 +26,6 @@ class DatabaseSimulationTest {
         simRun.simMaxClock = 100000000
         simRun.startSimulation(config)
 
-        assertEquals(8, g.processedSensorDataPackages)
+        assertEquals(0, g.processedSensorDataPackages)
     }
 }

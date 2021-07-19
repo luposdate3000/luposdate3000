@@ -3,6 +3,7 @@ package lupos.simulator_iot
 import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.FilePaths
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class IntegrationTest {
@@ -192,6 +193,7 @@ class IntegrationTest {
         campusWithQuery("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json", query)
     }
 
+    @Ignore
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db2() {
         val querySender1 = QuerySender(
