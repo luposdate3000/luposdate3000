@@ -1,9 +1,0 @@
-select distinct ?n where { 
-	?p <hasGivenName> ?n. 
-	{ 
-		?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "actor". 
-	} union { 
-		?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "athlete". 
-	} 
-	?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "politician". 
-}

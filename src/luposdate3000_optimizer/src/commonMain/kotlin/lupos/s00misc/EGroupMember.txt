@@ -1,4 +1,0 @@
-GMLOPFilter
-GMLOPMinus
-GMLOPDataSource
-GMLOPOptional

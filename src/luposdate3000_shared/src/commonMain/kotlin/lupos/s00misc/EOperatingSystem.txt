@@ -1,4 +1,0 @@
-Windows
-Linux
-JS
-UNKNOWN
