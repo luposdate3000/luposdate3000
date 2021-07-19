@@ -1,6 +1,4 @@
 /*
-
-src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -32,6 +30,7 @@ public class VisualisationNetwork {
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
     private val allMessageTypes = mutableSetOf<String>()
+    private val workForQueryAtNode = mutableMapOf<Int/*query*/, MutableMap<Int/*node*/, MutableSet<String>/*work-list*/>>()
     private companion object {
         val layerConnection = 0
         val layerConnectionInRouting = 1
@@ -42,6 +41,8 @@ public class VisualisationNetwork {
         val layerDeviceDB = 6
         val layerDeviceDBName = 7
         val layerMessage = 8
+        val layerStorageKey = 9
+        val layerWork = 10
         var deviceRadius = 20.0
         val minDistToOtherPath = 4.0
     }
@@ -208,27 +209,6 @@ public class VisualisationNetwork {
         }
         return imageHelperBase
     }
-    public fun toBaseImageDB(): ImageHelper {
-        val imageHelperBase = toBaseImageStyle()
-        for (device in devices) {
-            val classes = mutableListOf("device")
-            var layer = layerDeviceNone
-            var layerName = layerDeviceNoneName
-            if (device.hasDatabase) {
-                classes.add("device-database")
-                layer = layerDeviceDB
-                layerName = layerDeviceDBName
-                imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
-                imageHelperBase.addText(layerName, device.xnew, device.ynew - deviceRadius * 1.5, device.id.toString(), mutableListOf())
-            }
-        }
-        for (connection in connectionsInRoutingDB) {
-            val a = getDeviceById(connection.source)
-            val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
-        }
-        return imageHelperBase
-    }
 
     public fun saveMessagesForQuery(imageHelperBase: ImageHelper, queryNumber: Int): Boolean {
         var first = 0
@@ -277,7 +257,54 @@ public class VisualisationNetwork {
         }
         return true
     }
-
+    public fun toBaseImageDB(): ImageHelper {
+        val imageHelperBase = toBaseImageStyle()
+        for (device in devices) {
+            val classes = mutableListOf("device")
+            var layer = layerDeviceNone
+            var layerName = layerDeviceNoneName
+            if (device.hasDatabase) {
+                classes.add("device-database")
+                layer = layerDeviceDB
+                layerName = layerDeviceDBName
+                imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
+                imageHelperBase.addText(layerName, device.xnew, device.ynew - deviceRadius * 1.5, device.id.toString(), mutableListOf())
+            }
+        }
+        for (connection in connectionsInRoutingDB) {
+            val a = getDeviceById(connection.source)
+            val b = getDeviceById(connection.destination)
+            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+        }
+        return imageHelperBase
+    }
+    public fun saveDBStorageLocations(imageHelperBase: ImageHelper): ImageHelper {
+        val image = imageHelperBase.deepCopy()
+        for ((k, vs) in device_to_key) {
+            val device = getDeviceById(k)
+            var i = 1
+            for (v in vs) {
+                image.addText(layerStorageKey, device.xnew, device.ynew - deviceRadius * 1.5 - i * 13, v.toString(), mutableListOf())
+                i++
+            }
+        }
+        return image
+    }
+    public fun saveWorkForQuery(imageHelperBase: ImageHelper) {
+        for ((queryID, listA) in workForQueryAtNode) {
+            val image = imageHelperBase.deepCopy()
+            for ((deviceID, workList) in listA) {
+                val device = getDeviceById(deviceID)
+                var i = 1
+                for (work in workList) {
+                    image.addText(layerWork, device.xnew, device.ynew + deviceRadius * 1.5 + i * 13, work.toString(), mutableListOf())
+                }
+            }
+            File("visual-db-work-$queryID.svg").withOutputStream { out ->
+                out.println(image.toString())
+            }
+        }
+    }
     public fun toImage(): String {
         val imageHelperBase = toBaseImage()
         val imageHelperBaseDB = toBaseImageDB()
@@ -288,8 +315,12 @@ public class VisualisationNetwork {
         File("visual-db.svg").withOutputStream { out ->
             out.println(imageHelperBaseDB.toString())
         }
+        File("visual-db-storage.svg").withOutputStream { out ->
+            out.println(saveDBStorageLocations(imageHelperBaseDB).toString())
+        }
         var flag = true
         var counter = 0
+        saveWorkForQuery(imageHelperBaseDB)
         while (flag) {
             flag = saveMessagesForQuery(imageHelperBase, counter)
             counter++
@@ -369,10 +400,10 @@ public class VisualisationNetwork {
         if (src != dest) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:371"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:372"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:373"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:374"/*SOURCE_FILE_END*/ }, { src != hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:402"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:403"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:404"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:405"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size <size) {
                 connectionTable = IntArray(size) { -1 }
             }
@@ -384,9 +415,9 @@ public class VisualisationNetwork {
         if (src != dest && src != hop) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:386"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:387"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:388"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:417"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:418"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:419"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
             if (connectionTableDB.size <size) {
                 connectionTableDB = IntArray(size) { -1 }
             }
@@ -402,6 +433,19 @@ public class VisualisationNetwork {
         allMessageTypes.add(message.type)
         message.messageCounter = messages.size
         messages.add(message)
+    }
+    public fun addWork(queryID: Int, address: Int, operatorGraph: String, keysIn: Set<String>, keysOut: Set<String>) {
+        var workNode = workForQueryAtNode[queryID]
+        if (workNode == null) {
+            workNode = mutableMapOf()
+            workForQueryAtNode[queryID] = workNode
+        }
+        var workquery = workNode[address]
+        if (workquery == null) {
+            workquery = mutableSetOf()
+            workNode[address] = workquery
+        }
+        workquery.add("$keysIn -> $keysOut @ $operatorGraph")
     }
     override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}"
 }

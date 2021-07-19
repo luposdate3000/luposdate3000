@@ -2,14 +2,15 @@ package lupos.simulator_db.dummyImpl
 
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IRouter
-
+import lupos.visualize.distributed.database.VisualisationNetwork
 public class DummyDatabaseState(
+    visualisationNetwork: VisualisationNetwork,
     ownAddress: Int,
     allAddresses: IntArray,
     sender: IRouter,
     absolutePathToDataDirectory: String
 ) :
-    DatabaseState(ownAddress, allAddresses, sender, absolutePathToDataDirectory) {
+    DatabaseState(visualisationNetwork, ownAddress, allAddresses, sender, absolutePathToDataDirectory) {
 
     public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
     public var addressForQueryEndResult: Int = -1

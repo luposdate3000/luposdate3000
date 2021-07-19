@@ -11,7 +11,7 @@ public class DatabaseSystemDummy : IDatabase {
     private lateinit var state: DummyDatabaseState
 
     public override fun start(initialState: DatabaseState) {
-        state = DummyDatabaseState(initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
+        state = DummyDatabaseState(initialState.visualisationNetwork, initialState.ownAddress, initialState.allAddresses, initialState.sender, initialState.absolutePathToDataDirectory)
         state.dataFile = "${initialState.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }

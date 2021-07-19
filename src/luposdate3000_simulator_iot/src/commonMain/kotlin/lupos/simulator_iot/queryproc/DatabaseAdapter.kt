@@ -67,6 +67,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
 
     private fun buildInitialStateObject(): DatabaseState {
         return object : DatabaseState(
+visualisationNetwork=device.simRun.visualisationNetwork,
             ownAddress = device.address,
             allAddresses = device.simRun.config.dbDeviceAddresses,
             sender = this@DatabaseAdapter,
