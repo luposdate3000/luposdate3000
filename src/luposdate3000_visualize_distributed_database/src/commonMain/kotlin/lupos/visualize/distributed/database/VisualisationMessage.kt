@@ -21,19 +21,21 @@ public class VisualisationMessage(public val source: Int, public val destination
     internal var messageCounter: Int = 0
     override fun toString(): String = "VisualisationMessage($source -> $destination at $time.$messageCounter : '$shortText')"
     override operator fun compareTo(other: VisualisationMessage): Int {
-        var res = (time - other.time).toInt()
-        if (res != 0) {
-            return res
+        var res = time - other.time
+        if (res < 0) {
+            return -1
+        } else if (res> 0) {
+            return 1
         }
-        res = messageCounter - other.messageCounter
-        if (res != 0) {
-            return res
+        var res2 = messageCounter - other.messageCounter
+        if (res2 != 0) {
+            return res2
         }
-        res = source - other.source
-        if (res != 0) {
-            return res
+        res2 = source - other.source
+        if (res2 != 0) {
+            return res2
         }
-        res = destination - other.destination
-        return res
+        res2 = destination - other.destination
+        return res2
     }
 }

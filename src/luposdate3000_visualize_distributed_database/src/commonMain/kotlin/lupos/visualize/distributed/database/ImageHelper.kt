@@ -68,6 +68,10 @@ public class ImageHelper {
             return " class=\"${classes.joinToString(" ")}\""
         }
     }
+    public fun addText(layer: Int, x: Double, y: Double, text: String, classes: List<String>) {
+        checkLayer(layer)
+        layers[layer].add("    <text x=\"$x\" y=\"$y\" writing-mode=\"lr\" glyph-orientation-horizontal=\"90\" text-anchor=\"middle\" alignment-baseline=\"middle\" dominant-baseline=\"central\"${classString(classes)} >$text</text>")
+    }
     public fun addCircle(layer: Int, cx: Double, cy: Double, r: Double, classes: List<String>) {
         checkLayer(layer)
         layers[layer].add("    <circle cx=\"$cx\" cy=\"$cy\" r=\"$r\"${classString(classes)} />")

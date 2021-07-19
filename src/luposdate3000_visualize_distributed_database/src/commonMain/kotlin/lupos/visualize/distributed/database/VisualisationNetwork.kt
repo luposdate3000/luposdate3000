@@ -25,7 +25,9 @@ public class VisualisationNetwork {
     private var devicesMaxID = 0
     private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
     private val connectionsInRouting = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
+    private val connectionsInRoutingDB = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
     private var connectionTable = IntArray(0) // src*devicesMaxID+dest -> nexthop
+    private var connectionTableDB = IntArray(0) // src*devicesMaxID+dest -> nexthop
     private val messages = mutableListOf<VisualisationMessage>() // alle gesendeten Nachrichten
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
@@ -33,8 +35,13 @@ public class VisualisationNetwork {
     private companion object {
         val layerConnection = 0
         val layerConnectionInRouting = 1
-        val layerDevice = 2
-        val layerMessage = 3
+        val layerDeviceNone = 2
+        val layerDeviceNoneName = 3
+        val layerDeviceSensor = 4
+        val layerDeviceSensorName = 5
+        val layerDeviceDB = 6
+        val layerDeviceDBName = 7
+        val layerMessage = 8
         var deviceRadius = 20.0
         val minDistToOtherPath = 4.0
     }
@@ -49,7 +56,19 @@ public class VisualisationNetwork {
         tmp.add(dest)
         return tmp
     }
-    public fun toBaseImage(): ImageHelper {
+    private fun messageToRoutingPathDB(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
+        var tmp = mutableListOf<Int>()
+        var s = src
+        while (s != dest) {
+            tmp.add(s)
+            val idx = s * devicesMaxID + dest
+            s = connectionTableDB[idx]
+        }
+        tmp.add(dest)
+        return tmp
+    }
+
+    public fun toBaseImageStyle(): ImageHelper {
         val imageHelperBase = ImageHelper()
         imageHelperBase.createClass(
             "device",
@@ -155,15 +174,27 @@ public class VisualisationNetwork {
             var newY = imageHelperBase.minY + ((device.y - minY) / (maxY - minY)) * (imageHelperBase.maxY - imageHelperBase.minY)
             device.xnew = newX
             device.ynew = newY
-
+        }
+        return imageHelperBase
+    }
+    public fun toBaseImage(): ImageHelper {
+        val imageHelperBase = toBaseImageStyle()
+        for (device in devices) {
             val classes = mutableListOf("device")
-            if (device.hasDatabase) {
-                classes.add("device-database")
-            }
+            var layer = layerDeviceNone
+            var layerName = layerDeviceNoneName
             if (device.hasSensor) {
                 classes.add("device-sensor")
+                layer = layerDeviceSensor
+                layerName = layerDeviceSensorName
             }
-            imageHelperBase.addCircle(layerDevice, device.xnew, device.ynew, deviceRadius, classes)
+            if (device.hasDatabase) {
+                classes.add("device-database")
+                layer = layerDeviceDB
+                layerName = layerDeviceDBName
+            }
+            imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
+            imageHelperBase.addText(layerName, device.xnew, device.ynew - deviceRadius * 1.5, device.id.toString(), mutableListOf())
         }
         for (connection in connections) {
             val a = getDeviceById(connection.source)
@@ -177,7 +208,29 @@ public class VisualisationNetwork {
         }
         return imageHelperBase
     }
-    public fun saveMessagesImageVideo(imageHelperBase: ImageHelper, queryNumber: Int): Boolean {
+    public fun toBaseImageDB(): ImageHelper {
+        val imageHelperBase = toBaseImageStyle()
+        for (device in devices) {
+            val classes = mutableListOf("device")
+            var layer = layerDeviceNone
+            var layerName = layerDeviceNoneName
+            if (device.hasDatabase) {
+                classes.add("device-database")
+                layer = layerDeviceDB
+                layerName = layerDeviceDBName
+                imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
+                imageHelperBase.addText(layerName, device.xnew, device.ynew - deviceRadius * 1.5, device.id.toString(), mutableListOf())
+            }
+        }
+        for (connection in connectionsInRoutingDB) {
+            val a = getDeviceById(connection.source)
+            val b = getDeviceById(connection.destination)
+            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+        }
+        return imageHelperBase
+    }
+
+    public fun saveMessagesForQuery(imageHelperBase: ImageHelper, queryNumber: Int): Boolean {
         var first = 0
         var last = messages.size
         if (queryNumber != -1) {
@@ -227,19 +280,22 @@ public class VisualisationNetwork {
 
     public fun toImage(): String {
         val imageHelperBase = toBaseImage()
+        val imageHelperBaseDB = toBaseImageDB()
 // ---->>>> save it as file
-        val res = imageHelperBase.toString()
         File("visual.svg").withOutputStream { out ->
-            out.println(res)
+            out.println(imageHelperBase.toString())
+        }
+        File("visual-db.svg").withOutputStream { out ->
+            out.println(imageHelperBaseDB.toString())
         }
         var flag = true
         var counter = 0
         while (flag) {
-            flag = saveMessagesImageVideo(imageHelperBase, counter)
+            flag = saveMessagesForQuery(imageHelperBase, counter)
             counter++
         }
 // <<<<---- save it as file
-        return res
+        return imageHelperBase.toString()
     }
 
     private fun getDeviceById(id: Int): VisualisationDevice {
@@ -310,16 +366,33 @@ public class VisualisationNetwork {
     }
 
     public fun addConnectionTable(src: Int, dest: Int, hop: Int) {
-        val idx = src * devicesMaxID + dest
-        val size = devicesMaxID * devicesMaxID
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:314"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:315"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:316"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-        if (connectionTable.size <size) {
-            connectionTable = IntArray(size) { -1 }
+        if (src != dest) {
+            val idx = src * devicesMaxID + dest
+            val size = devicesMaxID * devicesMaxID
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:371"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:372"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:373"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:374"/*SOURCE_FILE_END*/ }, { src != hop })
+            if (connectionTable.size <size) {
+                connectionTable = IntArray(size) { -1 }
+            }
+            connectionTable[idx] = hop
+            connectionsInRouting.add(VisualisationConnection(src, hop))
         }
-        connectionTable[idx] = hop
-        connectionsInRouting.add(VisualisationConnection(src, hop))
+    }
+    public fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {
+        if (src != dest && src != hop) {
+            val idx = src * devicesMaxID + dest
+            val size = devicesMaxID * devicesMaxID
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:386"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:387"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:388"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            if (connectionTableDB.size <size) {
+                connectionTableDB = IntArray(size) { -1 }
+            }
+            connectionTableDB[idx] = hop
+            connectionsInRoutingDB.add(VisualisationConnection(src, hop))
+        }
     }
     public fun addConnection(connection: VisualisationConnection) {
         connections.add(connection)
