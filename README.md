@@ -6,8 +6,8 @@ luposdate3000 is a database which can process sparql-queries.
 
 Please cite our papers about luposdate3000:
 
-** Benjamin Warnke, Muhammad Waqas Rehan, Stefan Fischer, Sven Groppe: Flexible data partitioning schemes for parallel merge joins in semantic web queries in: Datenbanksysteme für Business, Technologie und Web (BTW), 19. Fachtagung des GI-Fachbereichs Datenbanken und Informationssysteme, Dresden, Germany, 2021, Gesellschaft für Informatik, Bonn, LNI, Vol.P-311, this publication received the label Results Reproduced, p.237-256 **
-```bibtex
+**Benjamin Warnke, Muhammad Waqas Rehan, Stefan Fischer, Sven Groppe: Flexible data partitioning schemes for parallel merge joins in semantic web queries in: Datenbanksysteme für Business, Technologie und Web (BTW), 19. Fachtagung des GI-Fachbereichs Datenbanken und Informationssysteme, Dresden, Germany, 2021, Gesellschaft für Informatik, Bonn, LNI, Vol.P-311, this publication received the label Results Reproduced, p.237-256**
+
 @inproceedings{Warnke21Flexible,
   author    = {Benjamin Warnke and Muhammad Waqas Rehan and Stefan Fischer and Sven Groppe},
   title     = {Flexible data partitioning schemes for parallel merge joins in semantic web queries},
@@ -20,7 +20,6 @@ Please cite our papers about luposdate3000:
   url       = {https://doi.org/10.18420/btw2021-12},
   note = {this publication received the label 'Results Reproduced'}
 }
-```
 
 **Sven Groppe, Rico Klinckenberg, and Benjamin Warnke. Sound of Databases: Sonification of a Semantic Web Database Engine. PVLDB, 14(12), 2021., https://doi.org/10.14778/3476311.3476322**
 
