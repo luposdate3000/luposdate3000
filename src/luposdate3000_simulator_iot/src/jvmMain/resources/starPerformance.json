@@ -12,7 +12,7 @@
             "name": "Fog",
             "database": true,
             "parkingSensor": "",
-            "performance": 20.0,
+            "performance": 100.0,
             "supportedLinkTypes": ["WPAN"]
         }
     ],

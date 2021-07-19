@@ -10,6 +10,7 @@ import lupos.simulator_iot.measure.TimeMeasurer
 import lupos.simulator_iot.utils.FilePaths
 import lupos.visualize.distributed.database.VisualisationConnection
 import lupos.visualize.distributed.database.VisualisationDevice
+import lupos.visualize.distributed.database.VisualisationNetwork
 
 public class SimulationRun {
 
@@ -17,6 +18,8 @@ public class SimulationRun {
         createOutputDirectory()
         refreshDatabaseDirectories()
     }
+
+    public val visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
 
     public lateinit var sim: Simulation
 
@@ -28,7 +31,7 @@ public class SimulationRun {
 
     internal var measurement = Measurement()
 
-    internal val logger = Logger(config, measurement)
+    internal var logger: Logger? = null
 
     public var notInitializedClock: Long = -1
 
@@ -64,19 +67,23 @@ public class SimulationRun {
         sim.callback = LifeCycleImpl(this)
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if (simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
+        logger = if (configuration.jsonObjects.logging) Logger(configuration, measurement) else null
+        setUpVisualization(configuration)
+        sim.startSimulation()
+    }
 
+    private fun setUpVisualization(configuration: Configuration) {
         for (d in configuration.devices) {
             val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
             vis.x = d.location.latitude
             vis.y = d.location.longitude
-            sim.visualisationNetwork.addDevice(vis)
+            visualisationNetwork.addDevice(vis)
             for (n in d.linkManager.getNeighbours()) {
-                sim.visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
+                visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
             }
         }
-
-        sim.startSimulation()
     }
+
 
     internal fun getCurrentSimulationClock(): Long {
         return sim.clock

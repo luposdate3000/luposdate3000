@@ -99,7 +99,7 @@ public class Device(
         for (dest in 0 until simRun.config.devices.size) {
             try {
                 val hop = router.getNextHop(dest)
-                simRun.sim.visualisationNetwork.addConnectionTable(address, dest, hop)
+                simRun.visualisationNetwork.addConnectionTable(address, dest, hop)
             } catch (e: Throwable) {
             }
         }
@@ -160,11 +160,11 @@ public class Device(
     public fun hasDatabase(): Boolean = database != null
 
     private fun logReceivePackage(pck: NetworkPackage) {
-        simRun.logger.log("> $this receives $pck at clock ${simRun.getCurrentSimulationClock()}")
+        simRun.logger?.log("> $this receives $pck at clock ${simRun.getCurrentSimulationClock()}")
     }
 
     private fun logSendPackage(pck: NetworkPackage, delay: Long) {
-        simRun.logger.log("> $this sends $pck at clock ${simRun.getCurrentSimulationClock()} with delay $delay")
+        simRun.logger?.log("> $this sends $pck at clock ${simRun.getCurrentSimulationClock()} with delay $delay")
     }
 
     override fun equals(other: Any?): Boolean {

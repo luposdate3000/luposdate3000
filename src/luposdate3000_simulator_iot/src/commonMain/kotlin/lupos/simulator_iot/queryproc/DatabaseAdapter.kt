@@ -103,7 +103,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         val query = SemanticData.getInsertQueryString(sample)
         val bytes = query.encodeToByteArray()
         val pck = QueryPackage(device.address, bytes)
-        PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.sim.visualisationNetwork, pck)
+        PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         processIDatabasePackage(pck)
     }
 
@@ -116,7 +116,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
         checkActivation()
-        PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.sim.visualisationNetwork, pck)
+        PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {
@@ -158,7 +158,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         }
 
         override fun receive(pck: SequencedPackage) {
-            device.simRun.logger.log("> DB of Device $device receives $pck at clock ${device.simRun.getCurrentSimulationClock()}")
+             device.simRun.logger?.log("> DB of Device $device receives $pck at clock ${device.simRun.getCurrentSimulationClock()}")
             when (pck) {
                 is DBInternPackage -> processIDatabasePackage(pck.content)
                 is DBQueryResultPackage -> processDBQueryResultPackage(pck)

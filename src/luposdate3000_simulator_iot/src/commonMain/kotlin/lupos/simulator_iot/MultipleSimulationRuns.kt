@@ -31,13 +31,13 @@ internal class MultipleSimulationRuns(
     }
 
     private fun evaluate() {
-        val avg = average(measurements)
+        val avg = calcAverage(measurements)
         printer.printAvgMeasurement(avg)
-        val dev = deviation(avg, measurements)
+        val dev = calcDeviationInPercentage(avg, measurements)
         printer.printDeviationMeasurement(dev)
     }
 
-    private fun average(list: MutableList<Measurement>): Measurement {
+    private fun calcAverage(list: MutableList<Measurement>): Measurement {
         val size = list.size
         val sum = sum(list)
         val avg = Measurement()
@@ -104,7 +104,7 @@ internal class MultipleSimulationRuns(
         return (observedValue - avgValue).pow(2)
     }
 
-    private fun deviation(avg: Measurement, list: MutableList<Measurement>): Measurement {
+    private fun calcDeviationInPercentage(avg: Measurement, list: MutableList<Measurement>): Measurement {
         val tmp = Measurement()
         for (m in list) {
             // topology
@@ -133,28 +133,29 @@ internal class MultipleSimulationRuns(
         val size = list.size - 1
 
         // topology
-        tmp.numberOfDevices = sqrt(tmp.numberOfDevices / size)
-        tmp.numberOfSensorDevices = sqrt(tmp.numberOfSensorDevices / size)
-        tmp.numberOfDatabaseDevices = sqrt(tmp.numberOfDatabaseDevices / size)
-        tmp.numberOfQuerySenders = sqrt(tmp.numberOfQuerySenders / size)
-        tmp.numberOfLinks = sqrt(tmp.numberOfLinks / size)
+        tmp.numberOfDevices = (sqrt(tmp.numberOfDevices / size)) * 100 / avg.numberOfDevices
+        tmp.numberOfSensorDevices = (sqrt(tmp.numberOfSensorDevices / size)) * 100 / avg.numberOfSensorDevices
+        tmp.numberOfDatabaseDevices = (sqrt(tmp.numberOfDatabaseDevices / size)) * 100 / avg.numberOfDatabaseDevices
+        tmp.numberOfQuerySenders = (sqrt(tmp.numberOfQuerySenders / size)) * 100 / avg.numberOfQuerySenders
+        tmp.numberOfLinks = (sqrt(tmp.numberOfLinks / size)) * 100 / avg.numberOfLinks
 
         // times
-        tmp.initializationDurationInSec = sqrt(tmp.initializationDurationInSec / size)
-        tmp.realSimulationDurationInSec = sqrt(tmp.realSimulationDurationInSec / size)
-        tmp.simulationDurationInSec = sqrt(tmp.simulationDurationInSec / size)
+        tmp.initializationDurationInSec = (sqrt(tmp.initializationDurationInSec / size)) * 100 / avg.initializationDurationInSec
+        tmp.realSimulationDurationInSec = (sqrt(tmp.realSimulationDurationInSec / size)) * 100 / avg.realSimulationDurationInSec
+        tmp.simulationDurationInSec = (sqrt(tmp.simulationDurationInSec / size)) * 100 / avg.simulationDurationInSec
 
         // traffic
-        tmp.numberOfSentPackages = sqrt(tmp.numberOfSentPackages / size)
-        tmp.networkTrafficInKiloBytes = sqrt(tmp.networkTrafficInKiloBytes / size)
-        tmp.numberOfSentDAOPackages = sqrt(tmp.numberOfSentDAOPackages / size)
-        tmp.numberOfSentDIOPackages = sqrt(tmp.numberOfSentDIOPackages / size)
-        tmp.numberOfSentDatabasePackages = sqrt(tmp.numberOfSentDatabasePackages / size)
-        tmp.numberOfSentSamplePackages = sqrt(tmp.numberOfSentSamplePackages / size)
-        tmp.numberOfForwardedPackages = sqrt(tmp.numberOfForwardedPackages / size)
-        tmp.numberOfParkingSamplesMade = sqrt(tmp.numberOfParkingSamplesMade / size)
-        tmp.numberOfQueriesRequested = sqrt(tmp.numberOfQueriesRequested / size)
+        tmp.numberOfSentPackages = (sqrt(tmp.numberOfSentPackages / size)) * 100 / avg.numberOfSentPackages
+        tmp.networkTrafficInKiloBytes = (sqrt(tmp.networkTrafficInKiloBytes / size)) * 100 / avg.networkTrafficInKiloBytes
+        tmp.numberOfSentDAOPackages = (sqrt(tmp.numberOfSentDAOPackages / size)) * 100 / avg.numberOfSentDAOPackages
+        tmp.numberOfSentDIOPackages = (sqrt(tmp.numberOfSentDIOPackages / size)) * 100 / avg.numberOfSentDIOPackages
+        tmp.numberOfSentDatabasePackages = (sqrt(tmp.numberOfSentDatabasePackages / size)) * 100 / avg.numberOfSentDatabasePackages
+        tmp.numberOfSentSamplePackages = (sqrt(tmp.numberOfSentSamplePackages / size)) * 100 / avg.numberOfSentSamplePackages
+        tmp.numberOfForwardedPackages = (sqrt(tmp.numberOfForwardedPackages / size)) * 100 / avg.numberOfForwardedPackages
+        tmp.numberOfParkingSamplesMade = (sqrt(tmp.numberOfParkingSamplesMade / size)) * 100 / avg.numberOfParkingSamplesMade
+        tmp.numberOfQueriesRequested = (sqrt(tmp.numberOfQueriesRequested / size)) * 100 / avg.numberOfQueriesRequested
 
         return tmp
     }
+
 }
