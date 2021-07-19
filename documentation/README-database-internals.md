@@ -13,12 +13,12 @@
 
 Step 3 assigns IDs to the operators.
 These IDs are changing a lot until (inclusive) phase 5.
-This changing of IDs comes from the current kotlin-native memory model, where everything is freezed immediately after assignment such that any change is only possibly by a full duplication of the whole datastructure.
+This changing of IDs comes from the current kotlin-native memory model, where everything is freezed immediately after assignment such that any change is only possibly by a full duplication of the entire datastructure.
 Within phase 6 the IDs are fixed, such that your code can depend on it.
 
 ### Operator implementations
 
-The Logical Operators have "only" names, and metadata. These Operators are not evaluateable on their own.
+The Logical Operators have "only" names, and metadata. These Operators can not be evaluated on their own.
 All Logical Operators have the prefix "LOP" .
 These Operators are defined in [logical](../src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/).
 
@@ -29,6 +29,8 @@ These Operators can be evaluated directly, but they work only on a specific inpu
 The Physical Operators use the prefix "POP" and are defined in [physical](../src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/).
 On evaluation these Operators return Iterators, which then finally perform the actual evaluation.
 As a consequence a Physical Operatorgraph can be reused as it is, and still evaluate up to date values from the Store.
+
+A physical Operatorgraph becomes invalid, if the used graphs are deleted or recreated.
 
 ### query evaluation
 
@@ -50,6 +52,5 @@ Put all your interfaces here.
 The module [shared_inline](../src/luposdate3000_shared_inline) is at compile time copy pasted into every other module.
 This allows the compiler to inline every function, but on the other hand, this costs a lot of compile time.
 
-Dependencies to other modules are automatically detected by parsing the source-code, and scanning all the import-statements
-JS and native compilation requires a full list of all even implicitly used modules.
-JVM compilation only requires the directly used modules to be present in the compiletime classpath.
+Dependencies to other modules are automatically detected by parsing the source-code, and scanning all the import-statements.
+Due to dependency-order errors within gradle, all targets get a full recoursive list of all their dependencies directly, even, if for example the jvm source-code should be able to compile without the recoursive dependencies.
