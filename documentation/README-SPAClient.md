@@ -34,7 +34,9 @@ To launch the database with the endpoint use
 
 which will provide the Database on localhost:80/index.html
 
-If you pull from the git, than execute all setup-scripts (see above) again.
+# after modifications to code or If you pull from git .. :
+
+ than execute all setup-scripts (see above) again.
 If you are adding new dependencies to a module, you need to execute all setup-scripts (see above) again too.
 
 If you change packages within npm or bower, than execute
