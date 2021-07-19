@@ -22,18 +22,18 @@ Please cite our papers about luposdate3000:
 }
 ```
 
-**Sven Groppe, Rico Klinckenberg, and Benjamin Warnke. Sound of Databases: Sonification of a Semantic Web Database Engine. PVLDB, 14(12), 2021., https://doi.org/10.14778/3476311.3476322**
+**Sven Groppe, Rico Klinckenberg, and Benjamin Warnke. Sound of Databases: Sonification of a Semantic Web Database Engine. PVLDB, 14(12), 2021, https://doi.org/10.14778/3476311.3476322**
 
 BibTex Code of our VLDB'21 Demo paper:
 ```bibtex
-@article{Groppe2020ReViz,
+@article{Groppe2021Sound,
   title = {Sound of Databases: Sonification of a Semantic Web Database Engine},
   author = {Sven Groppe and Rico Klinckenberg and Benjamin Warnke},
   journal = {PVLDB},
   year = {2021},
-  volume = {12},
-  number={14},
-  url = {https://doi.org/10.1007/978-3-030-64452-9_10}
+  volume = {14},
+  number={12},
+  url = {https://doi.org/10.14778/3476311.3476322}
 }
 ```
 
