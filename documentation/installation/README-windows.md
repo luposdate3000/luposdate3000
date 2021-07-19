@@ -3,9 +3,11 @@ My windows10 gui is in german, so I do not know the exact english labels in the 
 Personally I prefer and therefore use linux.
 If you have some hints to simplify/improve this README, let me know.
 
-# install java
 
 Download and install git-bash from https://git-scm.com/download/win .
+
+# install java
+
 Install any Java version of at least java 8
 For Example:
 
