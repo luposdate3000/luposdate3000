@@ -19,7 +19,8 @@ If you are using the commandline, the tests can be generated and executed using:
 
 ```bash
 ./launcher.main.kts --setupIntellijIdea
-./gradlew build
+# assemble is like build, but skips the tests
+./gradlew assemble
 ./launcher.main.kts --run --mainClass=Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setupIntellijIdea
 ./gradlew build

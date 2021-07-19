@@ -3,9 +3,11 @@ My windows10 gui is in german, so I do not know the exact english labels in the 
 Personally I prefer and therefore use linux.
 If you have some hints to simplify/improve this README, let me know.
 
-# install java
 
 Download and install git-bash from https://git-scm.com/download/win .
+
+# install java
+
 Install any Java version of at least java 8
 For Example:
 
@@ -24,7 +26,7 @@ The compiler-path looks something like "C:/.../kotlinc/bin"
 
 restart gitbash, if it is already open
 
-#enable windows long file paths (more than 260 chars)
+# enable windows long file paths (more than 260 chars)
 This is required for working with the JS target due to how the compiler works.
 open start-search
 type "regedit"
@@ -49,7 +51,7 @@ git config --global credential.helper store
 
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 
-#install bignum
+# install bignum
 { 
     git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
     cd kotlin-multiplatform-bignum/bignum
@@ -62,7 +64,7 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 }
 ```
 
-#set some environment variables
+# set some environment variables
 
 * "LUPOS_HOME"
   only used, if the database is using a persistent buffer-manager. Point this to an Folder, where the database should store its data. Include a trailling backslash.
@@ -74,7 +76,7 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
   specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too. This is only used in the commanline startup of the database.
 
 
-#dependencies for the spa-client
+# additional dependencies for the spa-client
 https://nodejs.org/dist/v14.17.0/node-v14.17.0-x64.msi
 https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi
 
@@ -88,7 +90,7 @@ to
 C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0
 because of an bug in node-gyp, which uses the wrong path
 
-#usage
+# usage
 
 You can now compile the database in multiple different ways.
 

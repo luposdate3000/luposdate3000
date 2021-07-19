@@ -11,7 +11,7 @@ import kotlin.time.ExperimentalTime
 
 internal object TimeUtils {
 
-    internal fun addNanoSeconds(instant: Instant, nanos: Long) : Instant {
+    internal fun addNanoSeconds(instant: Instant, nanos: Long): Instant {
         return instant.plus(nanos, DateTimeUnit.NANOSECOND, TimeZone.UTC)
     }
 
@@ -33,7 +33,6 @@ internal object TimeUtils {
         val duration = endInstant - startInstant
         return duration.inWholeNanoseconds
     }
-
 
     internal fun toNanoSec(seconds: Int): Long =
         seconds.toLong() * 1000 * 1000 * 1000

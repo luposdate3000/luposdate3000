@@ -143,7 +143,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
     }
 
     private fun checkActivation() {
-        require(isActive) {"This DBMS Instance is not active!"}
+        require(isActive) { "This DBMS Instance is not active!" }
     }
 
     private inner class SequencePackageSenderImpl : ISequencePackageSender {
@@ -158,7 +158,7 @@ public class DatabaseAdapter(internal val device: Device, private val isDummy: B
         }
 
         override fun receive(pck: SequencedPackage) {
-             device.simRun.logger?.log("> DB of Device $device receives $pck at clock ${device.simRun.getCurrentSimulationClock()}")
+            device.simRun.logger?.log("> DB of Device $device receives $pck at clock ${device.simRun.getCurrentSimulationClock()}")
             when (pck) {
                 is DBInternPackage -> processIDatabasePackage(pck.content)
                 is DBQueryResultPackage -> processDBQueryResultPackage(pck)

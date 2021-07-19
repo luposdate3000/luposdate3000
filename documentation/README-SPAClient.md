@@ -1,4 +1,4 @@
-#SPAClient
+# SPAClient
 
 First, move to the project directory.
 
@@ -8,12 +8,11 @@ To Compile the SPAClient on Windows use
 ./launcher.main.kts --setupIntellijIdea --target=JVM_JS
 ./gradlew build
 ./launcher.main.kts --setupSPAClient
-# dies wird crashen ... wenn nicht beim build, dann im Browser   
-# die Datei
+# this will crash - maybe not during the compilation, but definetly during execution
+# download the file
 # https://github.com/nbrosowsky/tonejs-instruments/archive/8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6.tar.gz
-# selber herunterladen und nach 
+# yourself, and extract it to
 # ./src/luposdate3000_spa_client/node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6
-# entpacken
 ./launcher.main.kts --setupSPAClient --dryMode=Enable
 ```
 
@@ -34,7 +33,9 @@ To launch the database with the endpoint use
 
 which will provide the Database on localhost:80/index.html
 
-If you pull from the git, than execute all setup-scripts (see above) again.
+# after modifications to code or If you pull from git .. :
+
+ than execute all setup-scripts (see above) again.
 If you are adding new dependencies to a module, you need to execute all setup-scripts (see above) again too.
 
 If you change packages within npm or bower, than execute

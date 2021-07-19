@@ -12,9 +12,9 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 
 apt install openjdk-8-jdk-headless unzip
 
-#if you want to use the spa-client
+# additional dependencies for the spa-client
 {
-    apt install g++ python2 nodejs firefox
+    apt install g++ python2 nodejs
 }
 
 #Define the folder, where to download everything else.
@@ -81,7 +81,7 @@ dependencieshome=/opt
 }
 ```
 
-#usage
+# usage
 
 You can now compile the database in multiple different ways.
 

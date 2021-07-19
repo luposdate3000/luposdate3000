@@ -18,7 +18,7 @@ If you are adding new dependencies to a module, you need to execute this script 
 
 Now, you can open intellij.
 Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.
-The Linux-version of intellij ignores this.
+The Linux-version of intellij ignores this - this seems to change in every version of the IDE.
 
 You can compile and run the database by navigating to the main functions, which are located within the src/luposdate3000_launch_*/src/jvmMain/kotlin/Main.kt files.
 Substitute the "*" with the wanted target.

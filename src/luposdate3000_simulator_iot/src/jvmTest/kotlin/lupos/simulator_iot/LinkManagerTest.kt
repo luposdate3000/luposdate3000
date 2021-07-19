@@ -16,8 +16,8 @@ public class LinkManagerTest {
         deviceLinker.link(srcDevice, destDevice, 250)
 
         assertEquals(0, srcDevice.linkManager.getTransmissionDelay(destAddr, 0))
-        assertEquals(1, srcDevice.linkManager.getTransmissionDelay(destAddr, 21))
-        assertEquals(2, srcDevice.linkManager.getTransmissionDelay(destAddr, 50))
-        assertEquals(64000, srcDevice.linkManager.getTransmissionDelay(destAddr, 2000000))
+        assertEquals(672000, srcDevice.linkManager.getTransmissionDelay(destAddr, 21))
+        assertEquals(1600000, srcDevice.linkManager.getTransmissionDelay(destAddr, 50))
+        assertEquals(64000000000, srcDevice.linkManager.getTransmissionDelay(destAddr, 2000000))
     }
 }

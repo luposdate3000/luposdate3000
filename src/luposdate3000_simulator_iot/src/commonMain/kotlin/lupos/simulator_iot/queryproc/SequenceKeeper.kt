@@ -18,7 +18,6 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
 
     private val receiveBuffer: MutableMap<Int, PriorityQueue<SequencedPackage>> = mutableMapOf()
 
-
     internal fun receive(pck: SequencedPackage) {
         addCounter(pck.sourceAddress)
         buffSequencedPackage(pck)
@@ -26,13 +25,13 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
     }
 
     private fun addCounter(address: Int) {
-        if(!receiveCounters.containsKey(address)) {
+        if (!receiveCounters.containsKey(address)) {
             receiveCounters[address] = SequenceCounter(firstPackageNumber, firstSequenceNumber)
         }
     }
 
     private fun buffSequencedPackage(pck: SequencedPackage) {
-        if(!receiveBuffer.containsKey(pck.sourceAddress)) {
+        if (!receiveBuffer.containsKey(pck.sourceAddress)) {
             receiveBuffer[pck.sourceAddress] = PriorityQueue(compareBy<SequencedPackage> { it.sequenceNumber }.thenBy { it.packageNumber })
         }
         receiveBuffer[pck.sourceAddress]!!.enqueue(pck)
@@ -48,10 +47,9 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
         val counters = receiveCounters[src]!!
         while (queue.hasNext()) {
             val first = queue.peek()
-            if(isFlushAble(first, counters)) {
+            if (isFlushAble(first, counters)) {
                 flushFirst(queue, counters)
-            }
-            else {
+            } else {
                 break
             }
         }
@@ -62,8 +60,7 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
         if (first is DBSequenceEndPackage) {
             counters.expectedPackageNumber = 0
             counters.expectedSequenceNumber++
-        }
-        else {
+        } else {
             sender.receive(first)
             counters.expectedPackageNumber++
         }
@@ -72,8 +69,6 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
     private fun isFlushAble(pck: SequencedPackage, c: SequenceCounter): Boolean {
         return pck.sequenceNumber == c.expectedSequenceNumber && pck.packageNumber == c.expectedPackageNumber
     }
-
-
 
     private fun getPackageNumber(destinationAddress: Int): Int {
         if (!packageCounter.containsKey(destinationAddress)) {
@@ -89,7 +84,7 @@ internal class SequenceKeeper(private val sender: ISequencePackageSender) {
             val endPck = DBSequenceEndPackage(sender.getSenderAddress(), dest)
             sendSequencedPackage(endPck)
         }
-        if( packageCounter.isNotEmpty() ) {
+        if (packageCounter.isNotEmpty()) {
             packageCounter.clear()
             currentSequenceID++
         }

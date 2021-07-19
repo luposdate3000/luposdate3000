@@ -163,10 +163,8 @@ class SequenceKeeperTest {
         assertEquals(pck2, sender.receivedList[2])
     }
 
-
-
     // Sender
-    //----------------------
+    // ----------------------
 
     @Test
     fun incrementPckNumberInOneSequence() {
@@ -213,7 +211,6 @@ class SequenceKeeperTest {
         assertEquals(2, sender.sentList[4].sequenceNumber)
         assertEquals(2, sender.sentList[5].sequenceNumber)
     }
-
 
     @Test
     fun everyDestinationStartHasOwnPackageNumbering() {

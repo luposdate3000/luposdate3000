@@ -180,7 +180,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     internal companion object {
 
         // RPL Constants (see section 17. of RFC 6550)
-        //------------------------
+        // ------------------------
 
         // This is the default value for the DelayDAO Timer. Default is 1 second.
         internal const val DEFAULT_DAO_DELAY: Int = 1

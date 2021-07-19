@@ -19,7 +19,7 @@ public class TimeMeasurer(private val simRun: SimulationRun) {
         realShutDownTimeStamp = TimeUtils.stamp()
     }
 
-    private fun getSimulationTime() : Instant {
+    private fun getSimulationTime(): Instant {
         return TimeUtils.addNanoSeconds(startUpTimeStamp, simRun.getCurrentSimulationClock())
     }
 

@@ -155,7 +155,6 @@ class RoutingSimulationTest {
 
         val fog = config.getDeviceByName("DODAG ROOT")
 
-
         simRun.startSimulation(config)
         assertEquals(5, fog.processedSensorDataPackages)
     }

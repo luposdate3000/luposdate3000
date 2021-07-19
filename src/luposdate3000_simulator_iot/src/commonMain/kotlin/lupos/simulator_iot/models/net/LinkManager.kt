@@ -2,7 +2,6 @@ package lupos.simulator_iot.models.net
 
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.utils.TimeUtils
-import kotlin.math.roundToLong
 
 internal class LinkManager(
     internal val device: Device,

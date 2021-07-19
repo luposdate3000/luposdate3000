@@ -4,7 +4,7 @@ Things you can change:
 
 * "import java.xyz"<br/>
   Only use java-only code within jvmMain and never within commonMain.
-  Because jvm related code will not compile on native.
+  Because jvm related code will not compile on native or js.
   The current build-file layout should mark this as error (in most cases).
 * "import xyz.\*"<br/>
   Dont use the \* in imports, always include exactly what you want.
@@ -14,12 +14,12 @@ Things you can change:
   This modifier is applied recoursively - therefore the function byte-code may explode in size.
   Use this when the code is performance critical.
   There is a limit of 64kb byte-code per function - this is very easy to reach if you put inline everywhere.
-  This modifier should NEVER be used during debugging, because it breaks the exception-stack-traces.
+  This modifier breaks the exception-stack-traces.
   If you have functional parameters combine it with "crossinline" to inline that parameter too.
 * "internal" function/class modifier <br/>
   This hides the function/class from the api.
-  This decreases the binary size.
-  This increases the compile-speed, because there are no generated/exported functions.
+  This decreases the binary size - because the compiler removes unnecessary code.
+  This increases the compile-speed, because there are less generated/exported functions.
 * "private" <br/>
   functions and classes are ok, but dont use "private" fields, because they introduce getters and setters if they are used within private functions in the context of an lambda-call.
 * function pointers<br/>
@@ -41,11 +41,11 @@ Things you can change:
 * "override" function modifier<br/>
   Every function with this modifier can NOT be inlined, and is therefore limited in performance.
   Use it only, when there are different implementations at Runtime.
-  If during runtime only one version is used, then use typealias, to select the effective class.
+  Whenever possible use typealias to select the class to use at compile time.
 * "nullable" datatypes<br/>
   Introduce boxing if the datatype otherwise is a primitive such as Int.
   Especially in performance-critical code try to avoid it.
-  If you already use a variable of an object type, this should not introduce additional overhead.
+  If you already use a variable of an object type, this should not introduce additional overhead - besides the non-null check.
 * "constant values"<br/>
   Primitive global constants should be defined like "const val x = 42"
   Strings are "primitives" in this context.
@@ -60,16 +60,15 @@ Things you can change:
 Current limitations of the kotlin compiler:
 
 * The jvm-target generates the "fastest" code
-* At time of testing ... the native target is approximately 20 times slower.
+* At time of testing ... the native target is approximately 20 times slower - the current database does not support native due to the memory model.
 * Native target calls freeze on EVERYTHING.
   That means, that any global variable needs a full replication on every modification which is very very bad.
   Currently the native version of the database is not executable because of this memory model "freeze everything immediately" - which just dont work with a database.
-  This should change with upcoming kotlin-releases.
-* Gradle has more kotlin related features than maven especially if not-java targets should be build.
+  This was supposed to change with upcoming kotlin-releases, but it does not seem to be in near future.
+* Gradle has more kotlin related features than maven especially if non-java targets should be build.
 * If the program breaks and you dont think it should break, then clear the build folder and compile again.
   The incremental build sometimes just dont work - especially with enabled inlining.
-  The current version of the comandline-compilation automatically wipe the build folder for every build - just to be sure.
   This "bug" happend too often for me.
 * My experiments show that Threads are faster than Coroutines, because of the constantly allocated and released intermediate Objects, which are completely useless.
   Maybe this changes with updates to the kotlin-compiler.
-  Currently: just use Threads.
+  Currently: just use Threads - because they are much faster.
