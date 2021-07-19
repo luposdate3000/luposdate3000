@@ -1,0 +1,57 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name ?mbox
+	WHERE{ ?x foaf:name ?name .
+		?x foaf:mbox ?mbox 
+	}
+
+fun open
+        var name= data(PSO,"foaf:name")             		//Konstante; Geteilt für alle Spalten	
+        var mbox = data(PSO,"foaf:mbox")               		//Konstante; Geteilt für alle Spalten	
+        var closed=false					//Lokal für jede Spalte
+	var temp						//Lokal für jede Spalte
+	var outName						//Ausgabe; Geteilt für alle Spalten	
+	var outmbox						//Ausgabe; Geteilt für alle Spalten	
+
+fun next
+        IF(temp.hasNext())
+ 		RETURN temp.next()
+ 	IF(name.x == endsymbol or mbox.x == endsymbol)
+		RETURN endsymbol
+	WHILE(name.x != mbox.x){
+ 		IF(name.x < mbox.x){
+ 			name.next()
+ 			IF(name.x == endsymbol)	
+				RETURN endsymbol
+ 		}
+ 		ELSE { 										
+ 			mbox.next()
+ 			IF(mbox.x == endsymbol) 
+				RETURN endsymbol
+ 		}
+ 	}
+ 	cmp = name.x 										
+ 	ts = {}; 
+	WHILE(name.x == cmp) { 
+		ts.add(name.name);
+		name.next() 
+	}
+ 	tr = {};
+ 	WHILE(mbox.x == cmp) {
+		tr.add(mbox.mbox);
+		mbox.next()
+	}
+	foreach i in ts {
+		foreach j in tr {
+			outname.temp.add(i);			
+			outmbox.temp.add(j);
+		}	
+	}
+	temp.open()
+ 	RETURN temp.next()
+
+
+fun close
+        closed=true
+        name.close()
+        mbox.close()
+	temp.next()

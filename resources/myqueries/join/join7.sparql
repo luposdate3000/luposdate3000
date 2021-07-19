@@ -1,0 +1,4 @@
+SELECT ?s ?p ?o {
+  ?s <iri0> ?p .
+  ?o <iri0> ?s .
+}

@@ -1,0 +1,69 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name ?mbox
+	WHERE{ ?x foaf:name ?name .
+		?x foaf:mbox ?mbox 
+	}
+
+fun open
+        var name= data(PSO,"foaf:name")             		//Konstante; Geteilt für alle Spalten	
+        var mbox = data(PSO,"foaf:mbox")               		//Konstante; Geteilt für alle Spalten	
+        var closed=false					//Lokal für jede Spalte
+	var temp						//Lokal für jede Spalte
+	var outName						//Ausgabe; Geteilt für alle Spalten	
+	var outmbox						//Ausgabe; Geteilt für alle Spalten	
+
+fun next
+        IF(temp.hasNext())
+ 		RETURN temp.next()
+ 	IF(name.x == endsymbol or mbox.x == endsymbol)
+		RETURN endsymbol
+	var namecnt = 0;
+	var mboxcnt = 0;
+	WHILE(name.x.value != mbox.x.value){
+ 		IF(name.x.value < mbox.x.value){
+ 			name.x.next();
+			namecnt++;
+ 			IF(name.x.value == endsymbol)	
+				RETURN endsymbol
+ 		}
+ 		ELSE { 										
+ 			mbox.next();
+			mboxcnt++;
+ 			IF(mbox.x.value == endsymbol) 
+				RETURN endsymbol
+ 		}
+ 	}
+	for i in range(namecnt-1){
+		name.name.next();
+	}
+	for i in range(mboxcnt-1){
+		mbox.mbox.next();
+	}
+ 	cmp = name.x.value										
+ 	ts = {}; 
+	WHILE(name.x == cmp) { 
+		ts.add(name.name);
+		name.name.next();
+		name.x.next();
+	}
+ 	tr = {};
+ 	WHILE(mbox.x == cmp) {
+		tr.add(mbox.mbox);
+		mbox.mbox.next();
+		mbox.x.next();
+	}
+	foreach i in ts {
+		foreach j in tr {
+			outname.temp.add(i);			
+			outmbox.temp.add(j);
+		}	
+	}
+	temp.open()
+ 	RETURN temp.next()
+
+
+fun close
+        closed=true
+        name.close()
+        mbox.close()
+	temp.next()

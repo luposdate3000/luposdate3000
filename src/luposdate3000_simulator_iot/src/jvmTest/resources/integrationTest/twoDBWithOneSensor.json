@@ -1,0 +1,72 @@
+{
+    "dummyDatabase": false,
+    "deterministic": true,
+    "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "area": 1,
+            "dataSink": "B",
+            "rateInSec": 30,
+            "maxSamples": 1
+        }
+    ],
+    "deviceType": [{
+            "name": "Other",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 11.0,
+            "supportedLinkTypes": []
+        },
+        {
+            "name": "Sensor",
+            "database": false,
+            "parkingSensor": "park1",
+            "performance": 0.9,
+            "supportedLinkTypes": []
+        },
+        {
+            "name": "DB",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 50.0,
+            "supportedLinkTypes": []
+        }
+
+    ],
+    "fixedDevice": [{
+            "name": "A",
+            "deviceType": "Sensor",
+            "latitude": 53.09814632127328,
+            "longitude": 8.754628362427354
+        },
+        {
+            "name": "B",
+            "deviceType": "DB",
+            "latitude": 53.09278266982357,
+            "longitude": 8.747762643839831
+        },
+        {
+            "name": "C",
+            "deviceType": "DB",
+            "latitude": 53.09407405925197,
+            "longitude": 8.761070144669068
+        }
+    ],
+    "fixedLink": [{
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "B",
+            "dataRateInKbps": 32
+        },
+        {
+            "fixedDeviceA": "B",
+            "fixedDeviceB": "C",
+            "dataRateInKbps": 38
+        }
+    ],
+    "rootRouter": "A",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "querySender": [
+    ]
+}

@@ -1,0 +1,4 @@
+prefix ifis:    <http://www.ifis.uni-luebeck.de/webinfo#>
+SELECT * WHERE {
+ ifis:VeganerTeig ?p ?o
+}

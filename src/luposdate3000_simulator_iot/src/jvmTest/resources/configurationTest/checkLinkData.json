@@ -1,0 +1,48 @@
+{
+    "dummyDatabase": true,
+    "deterministic": false,
+    "linkType": [{
+        "name": "WIRE",
+        "rangeInMeters": 100000,
+        "dataRateInKbps": 1000
+    }],
+    "sensorType": [
+    ],
+    "deviceType": [{
+            "name": "RadioTower",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": ["WIRE"]
+        },
+        {
+            "name": "Fog",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": ["WIRE"]
+        }
+    ],
+    "fixedDevice": [{
+            "name": "Tower1",
+            "deviceType": "RadioTower",
+            "latitude": 53.83490706177371,
+            "longitude": 10.692555029863962
+        },
+        {
+            "name": "Fog1",
+            "deviceType": "Fog",
+            "latitude": 53.83410604011873,
+            "longitude": 10.702721833240291
+        }
+    ],
+    "fixedLink": [{
+        "fixedDeviceA": "Tower1",
+        "fixedDeviceB": "Fog1",
+        "dataRateInKbps": 2500
+    }],
+    "rootRouter": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "querySender": []
+}

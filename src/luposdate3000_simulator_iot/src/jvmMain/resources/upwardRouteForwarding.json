@@ -1,0 +1,111 @@
+{
+    "dummyDatabase": false,
+    "deterministic": true,
+    "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "dataSink": "A",
+            "rateInSec": 30,
+            "maxSamples": 100
+        }
+    ],
+    "deviceType": [{
+            "name": "Fog",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 11.0,
+            "supportedLinkTypes": []
+        },
+        {
+            "name": "SensorDevice",
+            "database": false,
+            "parkingSensor": "park1",
+            "performance": 0.9,
+            "supportedLinkTypes": []
+        },
+        {
+            "name": "DataStore",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 50.0,
+            "supportedLinkTypes": []
+        }
+
+    ],
+    "fixedDevice": [{
+            "name": "A",
+            "deviceType": "DataStore",
+            "latitude": 53.09814632127328,
+            "longitude": 8.754628362427354
+        },
+        {
+            "name": "B",
+            "deviceType": "Fog",
+            "latitude": 53.09278266982357,
+            "longitude": 8.747762643839831
+        },
+        {
+            "name": "C",
+            "deviceType": "Fog",
+            "latitude": 53.09407405925197,
+            "longitude": 8.761070144669068
+        },
+        {
+            "name": "D",
+            "deviceType": "Fog",
+            "latitude": 53.09072134809814,
+            "longitude": 8.75265783665239
+        },
+        {
+            "name": "E",
+            "deviceType": "Fog",
+            "latitude": 53.08345396298265,
+            "longitude": 8.772318909617125
+        },
+        {
+            "name": "F",
+            "deviceType": "SensorDevice",
+            "latitude": 53.07572006093855,
+            "longitude": 8.785879536459793
+        }
+    ],
+    "fixedLink": [{
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "B",
+            "dataRateInKbps": 32
+        },
+        {
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "C",
+            "dataRateInKbps": 38
+        },
+        {
+            "fixedDeviceA": "C",
+            "fixedDeviceB": "D",
+            "dataRateInKbps": 37
+        },
+        {
+            "fixedDeviceA": "C",
+            "fixedDeviceB": "E",
+            "dataRateInKbps": 31
+        },
+        {
+            "fixedDeviceA": "E",
+            "fixedDeviceB": "F",
+            "dataRateInKbps": 33
+        }
+    ],
+    "rootRouter": "A",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "querySender": [
+        {
+            "name": "driver looking for parking 1",
+            "sendRateInSeconds": 2,
+            "maxNumberOfQueries": 1,
+            "sendStartClockInSec": 200,
+            "query": "SELECT * WHERE {?s ?p ?o . }"
+        }
+    ]
+}

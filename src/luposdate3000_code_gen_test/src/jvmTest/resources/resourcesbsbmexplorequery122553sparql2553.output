@@ -1,0 +1,98 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="s"/>
+  <variable name="p"/>
+  <variable name="o"/>
+ </head>
+ <results>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/validuntil</uri>
+   </binding>
+   <binding name="o">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-07-26T00:00:00</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/deliveryDays</uri>
+   </binding>
+   <binding name="o">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/price</uri>
+   </binding>
+   <binding name="o">
+    <literal datatype="http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/USD">9209.69</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/offerURL</uri>
+   </binding>
+   <binding name="o">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47/</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/vendorhomepage</uri>
+   </binding>
+   <binding name="o">
+    <uri>http://www.vendor1.com/</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/vendor</uri>
+   </binding>
+   <binding name="o">
+    <literal>reexhibit</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/productlabel</uri>
+   </binding>
+   <binding name="o">
+    <literal>coterie</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/product</uri>
+   </binding>
+   <binding name="o">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product2</uri>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

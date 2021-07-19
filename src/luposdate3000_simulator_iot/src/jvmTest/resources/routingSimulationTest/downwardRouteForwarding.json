@@ -1,0 +1,104 @@
+{
+    "dummyDatabase": true,
+    "deterministic": true,
+    "linkType": [],
+    "sensorType": [
+        {
+            "name": "park1",
+            "area": 1,
+            "dataSink": "F",
+            "rateInSec": 9,
+            "maxSamples": 4
+        }
+    ],
+    "deviceType": [{
+            "name": "Fog",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": []
+        },
+        {
+            "name": "SensorDevice",
+            "database": false,
+            "parkingSensor": "park1",
+            "performance": 20.0,
+            "supportedLinkTypes": []
+        },
+        {
+            "name": "DataStore",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": []
+        }
+
+    ],
+    "fixedDevice": [{
+            "name": "A",
+            "deviceType": "SensorDevice",
+            "latitude": 53.09814632127328,
+            "longitude": 8.754628362427354
+        },
+        {
+            "name": "B",
+            "deviceType": "Fog",
+            "latitude": 53.09278266982357,
+            "longitude": 8.747762643839831
+        },
+        {
+            "name": "C",
+            "deviceType": "Fog",
+            "latitude": 53.09407405925197,
+            "longitude": 8.761070144669068
+        },
+        {
+            "name": "D",
+            "deviceType": "Fog",
+            "latitude": 53.09072134809814,
+            "longitude": 8.75265783665239
+        },
+        {
+            "name": "E",
+            "deviceType": "Fog",
+            "latitude": 53.08345396298265,
+            "longitude": 8.772318909617125
+        },
+        {
+            "name": "F",
+            "deviceType": "DataStore",
+            "latitude": 53.07572006093855,
+            "longitude": 8.785879536459793
+        }
+    ],
+    "fixedLink": [{
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "B",
+            "dataRateInKbps": 2500
+        },
+        {
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "C",
+            "dataRateInKbps": 2500
+        },
+        {
+            "fixedDeviceA": "C",
+            "fixedDeviceB": "D",
+            "dataRateInKbps": 2500
+        },
+        {
+            "fixedDeviceA": "C",
+            "fixedDeviceB": "E",
+            "dataRateInKbps": 2500
+        },
+        {
+            "fixedDeviceA": "E",
+            "fixedDeviceB": "F",
+            "dataRateInKbps": 2500
+        }
+    ],
+    "rootRouter": "A",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "querySender": []
+}

@@ -1,0 +1,68 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package lupos.shared.inline
+
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.IMyInputStream
+import lupos.shared.js.JSInputStream
+
+internal actual class MyInputStream : IMyInputStream {
+    val tmp: JSInputStream
+
+    internal constructor(filename: String) {
+        tmp = JSInputStream(filename)
+    }
+
+    internal constructor(fd: Int) {
+        tmp = JSInputStream(fd)
+    }
+
+    public actual override fun readInt(): Int {
+        return tmp.readInt()
+    }
+    public actual override fun readDictionaryValueType(): DictionaryValueType {
+        return DictionaryValueHelper.readFromStream(this)
+    }
+    public actual override fun readLong(): Long {
+        return tmp.readLong()
+    }
+
+    public actual override fun readByte(): Byte {
+        return tmp.readByte()
+    }
+
+    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
+        return tmp.read(buf, off, len)
+    }
+
+    public actual override fun read(buf: ByteArray, len: Int): Int {
+        return tmp.read(buf, len)
+    }
+
+    public actual override fun read(buf: ByteArray): Int {
+        return tmp.read(buf)
+    }
+
+    public actual override fun close() {
+        tmp.close()
+    }
+
+    public actual override fun readLine(): String? {
+        return tmp.readLine()
+    }
+}

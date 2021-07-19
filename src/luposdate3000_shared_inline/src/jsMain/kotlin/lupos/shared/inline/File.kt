@@ -1,0 +1,126 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package lupos.shared.inline
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
+import lupos.shared.js.ExternalModule_fs
+
+internal actual class File {
+    internal val filename: String
+
+    actual constructor(filename: String) {
+        this.filename = filename
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun getAbsolutePath(): String = TODO()
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun exists(): Boolean = ExternalModule_fs.exists(filename)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun mkdirs(): Boolean = ExternalModule_fs.mkdirs(filename)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun deleteRecursively(): Boolean = ExternalModule_fs.deleteRecursively(filename)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun length(): Long = ExternalModule_fs.length(filename)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readAsString(): String {
+        var res = StringBuilder()
+        forEachLine { it ->
+            res.appendLine(it)
+        }
+        return res.toString()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readAsCharIterator(): CharIterator = TODO()
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun openInputStream(): IMyInputStream {
+        return MyInputStream(filename)
+    }
+
+    internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = TODO()
+    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = TODO()
+    internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
+        val stream = MyInputStream(filename)
+        val buffer = ByteArray(8192)
+        var pos = 0
+        val s = mutableListOf<Byte>()
+        while (true) {
+            val len = stream.read(buffer, buffer.size)
+            if (len == 0) {
+                break
+            }
+            for (i in 0 until len) {
+                val b = buffer[i]
+                if (b == '\r'.toInt().toByte() || b == '\n'.toInt().toByte()) {
+                    action(s.toByteArray().decodeToString())
+                    s.clear()
+                } else {
+                    s.add(b)
+                }
+            }
+            pos += len
+        }
+        action(s.toByteArray().decodeToString())
+        stream.close()
+    }
+
+    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
+        val stream = openOutputStream(false)
+        try {
+            action(stream)
+        } finally {
+            stream.close()
+        }
+    }
+
+    internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
+        val stream = MyInputStream(filename)
+        action(stream)
+        stream.close()
+    }
+
+    actual override fun equals(other: Any?): Boolean = TODO()
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream {
+        return object : IMyOutputStream {
+            val tmp = ExternalModule_fs.openOutputStream(filename, append)
+            public override fun writeInt(value: Int): Unit = tmp.writeInt(value)
+            public override fun writeLong(value: Long) = tmp.writeLong(value)
+            public override fun writeDictionaryValueType(value: DictionaryValueType) = DictionaryValueHelper.sendToStream(this, value)
+            public override fun write(buf: ByteArray): Unit = tmp.write(buf)
+            public override fun write(buf: ByteArray, len: Int): Unit = tmp.write(buf, len)
+            public override fun close(): Unit = tmp.close()
+            public override fun flush(): Unit = tmp.flush()
+            public override fun println(x: String) = tmp.println(x)
+            public override fun print(x: String) = tmp.print(x)
+            public override fun print(x: Boolean) = tmp.print(x)
+            public override fun print(x: Int) = tmp.print(x)
+            public override fun print(x: Double) = tmp.print(x)
+            public override fun println() = tmp.println()
+        }
+    }
+}

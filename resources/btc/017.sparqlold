@@ -1,0 +1,6 @@
+#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009
+select * where {
+ ?y <http://xmlns.com/foaf/0.1/maker> ?m .
+ ?x <http://xmlns.com/foaf/0.1/depiction> ?d .
+ ?x <http://dbpedia.org/property/hasPhotoCollection ?y> .
+}

@@ -1,0 +1,95 @@
+{
+    "dummyDatabase": true,
+    "deterministic": true,
+    "linkType": [
+        {
+        "name": "WPAN",
+        "rangeInMeters": 1,
+        "dataRateInKbps": 2500
+        }
+    ],
+    "sensorType": [
+        {
+            "name": "Parking Sensor WSN 1",
+            "area": 1,
+            "dataSink": "DODAG ROOT",
+            "rateInSec": 60,
+            "maxSamples": 5
+        }
+    ],
+    "deviceType": [
+{
+            "name": "Mesh Hop",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 1",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 1",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 1",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        }
+    ],
+    "fixedDevice": [
+{
+            "name": "star root WSN 1",
+            "deviceType": "Mesh Hop",
+            "latitude": 0.002,
+            "longitude": 0.000
+        },
+        {
+            "name": "DODAG ROOT",
+            "deviceType": "Mesh Hop",
+            "latitude": 3.002,
+            "longitude": 0.001
+        },
+        {
+            "name": "Hop 1",
+            "deviceType": "Mesh Hop",
+            "latitude": 0.001,
+            "longitude": 0.002
+        },
+        {
+            "name": "Hop 2",
+            "deviceType": "Mesh Hop",
+            "latitude": 0.003,
+            "longitude": 0.002
+        }
+    ],
+    "fixedLink": [
+{
+            "fixedDeviceA": "star root WSN 1",
+            "fixedDeviceB": "Hop 1",
+            "dataRateInKbps": 304
+},{
+            "fixedDeviceA": "Hop 1",
+            "fixedDeviceB": "Hop 2",
+            "dataRateInKbps": 304
+},{
+            "fixedDeviceA": "Hop 2",
+            "fixedDeviceB": "DODAG ROOT",
+            "dataRateInKbps": 304
+}
+],
+    "rootRouter": "DODAG ROOT",
+    "randomStarNetwork": [{
+            "networkPrefix": "WSN 1",
+            "starRoot": "star root WSN 1",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 1",
+            "number": 1
+        }
+    ],
+    "querySender": [
+    ]
+}

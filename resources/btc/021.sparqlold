@@ -1,0 +1,7 @@
+#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009
+select * where {
+ ?x <http://www.w3.org/2005/Atomuri> ?u .
+ ?x <http://www.w3.org/2005/Atomname> ?n .
+ ?y <http://www.w3.org/2005/Atomname> ?n .
+ ?y <http://www.w3.org/2005/Atomemail> ?m .
+}

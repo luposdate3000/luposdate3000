@@ -1,0 +1,122 @@
+{
+    "dummyDatabase": false,
+    "deterministic": true,
+    "linkType": [
+        {
+        "name": "WPAN",
+        "rangeInMeters": 30,
+        "dataRateInKbps": 250
+        },
+        {
+            "name": "WLAN",
+            "rangeInMeters": 50,
+            "dataRateInKbps": 25000
+        }
+    ],
+    "sensorType": [
+        {
+            "name": "park1",
+            "area": 1,
+            "dataSink": "Gateway of WSN 1",
+            "rateInSec": 60,
+            "maxSamples": 10
+        },
+        {
+            "name": "park2",
+            "area": 2,
+            "dataSink": "Gateway of WSN 2",
+            "rateInSec": 32,
+            "maxSamples": 10
+        }
+    ],
+    "deviceType": [{
+            "name": "FogTower",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 110.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "EdgeGatewayDevice",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 32.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "EdgeGatewayDevice_1",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 32.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "EdgeGatewayDevice_2",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 32.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "ParkingSensorDevice_1",
+            "database": false,
+            "parkingSensor": "park1",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "ParkingSensorDevice_2",
+            "database": false,
+            "parkingSensor": "park2",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        }
+    ],
+    "fixedDevice": [{
+            "name": "Fog",
+            "deviceType": "FogTower",
+            "latitude": 53.83831534459554,
+            "longitude": 10.698774930618905
+        },
+        {
+            "name": "Gateway of WSN 1",
+            "deviceType": "EdgeGatewayDevice_1",
+            "latitude": 53.838474484901376,
+            "longitude": 10.695081476709452
+        },
+        {
+            "name": "Gateway of WSN 2",
+            "deviceType": "EdgeGatewayDevice_2",
+            "latitude": 53.83744253948933,
+            "longitude": 10.694834809499191
+        }
+    ],
+    "fixedLink": [],
+    "rootRouter": "Fog",
+    "randomMeshNetwork": [{
+        "networkPrefix": "campusMesh",
+        "originLatitude": 53.83897140331313,
+        "originLongitude": 10.694405480987202,
+        "deviceType": "EdgeGatewayDevice",
+        "linkType": "WLAN",
+        "signalCoverageEast": 560,
+        "signalCoverageSouth": 460
+    }
+
+    ],
+    "randomStarNetwork": [{
+            "networkPrefix": "1",
+            "starRoot": "Gateway of WSN 1",
+            "linkType": "WPAN",
+            "deviceType": "ParkingSensorDevice_1",
+            "number": 10
+        },
+        {
+            "networkPrefix": "2",
+            "starRoot": "Gateway of WSN 2",
+            "linkType": "WPAN",
+            "deviceType": "ParkingSensorDevice_2",
+            "number": 10
+        }
+    ]
+}
