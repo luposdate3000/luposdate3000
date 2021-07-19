@@ -84,7 +84,6 @@ public class SimulationRun {
         }
     }
 
-
     internal fun getCurrentSimulationClock(): Long {
         return sim.clock
     }
