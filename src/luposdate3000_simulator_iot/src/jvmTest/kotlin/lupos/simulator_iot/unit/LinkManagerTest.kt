@@ -1,4 +1,4 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.unit
 
 import lupos.simulator_iot.models.net.DeviceLinker
 import kotlin.test.Test
