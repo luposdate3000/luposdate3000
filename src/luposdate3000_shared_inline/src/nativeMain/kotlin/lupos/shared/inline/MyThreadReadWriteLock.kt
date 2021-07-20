@@ -26,30 +26,12 @@ internal actual class MyThreadReadWriteLock {
     internal val uuid = UUID_Counter.getNextUUID()
 
     internal actual inline fun getUUID() = uuid
-    internal actual inline fun downgradeToReadLock() {
-        throw NotImplementedException("MyThreadReadWriteLock", "downgradeToReadLock not implemented")
-    }
-
-    internal actual inline fun readLock() {
-        throw NotImplementedException("MyThreadReadWriteLock", "readLock not implemented")
-    }
-
-    internal actual inline fun readUnlock() {
-        throw NotImplementedException("MyThreadReadWriteLock", "readUnlock not implemented")
-    }
-
-    internal actual inline fun writeLock() {
-        throw NotImplementedException("MyThreadReadWriteLock", "writeLock not implemented")
-    }
-
-    internal actual inline fun tryWriteLock(): Boolean {
-        throw NotImplementedException("MyThreadReadWriteLock", "tryWriteLock not implemented")
-    }
-
-    internal actual inline fun writeUnlock() {
-        throw NotImplementedException("MyThreadReadWriteLock", "writeUnlock not implemented")
-    }
-
+    internal actual inline fun downgradeToReadLock() =TODO()
+    internal actual inline fun readLock() =TODO()
+    internal actual inline fun readUnlock() =TODO()
+    internal actual inline fun writeLock() =TODO()
+    internal actual inline fun tryWriteLock(): Boolean =TODO()
+    internal actual inline fun writeUnlock() =TODO()
     internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         readLock()
         try {

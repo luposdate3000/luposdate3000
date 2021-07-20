@@ -22,22 +22,22 @@ internal actual object Platform {
     val operatingSystem = EOperatingSystemExt.JS
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getHostName(): String = throw Exception("not available on this platform")
+    internal actual inline fun getHostName(): String = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getOperatingSystem() = operatingSystem
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getUserHome(): String = throw Exception("not available on this platform")
+    internal actual inline fun getUserHome(): String = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getPathSeparator(): String = throw Exception("not available on this platform")
+    internal actual inline fun getPathSeparator(): String = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> = throw Exception("not available on this platform")
+    internal actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getNullFileName(): String = throw Exception("not available on this platform")
+    internal actual inline fun getNullFileName(): String = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getEnv(key: String, default: String?): String? {

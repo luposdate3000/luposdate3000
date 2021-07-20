@@ -85,7 +85,7 @@ private val EVariablePlaceholderNames = Array(EVariablePlaceholderExt.values_siz
         EVariablePlaceholderExt.Blank_Node -> "DictionaryValueType"
         EVariablePlaceholderExt.ByteArrayWrapper -> "ByteArrayWrapper"
         EVariablePlaceholderExt.DictionaryID -> "ID"
-        else -> throw Exception("Unknown EVariablePlaceholder $it")
+        else -> TODO("Unknown EVariablePlaceholder $it")
     }
 }
 
@@ -99,7 +99,7 @@ public fun getDefaultValue(s: String): String {
         "Double" -> "0.0"
         "ByteArrayWrapper" -> "ByteArrayWrapper()"
         "Int" -> "0"
-        else -> throw Exception("Unknown getDefaultValue  $s")
+        else -> TODO("Unknown getDefaultValue  $s")
     }
     return r
 }
@@ -121,7 +121,7 @@ private val ETripleComponentTypeToEVariablePlaceholder = Array(ETripleComponentT
         ETripleComponentTypeExt.FLOAT -> EVariablePlaceholderExt.Double
         ETripleComponentTypeExt._BYTEARRAYWRAPPER -> EVariablePlaceholderExt.ByteArrayWrapper
         ETripleComponentTypeExt._DICTIONARYID -> EVariablePlaceholderExt.DictionaryID
-        else -> throw Exception("Unknown ETripleComponentType -> EVariablePlaceholder $it")
+        else -> TODO("Unknown ETripleComponentType -> EVariablePlaceholder $it")
     }
 }
 
@@ -303,7 +303,7 @@ public fun generateMethod(
                     )
                 }
                 is ValueIri -> {
-                    throw Exception("to do")
+                    TODO()
                 }
                 else -> {
                     throw Exception(value.toString())
@@ -806,7 +806,7 @@ public class MyOperatorPartFactory {
                     }
                 }
                 else -> {
-                    throw Exception("not implemented $paramsCount")
+                    TODO("not implemented $paramsCount")
                 }
             }
         }

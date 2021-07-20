@@ -29,15 +29,13 @@ import kotlin.jvm.JvmField
 public open class POPValues2(query: IQuery, @JvmField public val data: MemoryTable) : POPBase(query, data.columns.toList(), EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
 
-    override fun toSparql(): String {
-        throw Exception("not implemented")
-    }
+    override fun toSparql(): String = TODO()
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPValues2) {
             return false
         }
-        throw Exception("not implemented")
+        TODO()
     }
 
     override fun cloneOP(): POPValues2 {
@@ -46,11 +44,7 @@ public open class POPValues2(query: IQuery, @JvmField public val data: MemoryTab
 
     override fun getProvidedVariableNamesInternal(): List<String> = data.columns.distinct()
     override fun getRequiredVariableNames(): MutableList<String> = mutableListOf()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        throw Exception("not implemented")
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO()
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        throw Exception("not implemented")
-    }
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = TODO()
 }

@@ -27,7 +27,6 @@ import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
-import lupos.shared.GraphVariablesNotImplementedException
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
@@ -60,9 +59,9 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         res += " DATA {"
         for (c in data) {
             if (c.graphVar) {
-                throw GraphVariablesNotImplementedException()
+                TODO()
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:64"/*SOURCE_FILE_END*/ }, { !c.graphVar })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:63"/*SOURCE_FILE_END*/ }, { !c.graphVar })
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }

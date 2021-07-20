@@ -7,7 +7,6 @@ import lupos.visualize.distributed.database.VisualisationMessage
 import lupos.visualize.distributed.database.VisualisationNetwork
 public object PostProcessSend {
     public fun process(source: Int, destination: Int, clock: Long, visual: VisualisationNetwork, pck: IDatabasePackage) {
-        println("sending $clock: $source->$destination .. $pck")
         when (pck) {
             is MySimulatorAbstractPackage -> {
                 when (pck.path) {

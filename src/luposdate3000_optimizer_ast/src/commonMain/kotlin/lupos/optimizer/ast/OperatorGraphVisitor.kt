@@ -533,7 +533,7 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
                     }
                 }
                 else -> {
-                    throw SparqlFeatureNotImplementedException(tmp2.getClassname())
+                    TODO(tmp2.getClassname())
                 }
             }
         }
@@ -776,7 +776,7 @@ return tmp
                 AOPFunctionCallString(query, childrenValues[0] as AOPBase)
             }
             else -> {
-                throw SparqlFeatureNotImplementedException("ASTFunctionCall ${node.iri} ${node.distinct}")
+                TODO("ASTFunctionCall ${node.iri} ${node.distinct}")
             }
         }
     }
@@ -1134,7 +1134,7 @@ return tmp
                 return AOPBuildInCallExists(query, parseGroup(node.children))
             }
             else -> {
-                throw SparqlFeatureNotImplementedException("BuiltInFunctionsExt." + BuiltInFunctionsExt.names[node.function])
+                TODO("BuiltInFunctionsExt." + BuiltInFunctionsExt.names[node.function])
             }
         }
         /*Coverage Unreachable*/
@@ -1161,7 +1161,7 @@ return tmp
                 return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.GROUP_CONCAT -> {
-                throw SparqlFeatureNotImplementedException("AggregationExt.GROUP_CONCAT")
+                TODO("AggregationExt.GROUP_CONCAT")
             }
             else -> {
                 throw UnreachableException()
@@ -1292,7 +1292,7 @@ return tmp
                 return createUnion(setGraphNameForAllTriples(node.getChildren()[0], name, optional), setGraphNameForAllTriples(node.getChildren()[1], name, optional))
             }
             else -> {
-                throw SparqlFeatureNotImplementedException(node.getClassname())
+                TODO(node.getClassname())
             }
         }
         return node
@@ -1510,95 +1510,95 @@ return tmp
     }
 
     override fun visit(node: ASTModify, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTModify")
+        TODO("ASTModify")
     }
 
     override fun visit(node: ASTDefaultGraph, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTDefaultGraph")
+        TODO("ASTDefaultGraph")
     }
 
     override fun visit(node: ASTNamedGraph, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTNamedGraph")
+        TODO("ASTNamedGraph")
     }
 
     override fun visit(node: ASTGraphRef, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTGraphRef")
+        TODO("ASTGraphRef")
     }
 
     override fun visit(node: ASTIriGraphRef, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTIriGraphRef")
+        TODO("ASTIriGraphRef")
     }
 
     override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTNamedIriGraphRef")
+        TODO("ASTNamedIriGraphRef")
     }
 
     override fun visit(node: ASTDefaultGraphRef, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTDefaultGraphRef")
+        TODO("ASTDefaultGraphRef")
     }
 
     override fun visit(node: ASTNamedGraphRef, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTNamedGraphRef")
+        TODO("ASTNamedGraphRef")
     }
 
     override fun visit(node: ASTAllGraphRef, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTAllGraphRef")
+        TODO("ASTAllGraphRef")
     }
 
     override fun visit(node: ASTGrapOperation, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTGrapOperation")
+        TODO("ASTGrapOperation")
     }
 
     override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTUpdateGrapOperation")
+        TODO("ASTUpdateGrapOperation")
     }
 
     override fun visit(node: ASTPathAlternatives, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPathAlternatives")
+        TODO("ASTPathAlternatives")
     }
 
     override fun visit(node: ASTPathSequence, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPathSequence")
+        TODO("ASTPathSequence")
     }
 
     override fun visit(node: ASTPathInverse, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPathInverse")
+        TODO("ASTPathInverse")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPathArbitraryOccurrences")
+        TODO("ASTPathArbitraryOccurrences")
     }
 
     override fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPathOptionalOccurrence")
+        TODO("ASTPathOptionalOccurrence")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPathArbitraryOccurrencesNotZero")
+        TODO("ASTPathArbitraryOccurrencesNotZero")
     }
 
     override fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPathNegatedPropertySet")
+        TODO("ASTPathNegatedPropertySet")
     }
 
     override fun visit(node: ASTGroupConcat, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTGroupConcat")
+        TODO("ASTGroupConcat")
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTDatasetClause")
+        TODO("ASTDatasetClause")
     }
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTQueryBaseClass")
+        TODO("ASTQueryBaseClass")
     }
 
     override fun visit(node: ASTRDFTerm, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTRDFTerm")
+        TODO("ASTRDFTerm")
     }
 
     override fun visit(node: ASTPlus, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTPlus")
+        TODO("ASTPlus")
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<IOPBase>): IOPBase {
@@ -1607,10 +1607,10 @@ return tmp
     }
 
     override fun visit(node: ASTNumericLiteral, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTNumericLiteral")
+        TODO("ASTNumericLiteral")
     }
 
     override fun visit(node: ASTLiteral, childrenValues: List<IOPBase>): IOPBase {
-        throw SparqlFeatureNotImplementedException("ASTLiteral")
+        TODO("ASTLiteral")
     }
 }

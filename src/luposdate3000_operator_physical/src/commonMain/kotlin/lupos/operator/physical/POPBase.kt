@@ -19,7 +19,6 @@ package lupos.operator.physical
 import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
-import lupos.shared.HistogramNotImplementedException
 import lupos.shared.IQuery
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
@@ -70,5 +69,5 @@ public abstract class POPBase public constructor(
         }
     }
 
-    override /*suspend*/ fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
+    override /*suspend*/ fun calculateHistogram(): HistogramResult = TODO()
 }

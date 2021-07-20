@@ -222,7 +222,7 @@ public open class SparqlTestSuite {
                                                     graph["name"] = (Dictionary[second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                                                    TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                                                 }
                                             }
                                         }
@@ -232,13 +232,13 @@ public open class SparqlTestSuite {
                                         SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[second] as IRI).iri }
                                     }
                                     else -> {
-                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                                        TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                                     }
                                 }
                             }
                         }
                         else -> {
-                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                            TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                         }
                     }
                 }
@@ -281,7 +281,7 @@ public open class SparqlTestSuite {
                                                     service["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
                                                 else -> {
-                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    TODO("SparqlTestSuite" + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
@@ -308,20 +308,20 @@ public open class SparqlTestSuite {
                                                     graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    TODO("SparqlTestSuite" + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
                                         inputDataGraph.add(graph)
                                     }
                                     else -> {
-                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                                        TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                                     }
                                 }
                             }
                         }
                         else -> {
-                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                            TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                         }
                     }
                 }
@@ -350,7 +350,7 @@ public open class SparqlTestSuite {
                             expectedResult = false
                         }
                         else -> {
-                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + (Dictionary[second] as IRI).iri)
+                            TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + (Dictionary[second] as IRI).iri)
                         }
                     }
                 }
@@ -381,7 +381,7 @@ public open class SparqlTestSuite {
                     description = (Dictionary[second] as SimpleLiteral).content
                 }
                 else -> {
-                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                    TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                 }
             }
         }
@@ -751,12 +751,6 @@ public open class SparqlTestSuite {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,ParseError)")
             }
-            LuposdateEndpoint.close(instance)
-            return false
-        } catch (e: NotImplementedException) {
-            e.printStackTrace()
-            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-            println("----------Failed(NotImplemented)")
             LuposdateEndpoint.close(instance)
             return false
         } catch (e: Luposdate3000Exception) {

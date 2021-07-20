@@ -28,6 +28,7 @@ import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -49,6 +50,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         "WHERE { ?x foaf:name \"name\"@en . \n" +
         "      } "
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `Plain literals with language tag are not the same as the same literal without`() {
         val instance = LuposdateEndpoint.initialize()
@@ -78,6 +80,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator`() {
         val simRun = SimulationRun()

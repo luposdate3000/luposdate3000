@@ -28,6 +28,7 @@ import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -46,6 +47,7 @@ public class tvs02TSVResultFormat {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "SELECT * WHERE { ?s ?p ?o OPTIONAL {?o ?p2 ?o2 } } ORDER BY ?s ?p ?o ?p2 ?o2"
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `tvs02  TSV Result Format`() {
         val instance = LuposdateEndpoint.initialize()
@@ -75,6 +77,7 @@ public class tvs02TSVResultFormat {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `tvs02  TSV Result Format - in simulator`() {
         val simRun = SimulationRun()

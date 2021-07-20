@@ -17,6 +17,6 @@
 package lupos.shared
 
 public actual class ParallelThreadJob {
-    public actual fun join(): Unit = throw Exception("not implemented")
-    public actual fun start(): Unit = throw Exception("not implemented")
+    public actual fun join(): Unit = TODO()
+    public actual fun start(): Unit = TODO()
 }

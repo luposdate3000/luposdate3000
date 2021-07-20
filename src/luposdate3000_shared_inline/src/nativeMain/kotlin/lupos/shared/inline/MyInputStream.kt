@@ -20,11 +20,11 @@ import lupos.shared.IMyInputStream
 import lupos.shared.NotImplementedException
 
 internal actual class MyInputStream : IMyInputStream {
-    public actual override fun readByte(): Byte = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-    public actual override fun readInt(): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-    public actual override fun read(buf: ByteArray, len: Int): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-    public actual override fun read(buf: ByteArray): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun readByte(): Byte = TODO()
+    public actual override fun readInt(): Int = TODO()
+    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int = TODO()
+    public actual override fun read(buf: ByteArray, len: Int): Int = TODO()
+    public actual override fun read(buf: ByteArray): Int = TODO()
     public actual override fun close() {
     }
 

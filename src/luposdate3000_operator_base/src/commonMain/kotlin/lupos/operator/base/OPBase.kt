@@ -23,13 +23,11 @@ import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
-import lupos.shared.EvaluateNotImplementedException
 import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
-import lupos.shared.ToSparqlNotImplementedException
 import lupos.shared.UUID_Counter
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
@@ -127,12 +125,12 @@ public abstract class OPBase public constructor(
             }
         }
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:129"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:127"/*SOURCE_FILE_END*/ },
             {
                 val v1 = getProvidedVariableNames()
                 val v2 = histogramResult!!.values.keys
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:133"/*SOURCE_FILE_END*/ }, { v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:134"/*SOURCE_FILE_END*/ }, { v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:131"/*SOURCE_FILE_END*/ }, { v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:132"/*SOURCE_FILE_END*/ }, { v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
             }
         )
         return histogramResult!!
@@ -141,7 +139,7 @@ public abstract class OPBase public constructor(
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
         val node = query.initialize(this)
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:143"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:141"/*SOURCE_FILE_END*/ },
             {
                 val usesDictionary = node.usesDictionary()
                 if (!usesDictionary) {
@@ -157,7 +155,7 @@ public abstract class OPBase public constructor(
         return node.evaluate(partition)
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO()
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
@@ -185,7 +183,7 @@ public abstract class OPBase public constructor(
                     if (idx == c.size) {
                         target.remove(c)
                     } else {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:187"/*SOURCE_FILE_END*/ }, { idx == data.size })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:185"/*SOURCE_FILE_END*/ }, { idx == data.size })
                         needToAdd = false
                     }
                     break@loop
@@ -251,7 +249,7 @@ public abstract class OPBase public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:253"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:251"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
 
@@ -294,7 +292,7 @@ public abstract class OPBase public constructor(
                         res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                     }
                     else -> {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:296"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:294"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
                     }
                 }
             }
@@ -374,7 +372,7 @@ public abstract class OPBase public constructor(
 
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:376"/*SOURCE_FILE_END*/ }, { i < children.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:374"/*SOURCE_FILE_END*/ }, { i < children.size })
         children[i] = child
     }
 
@@ -391,7 +389,7 @@ public abstract class OPBase public constructor(
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:393"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:391"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -430,7 +428,7 @@ public abstract class OPBase public constructor(
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
-    override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
+    override fun toSparql(): String = TODO()
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
         return toXMLElement(partial)
     }
@@ -514,7 +512,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:516"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:514"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
         this.getChildren()[0] = child
         return child
     }

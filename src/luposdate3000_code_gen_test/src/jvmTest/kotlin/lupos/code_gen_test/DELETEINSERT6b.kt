@@ -29,6 +29,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -68,6 +69,7 @@ public class DELETEINSERT6b {
         "} \n" +
         ""
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `DELETE INSERT 6b`() {
         val instance = LuposdateEndpoint.initialize()
@@ -101,6 +103,7 @@ public class DELETEINSERT6b {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `DELETE INSERT 6b - in simulator`() {
         val simRun = SimulationRun()

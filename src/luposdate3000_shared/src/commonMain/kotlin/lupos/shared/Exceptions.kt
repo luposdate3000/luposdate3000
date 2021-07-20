@@ -21,20 +21,6 @@ import kotlin.jvm.JvmField
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
 public abstract class Luposdate3000Exception public constructor(@JvmField public val classname: String, msg: String) : Exception(msg)
 
-// not implemented exceptions --->>>
-public open class NotImplementedException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
-public class HistogramNotImplementedException public constructor(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")
-public class IteratorBundleColumnModeNotImplementedException public constructor() : NotImplementedException("IteratorBundleColumnModeNotImplementedException", "IteratorBundle is unable to convert to column Mode.")
-public class IteratorBundleRowModeNotImplementedException public constructor() : NotImplementedException("IteratorBundleRowModeNotImplementedException", "IteratorBundle is unable to convert to row Mode.")
-public class SparqlFeatureNotImplementedException public constructor(name: String) : NotImplementedException("SparqlFeatureNotImplementedException", "Sparql feature '$name' not implemented.")
-public class EvaluateNotImplementedException public constructor(classname: String) : NotImplementedException("EvaluateNotImplementedException", "Evaluate not implemented in '$classname'.")
-public class ToSparqlNotImplementedException public constructor(classname: String) : NotImplementedException("ToSparqlNotImplementedException", "toSparql not implemented in '$classname'.")
-public class GraphVariablesNotImplementedException public constructor() : NotImplementedException("GraphVariablesNotImplementedException", "variables at graph-name position are currently not implemented")
-public class UnknownManifestException public constructor(classname: String, msg: String) : NotImplementedException("UnknownManifestException", "$classname :: $msg")
-public class DirectoryCompareNotImplementedException public constructor() : NotImplementedException("DirectoryCompareNotImplementedException", "Comparing directories is not implemented")
-public class GraphVarHistogramsNotImplementedException public constructor() : NotImplementedException("GraphVarHistogramsNotImplementedException", "histograms for triples using graph variable not implemented.")
-public class TriplePatternsContainingTheSameVariableTwiceNotImplementedException public constructor() : NotImplementedException("TriplePatternsContainingTheSameVariableTwiceNotImplementedException", "triple pattern currently must not contain the same variable twice.")
-
 // syntax exceptions --->>>
 public abstract class SyntaxException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class RecoursiveVariableDefinitionSyntaxException public constructor(name: String) : SyntaxException("RecoursiveVariableDefinitionSyntaxException", "Recoursive variable definition not allowed '$name'.")

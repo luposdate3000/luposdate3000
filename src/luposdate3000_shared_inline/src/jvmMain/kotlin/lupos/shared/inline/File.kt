@@ -16,7 +16,6 @@
  */
 package lupos.shared.inline
 
-import lupos.shared.DirectoryCompareNotImplementedException
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import java.io.BufferedInputStream
@@ -117,7 +116,7 @@ internal actual class File {
             return true
         }
         if (file1.isDirectory || file2.isDirectory) {
-            throw DirectoryCompareNotImplementedException()
+            TODO()
         }
         if (file1.length() != file2.length()) {
             return false

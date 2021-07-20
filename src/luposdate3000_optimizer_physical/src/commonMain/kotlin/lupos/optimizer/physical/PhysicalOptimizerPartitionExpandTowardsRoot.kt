@@ -190,11 +190,11 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                                     onChange()
                                 }
                                 else -> {
-                                    throw Exception("not reachable - implementation error")
+                                    TODO()
                                 }
                             }
                         } else {
-                            throw Exception("not implemented ... column counts are different")
+                            TODO()
                         }
                     }
                 }

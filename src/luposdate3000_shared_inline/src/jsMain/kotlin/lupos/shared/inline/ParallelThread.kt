@@ -24,7 +24,7 @@ internal actual object ParallelThread {
         return action()
     }
 
-    internal actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = throw NotImplementedException("ParallelThread", "launch not implemented")
+    internal actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = TODO()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun delay(milliseconds: Long) {

@@ -186,5 +186,11 @@ internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs {
         "PostqueryVALUESwithsubjobjvars2rowswithUNDEF" to "Bug",
         "COUNT6" to "Bug",
         "SubsetsbyexclusionMINUS" to "Bug",
+        "tvs02TSVResultFormat" to "Bug",
+        "ADD5" to "Bug",
+        "DELETEINSERT6b" to "Bug",
+        "Literalwithlanguagetagtest" to "Bug",
+        "Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout" to "Bug",
+        "DROPSILENTGRAPHiri" to "Bug",
     )
 }

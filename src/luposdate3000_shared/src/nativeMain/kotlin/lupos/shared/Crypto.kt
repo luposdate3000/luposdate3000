@@ -17,6 +17,6 @@
 package lupos.shared
 
 public actual object Crypto {
-    public actual fun sha256(value: String): String = throw NotImplementedException("Crypto", "sha256 not implemented")
-    public actual fun sha1(value: String): String = throw NotImplementedException("Crypto", "sha1 not implemented")
+    public actual fun sha256(value: String): String = TODO()
+    public actual fun sha1(value: String): String = TODO()
 }

@@ -31,7 +31,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
      * using another layer of indirection,
      * to be able to share this code across different type-safe managers as
      * - triple store
-     * - dictionary (currently not implemented)
+     * - dictionary
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */

@@ -23,7 +23,6 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.NotImplementedException
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorQueueExt
@@ -56,154 +55,130 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
         var expression: () -> Boolean = { true }
         val child = children[0].evaluate(parent)
         val res: IteratorBundle
-        try {
-            val columnsIn = Array(variables.size) { child.columns[variables[it]] }
-            val columnsOut = mutableListOf<ColumnIteratorQueue>()
-            val columnsLocal = mutableListOf<ColumnIteratorQueue>()
-            for (i in variables.indices) {
-                columnsLocal.add(object : ColumnIteratorQueue() {
-                    override /*suspend*/ fun close() {
-                        __close()
-                    }
+        val columnsIn = Array(variables.size) { child.columns[variables[it]] }
+        val columnsOut = mutableListOf<ColumnIteratorQueue>()
+        val columnsLocal = mutableListOf<ColumnIteratorQueue>()
+        for (i in variables.indices) {
+            columnsLocal.add(object : ColumnIteratorQueue() {
+                override /*suspend*/ fun close() {
+                    __close()
+                }
 
-                    @Suppress("NOTHING_TO_INLINE")
-                    /*suspend*/ inline fun __close() {
-                        if (label != 0) {
-                            ColumnIteratorQueueExt._close(this)
-                            for (v in child.columns.values) {
-                                v.close()
+                @Suppress("NOTHING_TO_INLINE")
+                /*suspend*/ inline fun __close() {
+                    if (label != 0) {
+                        ColumnIteratorQueueExt._close(this)
+                        for (v in child.columns.values) {
+                            v.close()
+                        }
+                    }
+                }
+
+                override /*suspend*/ fun next(): DictionaryValueType {
+                    return ColumnIteratorQueueExt.nextHelper(
+                        this,
+                        {
+                            var done = false
+                            while (!done) {
+                                for (variableIndex2 in variables.indices) {
+                                    columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+                                    // point each iterator to the current value
+                                    if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPFilter.kt:86"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
+                                        for (v in child.columns.values) {
+                                            v.close()
+                                        }
+                                        for (variableIndex3 in 0 until variables.size) {
+                                            ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
+                                        }
+                                        done = true
+                                        break
+                                    }
+                                }
+                                if (!done) {
+                                    // evaluate
+                                    if (expression()) {
+                                        // accept/deny row in each iterator
+                                        for (variableIndex2 in variablesOut.indices) {
+                                            columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
+                                        }
+                                        done = true
+                                    }
+                                }
                             }
+                        },
+                        { __close() }
+                    )
+                }
+            })
+        }
+        for (variableIndex in variables.indices) {
+            if (projectedVariables.contains(variables[variableIndex])) {
+                outMap[variables[variableIndex]] = columnsLocal[variableIndex]
+            }
+            localMap[variables[variableIndex]] = columnsLocal[variableIndex]
+        }
+        val resLocal: IteratorBundle = if (variables.isNotEmpty()) {
+            IteratorBundle(localMap)
+        } else {
+            IteratorBundle(0)
+        }
+        for (element in variablesOut) {
+            columnsOut.add(resLocal.columns[element]!! as ColumnIteratorQueue)
+        }
+        expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
+        if (variablesOut.isEmpty()) {
+            if (variables.isEmpty()) {
+                res = if (expression()) {
+                    child
+                } else {
+                    object : IteratorBundle(0) {
+                        override /*suspend*/ fun hasNext2(): Boolean {
+                            return false
+                        }
+                    }
+                }
+            } else {
+                res = object : IteratorBundle(0) {
+                    override /*suspend*/ fun hasNext2Close() {
+                        for (v in child.columns.values) {
+                            v.close()
                         }
                     }
 
-                    override /*suspend*/ fun next(): DictionaryValueType {
-                        return ColumnIteratorQueueExt.nextHelper(
-                            this,
-                            {
-                                try {
-                                    var done = false
-                                    while (!done) {
-                                        for (variableIndex2 in variables.indices) {
-                                            columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                                            // point each iterator to the current value
-                                            if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
-                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPFilter.kt:89"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
-                                                for (v in child.columns.values) {
-                                                    v.close()
-                                                }
-                                                for (variableIndex3 in 0 until variables.size) {
-                                                    ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
-                                                }
-                                                done = true
-                                                break
-                                            }
-                                        }
-                                        if (!done) {
-                                            // evaluate
-                                            if (expression()) {
-                                                // accept/deny row in each iterator
-                                                for (variableIndex2 in variablesOut.indices) {
-                                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
-                                                }
-                                                done = true
-                                            }
-                                        }
-                                    }
-                                } catch (e: NotImplementedException) {
-                                    e.printStackTrace()
+                    override /*suspend*/ fun hasNext2(): Boolean {
+                        var res2 = false
+                        var done = false
+                        while (!done) {
+                            for (variableIndex2 in variables.indices) {
+                                columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+                                // point each iterator to the current value
+                                if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
                                     for (v in child.columns.values) {
                                         v.close()
                                     }
-                                    throw e
-                                }
-                            },
-                            { __close() }
-                        )
-                    }
-                })
-            }
-            for (variableIndex in variables.indices) {
-                if (projectedVariables.contains(variables[variableIndex])) {
-                    outMap[variables[variableIndex]] = columnsLocal[variableIndex]
-                }
-                localMap[variables[variableIndex]] = columnsLocal[variableIndex]
-            }
-            val resLocal: IteratorBundle = if (variables.isNotEmpty()) {
-                IteratorBundle(localMap)
-            } else {
-                IteratorBundle(0)
-            }
-            for (element in variablesOut) {
-                columnsOut.add(resLocal.columns[element]!! as ColumnIteratorQueue)
-            }
-            expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
-            if (variablesOut.isEmpty()) {
-                if (variables.isEmpty()) {
-                    res = if (expression()) {
-                        child
-                    } else {
-                        object : IteratorBundle(0) {
-                            override /*suspend*/ fun hasNext2(): Boolean {
-                                return false
-                            }
-                        }
-                    }
-                } else {
-                    res = object : IteratorBundle(0) {
-                        override /*suspend*/ fun hasNext2Close() {
-                            for (v in child.columns.values) {
-                                v.close()
-                            }
-                        }
-
-                        override /*suspend*/ fun hasNext2(): Boolean {
-                            var res2 = false
-                            try {
-                                var done = false
-                                while (!done) {
-                                    for (variableIndex2 in variables.indices) {
-                                        columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                                        // point each iterator to the current value
-                                        if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
-                                            for (v in child.columns.values) {
-                                                v.close()
-                                            }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPFilter.kt:170"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
-                                            for (variableIndex3 in 0 until variables.size) {
-                                                ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
-                                            }
-                                            done = true
-                                            break
-                                        }
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPFilter.kt:159"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
+                                    for (variableIndex3 in 0 until variables.size) {
+                                        ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                     }
-                                    if (!done) {
-                                        // evaluate
-                                        if (expression()) {
-                                            // accept/deny row in each iterator
-                                            res2 = true
-                                        }
-                                    }
+                                    done = true
+                                    break
                                 }
-                            } catch (e: NotImplementedException) {
-                                e.printStackTrace()
-                                for (v in child.columns.values) {
-                                    v.close()
-                                }
-                                throw e
                             }
-                            return res2
+                            if (!done) {
+                                // evaluate
+                                if (expression()) {
+                                    // accept/deny row in each iterator
+                                    res2 = true
+                                }
+                            }
                         }
+                        return res2
                     }
                 }
-            } else {
-                res = IteratorBundle(outMap)
             }
-        } catch (e: NotImplementedException) {
-            e.printStackTrace()
-            for (v in child.columns.values) {
-                v.close()
-            }
-            throw e
+        } else {
+            res = IteratorBundle(outMap)
         }
         return res
     }
