@@ -60,7 +60,7 @@ public abstract class OPBase public constructor(
     public var alreadyCheckedStore: Long = -1L
 
     @JvmField
-    public var parentNode: IOPBase = this
+    public var parentNode: IOPBase?=null
 
     @JvmField
     public var visualUUID: Long = UUID_Counter.getNextUUID()
@@ -311,7 +311,6 @@ public abstract class OPBase public constructor(
             }
         } else if (sortPriority == ESortPriorityExt.GROUP) {
             throw Exception("this should be overriden by the corresponding clazz")
-        } else if (sortPriority == ESortPriorityExt.PREVENT_ANY || sortPriority == ESortPriorityExt.UNION) {
         } else if (sortPriority == ESortPriorityExt.SORT) {
             throw Exception("this should be overriden by the corresponding clazz")
         } else if (sortPriority == ESortPriorityExt.JOIN) {

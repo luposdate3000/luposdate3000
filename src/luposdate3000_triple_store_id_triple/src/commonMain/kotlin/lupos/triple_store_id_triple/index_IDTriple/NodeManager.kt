@@ -20,9 +20,7 @@ import lupos.shared.IBufferManager
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
-internal class NodeManager(bufferManager: IBufferManager) {
-    @JvmField
-    internal val bufferManager: IBufferManager = bufferManager
+internal class NodeManager (@JvmField    internal val bufferManager: IBufferManager) {
 
     internal companion object {
         internal const val nodeTypeLeaf = 1

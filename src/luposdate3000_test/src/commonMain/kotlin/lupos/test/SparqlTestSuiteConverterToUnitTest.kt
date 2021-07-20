@@ -99,9 +99,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         if (inputFile != null) {
             lastFile = inputFile
         }
-        val outputFile = resultDataFileName
         var mode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
-        if (outputFile == null) {
+        if (resultDataFileName == null) {
             mode = BinaryTestCaseOutputModeExt.MODIFY_RESULT
         }
 
@@ -138,13 +137,13 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             }
         }
         var targetType = "NONE"
-        if (outputFile != null) {
+        if (resultDataFileName != null) {
             File("$outputFolderTestResourcesJvm/$testCaseName.output").withOutputStream { out ->
-                File(outputFile).forEachLine {
+                File(resultDataFileName).forEachLine {
                     out.println(it)
                 }
             }
-            targetType = outputFile.substring(outputFile.lastIndexOf("."))
+            targetType = resultDataFileName.substring(resultDataFileName.lastIndexOf("."))
         }
         counter++
         allTests.add(testCaseName)
@@ -155,8 +154,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             if (useCodeGen) {
                 filenamePart = "_CodeGen"
             }
-            val filenameLocal: String
-            filenameLocal = if (useCodeGen) {
+            val filenameLocal: String = if (useCodeGen) {
                 "$outputFolderSrcJvm/$testCaseName$filenamePart.kt"
             } else {
                 "$outputFolderTestJvm/$testCaseName$filenamePart.kt"
@@ -201,16 +199,12 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     myActualDataEvaluate(counter)
                     myExpectedData(counter, data, type)
                     myCompareData(counter)
-                    val q: String
-                    q = if (query == null) {
-                        if (isDefaultGraph) {
+                    val q: String = query
+                        ?: if (isDefaultGraph) {
                             "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
                         } else {
                             "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
                         }
-                    } else {
-                        query
-                    }
                     appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
                 }
                 out.println("/*")

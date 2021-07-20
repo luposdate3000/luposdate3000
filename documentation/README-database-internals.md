@@ -5,9 +5,9 @@
 1. Start with SPARQL-String
 2. Convert the String to Operator-AST - see Folder [sparql1_1](../src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/sparql1_1)
 3. Convert the Operator-AST to Logical-Operatorgraph - see File [OperatorGraphVisitor.kt](../src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt)
-4. Optimize Logical-Operatorgraph - see Folder [logical](../src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/)
-5. Convert Logical-Operatorgraph to Physical-Operatorgraph and optimize it - see Folder [physical](../src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/)
-6. Finally evaluate the Physical Operatorgraph (and convert the output to text) - see Folder [result_format](../src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/)
+4. Optimize Logical-Operatorgraph - see Folder [logical](../src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical)
+5. Convert Logical-Operatorgraph to Physical-Operatorgraph and optimize it - see Folder [physical](../src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical)
+6. Finally evaluate the Physical Operatorgraph (and convert the output to text) - see Folder [result_format](../src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format)
 7. The Physical Operators are first converted their final Iterator-representation
 8. The iterators.next function is called until it returns the No-More-Elements-ID
 
@@ -20,13 +20,13 @@ Within phase 6 the IDs are fixed, such that your code can depend on it.
 
 The Logical Operators have "only" names, and metadata. These Operators can not be evaluated on their own.
 All Logical Operators have the prefix "LOP" .
-These Operators are defined in [logical](../src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/).
+These Operators are defined in [logical](../src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical).
 
-The Aritmetic Operators are defined in [arithmetic](../src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/).
+The Aritmetic Operators are defined in [arithmetic](../src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik).
 Their common Prefix is "AOP".
 These Operators can be evaluated directly, but they work only on a specific input row to calculate a single Value.
 
-The Physical Operators use the prefix "POP" and are defined in [physical](../src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/).
+The Physical Operators use the prefix "POP" and are defined in [physical](../src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical).
 On evaluation these Operators return Iterators, which then finally perform the actual evaluation.
 As a consequence a Physical Operatorgraph can be reused as it is, and still evaluate up to date values from the Store.
 

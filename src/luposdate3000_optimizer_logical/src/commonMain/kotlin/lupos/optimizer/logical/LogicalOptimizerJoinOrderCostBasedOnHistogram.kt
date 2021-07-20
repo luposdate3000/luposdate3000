@@ -25,7 +25,7 @@ import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
-    public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
+    public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderCostBasedOnHistogram.kt:28"/*SOURCE_FILE_END*/ }, { allChilds.isNotEmpty() })
         val nodes = mutableListOf<IOPBase>()
         nodes.addAll(allChilds)
@@ -73,8 +73,8 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                     }
                 }
             }
-            var bestA: Int = besta2
-            var bestB: Int = bestb2
+            val bestA: Int = besta2
+            val bestB: Int = bestb2
             val b = nodes.removeAt(bestB) // first remove at the end of list
             val a = nodes.removeAt(bestA) // afterwards in front of b otherwise, the index would be wrong
             val c = LOPJoin(root.query, a, b, false)

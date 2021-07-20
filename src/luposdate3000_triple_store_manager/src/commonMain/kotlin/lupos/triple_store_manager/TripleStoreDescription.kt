@@ -165,13 +165,13 @@ public class TripleStoreDescription(
             if (index.hasPattern(idx)) {
                 var first = 0
                 var second = 0
-                for (store in index.getAllLocations()) {
-                    if (store.first == ((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
-                        val tmp = ((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[store.second]!!.getHistogram(query, filter)
+                for ((first1, second1) in index.getAllLocations()) {
+                    if (first1 == ((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localhost) {
+                        val tmp = ((query.getInstance().tripleStoreManager!!) as TripleStoreManagerImpl).localStoresGet()[second1]!!.getHistogram(query, filter)
                         first += tmp.first
                         second += tmp.second
                     } else {
-                        val conn = instance.communicationHandler!!.openConnection(store.first, "/distributed/query/histogram", mapOf("tag" to store.second), query.getTransactionID().toInt())
+                        val conn = instance.communicationHandler!!.openConnection(first1, "/distributed/query/histogram", mapOf("tag" to second1), query.getTransactionID().toInt())
                         conn.second.writeInt(filter.size)
                         for (i in 0 until filter.size) {
                             conn.second.writeDictionaryValueType(filter[i])

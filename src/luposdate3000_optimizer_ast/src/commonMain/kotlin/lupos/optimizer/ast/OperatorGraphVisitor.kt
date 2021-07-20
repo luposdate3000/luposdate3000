@@ -666,7 +666,6 @@ return tmp
             }
             if (x is LOPProjection) {
                 list.addAll(x.variables.map { it.name })
-            } else {
             }
             columnProjectionOrder.add(list)
         }

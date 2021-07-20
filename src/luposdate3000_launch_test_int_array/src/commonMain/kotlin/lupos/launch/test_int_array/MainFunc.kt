@@ -26,11 +26,9 @@ import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-@JvmField
-internal val verbose = false
+internal const val verbose = false
 
-@JvmField
-internal val maxSize = 1000000
+internal const val maxSize = 1000000
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {

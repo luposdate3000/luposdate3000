@@ -31,8 +31,7 @@ import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-@JvmField
-internal val verbose = false
+internal const val verbose = false
 
 @JvmField
 internal var duplicates = 0L

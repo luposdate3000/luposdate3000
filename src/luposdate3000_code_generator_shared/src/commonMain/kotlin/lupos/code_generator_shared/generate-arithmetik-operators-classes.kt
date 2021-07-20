@@ -334,9 +334,7 @@ public fun generateMethod(
             val map = operator.generateMap(indention, representation, inputNaming.toTypedArray(), outputName2, "", imports, target, globalVariables, confirmedTypes, types)
             confType.add(types)
             val maxElement = map.maxByOrNull { it.value.size }
-            for (m in map) {
-                // println(m.key);
-            }
+
             println(map.size)
             println(maxElement!!.value.size)
             // map.map { println("MARKING" +it.key to  it.value.map{it.map { it }}) }
@@ -528,9 +526,7 @@ public class MyOperator(
         for (i in 0 until inputNames.size) {
             target_param.appendLine("${indention}val ${typeNames[i]}: ETripleComponentType = DictionaryHelper.byteArrayToType(${myInputNames[i]})")
         }
-        val myOutputName = outputName
         implementations.sort()
-        val localindention = indention
         val lastOperatorTypes = Array(implementations[0].childrenTypes.size) { -1 }
 
         val target = StringBuilder()
@@ -550,10 +546,19 @@ public class MyOperator(
                     commonOperatorTypes++
                 }
                 if (generateByteArrayWrapper != null) {
-                    generateByteArrayWrapper(localindention, myInputNames, myOutputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables, ::prefixVal_no) { indention2, resultType ->
+                    generateByteArrayWrapper(
+                        indention,
+                        myInputNames,
+                        outputName,
+                        "${prefix}_${prefix_counter++}",
+                        imports,
+                        target,
+                        globalVariables,
+                        ::prefixVal_no
+                    ) { indention2, resultType ->
                         outputType.add(resultType)
                         if (representation == EParamRepresentation.ID) {
-                            target.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
+                            target.appendLine("$indention2$outputName = query.getDictionary().createValue($outputName)")
                         } else if (representation == EParamRepresentation.INSTANTIATED) {
                             // target.appendLine("$indention2$outputName  = query.getDictionary().createValue($myOutputName)")
                             target.appendLine("${outputName}_type = ETripleComponentTypeExt.ERROR")
@@ -570,7 +575,16 @@ public class MyOperator(
                         // myInputInstances[i] = suffixNames(inputNames[i], ETripleComponentTypeToEVariablePlaceholder[implementation.childrenTypes[i]])
                         myInputInstances[i] = inputNames[i]
                     }
-                    implementation.generateInstantiated(localindention, myInputInstances, outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables, ::prefixVal_no) { indention2, resultType ->
+                    implementation.generateInstantiated(
+                        indention,
+                        myInputInstances,
+                        outputName,
+                        "${prefix}_${prefix_counter++}",
+                        imports,
+                        target,
+                        globalVariables,
+                        ::prefixVal_no
+                    ) { indention2, resultType ->
                         outputType.add(resultType)
                         if (resultType == ETripleComponentTypeExt.BLANK_NODE) {
                             target.appendLine("$indention2$outputName = $myOutputInstance")
@@ -579,10 +593,22 @@ public class MyOperator(
                             if (representation == EParamRepresentation.INSTANTIATED) {
                                 target.appendLine("${outputName}_type = ETripleComponentTypeExt.${ETripleComponentTypeExt.names[resultType]}")
                             } else {
-                                val converter = getRepresentationConversionFunction(resultType, EParamRepresentation.INSTANTIATED, EParamRepresentation.BYTEARRAYWRAPPER)
-                                converter.generate(indention2, myOutputInstance, "tmp_$myOutputName", imports, target, globalVariables, ::prefixVal_no)
+                                val converter = getRepresentationConversionFunction(
+                                    resultType,
+                                    EParamRepresentation.INSTANTIATED,
+                                    EParamRepresentation.BYTEARRAYWRAPPER
+                                )
+                                converter.generate(
+                                    indention2,
+                                    myOutputInstance,
+                                    "tmp_$outputName",
+                                    imports,
+                                    target,
+                                    globalVariables,
+                                    ::prefixVal_no
+                                )
                                 if (representation == EParamRepresentation.ID) {
-                                    target.appendLine("$indention2$outputName = query.getDictionary().createValue(tmp_$myOutputName)")
+                                    target.appendLine("$indention2$outputName = query.getDictionary().createValue(tmp_$outputName)")
                                 }
                             }
                         }

@@ -25,7 +25,10 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.min
 
-public class ValueKeyStore {
+public class ValueKeyStore/*SOURCE_FILE_START*//*SOURCE_FILE_END*//*SOURCE_FILE_START*//*SOURCE_FILE_END*/ public constructor(
+    bufferManager2: IBufferManager, @JvmField
+    internal val rootPageID: Int, initFromRootPage: Boolean
+) {
     public companion object {
         public const val ID_NULL: Int = -1
         internal const val PAGEID_NULL_PTR: Int = -1
@@ -36,10 +39,7 @@ public class ValueKeyStore {
     }
 
     @JvmField
-    internal val rootPageID: Int
-
-    @JvmField
-    internal val bufferManager: IBufferManager
+    internal val bufferManager: IBufferManager = bufferManager2
 
     @JvmField
     internal var firstInnerID = PAGEID_NULL_PTR
@@ -47,9 +47,7 @@ public class ValueKeyStore {
     @JvmField
     internal var firstLeafID = PAGEID_NULL_PTR
 
-    public constructor(bufferManager2: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
-        this.bufferManager = bufferManager2
-        this.rootPageID = rootPageID
+    init {
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:52"/*SOURCE_FILE_END*/, rootPageID)
         if (initFromRootPage) {
             firstLeafID = BufferManagerPage.readInt4(rootPage, 0)

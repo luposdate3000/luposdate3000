@@ -78,7 +78,11 @@ public class Luposdate3000Instance {
     public var initialThreads: Int = 128
 
     @JvmField
-    public var maxThreads: Int
+    public var maxThreads: Int = if (LUPOS_PROCESS_URLS.size> 1) {
+        LUPOS_PROCESS_URLS.size
+    } else {
+        16
+    }
 
     @JvmField
     public var dictionaryCacheCapacity: Int = 200 // set to 0 for disable
@@ -91,11 +95,4 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var REPLACE_STORE_WITH_VALUES: Boolean = false
-    init {
-        maxThreads = if (LUPOS_PROCESS_URLS.size> 1) {
-            LUPOS_PROCESS_URLS.size
-        } else {
-            16
-        }
-    }
 }

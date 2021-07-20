@@ -36,8 +36,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     val queryFiles2 = queryFiles.split(";")
     val minimumTime2 = minimumTime.toDouble()
     val numberOfTriples2 = numberOfTriples.toLong()
-    val optimizerMode2: OptimizerMode
-    optimizerMode2 = if (optimizerMode == "OnlyWith") {
+    val optimizerMode2: OptimizerMode = if (optimizerMode == "OnlyWith") {
         OptimizerMode.OnlyWith
     } else if (optimizerMode == "OnlyWithout") {
         OptimizerMode.OnlyWithout

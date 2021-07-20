@@ -148,9 +148,9 @@ public class ImageHelper {
     private var byPassMap = mutableMapOf<LocalPoint, Int>()
     public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double, minDistToOtherPath: Double) {
         checkLayer(layer)
-        for (p in points) {
-            adjustBordersToPoint(p.first - pointRadius - minDistToOtherPath, p.second - pointRadius - minDistToOtherPath)
-            adjustBordersToPoint(p.first + pointRadius + minDistToOtherPath, p.second + pointRadius + minDistToOtherPath)
+        for ((first, second) in points) {
+            adjustBordersToPoint(first - pointRadius - minDistToOtherPath, second - pointRadius - minDistToOtherPath)
+            adjustBordersToPoint(first + pointRadius + minDistToOtherPath, second + pointRadius + minDistToOtherPath)
         }
         val directions = mutableListOf<Pair<Double, Double>>()
         val correctedPoints = mutableListOf<Pair<Double, Double>>()

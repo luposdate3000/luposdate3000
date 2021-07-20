@@ -46,11 +46,11 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val res = super.toXMLElement(false)
         val xmlInsert = XMLElement("insert")
         val xmlDelete = XMLElement("delete")
-        for (m in modify) {
-            if (m.second == EModifyTypeExt.INSERT) {
-                xmlInsert.addContent(m.first.toXMLElement(false))
+        for ((first, second) in modify) {
+            if (second == EModifyTypeExt.INSERT) {
+                xmlInsert.addContent(first.toXMLElement(false))
             } else {
-                xmlDelete.addContent(m.first.toXMLElement(false))
+                xmlDelete.addContent(first.toXMLElement(false))
             }
         }
         res.addContent(xmlInsert)

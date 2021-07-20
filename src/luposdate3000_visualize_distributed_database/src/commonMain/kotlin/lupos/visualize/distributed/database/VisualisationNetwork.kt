@@ -33,19 +33,19 @@ public class VisualisationNetwork {
     private val workForQueryAtNode = mutableMapOf<Int/*query*/, MutableMap<Int/*node*/, MutableSet<Pair<String, XMLElement>>/*work-list*/>>()
     private val fullOperatorGraph = mutableMapOf<Int/*queryID*/, MutableMap<String, XMLElement>>()
     private companion object {
-        val layerConnection = 0
-        val layerConnectionInRouting = 1
-        val layerDeviceNone = 2
-        val layerDeviceNoneName = 3
-        val layerDeviceSensor = 4
-        val layerDeviceSensorName = 5
-        val layerDeviceDB = 6
-        val layerDeviceDBName = 7
-        val layerMessage = 8
-        val layerStorageKey = 9
-        val layerWork = 10
+        const val layerConnection = 0
+        const val layerConnectionInRouting = 1
+        const val layerDeviceNone = 2
+        const val layerDeviceNoneName = 3
+        const val layerDeviceSensor = 4
+        const val layerDeviceSensorName = 5
+        const val layerDeviceDB = 6
+        const val layerDeviceDBName = 7
+        const val layerMessage = 8
+        const val layerStorageKey = 9
+        const val layerWork = 10
         var deviceRadius = 20.0
-        val minDistToOtherPath = 4.0
+        const val minDistToOtherPath = 4.0
     }
 
     private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
@@ -299,7 +299,7 @@ public class VisualisationNetwork {
             for ((deviceID, workList) in listA) {
                 val device = getDeviceById(deviceID)
                 var i = 1
-                for (work in workList) {
+                for ((first) in workList) {
 /*
  TODO
 File("visual-db-work-$queryID-${helperImageCounter}.svg").withOutputStream { out ->
@@ -311,7 +311,7 @@ helperImageCounter++
                         layerWork,
                         device.xnew,
                         device.ynew + deviceRadius * 1.5 + i * 13,
-                        work.first,
+                        first,
                         mutableListOf()
                     )
                     i++

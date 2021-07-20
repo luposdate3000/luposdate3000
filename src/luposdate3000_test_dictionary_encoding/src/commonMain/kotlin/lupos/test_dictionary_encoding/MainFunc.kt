@@ -57,8 +57,8 @@ private object AssertionFunctions {
     fun randomPrintableChar(rng: Int): Char = printableChars[randomRangePositive(rng, printableChars.length)]
     fun randomPrintableLetter(rng: Int): Char = letters[randomRangePositive(rng, letters.length)]
     fun randomPrintableNumber(rng: Int): Char = "${randomRangePositive(rng, 10)}"[0]
-    val printableChars = """ !#\$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~""" // excluding """""""
-    val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    const val printableChars = """ !#\$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~""" // excluding """""""
+    const val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 }
 
 public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
@@ -112,7 +112,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                 if (v.length - x > 0) {
                     val dot = abs(l1 % (v.length - x)) + x
                     v = when (dot) {
-                        0 -> "." + v
+                        0 -> ".$v"
                         v.length -> ".0"
                         else -> v.substring(0, dot) + "." + v.substring(dot, v.length)
                     }
@@ -158,9 +158,8 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                     v += AssertionFunctions.randomPrintableNumber(nextRandom())
                 }
                 v = if (v.length - 1 - x > 0) {
-                    val l2 = abs(l % (v.length - 1 - x)) + x
-                    when (l2) {
-                        0 -> "." + v
+                    when (val l2 = abs(l % (v.length - 1 - x)) + x) {
+                        0 -> ".$v"
                         v.length -> ".0"
                         else -> v.substring(0, l2) + "." + v.substring(l2, v.length)
                     }

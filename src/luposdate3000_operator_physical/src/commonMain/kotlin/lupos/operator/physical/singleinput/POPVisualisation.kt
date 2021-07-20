@@ -62,8 +62,8 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         iterator.next = {
             val res = child.rows.next()
             iterator.buf = child.rows.buf
-            if (res < 0) {
-            } else {
+            if (res >= 0) {
+
                 // For each Column the data is received from the Dictionary and send to the
                 // visualization framework.
                 counter++

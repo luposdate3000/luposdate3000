@@ -47,8 +47,7 @@ public abstract class AOPBase public constructor(
         } else {
             val tmp = evaluate(row)
             return {
-                var res: Boolean
-                res = try {
+                var res: Boolean = try {
                     val value = tmp()
                     value.toBoolean()
                 } catch (e: EvaluationException) {

@@ -27,7 +27,8 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class KeyValueStore public constructor(
-    bufferManager: IBufferManager,
+ @JvmField
+    internal val    bufferManager: IBufferManager,
     @JvmField
     internal val rootPageID: Int,
     initFromRootPage: Boolean,
@@ -37,8 +38,6 @@ public class KeyValueStore public constructor(
     @JvmField
     internal val rootPage: ByteArray = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:37"/*SOURCE_FILE_END*/, rootPageID)
 
-    @JvmField
-    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal var lastPage: Int

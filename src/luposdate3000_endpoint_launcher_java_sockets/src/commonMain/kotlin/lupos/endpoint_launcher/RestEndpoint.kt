@@ -43,7 +43,7 @@ import lupos.shared.xmlParser.XMLParser
 import kotlin.jvm.JvmField
 
 public object RestEndpoint {
-    internal val key_global_dict = "global_dict"
+    internal const val key_global_dict = "global_dict"
 
     @JvmField
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
@@ -482,8 +482,8 @@ public object RestEndpoint {
                     val formId = k.replace("/", "_")
                     connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
                     connectionOutMy.println("           var formData = {")
-                    for (p in v.params.keys) {
-                        connectionOutMy.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
+                    for ((first) in v.params.keys) {
+                        connectionOutMy.println("               '${first}': $('#$formId [name=${first}]').val(),")
                     }
                     connectionOutMy.println("           };")
                     connectionOutMy.println("           $.ajax({")

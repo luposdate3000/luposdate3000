@@ -197,10 +197,10 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     private fun createFixedLinks() {
-        for (fixedLink in jsonObjects.fixedLink) {
-            val a = getDeviceByName(fixedLink.fixedDeviceA)
-            val b = getDeviceByName(fixedLink.fixedDeviceB)
-            linker.link(a, b, fixedLink.dataRateInKbps)
+        for ((fixedDeviceA, fixedDeviceB, dataRateInKbps) in jsonObjects.fixedLink) {
+            val a = getDeviceByName(fixedDeviceA)
+            val b = getDeviceByName(fixedDeviceB)
+            linker.link(a, b, dataRateInKbps)
         }
     }
 

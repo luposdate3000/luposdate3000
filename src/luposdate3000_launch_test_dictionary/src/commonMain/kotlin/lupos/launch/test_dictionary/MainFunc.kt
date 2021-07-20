@@ -37,11 +37,9 @@ import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.max
 
-@JvmField
-internal val verbose = false
+internal const val verbose = false
 
-@JvmField
-internal val maxSize = 16384
+internal const val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {

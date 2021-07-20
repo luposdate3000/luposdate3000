@@ -19,4 +19,4 @@ package lupos.operator.physical
 import lupos.shared.EPOPDebugMode
 import lupos.shared.EPOPDebugModeExt
 
-internal val ITERATOR_DEBUG_MODE: EPOPDebugMode = EPOPDebugModeExt.DEBUG1
+internal const val ITERATOR_DEBUG_MODE: EPOPDebugMode = EPOPDebugModeExt.DEBUG1

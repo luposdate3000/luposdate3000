@@ -46,15 +46,14 @@ import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.min
 
-public class TripleStoreManagerImpl : TripleStoreManager {
+public class TripleStoreManagerImpl public constructor(
     @JvmField
-    internal var hostnames: Array<LuposHostname>
+    internal var hostnames: Array<LuposHostname>, @JvmField
+    internal var localhost: LuposHostname, instance2: Luposdate3000Instance
+) : TripleStoreManager() {
 
     @JvmField
-    internal var localhost: LuposHostname
-
-    @JvmField
-    internal var instance: Luposdate3000Instance
+    internal var instance: Luposdate3000Instance = instance2
 
     @JvmField
     internal var bufferManager: IBufferManager
@@ -203,11 +202,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         metadata_.remove(name)
     }
 
-    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, instance2: Luposdate3000Instance) : super() {
-        this.instance = instance2
+    init {
         this.bufferManager = instance.bufferManager!!
-        this.hostnames = hostnames
-        this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf() }
         println("allocation TripleStoreManagerImpl on $localhost")
     }
@@ -503,12 +499,12 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     @Suppress("NOTHING_TO_INLINE")
     private inline fun createGraphShared(graph: TripleStoreDescription) {
         for (index in graph.indices) {
-            for (store in index.getAllLocations()) {
-                if (store.first == localhost) {
+            for ((first, second) in index.getAllLocations()) {
+                if (first == localhost) {
                     val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:507"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
-                    localStoresAdd(store.second, tripleStore)
+                    localStoresAdd(second, tripleStore)
                 }
             }
         }
@@ -559,13 +555,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             val graph = metadata_[graphName]
             if (graph != null) {
                 for (index in graph.indices) {
-                    for (store in index.getAllLocations()) {
-                        if (store.first == localhost) {
-                            localStores_[store.second]!!.clear()
+                    for ((first, second) in index.getAllLocations()) {
+                        if (first == localhost) {
+                            localStores_[second]!!.clear()
                         } else {
                             if (origin) {
                                 query.getInstance().communicationHandler!!.sendData(
-                                    store.first,
+                                    first,
                                     "/distributed/graph/clear",
                                     mapOf(
                                         "origin" to "false",
@@ -589,13 +585,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         val graph = metadata_[graphName]
         if (graph != null) {
             for (index in graph.indices) {
-                for (store in index.getAllLocations()) {
-                    if (store.first == localhost) {
-                        localStoresRemove(store.second)
+                for ((first, second) in index.getAllLocations()) {
+                    if (first == localhost) {
+                        localStoresRemove(second)
                     } else {
                         if (origin) {
                             query.getInstance().communicationHandler!!.sendData(
-                                store.first,
+                                first,
                                 "/distributed/graph/drop",
                                 mapOf(
                                     "origin" to "false",
@@ -679,9 +675,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     public override fun remoteCommit(query: IQuery, origin: Boolean) {
         for (graph in metadata_.values) {
             for (index in graph.indices) {
-                for (store in index.getAllLocations()) {
-                    if (store.first == localhost) {
-                        localStores_[store.second]!!.flush()
+                for ((first, second) in index.getAllLocations()) {
+                    if (first == localhost) {
+                        localStores_[second]!!.flush()
                     }
                 }
             }

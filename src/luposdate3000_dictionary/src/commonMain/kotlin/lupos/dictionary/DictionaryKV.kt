@@ -33,14 +33,13 @@ import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 
 public class DictionaryKV internal constructor(
-    bufferManager: IBufferManager,
+@JvmField
+    internal val    bufferManager: IBufferManager,
     @JvmField
     internal val rootPageID: Int,
     initFromRootPage: Boolean,
     instance: Luposdate3000Instance
 ) : ADictionary(instance, false) {
-    @JvmField
-    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal val kv: KeyValueStore

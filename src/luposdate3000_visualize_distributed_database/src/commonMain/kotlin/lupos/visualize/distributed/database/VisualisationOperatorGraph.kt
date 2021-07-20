@@ -20,11 +20,11 @@ import lupos.shared.XMLElement
 
 public object VisualisationOperatorGraph {
 
-    private val distanceX = 20.0
-    private val distanceY = 20.0
-    private val radius = 20.0
-    private val layerNode = 1
-    private val layerConnection = 0
+    private const val distanceX = 20.0
+    private const val distanceY = 20.0
+    private const val radius = 20.0
+    private const val layerNode = 1
+    private const val layerConnection = 0
     public fun operatorGraphToImage(op: XMLElement): ImageHelper {
         val res = ImageHelper()
         res.setZeroSize()

@@ -37,7 +37,7 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: DictionaryValueType
+            val res: DictionaryValueType
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             when (DictionaryHelper.byteArrayToType(tmp_0)) {

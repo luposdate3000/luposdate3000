@@ -4,8 +4,7 @@ import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.MeasurementPrinter
 import lupos.simulator_iot.utils.FilePaths
 
-public class Evaluation {
-    public constructor()
+public class Evaluation public constructor() {
 
     public fun simulate(configFileName: String) {
         val simRun = SimulationRun()
@@ -27,8 +26,8 @@ public class Evaluation {
 
     private fun buildNodeSizesArray(arrSize: Int, delta: Int): IntArray {
         val arr = IntArray(arrSize) { 0 }
-        for (i in arr.withIndex())
-            arr[i.index] = i.index * delta
+        for (index in 0 until arr.size)
+            arr[index] = index * delta
         return arr
     }
 
