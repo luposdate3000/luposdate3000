@@ -19,7 +19,7 @@ restart gitbash, if it is already open
 
 # install kotlin
 
-Download (kotlin-compiler-1.4.32.zip)[https://github.com/JetBrains/kotlin/releases/download/v1.5.10/kotlin-compiler-1.5.10.zip]
+Download (kotlin-compiler-1.5.21.zip)[https://github.com/JetBrains/kotlin/releases/download/v1.5.10/kotlin-compiler-1.5.21.zip]
 Extract the compiler to its final destination, for Example somewhere in the Programs-Folder
 Add the compiler to the Path.
 The compiler-path looks something like "C:/.../kotlinc/bin"

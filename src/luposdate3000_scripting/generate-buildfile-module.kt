@@ -19,7 +19,6 @@ package launcher
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.inline.Platform
 import java.io.File
-import launcher.EDictionaryValueMode
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Paths
@@ -30,7 +29,7 @@ val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "min
 private fun printDependencies(dependencies: Set<String>, out: PrintWriter) {
     for (d in dependencies) {
         if (d.startsWith("luposdate3000")) {
-            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
             if (t.contains("#")) {
                 t = t.substring(0, t.indexOf("#"))
             }
@@ -94,7 +93,7 @@ class CreateModuleArgs() {
     var moduleFolder: String = ""
     var modulePrefix: String = ""
     var platform: String = "linuxX64"
-var dictionaryValueMode:EDictionaryValueMode=EDictionaryValueMode.Int
+    var dictionaryValueMode: EDictionaryValueMode = EDictionaryValueMode.Int
     var releaseMode: ReleaseMode = ReleaseMode.Disable
     var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
@@ -123,7 +122,7 @@ var dictionaryValueMode:EDictionaryValueMode=EDictionaryValueMode.Int
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
-res.dictionaryValueMode=dictionaryValueMode
+        res.dictionaryValueMode = dictionaryValueMode
         res.disableJS = disableJS
         res.disableJSNode = disableJSNode
         res.disableJSBrowser = disableJSBrowser
@@ -151,11 +150,11 @@ res.dictionaryValueMode=dictionaryValueMode
         return res
     }
 
-fun ssetDictionaryValueMode(mode:EDictionaryValueMode):CreateModuleArgs{
-val res = clone()
-res.dictionaryValueMode=mode
-return res
-}
+    fun ssetDictionaryValueMode(mode: EDictionaryValueMode): CreateModuleArgs {
+        val res = clone()
+        res.dictionaryValueMode = mode
+        return res
+    }
 
     fun ssetCompilerVersion(compilerVersion: String): CreateModuleArgs {
         val res = clone()
@@ -208,7 +207,7 @@ return res
         val res = clone()
 
         res.moduleName = moduleName
-        res.moduleFolder = "src/${moduleName.toLowerCase()}"
+        res.moduleFolder = "src/${moduleName.lowercase()}"
         return res
     }
 
@@ -305,6 +304,7 @@ return res
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
+var dummy=0
     moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
     try {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
@@ -405,7 +405,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 allDep.addAll(moduleArgs.dependenciesJvm)
                 for (d in allDep) {
                     if (d.startsWith("luposdate3000")) {
-                        var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+                        var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
                         if (t.contains("#")) {
                             t = t.substring(0, t.indexOf("#"))
                         }
@@ -413,11 +413,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
                 out.println("plugins {")
-if(!onWindows){
-                out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
-}
+                if (!onWindows) {
+                    out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
+                }
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
-                if ( moduleArgs.codegenKAPT) {
+                if (moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
                 }
                 if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -570,14 +570,14 @@ if(!onWindows){
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jvmDependencies, out)
-                    if ( moduleArgs.codegenKAPT) {
+                    if (moduleArgs.codegenKAPT) {
                         printDependencies(moduleArgs.dependenciesJvm, out)
                     }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
                         printDependencies(moduleArgs.dependenciesJvm, out)
                         for (dep in moduleArgs.dependenciesJvm) {
                             if (dep.startsWith("luposdate")) {
-                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
+                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.lowercase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
                             } else {
                                 out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
                             }
@@ -633,7 +633,7 @@ if(!onWindows){
                     out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain/kotlin\")")
                 }
                 out.println("}")
-                if ( moduleArgs.codegenKAPT) {
+                if (moduleArgs.codegenKAPT) {
                     out.println("dependencies {")
                     out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator_kapt\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
                     out.println("}")
@@ -644,9 +644,9 @@ if(!onWindows){
                     out.println("}")
                 }
                 out.println("tasks.register(\"luposSetup\") {")
-if(!onWindows){
-                out.println("    dependsOn(\"ktlintFormat\")")
-}
+                if (!onWindows) {
+                    out.println("    dependsOn(\"ktlintFormat\")")
+                }
                 out.println("    fun fixPathNames(s: String): String {")
                 out.println("        var res = s.trim()")
                 out.println("        var back = \"\"")
@@ -724,15 +724,15 @@ if(!onWindows){
                 }
                 out.println("tasks.named(\"build\") {")
                 out.println("}")
-if(!onWindows){
-                out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
-                out.println("    enableExperimentalRules.set(true)")
-                out.println("    ignoreFailures.set(true)")
-                out.println("    filter {")
-                out.println("        exclude(\"**/build/**\")")
-                out.println("    }")
-                out.println("}")
-}
+                if (!onWindows) {
+                    out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
+                    out.println("    enableExperimentalRules.set(true)")
+                    out.println("    ignoreFailures.set(true)")
+                    out.println("    filter {")
+                    out.println("        exclude(\"**/build/**\")")
+                    out.println("    }")
+                    out.println("}")
+                }
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
@@ -760,7 +760,7 @@ if(!onWindows){
                     out.println("                libraryjars(files(\"\$f\"))")
                     out.println("            }")
                     out.println("    }")
-                    out.println("    injars(\"build/libs/${moduleArgs.moduleName.toLowerCase()}-jvm-0.0.1.jar\")")
+                    out.println("    injars(\"build/libs/${moduleArgs.moduleName.lowercase()}-jvm-0.0.1.jar\")")
                     out.println("    printusage(\"usage.pro\")")
                     out.println("    forceprocessing()")
                     out.println("    optimizationpasses(5)")
@@ -769,7 +769,7 @@ if(!onWindows){
                     out.println("    printconfiguration(\"config.pro.generated\")")
                     out.println("    printmapping(\"build/mapping.txt\")")
                     out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
-                    out.println("    outjars(\"build/libs/${moduleArgs.moduleName.toLowerCase()}-jvm-0.0.1-pro.jar\")")
+                    out.println("    outjars(\"build/libs/${moduleArgs.moduleName.lowercase()}-jvm-0.0.1-pro.jar\")")
                     out.println("}")
                 }
                 out.println("tasks.withType<Test> {")
@@ -789,19 +789,21 @@ if(!onWindows){
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
-when(moduleArgs.dictionaryValueMode){
-EDictionaryValueMode.Int->{
-typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperInt")
-typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Int")
-typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","IntArray")
-}
-EDictionaryValueMode.Long->{
-typeAliasAll["DictionaryValueHelper"]=Pair("DictionaryValueHelper","lupos.shared.inline.DictionaryValueHelperLong")
-typeAliasAll["DictionaryValueType"]=Pair("DictionaryValueType","Long")
-typeAliasAll["DictionaryValueTypeArray"]=Pair("DictionaryValueTypeArray","LongArray")
-}
-else -> TODO()
-}
+dummy+=        when (moduleArgs.dictionaryValueMode) {
+            EDictionaryValueMode.Int -> {
+                typeAliasAll["DictionaryValueHelper"] = Pair("DictionaryValueHelper", "lupos.shared.inline.DictionaryValueHelperInt")
+                typeAliasAll["DictionaryValueType"] = Pair("DictionaryValueType", "Int")
+                typeAliasAll["DictionaryValueTypeArray"] = Pair("DictionaryValueTypeArray", "IntArray")
+0
+            }
+            EDictionaryValueMode.Long -> {
+                typeAliasAll["DictionaryValueHelper"] = Pair("DictionaryValueHelper", "lupos.shared.inline.DictionaryValueHelperLong")
+                typeAliasAll["DictionaryValueType"] = Pair("DictionaryValueType", "Long")
+                typeAliasAll["DictionaryValueTypeArray"] = Pair("DictionaryValueTypeArray", "LongArray")
+0
+            }
+        }
+
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
         } else {
@@ -947,6 +949,7 @@ else -> TODO()
         }
     } catch (e: Throwable) {
         e.printStackTrace()
+println("$dummy")
         throw e
     }
 }

@@ -37,8 +37,8 @@ dependencieshome=/opt
 #kotlin
 {
     cd $dependencieshome
-    wget https://github.com/JetBrains/kotlin/releases/download/v1.5.10/kotlin-compiler-1.5.10.zip
-    unzip kotlin-compiler-1.5.10.zip
+    wget https://github.com/JetBrains/kotlin/releases/download/v1.5.21/kotlin-compiler-1.5.21.zip
+    unzip kotlin-compiler-1.5.21.zip
     cd kotlinc/bin/
     echo "export PATH=$PATH:$(pwd)" >> ~/.bashrc
 }
