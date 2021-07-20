@@ -294,7 +294,7 @@ public class DatabaseHandle : IDatabase {
         val p = packages[ownAdress!!]!!
         for ((k, v) in p.operatorGraph) {
             val graph = p.operatorGraph[k]!!
-            visualisationNetwork.addWork(p.queryID, ownAdress, graph.toString(), extractKey(graph, "POPDistributedReceive", ""), extractKey(graph, "POPDistributedSend", ""))
+            visualisationNetwork.addWork(p.queryID, ownAdress, graph, extractKey(graph, "POPDistributedReceive", ""), extractKey(graph, "POPDistributedSend", ""))
             myPendingWork.add(
                 MySimulatorPendingWork(
                     p.queryID,

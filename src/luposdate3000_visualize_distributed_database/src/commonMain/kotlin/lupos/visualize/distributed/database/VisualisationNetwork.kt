@@ -19,7 +19,6 @@ import lupos.shared.XMLElement
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 public class VisualisationNetwork {
-
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
     private var devicesMaxID = 0
     private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
@@ -31,7 +30,7 @@ public class VisualisationNetwork {
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
     private val allMessageTypes = mutableSetOf<String>()
-    private val workForQueryAtNode = mutableMapOf<Int/*query*/, MutableMap<Int/*node*/, MutableSet<String>/*work-list*/>>()
+    private val workForQueryAtNode = mutableMapOf<Int/*query*/, MutableMap<Int/*node*/, MutableSet<Pair<String,XMLElement>>/*work-list*/>>()
 private val fullOperatorGraph=mutableMapOf<Int/*queryID*/,MutableMap<String, XMLElement>>()
     private companion object {
         val layerConnection = 0
@@ -48,6 +47,9 @@ private val fullOperatorGraph=mutableMapOf<Int/*queryID*/,MutableMap<String, XML
         var deviceRadius = 20.0
         val minDistToOtherPath = 4.0
     }
+
+
+
     private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
         var tmp = mutableListOf<Int>()
         var s = src
@@ -293,13 +295,21 @@ private val fullOperatorGraph=mutableMapOf<Int/*queryID*/,MutableMap<String, XML
         return image
     }
     public fun saveWorkForQuery(imageHelperBase: ImageHelper) {
+var helperImageCounter=0
         for ((queryID, listA) in workForQueryAtNode) {
             val image = imageHelperBase.deepCopy()
             for ((deviceID, workList) in listA) {
                 val device = getDeviceById(deviceID)
                 var i = 1
                 for (work in workList) {
-                    image.addText(layerWork, device.xnew, device.ynew + deviceRadius * 1.5 + i * 13, work.toString(), mutableListOf())
+/*
+ TODO 
+File("visual-db-work-$queryID-${helperImageCounter}.svg").withOutputStream { out ->
+                out.println(VisualisationOperatorGraph.operatorGraphToImage(work.second).toString())
+            }
+helperImageCounter++
+*/
+                    image.addText(layerWork, device.xnew, device.ynew + deviceRadius * 1.5 + i * 13, work.first.toString(), mutableListOf())
                     i++
                 }
             }
@@ -406,10 +416,10 @@ println("query : $queryID -> $operatorGraph")
         if (src != dest) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:408"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:409"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:410"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:411"/*SOURCE_FILE_END*/ }, { src != hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:415"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:416"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:417"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:418"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size <size) {
                 connectionTable = IntArray(size) { -1 }
             }
@@ -421,9 +431,9 @@ println("query : $queryID -> $operatorGraph")
         if (src != dest && src != hop) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:423"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:424"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:425"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:430"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:431"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:432"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
             if (connectionTableDB.size <size) {
                 connectionTableDB = IntArray(size) { -1 }
             }
@@ -440,7 +450,7 @@ println("query : $queryID -> $operatorGraph")
         message.messageCounter = messages.size
         messages.add(message)
     }
-    public fun addWork(queryID: Int, address: Int, operatorGraph: String, keysIn: Set<String>, keysOut: Set<String>) {
+    public fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {
         var workNode = workForQueryAtNode[queryID]
         if (workNode == null) {
             workNode = mutableMapOf()
@@ -451,7 +461,7 @@ println("query : $queryID -> $operatorGraph")
             workquery = mutableSetOf()
             workNode[address] = workquery
         }
-        workquery.add("$keysIn -> $keysOut")
+        workquery.add("$keysIn -> $keysOut" to operatorGraph)
     }
 public fun addOperatorGraph(queryId:Int,operatorGraph:MutableMap<String, XMLElement>){
 fullOperatorGraph[queryId]=operatorGraph
