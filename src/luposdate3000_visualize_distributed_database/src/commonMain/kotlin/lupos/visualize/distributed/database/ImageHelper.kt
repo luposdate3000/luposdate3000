@@ -21,34 +21,34 @@ public class ImageHelper {
     private val layers = mutableListOf(mutableSetOf<String>())
     private val classes = mutableMapOf<String, MutableMap<String, String>>()
 
-    internal var margin :Double= 50.0
-    internal var width :Double= 2000.0
-    internal var height :Double= 2000.0
+    internal var margin: Double = 50.0
+    internal var width: Double = 2000.0
+    internal var height: Double = 2000.0
     internal var minX: Double = margin
     internal var maxX: Double = width - margin
     internal var minY: Double = margin
     internal var maxY: Double = height - margin
 
-public fun setZeroSize(){
-minX=-99999999.0
-minY=-99999999.0
-maxX=-99999999.0
-maxY=-99999999.0
-}
-private fun adjustBordersToPoint(x:Double,y:Double){
-if(minX>x-margin || minX==-99999999.0){
-minX=x-margin
-}
-if(minY>y-margin|| minY==-99999999.0){ 
-minY=y-margin
-}
-if(maxX<x+margin|| maxX==-99999999.0){ 
-maxX=x+margin
-}
-if(maxY<y+margin|| maxY==-99999999.0){ 
-maxY=y+margin
-}
-}
+    public fun setZeroSize() {
+        minX = -99999999.0
+        minY = -99999999.0
+        maxX = -99999999.0
+        maxY = -99999999.0
+    }
+    private fun adjustBordersToPoint(x: Double, y: Double) {
+        if (minX> x - margin || minX == -99999999.0) {
+            minX = x - margin
+        }
+        if (minY> y - margin || minY == -99999999.0) {
+            minY = y - margin
+        }
+        if (maxX <x + margin || maxX == -99999999.0) {
+            maxX = x + margin
+        }
+        if (maxY <y + margin || maxY == -99999999.0) {
+            maxY = y + margin
+        }
+    }
 
     public fun deepCopy(): ImageHelper {
         val res = ImageHelper()
@@ -91,19 +91,19 @@ maxY=y+margin
     }
     public fun addText(layer: Int, x: Double, y: Double, text: String, classes: List<String>) {
         checkLayer(layer)
-adjustBordersToPoint(x,y)
+        adjustBordersToPoint(x, y)
         layers[layer].add("    <text x=\"$x\" y=\"$y\" writing-mode=\"lr\" glyph-orientation-horizontal=\"90\" text-anchor=\"middle\" alignment-baseline=\"middle\" dominant-baseline=\"central\"${classString(classes)} >$text</text>")
     }
     public fun addCircle(layer: Int, cx: Double, cy: Double, r: Double, classes: List<String>) {
         checkLayer(layer)
-adjustBordersToPoint(cx-r,cy-r)
-adjustBordersToPoint(cx+r,cy+r)
+        adjustBordersToPoint(cx - r, cy - r)
+        adjustBordersToPoint(cx + r, cy + r)
         layers[layer].add("    <circle cx=\"$cx\" cy=\"$cy\" r=\"$r\"${classString(classes)} />")
     }
     public fun addLine(layer: Int, x1: Double, y1: Double, x2: Double, y2: Double, classes: List<String>) {
         checkLayer(layer)
-adjustBordersToPoint(x1,y1)
-adjustBordersToPoint(x2,y2)
+        adjustBordersToPoint(x1, y1)
+        adjustBordersToPoint(x2, y2)
         layers[layer].add("    <line x1=\"$x1\" y1=\"$y1\" x2=\"$x2\" y2=\"$y2\"${classString(classes)} />")
     }
     private inline fun getLength(p: Pair<Double, Double>): Double {
@@ -148,10 +148,10 @@ adjustBordersToPoint(x2,y2)
     private var byPassMap = mutableMapOf<LocalPoint, Int>()
     public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double, minDistToOtherPath: Double) {
         checkLayer(layer)
-for(p in points){
-adjustBordersToPoint(p.first-pointRadius-minDistToOtherPath,p.second-pointRadius-minDistToOtherPath)
-adjustBordersToPoint(p.first+pointRadius+minDistToOtherPath,p.second+pointRadius+minDistToOtherPath)
-}
+        for (p in points) {
+            adjustBordersToPoint(p.first - pointRadius - minDistToOtherPath, p.second - pointRadius - minDistToOtherPath)
+            adjustBordersToPoint(p.first + pointRadius + minDistToOtherPath, p.second + pointRadius + minDistToOtherPath)
+        }
         var directions = mutableListOf<Pair<Double, Double>>()
         var correctedPoints = mutableListOf<Pair<Double, Double>>()
         if (points.size == 1) {
@@ -202,7 +202,7 @@ adjustBordersToPoint(p.first+pointRadius+minDistToOtherPath,p.second+pointRadius
     }
     public override fun toString(): String {
         val buffer = StringBuilder()
-        buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"${minX-margin} ${minY-margin} ${maxX+margin} ${maxY+margin}\" >")
+        buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"${minX - margin} ${minY - margin} ${maxX + margin} ${maxY + margin}\" >")
         buffer.appendLine("    <defs>")
         buffer.appendLine("        <marker id=\"arrowhead\" orient=\"auto\" markerWidth=\"2\" markerHeight=\"4\" refX=\"0.1\" refY=\"2\">")
         buffer.appendLine("            <path d=\"M0,0 V4 L2,2 Z\" fill=\"#000000\" />")

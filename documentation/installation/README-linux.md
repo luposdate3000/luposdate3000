@@ -4,11 +4,11 @@ You can copy paste execute the following script.
 Make sure you read the following comments as they may provide useful information.
 
 ```bash
-# Unfortunately the ifis-git uses incorrect ssl such that the following git option must be used.
+# if you are using the ifis gitlab-repository disable the ssl verification, because the ifis-git uses incorrect ssl.
 git config --global http.sslVerify false
 # Prevent repeatingly typing the password on commit.
 git config --global credential.helper store
-git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
+git clone https://github.com/luposdate3000/luposdate3000.git
 
 apt install openjdk-8-jdk-headless unzip
 

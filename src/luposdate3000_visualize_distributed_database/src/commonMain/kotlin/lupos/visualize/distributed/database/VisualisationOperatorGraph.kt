@@ -17,16 +17,14 @@
 package lupos.visualize.distributed.database
 
 import lupos.shared.XMLElement
-import lupos.shared.SanityCheck
-import lupos.shared.inline.File
 
 public object VisualisationOperatorGraph {
 
-private    val distanceX = 20.0
-private    val distanceY = 20.0
-private val radius=20.0
-private val layerNode=1
-private val layerConnection=0
+    private val distanceX = 20.0
+    private val distanceY = 20.0
+    private val radius = 20.0
+    private val layerNode = 1
+    private val layerConnection = 0
     public fun operatorGraphToImage(op: XMLElement): ImageHelper {
         var res = ImageHelper()
         res.setZeroSize()
@@ -49,15 +47,15 @@ private val layerConnection=0
                 }
             }
         }
-for(nn in nodes){
-for(n in nn){
-res.addCircle(layerNode,n.x,n.y,radius,mutableListOf(""))
-for(a in n.above){
-res.addLine(layerConnection,a.x,a.y,n.x,n.y,mutableListOf(""))
-}
-}
-}
-return res
+        for (nn in nodes) {
+            for (n in nn) {
+                res.addCircle(layerNode, n.x, n.y, radius, mutableListOf(""))
+                for (a in n.above) {
+                    res.addLine(layerConnection, a.x, a.y, n.x, n.y, mutableListOf(""))
+                }
+            }
+        }
+        return res
     }
 
     private fun assignCoordinates(n: VisualisationOperatorGraphNode, nodes: MutableList<MutableList<VisualisationOperatorGraphNode>>): Boolean {
@@ -78,25 +76,25 @@ return res
                 for (b in n.below) {
                     b.x = -99999999.0
                 }
-for(nni in 0 until nodes[n.layer+1].size){
-val nn=nodes[n.layer+1][nni]
-if(nn==n.above.last()){
-for(i in nni+1 until nodes[n.layer+1].size){
-val nn2=nodes[n.layer+1][i]
-if(nn2.x>=0 && nn2.x<r+distanceX){
-nn2.x=r+distanceX
-r+=distanceX
-for(a in nn2.above){
-a.x=-99999999.0
-}
-for(b in nn2.below){
-b.x=-99999999.0
-}
-}
-}
-break
-}
-}
+                for (nni in 0 until nodes[n.layer + 1].size) {
+                    val nn = nodes[n.layer + 1][nni]
+                    if (nn == n.above.last()) {
+                        for (i in nni + 1 until nodes[n.layer + 1].size) {
+                            val nn2 = nodes[n.layer + 1][i]
+                            if (nn2.x >= 0 && nn2.x <r + distanceX) {
+                                nn2.x = r + distanceX
+                                r += distanceX
+                                for (a in nn2.above) {
+                                    a.x = -99999999.0
+                                }
+                                for (b in nn2.below) {
+                                    b.x = -99999999.0
+                                }
+                            }
+                        }
+                        break
+                    }
+                }
             }
         }
         return flag
@@ -116,12 +114,11 @@ break
             above.add(cc)
             cc.below.add(node)
         }
-return node
+        return node
     }
 
     internal class VisualisationOperatorGraphNode(val layer: Int, val below: MutableList<VisualisationOperatorGraphNode>, val above: MutableList<VisualisationOperatorGraphNode>) {
         var x: Double = -99999999.0
         var y: Double = -99999999.0
     }
-
 }

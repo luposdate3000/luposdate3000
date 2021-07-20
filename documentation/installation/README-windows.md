@@ -41,7 +41,7 @@ restart gitbash, if it is still open - this should be closed after the reboot
 # inside of gitbash:
 
 ```gitbash
-# Unfortunately the ifis-git uses incorrect ssl such that the following git option must be used.
+# if you are using the ifis gitlab-repository disable the ssl verification, because the ifis-git uses incorrect ssl.
 git config --global http.sslVerify false
 # work around windows filename length limitation
 git config --system core.longpaths true
@@ -49,7 +49,7 @@ git config --system core.longpaths true
 # Prevent repeatingly typing the password on commit.
 git config --global credential.helper store
 
-git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
+git clone https://github.com/luposdate3000/luposdate3000.git
 
 # install bignum
 { 
