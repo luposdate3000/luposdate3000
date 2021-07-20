@@ -111,7 +111,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                         if (!done) {
                             val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
                             ByteArrayWrapperExt.copyInto(buf, buffer, false)
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:113"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "xxx" + value })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:113"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }, { "xxx$value" })
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:114"/*SOURCE_FILE_END*/ }, { (value and DictionaryValueHelper.maskValue) < dataV2I.size }, { "$value < ${dataV2I.size}" })
                         }
                     } else {
@@ -158,7 +158,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                     }
                 }
                 if (instance.useDictionaryInlineEncoding) {
-                    var res = DictionaryInlineValues.getValueByContent(buffer)
+                    val res = DictionaryInlineValues.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
                         return res
                     }
@@ -194,15 +194,12 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:193"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.ERROR })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:194"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.UNDEF })
         if (instance.useDictionaryInlineEncoding) {
-            var res = DictionaryInlineValues.getValueByContent(buffer)
+            val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res
             }
         }
-        val res = dataV2I[buffer]
-        if (res == null) {
-            return DictionaryValueHelper.nullValue
-        }
+        val res = dataV2I[buffer] ?: return DictionaryValueHelper.nullValue
         return res or DictionaryValueHelper.flagNoBNode
     }
 }

@@ -23,28 +23,28 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public class DictionaryCache(instance: Luposdate3000Instance) {
-    private val value_capacity = instance.dictionaryCacheCapacity
+    private val valueCapacity = instance.dictionaryCacheCapacity
     private var offset = 0
-    private val value_ids = DictionaryValueTypeArray(value_capacity) { DictionaryValueHelper.booleanTrueValue }
-    private val value_content = Array(value_capacity) {
+    private val valueIds = DictionaryValueTypeArray(valueCapacity) { DictionaryValueHelper.booleanTrueValue }
+    private val valueContent = Array(valueCapacity) {
         val tmp = ByteArrayWrapper()
         ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp, false)
         tmp
     }
 
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
-        for (i in 0 until value_capacity) {
-            if (ByteArrayWrapperExt.compare_fast(value_content[i], buffer) == 0) {
-                return value_ids[i]
+        for (i in 0 until valueCapacity) {
+            if (ByteArrayWrapperExt.compare_fast(valueContent[i], buffer) == 0) {
+                return valueIds[i]
             }
         }
         return DictionaryValueHelper.nullValue
     }
 
     public fun getValueById(buffer: ByteArrayWrapper, id: DictionaryValueType): Boolean {
-        for (i in 0 until value_capacity) {
-            if (value_ids[i] == id) {
-                ByteArrayWrapperExt.copyInto(value_content[i], buffer, false)
+        for (i in 0 until valueCapacity) {
+            if (valueIds[i] == id) {
+                ByteArrayWrapperExt.copyInto(valueContent[i], buffer, false)
                 return true
             }
         }
@@ -52,18 +52,18 @@ public class DictionaryCache(instance: Luposdate3000Instance) {
     }
 
     public fun insertValuePair(buffer: ByteArrayWrapper, id: DictionaryValueType) {
-        for (i in 0 until value_capacity) {
-            if (value_ids[i] == id) {
+        for (i in 0 until valueCapacity) {
+            if (valueIds[i] == id) {
                 return
             }
         }
-        for (i in 0 until value_capacity) {
-            if (ByteArrayWrapperExt.compare_fast(value_content[i], buffer) == 0) {
+        for (i in 0 until valueCapacity) {
+            if (ByteArrayWrapperExt.compare_fast(valueContent[i], buffer) == 0) {
                 return // to be save, otherwise we miss the case where a local dictionary id is upgraded to a global one
             }
         }
-        ByteArrayWrapperExt.copyInto(buffer, value_content[offset], false)
-        value_ids[offset] = id
+        ByteArrayWrapperExt.copyInto(buffer, valueContent[offset], false)
+        valueIds[offset] = id
         offset++
     }
 }

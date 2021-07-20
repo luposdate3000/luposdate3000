@@ -15,12 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 package lupos.buffer_manager
 
 import kotlin.jvm.JvmField
 
 public object BufferManagerExt {
     @JvmField
+    @Suppress("MayBeConstant")
     public val isInMemoryOnly: Boolean = true
 
     @JvmField

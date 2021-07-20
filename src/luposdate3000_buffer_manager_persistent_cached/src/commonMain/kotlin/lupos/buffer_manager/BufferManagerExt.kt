@@ -24,6 +24,7 @@ public object BufferManagerExt {
     internal const val fileEndingIntArray: String = "buffer.intarray"
 
     @JvmField
+    @Suppress("MayBeConstant")
     public val isInMemoryOnly: Boolean = false
 
     @JvmField

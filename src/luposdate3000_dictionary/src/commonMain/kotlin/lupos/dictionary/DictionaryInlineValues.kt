@@ -35,22 +35,22 @@ public object DictionaryInlineValues {
                 )
             }
         )
-        var s = ByteArrayWrapperExt.getSize(buffer)
+        val s = ByteArrayWrapperExt.getSize(buffer)
         if (s >= DictionaryValueHelper.getSize()) {
             return DictionaryValueHelper.nullValue
         }
         val b = ByteArrayWrapperExt.getBuf(buffer)
-        when (s) {
-// fill the values from lower bits first, because there might be 4 or 8 bytes in the return-value-datatype available
+        return when (s) {
+    // fill the values from lower bits first, because there might be 4 or 8 bytes in the return-value-datatype available
             0 -> TODO()
-            1 -> return DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue1 or (DictionaryValueHelper.fromByte(b[0]) shl 0)
-            2 -> return DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue2 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8)
-            3 -> return DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue3 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16)
-            4 -> return DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue4 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24)
-            5 -> return DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue5 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24) or (DictionaryValueHelper.fromByte(b[4]) shl 32)
-            6 -> return DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue6 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24) or (DictionaryValueHelper.fromByte(b[4]) shl 32) or (DictionaryValueHelper.fromByte(b[5]) shl 40)
-            7 -> return DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue7 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24) or (DictionaryValueHelper.fromByte(b[4]) shl 32) or (DictionaryValueHelper.fromByte(b[5]) shl 40) or (DictionaryValueHelper.fromByte(b[6]) shl 48)
-            else -> return DictionaryValueHelper.nullValue
+            1 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue1 or (DictionaryValueHelper.fromByte(b[0]) shl 0)
+            2 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue2 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8)
+            3 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue3 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16)
+            4 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue4 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24)
+            5 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue5 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24) or (DictionaryValueHelper.fromByte(b[4]) shl 32)
+            6 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue6 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24) or (DictionaryValueHelper.fromByte(b[4]) shl 32) or (DictionaryValueHelper.fromByte(b[5]) shl 40)
+            7 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue7 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24) or (DictionaryValueHelper.fromByte(b[4]) shl 32) or (DictionaryValueHelper.fromByte(b[5]) shl 40) or (DictionaryValueHelper.fromByte(b[6]) shl 48)
+            else -> DictionaryValueHelper.nullValue
         }
     }
 

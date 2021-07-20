@@ -55,7 +55,7 @@ public class DictionaryKV internal constructor(
     internal var uuidCounter: Int = 0
 
     @JvmField
-    internal val rootPage: ByteArray
+    internal val rootPage: ByteArray = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:108"/*SOURCE_FILE_END*/, rootPageID)
     public override fun close() {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:59"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         kv.close()
@@ -100,15 +100,14 @@ public class DictionaryKV internal constructor(
         iter.close()
     }
     internal companion object {
-        internal val offsetBNodeCounter = 0
+        internal const val offsetBNodeCounter = 0
         internal val offsetkvPage = offsetBNodeCounter + DictionaryValueHelper.getSize()
         internal val offsetvkPage = offsetkvPage + 4
         internal val offsetuuidCounter = offsetvkPage + 4
     }
     init {
-        rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:108"/*SOURCE_FILE_END*/, rootPageID)
-        var kvPage: Int
-        var vkPage: Int
+        val kvPage: Int
+        val vkPage: Int
         if (initFromRootPage) {
             bNodeCounter = DictionaryValueHelper.fromByteArray(rootPage, offsetBNodeCounter)
             kvPage = BufferManagerPage.readInt4(rootPage, offsetkvPage)
@@ -189,7 +188,7 @@ public class DictionaryKV internal constructor(
             ETripleComponentTypeExt.UNDEF -> return DictionaryValueHelper.undefValue
             else -> {
                 if (instance.useDictionaryInlineEncoding) {
-                    var res = DictionaryInlineValues.getValueByContent(buffer)
+                    val res = DictionaryInlineValues.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
                         return res
                     }
@@ -209,7 +208,7 @@ public class DictionaryKV internal constructor(
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:209"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var mymapping = DictionaryValueTypeArray(0)
-        var lastId: DictionaryValueType = -1
+        val lastId: DictionaryValueType = -1
 
 
         val buffer = ByteArrayWrapper()
@@ -230,7 +229,7 @@ public class DictionaryKV internal constructor(
                         }
                     }
                     if (ready && instance.useDictionaryInlineEncoding) {
-                        var res = DictionaryInlineValues.getValueByContent(buffer)
+                        val res = DictionaryInlineValues.getValueByContent(buffer)
                         if (res != DictionaryValueHelper.nullValue) {
                           mymapping=  addEntry(originalID, res,mymapping)
                             ready = false
@@ -266,7 +265,7 @@ public class DictionaryKV internal constructor(
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:265"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.ERROR })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:266"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.UNDEF })
         if (instance.useDictionaryInlineEncoding) {
-            var res = DictionaryInlineValues.getValueByContent(buffer)
+            val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res
             }
