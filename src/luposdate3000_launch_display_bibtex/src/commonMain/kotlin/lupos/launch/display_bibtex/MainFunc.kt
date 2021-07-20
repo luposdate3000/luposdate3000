@@ -64,7 +64,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         println("@$type{$label,")
         vals.remove("<bibtex_type>")
         for (
-        (first, second) in arrayOf(
+            (first, second) in arrayOf(
                 "title" to "<bibtex_title>",
                 "author" to "<bibtex_author_list>",
                 "journal" to "<bibtex_journal>",
@@ -96,7 +96,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         ) {
             val item = extractString(vals[second])
             if (item != null) {
-                println("  ${first}={$item},")
+                println("  $first={$item},")
                 vals.remove(second)
             }
         }

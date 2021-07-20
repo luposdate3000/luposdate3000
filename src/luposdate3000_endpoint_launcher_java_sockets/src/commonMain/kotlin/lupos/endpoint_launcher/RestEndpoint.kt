@@ -483,7 +483,7 @@ public object RestEndpoint {
                     connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
                     connectionOutMy.println("           var formData = {")
                     for ((first) in v.params.keys) {
-                        connectionOutMy.println("               '${first}': $('#$formId [name=${first}]').val(),")
+                        connectionOutMy.println("               '$first': $('#$formId [name=$first]').val(),")
                     }
                     connectionOutMy.println("           };")
                     connectionOutMy.println("           $.ajax({")

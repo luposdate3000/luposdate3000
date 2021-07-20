@@ -16,7 +16,6 @@
  */
 package lupos.shared.inline
 
-import lupos.shared.NotImplementedException
 import lupos.shared.ParallelThreadJob
 
 internal actual object ParallelThread {
