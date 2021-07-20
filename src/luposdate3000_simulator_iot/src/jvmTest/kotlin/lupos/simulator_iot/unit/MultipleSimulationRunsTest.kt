@@ -21,7 +21,7 @@ internal class MultipleSimulationRunsTest {
         }
         val runs = MultipleSimulationRuns(
             configFileName = "$prefix/runMultipleStarNetworkSimulations.json",
-            numberOfRepetitions = 5,
+            numberOfRepetitions = 3,
             callback = callback,
             printer = MeasurementPrinter()
         )
@@ -36,7 +36,7 @@ internal class MultipleSimulationRunsTest {
         }
         val runs = MultipleSimulationRuns(
             configFileName = "$prefix/meshToDODAG.json",
-            numberOfRepetitions = 5,
+            numberOfRepetitions = 2,
             callback = callback,
             printer = MeasurementPrinter()
         )
