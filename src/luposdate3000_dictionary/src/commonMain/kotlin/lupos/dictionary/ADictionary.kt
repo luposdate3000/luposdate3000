@@ -81,20 +81,11 @@ public abstract class ADictionary(
         }
         return res
     }
-
-    @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:86"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
-        var mymapping = DictionaryValueTypeArray(0)
-        var lastId: DictionaryValueType = -1
-        fun addEntry(id: DictionaryValueType, i: DictionaryValueType) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:90"/*SOURCE_FILE_END*/ }, { lastId == id - 1 })
-            if (lastId != id - 1) {
-                throw Exception("ERROR !! $lastId -> $id")
-            }
-            lastId = id
-            if (lastId % 10000 == DictionaryValueHelper.NULL && lastId != DictionaryValueHelper.NULL) {
-                println("imported $lastId dictionaryItems")
+   internal companion object {
+        internal fun addEntry(id: DictionaryValueType, i: DictionaryValueType,mymapping2:DictionaryValueTypeArray) :DictionaryValueTypeArray{
+            var mymapping=mymapping2
+            if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
+                println("imported $id dictionaryItems")
             }
             if (mymapping.size <= id) {
                 var newSize = 1
@@ -106,11 +97,19 @@ public abstract class ADictionary(
                 tmp.copyInto(mymapping)
             }
             mymapping[DictionaryValueHelper.toInt(id)] = i
+            return mymapping
         }
+    }
+    @Suppress("NOTHING_TO_INLINE")
+    public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:104"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
+        var mymapping = DictionaryValueTypeArray(0)
+        var lastid=DictionaryValueHelper.NULL
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            if (lastId % 10000 == DictionaryValueHelper.NULL && lastId != DictionaryValueHelper.NULL) {
-                println("imported $lastId dictionaryItems")
+            lastid=id
+            if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
+                println("imported $id dictionaryItems")
             }
             val type = DictionaryHelper.byteArrayToType(buffer)
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
@@ -122,9 +121,9 @@ public abstract class ADictionary(
                 }
                 res
             }
-            addEntry(id, i)
+mymapping=            addEntry(id, i,mymapping)
         }
-        println("imported $lastId dictionaryItems")
-        return Pair(mymapping, DictionaryValueHelper.toInt(lastId + 1))
+        println("imported $lastid dictionaryItems")
+        return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
     }
 }

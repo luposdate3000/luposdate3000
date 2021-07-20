@@ -80,7 +80,7 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
                     while (newSize < size) {
                         newSize *= 2
                     }
-                    var newData = IntArray(newSize)
+                    val newData = IntArray(newSize)
                     if (_size < newSize) {
                         data.copyInto(newData, 0, 0, _size)
                     } else {
@@ -106,7 +106,7 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
                     while (newSize < size) {
                         newSize *= 2
                     }
-                    var newData = IntArray(newSize)
+                    val newData = IntArray(newSize)
                     if (_size < newSize) {
                         data.copyInto(newData)
                     } else {

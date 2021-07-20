@@ -36,7 +36,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
      * additionally this should make it more easy to exchange this with on disk storage
      */
     @JvmField
-    internal var allPages = Array<ByteArray>(128) { BufferManagerPage.create() }
+    internal var allPages = Array(128) { BufferManagerPage.create() }
 
     @JvmField
     internal var allPagesRefcounters = IntArray(128)
@@ -103,7 +103,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     }
 
     public /*suspend*/ override fun allocPage(call_location: String): Int {
-        var pageid: Int = 0
+        var pageid = 0
         lock.withWriteLock {
             if (freeListSize > 0) {
                 pageid = freeList[--freeListSize]
@@ -113,7 +113,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                     if (size < 128) {
                         size = 128
                     }
-                    val tmp = Array<ByteArray>(size) {
+                    val tmp = Array(size) {
                         val res: ByteArray = if (it < counter) {
                             allPages[it]
                         } else {
@@ -174,7 +174,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                         allErrors[i] = allPagesRefcounters[i]
                     }
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:176"/*SOURCE_FILE_END*/ }, { allErrors.size == 0 }, { "$allErrors" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:176"/*SOURCE_FILE_END*/ }, { allErrors.isEmpty() }, { "$allErrors" })
             }
         )
     }

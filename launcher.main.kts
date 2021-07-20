@@ -229,7 +229,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         Files.walk(Paths.get(v.moduleFolder)).forEach { it2 ->
             val name = fixPathNames(it2.toString())
             val f = File(name)
-            if (f.isFile() && name.endsWith(".kt")) {
+            if (f.isFile && name.endsWith(".kt")) {
                 f.forEachLine { it ->
                     if (it.startsWith("import lupos.")) {
                         val imp = it.split('.')
@@ -550,6 +550,7 @@ val defaultParams = mutableListOf(
         mapOf(
             "1.4.0" to { compilerVersion = "1.4.0" },
             "1.5.0" to { compilerVersion = "1.5.0" },
+            "1.5.21" to { compilerVersion = "1.5.21" },
             "1.5.255-SNAPSHOT" to { compilerVersion = "1.5.255-SNAPSHOT" },
         )
     ),

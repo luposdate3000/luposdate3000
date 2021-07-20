@@ -55,8 +55,7 @@ public object DictionaryInlineValues {
     }
 
     public fun getValueById(buffer: ByteArrayWrapper, id: DictionaryValueType): Boolean {
-        val id_masked = id and DictionaryValueHelper.flagInlineValue
-        when (id_masked) {
+        when (id and DictionaryValueHelper.flagInlineValue) {
             DictionaryValueHelper.flagInlineValue1 -> {
                 ByteArrayWrapperExt.setSize(buffer, 1, false)
                 val b = ByteArrayWrapperExt.getBuf(buffer)

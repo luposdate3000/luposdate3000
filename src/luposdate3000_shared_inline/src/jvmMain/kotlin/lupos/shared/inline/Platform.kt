@@ -53,7 +53,7 @@ internal actual object Platform {
     internal actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> {
         val res = mutableListOf<String>()
         for (f in File(dir).walk()) {
-            if (f.isFile()) {
+            if (f.isFile) {
                 if (f.getName() == name) {
                     res.add(f.toString())
                 }

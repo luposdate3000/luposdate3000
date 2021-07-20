@@ -77,7 +77,7 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
     for (it in File(src).walk()) {
         val tmp = fixPathNames(it.toString())
         val t = tmp.substring(src.length)
-        if (File(tmp).isFile()) {
+        if (File(tmp).isFile) {
             copyFileWithReplacement(File(src + "/" + t), File(dest + "/" + t), replacement, sharedInlineReferences)
         } else {
             File(dest + "/" + t).mkdirs()
@@ -663,7 +663,7 @@ var dummy=0
                 out.println("        for (it in bp.walk()) {")
                 out.println("            val tmp = it.toString()")
                 out.println("            val ff = File(tmp)")
-                out.println("            if (ff.isFile() && ff.name.endsWith(\".kt\")) {")
+                out.println("            if (ff.isFile && ff.name.endsWith(\".kt\")) {")
                 out.println("                File(ff.absolutePath + \".tmp\").printWriter().use { out ->")
                 out.println("                    var line = 0")
                 out.println("                    ff.forEachLine { line2 ->")
@@ -829,7 +829,7 @@ dummy+=        when (moduleArgs.dictionaryValueMode) {
         val classNamesFound = mutableMapOf<String, MutableSet<String>>()
         if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
             for (f in File("src/luposdate3000_shared_inline/src").walk()) {
-                if (f.isFile()) {
+                if (f.isFile) {
                     try {
                         f.forEachLine { it ->
                             var tmp = ""
