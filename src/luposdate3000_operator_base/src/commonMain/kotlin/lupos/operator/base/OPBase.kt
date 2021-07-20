@@ -185,7 +185,7 @@ public abstract class OPBase public constructor(
                     if (idx == c.size) {
                         target.remove(c)
                     } else {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:189"/*SOURCE_FILE_END*/ }, { idx == data.size })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:187"/*SOURCE_FILE_END*/ }, { idx == data.size })
                         needToAdd = false
                     }
                     break@loop
@@ -251,7 +251,7 @@ public abstract class OPBase public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:255"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:253"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
 
@@ -294,7 +294,7 @@ public abstract class OPBase public constructor(
                         res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                     }
                     else -> {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:298"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:296"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
                     }
                 }
             }
@@ -374,7 +374,7 @@ public abstract class OPBase public constructor(
 
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:378"/*SOURCE_FILE_END*/ }, { i < children.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:376"/*SOURCE_FILE_END*/ }, { i < children.size })
         children[i] = child
     }
 
@@ -391,7 +391,7 @@ public abstract class OPBase public constructor(
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:395"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:393"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -514,7 +514,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:518"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:516"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
         this.getChildren()[0] = child
         return child
     }

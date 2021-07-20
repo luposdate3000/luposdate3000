@@ -46,7 +46,7 @@ import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
-    internal val bufferManager: IBufferManager = bufferManager
+    internal val bufferManager: IBufferManager
 
     @JvmField public var debugSortOrder: IntArray = intArrayOf()
 
@@ -110,6 +110,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     @ProguardTestAnnotation
     public constructor(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+        this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         nodeManager = NodeManager(bufferManager)
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:115"/*SOURCE_FILE_END*/, rootPageID)

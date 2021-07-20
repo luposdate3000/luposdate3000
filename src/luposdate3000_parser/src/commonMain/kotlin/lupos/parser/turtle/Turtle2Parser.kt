@@ -196,7 +196,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             onBLANK_NODE_LABEL = {
                 val v = context.getValue()
                 state = if (v.endsWith(".")) {
-            // TODO fix the underlying bug in the scanner
+                    // TODO fix the underlying bug in the scanner
                     DictionaryHelper.bnodeToByteArray(triple[2], v.substring(0, v.length - 1))
                     onTriple()
                     Turtle2ParserStateExt.STATEMENT
@@ -310,7 +310,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 val action = {
                     val v = context.getValue()
                     state = if (v.endsWith(".")) {
-                // TODO fix the underlying bug in the parser
+                        // TODO fix the underlying bug in the parser
                         DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v.substring(0, v.length - 1), false))
                         onTriple()
                         Turtle2ParserStateExt.STATEMENT

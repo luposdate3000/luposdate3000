@@ -19,7 +19,6 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
-import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dynamicArray.ByteArrayWrapper

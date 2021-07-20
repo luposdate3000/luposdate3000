@@ -81,9 +81,9 @@ public abstract class ADictionary(
         }
         return res
     }
-   internal companion object {
-        internal fun addEntry(id: DictionaryValueType, i: DictionaryValueType,mymapping2:DictionaryValueTypeArray) :DictionaryValueTypeArray{
-            var mymapping=mymapping2
+    internal companion object {
+        internal fun addEntry(id: DictionaryValueType, i: DictionaryValueType, mymapping2: DictionaryValueTypeArray): DictionaryValueTypeArray {
+            var mymapping = mymapping2
             if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
                 println("imported $id dictionaryItems")
             }
@@ -100,14 +100,15 @@ public abstract class ADictionary(
             return mymapping
         }
     }
+
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:104"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:105"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var mymapping = DictionaryValueTypeArray(0)
-        var lastid=DictionaryValueHelper.NULL
+        var lastid = DictionaryValueHelper.NULL
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            lastid=id
+            lastid = id
             if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
                 println("imported $id dictionaryItems")
             }
@@ -121,7 +122,7 @@ public abstract class ADictionary(
                 }
                 res
             }
-mymapping=            addEntry(id, i,mymapping)
+            mymapping = addEntry(id, i, mymapping)
         }
         println("imported $lastid dictionaryItems")
         return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))

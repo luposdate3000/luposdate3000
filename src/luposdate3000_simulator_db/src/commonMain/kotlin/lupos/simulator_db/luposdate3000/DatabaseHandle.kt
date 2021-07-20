@@ -35,6 +35,7 @@ import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
@@ -242,7 +243,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:238"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:245"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -337,9 +338,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:334"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:340"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:336"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:342"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -365,7 +366,7 @@ public class DatabaseHandle : IDatabase {
             val inputs = keys.map { key ->
                 val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
-                input
+                input as IMyInputStream
             }.toTypedArray()
             val res = POPDistributedReceiveMulti(
                 query,

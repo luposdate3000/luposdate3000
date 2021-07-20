@@ -54,7 +54,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal var localhost: LuposHostname
 
     @JvmField
-    internal var instance: Luposdate3000Instance = instance
+    internal var instance: Luposdate3000Instance
 
     @JvmField
     internal var bufferManager: IBufferManager
@@ -203,7 +203,8 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         metadata_.remove(name)
     }
 
-    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, instance: Luposdate3000Instance) : super() {
+    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, instance2: Luposdate3000Instance) : super() {
+        this.instance = instance2
         this.bufferManager = instance.bufferManager!!
         this.hostnames = hostnames
         this.localhost = localhost
