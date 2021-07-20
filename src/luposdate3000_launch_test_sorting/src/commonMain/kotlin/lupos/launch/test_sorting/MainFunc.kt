@@ -44,9 +44,9 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
     while (size < n) {
         var lstart = 0
         while (lstart < n) {
-            var lend = min(lstart + size * step, n)
+            val lend = min(lstart + size * step, n)
             var rstart = lend
-            var rend = min(lend + size * step, n)
+            val rend = min(lend + size * step, n)
             var dstart = lstart
             if (lstart < lend && rstart < rend) {
                 if (cmpAtoA(lend - step, rstart) > 0) {
@@ -85,9 +85,9 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
 //
         lstart = 0
         while (lstart < n) {
-            var lend = min(lstart + size * step, n)
+            val lend = min(lstart + size * step, n)
             var rstart = lend
-            var rend = min(lend + size * step, n)
+            val rend = min(lend + size * step, n)
             var dstart = lstart
             if (lstart < lend && rstart < rend) {
                 if (cmpBtoB(lend - step, rstart) > 0) {
@@ -132,7 +132,7 @@ private inline fun mergesort1(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
         var m = n - 1 - s
         while (m >= 0) {
             val lo = max(m - s + 1, 0)
-            var hi = m + s
+            val hi = m + s
             var i = 0
             var j = lo
             while (j <= m) {
@@ -196,7 +196,7 @@ private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int,
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     val step = 2
     var thesize = hasNextRandom()
-    thesize = thesize - (thesize % step)
+    thesize -= (thesize % step)
     val dataA = IntArray(thesize)
     val dataB = IntArray(thesize)
     data1 = dataA
@@ -251,30 +251,29 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         ),
   */
         Pair(
-            "mergesort2",
-            {
-                mergesort2(
-                    dataA.size,
-                    copyBToA = { i, j ->
-                        swapped++
-                        dataA[i] = dataB[j]
-                    },
-                    copyAToB = { i, j ->
-                        swapped++
-                        dataB[i] = dataA[j]
-                    },
-                    cmpAtoA = { i, j ->
-                        comparisons++
-                        dataA[i] - dataA[j]
-                    },
-                    cmpBtoB = { i, j ->
-                        comparisons++
-                        dataB[i] - dataB[j]
-                    },
-                    step = step,
-                )
-            }
-        ),
+            "mergesort2"
+        ) {
+            mergesort2(
+                dataA.size,
+                copyBToA = { i, j ->
+                    swapped++
+                    dataA[i] = dataB[j]
+                },
+                copyAToB = { i, j ->
+                    swapped++
+                    dataB[i] = dataA[j]
+                },
+                cmpAtoA = { i, j ->
+                    comparisons++
+                    dataA[i] - dataA[j]
+                },
+                cmpBtoB = { i, j ->
+                    comparisons++
+                    dataB[i] - dataB[j]
+                },
+                step = step,
+            )
+        },
     )
 
     for (ai in 0 until algorithms.size) {

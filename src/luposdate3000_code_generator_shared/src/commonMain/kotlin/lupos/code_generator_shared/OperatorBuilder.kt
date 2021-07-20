@@ -694,9 +694,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.toDouble()")
-                                onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                                onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                                 target.appendLine("$indention} catch (e: Throwable) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -707,9 +707,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.toDouble()")
-                                onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                                onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                                 target.appendLine("$indention} catch (e: Throwable) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -720,9 +720,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} =${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.toDouble()")
-                                onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                                onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                                 target.appendLine("$indention} catch (e: Throwable) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -794,9 +794,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.toDouble()")
-                                onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                                onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                                 target.appendLine("$indention} catch (e: Throwable) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -807,9 +807,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.toDouble()")
-                                onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                                onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                                 target.appendLine("$indention} catch (e: Throwable) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -820,9 +820,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}try {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.toDouble()")
-                                onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                                onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                                 target.appendLine("$indention} catch (e: Throwable) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1062,10 +1062,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]})")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1077,10 +1077,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1092,10 +1092,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1108,10 +1108,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1124,10 +1124,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1140,10 +1140,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1156,10 +1156,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1172,10 +1172,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1188,10 +1188,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
                         ),
@@ -1214,10 +1214,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]})")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1229,10 +1229,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1244,10 +1244,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1260,10 +1260,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1276,10 +1276,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1292,10 +1292,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1308,10 +1308,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention   ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1324,10 +1324,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1340,10 +1340,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = ${inputNames[0]}_type")
                                 target.appendLine("${indention}if (${prefix}_idx >= 0) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content.substring(0, ${prefix}_idx)")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = \"\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
                         ),
@@ -1543,10 +1543,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}if (${inputNames[0]}_lang == ${inputNames[1]}_lang) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_lang)} = ${inputNames[0]}_lang")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1558,10 +1558,10 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\" && ${inputNames[1]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
-                                onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                                onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1609,10 +1609,10 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR),
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)}) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = false")
-                                onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                                onResult("$indention    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1622,10 +1622,10 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN),
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${suffixNames(inputNames[1], EVariablePlaceholderExt.Boolean)}) {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = false")
-                                onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                                onResult("$indention    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1655,9 +1655,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)}) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = true")
-                                onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                                onResult("$indention    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention} else {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -1668,9 +1668,9 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, _, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${suffixNames(inputNames[1], EVariablePlaceholderExt.Boolean)}) {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = true")
-                                onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                                onResult("$indention    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention} else {")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
                         )
@@ -2220,10 +2220,10 @@ public object OperatorBuilder {
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 target.appendLine("${indention}if (${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)} == BigInteger.ZERO) {")
                                 imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                                onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention} else {")
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = BigDecimal.fromBigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}) / BigDecimal.fromBigInteger(${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)})")
-                                onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+                                onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                                 target.appendLine("$indention}")
                             },
                         ),
@@ -2244,7 +2244,7 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)} + ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}")
-                                onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
+                                onResult("$indention    ", ETripleComponentTypeExt.INTEGER)
                             },
                         ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
@@ -2265,7 +2265,7 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)} - ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}")
-                                onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
+                                onResult("$indention    ", ETripleComponentTypeExt.INTEGER)
                             },
                         ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
@@ -2285,7 +2285,7 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)} * ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}")
-                                onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
+                                onResult("$indention    ", ETripleComponentTypeExt.INTEGER)
                             },
                         ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
@@ -2421,7 +2421,7 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt._BYTEARRAYWRAPPER),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, valPrefix, onResult ->
                                 target.appendLine("$indention $outputName = query.getDictionary().createValue(${suffixNames(inputNames[0],EVariablePlaceholderExt.ByteArrayWrapper)})")
-                                onResult(indention + "    ", ETripleComponentTypeExt._DICTIONARYID)
+                                onResult("$indention    ", ETripleComponentTypeExt._DICTIONARYID)
                             },
                         ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),

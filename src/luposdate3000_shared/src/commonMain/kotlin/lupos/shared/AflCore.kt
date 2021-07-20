@@ -23,7 +23,7 @@ import kotlin.math.min
 import kotlin.math.pow
 
 public class AflCore(@JvmField internal val testname: String, @JvmField internal val maxlen_multiplicator: Double, @JvmField internal val executeTest: (() -> Int, () -> Int, () -> Unit) -> Unit) {
-    private class MyRandom(@JvmField internal var seed: Long) {
+    private class MyRandom(@JvmField var seed: Long) {
         val bits = 32
         fun nextInt(): Int {
             seed = (seed * 0x5DEECE66DL + 0xBL) and ((1L shl 48) - 1)
@@ -72,7 +72,7 @@ public class AflCore(@JvmField internal val testname: String, @JvmField internal
                 if (tmp < 0) {
                     tmp = -tmp
                 }
-                var testCase = "test_${testname}_${tmp.toString(16).padStart(8, '0')}.data"
+                val testCase = "test_${testname}_${tmp.toString(16).padStart(8, '0')}.data"
                 try {
                     dataoff = 0
                     executeTest({ data[dataoff++] }, { cnt - dataoff }, { dataoff = 0 })

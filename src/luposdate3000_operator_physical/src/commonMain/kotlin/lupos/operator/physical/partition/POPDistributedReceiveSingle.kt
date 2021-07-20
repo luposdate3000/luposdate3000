@@ -62,7 +62,7 @@ public class POPDistributedReceiveSingle public constructor(
         }
     }
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:64"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:64"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -74,13 +74,11 @@ public class POPDistributedReceiveSingle public constructor(
     }
 
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        var res = toXMLElementHelper2(partial, true)
-        return res
+        return toXMLElementHelper2(partial, true)
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        var res = toXMLElementHelper2(partial, false)
-        return res
+        return toXMLElementHelper2(partial, false)
     }
 
     private fun theKeyToString(key: Map<String, Int>): String {
@@ -97,7 +95,7 @@ public class POPDistributedReceiveSingle public constructor(
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        var theKey = mutableMapOf<String, Int>(partitionVariable to 0)
+        val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
             res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
@@ -137,7 +135,7 @@ public class POPDistributedReceiveSingle public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        var mapping = IntArray(variables.size)
+        val mapping = IntArray(variables.size)
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)

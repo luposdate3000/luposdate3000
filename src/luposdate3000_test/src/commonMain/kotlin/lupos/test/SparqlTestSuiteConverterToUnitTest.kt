@@ -53,7 +53,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         File(outputFolderSrcJvm).mkdirs()
         File(outputFolderTestJvm).mkdirs()
         File(outputFolderTestResourcesJvm).mkdirs()
-        File(outputFolderRoot + "/module_config").withOutputStream { out ->
+        File("$outputFolderRoot/module_config").withOutputStream { out ->
             out.println("disableJS=true")
             if (withCodeGen) {
                 out.println("codegenKAPT=true")
@@ -99,7 +99,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         if (inputFile != null) {
             lastFile = inputFile
         }
-        var outputFile = resultDataFileName
+        val outputFile = resultDataFileName
         var mode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
         if (outputFile == null) {
             mode = BinaryTestCaseOutputModeExt.MODIFY_RESULT
@@ -107,8 +107,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
 
         val inputGraphs = mutableMapOf<String, Pair<String, String>>() // filename -> graphname, filetype
         if (inputFile != null) {
-            inputGraphs["$testCaseName.input"] = Pair(TripleStoreManager.DEFAULT_GRAPH_NAME, inputFile!!.substring(inputFile.lastIndexOf(".")))
-            File(outputFolderTestResourcesJvm + "/$testCaseName.input").withOutputStream { out ->
+            inputGraphs["$testCaseName.input"] = Pair(TripleStoreManager.DEFAULT_GRAPH_NAME, inputFile.substring(inputFile.lastIndexOf(".")))
+            File("$outputFolderTestResourcesJvm/$testCaseName.input").withOutputStream { out ->
                 File(inputFile).forEachLine {
                     out.println(it)
                 }
@@ -119,7 +119,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             val file = g["filename"]!!
             val outfile = "$testCaseName.input" + inputGraphs.size
             inputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
-            File(outputFolderTestResourcesJvm + "/$outfile").withOutputStream { out ->
+            File("$outputFolderTestResourcesJvm/$outfile").withOutputStream { out ->
                 File(file).forEachLine {
                     out.println(it)
                 }
@@ -131,7 +131,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             val file = g["filename"]!!
             val outfile = "$testCaseName.output" + outputGraphs.size
             outputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
-            File(outputFolderTestResourcesJvm + "/$outfile").withOutputStream { out ->
+            File("$outputFolderTestResourcesJvm/$outfile").withOutputStream { out ->
                 File(file).forEachLine {
                     out.println(it)
                 }
@@ -139,7 +139,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         }
         var targetType = "NONE"
         if (outputFile != null) {
-            File(outputFolderTestResourcesJvm + "/$testCaseName.output").withOutputStream { out ->
+            File("$outputFolderTestResourcesJvm/$testCaseName.output").withOutputStream { out ->
                 File(outputFile).forEachLine {
                     out.println(it)
                 }
@@ -147,19 +147,19 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             targetType = outputFile.substring(outputFile.lastIndexOf("."))
         }
         counter++
-        allTests.add("$testCaseName")
-        var queryResultIsOrdered = false
-        var ignored = ignoreList.contains(testCaseName)
+        allTests.add(testCaseName)
+        val queryResultIsOrdered = false
+        val ignored = ignoreList.contains(testCaseName)
         for (useCodeGen in setOf(false, withCodeGen)) {
             var filenamePart = ""
             if (useCodeGen) {
                 filenamePart = "_CodeGen"
             }
             val filenameLocal: String
-            if (useCodeGen) {
-                filenameLocal = "$outputFolderSrcJvm/$testCaseName$filenamePart.kt"
+            filenameLocal = if (useCodeGen) {
+                "$outputFolderSrcJvm/$testCaseName$filenamePart.kt"
             } else {
-                filenameLocal = "$outputFolderTestJvm/$testCaseName$filenamePart.kt"
+                "$outputFolderTestJvm/$testCaseName$filenamePart.kt"
             }
             File(filenameLocal).withOutputStream { out ->
                 val distributedTest = StringBuilder()
@@ -202,14 +202,14 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     myExpectedData(counter, data, type)
                     myCompareData(counter)
                     val q: String
-                    if (query == null) {
+                    q = if (query == null) {
                         if (isDefaultGraph) {
-                            q = "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
+                            "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
                         } else {
-                            q = "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
+                            "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
                         }
                     } else {
-                        q = query
+                        query
                     }
                     appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
                 }
@@ -265,7 +265,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 } else {
                     out.println("public class $testCaseName {")
                 }
-                if (inputGraphs.size> 0) {
+                if (inputGraphs.isNotEmpty()) {
                     out.println("    internal val inputData = arrayOf(")
                     for ((k, v) in inputGraphs) {
                         out.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
@@ -283,7 +283,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     }
                     out.println("    )")
                 }
-                if (outputGraphs.size> 0) {
+                if (outputGraphs.isNotEmpty()) {
                     out.println("    internal val outputData = arrayOf(")
                     for ((k, v) in outputGraphs) {
                         out.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
@@ -338,7 +338,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i])
                 }
                 val counter = localCounter++
-                val evaluateIt = outputGraphs.size> 0 || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
+                val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
                 if (evaluateIt || expectedResult) {
                     if (useCodeGen) {
                         out.println("            val operator$counter = query_evaluate(instance)")
@@ -379,7 +379,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                 out.println("    }")
                 val str = distributedTest.toString()
-                if (!useCodeGen && str.length> 0) {
+                if (!useCodeGen && str.isNotEmpty()) {
                     if (ignored || !withSimulator) {
                         val reason = ignoreList[testCaseName]
                         if (reason != null) {

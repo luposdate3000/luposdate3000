@@ -38,11 +38,10 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPB
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: DictionaryValueType
+            val res: DictionaryValueType
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
-            when (tmp_1) {
+            when (DictionaryHelper.byteArrayToType(tmp_0)) {
                 ETripleComponentTypeExt.BLANK_NODE -> {
                     val tmp_3: DictionaryValueType = DictionaryHelper.byteArrayToBnode_I(tmp_0)
                     val tmp_4: DictionaryValueType = query.getDictionary().createNewBNode("BLANK_NODE_$tmp_3")

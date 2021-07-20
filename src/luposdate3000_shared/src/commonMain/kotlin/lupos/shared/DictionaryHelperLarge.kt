@@ -196,13 +196,13 @@ public object DictionaryHelperLarge {
                     0 -> {
                     }
                     1 -> {
-                        componentMilliseconds = componentMilliseconds + digitsAfterDot * 100
+                        componentMilliseconds += digitsAfterDot * 100
                     }
                     2 -> {
-                        componentMilliseconds = componentMilliseconds + digitsAfterDot * 10
+                        componentMilliseconds += digitsAfterDot * 10
                     }
                     3 -> {
-                        componentMilliseconds = componentMilliseconds + digitsAfterDot
+                        componentMilliseconds += digitsAfterDot
                     }
                     else -> {
                         shortEncoding = false
@@ -370,8 +370,8 @@ public object DictionaryHelperLarge {
                 while (tmp.endsWith('0')) {
                     tmp = tmp.substring(0, tmp.length - 1)
                 }
-                if (tmp.length > 0) {
-                    secondsString += "." + tmp
+                if (tmp.isNotEmpty()) {
+                    secondsString += ".$tmp"
                 }
             }
             return if (timezoneHours == -99 && timezoneMinutes == -99) {
@@ -380,10 +380,10 @@ public object DictionaryHelperLarge {
                 "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}Z"
             } else {
                 var timezoneHoursLocal = timezoneHours.toString()
-                if (timezoneHoursLocal[0] == '-' || timezoneHoursLocal[0] == '+') {
-                    timezoneHoursLocal = "" + timezoneHoursLocal[0] + timezoneHoursLocal.substring(1).padStart(2, '0')
+                timezoneHoursLocal = if (timezoneHoursLocal[0] == '-' || timezoneHoursLocal[0] == '+') {
+                    "" + timezoneHoursLocal[0] + timezoneHoursLocal.substring(1).padStart(2, '0')
                 } else {
-                    timezoneHoursLocal = "+" + timezoneHoursLocal.padStart(2, '0')
+                    "+" + timezoneHoursLocal.padStart(2, '0')
                 }
                 "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}$timezoneHoursLocal:${timezoneMinutes.toString().padStart(2, '0')}"
             }

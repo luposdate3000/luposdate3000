@@ -39,8 +39,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         output.writeInt(3)
         output.writeDictionaryValueType(value)
         output.flush()
-        val res = input.readDictionaryValueType()
-        return res
+        return input.readDictionaryValueType()
     }
 
     override fun createNewBNode(): DictionaryValueType {
@@ -57,7 +56,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         if (instance.useDictionaryInlineEncoding) {
-            var res = DictionaryInlineValues.getValueByContent(buffer)
+            val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res
             }
@@ -88,7 +87,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         if (instance.useDictionaryInlineEncoding) {
-            var res = DictionaryInlineValues.getValueByContent(buffer)
+            val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res
             }

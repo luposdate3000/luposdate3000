@@ -18,78 +18,10 @@ package lupos.optimizer.ast
 
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.generated.AOPAddition
-import lupos.operator.arithmetik.generated.AOPAnd
-import lupos.operator.arithmetik.generated.AOPBuildInCallABS
-import lupos.operator.arithmetik.generated.AOPBuildInCallBNODE1
-import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
-import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
-import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
-import lupos.operator.arithmetik.generated.AOPBuildInCallCONTAINS
-import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
-import lupos.operator.arithmetik.generated.AOPBuildInCallDAY
-import lupos.operator.arithmetik.generated.AOPBuildInCallFLOOR
-import lupos.operator.arithmetik.generated.AOPBuildInCallHOURS
-import lupos.operator.arithmetik.generated.AOPBuildInCallIRI
-import lupos.operator.arithmetik.generated.AOPBuildInCallIsIri
-import lupos.operator.arithmetik.generated.AOPBuildInCallIsLITERAL
-import lupos.operator.arithmetik.generated.AOPBuildInCallIsNUMERIC
-import lupos.operator.arithmetik.generated.AOPBuildInCallLANG
-import lupos.operator.arithmetik.generated.AOPBuildInCallLANGMATCHES
-import lupos.operator.arithmetik.generated.AOPBuildInCallLCASE
-import lupos.operator.arithmetik.generated.AOPBuildInCallMD5
-import lupos.operator.arithmetik.generated.AOPBuildInCallMINUTES
-import lupos.operator.arithmetik.generated.AOPBuildInCallMONTH
-import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
-import lupos.operator.arithmetik.generated.AOPBuildInCallSECONDS
-import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
-import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTR
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTRAFTER
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTRBEFORE
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTRDT
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTRENDS
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLANG
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLEN
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTRSTARTS
-import lupos.operator.arithmetik.generated.AOPBuildInCallTIMEZONE
-import lupos.operator.arithmetik.generated.AOPBuildInCallTZ
-import lupos.operator.arithmetik.generated.AOPBuildInCallUCASE
-import lupos.operator.arithmetik.generated.AOPBuildInCallURI
-import lupos.operator.arithmetik.generated.AOPBuildInCallYEAR
-import lupos.operator.arithmetik.generated.AOPDivision
-import lupos.operator.arithmetik.generated.AOPFunctionCallDouble
-import lupos.operator.arithmetik.generated.AOPFunctionCallFloat
-import lupos.operator.arithmetik.generated.AOPFunctionCallString
-import lupos.operator.arithmetik.generated.AOPMultiplication
-import lupos.operator.arithmetik.generated.AOPNot
-import lupos.operator.arithmetik.generated.AOPOr
-import lupos.operator.arithmetik.generated.AOPSubtraction
-import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
-import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
-import lupos.operator.arithmetik.multiinput.AOPEQ
-import lupos.operator.arithmetik.multiinput.AOPGEQ
-import lupos.operator.arithmetik.multiinput.AOPGT
-import lupos.operator.arithmetik.multiinput.AOPIn
-import lupos.operator.arithmetik.multiinput.AOPLEQ
-import lupos.operator.arithmetik.multiinput.AOPLT
-import lupos.operator.arithmetik.multiinput.AOPNEQ
-import lupos.operator.arithmetik.multiinput.AOPNotIn
-import lupos.operator.arithmetik.multiinput.AOPSet
-import lupos.operator.arithmetik.noinput.AOPBuildInCallBNODE0
-import lupos.operator.arithmetik.noinput.AOPBuildInCallSTRUUID
-import lupos.operator.arithmetik.noinput.AOPBuildInCallUUID
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.arithmetik.noinput.AOPValue
-import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.arithmetik.singleinput.AOPAggregationAVG
-import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
-import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
-import lupos.operator.arithmetik.singleinput.AOPAggregationMIN
-import lupos.operator.arithmetik.singleinput.AOPAggregationSAMPLE
-import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
-import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
-import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
+import lupos.operator.arithmetik.generated.*
+import lupos.operator.arithmetik.multiinput.*
+import lupos.operator.arithmetik.noinput.*
+import lupos.operator.arithmetik.singleinput.*
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -103,129 +35,11 @@ import lupos.operator.logical.noinput.LOPGraphOperation
 import lupos.operator.logical.noinput.LOPModifyData
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
-import lupos.operator.logical.singleinput.LOPBind
-import lupos.operator.logical.singleinput.LOPFilter
-import lupos.operator.logical.singleinput.LOPGroup
-import lupos.operator.logical.singleinput.LOPMakeBooleanResult
-import lupos.operator.logical.singleinput.LOPModify
-import lupos.operator.logical.singleinput.LOPOptional
-import lupos.operator.logical.singleinput.LOPProjection
-import lupos.operator.logical.singleinput.LOPServiceIRI
-import lupos.operator.logical.singleinput.LOPServiceVAR
-import lupos.operator.logical.singleinput.LOPSort
-import lupos.operator.logical.singleinput.LOPSubGroup
-import lupos.operator.logical.singleinput.modifiers.LOPDistinct
-import lupos.operator.logical.singleinput.modifiers.LOPLimit
-import lupos.operator.logical.singleinput.modifiers.LOPOffset
-import lupos.operator.logical.singleinput.modifiers.LOPPrefix
-import lupos.operator.logical.singleinput.modifiers.LOPReduced
+import lupos.operator.logical.singleinput.*
+import lupos.operator.logical.singleinput.modifiers.*
 import lupos.operator.physical.noinput.POPValues2
-import lupos.parser.rdf.IRI
-import lupos.parser.sparql1_1.ASTAdd
-import lupos.parser.sparql1_1.ASTAddition
-import lupos.parser.sparql1_1.ASTAggregation
-import lupos.parser.sparql1_1.ASTAllGraphRef
-import lupos.parser.sparql1_1.ASTAnd
-import lupos.parser.sparql1_1.ASTAs
-import lupos.parser.sparql1_1.ASTAskQuery
-import lupos.parser.sparql1_1.ASTBase
-import lupos.parser.sparql1_1.ASTBlankNode
-import lupos.parser.sparql1_1.ASTBooleanLiteral
-import lupos.parser.sparql1_1.ASTBuiltInCall
-import lupos.parser.sparql1_1.ASTClear
-import lupos.parser.sparql1_1.ASTConstructQuery
-import lupos.parser.sparql1_1.ASTCopy
-import lupos.parser.sparql1_1.ASTCreate
-import lupos.parser.sparql1_1.ASTDatasetClause
-import lupos.parser.sparql1_1.ASTDecimal
-import lupos.parser.sparql1_1.ASTDefaultGraph
-import lupos.parser.sparql1_1.ASTDefaultGraphRef
-import lupos.parser.sparql1_1.ASTDeleteData
-import lupos.parser.sparql1_1.ASTDeleteWhere
-import lupos.parser.sparql1_1.ASTDescribeQuery
-import lupos.parser.sparql1_1.ASTDivision
-import lupos.parser.sparql1_1.ASTDouble
-import lupos.parser.sparql1_1.ASTDrop
-import lupos.parser.sparql1_1.ASTEQ
-import lupos.parser.sparql1_1.ASTFilter
-import lupos.parser.sparql1_1.ASTFunctionCall
-import lupos.parser.sparql1_1.ASTGEQ
-import lupos.parser.sparql1_1.ASTGT
-import lupos.parser.sparql1_1.ASTGrapOperation
-import lupos.parser.sparql1_1.ASTGraph
-import lupos.parser.sparql1_1.ASTGraphRef
-import lupos.parser.sparql1_1.ASTGroup
-import lupos.parser.sparql1_1.ASTGroupConcat
-import lupos.parser.sparql1_1.ASTIn
-import lupos.parser.sparql1_1.ASTInsertData
-import lupos.parser.sparql1_1.ASTInteger
-import lupos.parser.sparql1_1.ASTIri
-import lupos.parser.sparql1_1.ASTIriGraphRef
-import lupos.parser.sparql1_1.ASTLEQ
-import lupos.parser.sparql1_1.ASTLT
-import lupos.parser.sparql1_1.ASTLanguageTaggedLiteral
-import lupos.parser.sparql1_1.ASTLiteral
-import lupos.parser.sparql1_1.ASTLoad
-import lupos.parser.sparql1_1.ASTMinus
-import lupos.parser.sparql1_1.ASTMinusGroup
-import lupos.parser.sparql1_1.ASTModify
-import lupos.parser.sparql1_1.ASTModifyWithWhere
-import lupos.parser.sparql1_1.ASTMove
-import lupos.parser.sparql1_1.ASTMultiplication
-import lupos.parser.sparql1_1.ASTNEQ
-import lupos.parser.sparql1_1.ASTNamedGraph
-import lupos.parser.sparql1_1.ASTNamedGraphRef
-import lupos.parser.sparql1_1.ASTNamedIriGraphRef
-import lupos.parser.sparql1_1.ASTNode
-import lupos.parser.sparql1_1.ASTNot
-import lupos.parser.sparql1_1.ASTNotIn
-import lupos.parser.sparql1_1.ASTNumericLiteral
-import lupos.parser.sparql1_1.ASTOptional
-import lupos.parser.sparql1_1.ASTOr
-import lupos.parser.sparql1_1.ASTOrderCondition
-import lupos.parser.sparql1_1.ASTPathAlternatives
-import lupos.parser.sparql1_1.ASTPathArbitraryOccurrences
-import lupos.parser.sparql1_1.ASTPathArbitraryOccurrencesNotZero
-import lupos.parser.sparql1_1.ASTPathInverse
-import lupos.parser.sparql1_1.ASTPathNegatedPropertySet
-import lupos.parser.sparql1_1.ASTPathOptionalOccurrence
-import lupos.parser.sparql1_1.ASTPathSequence
-import lupos.parser.sparql1_1.ASTPlus
-import lupos.parser.sparql1_1.ASTPrefix
-import lupos.parser.sparql1_1.ASTQuery
-import lupos.parser.sparql1_1.ASTQueryBaseClass
-import lupos.parser.sparql1_1.ASTRDFTerm
-import lupos.parser.sparql1_1.ASTSelectQuery
-import lupos.parser.sparql1_1.ASTService
-import lupos.parser.sparql1_1.ASTSet
-import lupos.parser.sparql1_1.ASTSimpleLiteral
-import lupos.parser.sparql1_1.ASTSubSelectQuery
-import lupos.parser.sparql1_1.ASTSubtraction
-import lupos.parser.sparql1_1.ASTTriple
-import lupos.parser.sparql1_1.ASTTypedLiteral
-import lupos.parser.sparql1_1.ASTUndef
-import lupos.parser.sparql1_1.ASTUnion
-import lupos.parser.sparql1_1.ASTUpdateGrapOperation
-import lupos.parser.sparql1_1.ASTValue
-import lupos.parser.sparql1_1.ASTValues
-import lupos.parser.sparql1_1.ASTVar
-import lupos.parser.sparql1_1.Visitor
-import lupos.shared.AggregateNotAllowedSyntaxException
-import lupos.shared.AggregationExt
-import lupos.shared.BuiltInFunctionsExt
-import lupos.shared.DatasetImportFailedException
-import lupos.shared.EGraphOperationTypeExt
-import lupos.shared.EGraphRefType
-import lupos.shared.EGraphRefTypeExt
-import lupos.shared.EModifyTypeExt
-import lupos.shared.GroupByClauseNotUsedException
-import lupos.shared.MemoryTable
-import lupos.shared.ProjectionDoubleDefinitionOfVariableSyntaxException
-import lupos.shared.RecoursiveVariableDefinitionSyntaxException
-import lupos.shared.SanityCheck
-import lupos.shared.SparqlFeatureNotImplementedException
-import lupos.shared.TripleStoreManager
-import lupos.shared.UnreachableException
+import lupos.parser.sparql1_1.*
+import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
@@ -1329,22 +1143,22 @@ return tmp
     override fun visit(node: ASTAggregation, childrenValues: List<IOPBase>): IOPBase {
         when (node.type) {
             AggregationExt.COUNT -> {
-                return AOPAggregationCOUNT(query, node.distinct, Array<AOPBase>(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationCOUNT(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.MIN -> {
-                return AOPAggregationMIN(query, node.distinct, Array<AOPBase>(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationMIN(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.MAX -> {
-                return AOPAggregationMAX(query, node.distinct, Array<AOPBase>(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationMAX(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.SAMPLE -> {
-                return AOPAggregationSAMPLE(query, node.distinct, Array<AOPBase>(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationSAMPLE(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.AVG -> {
-                return AOPAggregationAVG(query, node.distinct, Array<AOPBase>(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationAVG(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.SUM -> {
-                return AOPAggregationSUM(query, node.distinct, Array<AOPBase>(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.GROUP_CONCAT -> {
                 throw SparqlFeatureNotImplementedException("AggregationExt.GROUP_CONCAT")

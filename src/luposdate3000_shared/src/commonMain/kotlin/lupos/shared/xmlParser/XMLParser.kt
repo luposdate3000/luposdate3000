@@ -37,11 +37,11 @@ public object XMLParser {
                             }
                         )
                         stack.removeAt(stack.size - 1)
-                        parse_ws(context, {})
-                        parse_element_close(context, {})
-                        parse_ws(context, {})
+                        parse_ws(context) {}
+                        parse_element_close(context) {}
+                        parse_ws(context) {}
                         if (context.c != ParserContext.EOF) {
-                            parse_element_start(context, {})
+                            parse_element_start(context) {}
                             res = true
                         }
                     }
@@ -51,12 +51,12 @@ public object XMLParser {
                 val element = XMLElement(context.getValue())
                 var loop = true
                 while (loop) {
-                    parse_ws(context, {})
+                    parse_ws(context) {}
                     parse_attribute_or_close_tag(
                         context,
                         onATTRIBUTE_NAME = {
-                            var attributeName = context.getValue()
-                            parse_attribute_assinment(context, {})
+                            val attributeName = context.getValue()
+                            parse_attribute_assinment(context) {}
                             parse_attribute_value(
                                 context,
                                 onATTRIBUTE_VALUE = {
@@ -68,9 +68,9 @@ public object XMLParser {
                         onELEMENT_CLOSE_IMMEDIATELY = {
                             loop = false
                             stack[stack.size - 1].addContent(element)
-                            parse_ws(context, {})
+                            parse_ws(context) {}
                             if (context.c != ParserContext.EOF) {
-                                parse_element_start(context, {})
+                                parse_element_start(context) {}
                                 res = true
                             }
                         },
@@ -79,13 +79,13 @@ public object XMLParser {
                             stack[stack.size - 1].addContent(element)
                             stack.add(element)
                             var content = ""
-                            parse_ws(context, { content = context.getValue() })
+                            parse_ws(context) { content = context.getValue() }
                             parse_content_or_child(
                                 context,
                                 onELEMENT_CONTENT = {
                                     content += context.getValue()
                                     element.addContent(content)
-                                    parse_element_start(context, {})
+                                    parse_element_start(context) {}
                                     res = true
                                 },
                                 onELEMENT_START = {
@@ -102,9 +102,9 @@ public object XMLParser {
 
     public operator fun invoke(input: IMyInputStream): XMLElement {
         val context = ParserContext(input)
-        var stack = mutableListOf(XMLElement("root"))
-        parse_ws(context, {})
-        parse_element_start(context, {})
+        val stack = mutableListOf(XMLElement("root"))
+        parse_ws(context) {}
+        parse_element_start(context) {}
         var loop = true
         while (loop) {
             loop = parse(context, stack)

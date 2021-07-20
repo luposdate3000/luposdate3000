@@ -40,11 +40,10 @@ public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBa
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: DictionaryValueType
+            val res: DictionaryValueType
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
-            when (tmp_1) {
+            when (DictionaryHelper.byteArrayToType(tmp_0)) {
                 ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)

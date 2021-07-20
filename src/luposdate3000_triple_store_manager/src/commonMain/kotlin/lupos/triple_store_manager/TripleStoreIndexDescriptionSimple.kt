@@ -46,8 +46,8 @@ public class TripleStoreIndexDescriptionSimple(
         if (byteArray != null) {
             return byteArray!!
         }
-        var buf1 = hostname.encodeToByteArray()
-        var buf2 = key.encodeToByteArray()
+        val buf1 = hostname.encodeToByteArray()
+        val buf2 = key.encodeToByteArray()
         val size = 16 + buf1.size + buf2.size
         val byteArray2 = ByteArray(size)
         byteArray = byteArray2
@@ -67,13 +67,13 @@ public class TripleStoreIndexDescriptionSimple(
         return byteArray2
     }
 
-    internal override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
+    override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
         return 0
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:74"/*SOURCE_FILE_END*/ }, { partition.limit.size == 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:75"/*SOURCE_FILE_END*/ }, { partition.data.size == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:74"/*SOURCE_FILE_END*/ }, { partition.limit.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:75"/*SOURCE_FILE_END*/ }, { partition.data.isEmpty() })
         return Pair(hostname, key)
     }
 
@@ -89,7 +89,7 @@ public class TripleStoreIndexDescriptionSimple(
         }
     }
 
-    internal override fun assignHosts() {
+    override fun assignHosts() {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:92"/*SOURCE_FILE_END*/ }, { hostname == "" })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:93"/*SOURCE_FILE_END*/ }, { key == "" })
         val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
@@ -105,7 +105,7 @@ public class TripleStoreIndexDescriptionSimple(
         return 1
     }
 
-    internal override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
+    override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
         return listOf(Pair(hostname, key))
     }
 

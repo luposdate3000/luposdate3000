@@ -5,7 +5,8 @@ import lupos.simulator_iot.measure.MeasurementPrinter
 import lupos.simulator_iot.utils.FilePaths
 
 public class Evaluation {
-    public constructor() {}
+    public constructor()
+
     public fun simulate(configFileName: String) {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile(configFileName)
@@ -14,7 +15,7 @@ public class Evaluation {
     }
 
     public fun measureStarPerformance(withDummyDatabase: Boolean) {
-        var arr: IntArray = if (!withDummyDatabase) {
+        val arr: IntArray = if (!withDummyDatabase) {
             buildNodeSizesArray(130, 10) // OutOfMemoryError >1330 DBs with 2048 heap space
         } else {
             buildNodeSizesArray(100, 1000)

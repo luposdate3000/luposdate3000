@@ -55,7 +55,7 @@ class SimulationTest {
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
-        assertEquals(delay.toLong(), sim.clock)
+        assertEquals(delay, sim.clock)
         assertEquals(data, actualData)
         assertEquals(sendingEntity, actualSrcEntity)
     }
@@ -105,9 +105,9 @@ class SimulationTest {
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
-        assertEquals(firstDelay.toLong(), actualFirstClock)
-        assertEquals(secondDelay.toLong(), actualSecondClock)
-        assertEquals(thirdDelay.toLong(), actualThirdClock)
+        assertEquals(firstDelay, actualFirstClock)
+        assertEquals(secondDelay, actualSecondClock)
+        assertEquals(thirdDelay, actualThirdClock)
     }
 
     @Test
@@ -243,7 +243,7 @@ class SimulationTest {
         sim.startSimulation()
 
         val expected: Long = firstDelay + responseDelay
-        assertEquals(expected.toLong(), sim.clock)
+        assertEquals(expected, sim.clock)
         assertTrue(isResponseReceived)
     }
 
@@ -283,7 +283,7 @@ class SimulationTest {
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
-        assertEquals((delay * 3).toLong(), sim.clock)
+        assertEquals((delay * 3), sim.clock)
         assertEquals(expectedProcessCounter, processCounter)
     }
 
@@ -314,7 +314,7 @@ class SimulationTest {
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
-        assertEquals(delay.toLong(), eventProcessedAt)
+        assertEquals(delay, eventProcessedAt)
     }
 
     @Test

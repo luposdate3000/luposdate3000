@@ -70,7 +70,7 @@ public class BNODE(@JvmField public val name: String, index: Int) : Token("_:$na
 public class ANON_BNODE(index: Int) : Token("[]", index)
 public class PNAME_NS(@JvmField public val beforeColon: String, index: Int) : Token("$beforeColon:", index)
 public class PNAME_LN(@JvmField public val beforeColon: String, @JvmField public val afterColon: String, index: Int) : Token("$beforeColon:$afterColon", index)
-public class POSSIBLE_KEYWORD(@JvmField public val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
+public class POSSIBLE_KEYWORD(@JvmField public val original_image: String, index: Int) : Token(original_image.uppercase(), index)
 public class VAR(prefix: Char, @JvmField public val identifier: String, index: Int) : Token(prefix + identifier, index)
 public class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber)
 public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharIterator) : TokenIterator {

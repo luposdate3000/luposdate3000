@@ -28,7 +28,7 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
     }
     val verbose = false
     allowInitFromDisk(false)
-    var instance = Luposdate3000Instance()
+    val instance = Luposdate3000Instance()
     if (isUnitTest) {
         instance.BUFFER_HOME = "build/tmp/executeBufferManagerTest"
     }
@@ -178,7 +178,7 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
     }
 
     fun getPageID_NotExisting(rng: Int, action: (Int) -> Unit) {
-        val ids = MutableList<Int>(1000) { it }
+        val ids = MutableList(1000) { it }
         ids.removeAll(pageIds)
         if (ids.size > 0) {
             val pageid = ids[abs(rng % ids.size)]
@@ -247,7 +247,7 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
             }
         }
     }
-    var ids = mutableMapOf<Int, Int>()
+    val ids = mutableMapOf<Int, Int>()
     ids.putAll(mappedPagesCtr)
     for ((k, v) in ids) {
         for (i in 0 until v) {
@@ -293,10 +293,10 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
     if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }
-    if (mappedPages.size != 0) {
+    if (mappedPages.isNotEmpty()) {
         throw Exception("")
     }
-    if (mappedPagesCtr.size != 0) {
+    if (mappedPagesCtr.isNotEmpty()) {
         throw Exception("")
     }
     instance.bufferManager!!.close()

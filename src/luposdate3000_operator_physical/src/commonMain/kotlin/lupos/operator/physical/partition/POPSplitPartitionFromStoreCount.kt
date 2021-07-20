@@ -40,13 +40,11 @@ public class POPSplitPartitionFromStoreCount public constructor(query: IQuery, p
     }
 
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        var res = toXMLElementHelper2(partial, true)
-        return res
+        return toXMLElementHelper2(partial, true)
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        var res = toXMLElementHelper2(partial, false)
-        return res
+        return toXMLElementHelper2(partial, false)
     }
 
     private fun theKeyToString(key: Map<String, Int>): String {
@@ -67,7 +65,7 @@ public class POPSplitPartitionFromStoreCount public constructor(query: IQuery, p
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        var theKey = mutableMapOf<String, Int>(partitionVariable to 0)
+        val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
             res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))

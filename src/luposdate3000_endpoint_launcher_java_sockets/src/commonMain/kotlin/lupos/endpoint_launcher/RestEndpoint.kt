@@ -68,7 +68,7 @@ public object RestEndpoint {
         instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
     }
 
-    public fun distributed_graph_modify(params: Map<String, String>, instance: Luposdate3000Instance, connectionInMy: IMyInputStream) {
+    private fun distributed_graph_modify(params: Map<String, String>, instance: Luposdate3000Instance, connectionInMy: IMyInputStream) {
         val query = Query(instance)
         val key = params["key"]!!
         val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
@@ -138,7 +138,7 @@ public object RestEndpoint {
                     connectionOutMy.print(step.toJson())
                     connectionOutMy.print(",")
                 }
-                if (steps.size > 0) {
+                if (steps.isNotEmpty()) {
                     connectionOutMy.print(steps[steps.size - 1].toJson())
                 }
                 connectionOutMy.print("]")
@@ -158,7 +158,7 @@ public object RestEndpoint {
                     connectionOutMy.print(step.toJson())
                     connectionOutMy.print(",")
                 }
-                if (steps.size > 0) {
+                if (steps.isNotEmpty()) {
                     connectionOutMy.print(steps[steps.size - 1].toJson())
                 }
                 connectionOutMy.print("]")
@@ -188,7 +188,7 @@ public object RestEndpoint {
                     connectionOutMy.print(j)
                     connectionOutMy.print(",")
                 }
-                if (tmp.size > 0) {
+                if (tmp.isNotEmpty()) {
                     connectionOutMy.print(tmp[tmp.size - 1])
                 }
                 connectionOutMy.print("]")
@@ -233,7 +233,7 @@ public object RestEndpoint {
                 }
             }
             val e3 = params["minimumTime"]
-            var minimumTime = try {
+            val minimumTime = try {
                 e3!!.toDouble()
             } catch (e: Throwable) {
                 10.0
@@ -356,7 +356,7 @@ public object RestEndpoint {
             true
         }
         paths["/distributed/query/histogram"] = PathMappingHelper(false, mapOf(Pair("tag", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
-            var cnt = connectionInMy.readInt()
+            val cnt = connectionInMy.readInt()
             val filter = DictionaryValueTypeArray(cnt)
             for (i in 0 until cnt) {
                 filter[i] = connectionInMy.readDictionaryValueType()

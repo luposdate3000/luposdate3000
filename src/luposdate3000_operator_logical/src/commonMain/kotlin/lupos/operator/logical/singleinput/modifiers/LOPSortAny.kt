@@ -36,7 +36,7 @@ public class LOPSortAny public constructor(query: IQuery, @JvmField public val p
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         val res = mutableListOf<List<SortHelper>>()
         val requiredVariables = mutableListOf<String>()
-        var sortType = ESortTypeExt.ASC
+        val sortType = ESortTypeExt.ASC
         res.add(this.possibleSortOrder)
         val tmp = mutableListOf<SortHelper>()
         for (v in requiredVariables) {

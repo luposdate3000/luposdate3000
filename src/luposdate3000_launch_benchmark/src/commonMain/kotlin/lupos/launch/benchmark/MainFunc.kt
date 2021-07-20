@@ -36,13 +36,13 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     val queryFiles2 = queryFiles.split(";")
     val minimumTime2 = minimumTime.toDouble()
     val numberOfTriples2 = numberOfTriples.toLong()
-    var optimizerMode2: OptimizerMode
-    if (optimizerMode == "OnlyWith") {
-        optimizerMode2 = OptimizerMode.OnlyWith
+    val optimizerMode2: OptimizerMode
+    optimizerMode2 = if (optimizerMode == "OnlyWith") {
+        OptimizerMode.OnlyWith
     } else if (optimizerMode == "OnlyWithout") {
-        optimizerMode2 = OptimizerMode.OnlyWithout
+        OptimizerMode.OnlyWithout
     } else {
-        optimizerMode2 = OptimizerMode.All
+        OptimizerMode.All
     }
     val timer = DateHelperRelative.markNow()
     LuposdateEndpoint.importTurtleFile(instance, datasourceFiles)

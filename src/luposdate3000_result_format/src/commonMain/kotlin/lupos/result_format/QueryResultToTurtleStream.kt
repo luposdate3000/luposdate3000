@@ -58,7 +58,7 @@ public object QueryResultToTurtleStream {
                 res = "$content^^$type"
             },
             onDecimal = { value ->
-                res = "$value"
+                res = value
             },
             onFloat = { value ->
                 res = "$value"
@@ -67,7 +67,7 @@ public object QueryResultToTurtleStream {
                 res = "$value"
             },
             onInteger = { value ->
-                res = "$value"
+                res = value
             },
             onIri = { value ->
                 res = "<$value>"
@@ -79,7 +79,7 @@ public object QueryResultToTurtleStream {
     }
 
     private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variablesIndices: IntArray, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
-        var line = Array<String>(3) { "" }
+        val line = Array(3) { "" }
         for (i in 0 until 3) {
             val tmp = writeValue(buffer, rowBuf[i], dictionary)
             if (tmp == null) {
@@ -163,13 +163,13 @@ public object QueryResultToTurtleStream {
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
         }
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
-            nodes = Array<IOPBase>(rootNode.children.size) { rootNode.children[it] }
+            nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)
@@ -193,7 +193,7 @@ public object QueryResultToTurtleStream {
             }
         }
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
     }
 }

@@ -54,7 +54,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal var localhost: LuposHostname
 
     @JvmField
-    internal var instance: Luposdate3000Instance
+    internal var instance: Luposdate3000Instance = instance
 
     @JvmField
     internal var bufferManager: IBufferManager
@@ -204,11 +204,10 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, instance: Luposdate3000Instance) : super() {
-        this.instance = instance
         this.bufferManager = instance.bufferManager!!
         this.hostnames = hostnames
         this.localhost = localhost
-        keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
+        keysOnHostname_ = Array(hostnames.size) { mutableSetOf() }
         println("allocation TripleStoreManagerImpl on $localhost")
     }
 
@@ -373,7 +372,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         } else {
             var partitionCount = 4
             while (partitionCount <instance.LUPOS_PROCESS_URLS.size) {
-                partitionCount = partitionCount * 2
+                partitionCount *= 2
             }
             when (0) {
                 0 -> { // use partitions as default
@@ -428,7 +427,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun createGraph(query: IQuery, graphName: LuposGraphName) {
-        createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
+        createGraph(query, graphName) { it.apply(defaultTripleStoreLayout) }
     }
 
     public override fun remoteHistogram(tag: String, filter: DictionaryValueTypeArray): Pair<Int, Int> {
@@ -545,7 +544,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     public override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
         dropGraph(query, graphName)
-        createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
+        createGraph(query, graphName) { it.apply(defaultTripleStoreLayout) }
     }
 
     public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {

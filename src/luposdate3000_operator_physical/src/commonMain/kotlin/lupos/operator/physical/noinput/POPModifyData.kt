@@ -88,7 +88,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = Array<MutableList<DictionaryValueType>>(3) { mutableListOf() }
+                    tmp = Array(3) { mutableListOf() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add(dictionary.valueToGlobal((t.children[i] as AOPConstant).value))

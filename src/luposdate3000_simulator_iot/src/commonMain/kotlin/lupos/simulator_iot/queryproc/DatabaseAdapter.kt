@@ -20,7 +20,7 @@ import lupos.simulator_iot.queryproc.pck.DBSequenceEndPackage
 import lupos.simulator_iot.queryproc.pck.SequencedPackage
 import lupos.simulator_iot.utils.FilePaths
 
-public class DatabaseAdapter(internal val device: Device, private val isDummy: Boolean) : IRouter {
+public class DatabaseAdapter(internal val device: Device, isDummy: Boolean) : IRouter {
 
     private var pathToStateOfThisDevice = "${FilePaths.dbStates}/device${device.address}"
 

@@ -17,6 +17,6 @@
 package lupos.operator.physical.multiinput
 import lupos.shared.DictionaryValueType
 internal class POPJoinHashMap_Row(columns: Int) {
-    val columns = Array<MutableList<DictionaryValueType>>(columns) { mutableListOf<DictionaryValueType>() }
+    val columns = Array<MutableList<DictionaryValueType>>(columns) { mutableListOf() }
     var count = 0
 }

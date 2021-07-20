@@ -38,11 +38,10 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: DictionaryValueType
+            val res: DictionaryValueType
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
-            when (tmp_1) {
+            when (DictionaryHelper.byteArrayToType(tmp_0)) {
                 ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
@@ -53,7 +52,7 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
                 }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp_12: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_13: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                    val tmp_13: String = if (prefix.isNotEmpty() && !prefix.endsWith('/')) {
                         "$prefix/$tmp_12"
                     } else {
                         "$prefix$tmp_12"
@@ -64,17 +63,17 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     val tmp_16_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
                     val tmp_16_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    if (tmp_16_type == "http://www.w3.org/2001/XMLSchema#string") {
-                        val tmp_17: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                    res = if (tmp_16_type == "http://www.w3.org/2001/XMLSchema#string") {
+                        val tmp_17: String = if (prefix.isNotEmpty() && !prefix.endsWith('/')) {
                             "$prefix/$tmp_16_content"
                         } else {
                             "$prefix$tmp_16_content"
                         }
                         DictionaryHelper.iriToByteArray(tmp_2, tmp_17)
-                        res = query.getDictionary().createValue(tmp_2)
+                        query.getDictionary().createValue(tmp_2)
                     } else {
                         DictionaryHelper.errorToByteArray(tmp_2)
-                        res = query.getDictionary().createValue(tmp_2)
+                        query.getDictionary().createValue(tmp_2)
                     }
                 }
                 else -> {

@@ -192,7 +192,7 @@ public class POPGroup : POPBase {
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
         }
-        val keyColumnNames = Array<String>(by.size) { by[it].name }
+        val keyColumnNames = Array(by.size) { by[it].name }
         if (keyColumnNames.size != keyColumnNames.distinct().size) {
             throw GroupByDuplicateColumnException()
         }

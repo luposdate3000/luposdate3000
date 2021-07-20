@@ -39,16 +39,15 @@ public class ValueKeyStore {
     internal val rootPageID: Int
 
     @JvmField
-    internal val bufferManager: IBufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
-    internal var firstInnerID = ValueKeyStore.PAGEID_NULL_PTR
+    internal var firstInnerID = PAGEID_NULL_PTR
 
     @JvmField
-    internal var firstLeafID = ValueKeyStore.PAGEID_NULL_PTR
+    internal var firstLeafID = PAGEID_NULL_PTR
 
     public constructor(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
-        this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:52"/*SOURCE_FILE_END*/, rootPageID)
         if (initFromRootPage) {
@@ -78,18 +77,18 @@ public class ValueKeyStore {
 
     public fun deleteContent(root: Int) {
         var nextStage = root
-        while (nextStage != ValueKeyStore.PAGEID_NULL_PTR) {
+        while (nextStage != PAGEID_NULL_PTR) {
             var node = nextStage
             var first = true
-            while (node != ValueKeyStore.PAGEID_NULL_PTR) {
+            while (node != PAGEID_NULL_PTR) {
                 val page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:84"/*SOURCE_FILE_END*/, node)
                 val nextPageID = BufferManagerPage.readInt4(page, 4)
                 if (first) {
                     first = false
-                    if (BufferManagerPage.readInt4(page, 0) == PAGE_TYPE_INNER) {
-                        nextStage = BufferManagerPage.readInt4(page, 12)
+                    nextStage = if (BufferManagerPage.readInt4(page, 0) == PAGE_TYPE_INNER) {
+                        BufferManagerPage.readInt4(page, 12)
                     } else {
-                        nextStage = ValueKeyStore.PAGEID_NULL_PTR
+                        PAGEID_NULL_PTR
                     }
                 }
                 bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:94"/*SOURCE_FILE_END*/, node)
@@ -109,7 +108,7 @@ public class ValueKeyStore {
 
     public fun hasValue(data: ByteArrayWrapper): Int {
         val buffer = ByteArrayWrapper()
-        var iterator = ValueKeyStoreIteratorSearch()
+        val iterator = ValueKeyStoreIteratorSearch()
         return iterator.search(data, firstLeafID, bufferManager, buffer)
     }
 
@@ -124,11 +123,11 @@ public class ValueKeyStore {
             if (data == buffer) {
                 res = id
                 dataIsInserted = true
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:126"/*SOURCE_FILE_END*/ }, { res != ValueKeyStore.ID_NULL })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:126"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
             } else if (data < buffer) {
                 res = value()
                 dataIsInserted = true
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:130"/*SOURCE_FILE_END*/ }, { res != ValueKeyStore.ID_NULL })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:130"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
                 writer.write(res, data)
             }
             writer.write(id, buffer)
@@ -139,7 +138,7 @@ public class ValueKeyStore {
         }
         if (!dataIsInserted) {
             res = value()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:141"/*SOURCE_FILE_END*/ }, { res != ValueKeyStore.ID_NULL })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:141"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
             writer.write(res, data)
         }
         reader.close()
@@ -191,7 +190,7 @@ public class ValueKeyStore {
                     localNextReader()
                 } else if (data < buffer) {
                     val res = onNotFound(data)
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:193"/*SOURCE_FILE_END*/ }, { res != ValueKeyStore.ID_NULL })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:193"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
                     writer.write(res, data)
                     localNextData()
                 } else {
@@ -205,7 +204,7 @@ public class ValueKeyStore {
             }
             while (!dataIsInserted) {
                 val res = onNotFound(data)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:207"/*SOURCE_FILE_END*/ }, { res != ValueKeyStore.ID_NULL })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:207"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
                 writer.write(res, data)
                 localNextData()
             }
@@ -249,7 +248,7 @@ internal class ValueKeyStoreWriter {
     internal val pageType: Int
 
     @JvmField
-    internal val bufferManager: IBufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField
     internal var parentLayer: ValueKeyStoreWriter? = null
@@ -275,7 +274,6 @@ internal class ValueKeyStoreWriter {
     }
 
     internal constructor(bufferManager: IBufferManager, pageType: Int, childPageID: Int) {
-        this.bufferManager = bufferManager
         this.pageType = pageType
         pageid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:279"/*SOURCE_FILE_END*/)
         page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:280"/*SOURCE_FILE_END*/, pageid)
@@ -303,7 +301,7 @@ internal class ValueKeyStoreWriter {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:302"/*SOURCE_FILE_END*/ }, { offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:303"/*SOURCE_FILE_END*/ }, { id != ValueKeyStore.ID_NULL })
         counter++
-        var common = ByteArrayWrapperExt.commonBytes(buffer, lastBuffer)
+        val common = ByteArrayWrapperExt.commonBytes(buffer, lastBuffer)
         ByteArrayWrapperExt.copyInto(buffer, lastBuffer, false)
         BufferManagerPage.writeInt4(page, offset, id)
         BufferManagerPage.writeInt4(page, offset + 4, ByteArrayWrapperExt.getSize(buffer))
@@ -325,7 +323,7 @@ internal class ValueKeyStoreWriter {
                 offset += l1
             }
             if (offset > BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
-                var nextpageid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:327"/*SOURCE_FILE_END*/)
+                val nextpageid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:327"/*SOURCE_FILE_END*/)
                 BufferManagerPage.writeInt4(page, 4, nextpageid)
                 bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:329"/*SOURCE_FILE_END*/, pageid)
                 pageid = nextpageid
@@ -366,11 +364,11 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
     @JvmField
     internal var offset = BufferManagerPage.readInt4(page, 8)
     public fun hasNext(): Boolean {
-        if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
-            return false
+        return if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
+            false
         } else {
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:371"/*SOURCE_FILE_END*/ }, { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
-            return BufferManagerPage.readInt4(page, offset) != ValueKeyStore.ID_NULL
+            BufferManagerPage.readInt4(page, offset) != ValueKeyStore.ID_NULL
         }
     }
 
@@ -421,7 +419,7 @@ internal class ValueKeyStoreIteratorSearch {
             var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:420"/*SOURCE_FILE_END*/, pageid)
             var nextPageID = BufferManagerPage.readInt4(page, 4)
             var offset = BufferManagerPage.readInt4(page, 8)
-            var pageType = BufferManagerPage.readInt4(page, 0)
+            val pageType = BufferManagerPage.readInt4(page, 0)
             var childPageID = BufferManagerPage.readInt4(page, 12) // only valid if "pageType == ValueKeyStore.PAGE_TYPE_INNER"
             var lastID = ValueKeyStore.ID_NULL
             localloop@ while (pageid != ValueKeyStore.PAGEID_NULL_PTR && BufferManagerPage.readInt4(page, offset) != ValueKeyStore.ID_NULL) {

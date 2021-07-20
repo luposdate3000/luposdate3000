@@ -20,12 +20,11 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
-    @JvmField public var buf_: ByteArray
+    @JvmField public var buf_: ByteArray = buf
 
     @JvmField public var size_: Int = 0
 
     public constructor(buf: ByteArray, size: Int) {
-        this.buf_ = buf
         this.size_ = size
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt:29"/*SOURCE_FILE_END*/ }, { size <= buf.size })
     }

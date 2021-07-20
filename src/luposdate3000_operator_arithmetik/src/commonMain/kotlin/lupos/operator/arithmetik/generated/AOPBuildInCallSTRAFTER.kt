@@ -47,101 +47,101 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
             val tmp_3: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_1)
             when (tmp_2) {
                 ETripleComponentTypeExt.BLANK_NODE -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.BOOLEAN -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.ERROR -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.FLOAT -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.INTEGER -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
                 ETripleComponentTypeExt.IRI -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }
@@ -156,14 +156,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_140: String = DictionaryHelper.byteArrayToString(tmp_0)
                                 val tmp_141: String = DictionaryHelper.byteArrayToString(tmp_1)
                                 val tmp_143_idx: Int = tmp_140.indexOf(tmp_141)
-                                if (tmp_143_idx >= 0) {
+                                res = if (tmp_143_idx >= 0) {
                                     val tmp_142: String = tmp_140.substring(tmp_143_idx + tmp_141.length, tmp_140.length)
                                     DictionaryHelper.stringToByteArray(tmp_4, tmp_142)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_142: String = ""
                                     DictionaryHelper.stringToByteArray(tmp_4, tmp_142)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             ETripleComponentTypeExt.STRING_LANG -> {
@@ -171,14 +171,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_145_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_1)
                                 val tmp_145_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_1)
                                 val tmp_147_idx: Int = tmp_144.indexOf(tmp_145_content)
-                                if (tmp_147_idx >= 0) {
+                                res = if (tmp_147_idx >= 0) {
                                     val tmp_146: String = tmp_144.substring(tmp_147_idx + tmp_145_content.length, tmp_144.length)
                                     DictionaryHelper.stringToByteArray(tmp_4, tmp_146)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_146: String = ""
                                     DictionaryHelper.stringToByteArray(tmp_4, tmp_146)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             ETripleComponentTypeExt.STRING_TYPED -> {
@@ -186,14 +186,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_149_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_1)
                                 val tmp_149_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_1)
                                 val tmp_151_idx: Int = tmp_148.indexOf(tmp_149_content)
-                                if (tmp_151_idx >= 0) {
+                                res = if (tmp_151_idx >= 0) {
                                     val tmp_150: String = tmp_148.substring(tmp_151_idx + tmp_149_content.length, tmp_148.length)
                                     DictionaryHelper.stringToByteArray(tmp_4, tmp_150)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_150: String = ""
                                     DictionaryHelper.stringToByteArray(tmp_4, tmp_150)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             else -> {
@@ -216,14 +216,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_164: String = DictionaryHelper.byteArrayToString(tmp_1)
                                 val tmp_166_idx: Int = tmp_163_content.indexOf(tmp_164)
                                 val tmp_165_lang: String = tmp_163_lang
-                                if (tmp_166_idx >= 0) {
+                                res = if (tmp_166_idx >= 0) {
                                     val tmp_165_content: String = tmp_163_content.substring(tmp_166_idx + tmp_164.length, tmp_163_content.length)
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_165_content, tmp_165_lang)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_165_content: String = ""
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_165_content, tmp_165_lang)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             ETripleComponentTypeExt.STRING_LANG -> {
@@ -233,14 +233,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_168_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_1)
                                 val tmp_170_idx: Int = tmp_167_content.indexOf(tmp_168_content)
                                 val tmp_169_lang: String = tmp_167_lang
-                                if (tmp_170_idx >= 0) {
+                                res = if (tmp_170_idx >= 0) {
                                     val tmp_169_content: String = tmp_167_content.substring(tmp_170_idx + tmp_168_content.length, tmp_167_content.length)
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_169_content, tmp_169_lang)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_169_content: String = ""
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_169_content, tmp_169_lang)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             ETripleComponentTypeExt.STRING_TYPED -> {
@@ -250,14 +250,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_172_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_1)
                                 val tmp_174_idx: Int = tmp_171_content.indexOf(tmp_172_content)
                                 val tmp_173_lang: String = tmp_171_lang
-                                if (tmp_174_idx >= 0) {
+                                res = if (tmp_174_idx >= 0) {
                                     val tmp_173_content: String = tmp_171_content.substring(tmp_174_idx + tmp_172_content.length, tmp_171_content.length)
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_173_content, tmp_173_lang)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_173_content: String = ""
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_173_content, tmp_173_lang)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             else -> {
@@ -280,14 +280,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_187: String = DictionaryHelper.byteArrayToString(tmp_1)
                                 val tmp_189_idx: Int = tmp_186_content.indexOf(tmp_187)
                                 val tmp_188_type: String = tmp_186_type
-                                if (tmp_189_idx >= 0) {
+                                res = if (tmp_189_idx >= 0) {
                                     val tmp_188_content: String = tmp_186_content.substring(tmp_189_idx + tmp_187.length, tmp_186_content.length)
                                     DictionaryHelper.typedToByteArray(tmp_4, tmp_188_content, tmp_188_type)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_188_content: String = ""
                                     DictionaryHelper.typedToByteArray(tmp_4, tmp_188_content, tmp_188_type)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             ETripleComponentTypeExt.STRING_LANG -> {
@@ -297,14 +297,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_191_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_1)
                                 val tmp_193_idx: Int = tmp_190_content.indexOf(tmp_191_content)
                                 val tmp_192_type: String = tmp_190_type
-                                if (tmp_193_idx >= 0) {
+                                res = if (tmp_193_idx >= 0) {
                                     val tmp_192_content: String = tmp_190_content.substring(tmp_193_idx + tmp_191_content.length, tmp_190_content.length)
                                     DictionaryHelper.typedToByteArray(tmp_4, tmp_192_content, tmp_192_type)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 } else {
                                     val tmp_192_content: String = ""
                                     DictionaryHelper.typedToByteArray(tmp_4, tmp_192_content, tmp_192_type)
-                                    res = query.getDictionary().createValue(tmp_4)
+                                    query.getDictionary().createValue(tmp_4)
                                 }
                             }
                             ETripleComponentTypeExt.STRING_TYPED -> {
@@ -315,14 +315,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                     val tmp_195_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_1)
                                     val tmp_197_idx: Int = tmp_194_content.indexOf(tmp_195_content)
                                     val tmp_196_type: String = tmp_194_type
-                                    if (tmp_197_idx >= 0) {
+                                    res = if (tmp_197_idx >= 0) {
                                         val tmp_196_content: String = tmp_194_content.substring(tmp_197_idx + tmp_195_content.length, tmp_194_content.length)
                                         DictionaryHelper.typedToByteArray(tmp_4, tmp_196_content, tmp_196_type)
-                                        res = query.getDictionary().createValue(tmp_4)
+                                        query.getDictionary().createValue(tmp_4)
                                     } else {
                                         val tmp_196_content: String = ""
                                         DictionaryHelper.typedToByteArray(tmp_4, tmp_196_content, tmp_196_type)
-                                        res = query.getDictionary().createValue(tmp_4)
+                                        query.getDictionary().createValue(tmp_4)
                                     }
                                 }
                                 action4()
@@ -335,13 +335,13 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                     action3()
                 }
                 ETripleComponentTypeExt.UNDEF -> {
-                    when (tmp_3) {
+                    res = when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
+                            query.getDictionary().createValue(tmp_4)
                         }
                         else -> {
-                            res = DictionaryValueHelper.errorValue
+                            DictionaryValueHelper.errorValue
                         }
                     }
                 }

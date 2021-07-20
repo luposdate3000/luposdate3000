@@ -796,7 +796,7 @@ public class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField public 
 public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     @JvmField
-    internal val prefixes = mutableMapOf<String, String>("" to "")
+    internal val prefixes = mutableMapOf("" to "")
 
     // some constants used for typed literals
     @JvmField

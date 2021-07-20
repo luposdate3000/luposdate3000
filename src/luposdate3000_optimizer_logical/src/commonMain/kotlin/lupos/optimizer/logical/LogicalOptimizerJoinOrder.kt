@@ -61,7 +61,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
         val cacheProvidedVariableNames = nodes.map { it.getProvidedVariableNames().toSet().toList() }
         val cachePossibleSortPriorities = nodes.map { it.getPossibleSortPriorities() }
         val allVariables = cacheProvidedVariableNames.flatten().toSet().toList()
-        val cachePossibleSortPrioritiesIdx = cachePossibleSortPriorities.map { it ->
+        val cachePossibleSortPrioritiesIdx = cachePossibleSortPriorities.map {
             val x = it.map { it2 ->
                 val f = it2.first()
                 if (f.sortType == ESortTypeExt.FAST) {
@@ -74,7 +74,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
             x
         }
 
-        var remainingNodes = IntArray(nodes.size) { it }.toMutableList()
+        val remainingNodes = IntArray(nodes.size) { it }.toMutableList()
         while (remainingNodes.size > 0) {
             val allVariablesSortCounters = IntArray(allVariables.size)
             for (i in remainingNodes) {
@@ -91,7 +91,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 }
             }
             val current = mutableListOf<IOPBase>()
-            var groupIds = mutableSetOf<Int>()
+            val groupIds = mutableSetOf<Int>()
             for (i in remainingNodes.toList()) {
                 if (cachePossibleSortPrioritiesIdx[i].contains(maxIdx)) {
                     val node = nodes[i]

@@ -17,7 +17,7 @@
 package lupos.test
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs {
 // grep -rl "failure message" ./src/luposdate3000_launch_code_gen_test/build/test-results/jvmTest | sed "s/.xml$/\" to \"Bug\",/g" | sed "s/.*\./\"/g" | sort | uniq
-    internal val ignoreListDueToBugs = mapOf<String, String>(
+    internal val ignoreListDueToBugs = mapOf(
         "AVG" to "Bug",
         "AVGwithGROUPBY" to "Bug",
         "bnodesarenotexistentials" to "Bug",

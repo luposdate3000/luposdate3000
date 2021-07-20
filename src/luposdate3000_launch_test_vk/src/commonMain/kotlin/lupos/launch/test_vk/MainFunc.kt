@@ -53,7 +53,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
 
     val values = mutableListOf<ByteArrayWrapper>()
 
-    var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
+    val usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
 
     fun getExistingData(rng: Int, action: (ByteArrayWrapper, Int) -> Unit) {
         if (values.size > 0) {
@@ -70,7 +70,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         var len = abs(rng / 256) % maxSize
         var seed = abs(rng % 256)
         if (usedGenerators[len] == null) {
-            usedGenerators[len] = mutableSetOf<Int>()
+            usedGenerators[len] = mutableSetOf()
         } else {
             while (usedGenerators[len]!!.contains(seed)) {
                 if (seed < 255) {
@@ -79,7 +79,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
                     len = (len + 1) % maxSize
                     seed = 0
                     if (usedGenerators[len] == null) {
-                        usedGenerators[len] = mutableSetOf<Int>()
+                        usedGenerators[len] = mutableSetOf()
                         break
                     }
                 }
@@ -92,7 +92,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         } else {
             usedGenerators[len]!!.add(seed)
         }
-        var res = ByteArrayWrapper()
+        val res = ByteArrayWrapper()
         ByteArrayWrapperExt.setSize(res, len, false)
         for (i in 0 until len) {
             ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
@@ -113,11 +113,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
 
     fun testCreateValues(rng: Int) {
-        var insertedData = mutableSetOf<ByteArrayWrapper>()
+        val insertedData = mutableSetOf<ByteArrayWrapper>()
         val maxlen = hasNextRandom() / 2
         if (maxlen > 0) {
             for (i in 0 until (abs(rng % maxlen))) {
-                getNotExistingData(nextRandom()) { it ->
+                getNotExistingData(nextRandom()) {
                     insertedData.add(it)
                 }
             }
@@ -130,7 +130,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
                 next = {
                     toInsert[i++]
                 },
-                onNotFound = { it ->
+                onNotFound = {
                     if (values.contains(it)) {
                         throw Exception("")
                     }
@@ -180,7 +180,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         }
         val buffer = ByteArrayWrapper()
         val iterator = vk.getIterator(buffer)
-        var counters = IntArray(values.size)
+        val counters = IntArray(values.size)
         while (iterator.hasNext()) {
             val id = iterator.next()
             if (id < 0) {

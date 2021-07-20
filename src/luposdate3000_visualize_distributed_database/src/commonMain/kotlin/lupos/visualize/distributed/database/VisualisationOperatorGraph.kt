@@ -26,7 +26,7 @@ public object VisualisationOperatorGraph {
     private val layerNode = 1
     private val layerConnection = 0
     public fun operatorGraphToImage(op: XMLElement): ImageHelper {
-        var res = ImageHelper()
+        val res = ImageHelper()
         res.setZeroSize()
         val nodes = mutableListOf<MutableList<VisualisationOperatorGraphNode>>()
         operatorGraphToNodes(op, 0, nodes)

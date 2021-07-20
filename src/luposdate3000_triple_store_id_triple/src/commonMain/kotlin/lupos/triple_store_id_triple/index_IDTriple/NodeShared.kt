@@ -56,9 +56,9 @@ internal object NodeShared {
     private val decodeTripleHeaderMapA = intArrayOf(0, 1, 2, 8)
     private val decodeTripleHeaderMapBC = intArrayOf(0, 1, 2, 3, 4, 5, 6, 8)
     internal inline fun decodeTripleHeader(header: Int, crossinline action: (counter0: Int, counter1: Int, counter2: Int) -> Unit) {
-        var a = decodeTripleHeaderMapA[(header shr 6)and 0x3]
-        var b = decodeTripleHeaderMapBC[(header shr 3)and 0x7]
-        var c = decodeTripleHeaderMapBC[header and 0x7]
+        val a = decodeTripleHeaderMapA[(header shr 6)and 0x3]
+        val b = decodeTripleHeaderMapBC[(header shr 3)and 0x7]
+        val c = decodeTripleHeaderMapBC[header and 0x7]
         action(a, b, c)
     }
     private val encodeTripleHeaderMapA = intArrayOf(0, 0x40, 0x80, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0)
@@ -68,14 +68,11 @@ internal object NodeShared {
     private val encodeTripleHeaderCorrectBC = intArrayOf(0, 1, 2, 3, 4, 5, 6, 8, 8)
     private inline fun encodeTripleHeader(counter0: Int, counter1: Int, counter2: Int, crossinline action: (header: Int, corrected0: Int, corrected1: Int, corrected2: Int) -> Unit) {
         var header = 0
-        var corrected0: Int
-        var corrected1: Int
-        var corrected2: Int
-        corrected0 = encodeTripleHeaderCorrectA[counter0]
+        var corrected0: Int = encodeTripleHeaderCorrectA[counter0]
         header = encodeTripleHeaderMapA[counter0]
-        corrected1 = encodeTripleHeaderCorrectBC[counter1]
+        var corrected1: Int = encodeTripleHeaderCorrectBC[counter1]
         header = header or encodeTripleHeaderMapB[counter1]
-        corrected2 = encodeTripleHeaderCorrectBC[counter2]
+        var corrected2: Int = encodeTripleHeaderCorrectBC[counter2]
         header = header or encodeTripleHeaderMapC[counter2]
         action(header, corrected0, corrected1, corrected2)
         SanityCheck(

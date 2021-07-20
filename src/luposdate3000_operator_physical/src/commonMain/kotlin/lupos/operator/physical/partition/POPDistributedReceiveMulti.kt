@@ -64,7 +64,7 @@ public class POPDistributedReceiveMulti public constructor(
         }
     }
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:66"/*SOURCE_FILE_END*/ }, { projectedVariables.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:66"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -76,13 +76,11 @@ public class POPDistributedReceiveMulti public constructor(
     }
 
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        var res = toXMLElementHelper2(partial, true)
-        return res
+        return toXMLElementHelper2(partial, true)
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        var res = toXMLElementHelper2(partial, false)
-        return res
+        return toXMLElementHelper2(partial, false)
     }
 
     private fun theKeyToString(key: Map<String, Int>): String {
@@ -99,7 +97,7 @@ public class POPDistributedReceiveMulti public constructor(
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        var theKey = mutableMapOf<String, Int>(partitionVariable to 0)
+        val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
             res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
@@ -144,9 +142,9 @@ public class POPDistributedReceiveMulti public constructor(
             variables.remove(partitionVariable)
             variables.add(0, partitionVariable)
         }
-        var buffer = DictionaryValueTypeArray(partitionCount * variables.size)
+        val buffer = DictionaryValueTypeArray(partitionCount * variables.size)
 
-        var connectionsIn = Array<IMyInputStream?>(partitionCount) { null }
+        val connectionsIn = Array<IMyInputStream?>(partitionCount) { null }
         val connectionsMapping = Array<IntArray?>(partitionCount) { null }
         val connectionsOut = Array<IMyOutputStream?>(partitionCount) { null }
 
@@ -154,9 +152,9 @@ public class POPDistributedReceiveMulti public constructor(
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:153"/*SOURCE_FILE_END*/ }, { inputs.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         for (k in 0 until inputs.size) {
-            val conn = inputs[k]!!
+            val conn = inputs[k]
             val cnt = conn.readInt()
-            var mapping = IntArray(cnt)
+            val mapping = IntArray(cnt)
             for (i in 0 until cnt) {
                 val len = conn.readInt()
                 val buf = ByteArray(len)

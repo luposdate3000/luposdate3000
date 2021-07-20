@@ -28,7 +28,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationSAMPLEID, "AOPAggregationSAMPLE", Array<IOPBase>(childs.size) { childs[it] }) {
+public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationSAMPLEID, "AOPAggregationSAMPLE", Array(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
@@ -66,5 +66,5 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationSAMPLE(query, distinct, Array<AOPBase>(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationSAMPLE(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

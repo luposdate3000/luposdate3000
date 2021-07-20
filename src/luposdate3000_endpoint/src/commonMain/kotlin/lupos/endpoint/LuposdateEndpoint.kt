@@ -286,10 +286,10 @@ public object LuposdateEndpoint {
         val id = output.maxID++
         node.setVisualUUID(id.toLong())
         var label = node.getClassname() + " " + node.getUUID()
-        when (node) {
-            is AOPVariable -> label += "\n?" + node.getName()
-            is AOPConstant -> label += "\n" + node.toSparql()
-            else -> label += "\n" + node.getProvidedVariableNames()
+        label += when (node) {
+            is AOPVariable -> "\n?" + node.getName()
+            is AOPConstant -> "\n" + node.toSparql()
+            else -> "\n" + node.getProvidedVariableNames()
         }
         output.nodes.add(OPVisualNode(id, label))
         for (c in node.getChildren()) {
@@ -392,7 +392,7 @@ public object LuposdateEndpoint {
 
     @JsName("close")
     public fun close() {
-        var l = mutableListOf<Luposdate3000Instance>()
+        val l = mutableListOf<Luposdate3000Instance>()
         initializerLock.withLock {
             l.addAll(instances)
         }
@@ -417,7 +417,7 @@ public object LuposdateEndpoint {
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
             instance.initialized = true
         }
-        return instance!!
+        return instance
     }
 
     init {

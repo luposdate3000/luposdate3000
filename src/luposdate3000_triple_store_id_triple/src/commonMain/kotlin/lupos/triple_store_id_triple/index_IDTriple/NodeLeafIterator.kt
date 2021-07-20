@@ -53,7 +53,7 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
-            var nextid = NodeShared.getNextNode(node)
+            val nextid = NodeShared.getNextNode(node)
             nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:56"/*SOURCE_FILE_END*/, nodeid)
             nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {

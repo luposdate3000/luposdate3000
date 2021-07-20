@@ -43,7 +43,7 @@ public open class TripleStoreIndexDescriptionFactory(@JvmField internal var inst
 
     public override fun initFromByteArray(buffer: ByteArray): ITripleStoreIndexDescriptionFactory {
         var off = 0
-        var type = ByteArrayHelper.readInt4(buffer, off)
+        val type = ByteArrayHelper.readInt4(buffer, off)
         off += 4
         when (type) {
             ETripleStoreIndexDescriptionPartitionedTypeExt.Simple -> {

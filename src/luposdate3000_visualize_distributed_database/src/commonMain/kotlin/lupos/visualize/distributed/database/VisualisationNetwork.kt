@@ -49,7 +49,7 @@ public class VisualisationNetwork {
     }
 
     private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
-        var tmp = mutableListOf<Int>()
+        val tmp = mutableListOf<Int>()
         var s = src
         while (s != dest) {
             tmp.add(s)
@@ -60,7 +60,7 @@ public class VisualisationNetwork {
         return tmp
     }
     private fun messageToRoutingPathDB(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
-        var tmp = mutableListOf<Int>()
+        val tmp = mutableListOf<Int>()
         var s = src
         while (s != dest) {
             tmp.add(s)
@@ -173,8 +173,8 @@ public class VisualisationNetwork {
             }
         }
         for (device in devices) {
-            var newX = imageHelperBase.minX + ((device.x - minX) / (maxX - minX)) * (imageHelperBase.maxX - imageHelperBase.minX)
-            var newY = imageHelperBase.minY + ((device.y - minY) / (maxY - minY)) * (imageHelperBase.maxY - imageHelperBase.minY)
+            val newX = imageHelperBase.minX + ((device.x - minX) / (maxX - minX)) * (imageHelperBase.maxX - imageHelperBase.minX)
+            val newY = imageHelperBase.minY + ((device.y - minY) / (maxY - minY)) * (imageHelperBase.maxY - imageHelperBase.minY)
             device.xnew = newX
             device.ynew = newY
         }
@@ -212,7 +212,7 @@ public class VisualisationNetwork {
         return imageHelperBase
     }
 
-    public fun saveMessagesForQuery(imageHelperBase: ImageHelper, queryNumber: Int): Boolean {
+    private fun saveMessagesForQuery(imageHelperBase: ImageHelper, queryNumber: Int): Boolean {
         var first = 0
         var last = messages.size
         if (queryNumber != -1) {
@@ -239,8 +239,8 @@ public class VisualisationNetwork {
         val imgOverview = imageHelperBase.deepCopy()
         for (i in first until last) {
             val cc = messageToRoutingPath(messages[i].source, messages[i].destination)
-            var points = mutableListOf<Pair<Double, Double>>()
-            var classes = mutableListOf<String>()
+            val points = mutableListOf<Pair<Double, Double>>()
+            val classes = mutableListOf<String>()
             classes.add("message")
             for (c in 0 until cc.size) {
                 val a = getDeviceById(cc[c])
@@ -259,7 +259,7 @@ public class VisualisationNetwork {
         }
         return true
     }
-    public fun toBaseImageDB(): ImageHelper {
+    private fun toBaseImageDB(): ImageHelper {
         val imageHelperBase = toBaseImageStyle()
         for (device in devices) {
             val classes = mutableListOf("device")
@@ -280,19 +280,19 @@ public class VisualisationNetwork {
         }
         return imageHelperBase
     }
-    public fun saveDBStorageLocations(imageHelperBase: ImageHelper): ImageHelper {
+    private fun saveDBStorageLocations(imageHelperBase: ImageHelper): ImageHelper {
         val image = imageHelperBase.deepCopy()
         for ((k, vs) in device_to_key) {
             val device = getDeviceById(k)
             var i = 1
             for (v in vs) {
-                image.addText(layerStorageKey, device.xnew, device.ynew - deviceRadius * 1.5 - i * 13, v.toString(), mutableListOf())
+                image.addText(layerStorageKey, device.xnew, device.ynew - deviceRadius * 1.5 - i * 13, v, mutableListOf())
                 i++
             }
         }
         return image
     }
-    public fun saveWorkForQuery(imageHelperBase: ImageHelper) {
+    private fun saveWorkForQuery(imageHelperBase: ImageHelper) {
         var helperImageCounter = 0
         for ((queryID, listA) in workForQueryAtNode) {
             val image = imageHelperBase.deepCopy()
@@ -301,13 +301,14 @@ public class VisualisationNetwork {
                 var i = 1
                 for (work in workList) {
 /*
- TODO 
+ TODO
 File("visual-db-work-$queryID-${helperImageCounter}.svg").withOutputStream { out ->
                 out.println(VisualisationOperatorGraph.operatorGraphToImage(work.second).toString())
             }
 helperImageCounter++
 */
-                    image.addText(layerWork, device.xnew, device.ynew + deviceRadius * 1.5 + i * 13, work.first.toString(), mutableListOf())
+                    image.addText(layerWork, device.xnew, device.ynew + deviceRadius * 1.5 + i * 13,
+                        work.first, mutableListOf())
                     i++
                 }
             }
@@ -360,11 +361,11 @@ helperImageCounter++
                             val key = args[4 + i * 2 + 1]
                             var l = device_to_key[hostname.toInt()]
                             if (l == null) {
-                                l = mutableSetOf<String>()
+                                l = mutableSetOf()
                                 device_to_key[hostname.toInt()] = l
                             }
                             keys.add("${args[1]}@$hostname:$key")
-                            l!!.add("${args[1]}@$hostname:$key")
+                            l.add("${args[1]}@$hostname:$key")
                         }
                         graph_index_to_key["$graphname-${args[0]}(${args[1]},${args[2]},${args[3]})"] = keys
                     }
@@ -376,11 +377,11 @@ helperImageCounter++
                             val key = args[3 + i * 2 + 1]
                             var l = device_to_key[hostname.toInt()]
                             if (l == null) {
-                                l = mutableSetOf<String>()
+                                l = mutableSetOf()
                                 device_to_key[hostname.toInt()] = l
                             }
                             keys.add("${args[1]}@$hostname:$key")
-                            l!!.add("${args[1]}@$hostname:$key")
+                            l.add("${args[1]}@$hostname:$key")
                         }
                         graph_index_to_key["$graphname-${args[0]}(${args[1]},${args[2]})"] = keys
                     }
@@ -390,12 +391,12 @@ helperImageCounter++
                         val key = args[3]
                         var l = device_to_key[hostname.toInt()]
                         if (l == null) {
-                            l = mutableSetOf<String>()
+                            l = mutableSetOf()
                             device_to_key[hostname.toInt()] = l
                         }
                         val keys = mutableSetOf<String>()
                         keys.add("${args[1]}@$hostname:$key")
-                        l!!.add("${args[1]}@$hostname:$key")
+                        l.add("${args[1]}@$hostname:$key")
                         graph_index_to_key["$graphname-${args[0]}(${args[1]})"] = keys
                     }
                     else -> throw Exception("unexpected type")

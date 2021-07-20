@@ -48,15 +48,15 @@ public abstract class AOPBase public constructor(
             val tmp = evaluate(row)
             return {
                 var res: Boolean
-                try {
+                res = try {
                     val value = tmp()
-                    res = value.toBoolean()
+                    value.toBoolean()
                 } catch (e: EvaluationException) {
                     e.printStackTrace()
-                    res = false
+                    false
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                    res = false
+                    false
                 }
                 res
             }
@@ -82,5 +82,5 @@ public abstract class AOPBase public constructor(
     public open fun enforcesBooleanOrError(): Boolean = false
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
-    public open override fun usesDictionary(): Boolean = true
+    public override fun usesDictionary(): Boolean = true
 }

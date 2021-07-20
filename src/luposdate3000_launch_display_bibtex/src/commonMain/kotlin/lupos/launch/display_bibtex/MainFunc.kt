@@ -30,7 +30,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     node = node.getChildren()[0]
     val query = node.getQuery()
     val child = node.evaluateRoot(Partition())
-    var values = mutableMapOf<String, MutableMap<String, String>>()
+    val values = mutableMapOf<String, MutableMap<String, String>>()
     val colS = child.columns["s"]!!
     val colP = child.columns["p"]!!
     val colO = child.columns["o"]!!
@@ -48,7 +48,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             val vo = DictionaryHelper.byteArrayToSparql(buffer)
             var vals = values[vs]
             if (vals == null) {
-                vals = mutableMapOf<String, String>()
+                vals = mutableMapOf()
                 values[vs] = vals
             }
             vals[vp] = vo
@@ -59,7 +59,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     println("bibtex :: ")
     for ((s, vals) in values) {
         vals.remove("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>")
-        var type = extractIri(vals["<bibtex_type>"])!!
+        val type = extractIri(vals["<bibtex_type>"])!!
         val label = extractIri(s)
         println("@$type{$label,")
         vals.remove("<bibtex_type>")
@@ -94,15 +94,15 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 "urn" to "<bibtex_urn>",
             )
         ) {
-            var item = extractString(vals[s.second])
+            val item = extractString(vals[s.second])
             if (item != null) {
                 println("  ${s.first}={$item},")
                 vals.remove(s.second)
             }
         }
-        var pages_from = extractString(vals["<bibtex_pages_from>"])
+        val pages_from = extractString(vals["<bibtex_pages_from>"])
         if (pages_from != null) {
-            var pages_to = extractString(vals["<bibtex_pages_to>"]!!)
+            val pages_to = extractString(vals["<bibtex_pages_to>"]!!)
             vals.remove("<bibtex_pages_from>")
             vals.remove("<bibtex_pages_to>")
             println("  pages={$pages_from--$pages_to},")

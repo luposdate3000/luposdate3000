@@ -128,7 +128,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             }
             res = IteratorBundle(outMap)
         } else {
-            val data: Array<MutableList<DictionaryValueType>> = Array(columnsINBO.size) { mutableListOf<DictionaryValueType>() }
+            val data: Array<MutableList<DictionaryValueType>> = Array(columnsINBO.size) { mutableListOf() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()

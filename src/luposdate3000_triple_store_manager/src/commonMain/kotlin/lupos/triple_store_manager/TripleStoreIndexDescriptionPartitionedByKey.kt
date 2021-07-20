@@ -38,8 +38,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     @JvmField internal val partitionCount: Int,
     instance: Luposdate3000Instance,
 ) : TripleStoreIndexDescription(instance) {
-    internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
-    internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
+    internal val hostnames = Array(partitionCount) { "" }
+    internal val keys = Array(partitionCount) { "" }
     internal val key_size: Int
 
     @JvmField
@@ -50,8 +50,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         }
         var size = 12
         for (i in 0 until partitionCount) {
-            var buf1 = hostnames[i].encodeToByteArray()
-            var buf2 = keys[i].encodeToByteArray()
+            val buf1 = hostnames[i].encodeToByteArray()
+            val buf2 = keys[i].encodeToByteArray()
             size += 8 + buf1.size + buf2.size
         }
         val byteArray2 = ByteArray(size)
@@ -64,12 +64,12 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         ByteArrayHelper.writeInt4(byteArray2, off, partitionCount)
         off += 4
         for (i in 0 until partitionCount) {
-            var buf1 = hostnames[i].encodeToByteArray()
+            val buf1 = hostnames[i].encodeToByteArray()
             ByteArrayHelper.writeInt4(byteArray2, off, buf1.size)
             off += 4
             buf1.copyInto(byteArray2, off)
             off += buf1.size
-            var buf2 = keys[i].encodeToByteArray()
+            val buf2 = keys[i].encodeToByteArray()
             ByteArrayHelper.writeInt4(byteArray2, off, buf2.size)
             off += 4
             buf2.copyInto(byteArray2, off)
@@ -78,7 +78,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         return byteArray2
     }
 
-    internal override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
+    override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
         val hash: Int
         when (key_size) {
             1 -> {
@@ -98,16 +98,16 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
             }
             else -> throw Exception("unreachable")
         }
-        if (hash < 0) {
-            return -hash % partitionCount
+        return if (hash < 0) {
+            -hash % partitionCount
         } else {
-            return hash % partitionCount
+            hash % partitionCount
         }
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:108"/*SOURCE_FILE_END*/ }, { partition.limit.size == 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:109"/*SOURCE_FILE_END*/ }, { partition.data.size == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:108"/*SOURCE_FILE_END*/ }, { partition.limit.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:109"/*SOURCE_FILE_END*/ }, { partition.data.isEmpty() })
         val triple = DictionaryValueTypeArray(3) { -1 }
         var counter = 0
         for (i in 0 until 3) {
@@ -156,7 +156,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         }
     }
 
-    internal override fun assignHosts() {
+    override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:161"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
@@ -174,8 +174,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         return partitionCount
     }
 
-    internal override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
-        var res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
+    override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
+        val res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
         for (i in 0 until partitionCount) {
             res.add(Pair(hostnames[i], keys[i]))
         }

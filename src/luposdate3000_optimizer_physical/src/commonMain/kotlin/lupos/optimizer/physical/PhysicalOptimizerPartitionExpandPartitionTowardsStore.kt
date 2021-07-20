@@ -62,10 +62,10 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                             try {
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
-                                if (node.projectedVariables.size > 0) {
-                                    res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                                res = if (node.projectedVariables.isNotEmpty()) {
+                                    POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
                                 } else {
-                                    res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                                    POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
                                 }
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)

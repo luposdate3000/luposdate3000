@@ -149,14 +149,12 @@ public abstract class OPBase public constructor(
                 }
             }
         )
-        val res = node.evaluate(Partition())
-        return res
+        return node.evaluate(Partition())
     }
 
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
         val node = query.initialize(this)
-        val res = node.evaluate(partition)
-        return res
+        return node.evaluate(partition)
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
@@ -271,7 +269,7 @@ public abstract class OPBase public constructor(
         return sortPriorities.size < 1
     }
 
-    open override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
         if (sortPriority == ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
@@ -319,7 +317,7 @@ public abstract class OPBase public constructor(
         } else if (sortPriority == ESortPriorityExt.SORT) {
             throw Exception("this should be overriden by the corresponding clazz")
         } else if (sortPriority == ESortPriorityExt.JOIN) {
-            val resTmp = arrayOf(mutableListOf<List<SortHelper>>(), mutableListOf<List<SortHelper>>())
+            val resTmp = arrayOf(mutableListOf<List<SortHelper>>(), mutableListOf())
             val childA = children[0]
             val childB = children[1]
             val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
@@ -380,7 +378,7 @@ public abstract class OPBase public constructor(
         children[i] = child
     }
 
-    public open override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
+    public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithUndef(name, existsClauses)
         }
@@ -392,7 +390,7 @@ public abstract class OPBase public constructor(
         return replaceVariableWithAnother(name, name2, tmp, 0)
     }
 
-    public open override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:395"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
@@ -400,7 +398,7 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    public open override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
+    public override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithConstant(name, value)
         }
@@ -528,8 +526,8 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    public open override fun changePartitionID(idFrom: Int, idTo: Int): Unit = throw Exception("this should be unreachable")
-    public open override fun usesDictionary(): Boolean {
+    public override fun changePartitionID(idFrom: Int, idTo: Int): Unit = throw Exception("this should be unreachable")
+    public override fun usesDictionary(): Boolean {
         for (c in children) {
             if (c.usesDictionary()) {
                 return true

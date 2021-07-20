@@ -120,7 +120,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return (bindings.map { it.first } + Array<String>(by.size) { by[it].name }).distinct()
+        return (bindings.map { it.first } + Array(by.size) { by[it].name }).distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {

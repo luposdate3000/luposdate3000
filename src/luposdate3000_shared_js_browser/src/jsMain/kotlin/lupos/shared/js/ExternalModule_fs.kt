@@ -48,10 +48,10 @@ public object ExternalModule_fs {
 
     public fun length(filename: String): Long {
         val f = inmemoryFs[filename]
-        if (f == null) {
-            return 0
+        return if (f == null) {
+            0
         } else {
-            return f.size.toLong()
+            f.size.toLong()
         }
     }
 
@@ -84,7 +84,7 @@ public class JSOutputStream(private val filename: String, append: Boolean) {
         if (bufferSize + size > buffer.size) {
             var destSize = 1024
             while (destSize < size + bufferSize) {
-                destSize = destSize * 2
+                destSize *= 2
             }
             val b = ByteArray(destSize)
             buffer.copyInto(b)
@@ -214,11 +214,11 @@ public class JSInputStream {
 
     public fun readLine(): String? {
 // TODO this may break on utf-8
-        var buf = mutableListOf<Byte>()
+        val buf = mutableListOf<Byte>()
         try {
             var b = readByte()
-            while (b != '\n'.toByte()) {
-                if (b != '\r'.toByte()) {
+            while (b != '\n'.code.toByte()) {
+                if (b != '\r'.code.toByte()) {
                     buf.add(b)
                 }
                 b = readByte()
@@ -229,7 +229,6 @@ public class JSInputStream {
                 return null
             }
         }
-        val res = buf.toByteArray().decodeToString()
-        return res
+        return buf.toByteArray().decodeToString()
     }
 }

@@ -41,8 +41,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
             var res: DictionaryValueType = 0
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
-            when (tmp_1) {
+            when (DictionaryHelper.byteArrayToType(tmp_0)) {
                 ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)

@@ -44,7 +44,7 @@ public abstract class POPValuesImportBase public constructor(query: IQuery, proj
             data[variables[i]]!!.add(query.getDictionary().createValue(buffer))
         }
     }
-    public open override fun usesDictionary(): Boolean {
+    public override fun usesDictionary(): Boolean {
         return true
     }
 }

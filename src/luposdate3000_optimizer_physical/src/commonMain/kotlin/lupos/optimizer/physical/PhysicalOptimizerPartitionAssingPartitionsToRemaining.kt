@@ -54,16 +54,16 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                         }
                         if (new_countMax > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
-                            if (node.projectedVariables.size > 0) {
-                                res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
+                            res = if (node.projectedVariables.isNotEmpty()) {
+                                POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
                             } else {
-                                res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
+                                POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
-                            if (node.projectedVariables.size > 0) {
-                                res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
+                            res = if (node.projectedVariables.isNotEmpty()) {
+                                POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                             } else {
-                                res = POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
+                                POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true

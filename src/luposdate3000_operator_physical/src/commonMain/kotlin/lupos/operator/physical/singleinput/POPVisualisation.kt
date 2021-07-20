@@ -50,7 +50,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun toSparql(): String = getChildren()[0].toSparql()
     override fun evaluate(parent: Partition): IteratorBundle {
         val child = getChildren()[0].evaluate(parent)
-        var rowMode = child.rows.columns.toMutableList()
+        val rowMode = child.rows.columns.toMutableList()
         val target = getChildren()[0].getProvidedVariableNames()
         rowMode.containsAll(target)
         target.containsAll(rowMode)
@@ -60,7 +60,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         iterator.columns = child.rows.columns
         val buffer = ByteArrayWrapper()
         iterator.next = {
-            var res = child.rows.next()
+            val res = child.rows.next()
             iterator.buf = child.rows.buf
             if (res < 0) {
             } else {
@@ -68,12 +68,12 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 // visualization framework.
                 counter++
                 // Columns auf ein mal senden
-                for (j in 0..iterator.columns.size - 1) {
+                for (j in 0 until iterator.columns.size) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
-                    var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer).replace("\\", "\\\\").replace("\"", "\\\"")
+                    val string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer).replace("\\", "\\\\").replace("\"", "\\\"")
                     var outputString = "[" + getChildren()[0].getVisualUUUID().toString() + ","
                     outputString += getParent().getVisualUUUID().toString() + ","
-                    outputString += "\"" + string + "\","
+                    outputString += "\"$string\","
                     outputString += iterator.buf[res + j].toString() + "]"
                     visualTest!!.sendData(outputString)
                 }

@@ -35,7 +35,6 @@ import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
-import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
@@ -67,13 +66,13 @@ public class DatabaseHandle : IDatabase {
         // streams would additionally depend on the possibility to suspend the database at any point, which is currently not implemented too
         private var globalCheatDictionary: IDictionary? = null
         private var globalCheatInstance: Luposdate3000Instance? = null
-        public fun globalCheatStart(instance: Luposdate3000Instance) {
+        fun globalCheatStart(instance: Luposdate3000Instance) {
             if (globalCheatDictionary == null) {
                 globalCheatInstance = instance
                 globalCheatDictionary = DictionaryFactory.createGlobalDictionary(instance)
             }
         }
-        public fun globalCheatEnd() {
+        fun globalCheatEnd() {
             if (globalCheatDictionary != null) {
                 val backup = globalCheatInstance!!.nodeGlobalDictionary
                 globalCheatInstance!!.nodeGlobalDictionary = globalCheatDictionary!!
@@ -87,7 +86,7 @@ public class DatabaseHandle : IDatabase {
     override fun start(initialState: DatabaseState) {
         visualisationNetwork = initialState.visualisationNetwork
         println("DatabaseHandle.start ${initialState.allAddresses.map{it}} .. ${initialState.ownAddress}")
-        if (initialState.allAddresses.size == 0) {
+        if (initialState.allAddresses.isEmpty()) {
             throw Exception("invalid input")
         }
         ownAdress = initialState.ownAddress
@@ -201,7 +200,7 @@ public class DatabaseHandle : IDatabase {
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:202"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
-            myPendingWorkData[pck.params["key"]!!] = pck.data!!
+            myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
         }
@@ -221,22 +220,29 @@ public class DatabaseHandle : IDatabase {
         val allHosts = pck.operatorGraphPartsToHostMap.values.toSet().toTypedArray()
         val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
 //        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
-        val nextHops = allHostAdresses
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
-        for (i in nextHops.toSet()) {
-            packages[i] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
+        for (i in allHostAdresses.toSet()) {
+            packages[i] = MySimulatorOperatorGraphPackage(
+                pck.queryID,
+                mutableMapOf(),
+                mutableMapOf(),
+                mutableMapOf(),
+                mutableMapOf(),
+                pck.onFinish,
+                pck.expectedResult
+            )
         }
         packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
-            packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
+            packageMap[k] = allHostAdresses[allHostAdresses.indexOf(v.toInt())]
         }
         var changed = true
         while (changed) {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:238"/*SOURCE_FILE_END*/ }, { v.size >= 1 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:238"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -266,8 +272,7 @@ public class DatabaseHandle : IDatabase {
             }
         }
         for ((k, v) in packageMap) {
-            val targetInt = v
-            val p = packages[targetInt]!!
+            val p = packages[v]!!
             p.operatorGraph[k] = pck.operatorGraph[k]!!
             val h = pck.operatorGraphPartsToHostMap[k]
             if (h != null) {
@@ -291,7 +296,7 @@ public class DatabaseHandle : IDatabase {
                 router!!.send(k, v)
             }
         }
-        val p = packages[ownAdress!!]!!
+        val p = packages[ownAdress]!!
         for ((k, v) in p.operatorGraph) {
             val graph = p.operatorGraph[k]!!
             visualisationNetwork.addWork(p.queryID, ownAdress, graph, extractKey(graph, "POPDistributedReceive", ""), extractKey(graph, "POPDistributedSend", ""))
@@ -310,7 +315,7 @@ public class DatabaseHandle : IDatabase {
         doWork()
     }
     private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<String> {
-        var res = mutableSetOf<String>()
+        val res = mutableSetOf<String>()
         if (parentTag.startsWith(targetTag)) {
             if (node.tag == "partitionDistributionProvideKey" || node.tag == "partitionDistributionReceiveKey") {
                 res.add(node.attributes["key"]!!)
@@ -333,7 +338,7 @@ public class DatabaseHandle : IDatabase {
                 }
             }
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:334"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
-            val key = keys.first()!!
+            val key = keys.first()
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:336"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
@@ -360,7 +365,7 @@ public class DatabaseHandle : IDatabase {
             val inputs = keys.map { key ->
                 val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
-                input as IMyInputStream
+                input
             }.toTypedArray()
             val res = POPDistributedReceiveMulti(
                 query,
@@ -374,7 +379,7 @@ public class DatabaseHandle : IDatabase {
             query.addPartitionOperator(res.uuid, id)
             res
         }
-        return XMLElementToOPBase(query, node, mutableMapOf(), operatorMap) as IOPBase
+        return XMLElementToOPBase(query, node, mutableMapOf(), operatorMap)
     }
 
     private fun doWork() {
@@ -386,8 +391,7 @@ public class DatabaseHandle : IDatabase {
                     myPendingWork.remove(w)
                     changed = true
                     val query = Query(instance)
-                    val node = localXMLElementToOPBase(query, w.operatorGraph)
-                    when (node) {
+                    when (val node = localXMLElementToOPBase(query, w.operatorGraph)) {
                         is POPDistributedSendSingle -> {
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
                             node.evaluate(out)

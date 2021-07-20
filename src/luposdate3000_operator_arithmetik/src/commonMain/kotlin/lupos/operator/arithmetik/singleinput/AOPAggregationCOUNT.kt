@@ -30,7 +30,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array<IOPBase>(childs.size) { childs[it] }) {
+public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
@@ -73,10 +73,10 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
     }
 
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-        if (children.size == 0 || !distinct) {
-            return ColumnIteratorAggregateCOUNTNoChild(query.getDictionary())
+        return if (children.isEmpty() || !distinct) {
+            ColumnIteratorAggregateCOUNTNoChild(query.getDictionary())
         } else {
-            return ColumnIteratorAggregateCOUNT((children[0] as AOPBase).evaluateID(row), query.getDictionary())
+            ColumnIteratorAggregateCOUNT((children[0] as AOPBase).evaluateID(row), query.getDictionary())
         }
     }
 
@@ -87,5 +87,5 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, Array<AOPBase>(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

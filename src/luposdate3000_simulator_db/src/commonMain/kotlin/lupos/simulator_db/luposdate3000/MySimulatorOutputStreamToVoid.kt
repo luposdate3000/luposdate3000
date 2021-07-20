@@ -19,7 +19,7 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 
-internal class MySimulatorOutputStreamToVoid() : IMyOutputStream {
+internal class MySimulatorOutputStreamToVoid : IMyOutputStream {
     override fun flush() {}
     override fun close() { }
     override fun print(x: Boolean) { }

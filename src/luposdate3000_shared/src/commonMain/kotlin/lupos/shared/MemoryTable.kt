@@ -34,7 +34,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         if (j < 0) {
             return null
         }
-        var res = DictionaryValueTypeArray(data.size)
+        val res = DictionaryValueTypeArray(data.size)
         var i = 0
         for (row in data) {
             res[i] = row[j]
@@ -47,11 +47,11 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         val buffer = ByteArrayWrapper()
         fun idToString(id: DictionaryValueType): String {
             val q = query
-            if (q != null) {
+            return if (q != null) {
                 q.getDictionary().getValue(buffer, id)
-                return "${DictionaryHelper.byteArrayToSparql(buffer)} ($buffer)"
+                "${DictionaryHelper.byteArrayToSparql(buffer)} ($buffer)"
             } else {
-                return ""
+                ""
             }
         }
         return "$booleanResult - ${columns.map{it}} - ${data.map{it.map{"$it -> ${idToString(it)}"}}}"
@@ -83,21 +83,21 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
             }
         }
         if (booleanResult != null || other.booleanResult != null) {
-            if (booleanResult == other.booleanResult) {
-                return true
+            return if (booleanResult == other.booleanResult) {
+                true
             } else {
                 if (verbose) {
                     out!!.println("boolean result differ : $booleanResult vs ${other.booleanResult}")
                 }
-                return false
+                false
             }
         }
         val buffer1 = ByteArrayWrapper()
         val buffer2 = ByteArrayWrapper()
-        var dict1 = query!!.getDictionary()
-        var dict2 = other.query!!.getDictionary()
-        var flags1 = IntArray(data.size) { -1 }
-        var flags2 = IntArray(other.data.size) { -1 }
+        val dict1 = query!!.getDictionary()
+        val dict2 = other.query!!.getDictionary()
+        val flags1 = IntArray(data.size) { -1 }
+        val flags2 = IntArray(other.data.size) { -1 }
         for (i in 0 until data.size) {
             loop2@ for (j in 0 until other.data.size) {
                 if (flags2[j] == -1) {
@@ -128,7 +128,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "left has ${data[i].map { it }} : ${
-                                data[i].map { it ->
+                                data[i].map {
                                     dict1.getValue(buffer1, it)
                                     DictionaryHelper.byteArrayToSparql(buffer1)
                                 }
@@ -143,7 +143,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "right has ${other.data[i].map { it }} : ${
-                                other.data[i].map { it ->
+                                other.data[i].map {
                                     dict2.getValue(buffer2, it)
                                     DictionaryHelper.byteArrayToSparql(buffer2)
                                 }
@@ -163,7 +163,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "left has ${data[i].map { it }} : ${
-                                data[i].map { it ->
+                                data[i].map {
                                     dict1.getValue(buffer1, it)
                                     DictionaryHelper.byteArrayToSparql(buffer1)
                                 }
@@ -178,7 +178,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "right has ${other.data[i].map { it }} : ${
-                                other.data[i].map { it ->
+                                other.data[i].map {
                                     dict2.getValue(buffer2, it)
                                     DictionaryHelper.byteArrayToSparql(buffer2)
                                 }

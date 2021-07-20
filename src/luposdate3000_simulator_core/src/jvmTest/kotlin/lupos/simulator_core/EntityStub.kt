@@ -1,6 +1,6 @@
 package lupos.simulator_core
 
-public class EntityStub : Entity() {
+class EntityStub : Entity() {
 
     override fun onStartUp() {
     }

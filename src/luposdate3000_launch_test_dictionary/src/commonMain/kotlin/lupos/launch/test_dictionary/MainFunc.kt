@@ -57,7 +57,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (isLocal && dictType == EDictionaryTypeExt.KV) {
                 continue
             }
-            var instance = Luposdate3000Instance()
+            val instance = Luposdate3000Instance()
             instance.useDictionaryInlineEncoding = false
             instance.allowInitFromDisk = false
             resetRandom()
@@ -79,14 +79,14 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
             var rootPage = -1
             fun createDict(initFromRootPage: Boolean): IDictionary {
-                when (dictType) {
+                return when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
                             rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:84"/*SOURCE_FILE_END*/)
                         }
-                        return DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
+                        DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
-                    else -> return DictionaryFactory.createDictionary(dictType, isLocal, instance.bufferManager!!, -1, false, instance)
+                    else -> DictionaryFactory.createDictionary(dictType, isLocal, instance.bufferManager!!, -1, false, instance)
                 }
             }
             if (verbose) {
@@ -96,20 +96,20 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (!isLocal) {
                 instance.nodeGlobalDictionary = dict
             }
-            val values = mutableMapOf<DictionaryValueType, ByteArrayWrapper>(
+            val values = mutableMapOf(
                 DictionaryValueHelper.fromInt(0) to DictionaryExt.booleanTrueValue3,
                 DictionaryValueHelper.fromInt(1) to DictionaryExt.booleanFalseValue3,
                 DictionaryValueHelper.fromInt(2) to DictionaryExt.errorValue3,
                 DictionaryValueHelper.fromInt(3) to DictionaryExt.undefValue3,
             )
-            val mapping = mutableMapOf<DictionaryValueType, DictionaryValueType>(
+            val mapping = mutableMapOf(
                 DictionaryValueHelper.fromInt(0) to DictionaryValueHelper.fromInt(0),
                 DictionaryValueHelper.fromInt(1) to DictionaryValueHelper.fromInt(1),
                 DictionaryValueHelper.fromInt(2) to DictionaryValueHelper.fromInt(2),
                 DictionaryValueHelper.fromInt(3) to DictionaryValueHelper.fromInt(3),
             ) // dict.id -> values.index
 
-            var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
+            val usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
 
             fun getExistingData(rng: Int, action: (ByteArrayWrapper, DictionaryValueType) -> Unit) {
                 val ids = mutableListOf<DictionaryValueType>()
@@ -121,7 +121,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
 
             fun getNotExistingKey(rng: Int, action: (DictionaryValueType) -> Unit) {
-                val ids = MutableList<DictionaryValueType>(1000) { DictionaryValueHelper.fromInt(it) }
+                val ids = MutableList(1000) { DictionaryValueHelper.fromInt(it) }
                 ids.removeAll(mapping.values)
                 if (ids.size > 0) {
                     val key = ids[abs(rng % ids.size)]
@@ -135,7 +135,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 var loop = true
                 while (loop) {
                     if (usedGenerators[len] == null) {
-                        usedGenerators[len] = mutableSetOf<Int>()
+                        usedGenerators[len] = mutableSetOf()
                     } else {
                         while (usedGenerators[len]!!.contains(seed)) {
                             if (seed < 255) {
@@ -144,7 +144,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                                 len = (len + 1) % maxSize
                                 seed = 0
                                 if (usedGenerators[len] == null) {
-                                    usedGenerators[len] = mutableSetOf<Int>()
+                                    usedGenerators[len] = mutableSetOf()
                                     break
                                 }
                             }
@@ -156,7 +156,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     for (i in 0 until len) {
                         ByteArrayWrapperExt.getBuf(res)[i] = (i + seed).toByte()
                     }
-                    var x = DictionaryHelper.headerDecodeType(res)
+                    val x = DictionaryHelper.headerDecodeType(res)
                     val flg = DictionaryHelper.headerDecodeFlag(res)
                     if (x == ETripleComponentTypeExt.BLANK_NODE) {
                         DictionaryHelper.errorToByteArray(res)

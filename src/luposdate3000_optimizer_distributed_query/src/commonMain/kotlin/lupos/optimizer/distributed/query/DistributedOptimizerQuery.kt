@@ -39,7 +39,7 @@ import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.triple_store_manager.POPTripleStoreIterator
 import kotlin.jvm.JvmField
 
-public class DistributedOptimizerQuery() : IDistributedOptimizer {
+public class DistributedOptimizerQuery : IDistributedOptimizer {
 
     @JvmField
     internal val childOptimizer = arrayOf(
@@ -55,7 +55,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     private fun splitPartitionsVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
             for (i in 0 until allNames.size) {
-                query!!.allVariationsKey[allNames[i]] = allIdx[i]
+                query.allVariationsKey[allNames[i]] = allIdx[i]
             }
             val xml = node.toXMLElementRoot(true)
             val keys = mutableSetOf<String>()
@@ -99,7 +99,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 query.operatorgraphPartsToHostMap[key] = target
             }
             query.operatorgraphParts[key] = xml
-            query!!.allVariationsKey.clear()
+            query.allVariationsKey.clear()
         } else {
             for (i in 0 until allSize[offset]) {
                 allIdx[offset] = i
@@ -157,7 +157,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 is POPSplitPartitionFromStoreCount,
                 is POPSplitPartitionPassThrough
                 -> {
-                    val allNames = Array<String>(currentPartitionsCopy.size) { "" }
+                    val allNames = Array(currentPartitionsCopy.size) { "" }
                     val allSize = IntArray(currentPartitionsCopy.size)
                     var i = 0
                     for ((k, v) in currentPartitionsCopy) {
@@ -174,7 +174,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     }
 
     private fun calculateDependenciesTopDown(node: XMLElement): Set<String> {
-        var res = mutableSetOf<String>()
+        val res = mutableSetOf<String>()
         for (c in node.childs) {
             res.addAll(calculateDependenciesTopDown(c))
         }
@@ -185,7 +185,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     }
 
     private fun calculateDependenciesBottomUp(node: XMLElement): Set<String> {
-        var res = mutableSetOf<String>()
+        val res = mutableSetOf<String>()
         for (c in node.childs) {
             res.addAll(calculateDependenciesBottomUp(c))
         }
@@ -196,7 +196,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     }
 
     private fun getHostForKey(query: Query, key: String): String? {
-        var res = query.operatorgraphPartsToHostMap[key]
+        val res = query.operatorgraphPartsToHostMap[key]
         if (res != null) {
             return res
         }
@@ -245,7 +245,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                     for (opt in childOptimizer2) {
                         for ((k, v) in query.operatorgraphParts) {
                             if (!query.operatorgraphPartsToHostMap.contains(k)) {
-                                opt.optimize(query, k, v, query.dependenciesMapTopDown[k]!!, query.dependenciesMapBottomUp[k]!!, { it -> getHostForKey(query, it) }, { key, value -> query.operatorgraphPartsToHostMap[key] = value }) {
+                                opt.optimize(query, k, v, query.dependenciesMapTopDown[k]!!, query.dependenciesMapBottomUp[k]!!, { getHostForKey(query, it) }, { key, value -> query.operatorgraphPartsToHostMap[key] = value }) {
                                     changed = true
                                 }
                                 if (changed) {

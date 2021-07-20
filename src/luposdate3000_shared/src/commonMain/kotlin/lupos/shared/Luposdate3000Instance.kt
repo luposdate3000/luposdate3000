@@ -92,10 +92,10 @@ public class Luposdate3000Instance {
     @JvmField
     public var REPLACE_STORE_WITH_VALUES: Boolean = false
     init {
-        if (LUPOS_PROCESS_URLS.size> 1) {
-            maxThreads = LUPOS_PROCESS_URLS.size
+        maxThreads = if (LUPOS_PROCESS_URLS.size> 1) {
+            LUPOS_PROCESS_URLS.size
         } else {
-            maxThreads = 16
+            16
         }
     }
 }

@@ -46,7 +46,7 @@ import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
-    internal val bufferManager: IBufferManager
+    internal val bufferManager: IBufferManager = bufferManager
 
     @JvmField public var debugSortOrder: IntArray = intArrayOf()
 
@@ -110,7 +110,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     @ProguardTestAnnotation
     public constructor(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
-        this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         nodeManager = NodeManager(bufferManager)
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:115"/*SOURCE_FILE_END*/, rootPageID)
@@ -472,7 +471,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             } else if (l[j - 1] != null) {
                 val a = l[j]!!
                 val b = l[j - 1]!!
-                l[j] = importHelper(a, b, { x, y -> MergeIterator(x, y) })
+                l[j] = importHelper(a, b) { x, y -> MergeIterator(x, y) }
             }
             j++
         }
@@ -488,11 +487,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             val insertID = collapseList(pendingImport)
             val firstLeaf2: Int
-            if (pendingRemove.size> 0) {
+            firstLeaf2 = if (pendingRemove.size> 0) {
                 val removeID = collapseList(pendingRemove)
-                firstLeaf2 = importHelper(insertID, removeID, { x, y -> MinusIterator(x, y) })
+                importHelper(insertID, removeID) { x, y -> MinusIterator(x, y) }
             } else {
-                firstLeaf2 = insertID
+                insertID
             }
             var node: ByteArray? = null
             var flag = false
@@ -524,7 +523,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     private fun rebuildData(_iterator: TripleIterator) {
 // assuming to have write-lock
-        var iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
+        val iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
@@ -633,7 +632,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             SanityCheck(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:633"/*SOURCE_FILE_END*/ },
                 {
-                    if (debugSortOrder.size == 0) {
+                    if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
@@ -660,7 +659,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             SanityCheck(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:660"/*SOURCE_FILE_END*/ },
                 {
-                    if (debugSortOrder.size == 0) {
+                    if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {

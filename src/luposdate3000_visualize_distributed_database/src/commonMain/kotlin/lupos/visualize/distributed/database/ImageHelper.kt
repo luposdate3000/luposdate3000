@@ -54,7 +54,7 @@ public class ImageHelper {
         val res = ImageHelper()
         var i = 0
         for (layer in layers) {
-            res.layers.add(mutableSetOf<String>())
+            res.layers.add(mutableSetOf())
             res.layers[i].clear()
             res.layers[i].addAll(layer)
             i++
@@ -71,7 +71,7 @@ public class ImageHelper {
     public fun createClass(name: String, attributes: Map<String, String>) {
         var m = classes[name]
         if (m == null) {
-            m = mutableMapOf<String, String>()
+            m = mutableMapOf()
             classes[name] = m
         }
         m.putAll(attributes)
@@ -79,14 +79,14 @@ public class ImageHelper {
 
     private fun checkLayer(layer: Int) {
         while (layers.size <= layer) {
-            layers.add(mutableSetOf<String>())
+            layers.add(mutableSetOf())
         }
     }
     private fun classString(classes: List<String>): String {
-        if (classes.size == 0) {
-            return ""
+        return if (classes.isEmpty()) {
+            ""
         } else {
-            return " class=\"${classes.joinToString(" ")}\""
+            " class=\"${classes.joinToString(" ")}\""
         }
     }
     public fun addText(layer: Int, x: Double, y: Double, text: String, classes: List<String>) {
@@ -125,16 +125,16 @@ public class ImageHelper {
         val p2 = p.first - mov.first to p.second - mov.second
         val l1 = getLength(getDirection(a, p1)) + getLength(getDirection(b, p1))
         val l2 = getLength(getDirection(a, p2)) + getLength(getDirection(b, p2))
-        if (abs(l2 - l1) <20.0) { // sourth left first, if it does not matter
+        return if (abs(l2 - l1) <20.0) { // sourth left first, if it does not matter
             if (getLength(getDirection(p1, 0.0 to 0.0)) <getLength(getDirection(p2, 0.0 to 0.0))) {
-                return p1
+                p1
             } else {
-                return p2
+                p2
             }
         } else if (l1 <l2) {
-            return p1
+            p1
         } else {
-            return p2
+            p2
         }
     }
     private inner class LocalPoint(val p: Pair<Double, Double>) {
@@ -152,8 +152,8 @@ public class ImageHelper {
             adjustBordersToPoint(p.first - pointRadius - minDistToOtherPath, p.second - pointRadius - minDistToOtherPath)
             adjustBordersToPoint(p.first + pointRadius + minDistToOtherPath, p.second + pointRadius + minDistToOtherPath)
         }
-        var directions = mutableListOf<Pair<Double, Double>>()
-        var correctedPoints = mutableListOf<Pair<Double, Double>>()
+        val directions = mutableListOf<Pair<Double, Double>>()
+        val correctedPoints = mutableListOf<Pair<Double, Double>>()
         if (points.size == 1) {
             correctedPoints.add(points[0])
             correctedPoints.add(points[0])
@@ -161,8 +161,8 @@ public class ImageHelper {
             directions.add(points[0].first - 10 to points[0].second + 10)
         } else {
             for (i in 0 until points.size) {
-                var im = if (i> 0)i - 1 else i // i-1
-                var ip = if (i <points.size - 1) i + 1 else i // i+1
+                val im = if (i> 0)i - 1 else i // i-1
+                val ip = if (i <points.size - 1) i + 1 else i // i+1
                 val dir = getDirection(points[im], points[ip])
                 directions.add(dir)
                 if (i == 0 || i == points.size - 1) {

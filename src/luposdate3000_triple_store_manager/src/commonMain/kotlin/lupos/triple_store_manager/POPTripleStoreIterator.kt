@@ -56,7 +56,7 @@ public class POPTripleStoreIterator(
     public var hasSplitFromStore: Boolean = false
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> {
-        var res = mutableListOf<String>()
+        val res = mutableListOf<String>()
         for (c in children) {
             if (c is AOPVariable && c.name != "_") {
                 res.add(c.name)
@@ -66,7 +66,7 @@ public class POPTripleStoreIterator(
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        var res = super.toXMLElement(partial)
+        val res = super.toXMLElement(partial)
         res.addContent(XMLElement("sparam").addContent(children[0].toXMLElement(partial)))
         res.addContent(XMLElement("pparam").addContent(children[1].toXMLElement(partial)))
         res.addContent(XMLElement("oparam").addContent(children[2].toXMLElement(partial)))
@@ -99,7 +99,7 @@ public class POPTripleStoreIterator(
     }
 
     override fun getPartitionCount(variable: String): Int {
-        var count = tripleStoreIndexDescription.getPartitionCount()
+        val count = tripleStoreIndexDescription.getPartitionCount()
         if (count > 1) {
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:103"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
             for (i in 0 until 3) {

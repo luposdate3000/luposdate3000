@@ -31,7 +31,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
     internal var idx_set: IntArray = intArrayOf()
 
     @JvmField
-    internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescription(arrayOf<TripleStoreIndexDescription>(), instance)
+    internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescription(arrayOf(), instance)
     internal abstract fun toByteArray(): ByteArray
     internal abstract fun assignHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
@@ -39,7 +39,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
     internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
     internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): TripleStoreIndexDescription {
         var count = -1
-        var distributionCount = -1
+        val distributionCount = -1
         var currentindex: TripleStoreIndexDescription = this
         for (index in tripleStoreDescription.indices) {
             if (index.hasPattern(idx_set[0])) {

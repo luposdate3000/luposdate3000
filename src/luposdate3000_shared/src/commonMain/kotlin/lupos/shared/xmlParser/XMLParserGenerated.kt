@@ -205,8 +205,7 @@ internal inline fun parse_ws_forced(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_ws_forced_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_ws_forced_helper_0(context.c)) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -232,20 +231,20 @@ internal inline fun parse_ws_forced(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_ws_forced_helper_0(c: Int): Int {
-    if (c < 0x9) {
-        return 1
+    return if (c < 0x9) {
+        1
     } else if (c <= 0xa) {
-        return 0
+        0
     } else if (c < 0xd) {
-        return 1
+        1
     } else if (c <= 0xd) {
-        return 0
+        0
     } else if (c < 0x20) {
-        return 1
+        1
     } else if (c <= 0x20) {
-        return 0
+        0
     } else {
-        return 1
+        1
     }
 }
 
@@ -255,8 +254,7 @@ internal inline fun parse_element_start(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_element_start_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_element_start_helper_0(context.c)) {
             0 -> {
                 context.append()
                 onELEMENT_START()
@@ -272,10 +270,10 @@ internal inline fun parse_element_start(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_element_start_helper_0(c: Int): Int {
-    if (c == 0x3c) {
-        return 0
+    return if (c == 0x3c) {
+        0
     } else {
-        return 1
+        1
     }
 }
 
@@ -286,8 +284,7 @@ internal inline fun parse_element_tag_or_immediate_close_char(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_element_tag_or_immediate_close_char_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_element_tag_or_immediate_close_char_helper_0(context.c)) {
             0 -> {
                 context.append()
                 onELEMENT_END_PART()
@@ -318,20 +315,20 @@ internal inline fun parse_element_tag_or_immediate_close_char(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_element_tag_or_immediate_close_char_helper_0(c: Int): Int {
-    if (c < 0x2f) {
-        return 2
+    return if (c < 0x2f) {
+        2
     } else if (c <= 0x2f) {
-        return 0
+        0
     } else if (c < 0x41) {
-        return 2
+        2
     } else if (c <= 0x5a) {
-        return 1
+        1
     } else if (c < 0x61) {
-        return 2
+        2
     } else if (c <= 0x7a) {
-        return 1
+        1
     } else {
-        return 2
+        2
     }
 }
 
@@ -341,8 +338,7 @@ internal inline fun parse_element_tag(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_element_tag_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_element_tag_helper_0(context.c)) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -368,16 +364,16 @@ internal inline fun parse_element_tag(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_element_tag_helper_0(c: Int): Int {
-    if (c < 0x41) {
-        return 1
+    return if (c < 0x41) {
+        1
     } else if (c <= 0x5a) {
-        return 0
+        0
     } else if (c < 0x61) {
-        return 1
+        1
     } else if (c <= 0x7a) {
-        return 0
+        0
     } else {
-        return 1
+        1
     }
 }
 
@@ -387,8 +383,7 @@ internal inline fun parse_element_close(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_element_close_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_element_close_helper_0(context.c)) {
             0 -> {
                 context.append()
                 onELEMENT_CLOSE_LATER()
@@ -404,10 +399,10 @@ internal inline fun parse_element_close(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_element_close_helper_0(c: Int): Int {
-    if (c == 0x3e) {
-        return 0
+    return if (c == 0x3e) {
+        0
     } else {
-        return 1
+        1
     }
 }
 
@@ -419,8 +414,7 @@ internal inline fun parse_attribute_or_close_tag(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_attribute_or_close_tag_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_attribute_or_close_tag_helper_0(context.c)) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -438,8 +432,7 @@ internal inline fun parse_attribute_or_close_tag(
             }
             1 -> {
                 context.append()
-                val localswitch3 = parse_attribute_or_close_tag_helper_1(context.c)
-                when (localswitch3) {
+                when (parse_attribute_or_close_tag_helper_1(context.c)) {
                     0 -> {
                         context.append()
                         onELEMENT_CLOSE_IMMEDIATELY()
@@ -488,10 +481,10 @@ internal inline fun parse_attribute_or_close_tag_helper_0(c: Int): Int {
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_attribute_or_close_tag_helper_1(c: Int): Int {
-    if (c == 0x3e) {
-        return 0
+    return if (c == 0x3e) {
+        0
     } else {
-        return 1
+        1
     }
 }
 
@@ -501,8 +494,7 @@ internal inline fun parse_attribute_assinment(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_attribute_assinment_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_attribute_assinment_helper_0(context.c)) {
             0 -> {
                 context.append()
                 onATTRIBUTE_ASSIGNMENT()
@@ -518,10 +510,10 @@ internal inline fun parse_attribute_assinment(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_attribute_assinment_helper_0(c: Int): Int {
-    if (c == 0x3d) {
-        return 0
+    return if (c == 0x3d) {
+        0
     } else {
-        return 1
+        1
     }
 }
 
@@ -531,8 +523,7 @@ internal inline fun parse_attribute_value(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_attribute_value_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_attribute_value_helper_0(context.c)) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -545,8 +536,7 @@ internal inline fun parse_attribute_value(
                         }
                     }
                 }
-                val localswitch3 = parse_attribute_value_helper_0(context.c)
-                when (localswitch3) {
+                when (parse_attribute_value_helper_0(context.c)) {
                     0 -> {
                         context.append()
                         onATTRIBUTE_VALUE()
@@ -567,10 +557,10 @@ internal inline fun parse_attribute_value(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_attribute_value_helper_0(c: Int): Int {
-    if (c == 0x22) {
-        return 0
+    return if (c == 0x22) {
+        0
     } else {
-        return 1
+        1
     }
 }
 
@@ -581,8 +571,7 @@ internal inline fun parse_content_or_child(
 ) {
     context.clear()
     error@ while (true) {
-        val localswitch1 = parse_content_or_child_helper_0(context.c)
-        when (localswitch1) {
+        when (parse_content_or_child_helper_0(context.c)) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -613,17 +602,17 @@ internal inline fun parse_content_or_child(
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun parse_content_or_child_helper_0(c: Int): Int {
-    if (c <= 0x3b) {
-        return 0
+    return if (c <= 0x3b) {
+        0
     } else if (c < 0x3c) {
-        return 2
+        2
     } else if (c <= 0x3c) {
-        return 1
+        1
     } else if (c < 0x3d) {
-        return 2
+        2
     } else if (c <= 0x1fffff) {
-        return 0
+        0
     } else {
-        return 2
+        2
     }
 }

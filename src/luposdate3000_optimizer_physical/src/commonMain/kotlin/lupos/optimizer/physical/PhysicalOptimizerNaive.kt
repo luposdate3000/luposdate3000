@@ -90,7 +90,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
             when (node) {
                 is OPBaseCompound -> {
                     val cc = node.getChildren()
-                    if (cc.filter { it is OPBaseCompound }.size> 0) {
+                    if (cc.filterIsInstance<OPBaseCompound>().isNotEmpty()) {
                         val childs = mutableListOf<IOPBase>()
                         val columns = mutableListOf<List<String>>()
                         for (i in 0 until cc.size) {
@@ -191,8 +191,8 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                             )
                                         }
                                         EGraphRefTypeExt.IriGraphRef -> {
-                                            if (node.graph1iri != node.graph2iri) {
-                                                res = OPBaseCompound(
+                                            res = if (node.graph1iri != node.graph2iri) {
+                                                OPBaseCompound(
                                                     query,
                                                     arrayOf(
                                                         POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
@@ -201,7 +201,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                                     listOf(listOf(), listOf())
                                                 )
                                             } else {
-                                                res = POPNothing(query, listOf())
+                                                POPNothing(query, listOf())
                                             }
                                         }
                                         else -> {
@@ -251,8 +251,8 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                             )
                                         }
                                         EGraphRefTypeExt.IriGraphRef -> {
-                                            if (node.graph1iri != node.graph2iri) {
-                                                res = OPBaseCompound(
+                                            res = if (node.graph1iri != node.graph2iri) {
+                                                OPBaseCompound(
                                                     query,
                                                     arrayOf(
                                                         POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
@@ -262,7 +262,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                                     listOf(listOf(), listOf(), listOf())
                                                 )
                                             } else {
-                                                res = POPNothing(query, listOf())
+                                                POPNothing(query, listOf())
                                             }
                                         }
                                         else -> {
@@ -310,8 +310,8 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                             )
                                         }
                                         EGraphRefTypeExt.IriGraphRef -> {
-                                            if (node.graph1iri != node.graph2iri) {
-                                                res = OPBaseCompound(
+                                            res = if (node.graph1iri != node.graph2iri) {
+                                                OPBaseCompound(
                                                     query,
                                                     arrayOf(
                                                         POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
@@ -320,7 +320,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                                     listOf(listOf(), listOf())
                                                 )
                                             } else {
-                                                res = POPNothing(query, listOf())
+                                                POPNothing(query, listOf())
                                             }
                                         }
                                         else -> {
@@ -453,7 +453,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = (query.getInstance().tripleStoreManager!!).getGraph(node.graph).getIterator(query, Array<IAOPBase>(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
+                    res = (query.getInstance().tripleStoreManager!!).getGraph(node.graph).getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

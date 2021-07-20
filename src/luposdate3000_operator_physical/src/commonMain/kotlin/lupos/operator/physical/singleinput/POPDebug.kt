@@ -69,15 +69,13 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
                             override /*suspend*/ fun next(): DictionaryValueType {
-                                val res = childIter.next()
-                                return res
+                                return childIter.next()
                             }
                             override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
                                 childIter.nextSIP(minValue, resultValue, resultSkip)
                             }
                             override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
-                                val res = childIter.skipSIP(skipCount)
-                                return res
+                                return childIter.skipSIP(skipCount)
                             }
                             override /*suspend*/ fun close() {
                                 childIter.close()

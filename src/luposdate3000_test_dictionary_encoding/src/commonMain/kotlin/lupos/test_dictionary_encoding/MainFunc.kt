@@ -111,17 +111,17 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                 }
                 if (v.length - x > 0) {
                     val dot = abs(l1 % (v.length - x)) + x
-                    when (dot) {
-                        0 -> v = "." + v
-                        v.length -> v = v + ".0"
-                        else -> v = v.substring(0, dot) + "." + v.substring(dot, v.length)
+                    v = when (dot) {
+                        0 -> "." + v
+                        v.length -> ".0"
+                        else -> v.substring(0, dot) + "." + v.substring(dot, v.length)
                     }
                     if (dot + 3 < v.length) {
                         val pos = 2 + dot + abs(l2 % (v.length - dot - 3))
                         v = v.substring(0, pos) + v2 + v.substring(pos, v.length)
                     }
                 } else {
-                    v = v + ".0e1"
+                    v += ".0e1"
                 }
             }
         }
@@ -157,15 +157,15 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                     remaining--
                     v += AssertionFunctions.randomPrintableNumber(nextRandom())
                 }
-                if (v.length - 1 - x > 0) {
+                v = if (v.length - 1 - x > 0) {
                     val l2 = abs(l % (v.length - 1 - x)) + x
                     when (l2) {
-                        0 -> v = "." + v
-                        v.length -> v = v + ".0"
-                        else -> v = v.substring(0, l2) + "." + v.substring(l2, v.length)
+                        0 -> "." + v
+                        v.length -> ".0"
+                        else -> v.substring(0, l2) + "." + v.substring(l2, v.length)
                     }
                 } else {
-                    v = v + ".0"
+                    ".0"
                 }
             }
         }
@@ -207,7 +207,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
             DictionaryHelper.bnodeToByteArray(buffer, v)
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_I(buffer) }, { v })
-            AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_S(buffer) })
+            AssertionFunctions.assumeException { DictionaryHelper.byteArrayToBnode_S(buffer) }
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { "_:$v" })
         }
     }
@@ -220,7 +220,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
         }
         DictionaryHelper.bnodeToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
-        AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_I(buffer) })
+        AssertionFunctions.assumeException { DictionaryHelper.byteArrayToBnode_I(buffer) }
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_S(buffer) }, { v })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { v })
     }
@@ -411,10 +411,10 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                 v = v.substring(0, v.length - 1)
             }
             if (v.endsWith('.')) {
-                v = v + "0"
+                v += "0"
             }
             if (v.startsWith('.')) {
-                v = '0' + v
+                v = "0$v"
             } else if (v.startsWith("-.")) {
                 v = "-0" + v.substring(1)
             }
@@ -443,7 +443,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
 
     fun floatToByteArray() {
         resetRandom()
-        var v1 = generateDoubleNumber(hasNextRandom())
+        val v1 = generateDoubleNumber(hasNextRandom())
         if (verbose) {
             println("floatToByteArray tmp '$v1'")
         }
@@ -463,7 +463,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
 
     fun doubleToByteArray() {
         resetRandom()
-        var v1 = generateDoubleNumber(hasNextRandom())
+        val v1 = generateDoubleNumber(hasNextRandom())
         if (verbose) {
             println("doubleToByteArray tmp '$v1'")
         }
@@ -547,7 +547,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                     seconds = seconds.substring(0, seconds.length - 1)
                 }
             }
-            if (seconds.length > 0 && seconds[0] == '.') {
+            if (seconds.isNotEmpty() && seconds[0] == '.') {
                 seconds = seconds.substring(1)
             }
             if (seconds.indexOf('.') > 2) {
@@ -555,7 +555,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
             }
             if (seconds.indexOf('.') >= 0) {
                 while (seconds.indexOf('.') < 2) {
-                    seconds = "0" + seconds
+                    seconds = "0$seconds"
                 }
             }
             if (seconds.contains('.')) {
@@ -568,7 +568,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
                 }
             }
             while (seconds.length < 2) {
-                seconds = "0" + seconds
+                seconds = "0$seconds"
             }
             if (year[0] == '+') {
                 year = year.substring(1)

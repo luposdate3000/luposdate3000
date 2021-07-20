@@ -21,7 +21,7 @@ public class VisualisationMessage(public val source: Int, public val destination
     internal var messageCounter: Int = 0
     override fun toString(): String = "VisualisationMessage($source -> $destination at $time.$messageCounter : '$shortText')"
     override operator fun compareTo(other: VisualisationMessage): Int {
-        var res = time - other.time
+        val res = time - other.time
         if (res < 0) {
             return -1
         } else if (res> 0) {

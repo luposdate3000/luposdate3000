@@ -22,11 +22,11 @@ import lupos.shared.inline.fileformat.TriplesIntermediateReader
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String, indexPattern: String): Unit = Parallel.runBlocking {
     when (indexPattern) {
-        "SPO" -> TriplesIntermediateReader(inputFileName).readAll() { row -> println("${row[0]} ${row[1]} ${row[2]}") }
-        "SOP" -> TriplesIntermediateReader(inputFileName).readAll() { row -> println("${row[0]} ${row[2]} ${row[1]}") }
-        "PSO" -> TriplesIntermediateReader(inputFileName).readAll() { row -> println("${row[1]} ${row[0]} ${row[2]}") }
-        "POS" -> TriplesIntermediateReader(inputFileName).readAll() { row -> println("${row[2]} ${row[0]} ${row[1]}") }
-        "OSP" -> TriplesIntermediateReader(inputFileName).readAll() { row -> println("${row[1]} ${row[2]} ${row[0]}") }
-        "OPS" -> TriplesIntermediateReader(inputFileName).readAll() { row -> println("${row[2]} ${row[1]} ${row[0]}") }
+        "SPO" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[0]} ${row[1]} ${row[2]}") }
+        "SOP" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[0]} ${row[2]} ${row[1]}") }
+        "PSO" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[1]} ${row[0]} ${row[2]}") }
+        "POS" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[2]} ${row[0]} ${row[1]}") }
+        "OSP" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[1]} ${row[2]} ${row[0]}") }
+        "OPS" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[2]} ${row[1]} ${row[0]}") }
     }
 }

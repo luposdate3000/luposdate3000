@@ -41,7 +41,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     if (!SanityCheck.enabled) {
         return
     }
-    var instance = Luposdate3000Instance()
+    val instance = Luposdate3000Instance()
     instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)
@@ -51,7 +51,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     var arr = MyIntArray(instance.bufferManager!!, rootPage, false, instance)
 
     fun testSetSizeOk(size: Int) {
-        var oldSize = dataSize
+        val oldSize = dataSize
         dataSize = abs(size % data.size)
         for (i in oldSize until dataSize) {
             data[i] = 0

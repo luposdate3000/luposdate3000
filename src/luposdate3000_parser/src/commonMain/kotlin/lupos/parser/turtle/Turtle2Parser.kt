@@ -27,7 +27,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
     internal val context = ParserContext(input)
 
     @JvmField
-    internal val prefixMap = mutableMapOf<String, String>(":" to "")
+    internal val prefixMap = mutableMapOf(":" to "")
 
     @JvmField
     public val triple: Array<ByteArrayWrapper> = Array(3) { ByteArrayWrapper() }
@@ -195,15 +195,15 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             },
             onBLANK_NODE_LABEL = {
                 val v = context.getValue()
-                if (v.endsWith(".")) {
-// TODO fix the underlying bug in the scanner
+                state = if (v.endsWith(".")) {
+            // TODO fix the underlying bug in the scanner
                     DictionaryHelper.bnodeToByteArray(triple[2], v.substring(0, v.length - 1))
                     onTriple()
-                    state = Turtle2ParserStateExt.STATEMENT
+                    Turtle2ParserStateExt.STATEMENT
                 } else {
                     DictionaryHelper.bnodeToByteArray(triple[2], v)
                     parse_ws(context) {}
-                    state = Turtle2ParserStateExt.TRIPLE_END
+                    Turtle2ParserStateExt.TRIPLE_END
                 }
             },
             onSTRING_LITERAL_QUOTE = {
@@ -270,15 +270,15 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             context,
             onPN_LOCAL = {
                 val v = context.getValue()
-                if (v.endsWith(".")) {
+                state = if (v.endsWith(".")) {
                     // TODO fix the underlying bug in the parser
                     DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!! + v.substring(0, v.length - 1), false))
                     onTriple()
-                    state = Turtle2ParserStateExt.STATEMENT
+                    Turtle2ParserStateExt.STATEMENT
                 } else {
                     DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!! + v, false))
                     parse_ws(context) {}
-                    state = Turtle2ParserStateExt.TRIPLE_END
+                    Turtle2ParserStateExt.TRIPLE_END
                 }
             },
             onSKIP_WS_FORCED = {
@@ -309,15 +309,15 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             onPN_LOCAL = {
                 val action = {
                     val v = context.getValue()
-                    if (v.endsWith(".")) {
-// TODO fix the underlying bug in the parser
+                    state = if (v.endsWith(".")) {
+                // TODO fix the underlying bug in the parser
                         DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v.substring(0, v.length - 1), false))
                         onTriple()
-                        state = Turtle2ParserStateExt.STATEMENT
+                        Turtle2ParserStateExt.STATEMENT
                     } else {
                         DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v, false))
                         parse_ws(context) {}
-                        state = Turtle2ParserStateExt.TRIPLE_END
+                        Turtle2ParserStateExt.TRIPLE_END
                     }
                 }
                 action()

@@ -31,7 +31,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
-    private class LocalSortedInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
+    private class LocalSortedInputStream(key: String, val mode: EModifyType, val idx: EIndexPattern, instance: Luposdate3000Instance) : IMyOutputStream {
         var off = 0
         val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - (buf.size % 3)
@@ -85,7 +85,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
         }
     }
-    private class LocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance) : IMyOutputStream {
+    private class LocalInputStream(key: String, val mode: EModifyType, val idx: EIndexPattern, instance: Luposdate3000Instance) : IMyOutputStream {
         var off = 0
         val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - (buf.size % 3)
@@ -147,7 +147,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
     public constructor(query: IQuery, description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern, instance: Luposdate3000Instance) {
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
-        allConn = mutableListOf<MutableList<Pair<IMyInputStream?, IMyOutputStream>>>()
+        allConn = mutableListOf()
         for (index in description.indices) {
             val idx = index.idx_set[0]
             if (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2]) {
@@ -166,7 +166,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
     public constructor(query: IQuery, description: TripleStoreDescription, type: EModifyType, instance: Luposdate3000Instance) {
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
-        allConn = mutableListOf<MutableList<Pair<IMyInputStream?, IMyOutputStream>>>()
+        allConn = mutableListOf()
         for (index in description.indices) {
             val idx = index.idx_set[0]
             val l = mutableListOf<Pair<IMyInputStream?, IMyOutputStream>>()

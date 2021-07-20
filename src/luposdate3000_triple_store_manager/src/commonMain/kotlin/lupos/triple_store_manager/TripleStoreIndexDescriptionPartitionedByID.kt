@@ -37,8 +37,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     @JvmField internal val partitionColumn: Int,
     instance: Luposdate3000Instance,
 ) : TripleStoreIndexDescription(instance) {
-    internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
-    internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
+    internal val hostnames = Array(partitionCount) { "" }
+    internal val keys = Array(partitionCount) { "" }
 
     @JvmField
     internal var byteArray: ByteArray? = null
@@ -48,8 +48,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         }
         var size = 16
         for (i in 0 until partitionCount) {
-            var buf1 = hostnames[i].encodeToByteArray()
-            var buf2 = keys[i].encodeToByteArray()
+            val buf1 = hostnames[i].encodeToByteArray()
+            val buf2 = keys[i].encodeToByteArray()
             size += 8 + buf1.size + buf2.size
         }
         val byteArray2 = ByteArray(size)
@@ -64,12 +64,12 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         ByteArrayHelper.writeInt4(byteArray2, off, partitionColumn)
         off += 4
         for (i in 0 until partitionCount) {
-            var buf1 = hostnames[i].encodeToByteArray()
+            val buf1 = hostnames[i].encodeToByteArray()
             ByteArrayHelper.writeInt4(byteArray2, off, buf1.size)
             off += 4
             buf1.copyInto(byteArray2, off)
             off += buf1.size
-            var buf2 = keys[i].encodeToByteArray()
+            val buf2 = keys[i].encodeToByteArray()
             ByteArrayHelper.writeInt4(byteArray2, off, buf2.size)
             off += 4
             buf2.copyInto(byteArray2, off)
@@ -78,7 +78,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         return byteArray2
     }
 
-    internal override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
+    override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
         return DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount)
     }
 
@@ -103,7 +103,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         }
     }
 
-    internal override fun assignHosts() {
+    override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey()
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:108"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
@@ -121,8 +121,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         return partitionCount
     }
 
-    internal override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
-        var res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
+    override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
+        val res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
         for (i in 0 until partitionCount) {
             res.add(Pair(hostnames[i], keys[i]))
         }

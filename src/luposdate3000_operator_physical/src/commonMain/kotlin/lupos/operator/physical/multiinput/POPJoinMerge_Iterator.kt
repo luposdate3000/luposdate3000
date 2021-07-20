@@ -37,10 +37,10 @@ internal class POPJoinMerge_Iterator(
     @JvmField internal val key1: DictionaryValueTypeArray
 ) : ColumnIteratorChildIterator() {
     @JvmField
-    internal val data0 = Array<DictionaryValueTypeArray>(columnsINO0.size) { DictionaryValueTypeArray(100) }
+    internal val data0 = Array(columnsINO0.size) { DictionaryValueTypeArray(100) }
 
     @JvmField
-    internal val data1 = Array<DictionaryValueTypeArray>(columnsINO1.size) { DictionaryValueTypeArray(100) }
+    internal val data1 = Array(columnsINO1.size) { DictionaryValueTypeArray(100) }
 
     @JvmField
     internal var localNextI = 0

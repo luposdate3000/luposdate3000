@@ -81,8 +81,8 @@ internal class NodeManager(bufferManager: IBufferManager) {
     }
 
     internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
-        var nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:83"/*SOURCE_FILE_END*/)
-        var node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:84"/*SOURCE_FILE_END*/, nodeid)
+        val nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:83"/*SOURCE_FILE_END*/)
+        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:84"/*SOURCE_FILE_END*/, nodeid)
         NodeShared.setNodeType(node, nodeTypeLeaf)
         NodeShared.setNextNode(node, nodeNullPointer)
         NodeShared.setTripleCount(node, 0)

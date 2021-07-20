@@ -17,10 +17,8 @@
 package lupos.shared
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.ionspin.kotlin.bignum.decimal.plus
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
-import com.ionspin.kotlin.bignum.integer.toBigInteger
 import lupos.shared.inline.DateHelper
 import kotlin.jvm.JvmField
 
@@ -1033,10 +1031,10 @@ public class ValueDouble(@JvmField public var value: Double) : ValueNumeric() {
     public override operator fun times(value: ValueInteger): ValueDefinition = invoke(this.value.times(value.toDouble()).toString())
     public override operator fun times(value: BigDecimal): ValueDefinition = invoke(this.value.times(value.doubleValue()).toString())
     public override operator fun times(value: ValueBoolean): ValueDefinition {
-        if (value.toBoolean()) {
-            return ValueDouble(this.value)
+        return if (value.toBoolean()) {
+            ValueDouble(this.value)
         } else {
-            return ValueDouble(0.0)
+            ValueDouble(0.0)
         }
     }
 
@@ -1235,10 +1233,10 @@ public class ValueFloat(@JvmField public var value: Double) : ValueNumeric() {
     public override operator fun times(value: ValueInteger): ValueDefinition = ValueFloat(this.value.times(value.toDouble()))
     public override operator fun times(value: BigDecimal): ValueDefinition = ValueFloat(this.value.times(value.doubleValue()))
     public override operator fun times(value: ValueBoolean): ValueDefinition {
-        if (value.toBoolean()) {
-            return ValueFloat(this.value)
+        return if (value.toBoolean()) {
+            ValueFloat(this.value)
         } else {
-            return ValueFloat(0.0)
+            ValueFloat(0.0)
         }
     }
 
@@ -1375,19 +1373,19 @@ public inline operator fun BigDecimal.times(value: ValueDefinition): BigDecimal 
 
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.div(value: ValueDefinition): BigInteger {
-    if (this != BigInteger.fromInt(0)) {
-        return (BigInteger(1) / value.div(this).toInt())
+    return if (this != BigInteger.fromInt(0)) {
+        (BigInteger(1) / value.div(this).toInt())
     } else {
-        return BigInteger(0)
+        BigInteger(0)
     }
 }
 
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.div(value: ValueDefinition): BigDecimal {
-    if (this != 0.0.toBigDecimal()) {
-        return (1.0.toBigDecimal() / value.div(this).toDecimal())
+    return if (this != 0.0.toBigDecimal()) {
+        (1.0.toBigDecimal() / value.div(this).toDecimal())
     } else {
-        return 0.0.toBigDecimal()
+        0.0.toBigDecimal()
     }
 }
 

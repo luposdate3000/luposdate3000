@@ -32,7 +32,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class AOPAggregationAVG public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationAVGID, "AOPAggregationAVG", Array<IOPBase>(childs.size) { childs[it] }) {
+public class AOPAggregationAVG public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
@@ -74,8 +74,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
             if (counter == 0) {
                 return dictionary.createValue(buffer)
             } else {
-                val type = DictionaryHelper.byteArrayToType(buffer)
-                when (type) {
+                when (DictionaryHelper.byteArrayToType(buffer)) {
                     ETripleComponentTypeExt.DECIMAL -> {
                         val a = DictionaryHelper.byteArrayToDecimal_I(buffer)
                         val res = a / counter
@@ -113,5 +112,5 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, Array<AOPBase>(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

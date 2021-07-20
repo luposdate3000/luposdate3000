@@ -46,7 +46,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
-    var instance = Luposdate3000Instance()
+    val instance = Luposdate3000Instance()
     instance.allowInitFromDisk = false
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
@@ -60,10 +60,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     val deleteBuffer = DictionaryValueTypeArray(3000)
     var deleteBufferSize = 0
     fun mergeSPO(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType): DictionaryValueType {
-        return DictionaryValueHelper.fromInt((DictionaryValueHelper.toInt(s) and 0x7fff0000.toInt()) or ((DictionaryValueHelper.toInt(p) and 0x7f000000.toInt()) shr 16) or ((DictionaryValueHelper.toInt(o) and 0x7f000000.toInt()) shr 24))
+        return DictionaryValueHelper.fromInt((DictionaryValueHelper.toInt(s) and 0x7fff0000) or ((DictionaryValueHelper.toInt(p) and 0x7f000000) shr 16) or ((DictionaryValueHelper.toInt(o) and 0x7f000000) shr 24))
     }
     fun splitSPO(v: DictionaryValueType, action: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit) {
-        action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000.toInt()), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x00007f00.toInt()) shl 16)), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x0000007f.toInt()) shl 24)))
+        action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x00007f00) shl 16)), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x0000007f) shl 24)))
     }
     fun filterArrToFun(filter: DictionaryValueTypeArray): (DictionaryValueType) -> Boolean {
         var res: (DictionaryValueType) -> Boolean = { true }
@@ -334,11 +334,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     }
 
     fun trimListToFilter(filter: Int, list: List<String>): List<String> {
-        when (filter) {
-            1 -> return listOf(list[1], list[2])
-            2 -> return listOf(list[2])
-            3 -> return listOf()
-            else -> return list
+        return when (filter) {
+            1 -> listOf(list[1], list[2])
+            2 -> listOf(list[2])
+            3 -> listOf()
+            else -> list
         }
     }
 

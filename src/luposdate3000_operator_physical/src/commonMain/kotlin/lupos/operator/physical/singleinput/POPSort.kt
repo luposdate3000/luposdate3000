@@ -45,7 +45,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
     override fun cloneOP(): IOPBase = POPSort(query, projectedVariables, sortBy, sortOrder, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
     override fun toSparql(): String {
-        val variables = Array<String>(sortBy.size) { sortBy[it].name }
+        val variables = Array(sortBy.size) { sortBy[it].name }
         val child = children[0]
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPSort.kt:49"/*SOURCE_FILE_END*/ }, { child !is POPSort })
         val sparql = child.toSparql()

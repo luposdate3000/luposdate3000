@@ -35,7 +35,7 @@ public class KeyValueStore public constructor(
 ) {
 
     @JvmField
-    internal val rootPage: ByteArray
+    internal val rootPage: ByteArray = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:61"/*SOURCE_FILE_END*/, rootPageID)
 
     @JvmField
     internal val bufferManager: IBufferManager = bufferManager
@@ -59,9 +59,8 @@ public class KeyValueStore public constructor(
     internal var mappingID2Off: MyIntArray
 
     init {
-        rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:61"/*SOURCE_FILE_END*/, rootPageID)
-        var id1: Int
-        var id2: Int
+        val id1: Int
+        val id2: Int
         if (initFromRootPage) {
             lastPage = BufferManagerPage.readInt4(rootPage, 0)
             lastPageBuf = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:66"/*SOURCE_FILE_END*/, lastPage)
@@ -195,7 +194,7 @@ public class KeyValueStore public constructor(
     }
 
     public fun createValue(data: ByteArrayWrapper): Int {
-        var res = nextID++
+        val res = nextID++
         BufferManagerPage.writeInt4(rootPage, 8, nextID)
         writeData(data) { page, off ->
             if (res >= mappingID2Page.getSize()) {

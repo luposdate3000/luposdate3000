@@ -36,7 +36,7 @@ public class AOPBuildInCallUUID public constructor(query: IQuery) : AOPBase(quer
 
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            var s = StringBuilder()
+            val s = StringBuilder()
             s.append("00000000-0000-0000-0000-0000")
             val uuid = query.getDictionary().createNewUUID()
             val a = (uuid shr 24) and 0xff
@@ -47,7 +47,7 @@ public class AOPBuildInCallUUID public constructor(query: IQuery) : AOPBase(quer
             s.append(byteToHexMap[(uuid shr 16) and 0xff])
             s.append(byteToHexMap[(uuid shr 8) and 0xff])
             s.append(byteToHexMap[uuid and 0xff])
-            ValueIri("urn:uuid:" + s.toString())
+            ValueIri("urn:uuid:$s")
         }
     }
 

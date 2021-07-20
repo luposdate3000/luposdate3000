@@ -20,5 +20,5 @@ import lupos.shared.IQuery
 import lupos.shared.XMLElement
 
 internal interface DistributedOptimizerBase {
-    public fun optimize(query: IQuery, key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit)
+    fun optimize(query: IQuery, key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit)
 }

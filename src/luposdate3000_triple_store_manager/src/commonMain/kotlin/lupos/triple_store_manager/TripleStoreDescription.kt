@@ -41,7 +41,7 @@ public class TripleStoreDescription(
     @JvmField internal val instance: Luposdate3000Instance,
 ) : ITripleStoreDescription {
     public override fun toMetaString(): String {
-        var res = StringBuilder()
+        val res = StringBuilder()
         for (idx in indices) {
             when (idx) {
                 is TripleStoreIndexDescriptionPartitionedByID -> {
@@ -69,7 +69,7 @@ public class TripleStoreDescription(
 
     public companion object {
         public operator fun invoke(metaString: String, instance: Luposdate3000Instance): TripleStoreDescription {
-            var indices = mutableListOf<TripleStoreIndexDescription>()
+            val indices = mutableListOf<TripleStoreIndexDescription>()
             val metad = metaString.split("|")
             for (meta in metad) {
                 val args = meta.split(";")
@@ -110,7 +110,7 @@ public class TripleStoreDescription(
     }
 
     internal fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
-        var res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
+        val res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
         for (idx in indices) {
             res.addAll(idx.getAllLocations())
         }
@@ -134,7 +134,7 @@ public class TripleStoreDescription(
                         projectedVariables.add(param.name)
                     }
                 }
-                return POPTripleStoreIterator(query, projectedVariables, index, arrayOf<IOPBase>(params[0], params[1], params[2]))
+                return POPTripleStoreIterator(query, projectedVariables, index, arrayOf(params[0], params[1], params[2]))
             }
         }
         throw Exception("no valid index found")

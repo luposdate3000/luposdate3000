@@ -36,25 +36,24 @@ public class AOPBuildInCallUCASE public constructor(query: IQuery, child0: AOPBa
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: DictionaryValueType
+            val res: DictionaryValueType
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
-            when (tmp_1) {
+            when (DictionaryHelper.byteArrayToType(tmp_0)) {
                 ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp_12: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_13: String = tmp_12.toUpperCase()
+                    val tmp_13: String = tmp_12.uppercase()
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
                     val tmp_15_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
                     val tmp_15_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_16_content: String = tmp_15_content.toUpperCase()
+                    val tmp_16_content: String = tmp_15_content.uppercase()
                     val tmp_16_lang: String = tmp_15_lang
                     DictionaryHelper.langToByteArray(tmp_2, tmp_16_content, tmp_16_lang)
                     res = query.getDictionary().createValue(tmp_2)
@@ -62,7 +61,7 @@ public class AOPBuildInCallUCASE public constructor(query: IQuery, child0: AOPBa
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     val tmp_18_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
                     val tmp_18_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_19_content: String = tmp_18_content.toUpperCase()
+                    val tmp_19_content: String = tmp_18_content.uppercase()
                     val tmp_19_type: String = tmp_18_type
                     DictionaryHelper.typedToByteArray(tmp_2, tmp_19_content, tmp_19_type)
                     res = query.getDictionary().createValue(tmp_2)

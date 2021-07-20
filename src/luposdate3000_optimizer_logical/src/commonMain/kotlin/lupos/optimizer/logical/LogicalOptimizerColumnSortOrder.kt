@@ -40,7 +40,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                 }
             }
         )
-        var done = node.initializeSortPriorities {
+        val done = node.initializeSortPriorities {
             hadChange = true
             onChange()
         }

@@ -49,7 +49,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:48"/*SOURCE_FILE_END*/ }, { projectedVariables.isEmpty() })
         val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
-        val params = Array<IAOPBase>(3) { childB.children[it] as IAOPBase }
+        val params = Array(3) { childB.children[it] as IAOPBase }
         var res = IteratorBundle(0)
         val mappingHelper = mutableListOf<Int>()
         for (i in 0 until 3) {

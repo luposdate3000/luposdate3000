@@ -43,7 +43,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     if (!SanityCheck.enabled) {
         return
     }
-    var instance = Luposdate3000Instance()
+    val instance = Luposdate3000Instance()
     instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)
@@ -53,7 +53,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     val values = mutableListOf<ByteArray>()
     val mapping = mutableMapOf<Int, Int>() // kv.id -> values.idx
 
-    var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
+    val usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
 
     fun getExistingData(rng: Int, action: (ByteArray, Int) -> Unit) {
         val ids = mutableListOf<Int>()
@@ -65,7 +65,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
 
     fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
-        val ids = MutableList<Int>(1000) { it }
+        val ids = MutableList(1000) { it }
         ids.removeAll(mapping.keys)
         if (ids.size > 0) {
             val key = ids[abs(rng % ids.size)]
@@ -77,7 +77,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         var len = abs(rng / 256) % maxSize
         var seed = abs(rng % 256)
         if (usedGenerators[len] == null) {
-            usedGenerators[len] = mutableSetOf<Int>()
+            usedGenerators[len] = mutableSetOf()
         } else {
             while (usedGenerators[len]!!.contains(seed)) {
                 if (seed < 255) {
@@ -86,7 +86,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
                     len = (len + 1) % maxSize
                     seed = 0
                     if (usedGenerators[len] == null) {
-                        usedGenerators[len] = mutableSetOf<Int>()
+                        usedGenerators[len] = mutableSetOf()
                         break
                     }
                 }

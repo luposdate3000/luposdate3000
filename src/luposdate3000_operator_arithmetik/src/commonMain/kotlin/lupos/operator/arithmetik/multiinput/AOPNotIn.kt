@@ -31,7 +31,7 @@ public class AOPNotIn public constructor(query: IQuery, childA: AOPBase, childB:
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPNotIn.kt:32"/*SOURCE_FILE_END*/ }, { children[1] is AOPSet })
-        val childsB = Array<() -> ValueDefinition>(children[1].getChildren().size) { (children[1].getChildren()[it] as AOPBase).evaluate(row) }
+        val childsB = Array(children[1].getChildren().size) { (children[1].getChildren()[it] as AOPBase).evaluate(row) }
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()

@@ -34,14 +34,14 @@ public object QueryResultToXMLElement {
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
         }
         val res = mutableListOf<XMLElement>()
         val nodes: Array<IOPBase>
         val columnProjectionOrder: List<List<String>>
         if (rootNode is OPBaseCompound) {
-            nodes = Array<IOPBase>(rootNode.children.size) { rootNode.children[it] }
+            nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)
@@ -141,7 +141,7 @@ public object QueryResultToXMLElement {
         }
         if (res.size == 1) {
             if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
+                query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             return res[0]
         }
@@ -150,7 +150,7 @@ public object QueryResultToXMLElement {
             compountResult.addContent(r)
         }
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
+            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
         return compountResult
     }

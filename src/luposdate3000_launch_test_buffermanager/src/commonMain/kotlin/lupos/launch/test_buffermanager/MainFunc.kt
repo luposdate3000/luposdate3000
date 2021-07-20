@@ -32,9 +32,9 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         nextRandom,
         hasNextRandom,
         resetRandom,
-        { it -> BufferManager(it) },
+        { BufferManager(it) },
         BufferManagerExt.isInMemoryOnly,
-        { it -> BufferManagerExt.allowInitFromDisk = it },
+        { BufferManagerExt.allowInitFromDisk = it },
         false,
     )
 }

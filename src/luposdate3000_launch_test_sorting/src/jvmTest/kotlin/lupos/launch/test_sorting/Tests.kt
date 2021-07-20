@@ -36,7 +36,7 @@ import kotlin.test.Test
 
 class Tests {
 
-    fun helper(data: IntArray) {
+    private fun helper(data: IntArray) {
         var dataoff = 0
         executeTest({ data[dataoff++] }, { data.size - dataoff }, { dataoff = 0 })
     }

@@ -19,10 +19,10 @@ package lupos.optimizer.distributed.query
 import lupos.shared.IQuery
 import lupos.shared.XMLElement
 
-public class DistributedOptimizerAssignParent() : DistributedOptimizerBase {
+public class DistributedOptimizerAssignParent : DistributedOptimizerBase {
     override fun optimize(query: IQuery, key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
-        if (dependenciesBottomUp.size > 0) {
-            var possibleHost = keytoHostMapGet(dependenciesBottomUp.first())
+        if (dependenciesBottomUp.isNotEmpty()) {
+            val possibleHost = keytoHostMapGet(dependenciesBottomUp.first())
             if (possibleHost != null) {
                 for (s in dependenciesBottomUp) {
                     if (possibleHost != keytoHostMapGet(s)) {

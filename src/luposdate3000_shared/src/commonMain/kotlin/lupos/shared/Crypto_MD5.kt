@@ -19,10 +19,10 @@ package lupos.shared
 import kotlin.math.abs
 import kotlin.math.sin
 
-@OptIn(kotlin.ExperimentalStdlibApi::class)
+@OptIn(ExperimentalStdlibApi::class)
 public object Crypto_MD5 {
     public fun md5(value: String): String {
-        var tmp = compute(value.encodeToByteArray())
+        val tmp = compute(value.encodeToByteArray())
         val sb = StringBuilder()
         for (b in tmp) {
             sb.append(lookupTable[b.toInt() and 0xff])

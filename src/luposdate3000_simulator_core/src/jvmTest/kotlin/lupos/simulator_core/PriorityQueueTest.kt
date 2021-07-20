@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-public class PriorityQueueTest {
+class PriorityQueueTest {
 
     @Test
     fun `queue should peak() lowest time`() {

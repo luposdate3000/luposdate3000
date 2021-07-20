@@ -410,14 +410,14 @@ public object XMLElementToOPBase {
                     childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
                 }
             }
-            AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+            AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         operatorMap["AOPAggregationSAMPLE"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+            AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
             XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping, recursionFunc)
@@ -427,28 +427,28 @@ public object XMLElementToOPBase {
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+            AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         operatorMap["AOPAggregationSUM"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+            AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         operatorMap["AOPAggregationMIN"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+            AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         operatorMap["AOPAggregationMAX"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
+            AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         operatorMap["AOPGT"] = { query, node, mapping, recursionFunc ->
             AOPGT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
@@ -806,7 +806,7 @@ public object XMLElementToOPBase {
             val p = XMLElementToOPBase(query, node["pparam"]!!.childs[0], mapping, recursionFunc) as IAOPBase
             val o = XMLElementToOPBase(query, node["oparam"]!!.childs[0], mapping, recursionFunc) as IAOPBase
             val tripleStoreIndexDescription = query.getInstance().tripleStoreManager!!.getIndexFromXML(node["idx"]!!) as TripleStoreIndexDescription
-            POPTripleStoreIterator(query, createProjectedVariables(node), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
+            POPTripleStoreIterator(query, createProjectedVariables(node), tripleStoreIndexDescription, arrayOf(s, p, o))
         }
         operatorMap["LOPTriple"] = { query, node, mapping, recursionFunc ->
             LOPTriple(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping, recursionFunc) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())

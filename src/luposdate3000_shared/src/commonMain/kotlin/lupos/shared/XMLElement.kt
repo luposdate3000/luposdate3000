@@ -67,8 +67,7 @@ public class XMLElement(tag: String) {
         }
 
         public fun parseBindingFromByteArrayWrapper(nodeResult: XMLElement, value: ByteArrayWrapper, name: String) {
-            val type = DictionaryHelper.byteArrayToType(value)
-            when (type) {
+            when (DictionaryHelper.byteArrayToType(value)) {
                 ETripleComponentTypeExt.STRING_TYPED -> nodeResult.addContent(XMLElement("binding").addAttribute("name", name).addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToTyped_Content(value)).addAttribute("datatype", DictionaryHelper.byteArrayToTyped_Type(value))))
                 ETripleComponentTypeExt.STRING_LANG -> nodeResult.addContent(XMLElement("binding").addAttribute("name", name).addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToLang_Content(value)).addAttribute("xml:lang", DictionaryHelper.byteArrayToLang_Lang(value))))
                 ETripleComponentTypeExt.STRING -> nodeResult.addContent(XMLElement("binding").addAttribute("name", name).addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToString(value))))
@@ -108,7 +107,7 @@ public class XMLElement(tag: String) {
     }
 
     override fun equals(other: Any?): Boolean = other is XMLElement && myEqualsUnclean(other, true, true, true)
-    public fun myEquals(other: XMLElement?): Boolean {
+    private fun myEquals(other: XMLElement?): Boolean {
         if (other == null) {
             return false
         }
@@ -138,7 +137,7 @@ public class XMLElement(tag: String) {
         return true
     }
 
-    public fun myEqualsUnclean(other: XMLElement?, fixStringType: Boolean, fixNumbers: Boolean, fixSortOrder: Boolean): Boolean {
+    private fun myEqualsUnclean(other: XMLElement?, fixStringType: Boolean, fixNumbers: Boolean, fixSortOrder: Boolean): Boolean {
         if (other == null) {
             return false
         }

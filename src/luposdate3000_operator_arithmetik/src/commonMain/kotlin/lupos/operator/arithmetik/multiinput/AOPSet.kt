@@ -23,7 +23,7 @@ import lupos.shared.SparqlFeatureNotImplementedException
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
-public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPSetID, "AOPSet", Array<IOPBase>(childs.size) { childs[it] }) {
+public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPSetID, "AOPSet", Array(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         var res = ""
         res += "("

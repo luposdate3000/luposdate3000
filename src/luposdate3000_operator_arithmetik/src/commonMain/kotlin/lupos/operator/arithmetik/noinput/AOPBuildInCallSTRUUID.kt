@@ -36,7 +36,7 @@ public class AOPBuildInCallSTRUUID public constructor(query: IQuery) : AOPBase(q
 
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            var s = StringBuilder()
+            val s = StringBuilder()
             s.append("00000000-0000-0000-0000-0000")
             val uuid = query.getDictionary().createNewUUID()
             val a = (uuid shr 24) and 0xff

@@ -34,19 +34,19 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
 
     @JvmField
-    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
+    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf()
 
     @JvmField
-    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf()
 
     @JvmField
-    public var dependenciesMapTopDown: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
+    public var dependenciesMapTopDown: MutableMap<String, Set<String>> = mutableMapOf()
 
     @JvmField
-    public var dependenciesMapBottomUp: MutableMap<String, Set<String>> = mutableMapOf<String, Set<String>>()
+    public var dependenciesMapBottomUp: MutableMap<String, Set<String>> = mutableMapOf()
 
     @JvmField
-    public var keyRepresentative: MutableMap<String, String> = mutableMapOf<String, String>()
+    public var keyRepresentative: MutableMap<String, String> = mutableMapOf()
 
     @JvmField
     public var _workingDirectory: String = ""
@@ -82,7 +82,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public var root: IOPBase? = null
 
     @JvmField
-    public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
+    public var allVariationsKey: MutableMap<String, Int> = mutableMapOf()
 
     @JvmField
     public var dictionaryUrl: String? = null
@@ -112,15 +112,15 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         commited = false
         partitions.clear()
         val factory = instance.distributedOptimizerQueryFactory
-        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process && factory != null) {
-            operatorgraphParts = mutableMapOf<String, XMLElement>()
-            operatorgraphPartsToHostMap = mutableMapOf<String, String>()
-            dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
-            dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
-            keyRepresentative = mutableMapOf<String, String>()
-            return factory().optimize(this)
+        return if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process && factory != null) {
+            operatorgraphParts = mutableMapOf()
+            operatorgraphPartsToHostMap = mutableMapOf()
+            dependenciesMapTopDown = mutableMapOf()
+            dependenciesMapBottomUp = mutableMapOf()
+            keyRepresentative = mutableMapOf()
+            factory().optimize(this)
         } else {
-            return newroot
+            newroot
         }
     }
 
