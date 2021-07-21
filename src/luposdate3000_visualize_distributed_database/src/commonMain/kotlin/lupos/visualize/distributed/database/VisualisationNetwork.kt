@@ -46,7 +46,7 @@ public class VisualisationNetwork {
         const val layerDeviceDBName = 7
         const val layerMessage = 8
         const val layerStorageKey = 9
-        const val layerWork = 10
+        const val layerWork = 11
         var deviceRadius = 20.0
         const val minDistToOtherPath = 4.0
     }

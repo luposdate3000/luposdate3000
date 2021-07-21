@@ -18,16 +18,17 @@ package lupos.visualize.distributed.database
 
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 public class VisualisationOperatorGraph {
     internal companion object {
         internal var idcounter = 0
-        internal const val distanceX = 40.0
+        internal const val distanceX = 120.0
         internal const val distanceY = 40.0
-        internal const val radius = 16.0
         internal const val layerConnection = 1
-        internal const val layerNode = 2
         internal const val layerNodeText = 3
         internal const val treshhold = 0.001
         internal const val maxMove = 5.0
@@ -35,14 +36,28 @@ public class VisualisationOperatorGraph {
     }
     internal val id = idcounter++
     public val nodes: MutableList<MutableList<VisualisationOperatorGraphNode>> = mutableListOf<MutableList<VisualisationOperatorGraphNode>>()
-    public var minX: Double = -radius
-    public var minY: Double = -radius
-    public var maxX: Double = +radius
-    public var maxY: Double = +radius
+    public var minX: Double = -999999.0
+    public var minY: Double = -999999.0
+    public var maxX: Double = -999999.0
+    public var maxY: Double = -999999.0
     public var offsetX: Double = 0.0
     public var offsetY: Double = 0.0
     public var anchorX: Double = 0.0
     public var anchorY: Double = 0.0
+    private fun checkMinMax(x: Double, y: Double) {
+        if (maxY <y + 0.5 * distanceY || maxY <-999990.0) {
+            maxY = y + 0.5 * distanceY
+        }
+        if (maxX <x + 0.5 * distanceX || maxX <-999990.0) {
+            maxX = x + 0.5 * distanceX
+        }
+        if (minY > y - 0.5 * distanceY || minY <-999990.0) {
+            minY = y - 0.5 * distanceY
+        }
+        if (minX > x - 0.5 * distanceX || minX <-999990.0) {
+            minX = x - 0.5 * distanceX
+        }
+    }
     public fun getRadius(): Double {
         return sqrt((maxX - minX) * (maxX - minX) + (maxY - minY) * (maxY - minY))
     }
@@ -53,12 +68,7 @@ public class VisualisationOperatorGraph {
                 val n = nodes[i][j]
                 n.x = j * distanceX
                 n.y = i * distanceY
-                if (maxY <n.y + radius) {
-                    maxY = n.y + radius
-                }
-                if (maxX <n.x + radius) {
-                    maxX = n.x + radius
-                }
+                checkMinMax(n.x, n.y)
             }
         }
         var flag = true
@@ -70,9 +80,7 @@ public class VisualisationOperatorGraph {
                     val nl = nodes[i][j - 1]
                     if (nl.x + distanceY> n.x + treshhold) {
                         n.x = nl.x + distanceY
-                        if (maxX <n.x + radius) {
-                            maxX = n.x + radius
-                        }
+                        checkMinMax(n.x, n.y)
                         flag = true
                     }
                 }
@@ -106,12 +114,11 @@ public class VisualisationOperatorGraph {
                 "fill" to "#FFFF00",
             )
         )
-        val myOffsetX = offsetX - (maxX - minX) * 0.5
-        val myOffsetY = offsetY - (maxY - minY) * 0.5
+        val myOffsetX = offsetX - (minX + maxX) * 0.5
+        val myOffsetY = offsetY - (minY + maxY) * 0.5
         image.addRect(layerOffset, minX + myOffsetX, minY + myOffsetY, maxX + myOffsetX, maxY + myOffsetY, mutableListOf("fill-yellow"))
         for (nn in nodes) {
             for (n in nn) {
-                image.addCircle(layerOffset + layerNode, n.x + myOffsetX, n.y + myOffsetY, radius, mutableListOf("operator-node"))
                 val key2 = if (n.key.size> 0) {
                     n.key.toString()
                 } else {
@@ -121,18 +128,19 @@ public class VisualisationOperatorGraph {
                     "POPProjection" -> "\u03C0"
                     "POPJoinMerge", "POPJoinMergeSingleColumn" -> "\u2A1D"
                     "POPGroup" -> "G"
+                    "POPUnion" -> "\u222A"
                     "POPDistributedSendSingle" -> "\u2191" + key2
                     "POPDistributedReceiveSingle" -> "\u2193" + key2
                     "POPTripleStoreIterator" -> {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:127"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:135"/*SOURCE_FILE_END*/ },
                             { n.parentKeys.size <= 1 }
                         )
                         if (n.parentKeys.size == 1) {
                             val pkey = n.parentKeys.first()
                             val parr = pkey.split("=")
                             SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:134"/*SOURCE_FILE_END*/ },
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:142"/*SOURCE_FILE_END*/ },
                                 { parr.size == 2 }
                             )
                             val idxName = parr[1]
@@ -140,16 +148,33 @@ public class VisualisationOperatorGraph {
                             val patternUsed = desc.attributes["pattern"]!!
                             val hostUsed = desc.attributes["hostname$idxName"]!!
                             val keyUsed = desc.attributes["key$idxName"]!!
-                            "!$patternUsed@$hostUsed:$keyUsed!"
+                            "S[$patternUsed@$hostUsed:$keyUsed]"
                         } else {
-                            "!!"
+                            "S"
                         }
                     }
                     else -> n.op.tag
                 }
                 image.addText(layerOffset + layerNodeText, n.x + myOffsetX, n.y + myOffsetY, label, mutableListOf())
                 for (a in n.above) {
-                    image.addLine(layerOffset + layerConnection, a.x + myOffsetX, a.y + myOffsetY, n.x + myOffsetX, n.y + myOffsetY, mutableListOf("operator-connection"))
+                    val x1 = a.x + myOffsetX
+                    val y1 = a.y + myOffsetY
+                    val x2 = n.x + myOffsetX
+                    val y2 = n.y + myOffsetY
+                    val w = (x2 - x1)
+                    val h = (y2 - y1)
+                    val l1 = sqrt(w * w + h * h)
+                    val x0 = (x1 + x2) / 2.0
+                    val y0 = (y1 + y2) / 2.0
+                    val a = atan2(h, w)
+                    val radius = sqrt(cos(a) * 0.5 * distanceX * cos(a) * 0.5 * distanceX + sin(a) * 0.5 * distanceY * sin(a) * 0.5 * distanceY)
+                    var l2 = l1 - radius
+                    if (l2 <0.0) {
+                        l2 = 0.0
+                    }
+                    val w0 = w / l1 * l2 * 0.5
+                    val h0 = h / l1 * l2 * 0.5
+                    image.addLine(layerOffset + layerConnection, x0 - w0, y0 - h0, x0 + w0, y0 + h0, mutableListOf("operator-connection"))
                 }
             }
         }
@@ -172,9 +197,7 @@ public class VisualisationOperatorGraph {
             var x = xl + (xr - xl) * 0.5
             if (x> n.x + treshhold) {
                 n.x = x
-                if (maxX <n.x + radius) {
-                    maxX = n.x + radius
-                }
+                checkMinMax(n.x, n.y)
                 flag = true
             }
         }
@@ -184,9 +207,7 @@ public class VisualisationOperatorGraph {
             var x = xl + (xr - xl) * 0.5
             if (x> n.x + treshhold) {
                 n.x = x
-                if (maxX <n.x + radius) {
-                    maxX = n.x + radius
-                }
+                checkMinMax(n.x, n.y)
                 flag = true
             }
         }
@@ -220,19 +241,37 @@ public class VisualisationOperatorGraph {
             } else {
                 listOf()
             }
-        val node = VisualisationOperatorGraphNode(layer, below, above, op, key, parentKeys)
-        node.y = layer * distanceY
-        while (nodes.size <= layer) {
-            nodes.add(mutableListOf())
-        }
-        nodes[layer].add(node)
-        if (!op.tag.contains("POPTripleStoreIterator")) {
-            for (c in filterChilds(op.childs)) {
-                val cc = operatorGraphToNodes(c, layer + 1, nodes, parentKeys + key)
-                above.add(cc)
-                cc.below.add(node)
+        if (op.tag == "POPDistributedReceiveMulti") {
+            val node = VisualisationOperatorGraphNode(layer, below, above, XMLElement("POPUnion"), listOf(), parentKeys)
+            node.y = layer * distanceY
+            while (nodes.size <= layer + 1) {
+                nodes.add(mutableListOf())
             }
+            nodes[layer].add(node)
+            for (k in key) {
+                val below2 = mutableListOf<VisualisationOperatorGraphNode>()
+                val above2 = mutableListOf<VisualisationOperatorGraphNode>()
+                val node2 = VisualisationOperatorGraphNode(layer + 1, below2, above2, XMLElement("POPDistributedReceiveSingle"), listOf(k), parentKeys)
+                above.add(node2)
+                below2.add(node)
+                nodes[layer + 1].add(node2)
+            }
+            return node
+        } else {
+            val node = VisualisationOperatorGraphNode(layer, below, above, op, key, parentKeys)
+            node.y = layer * distanceY
+            while (nodes.size <= layer) {
+                nodes.add(mutableListOf())
+            }
+            nodes[layer].add(node)
+            if (!op.tag.contains("POPTripleStoreIterator")) {
+                for (c in filterChilds(op.childs)) {
+                    val cc = operatorGraphToNodes(c, layer + 1, nodes, parentKeys + key)
+                    above.add(cc)
+                    cc.below.add(node)
+                }
+            }
+            return node
         }
-        return node
     }
 }
