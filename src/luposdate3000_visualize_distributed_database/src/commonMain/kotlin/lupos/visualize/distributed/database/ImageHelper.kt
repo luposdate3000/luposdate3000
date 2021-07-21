@@ -36,17 +36,17 @@ public class ImageHelper {
         maxY = -99999999.0
     }
     private fun adjustBordersToPoint(x: Double, y: Double) {
-        if (minX> x - margin || minX == -99999999.0) {
-            minX = x - margin
+        if (minX> x || minX == -99999999.0) {
+            minX = x
         }
-        if (minY> y - margin || minY == -99999999.0) {
-            minY = y - margin
+        if (minY> y || minY == -99999999.0) {
+            minY = y
         }
-        if (maxX <x + margin || maxX == -99999999.0) {
-            maxX = x + margin
+        if (maxX <x || maxX == -99999999.0) {
+            maxX = x
         }
-        if (maxY <y + margin || maxY == -99999999.0) {
-            maxY = y + margin
+        if (maxY <y || maxY == -99999999.0) {
+            maxY = y
         }
     }
 
@@ -202,7 +202,11 @@ public class ImageHelper {
     }
     public override fun toString(): String {
         val buffer = StringBuilder()
-        buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"${minX - margin} ${minY - margin} ${maxX + margin} ${maxY + margin}\" >")
+        val x = minX - margin
+        val y = minY - margin
+        val w = maxX - minX + margin * 2
+        val h = maxY - minY + margin * 2
+        buffer.appendLine("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"$x $y $w ${h}\" >")
         buffer.appendLine("    <defs>")
         buffer.appendLine("        <marker id=\"arrowhead\" orient=\"auto\" markerWidth=\"2\" markerHeight=\"4\" refX=\"0.1\" refY=\"2\">")
         buffer.appendLine("            <path d=\"M0,0 V4 L2,2 Z\" fill=\"#000000\" />")
@@ -217,7 +221,7 @@ public class ImageHelper {
             buffer.appendLine("        }")
         }
         buffer.appendLine("    </style>")
-        buffer.appendLine("    <rect width=\"100%\" height=\"100%\" fill=\"#FFFFFF\"/>")
+        buffer.appendLine("    <rect x=\"$x\" y=\"$y\" width=\"$w\" height=\"$h\" fill=\"#FFFFFF\"/>")
         for (layer in layers) {
             for (line in layer) {
                 buffer.appendLine(line)
