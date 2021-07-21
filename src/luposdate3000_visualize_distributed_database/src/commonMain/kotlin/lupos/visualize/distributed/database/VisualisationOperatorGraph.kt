@@ -20,19 +20,84 @@ import lupos.shared.XMLElement
 
 public class VisualisationOperatorGraph {
     internal companion object {
-        internal const val distanceX = 20.0
-        internal const val distanceY = 20.0
-        internal const val radius = 8.0
-        internal const val layerNode = 1
-        internal const val layerNodeText = 2
-        internal const val layerConnection = 0
+        internal var idcounter = 0
+        internal const val distanceX = 80.0
+        internal const val distanceY = 80.0
+        internal const val radius = 30.0
+        internal const val layerConnection = 1
+        internal const val layerNode = 2
+        internal const val layerNodeText = 3
         internal const val treshhold = 0.001
+        internal const val maxMove = 5.0
+        internal const val minMove = 0.1
     }
+    internal val id = idcounter++
     public val nodes: MutableList<MutableList<VisualisationOperatorGraphNode>> = mutableListOf<MutableList<VisualisationOperatorGraphNode>>()
-    public var minX: Double = 0.0
-    public var minY: Double = 0.0
-    public var maxX: Double = 0.0
-    public var maxY: Double = 0.0
+    public var minX: Double = -radius
+    public var minY: Double = -radius
+    public var maxX: Double = +radius
+    public var maxY: Double = +radius
+    public var offsetX: Double = 0.0
+    public var offsetY: Double = 0.0
+    public var anchorX: Double = 0.0
+    public var anchorY: Double = 0.0
+    public fun verifyNoCollision(other: VisualisationOperatorGraph): Boolean {
+        val myW = (maxX - minX) * 0.5
+        val myH = (maxY - minY) * 0.5
+        val otherW = (other.maxX - other.minX) * 0.5
+        val otherH = (other.maxY - other.minY) * 0.5
+
+        val myX1 = offsetX - myW
+        val myY1 = offsetY - myH
+        val otherX1 = other.offsetX - otherW
+        val otherY1 = other.offsetY - otherH
+        val myX2 = offsetX + myW
+        val myY2 = offsetY + myH
+        val otherX2 = other.offsetX + otherW
+        val otherY2 = other.offsetY + otherH
+
+        val d = doubleArrayOf(
+            myX2 - otherX1 + distanceX,
+            myY2 - otherY1 + distanceY,
+            otherX2 - myX1 + distanceX,
+            otherY2 - myY1 + distanceY,
+        )
+        for (v in d) {
+            if (v <0.0) {
+                return false
+            }
+        }
+        var minI = 0
+        for (i in 0 until d.size) {
+            if (d[i] <d[minI]) {
+                minI = i
+            }
+            d[i] = d[i] * 0.5
+            if (d[i]> maxMove) {
+                d[i] = maxMove
+            }
+        }
+        println("dist ${d[minI]}")
+        when (minI) {
+            0 -> {
+                offsetX -= d[minI]
+                other.offsetX += d[minI]
+            }
+            1 -> {
+                offsetY -= d[minI]
+                other.offsetY += d[minI]
+            }
+            2 -> {
+                offsetX += d[minI]
+                other.offsetX -= d[minI]
+            }
+            3 -> {
+                offsetY += d[minI]
+                other.offsetY -= d[minI]
+            }
+        }
+        return d[minI]> minMove
+    }
     public fun prepareOperatorGraph(op: XMLElement) {
         operatorGraphToNodes(op, 0, nodes)
         for (i in 0 until nodes.size) {
@@ -40,11 +105,11 @@ public class VisualisationOperatorGraph {
                 val n = nodes[i][j]
                 n.x = j * distanceX
                 n.y = i * distanceY
-                if (maxY <n.y) {
-                    maxY = n.y
+                if (maxY <n.y + radius) {
+                    maxY = n.y + radius
                 }
-                if (maxX <n.x) {
-                    maxX = n.x
+                if (maxX <n.x + radius) {
+                    maxX = n.x + radius
                 }
             }
         }
@@ -57,8 +122,8 @@ public class VisualisationOperatorGraph {
                     val nl = nodes[i][j - 1]
                     if (nl.x + distanceY> n.x + treshhold) {
                         n.x = nl.x + distanceY
-                        if (maxX <n.x) {
-                            maxX = n.x
+                        if (maxX <n.x + radius) {
+                            maxX = n.x + radius
                         }
                         flag = true
                     }
@@ -73,41 +138,50 @@ public class VisualisationOperatorGraph {
             }
         }
     }
-    public fun toImage(): ImageHelper {
-        val res = ImageHelper()
-        res.createClass(
+    public fun toImage(image: ImageHelper, layerOffset: Int) {
+        image.createClass(
             "operator-node",
             mapOf(
                 "fill" to "#FFFFFF",
                 "stroke" to "#000000",
             )
         )
-        res.createClass(
+        image.createClass(
             "operator-connection",
             mapOf(
                 "stroke" to "#000000",
             )
         )
-        res.setZeroSize()
+        image.createClass(
+            "fill-yellow",
+            mapOf(
+                "fill" to "#FFFF00",
+            )
+        )
+        val myOffsetX = offsetX - (maxX - minX) * 0.5
+        val myOffsetY = offsetY - (maxY - minY) * 0.5
+        image.addRect(layerOffset, minX + myOffsetX, minY + myOffsetY, maxX + myOffsetX, maxY + myOffsetY, mutableListOf("fill-yellow"))
         for (nn in nodes) {
             for (n in nn) {
-                res.addCircle(layerNode, n.x, n.y, radius, mutableListOf("operator-node"))
+                image.addCircle(layerOffset + layerNode, n.x + myOffsetX, n.y + myOffsetY, radius, mutableListOf("operator-node"))
                 val key = if (n.key.size> 0) {
                     n.key.toString()
                 } else {
                     ""
                 }
-                res.addText(layerNodeText, n.x, n.y, n.tag + key, mutableListOf())
+                image.addText(layerOffset + layerNodeText, n.x + myOffsetX, n.y + myOffsetY, n.tag + key, mutableListOf())
                 for (a in n.above) {
-                    res.addLine(layerConnection, a.x, a.y, n.x, n.y, mutableListOf("operator-connection"))
+                    image.addLine(layerOffset + layerConnection, a.x + myOffsetX, a.y + myOffsetY, n.x + myOffsetX, n.y + myOffsetY, mutableListOf("operator-connection"))
                 }
             }
         }
-        return res
     }
     public fun operatorGraphToImage(op: XMLElement): ImageHelper {
         prepareOperatorGraph(op)
-        return toImage()
+        val res = ImageHelper()
+        res.setZeroSize()
+        toImage(res, 0)
+        return res
     }
 
     private fun assignCoordinates(n: VisualisationOperatorGraphNode, nodes: MutableList<MutableList<VisualisationOperatorGraphNode>>): Boolean {
@@ -120,8 +194,8 @@ public class VisualisationOperatorGraph {
             var x = xl + (xr - xl) * 0.5
             if (x> n.x + treshhold) {
                 n.x = x
-                if (maxX <n.x) {
-                    maxX = n.x
+                if (maxX <n.x + radius) {
+                    maxX = n.x + radius
                 }
                 flag = true
             }
@@ -132,8 +206,8 @@ public class VisualisationOperatorGraph {
             var x = xl + (xr - xl) * 0.5
             if (x> n.x + treshhold) {
                 n.x = x
-                if (maxX <n.x) {
-                    maxX = n.x
+                if (maxX <n.x + radius) {
+                    maxX = n.x + radius
                 }
                 flag = true
             }

@@ -100,6 +100,12 @@ public class ImageHelper {
         adjustBordersToPoint(cx + r, cy + r)
         layers[layer].add("    <circle cx=\"$cx\" cy=\"$cy\" r=\"$r\"${classString(classes)} />")
     }
+    public fun addRect(layer: Int, x1: Double, y1: Double, x2: Double, y2: Double, classes: List<String>) {
+        checkLayer(layer)
+        adjustBordersToPoint(x1, y1)
+        adjustBordersToPoint(x2, y2)
+        layers[layer].add("    <rect x=\"$x1\" y=\"$y1\" width=\"${x2 - x1}\" height=\"${y2 - y1}\"${classString(classes)} />")
+    }
     public fun addLine(layer: Int, x1: Double, y1: Double, x2: Double, y2: Double, classes: List<String>) {
         checkLayer(layer)
         adjustBordersToPoint(x1, y1)
@@ -221,7 +227,7 @@ public class ImageHelper {
             buffer.appendLine("        }")
         }
         buffer.appendLine("    </style>")
-        buffer.appendLine("    <rect x=\"$x\" y=\"$y\" width=\"$w\" height=\"$h\" fill=\"#FFFFFF\"/>")
+        buffer.appendLine("    <rect x=\"$x\" y=\"$y\" width=\"$w\" height=\"$h\" fill=\"#FFFFFF\" />")
         for (layer in layers) {
             for (line in layer) {
                 buffer.appendLine(line)
