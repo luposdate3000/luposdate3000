@@ -186,6 +186,10 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         val res = super.toXMLElement()
         res.addAttribute("type", "TripleStoreIndexDescriptionPartitionedByKey")
         res.addAttribute("partitionCount", "$partitionCount")
+        for (i in 0 until hostnames.size) {
+            res.addAttribute("hostname$i", "${hostnames[i]}")
+            res.addAttribute("key$i", "${keys[i]}")
+        }
         return res
     }
 }

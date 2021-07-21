@@ -112,6 +112,8 @@ public class TripleStoreIndexDescriptionSimple(
     public override fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("type", "TripleStoreIndexDescriptionSimple")
+        res.addAttribute("hostname", "$hostname")
+        res.addAttribute("key", "$key")
         return res
     }
 }

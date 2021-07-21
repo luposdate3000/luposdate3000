@@ -16,6 +16,7 @@
  */
 package lupos.visualize.distributed.database
 
+import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import kotlin.math.sqrt
 
@@ -46,7 +47,7 @@ public class VisualisationOperatorGraph {
         return sqrt((maxX - minX) * (maxX - minX) + (maxY - minY) * (maxY - minY))
     }
     public fun prepareOperatorGraph(op: XMLElement) {
-        operatorGraphToNodes(op, 0, nodes)
+        operatorGraphToNodes(op, 0, nodes, listOf())
         for (i in 0 until nodes.size) {
             for (j in 0 until nodes[i].size) {
                 val n = nodes[i][j]
@@ -111,12 +112,42 @@ public class VisualisationOperatorGraph {
         for (nn in nodes) {
             for (n in nn) {
                 image.addCircle(layerOffset + layerNode, n.x + myOffsetX, n.y + myOffsetY, radius, mutableListOf("operator-node"))
-                val key = if (n.key.size> 0) {
+                val key2 = if (n.key.size> 0) {
                     n.key.toString()
                 } else {
                     ""
                 }
-                image.addText(layerOffset + layerNodeText, n.x + myOffsetX, n.y + myOffsetY, n.tag + key, mutableListOf())
+                val label = when (n.op.tag) {
+                    "POPProjection" -> "\u03C0"
+                    "POPJoinMerge", "POPJoinMergeSingleColumn" -> "\u2A1D"
+                    "POPGroup" -> "G"
+                    "POPDistributedSendSingle" -> "\u2191" + key2
+                    "POPDistributedReceiveSingle" -> "\u2193" + key2
+                    "POPTripleStoreIterator" -> {
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:127"/*SOURCE_FILE_END*/ },
+                            { n.parentKeys.size <= 1 }
+                        )
+                        if (n.parentKeys.size == 1) {
+                            val pkey = n.parentKeys.first()
+                            val parr = pkey.split("=")
+                            SanityCheck.check(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:134"/*SOURCE_FILE_END*/ },
+                                { parr.size == 2 }
+                            )
+                            val idxName = parr[1]
+                            val desc = n.op["idx"]!!["TripleStoreIndexDescription"]!!
+                            val patternUsed = desc.attributes["pattern"]!!
+                            val hostUsed = desc.attributes["hostname$idxName"]!!
+                            val keyUsed = desc.attributes["key$idxName"]!!
+                            "!$patternUsed@$hostUsed:$keyUsed!"
+                        } else {
+                            "!!"
+                        }
+                    }
+                    else -> n.op.tag
+                }
+                image.addText(layerOffset + layerNodeText, n.x + myOffsetX, n.y + myOffsetY, label, mutableListOf())
                 for (a in n.above) {
                     image.addLine(layerOffset + layerConnection, a.x + myOffsetX, a.y + myOffsetY, n.x + myOffsetX, n.y + myOffsetY, mutableListOf("operator-connection"))
                 }
@@ -166,7 +197,7 @@ public class VisualisationOperatorGraph {
         val res = mutableListOf<XMLElement>()
         for (c in childs) {
             when (c.tag) {
-                "columnProjectionOrders", "projectedVariables", "bindings", "columnProjectionOrderElement", "by", "sparam", "pparam", "oparam", "partitionDistributionProvideKey", "partitionDistributionReceiveKey", "idx" -> {}
+                "columnProjectionOrders", "projectedVariables", "bindings", "columnProjectionOrderElement", "by", "sparam", "pparam", "oparam", "partitionDistributionProvideKey", "partitionDistributionReceiveKey" -> {}
                 "children", "POPDebug" -> {
                     res.addAll(filterChilds(c.childs))
                 }
@@ -178,27 +209,29 @@ public class VisualisationOperatorGraph {
         return res
     }
 
-    private fun operatorGraphToNodes(op: XMLElement, layer: Int, nodes: MutableList<MutableList<VisualisationOperatorGraphNode>>): VisualisationOperatorGraphNode {
+    private fun operatorGraphToNodes(op: XMLElement, layer: Int, nodes: MutableList<MutableList<VisualisationOperatorGraphNode>>, parentKeys: List<String>): VisualisationOperatorGraphNode {
         val below = mutableListOf<VisualisationOperatorGraphNode>()
         val above = mutableListOf<VisualisationOperatorGraphNode>()
-        val key: List<String>
-        if (op.tag.contains("DistributedSend")) {
-            key = op.childs.filter { it.tag == "partitionDistributionProvideKey" }.map { it.attributes["key"]!! }
-        } else if (op.tag.contains("DistributedReceive")) {
-            key = op.childs.filter { it.tag == "partitionDistributionReceiveKey" }.map { it.attributes["key"]!! }
-        } else {
-            key = listOf()
-        }
-        val node = VisualisationOperatorGraphNode(layer, below, above, op.tag, key)
+        val key =
+            if (op.tag.contains("DistributedSend")) {
+                op.childs.filter { it.tag == "partitionDistributionProvideKey" }.map { it.attributes["key"]!! }
+            } else if (op.tag.contains("DistributedReceive")) {
+                op.childs.filter { it.tag == "partitionDistributionReceiveKey" }.map { it.attributes["key"]!! }
+            } else {
+                listOf()
+            }
+        val node = VisualisationOperatorGraphNode(layer, below, above, op, key, parentKeys)
         node.y = layer * distanceY
         while (nodes.size <= layer) {
             nodes.add(mutableListOf())
         }
         nodes[layer].add(node)
-        for (c in filterChilds(op.childs)) {
-            val cc = operatorGraphToNodes(c, layer + 1, nodes)
-            above.add(cc)
-            cc.below.add(node)
+        if (!op.tag.contains("POPTripleStoreIterator")) {
+            for (c in filterChilds(op.childs)) {
+                val cc = operatorGraphToNodes(c, layer + 1, nodes, parentKeys + key)
+                above.add(cc)
+                cc.below.add(node)
+            }
         }
         return node
     }

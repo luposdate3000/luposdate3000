@@ -15,8 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
-
-public class VisualisationOperatorGraphNode(public val layer: Int, public val below: MutableList<VisualisationOperatorGraphNode>, public val above: MutableList<VisualisationOperatorGraphNode>, public val tag: String, public val key: List<String>) {
+import lupos.shared.XMLElement
+public class VisualisationOperatorGraphNode(
+    public val layer: Int,
+    public val below: MutableList<VisualisationOperatorGraphNode>,
+    public val above: MutableList<VisualisationOperatorGraphNode>,
+    public val op: XMLElement,
+    public val key: List<String>,
+    public val parentKeys: List<String>,
+) {
     public var x: Double = -99999999.0
     public var y: Double = -99999999.0
 }

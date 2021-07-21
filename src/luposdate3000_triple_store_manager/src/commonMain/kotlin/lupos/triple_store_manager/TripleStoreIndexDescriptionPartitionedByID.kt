@@ -134,6 +134,10 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         res.addAttribute("type", "TripleStoreIndexDescriptionPartitionedByID")
         res.addAttribute("partitionCount", "$partitionCount")
         res.addAttribute("partitionColumn", "$partitionColumn")
+        for (i in 0 until hostnames.size) {
+            res.addAttribute("hostname$i", "${hostnames[i]}")
+            res.addAttribute("key$i", "${keys[i]}")
+        }
         return res
     }
 }
