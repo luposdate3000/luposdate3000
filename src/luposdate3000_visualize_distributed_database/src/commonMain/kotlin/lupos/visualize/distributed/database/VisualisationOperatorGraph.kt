@@ -17,13 +17,14 @@
 package lupos.visualize.distributed.database
 
 import lupos.shared.XMLElement
+import kotlin.math.sqrt
 
 public class VisualisationOperatorGraph {
     internal companion object {
         internal var idcounter = 0
-        internal const val distanceX = 80.0
-        internal const val distanceY = 80.0
-        internal const val radius = 30.0
+        internal const val distanceX = 40.0
+        internal const val distanceY = 40.0
+        internal const val radius = 16.0
         internal const val layerConnection = 1
         internal const val layerNode = 2
         internal const val layerNodeText = 3
@@ -41,62 +42,8 @@ public class VisualisationOperatorGraph {
     public var offsetY: Double = 0.0
     public var anchorX: Double = 0.0
     public var anchorY: Double = 0.0
-    public fun verifyNoCollision(other: VisualisationOperatorGraph): Boolean {
-        val myW = (maxX - minX) * 0.5
-        val myH = (maxY - minY) * 0.5
-        val otherW = (other.maxX - other.minX) * 0.5
-        val otherH = (other.maxY - other.minY) * 0.5
-
-        val myX1 = offsetX - myW
-        val myY1 = offsetY - myH
-        val otherX1 = other.offsetX - otherW
-        val otherY1 = other.offsetY - otherH
-        val myX2 = offsetX + myW
-        val myY2 = offsetY + myH
-        val otherX2 = other.offsetX + otherW
-        val otherY2 = other.offsetY + otherH
-
-        val d = doubleArrayOf(
-            myX2 - otherX1 + distanceX,
-            myY2 - otherY1 + distanceY,
-            otherX2 - myX1 + distanceX,
-            otherY2 - myY1 + distanceY,
-        )
-        for (v in d) {
-            if (v <0.0) {
-                return false
-            }
-        }
-        var minI = 0
-        for (i in 0 until d.size) {
-            if (d[i] <d[minI]) {
-                minI = i
-            }
-            d[i] = d[i] * 0.5
-            if (d[i]> maxMove) {
-                d[i] = maxMove
-            }
-        }
-        println("dist ${d[minI]}")
-        when (minI) {
-            0 -> {
-                offsetX -= d[minI]
-                other.offsetX += d[minI]
-            }
-            1 -> {
-                offsetY -= d[minI]
-                other.offsetY += d[minI]
-            }
-            2 -> {
-                offsetX += d[minI]
-                other.offsetX -= d[minI]
-            }
-            3 -> {
-                offsetY += d[minI]
-                other.offsetY -= d[minI]
-            }
-        }
-        return d[minI]> minMove
+    public fun getRadius(): Double {
+        return sqrt((maxX - minX) * (maxX - minX) + (maxY - minY) * (maxY - minY))
     }
     public fun prepareOperatorGraph(op: XMLElement) {
         operatorGraphToNodes(op, 0, nodes)
