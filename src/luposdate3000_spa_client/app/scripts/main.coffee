@@ -7,6 +7,7 @@ App.init = ->
     App.samples = {}
     App.globalAnimationList = []
     App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
+    App.luposdate3000Instance.useDictionaryInlineEncoding = false
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
         Instrument: '#instrumentSettings'
