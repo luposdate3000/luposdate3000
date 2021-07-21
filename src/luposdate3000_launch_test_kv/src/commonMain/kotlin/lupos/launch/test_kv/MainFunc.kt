@@ -44,7 +44,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)
-    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:47"/*SOURCE_FILE_END*/)
+    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:46"/*SOURCE_FILE_END*/)
     var kv = KeyValueStore(instance.bufferManager!!, rootPage, false, instance)
 
     val values = mutableListOf<ByteArray>()
