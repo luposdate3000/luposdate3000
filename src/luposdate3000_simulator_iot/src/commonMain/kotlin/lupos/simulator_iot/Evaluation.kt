@@ -13,64 +13,110 @@ public class Evaluation {
         simRun.startSimulation(config)
     }
 
-    public fun measureStarPerformance(withDummyDatabase: Boolean) {
-        var arr: IntArray = if (!withDummyDatabase) {
-            buildNodeSizesArray(130, 10) // OutOfMemoryError >1330 DBs with 2048 heap space
-        } else {
-            buildNodeSizesArray(100, 1000)
-        }
 
-        for (numberOfChilds in arr)
-            runSimulationStarPerformance(numberOfChilds, withDummyDatabase)
-    }
-
-    private fun buildNodeSizesArray(arrSize: Int, delta: Int, skipFirst: Boolean = true): IntArray {
-        var numOfSkips = 3
-        val updatedArraySize = if (skipFirst) arrSize + numOfSkips else arrSize
-        val arr = IntArray(updatedArraySize) { 0 }
+    private fun buildNodeSizesArray(arrSize: Int, delta: Int): IntArray {
+        val arr = IntArray(arrSize) { 0 }
         for (i in arr.withIndex()) {
-            if (skipFirst && numOfSkips > 0) {
-                arr[i.index] = 1
-                numOfSkips--
-            }
-            else {
                 arr[i.index] = i.index * delta
-            }
-
         }
 
         return arr
     }
 
-
-
-    private fun runSimulationStarPerformance(numberOfChilds: Int, withDummyDatabase: Boolean) {
-        // TODO
-//        Logger.reset()
-//        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
-//        val jsonObjects = Configuration.readJsonFile(configFileName)
-//        jsonObjects.randomStarNetwork[0].number = numberOfChilds
-//        jsonObjects.dummyDatabase = withDummyDatabase
-//        Configuration.parse(jsonObjects)
-//        val entities = Configuration.getEntities()
-//        val sim = Simulation(entities = entities, callback = Logger)
-//        sim.startSimulation()
-//        collection.add(Logger, entities.size)
+    private fun getMeshPerfRanges(): IntArray {
+        val arrSize = IntArray(20)
+        arrSize[0] = 600
+        println(arrSize[0])
+        for (index in 1 until arrSize.size) {
+                arrSize[index] = arrSize[index-1] - 30
+                println(arrSize[index])
+        }
+        return arrSize
     }
 
-    public fun evalStarPerformanceWithoutDatabase() {
+    public fun evalMeshPerf() {
+        val configFileName = "${FilePaths.jvmResource}/meshPerformance.json"
+        var ranges = getMeshPerfRanges()
+        ranges = addInitialBuffer(ranges, 3)
+        val printer = MeasurementPrinter("meshPerf")
+        for ((index, range) in ranges.withIndex()) {
+            val prep = object : ISimRunPreparation {
+                override fun prepareJsonObjects(jsonObjects: JsonObjects) {
+                    jsonObjects.linkType[0].rangeInMeters = range
+                }
+            }
+            MultipleSimulationRuns(configFileName, 1, prep, printer).startSimulationRuns()
+            println("evalStarPerfWithDummy: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
+        }
+    }
+
+
+    public fun evalStarPerfWithLuposdate() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
-        val nodeSizes = buildNodeSizesArray(10, 1000, true)
-        val printer = MeasurementPrinter()
+        var nodeSizes = buildNodeSizesArray(110, 10) // max. 1171 instances are possible.
+        nodeSizes = addInitialBuffer(nodeSizes, 3)
+        val printer = MeasurementPrinter("starPerf_Luposdate")
+        for ((index, numberOfNodes) in nodeSizes.withIndex()) {
+            val prep = object : ISimRunPreparation {
+                override fun prepareJsonObjects(jsonObjects: JsonObjects) {
+                    jsonObjects.randomStarNetwork[0].number = numberOfNodes
+                    jsonObjects.deviceType[0].database = true
+                    jsonObjects.dummyDatabase = false
+                }
+            }
+            MultipleSimulationRuns(configFileName, 50, prep, printer).startSimulationRuns()
+            println("evalStarPerfWithDummy: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
+        }
+    }
+
+
+    public fun evalStarPerfWithDummy() {
+        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
+        var nodeSizes = buildNodeSizesArray(200, 10)
+        nodeSizes = addInitialBuffer(nodeSizes, 3)
+        val printer = MeasurementPrinter("starPerf_Dummy")
+        for ((index, numberOfNodes) in nodeSizes.withIndex()) {
+            val prep = object : ISimRunPreparation {
+                override fun prepareJsonObjects(jsonObjects: JsonObjects) {
+                    jsonObjects.randomStarNetwork[0].number = numberOfNodes
+                    jsonObjects.deviceType[0].database = true
+                    jsonObjects.dummyDatabase = true
+                }
+            }
+            MultipleSimulationRuns(configFileName, 50, prep, printer).startSimulationRuns()
+            println("evalStarPerfWithDummy: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
+        }
+    }
+
+
+    public fun evalStarPerf() {
+        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
+        var nodeSizes = buildNodeSizesArray(200, 100)
+        nodeSizes = addInitialBuffer(nodeSizes, 3)
+        val printer = MeasurementPrinter("starPerf_Without")
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val prep = object : ISimRunPreparation {
                 override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
                     jsonObjects.deviceType[0].database = false
+                    jsonObjects.dummyDatabase = true
                 }
             }
-            MultipleSimulationRuns(configFileName, 20, prep, printer).startSimulationRuns()
-            println("Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
+            MultipleSimulationRuns(configFileName, 50, prep, printer).startSimulationRuns()
+            println("evalStarPerf: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
+    }
+
+    private fun addInitialBuffer(arr: IntArray, bufferSize: Int): IntArray {
+        val updatedArray = IntArray(arr.size + bufferSize)
+        for (i in updatedArray.indices) {
+            if(i < bufferSize) {
+                updatedArray[i] = arr[i]
+            }
+            else {
+                updatedArray[i] = arr[i-bufferSize]
+            }
+        }
+        return updatedArray
     }
 }

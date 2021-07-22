@@ -83,7 +83,7 @@ public class DatabaseHandle : IDatabase {
     }
 
     override fun start(initialState: DatabaseState) {
-        println("DatabaseHandle.start ${initialState.allAddresses.map{it}} .. ${initialState.ownAddress}")
+        //println("DatabaseHandle.start ${initialState.allAddresses.map{it}} .. ${initialState.ownAddress}")
         if (initialState.allAddresses.size == 0) {
             throw Exception("invalid input")
         }
@@ -420,7 +420,7 @@ public class DatabaseHandle : IDatabase {
         }
     }
     override fun receive(pck: IDatabasePackage) {
-        println("receive $ownAdress .. $pck")
+        //println("receive $ownAdress .. $pck")
         when (pck) {
             is MySimulatorTestingImportPackage -> receive(pck)
             is MySimulatorTestingCompareGraphPackage -> receive(pck)

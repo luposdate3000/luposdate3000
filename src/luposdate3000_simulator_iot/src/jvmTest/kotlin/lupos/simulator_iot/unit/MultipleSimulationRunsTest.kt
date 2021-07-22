@@ -23,7 +23,7 @@ internal class MultipleSimulationRunsTest {
             configFileName = "$prefix/runMultipleStarNetworkSimulations.json",
             numberOfRepetitions = 3,
             callback = callback,
-            printer = MeasurementPrinter()
+            printer = MeasurementPrinter("test")
         )
         runs.startSimulationRuns()
     }
@@ -38,7 +38,7 @@ internal class MultipleSimulationRunsTest {
             configFileName = "$prefix/meshToDODAG.json",
             numberOfRepetitions = 2,
             callback = callback,
-            printer = MeasurementPrinter()
+            printer = MeasurementPrinter("test")
         )
         runs.startSimulationRuns()
     }

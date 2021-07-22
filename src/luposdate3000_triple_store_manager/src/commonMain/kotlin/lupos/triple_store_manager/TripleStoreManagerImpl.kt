@@ -209,7 +209,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         this.hostnames = hostnames
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
-        println("allocation TripleStoreManagerImpl on $localhost")
+        //println("allocation TripleStoreManagerImpl on $localhost")
     }
 
     public override fun initialize() {

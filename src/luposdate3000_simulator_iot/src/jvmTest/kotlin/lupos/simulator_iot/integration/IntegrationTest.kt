@@ -1,5 +1,7 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.integration
 
+import lupos.simulator_iot.Evaluation
+import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.FilePaths
@@ -192,6 +194,7 @@ class IntegrationTest {
         val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
         campusWithQuery("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json", query)
     }
+
 
     @Ignore
     @Test

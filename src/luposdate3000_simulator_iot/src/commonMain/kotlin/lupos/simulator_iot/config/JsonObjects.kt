@@ -23,7 +23,7 @@ public data class JsonObjects(
 @Serializable
 public data class LinkType(
     val name: String = "",
-    val rangeInMeters: Int = 0,
+    var rangeInMeters: Int = 0,
     val dataRateInKbps: Int = 0,
 )
 
