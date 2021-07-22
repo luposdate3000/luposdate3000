@@ -9,7 +9,7 @@
         },
         {
             "name": "WLAN",
-            "rangeInMeters": 50,
+            "rangeInMeters": 200,
             "dataRateInKbps": 25000
         }
     ],

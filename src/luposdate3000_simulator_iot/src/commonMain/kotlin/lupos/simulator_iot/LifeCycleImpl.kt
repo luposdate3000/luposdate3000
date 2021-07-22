@@ -22,7 +22,7 @@ public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeC
     }
 
     private fun printVisualization() {
-        println(simRun.visualisationNetwork.toString())
-        simRun.visualisationNetwork.toImage()
+        //println(simRun.visualisationNetwork.toString())
+        //simRun.visualisationNetwork.toImage()
     }
 }

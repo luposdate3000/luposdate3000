@@ -99,7 +99,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     private fun objectiveFunction(pck: NetworkPackage): Int {
         val link = device.linkManager.links[pck.sourceAddress]!!
         val otherRank = (pck.payload as DIO).rank
-        return otherRank + link.distanceInMeters + MinHopRankIncrease
+        return otherRank + MinHopRankIncrease //+ link.distanceInMeters
     }
 
     internal fun hasParent(): Boolean =
