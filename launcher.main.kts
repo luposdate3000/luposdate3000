@@ -151,10 +151,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
                 .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
             if (filename.endsWith("_js_browser")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc {
-println("_js_browser ssetEnabledRunFunc ... $jsBrowserMode ${LauncherConfig.getConfigValue("--target")} ${TargetMode2.valueOf(LauncherConfig.getConfigValue("--target"))} ${targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }")
- jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) 
-}
+                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }
             } else if (filename.endsWith("_js_node")) {
                 currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }
             }
