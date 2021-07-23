@@ -33,11 +33,11 @@ task<Exec>("npmInstall") {
 task<Exec>("bowerInstall") {
     mustRunAfter("npmInstall")
     if (isWindows) {
-        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
-        commandLine(File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+"bower", "install")
+        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+        commandLine("bower", "install")
     } else {
-        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
-        commandLine(File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+"/bower", "install", "--allow-root")
+        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
+        commandLine("bower", "install", "--allow-root")
     }
 }
 task<Exec>("build") {
@@ -46,9 +46,9 @@ task<Exec>("build") {
     mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir("../..")
     if (isWindows) {
-        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
     } else {
-        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
+        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
     }
     commandLine("./launcher.main.kts", "--copySPAClient")
 }
