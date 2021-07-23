@@ -108,8 +108,6 @@ val jsBrowserMode = true
 var skipArgs = false
 
 var runArgs = mutableListOf<String>()
-var threadCount = 1
-var processUrls = ""
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
 var intellijMode = IntellijMode.Enable
@@ -448,12 +446,19 @@ class ParamClass : Comparable<ParamClass> {
         this.action2 = {}
         this.mode = ParamClassMode.NO_VALUE
     }
-
-    constructor(name: String, default: String, action: (String) -> Unit) {
+ constructor(name: String, default: String,action:(String)->Unit) {
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
         this.values = mapOf()
         this.action2 = action
+        this.action = {}
+        this.mode = ParamClassMode.FREE_VALUE
+    }
+    constructor(name: String, default: String) {
+        this.name = name
+        this.default = LauncherConfig.getConfigValue(name, default)
+        this.values = mapOf()
+        this.action2 = {it-> LauncherConfig.setConfigValue(name, it)}
         this.action = {}
         this.mode = ParamClassMode.FREE_VALUE
     }
@@ -553,22 +558,16 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--threadCount",
         "",
-        {
-            threadCount = it.toInt()
-        }
     ),
     ParamClass(
         "--processUrls",
         "",
-        {
-            processUrls = it
-        }
     ),
     ParamClass(
         "--processCount",
         "",
         {
-            processUrls = Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(",")
+            LauncherConfig.setConfigValue("--processUrls", Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(","))
         }
     ),
     ParamClass(
@@ -879,20 +878,20 @@ fun onRun() {
             cmd.addAll(runArgs)
             println(cmd)
             if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
-                println("export LUPOS_PROCESS_URLS=$processUrls")
-                println("export LUPOS_THREAD_COUNT=$threadCount")
+                println("export LUPOS_PROCESS_URLS=${LauncherConfig.getConfigValue("--processUrls")}")
+                println("export LUPOS_THREAD_COUNT=${LauncherConfig.getConfigValue("--threadCount")}")
                 println("export LUPOS_PARTITION_MODE=${LauncherConfig.getConfigValue("--partitionMode")}")
                 println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
-                Array(processUrls.count { it == ',' } + 1) {
+                Array(LauncherConfig.getConfigValue("--processUrls").count { it == ',' } + 1) {
                     val p = myProcessBuilder(cmd)
                         .redirectOutput(Redirect.INHERIT)
                         .redirectError(Redirect.INHERIT)
                     val env = p.environment()
                     env["LUPOS_PROCESS_ID"] = "$it"
-                    env["LUPOS_PROCESS_URLS"] = "$processUrls"
-                    env["LUPOS_THREAD_COUNT"] = "$threadCount"
+                    env["LUPOS_PROCESS_URLS"] = "${LauncherConfig.getConfigValue("--processUrls")}"
+                    env["LUPOS_THREAD_COUNT"] = "${LauncherConfig.getConfigValue("--threadCount")}"
                     env["LUPOS_PARTITION_MODE"] = "${LauncherConfig.getConfigValue("--partitionMode")}"
                     env["LUPOS_DICTIONARY_MODE"] = "${LauncherConfig.getConfigValue("--dictionaryMode")}"
                     p.start()
