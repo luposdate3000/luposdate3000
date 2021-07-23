@@ -151,7 +151,10 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
                 .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
             if (filename.endsWith("_js_browser")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }
+                currentArgs = currentArgs.ssetEnabledRunFunc {
+println("_js_browser ssetEnabledRunFunc ... $jsBrowserMode ${LauncherConfig.getConfigValue("--target")} ${TargetMode2.valueOf(LauncherConfig.getConfigValue("--target"))} ${targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }")
+ jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) 
+}
             } else if (filename.endsWith("_js_node")) {
                 currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }
             }
@@ -241,7 +244,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
                 currentArgs = currentArgs.ssetEnabledRunFunc {
-                    "Launch" + LauncherConfig.getConfigValue("--mainClass") == currentArgs.moduleName
+                   "Luposdate3000_"+ LauncherConfig.getConfigValue("--mainClass") == currentArgs.moduleName
                 }
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
@@ -1342,7 +1345,7 @@ fun getJSScriptFiles(): List<String> {
     val dependencies = mutableListOf<String>()
     val scripts = mutableListOf<String>()
     val modules = getAllModuleConfigurations()
-    val whiteList = mutableSetOf<String>()
+    val whiteList = mutableSetOf<String>("luposdate3000:Luposdate3000_Endpoint:0.0.1")
     for (module in modules) {
         if (module.modulePrefix == "Luposdate3000_Endpoint") {
             for (w in module.dependenciesJs) {
@@ -1381,7 +1384,9 @@ fun getJSScriptFiles(): List<String> {
                     dependencies.add(s)
                 }
             }
-        }
+        }else{
+println("skipping ${module.moduleName} due to not enabled")
+}
     }
     for (s in dependencies) {
         if (s.endsWith(".js")) {
