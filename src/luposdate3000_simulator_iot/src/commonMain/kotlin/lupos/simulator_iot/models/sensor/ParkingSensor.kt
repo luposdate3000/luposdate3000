@@ -20,6 +20,8 @@ internal class ParkingSensor(
 
     private var sampleCounter: Int = 0
 
+    private var sendingVarianceInSec = 10
+
     private fun hasMaxSamplesReached() =
         maxSamples != infinitySamples && sampleCounter >= maxSamples
 
@@ -48,14 +50,19 @@ internal class ParkingSensor(
         }
 
         isStopped = false
-        device.setTimer(TimeUtils.toNanoSec(rateInSec), SamplingProcessFinished())
+        device.setTimer(getObservationDuration(), SamplingProcessFinished())
+    }
+
+    private fun getObservationDuration(): Long {
+        val random = device.simRun.randGenerator.getInt(0, sendingVarianceInSec)
+        val durationInSec = rateInSec + random
+        return TimeUtils.toNanoSec(durationInSec)
     }
 
     private fun onSampleTaken() {
         if (isStopped) {
             return
         }
-
         val data = getSample()
         device.sendSensorSample(getSinkAddress(), data)
         sampleCounter++
