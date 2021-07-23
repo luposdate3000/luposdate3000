@@ -105,9 +105,7 @@ object LauncherConfig {
 }
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
-var releaseMode = ReleaseMode.Disable
 var dryMode = DryMode.Disable
-var suspendMode = SuspendMode.Disable
 var inlineMode = InlineMode.Enable
 var partitionMode = ""
 var dictionaryMode = ""
@@ -141,8 +139,8 @@ fun makeUppercaseStart(s: String): String {
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     val localArgs = CreateModuleArgs()
         .ssetDictionaryValueMode(dictionaryValueMode)
-        .ssetReleaseMode(releaseMode)
-        .ssetSuspendMode(suspendMode)
+        .ssetReleaseMode(ReleaseMode.valueOf(LauncherConfig.getConfigValue("--releaseMode")))
+        .ssetSuspendMode(SuspendMode.valueOf(LauncherConfig.getConfigValue("--suspendMode")))
         .ssetInlineMode(inlineMode)
         .ssetIntellijMode(intellijMode)
         .ssetTarget(target)
@@ -587,12 +585,12 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--releaseMode",
         ReleaseMode.Disable.toString(),
-        ReleaseMode.values().map { it -> it.toString() to { releaseMode = it } }.toMap()
+        ReleaseMode.values().map { it -> it.toString() }
     ),
     ParamClass(
         "--suspendMode",
         SuspendMode.Disable.toString(),
-        SuspendMode.values().map { it -> it.toString() to { suspendMode = it } }.toMap()
+        SuspendMode.values().map { it -> it.toString() }
     ),
     ParamClass(
         "--compilerVersion",
@@ -742,22 +740,6 @@ loop@ for (arg in args) {
         }
     }
     throw Exception("unknown argument $arg")
-}
-var appendix = ""
-if (suspendMode == SuspendMode.Enable) {
-    appendix += "_Coroutines"
-} else {
-    appendix += "_Threads"
-}
-if (inlineMode == InlineMode.Enable) {
-    appendix += "_Inline"
-} else {
-    appendix += "_NoInline"
-}
-if (releaseMode == ReleaseMode.Enable) {
-    appendix += "_Release"
-} else {
-    appendix += "_Debug"
 }
 when (execMode) {
     ExecMode.HELP -> onHelp()
@@ -1378,7 +1360,7 @@ fun getJSScriptFiles(): List<String> {
                     }
                 }
                 var s: String
-                if (releaseMode == ReleaseMode.Enable) {
+                if (LauncherConfig.getConfigValue("--releaseMode") == "Enable") {
                     s = "${module.moduleFolder}/build/distributions/${module.moduleName.lowercase()}.js"
                 } else {
                     s = "${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-js-0.0.1.jar"
