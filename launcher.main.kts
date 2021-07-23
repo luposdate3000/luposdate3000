@@ -1341,8 +1341,25 @@ fun getJSScriptFiles(): List<String> {
     File("dist-js").mkdirs()
     val dependencies = mutableListOf<String>()
     val scripts = mutableListOf<String>()
-    for (module in getAllModuleConfigurations()) {
+val modules=getAllModuleConfigurations()
+val whiteList=mutableSetOf<String>()
+    for (module in modules) {
+if(module.modulePrefix=="Luposdate3000_Endpoint"){
+for(w in module.dependenciesJs){
+whiteList.add(w)
+}
+for(w in module.dependenciesCommon){
+whiteList.add(w)
+}
+break
+}
+}
+loop@    for (module in modules) {
         if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
+if(!whiteList.contains("luposdate3000:${module.moduleName}:0.0.1")){
+println("skipping ${module.moduleName} due to not in whitelist")
+continue@loop
+}
             val f = File("${module.moduleFolder}/build/external_js_dependencies")
             if (f.exists()) {
                 f.forEachLine {
