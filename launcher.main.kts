@@ -1308,6 +1308,7 @@ fun onSetupSPAClient() {
             out.println(c)
         }
     }
+/*
     val bin_gulp = fixPathNames("./node_modules/.bin/gulp")
     println("bin_gulp :" + bin_gulp)
     val commands = mutableListOf<List<String>>()
@@ -1326,6 +1327,7 @@ fun onSetupSPAClient() {
             throw Exception("exit-code:: " + p2.exitValue())
         }
     }
+*/
 }
 
 fun commandToString(pbin: ProcessBuilder): String {

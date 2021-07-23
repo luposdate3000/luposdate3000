@@ -34,22 +34,37 @@ task<Exec>("bowerInstall") {
     dependsOn("npmInstall")
     if (isWindows) {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
-        commandLine(executableDirectory+"node.exe",File(rootProject.projectDir.toString() +"/src/luposdate3000_spa_client/node_modules/bower/lib/bin/bower.js").absolutePath, "install")
+        commandLine(executableDirectory + "node.exe", File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/bower/lib/bin/bower.js").absolutePath, "install")
     } else {
-        environment["PATH"] =  executableDirectory + ":" + environment["PATH"]
+        environment["PATH"] = executableDirectory + ":" + environment["PATH"]
         commandLine("./node_modules/.bin/bower", "install", "--allow-root")
     }
 }
-task<Exec>("build") {
-    dependsOn("bowerInstall")
-    dependsOn("downloadInstrumentsIfNotExist")
-    mustRunAfter(":src:luposdate3000_endpoint:build")
+task<Exec>("launcherCopySpaClient") {
     workingDir(rootProject.projectDir)
     if (isWindows) {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
-        commandLine("kotlin","launcher.main.kts", "--copySPAClient")
+        commandLine("kotlin", "launcher.main.kts", "--copySPAClient")
     } else {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
         commandLine("./launcher.main.kts", "--copySPAClient")
     }
+}
+task<Exec>("gulpBuild") {
+    dependsOn("bowerInstall")
+    dependsOn("downloadInstrumentsIfNotExist")
+    dependsOn("launcherCopySpaClient")
+    environment["DISABLE_NOTIFIER"] = "true"
+    if (isWindows) {
+        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+        commandLine(executableDirectory + "node.exe", File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/gulp").absolutePath)
+    } else {
+        environment["PATH"] = executableDirectory + ":" + environment["PATH"]
+        commandLine("./node_modules/.bin/gulp",)
+    }
+}
+task("build") {
+    dependsOn("gulpBuild")
+    dependsOn(":src:luposdate3000_endpoint:build")
+    mustRunAfter(":src:luposdate3000_endpoint:build")
 }
