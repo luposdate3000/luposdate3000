@@ -34,13 +34,13 @@
 
 import launcher.CreateModuleArgs
 import launcher.DryMode
+import launcher.EDictionaryValueMode
 import launcher.ExecMode
 import launcher.InlineMode
 import launcher.IntellijMode
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
-import launcher.EDictionaryValueMode
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
 import launcher.fixPathNames
@@ -51,7 +51,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.inline.Platform
 import java.io.File
-import kotlin.math.abs
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect
@@ -59,7 +58,44 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
-
+object LauncherConfig {
+    val configFileName = "build.config"
+    val defaultValues = readConfig()
+    fun readConfig(): MutableMap<String, String> {
+        var res = mutableMapOf<String, String>()
+        if (File(configFileName).exists()) {
+            File(configFileName).forEachLine { line ->
+                val a = line.split("=")
+                if (a.size == 2) {
+                    res[a[0]] = a[1]
+                }
+            }
+        }
+        return res
+    }
+    fun writeConfig(cfg: MutableMap<String, String>) {
+        File(configFileName).printWriter().use { out ->
+            for ((k, v) in cfg) {
+                out.println("$k=$v")
+            }
+        }
+    }
+   fun setConfigValue(key: String, value: String):String {
+        defaultValues[key] = value
+        writeConfig(defaultValues)
+return value
+    }
+    fun getConfigValue(key: String, defaultValue: String): String {
+        val res = defaultValues[key]
+        if (res == null) {
+            defaultValues[key] = defaultValue
+            writeConfig(defaultValues)
+            return defaultValue
+        } else {
+            return res
+        }
+    }
+}
 var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
@@ -112,7 +148,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, MutableSet<String>>()
-//detect modules and configure their parameters
+// detect modules and configure their parameters
     Files.walk(Paths.get("src"), 1).forEach { it ->
         val filename = fixPathNames(it.toString())
         val f = File(filename + "/module_config")
@@ -220,7 +256,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             allpackages.add(currentArgs.modulePrefix.lowercase())
         }
     }
-//infer the dependencies
+// infer the dependencies
     for ((k, v) in modules) {
         val dep = dependencyMap[k]!!
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
@@ -270,7 +306,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         }
         dep.remove("Luposdate3000_Shared_Inline")
         dep.remove(v.moduleName)
-
     }
 // add explicit dependencies of inline module and js-module
     for ((k, v) in modules) {
@@ -328,7 +363,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
         }
     }
-//add recursive dependencies
+// add recursive dependencies
     for ((k, v) in modules) {
         val deps = dependencyMap[k]
         if (deps != null) {
@@ -341,7 +376,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
         }
     }
-//add js module explicitly - because there is NO code in the common module
+// add js module explicitly - because there is NO code in the common module
     for ((k, v) in modules) {
         v.dependenciesCommon.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
         v.dependenciesJvm.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
@@ -350,7 +385,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             v.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
         }
     }
-//sort modules by dependency
+// sort modules by dependency
     var res = mutableListOf<CreateModuleArgs>()
     val nameSet = mutableSetOf<String>()
     var changed = true
@@ -369,7 +404,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
         }
     }
-//verify that there are no cyclic dependencies
+// verify that there are no cyclic dependencies
     if (res.size != modules.size || res.size != nameSet.size) {
         throw Exception("something wrong ${modules.keys} ------- $nameSet")
     }
@@ -392,7 +427,7 @@ class ParamClass : Comparable<ParamClass> {
 
     constructor (name: String, default: String, values: Map<String, () -> Unit>) {
         this.name = name
-        this.default = default
+        this.default = LauncherConfig.getConfigValue(name, default)
         this.values = values
         this.action = {}
         this.action2 = {}
@@ -410,7 +445,7 @@ class ParamClass : Comparable<ParamClass> {
 
     constructor(name: String, default: String, action: (String) -> Unit) {
         this.name = name
-        this.default = default
+        this.default = LauncherConfig.getConfigValue(name, default)
         this.values = mapOf()
         this.action2 = action
         this.action = {}

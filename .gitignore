@@ -1,4 +1,4 @@
-
+build.config
 afl.*.log
 blazegraph.jnl
 build
