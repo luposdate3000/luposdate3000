@@ -679,15 +679,6 @@ val defaultParams = mutableListOf(
         IntellijMode.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
-        "--setupSPAClient",
-        {
-            LauncherConfig.setConfigValue("--target", TargetMode2.JVM_JS.toString())
-            enableParams(compileParams)
-            execMode = ExecMode.SETUP_SPACLIENT
-        },
-        false,
-    ),
-    ParamClass(
         "--copySPAClient",
         {
             enableParams(compileParams)
@@ -787,7 +778,6 @@ fun onHelp() {
 
 fun onSetupGradle() {
     File(".idea").deleteRecursively()
-    File("log").mkdirs()
     println(compileModuleArgs)
     for (module in getAllModuleConfigurations()) {
         if (module.enabledFunc()) {
@@ -843,7 +833,6 @@ fun onSetupGradle() {
 }
 
 fun onRun() {
-    File("log").mkdirs()
     when {
         targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JVM) -> {
             val jarsLuposdate3000 = mutableListOf<String>()
@@ -1323,18 +1312,14 @@ fun onSetupSPAClient() {
     val bin_gulp = fixPathNames("$pwd/gulp")
     println("bin_bower :" + bin_bower)
     println("bin_gulp :" + bin_gulp)
-    val commands: List<List<String>>
-    if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
-        commands = listOf(
-            listOf(bin_gulp),
-        )
-    } else {
-        commands = listOf(
-            listOf(bin_npm, "install"),
-            listOf(bin_bower, "install", "--allow-root"),
-            listOf(bin_gulp),
-        )
-    }
+    val commands=mutableListOf<List<String>>()
+if(LauncherConfig.getConfigValue("hadNPMInstall","false")=="false"){
+commands.add( listOf(bin_npm, "install"))
+}
+if(LauncherConfig.getConfigValue("hadBowerInstall","false")=="false"){ 
+commands.add( listOf(bin_bower, "install", "--allow-root"))
+}
+commands.add(listOf(bin_gulp))
     for (cmd in commands) {
         println("cmd :: $cmd")
         val p = myProcessBuilder(cmd)
@@ -1348,6 +1333,10 @@ fun onSetupSPAClient() {
         if (p2.exitValue() != 0) {
             throw Exception("exit-code:: " + p2.exitValue())
         }
+when(cmd[0]){
+bin_npm->LauncherConfig.setConfigValue("hadNPMInstall","true")
+bin_bower->LauncherConfig.setConfigValue("hadBowerInstall","true")
+}
     }
 }
 

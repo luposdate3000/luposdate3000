@@ -420,7 +420,6 @@ public open class SparqlTestSuite {
         } else {
             println({ "'$testName' is in WhiteList of Unit-Tests" })
         }
-        File("log/storetest").mkdirs()
         var ignoreJena = !executeJena
         val timer = DateHelperRelative.markNow()
         val instance = LuposdateEndpoint.initialize()
@@ -590,9 +589,6 @@ public open class SparqlTestSuite {
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(query))
-            File("log/$testName2-Logical-Operator-Graph.tex").withOutputStream {
-                it.println(OperatorGraphToLatex(lopNode.toString(), testName2))
-            }
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:595"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
@@ -601,9 +597,6 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:602"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
-            File("log/$testName2-Logical-Operator-Graph-Optimized.tex").withOutputStream {
-                it.println(OperatorGraphToLatex(lopNode2.toString(), testName2))
-            }
             SanityCheck.suspended {
                 val x = lopNode2.toString()
                 SanityCheck.println { x }
@@ -613,9 +606,6 @@ public open class SparqlTestSuite {
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:613"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
             SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:614"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
-            File("log/$testName2-Physical-Operator-Graph.tex").withOutputStream {
-                it.println(OperatorGraphToLatex(popNode.toString(), testName2))
-            }
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println { x }
