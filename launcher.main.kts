@@ -1308,7 +1308,7 @@ fun onSetupSPAClient() {
             out.println(c)
         }
     }
-    val bin_gulp = fixPathNames("./src/luposdate3000_spa_client/./node_modules/.bin/gulp")
+    val bin_gulp = fixPathNames("./node_modules/.bin/gulp")
     println("bin_gulp :" + bin_gulp)
     val commands = mutableListOf<List<String>>()
     commands.add(listOf(bin_gulp))
