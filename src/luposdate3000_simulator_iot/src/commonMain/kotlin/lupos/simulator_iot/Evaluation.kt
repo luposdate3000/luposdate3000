@@ -2,6 +2,7 @@ package lupos.simulator_iot
 
 import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.MeasurementPrinter
+import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.FilePaths
 
 public class Evaluation {
@@ -34,7 +35,50 @@ public class Evaluation {
         return arrSize
     }
 
-    public fun evalMeshPerf() {
+    private fun getQueriesAsArray(): Array<String> {
+        return arrayOf(
+            SemanticData.getAllTriples(),
+            SemanticData.getAllParkingAreas(),
+            SemanticData.getAllSpacesOfParkingArea("<http://parkingArea/10>"),
+            SemanticData.getSampleNumberOfSensor("<http://sensor/9/67>"),
+            SemanticData.getLastSampleOfSensor("<http://sensor/7/55>"),
+            SemanticData.getLastResultsOfEachSensorInArea("<http://parkingArea/9>"),
+            SemanticData.getLastResultsOfEachSensorInManyAreas("<http://parkingArea/9>, <http://parkingArea/8>, <http://parkingArea/2>"),
+        )
+    }
+
+    public fun evalQueryProcessingCentralizedCase() {
+        val configFileName = "${FilePaths.jvmResource}/campusCentralCase.json"
+        val ranges = getQueriesAsArray()
+        val printer = MeasurementPrinter("campusCentralCase")
+        for ((index, range) in ranges.withIndex()) {
+            val prep = object : ISimRunPreparation {
+                override fun prepareJsonObjects(jsonObjects: JsonObjects) {
+                    jsonObjects.querySender[0].query = range
+                }
+            }
+            MultipleSimulationRuns(configFileName, 1, prep, printer).startSimulationRuns()
+            println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
+        }
+    }
+
+    public fun evalQueryProcessingDistributedCase() {
+        val configFileName = "${FilePaths.jvmResource}/campusDistributedCase.json"
+        val ranges = getQueriesAsArray()
+        val printer = MeasurementPrinter("campusDistributedCase")
+        for ((index, range) in ranges.withIndex()) {
+            val prep = object : ISimRunPreparation {
+                override fun prepareJsonObjects(jsonObjects: JsonObjects) {
+                    jsonObjects.querySender[0].query = range
+                }
+            }
+            MultipleSimulationRuns(configFileName, 1, prep, printer).startSimulationRuns()
+            println("evalQueryProcessingDistributedCase: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
+        }
+    }
+
+
+    public fun evalMeshPerformance() {
         val configFileName = "${FilePaths.jvmResource}/meshPerformance.json"
         var ranges = getMeshPerfRanges()
         ranges = addInitialBuffer(ranges, 3)
@@ -46,12 +90,12 @@ public class Evaluation {
                 }
             }
             MultipleSimulationRuns(configFileName, 1, prep, printer).startSimulationRuns()
-            println("evalStarPerfWithDummy: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
+            println("evalMeshPerformance: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
         }
     }
 
 
-    public fun evalStarPerfWithLuposdate() {
+    public fun evalStarPerformanceWithLuposdate() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(110, 10) // max. 1171 instances are possible.
         nodeSizes = addInitialBuffer(nodeSizes, 3)
@@ -65,12 +109,12 @@ public class Evaluation {
                 }
             }
             MultipleSimulationRuns(configFileName, 50, prep, printer).startSimulationRuns()
-            println("evalStarPerfWithDummy: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
+            println("evalStarPerformanceWithLuposdate: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
 
 
-    public fun evalStarPerfWithDummy() {
+    public fun evalStarPerformanceWithDummy() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(200, 10)
         nodeSizes = addInitialBuffer(nodeSizes, 3)
@@ -89,7 +133,7 @@ public class Evaluation {
     }
 
 
-    public fun evalStarPerf() {
+    public fun evalStarPerformance() {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(200, 100)
         nodeSizes = addInitialBuffer(nodeSizes, 3)

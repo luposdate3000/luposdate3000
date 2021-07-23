@@ -1,0 +1,404 @@
+{
+    "dummyDatabase": false,
+    "deterministic": true,
+    "linkType": [
+        {
+        "name": "WPAN",
+        "rangeInMeters": 30,
+        "dataRateInKbps": 250
+        },
+        {
+            "name": "WLAN",
+            "rangeInMeters": 200,
+            "dataRateInKbps": 25000
+        }
+    ],
+    "sensorType": [
+        {
+            "name": "Parking Sensor WSN 1",
+            "area": 1,
+            "dataSink": "Fog",
+            "rateInSec": 60,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 2",
+            "area": 2,
+            "dataSink": "Fog",
+            "rateInSec": 120,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 3",
+            "area": 3,
+            "dataSink": "Fog",
+            "rateInSec": 100,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 4",
+            "area": 4,
+            "dataSink": "Fog",
+            "rateInSec": 140,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 5",
+            "area": 5,
+            "dataSink": "Fog",
+            "rateInSec": 50,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 6",
+            "area": 6,
+            "dataSink": "Fog",
+            "rateInSec": 120,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 7",
+            "area": 7,
+            "dataSink": "Fog",
+            "rateInSec": 59,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 8",
+            "area": 8,
+            "dataSink": "Fog",
+            "rateInSec": 130,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 9",
+            "area": 9,
+            "dataSink": "Fog",
+            "rateInSec": 61,
+            "maxSamples": 10
+        },
+        {
+            "name": "Parking Sensor WSN 10",
+            "area": 10,
+            "dataSink": "Fog",
+            "rateInSec": 110,
+            "maxSamples": 10
+        }
+    ],
+    "deviceType": [{
+            "name": "Central Tower",
+            "database": true,
+            "parkingSensor": "",
+            "performance": 100.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Mesh Hop",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 1",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 2",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 3",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 4",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 5",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 6",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 7",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 8",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 9",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Edge Gateway WSN 10",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": ["WPAN", "WLAN"]
+        },
+        {
+            "name": "Sensor Device WSN 1",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 1",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 2",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 2",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 3",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 3",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 4",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 4",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 5",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 5",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 6",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 6",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 7",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 7",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 8",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 8",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 9",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 9",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        },
+        {
+            "name": "Sensor Device WSN 10",
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 10",
+            "performance": 1.0,
+            "supportedLinkTypes": ["WPAN"]
+        }
+
+    ],
+    "fixedDevice": [{
+            "name": "Fog",
+            "deviceType": "Central Tower",
+            "latitude": 53.83831534459554,
+            "longitude": 10.698774930618905
+        },
+        {
+            "name": "Root WSN 1",
+            "deviceType": "Edge Gateway WSN 1",
+            "latitude": 53.838474484901376,
+            "longitude": 10.695081476709452
+        },
+        {
+            "name": "Root WSN 2",
+            "deviceType": "Edge Gateway WSN 2",
+            "latitude": 53.83744253948933,
+            "longitude": 10.694834809499191
+        },
+        {
+            "name": "Root WSN 3",
+            "deviceType": "Edge Gateway WSN 3",
+            "latitude": 53.836891814222774,
+            "longitude": 10.697463417298081
+        },
+        {
+            "name": "Root WSN 4",
+            "deviceType": "Edge Gateway WSN 4",
+            "latitude": 53.83862015297171,
+            "longitude": 10.70005982052656
+        },
+        {
+            "name": "Root WSN 5",
+            "deviceType": "Edge Gateway WSN 5",
+            "latitude": 53.8371134048039,
+            "longitude": 10.699351680333246
+        },
+        {
+            "name": "Root WSN 6",
+            "deviceType": "Edge Gateway WSN 6",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614
+        },
+        {
+            "name": "Root WSN 7",
+            "deviceType": "Edge Gateway WSN 7",
+            "latitude": 53.83622460614883,
+            "longitude": 10.697405195405576
+        },
+        {
+            "name": "Root WSN 8",
+            "deviceType": "Edge Gateway WSN 8",
+            "latitude": 53.83523539538031,
+            "longitude": 10.696438320766976
+        },
+        {
+            "name": "Root WSN 9",
+            "deviceType": "Edge Gateway WSN 9",
+            "latitude": 53.83549953176541,
+            "longitude": 10.697955598003395
+        },
+        {
+            "name": "Root WSN 10",
+            "deviceType": "Edge Gateway WSN 10",
+            "latitude": 53.83582633252526,
+            "longitude": 10.701612267614298
+        }
+    ],
+    "fixedLink": [],
+    "rootRouter": "Fog",
+    "randomMeshNetwork": [{
+        "networkPrefix": "Campus Mesh",
+        "originLatitude": 53.83897140331313,
+        "originLongitude": 10.694405480987202,
+        "deviceType": "Mesh Hop",
+        "linkType": "WLAN",
+        "signalCoverageEast": 560,
+        "signalCoverageSouth": 460
+    }
+
+    ],
+    "randomStarNetwork": [{
+            "networkPrefix": "WSN 1",
+            "starRoot": "Root WSN 1",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 1",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 2",
+            "starRoot": "Root WSN 2",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 2",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 3",
+            "starRoot": "Root WSN 3",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 3",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 4",
+            "starRoot": "Root WSN 4",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 4",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 5",
+            "starRoot": "Root WSN 5",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 5",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 6",
+            "starRoot": "Root WSN 6",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 6",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 7",
+            "starRoot": "Root WSN 7",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 7",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 8",
+            "starRoot": "Root WSN 8",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 8",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 9",
+            "starRoot": "Root WSN 9",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 9",
+            "number": 5
+        },
+        {
+            "networkPrefix": "WSN 10",
+            "starRoot": "Root WSN 10",
+            "linkType": "WPAN",
+            "deviceType": "Sensor Device WSN 10",
+            "number": 5
+        }
+    ],
+    "querySender": [
+        {
+            "name": "Driver",
+            "sendRateInSeconds": 1,
+            "maxNumberOfQueries": 1,
+            "sendStartClockInSec": 10000,
+            "query": ""
+        }
+    ]
+}

@@ -87,5 +87,5 @@ public data class QuerySender(
     val sendRateInSeconds: Int = 0,
     val maxNumberOfQueries: Int = 0,
     val sendStartClockInSec: Int = 0,
-    val query: String = "",
+    var query: String = "",
 )
