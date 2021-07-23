@@ -132,7 +132,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetReleaseMode(ReleaseMode.valueOf(LauncherConfig.getConfigValue("--releaseMode")))
         .ssetSuspendMode(SuspendMode.valueOf(LauncherConfig.getConfigValue("--suspendMode")))
         .ssetInlineMode(InlineMode.valueOf(LauncherConfig.getConfigValue("--inlineMode")))
-        .ssetIntellijMode(IntellijMode.valueOf(LauncherConfig.getConfigValue("--intellijMode","Disable")))
+        .ssetIntellijMode(IntellijMode.valueOf(LauncherConfig.getConfigValue("--intellijMode", "Disable")))
         .ssetTarget(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")))
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
@@ -241,7 +241,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
                 currentArgs = currentArgs.ssetEnabledRunFunc {
-                   "Launch"+ LauncherConfig.getConfigValue("--mainClass") == currentArgs.moduleName
+                    "Launch" + LauncherConfig.getConfigValue("--mainClass") == currentArgs.moduleName
                 }
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
@@ -445,7 +445,7 @@ class ParamClass : Comparable<ParamClass> {
         this.action2 = {}
         this.mode = ParamClassMode.NO_VALUE
     }
- constructor(name: String, default: String,action:(String)->Unit) {
+    constructor(name: String, default: String, action: (String) -> Unit) {
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
         this.values = mapOf()
@@ -457,7 +457,7 @@ class ParamClass : Comparable<ParamClass> {
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
         this.values = mapOf()
-        this.action2 = {it-> LauncherConfig.setConfigValue(name, it)}
+        this.action2 = { it -> LauncherConfig.setConfigValue(name, it) }
         this.action = {}
         this.mode = ParamClassMode.FREE_VALUE
     }
@@ -473,7 +473,7 @@ class ParamClass : Comparable<ParamClass> {
 
     fun execDefault() {
         if (mode == ParamClassMode.VALUES) {
-println("execDefault $name")
+            println("execDefault $name")
             values[default]!!()
         }
     }
@@ -597,7 +597,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--inlineMode",
         InlineMode.Enable.toString(),
-        InlineMode.values().map { it -> it.toString()  }
+        InlineMode.values().map { it -> it.toString() }
     ),
     ParamClass(
         "--partitionMode",
@@ -666,15 +666,15 @@ val defaultParams = mutableListOf(
             execMode = ExecMode.SETUP_SPACLIENT
         }
     ),
-ParamClass(
-"--intellijMode",
-IntellijMode.Enable.toString(),
-IntellijMode.values().map { it -> it.toString()  }
-),
+    ParamClass(
+        "--intellijMode",
+        IntellijMode.Enable.toString(),
+        IntellijMode.values().map { it -> it.toString() }
+    ),
     ParamClass(
         "--setupIntellijIdea",
         {
-LauncherConfig.setConfigValue("--intellijMode","Enable")
+            LauncherConfig.setConfigValue("--intellijMode", "Enable")
             enableParams(compileParams)
             execMode = ExecMode.SETUP_GRADLE
         }
@@ -682,7 +682,7 @@ LauncherConfig.setConfigValue("--intellijMode","Enable")
     ParamClass(
         "--setupCommandline",
         {
-LauncherConfig.setConfigValue("--intellijMode","Disable")
+            LauncherConfig.setConfigValue("--intellijMode", "Disable")
             enableParams(compileParams)
             execMode = ExecMode.SETUP_GRADLE
         }
