@@ -38,10 +38,10 @@ import launcher.EDictionaryValueMode
 import launcher.ExecMode
 import launcher.InlineMode
 import launcher.IntellijMode
-import launcher.ParamClassMode 
+import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
-import launcher.TargetMode2 
+import launcher.TargetMode2
 import launcher.createBuildFileForModule
 import launcher.fixPathNames
 import launcher.targetModeCompatible
@@ -774,7 +774,7 @@ fun onHelp() {
             param.help()
         }
     }
-System.exit(1)
+    System.exit(1)
 }
 
 fun onSetupGradle() {
@@ -1315,18 +1315,10 @@ fun onSetupSPAClient() {
         myProcessBuilder(listOf(bin_npm, "bin"))
             .directory(dir)
     ).trim()
-    val bin_bower = fixPathNames("$pwd/bower")
     val bin_gulp = fixPathNames("$pwd/gulp")
-    println("bin_bower :" + bin_bower)
     println("bin_gulp :" + bin_gulp)
-    val commands=mutableListOf<List<String>>()
-if(LauncherConfig.getConfigValue("hadNPMInstall","false")=="false"){
-commands.add( listOf(bin_npm, "install"))
-}
-if(LauncherConfig.getConfigValue("hadBowerInstall","false")=="false"){ 
-commands.add( listOf(bin_bower, "install", "--allow-root"))
-}
-commands.add(listOf(bin_gulp))
+    val commands = mutableListOf<List<String>>()
+    commands.add(listOf(bin_gulp))
     for (cmd in commands) {
         println("cmd :: $cmd")
         val p = myProcessBuilder(cmd)
@@ -1340,10 +1332,6 @@ commands.add(listOf(bin_gulp))
         if (p2.exitValue() != 0) {
             throw Exception("exit-code:: " + p2.exitValue())
         }
-when(cmd[0]){
-bin_npm->LauncherConfig.setConfigValue("hadNPMInstall","true")
-bin_bower->LauncherConfig.setConfigValue("hadBowerInstall","true")
-}
     }
 }
 

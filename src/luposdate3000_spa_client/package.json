@@ -13,7 +13,6 @@
         "gulp-sourcemaps": "^3.0.0",
         "gulp-svg-sprite": "^1.0.11",
         "merge-stream": "^2.0.0",
-        "napa": "^3.0.0",
         "nexusui": "^2.1.6",
         "tone": "^14.7.77",
         "vis-network": "^9.0.4"
@@ -24,9 +23,6 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/hauptbenutzer/luposdate-spa-client.git"
-    },
-    "scripts": {
-        "install": "napa nbrosowsky/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6"
     },
     "description": "Luposdate Single Page Client\r ============================",
     "homepage": "https://github.com/hauptbenutzer/luposdate-spa-client#readme"

@@ -64,7 +64,7 @@ gulp.task('concatJS', function() {
                 "bower_components/x2js/xml2json.min.js",
                 "bower_components/please-wait/build/please-wait.js", // load screen
                 "node_modules/tone/build/Tone.js", // used by sonification - sound library
-                "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js", // used by sonification - instrument-sound files lib
+                "tonejs-instruments/Tonejs-Instruments.js", // used by sonification - instrument-sound files lib
                 "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification
                 "node_modules/nexusui/dist/NexusUI.js", // used by sonification - config-sliders and checkboxes
                 "app/scripts/algos/visualisationUtil/visualizationUtil.js", // used by sonification
@@ -144,7 +144,7 @@ gulp.task('concatJS', function() {
             "bower_components/codemirror/mode/sparql/sparql.js",
             "bower_components/please-wait/build/please-wait.js",
             "node_modules/tone/build/Tone.js",
-            "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js",
+            "tonejs-instruments/Tonejs-Instruments.js",
             "app/scripts/algos/visualisationUtil/vis-network.min.js",
             "node_modules/nexusui/dist/NexusUI.js",
             "app/scripts/algos/visualisationUtil/visualizationUtil.js",
@@ -297,7 +297,7 @@ gulp.task('resources', function() {
     )
 });
 gulp.task('instruments', function() {
-    return gulp.src('node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/samples/**/*')
+    return gulp.src('tonejs-instruments/samples/**/*')
         .pipe(gulp.dest('dist/resources/samples'));
 });
 
