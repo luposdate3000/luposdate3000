@@ -60,7 +60,7 @@ task<Exec>("gulpBuild") {
         commandLine(executableDirectory + "node.exe", File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/gulp").absolutePath)
     } else {
         environment["PATH"] = executableDirectory + ":" + environment["PATH"]
-        commandLine("./node_modules/.bin/gulp",)
+        commandLine("./node_modules/.bin/gulp")
     }
 }
 task("build") {
