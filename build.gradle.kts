@@ -1,4 +1,4 @@
-if (File("build.config").exists()) {
+if (File("src/build.gradle.kts").exists()) {
     dependencies {
         project(":src")
     }

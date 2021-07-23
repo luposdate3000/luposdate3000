@@ -774,6 +774,7 @@ fun onHelp() {
             param.help()
         }
     }
+System.exit(1)
 }
 
 fun onSetupGradle() {
@@ -791,7 +792,7 @@ fun onSetupGradle() {
         throw Exception("there are unkown arguments")
     }
     File("build.gradle.kts").printWriter().use { outBuildGradle ->
-        outBuildGradle.println("if (File(\"build.config\").exists()) {")
+        outBuildGradle.println("if (File(\"src/build.gradle.kts\").exists()) {")
         outBuildGradle.println("    dependencies {")
         outBuildGradle.println("        project(\":src\")")
         outBuildGradle.println("    }")
