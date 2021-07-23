@@ -18,7 +18,7 @@ public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeC
         simRun.timeMeasurer.onShutDown()
         simRun.measureOnShutDown()
         simRun.logger?.logShutDown()
-        printVisualization()
+//        printVisualization()
     }
 
     private fun printVisualization() {
