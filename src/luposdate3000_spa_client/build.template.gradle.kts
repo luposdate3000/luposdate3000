@@ -34,7 +34,7 @@ task<Exec>("bowerInstall") {
     dependsOn("npmInstall")
 if (isWindows) {
     environment["PATH"] = File("./node_modules/.bin/").absolutePath+";"+executableDirectory + ";" + environment["PATH"]
-    commandLine("bower.cmd", "install")
+    commandLine("bower", "install")
 }else{
     environment["PATH"] = File("./node_modules/.bin/").absolutePath+":"+executableDirectory + ":" + environment["PATH"]
     commandLine("bower", "install", "--allow-root")
