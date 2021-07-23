@@ -36,8 +36,8 @@ task<Exec>("bowerInstall") {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
         commandLine("bower.cmd", "install")
     } else {
-        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
-        commandLine("bower", "install", "--allow-root")
+        environment["PATH"] =  executableDirectory + ":" + environment["PATH"]
+        commandLine("./node_modules/.bin/bower", "install", "--allow-root")
     }
 }
 task<Exec>("build") {
