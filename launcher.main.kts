@@ -411,6 +411,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
 }
 
 class ParamClass : Comparable<ParamClass> {
+    val hidden: Boolean
     val name: String
     val default: String
     val values: Map<String, () -> Unit>
@@ -419,7 +420,8 @@ class ParamClass : Comparable<ParamClass> {
     val mode: ParamClassMode
     var additionalHelp: (String) -> Unit = {}
 
-    constructor (name: String, default: String, values: Map<String, ()->Unit>) {
+    constructor (name: String, default: String, values: Map<String, ()->Unit>, hidden: Boolean) {
+        this.hidden = hidden
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
         this.values = values
@@ -428,7 +430,8 @@ class ParamClass : Comparable<ParamClass> {
         this.mode = ParamClassMode.VALUES
     }
 
-    constructor (name: String, default: String, values: List<String>) {
+    constructor (name: String, default: String, values: List<String>, hidden: Boolean) {
+        this.hidden = hidden
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
         this.values = values.map { it -> it to { LauncherConfig.setConfigValue(name, it) } }.toMap()
@@ -437,7 +440,8 @@ class ParamClass : Comparable<ParamClass> {
         this.mode = ParamClassMode.VALUES
     }
 
-    constructor(name: String, action: () -> Unit) {
+    constructor(name: String, action: () -> Unit, hidden: Boolean) {
+        this.hidden = hidden
         this.name = name
         this.default = ""
         this.values = mapOf()
@@ -445,7 +449,8 @@ class ParamClass : Comparable<ParamClass> {
         this.action2 = {}
         this.mode = ParamClassMode.NO_VALUE
     }
-    constructor(name: String, default: String, action: (String) -> Unit) {
+    constructor(name: String, default: String, action: (String) -> Unit, hidden: Boolean) {
+        this.hidden = hidden
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
         this.values = mapOf()
@@ -453,7 +458,8 @@ class ParamClass : Comparable<ParamClass> {
         this.action = {}
         this.mode = ParamClassMode.FREE_VALUE
     }
-    constructor(name: String, default: String) {
+    constructor(name: String, default: String, hidden: Boolean) {
+        this.hidden = hidden
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
         this.values = mapOf()
@@ -531,7 +537,8 @@ fun getAllModuleSpecificParams(): List<ParamClass> {
                             "",
                             {
                                 runArgs.add("--$opt=$it")
-                            }
+                            },
+                            false,
                         )
                     )
                 }
@@ -547,42 +554,43 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--target",
         TargetMode2.JVM.toString(),
-        TargetMode2.values().map { it -> it.toString() }
+        TargetMode2.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
         "--dryMode",
         DryMode.Disable.toString(),
-        DryMode.values().map { it -> it.toString() }
+        DryMode.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
         "--threadCount",
-        "",
+        "", false,
     ),
     ParamClass(
         "--processUrls",
-        "",
+        "", false,
     ),
     ParamClass(
         "--processCount",
         "",
         {
             LauncherConfig.setConfigValue("--processUrls", Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(","))
-        }
+        },
+        false,
     ),
     ParamClass(
         "--dictionaryValueMode",
         EDictionaryValueMode.Long.toString(),
-        EDictionaryValueMode.values().map { it -> it.toString() }
+        EDictionaryValueMode.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
         "--releaseMode",
         ReleaseMode.Disable.toString(),
-        ReleaseMode.values().map { it -> it.toString() }
+        ReleaseMode.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
         "--suspendMode",
         SuspendMode.Disable.toString(),
-        SuspendMode.values().map { it -> it.toString() }
+        SuspendMode.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
         "--compilerVersion",
@@ -592,61 +600,67 @@ val defaultParams = mutableListOf(
             "1.5.0",
             "1.5.21",
             "1.5.255-SNAPSHOT",
-        )
+        ),
+        false,
     ),
     ParamClass(
         "--inlineMode",
         InlineMode.Enable.toString(),
-        InlineMode.values().map { it -> it.toString() }
+        InlineMode.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
         "--partitionMode",
         EPartitionModeExt.names[EPartitionModeExt.None],
-        EPartitionModeExt.names.toList(),
+        EPartitionModeExt.names.toList(), false,
     ),
     ParamClass(
         "--garbageCollector",
         EGarbageCollectorExt.names[EGarbageCollectorExt.Shenandoah],
-        EGarbageCollectorExt.names.toList()
+        EGarbageCollectorExt.names.toList(), false,
     ),
     ParamClass(
         "--dictionaryMode",
         EDictionaryTypeExt.names[EDictionaryTypeExt.KV],
-        EDictionaryTypeExt.names.toList(),
+        EDictionaryTypeExt.names.toList(), false,
     ),
     ParamClass(
         "--help",
         {
             execMode = ExecMode.HELP
             skipArgs = true
-        }
+        },
+        false,
     ),
     ParamClass(
         "--generateParser",
         {
             execMode = ExecMode.GENERATE_PARSER
             skipArgs = true
-        }
+        },
+        false,
     ),
     ParamClass(
         "--generateLauncher",
         {
             execMode = ExecMode.GENERATE_LAUNCHER
             skipArgs = true
-        }
+        },
+        false,
     ),
     ParamClass(
         "--generateEnums",
         {
             execMode = ExecMode.GENERATE_ENUMS
             skipArgs = true
-        }
+        },
+        false,
     ),
     ParamClass(
         "--run",
         {
             execMode = ExecMode.RUN
-        }
+        },
+        false,
     ),
     ParamClass(
         "--clearCaches",
@@ -657,35 +671,30 @@ val defaultParams = mutableListOf(
                 File("${System.getProperty("user.home")}/.cache/main.kts.compiled.cache").deleteRecursively()
             }
             System.exit(0)
-        }
-    ),
-    ParamClass(
-        "--setupSPAClient",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.SETUP_SPACLIENT
-        }
+        },
+        false,
     ),
     ParamClass(
         "--intellijMode",
         IntellijMode.Enable.toString(),
-        IntellijMode.values().map { it -> it.toString() }
+        IntellijMode.values().map { it -> it.toString() }, false,
     ),
     ParamClass(
-        "--setupIntellijIdea",
+        "--setupSPAClient",
         {
-            LauncherConfig.setConfigValue("--intellijMode", "Enable")
+            LauncherConfig.setConfigValue("--target", TargetMode2.JVM_JS.toString())
             enableParams(compileParams)
-            execMode = ExecMode.SETUP_GRADLE
-        }
+            execMode = ExecMode.SETUP_SPACLIENT
+        },
+        false,
     ),
     ParamClass(
-        "--setupCommandline",
+        "--setup",
         {
-            LauncherConfig.setConfigValue("--intellijMode", "Disable")
             enableParams(compileParams)
             execMode = ExecMode.SETUP_GRADLE
-        }
+        },
+        false,
     ),
 )
 
@@ -703,7 +712,7 @@ for ((k, v) in optionsChoosenForPackages) {
         ParamClass(
             name = "--$k",
             default = "$v",
-            values = optionsForPackages[k]!!.map { it.substring(k.length + 1) to { optionsChoosenForPackages[k] = it } }.toMap(),
+            values = optionsForPackages[k]!!.map { it.substring(k.length + 1) to { optionsChoosenForPackages[k] = it } }.toMap(), false,
         ),
     )
 }
@@ -712,7 +721,7 @@ val mainclassParams = listOf(
     ParamClass(
         "--mainClass",
         "Launch_Endpoint",
-        optionsForPackages["Main"]!!.sorted()
+        optionsForPackages["Main"]!!.sorted(), false,
     ),
 )
 enableParams(mainclassParams)
@@ -753,13 +762,19 @@ fun onHelp() {
     println("Usage ./launcher.main.kts <options>")
     println("where possible options include:")
     for (param in defaultParams.sorted()) {
-        param.help()
+        if (!param.hidden) {
+            param.help()
+        }
     }
     for (param in mainclassParams) {
-        param.help()
+        if (!param.hidden) {
+            param.help()
+        }
     }
     for (param in getAllModuleSpecificParams()) {
-        param.help()
+        if (!param.hidden) {
+            param.help()
+        }
     }
 }
 
