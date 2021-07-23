@@ -45,7 +45,7 @@ task<Exec>("launcherCopySpaClient") {
     mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir(rootProject.projectDir)
     if (isWindows) {
-        commandLine("kotlin", "launcher.main.kts", "--copySPAClient")
+        commandLine("cmd","/c","kotlin","\""+ File(rootProject.projectDir.toString() + "/launcher.main.kts").absolutePath +"\"", "--copySPAClient")
     } else {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
         commandLine("./launcher.main.kts", "--copySPAClient")
@@ -56,9 +56,10 @@ task<Exec>("gulpBuild") {
     dependsOn("downloadInstrumentsIfNotExist")
     dependsOn("launcherCopySpaClient")
     environment["DISABLE_NOTIFIER"] = "true"
+    workingDir(rootProject.projectDir.toString()+ "/src/luposdate3000_spa_client")
     if (isWindows) {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
-        commandLine(executableDirectory + "node.exe", File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/gulp").absolutePath)
+        commandLine("cmd","/c", "\""+File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/gulp.cmd").absolutePath+"\"")
     } else {
         environment["PATH"] = executableDirectory + ":" + environment["PATH"]
         commandLine("./node_modules/.bin/gulp")
