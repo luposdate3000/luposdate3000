@@ -33,10 +33,10 @@ task<Exec>("npmInstall") {
 task<Exec>("bowerInstall") {
     dependsOn("npmInstall")
 if (isWindows) {
-    environment["PATH"] = File(./node_modules/.bin/).absolutePath+";"+executableDirectory + ";" + environment["PATH"]
+    environment["PATH"] = File("./node_modules/.bin/").absolutePath+";"+executableDirectory + ";" + environment["PATH"]
     commandLine("bower.cmd", "install")
 }else{
-    environment["PATH"] = File(./node_modules/.bin/).absolutePath+":"+executableDirectory + ":" + environment["PATH"]
+    environment["PATH"] = File("./node_modules/.bin/").absolutePath+":"+executableDirectory + ":" + environment["PATH"]
     commandLine("bower", "install", "--allow-root")
 }
 }
@@ -46,9 +46,9 @@ task<Exec>("build") {
     mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir("../..")
 if(isWindows){
- environment["PATH"] = File(./node_modules/.bin/).absolutePath+";"+executableDirectory + ";" + environment["PATH"]
+ environment["PATH"] = File("./node_modules/.bin/").absolutePath+";"+executableDirectory + ";" + environment["PATH"]
 }else{
- environment["PATH"] = File(./node_modules/.bin/).absolutePath+":"+executableDirectory + ":" + environment["PATH"]
+ environment["PATH"] = File("./node_modules/.bin/").absolutePath+":"+executableDirectory + ":" + environment["PATH"]
 }
     commandLine("./launcher.main.kts", "--copySPAClient")
 }
