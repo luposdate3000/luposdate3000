@@ -110,7 +110,6 @@ var skipArgs = false
 var runArgs = mutableListOf<String>()
 var threadCount = 1
 var processUrls = ""
-var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
 var intellijMode = IntellijMode.Enable
@@ -423,10 +422,10 @@ class ParamClass : Comparable<ParamClass> {
     val mode: ParamClassMode
     var additionalHelp: (String) -> Unit = {}
 
-    constructor (name: String, default: String, values: Map<String, String>) {
+    constructor (name: String, default: String, values: Map<String, ()->Unit>) {
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
-        this.values = values.toList().map{(k,v)-> k to {LauncherConfig.setConfigValue(name, v) }}.toMap()
+        this.values = values
         this.action = {}
         this.action2 = {}
         this.mode = ParamClassMode.VALUES
@@ -470,6 +469,7 @@ class ParamClass : Comparable<ParamClass> {
 
     fun execDefault() {
         if (mode == ParamClassMode.VALUES) {
+println("execDefault $name")
             values[default]!!()
         }
     }
@@ -609,7 +609,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--garbageCollector",
         EGarbageCollectorExt.names[EGarbageCollectorExt.Shenandoah],
-        EGarbageCollectorExt.names.mapIndexed { idx, it -> it to { garbageCollector = idx } }.toMap(),
+        EGarbageCollectorExt.names.toList()
     ),
     ParamClass(
         "--dictionaryMode",
@@ -708,7 +708,7 @@ enableParams(defaultParams)
 val mainclassParams = listOf(
     ParamClass(
         "--mainClass",
-        "Endpoint",
+        "Launch_Endpoint",
         optionsForPackages["Main"]!!.sorted()
     ),
 )
@@ -854,7 +854,7 @@ fun onRun() {
                 cmd.add(javaFileName)
                 cmd.add("-server")
                 cmd.add("-XX:+UnlockExperimentalVMOptions")
-                when (garbageCollector) {
+                when (EGarbageCollectorExt.names.indexOf(LauncherConfig.getConfigValue("--garbageCollector"))) {
                     EGarbageCollectorExt.Epsilon -> {
                         cmd.add("-Xmx10g")
                         cmd.add("-Xms10g")
