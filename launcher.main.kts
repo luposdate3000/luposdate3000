@@ -97,7 +97,7 @@ object LauncherConfig {
     fun getConfigValue(key: String): String {
         val res = config[key]
         if (res == null) {
-            TODO("key")
+            TODO("$key")
         } else {
             return res
         }
@@ -110,7 +110,6 @@ var skipArgs = false
 var runArgs = mutableListOf<String>()
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
-var intellijMode = IntellijMode.Enable
 var execMode = ExecMode.UNKNOWN
 
 fun makeUppercaseStart(s: String): String {
@@ -133,7 +132,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetReleaseMode(ReleaseMode.valueOf(LauncherConfig.getConfigValue("--releaseMode")))
         .ssetSuspendMode(SuspendMode.valueOf(LauncherConfig.getConfigValue("--suspendMode")))
         .ssetInlineMode(InlineMode.valueOf(LauncherConfig.getConfigValue("--inlineMode")))
-        .ssetIntellijMode(intellijMode)
+        .ssetIntellijMode(IntellijMode.valueOf(LauncherConfig.getConfigValue("--intellijMode","Disable")))
         .ssetTarget(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")))
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
@@ -667,19 +666,24 @@ val defaultParams = mutableListOf(
             execMode = ExecMode.SETUP_SPACLIENT
         }
     ),
+ParamClass(
+"--intellijMode",
+IntellijMode.Enable.toString(),
+IntellijMode.values().map { it -> it.toString()  }
+),
     ParamClass(
         "--setupIntellijIdea",
         {
+LauncherConfig.setConfigValue("--intellijMode","Enable")
             enableParams(compileParams)
-            intellijMode = IntellijMode.Enable
             execMode = ExecMode.SETUP_GRADLE
         }
     ),
     ParamClass(
         "--setupCommandline",
         {
+LauncherConfig.setConfigValue("--intellijMode","Disable")
             enableParams(compileParams)
-            intellijMode = IntellijMode.Disable
             execMode = ExecMode.SETUP_GRADLE
         }
     ),
