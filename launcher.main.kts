@@ -104,8 +104,7 @@ object LauncherConfig {
     }
 }
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
-var jsBrowserMode = true
-var partitionMode = ""
+val jsBrowserMode = true
 var dictionaryMode = ""
 var mainClass = ""
 var runArgs = mutableListOf<String>()
@@ -607,7 +606,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--partitionMode",
         EPartitionModeExt.names[EPartitionModeExt.None],
-        EPartitionModeExt.names.map { it to { partitionMode = it } }.toMap(),
+        EPartitionModeExt.names.toList(),
     ),
     ParamClass(
         "--garbageCollector",
@@ -884,7 +883,7 @@ fun onRun() {
             if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
                 println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
-                println("export LUPOS_PARTITION_MODE=$partitionMode")
+                println("export LUPOS_PARTITION_MODE=${LauncherConfig.getConfigValue("--partitionMode")}")
                 println("export LUPOS_DICTIONARY_MODE=$dictionaryMode")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
@@ -896,7 +895,7 @@ fun onRun() {
                     env["LUPOS_PROCESS_ID"] = "$it"
                     env["LUPOS_PROCESS_URLS"] = "$processUrls"
                     env["LUPOS_THREAD_COUNT"] = "$threadCount"
-                    env["LUPOS_PARTITION_MODE"] = "$partitionMode"
+                    env["LUPOS_PARTITION_MODE"] = "${LauncherConfig.getConfigValue("--partitionMode")}"
                     env["LUPOS_DICTIONARY_MODE"] = "$dictionaryMode"
                     p.start()
                 }.forEach {
