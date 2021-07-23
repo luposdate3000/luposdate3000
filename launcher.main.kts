@@ -105,8 +105,6 @@ object LauncherConfig {
 }
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
-var dryMode = DryMode.Disable
-var inlineMode = InlineMode.Enable
 var partitionMode = ""
 var dictionaryMode = ""
 var mainClass = ""
@@ -140,7 +138,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetDictionaryValueMode(dictionaryValueMode)
         .ssetReleaseMode(ReleaseMode.valueOf(LauncherConfig.getConfigValue("--releaseMode")))
         .ssetSuspendMode(SuspendMode.valueOf(LauncherConfig.getConfigValue("--suspendMode")))
-        .ssetInlineMode(inlineMode)
+        .ssetInlineMode(InlineMode.valueOf(LauncherConfig.getConfigValue("--inlineMode")))
         .ssetIntellijMode(intellijMode)
         .ssetTarget(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")))
         .ssetCodegenKSP(false)
@@ -553,7 +551,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--dryMode",
         DryMode.Disable.toString(),
-        DryMode.values().map { it -> it.toString() to { dryMode = it } }.toMap()
+        DryMode.values().map { it -> it.toString() }
     ),
     ParamClass(
         "--threadCount",
@@ -604,7 +602,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--inlineMode",
         InlineMode.Enable.toString(),
-        InlineMode.values().map { it -> it.toString() to { inlineMode = it } }.toMap()
+        InlineMode.values().map { it -> it.toString()  }
     ),
     ParamClass(
         "--partitionMode",
@@ -883,7 +881,7 @@ fun onRun() {
             cmd.add("MainKt")
             cmd.addAll(runArgs)
             println(cmd)
-            if (dryMode == DryMode.Enable) {
+            if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
                 println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
                 println("export LUPOS_PARTITION_MODE=$partitionMode")
@@ -1304,7 +1302,7 @@ fun onSetupSPAClient() {
     println("bin_bower :" + bin_bower)
     println("bin_gulp :" + bin_gulp)
     val commands: List<List<String>>
-    if (dryMode == DryMode.Enable) {
+    if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
         commands = listOf(
             listOf(bin_gulp),
         )
