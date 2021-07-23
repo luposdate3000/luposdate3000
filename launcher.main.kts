@@ -24,7 +24,7 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt") 
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
@@ -241,7 +241,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
                 currentArgs = currentArgs.ssetEnabledRunFunc {
-                   "Luposdate3000_"+ LauncherConfig.getConfigValue("--mainClass") == currentArgs.moduleName
+                    "Luposdate3000_" + LauncherConfig.getConfigValue("--mainClass") == currentArgs.moduleName
                 }
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
@@ -1381,9 +1381,9 @@ fun getJSScriptFiles(): List<String> {
                     dependencies.add(s)
                 }
             }
-        }else{
-println("skipping ${module.moduleName} due to not enabled")
-}
+        } else {
+            println("skipping ${module.moduleName} due to not enabled")
+        }
     }
     for (s in dependencies) {
         if (s.endsWith(".js")) {
