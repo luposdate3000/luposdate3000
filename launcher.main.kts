@@ -105,13 +105,11 @@ object LauncherConfig {
 }
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 val jsBrowserMode = true
-var dictionaryMode = ""
-var mainClass = ""
-var runArgs = mutableListOf<String>()
 var skipArgs = false
+
+var runArgs = mutableListOf<String>()
 var threadCount = 1
 var processUrls = ""
-var dictionaryValueMode = EDictionaryValueMode.Long
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
@@ -134,7 +132,7 @@ fun makeUppercaseStart(s: String): String {
 
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     val localArgs = CreateModuleArgs()
-        .ssetDictionaryValueMode(dictionaryValueMode)
+        .ssetDictionaryValueMode(EDictionaryValueMode.valueOf(LauncherConfig.getConfigValue("--dictionaryValueMode")))
         .ssetReleaseMode(ReleaseMode.valueOf(LauncherConfig.getConfigValue("--releaseMode")))
         .ssetSuspendMode(SuspendMode.valueOf(LauncherConfig.getConfigValue("--suspendMode")))
         .ssetInlineMode(InlineMode.valueOf(LauncherConfig.getConfigValue("--inlineMode")))
@@ -247,7 +245,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
                 currentArgs = currentArgs.ssetEnabledRunFunc {
-                    mainClass == currentArgs.moduleName
+                   "Launch"+ LauncherConfig.getConfigValue("--mainClass") == currentArgs.moduleName
                 }
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
@@ -425,10 +423,10 @@ class ParamClass : Comparable<ParamClass> {
     val mode: ParamClassMode
     var additionalHelp: (String) -> Unit = {}
 
-    constructor (name: String, default: String, values: Map<String, () -> Unit>) {
+    constructor (name: String, default: String, values: Map<String, String>) {
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
-        this.values = values
+        this.values = values.toList().map{(k,v)-> k to {LauncherConfig.setConfigValue(name, v) }}.toMap()
         this.action = {}
         this.action2 = {}
         this.mode = ParamClassMode.VALUES
@@ -576,7 +574,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--dictionaryValueMode",
         EDictionaryValueMode.Long.toString(),
-        EDictionaryValueMode.values().map { it -> it.toString() to { dictionaryValueMode = it } }.toMap()
+        EDictionaryValueMode.values().map { it -> it.toString() }
     ),
     ParamClass(
         "--releaseMode",
@@ -616,7 +614,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--dictionaryMode",
         EDictionaryTypeExt.names[EDictionaryTypeExt.KV],
-        EDictionaryTypeExt.names.map { it to { dictionaryMode = it } }.toMap(),
+        EDictionaryTypeExt.names.toList(),
     ),
     ParamClass(
         "--help",
@@ -711,7 +709,7 @@ val mainclassParams = listOf(
     ParamClass(
         "--mainClass",
         "Endpoint",
-        optionsForPackages["Main"]!!.sorted().map { it.substring("Launch_".length) to { mainClass = "Luposdate3000_$it" } }.toMap()
+        optionsForPackages["Main"]!!.sorted()
     ),
 )
 enableParams(mainclassParams)
@@ -884,7 +882,7 @@ fun onRun() {
                 println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
                 println("export LUPOS_PARTITION_MODE=${LauncherConfig.getConfigValue("--partitionMode")}")
-                println("export LUPOS_DICTIONARY_MODE=$dictionaryMode")
+                println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
                 Array(processUrls.count { it == ',' } + 1) {
@@ -896,7 +894,7 @@ fun onRun() {
                     env["LUPOS_PROCESS_URLS"] = "$processUrls"
                     env["LUPOS_THREAD_COUNT"] = "$threadCount"
                     env["LUPOS_PARTITION_MODE"] = "${LauncherConfig.getConfigValue("--partitionMode")}"
-                    env["LUPOS_DICTIONARY_MODE"] = "$dictionaryMode"
+                    env["LUPOS_DICTIONARY_MODE"] = "${LauncherConfig.getConfigValue("--dictionaryMode")}"
                     p.start()
                 }.forEach {
                     it.waitFor()
