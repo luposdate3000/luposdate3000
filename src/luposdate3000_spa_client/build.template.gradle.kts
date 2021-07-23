@@ -45,7 +45,6 @@ task<Exec>("launcherCopySpaClient") {
     mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir(rootProject.projectDir)
     if (isWindows) {
-        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
         commandLine("kotlin", "launcher.main.kts", "--copySPAClient")
     } else {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
