@@ -791,8 +791,14 @@ fun onSetupGradle() {
         throw Exception("there are unkown arguments")
     }
     File("build.gradle.kts").printWriter().use { outBuildGradle ->
-        outBuildGradle.println("dependencies {")
-        outBuildGradle.println("    project(\":src\")")
+        outBuildGradle.println("if (File(\"build.config\").exists()) {")
+        outBuildGradle.println("    dependencies {")
+        outBuildGradle.println("        project(\":src\")")
+        outBuildGradle.println("    }")
+        outBuildGradle.println("} else {")
+        outBuildGradle.println("    tasks.register(\"build\") {")
+        outBuildGradle.println("        throw Exception(\"call './launcher.main.kts' first with the arguments as described by the documentation\")")
+        outBuildGradle.println("    }")
         outBuildGradle.println("}")
     }
     File("settings.gradle.kts").printWriter().use { outSettingsGradle ->

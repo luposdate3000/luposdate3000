@@ -27,7 +27,7 @@ evaluationDependsOn(":src:luposdate3000_endpoint")
 tasks.register("build") {
     mustRunAfter(":src:luposdate3000_endpoint:build")
     doLast {
-        val proc = myProcessBuilder(listOf("./launcher.main.kts", "--copySPAClient", "--dryMode=Enable"))
+        val proc = myProcessBuilder(listOf("./launcher.main.kts", "--copySPAClient"))
             .start()
         val inputstream = proc!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
