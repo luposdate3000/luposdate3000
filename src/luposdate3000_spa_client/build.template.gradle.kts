@@ -32,10 +32,11 @@ task<Exec>("npmInstall") {
 }
 task<Exec>("bowerInstall") {
     dependsOn("npmInstall")
-    environment["PATH"] = "./node_modules/.bin/:"+executableDirectory + ":" + environment["PATH"]
 if (isWindows) {
+    environment["PATH"] = File(./node_modules/.bin/).absolutePath+";"+executableDirectory + ";" + environment["PATH"]
     commandLine("bower.cmd", "install")
 }else{
+    environment["PATH"] = File(./node_modules/.bin/).absolutePath+":"+executableDirectory + ":" + environment["PATH"]
     commandLine("bower", "install", "--allow-root")
 }
 }
@@ -44,6 +45,10 @@ task<Exec>("build") {
     dependsOn("downloadInstrumentsIfNotExist")
     mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir("../..")
-    environment["PATH"] = executableDirectory + ":" + environment["PATH"]
+if(isWindows){
+ environment["PATH"] = File(./node_modules/.bin/).absolutePath+";"+executableDirectory + ";" + environment["PATH"]
+}else{
+ environment["PATH"] = File(./node_modules/.bin/).absolutePath+":"+executableDirectory + ":" + environment["PATH"]
+}
     commandLine("./launcher.main.kts", "--copySPAClient")
 }
