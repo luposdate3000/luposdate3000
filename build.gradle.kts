@@ -3,7 +3,7 @@ if (File("build.config").exists()) {
         project(":src")
     }
 } else {
-    tasks.register("build") {
-        throw Exception("call './launcher.main.kts' first with the arguments as described by the documentation")
+    task<Exec>("build") {
+        commandLine("./launcher.main.kts", "--help")
     }
 }

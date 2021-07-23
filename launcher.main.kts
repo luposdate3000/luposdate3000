@@ -796,8 +796,8 @@ fun onSetupGradle() {
         outBuildGradle.println("        project(\":src\")")
         outBuildGradle.println("    }")
         outBuildGradle.println("} else {")
-        outBuildGradle.println("    tasks.register(\"build\") {")
-        outBuildGradle.println("        throw Exception(\"call './launcher.main.kts' first with the arguments as described by the documentation\")")
+        outBuildGradle.println("    task<Exec>(\"build\") {")
+        outBuildGradle.println("        commandLine(\"./launcher.main.kts\", \"--help\")")
         outBuildGradle.println("    }")
         outBuildGradle.println("}")
     }
