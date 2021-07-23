@@ -41,6 +41,8 @@ task<Exec>("bowerInstall") {
     }
 }
 task<Exec>("launcherCopySpaClient") {
+    dependsOn(":src:luposdate3000_endpoint:build")
+    mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir(rootProject.projectDir)
     if (isWindows) {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
@@ -65,6 +67,4 @@ task<Exec>("gulpBuild") {
 }
 task("build") {
     dependsOn("gulpBuild")
-    dependsOn(":src:luposdate3000_endpoint:build")
-    mustRunAfter(":src:luposdate3000_endpoint:build")
 }
