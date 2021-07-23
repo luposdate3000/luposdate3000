@@ -11,9 +11,6 @@ nodejs {
     isWindows = executableDirectory.endsWith("node.exe")
     if (isWindows) {
         executableDirectory = executableDirectory.substring(0, executableDirectory.length - 8) // remove the trailing program name
-        if (!File(executableDirectory+"node").exists()) {
-            File(executable.get().toString()).copyTo(File(executableDirectory + "node"))
-        }
     } else {
         executableDirectory = executableDirectory.substring(0, executableDirectory.length - 4) // remove the trailing program name
     }
@@ -30,14 +27,13 @@ task<Exec>("npmInstall") {
     if (isWindows) {
         commandLine(executableDirectory + "npm.cmd", "install","--scripts-prepend-node-path")
     } else {
-        environment["PATH"] = executableDirectory + ":" + environment["PATH"]
-        commandLine(executableDirectory + "npm", "install")
+        commandLine(executableDirectory + "npm", "install","--scripts-prepend-node-path")
     }
 }
 task<Exec>("bowerInstall") {
     dependsOn("npmInstall")
-    environment["PATH"] = executableDirectory + ":" + environment["PATH"]
-    commandLine("./node_modules/.bin/bower", "install", "--allow-root")
+    environment["PATH"] = "./node_modules/.bin/:"+executableDirectory + ":" + environment["PATH"]
+    commandLine("bower", "install", "--allow-root")
 }
 task<Exec>("build") {
     dependsOn("bowerInstall")
@@ -47,13 +43,3 @@ task<Exec>("build") {
     environment["PATH"] = executableDirectory + ":" + environment["PATH"]
     commandLine("./launcher.main.kts", "--copySPAClient")
 }
-
-/*
-plugins {
-    id("org.ysb33r.nodejs.base") version "0.10.0-alpha.2"
-    id("org.ysb33r.nodejs.npm") version "0.10.0-alpha.2"
-}
-//https://ysb33rorg.gitlab.io/nodejs-gradle-plugin/0.10.0-alpha.2/docs/product-documentation.html
-task<org.ysb33r.gradle.nodejs.tasks.NpmPackageJsonInit>("x"){ 
-}
-*/
