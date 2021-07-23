@@ -27,10 +27,10 @@ task("downloadInstrumentsIfNotExist") {
     }
 }
 task<Exec>("npmInstall") {
-    environment["PATH"] = executableDirectory + ":" + environment["PATH"]
     if (isWindows) {
-        commandLine(executableDirectory + "npm.cmd", "install")
+        commandLine(executableDirectory + "npm.cmd", "install","--scripts-prepend-node-path")
     } else {
+        environment["PATH"] = executableDirectory + ":" + environment["PATH"]
         commandLine(executableDirectory + "npm", "install")
     }
 }
