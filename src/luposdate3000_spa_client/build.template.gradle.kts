@@ -25,32 +25,30 @@ task("downloadInstrumentsIfNotExist") {
 }
 task<Exec>("npmInstall") {
     if (isWindows) {
-        commandLine(executableDirectory + "npm.cmd", "install","--scripts-prepend-node-path")
+        commandLine(executableDirectory + "npm.cmd", "install", "--scripts-prepend-node-path")
     } else {
-        commandLine(executableDirectory + "npm", "install","--scripts-prepend-node-path")
+        commandLine(executableDirectory + "npm", "install", "--scripts-prepend-node-path")
     }
 }
 task<Exec>("bowerInstall") {
     mustRunAfter("npmInstall")
-println(rootProject.projectDir.toString())
-if (isWindows) {
-    environment["PATH"] = File(rootProject.projectDir.toString()+"./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+";"+executableDirectory + ";" + environment["PATH"]
-    commandLine("bower", "install")
-}else{
-    environment["PATH"] = File(rootProject.projectDir.toString()+"./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+":"+executableDirectory + ":" + environment["PATH"]
-println(environment)
-    commandLine("bower", "install", "--allow-root")
-}
+    if (isWindows) {
+        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+        commandLine(File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+"bower", "install")
+    } else {
+        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
+        commandLine(File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+"/bower", "install", "--allow-root")
+    }
 }
 task<Exec>("build") {
     dependsOn("bowerInstall")
     dependsOn("downloadInstrumentsIfNotExist")
     mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir("../..")
-if(isWindows){
- environment["PATH"] = File(rootProject.projectDir.toString()+"./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+";"+executableDirectory + ";" + environment["PATH"]
-}else{
- environment["PATH"] = File(rootProject.projectDir.toString()+"./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+":"+executableDirectory + ":" + environment["PATH"]
-}
+    if (isWindows) {
+        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+    } else {
+        environment["PATH"] = File(rootProject.projectDir.toString() + "./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
+    }
     commandLine("./launcher.main.kts", "--copySPAClient")
 }
