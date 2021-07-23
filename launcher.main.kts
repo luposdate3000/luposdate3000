@@ -1257,7 +1257,6 @@ fun copyFromJar(source: InputStream, dest: String) {
 }
 
 fun onSetupSPAClient() {
-// depends on "apt install nodejs npm"
     println("onSetupSPAClient")
     val dirname = fixPathNames("${File(".").absolutePath}/src/luposdate3000_spa_client/")
     println("dirname : $dirname")
@@ -1309,13 +1308,7 @@ fun onSetupSPAClient() {
             out.println(c)
         }
     }
-    val bin_npm = fixPathNames(commandToString(myProcessBuilder(listOf("which", "npm"))).trim())
-    println("bin_npm: " + bin_npm)
-    val pwd = commandToString(
-        myProcessBuilder(listOf(bin_npm, "bin"))
-            .directory(dir)
-    ).trim()
-    val bin_gulp = fixPathNames("$pwd/gulp")
+    val bin_gulp = fixPathNames("./src/luposdate3000_spa_client/./node_modules/.bin/gulp")
     println("bin_gulp :" + bin_gulp)
     val commands = mutableListOf<List<String>>()
     commands.add(listOf(bin_gulp))

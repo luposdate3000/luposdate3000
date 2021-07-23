@@ -19,7 +19,7 @@ task<Exec>("bowerInstall") {
 }
 task<Exec>("build") {
     dependsOn("bowerInstall")
-    dependsIn("downloadInstrumentsIfNotExist")
+    dependsOn("downloadInstrumentsIfNotExist")
     mustRunAfter(":src:luposdate3000_endpoint:build")
     workingDir("../..")
     commandLine("./launcher.main.kts", "--copySPAClient")
