@@ -60,7 +60,7 @@ import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
 object LauncherConfig {
     val configFileName = "build.config"
-    val defaultValues = readConfig()
+    val config = readConfig()
     fun readConfig(): MutableMap<String, String> {
         var res = mutableMapOf<String, String>()
         if (File(configFileName).exists()) {
@@ -80,23 +80,29 @@ object LauncherConfig {
             }
         }
     }
-   fun setConfigValue(key: String, value: String):String {
-        defaultValues[key] = value
-        writeConfig(defaultValues)
-return value
+    fun setConfigValue(key: String, value: String) {
+        config[key] = value
+        writeConfig(config)
     }
     fun getConfigValue(key: String, defaultValue: String): String {
-        val res = defaultValues[key]
+        val res = config[key]
         if (res == null) {
-            defaultValues[key] = defaultValue
-            writeConfig(defaultValues)
+            config[key] = defaultValue
+            writeConfig(config)
             return defaultValue
         } else {
             return res
         }
     }
+    fun getConfigValue(key: String): String {
+        val res = config[key]
+        if (res == null) {
+            TODO("key")
+        } else {
+            return res
+        }
+    }
 }
-var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
 var releaseMode = ReleaseMode.Disable
@@ -142,7 +148,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetTarget(target)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
-        .ssetCompilerVersion(compilerVersion)
+        .ssetCompilerVersion(LauncherConfig.getConfigValue("--compilerVersion"))
         .ssetEnabledFunc { true }
         .ssetEnabledRunFunc { true }
     var allpackages = mutableSetOf<String>()
@@ -434,6 +440,15 @@ class ParamClass : Comparable<ParamClass> {
         this.mode = ParamClassMode.VALUES
     }
 
+    constructor (name: String, default: String, values: List<String>) {
+        this.name = name
+        this.default = LauncherConfig.getConfigValue(name, default)
+        this.values = values.map { it -> it to { LauncherConfig.setConfigValue(name, it) } }.toMap()
+        this.action = {}
+        this.action2 = {}
+        this.mode = ParamClassMode.VALUES
+    }
+
     constructor(name: String, action: () -> Unit) {
         this.name = name
         this.default = ""
@@ -582,11 +597,11 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--compilerVersion",
         "1.5.0",
-        mapOf(
-            "1.4.0" to { compilerVersion = "1.4.0" },
-            "1.5.0" to { compilerVersion = "1.5.0" },
-            "1.5.21" to { compilerVersion = "1.5.21" },
-            "1.5.255-SNAPSHOT" to { compilerVersion = "1.5.255-SNAPSHOT" },
+        listOf(
+            "1.4.0",
+            "1.5.0",
+            "1.5.21",
+            "1.5.255-SNAPSHOT",
         )
     ),
     ParamClass(
