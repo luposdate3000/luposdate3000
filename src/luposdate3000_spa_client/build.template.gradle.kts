@@ -4,16 +4,19 @@ plugins {
 
 evaluationDependsOn(":src:luposdate3000_endpoint")
 var executableDirectory = ""
-var isWindows=false
+var isWindows = false
 nodejs {
     executableByVersion("12.21.0")
     executableDirectory = executable.get().toString()
-isWindows=executableDirectory.endsWith("node.exe")
-if(isWindows){
-    executableDirectory = executableDirectory.substring(0, executableDirectory.length - 8) // remove the trailing program name
-}else{
-    executableDirectory = executableDirectory.substring(0, executableDirectory.length - 4) // remove the trailing program name
-}
+    isWindows = executableDirectory.endsWith("node.exe")
+    if (isWindows) {
+        executableDirectory = executableDirectory.substring(0, executableDirectory.length - 8) // remove the trailing program name
+        if (!File(executableDirectory+"node").exists()) {
+            File(executable.get().toString()).copyTo(File(executableDirectory + "node"))
+        }
+    } else {
+        executableDirectory = executableDirectory.substring(0, executableDirectory.length - 4) // remove the trailing program name
+    }
 }
 task<Exec>("downloadInstruments") {
     commandLine("git", "clone", "--depth=1", "https://github.com/nbrosowsky/tonejs-instruments.git")
@@ -25,11 +28,11 @@ task("downloadInstrumentsIfNotExist") {
 }
 task<Exec>("npmInstall") {
     environment["PATH"] = executableDirectory + ":" + environment["PATH"]
-if(isWindows){
-    commandLine(executableDirectory + "npm.cmd", "install")
-}else{
-    commandLine(executableDirectory + "npm", "install")
-}
+    if (isWindows) {
+        commandLine(executableDirectory + "npm.cmd", "install")
+    } else {
+        commandLine(executableDirectory + "npm", "install")
+    }
 }
 task<Exec>("bowerInstall") {
     dependsOn("npmInstall")
