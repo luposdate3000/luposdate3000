@@ -44,11 +44,12 @@ task<Exec>("build") {
     dependsOn("bowerInstall")
     dependsOn("downloadInstrumentsIfNotExist")
     mustRunAfter(":src:luposdate3000_endpoint:build")
-    workingDir("../..")
+    workingDir(rootProject.projectDir)
     if (isWindows) {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+        commandLine("kotlin","launcher.main.kts", "--copySPAClient")
     } else {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ":" + executableDirectory + ":" + environment["PATH"]
+        commandLine("./launcher.main.kts", "--copySPAClient")
     }
-    commandLine("./launcher.main.kts", "--copySPAClient")
 }
