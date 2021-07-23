@@ -31,7 +31,7 @@ task<Exec>("npmInstall") {
     }
 }
 task<Exec>("bowerInstall") {
-    mustRunAfter("npmInstall")
+    dependsOn("npmInstall")
     if (isWindows) {
         environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
         commandLine("bower.cmd", "install")
