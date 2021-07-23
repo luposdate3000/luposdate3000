@@ -309,6 +309,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     val enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM) && !moduleArgs.disableJVM
     val enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS) && !moduleArgs.disableJS && (!moduleArgs.disableJSNode || !moduleArgs.disableJSBrowser)
     val enableNative = targetModeCompatible(moduleArgs.target, TargetMode2.Native) && !moduleArgs.disableNative
+    moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
     if (!(enableJVM || enableJS || enableNative)) {
         return
     }
@@ -320,7 +321,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         return
     }
-    moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
     try {
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
