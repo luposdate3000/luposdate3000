@@ -23,12 +23,12 @@ fun myProcessBuilder(cmd: List<String>): ProcessBuilder {
 }
 evaluationDependsOn(":src:luposdate3000_endpoint")
 tasks.register("build") {
-val proc=myProcessBuilder(listOf("../../launcher.main.kts","--copySPAClient"))
-                        .redirectOutput(Redirect.INHERIT)
-                        .redirectError(Redirect.INHERIT)
-.start()
-proc.waitFor()
-if (proc.exitValue() != 0) {
-                        throw Exception("exit-code:: " + proc.exitValue())
-                    }
+    val proc = myProcessBuilder(listOf("../../launcher.main.kts", "--copySPAClient"))
+        .redirectOutput(Redirect.INHERIT)
+        .redirectError(Redirect.INHERIT)
+        .start()
+    proc.waitFor()
+    if (proc.exitValue() != 0) {
+        throw Exception("exit-code:: " + proc.exitValue())
+    }
 }

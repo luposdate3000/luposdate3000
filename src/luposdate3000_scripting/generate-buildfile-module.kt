@@ -304,21 +304,22 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
-var dummy=0
-        val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
-        val enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM) && !moduleArgs.disableJVM
-        val enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS) && !moduleArgs.disableJS && (!moduleArgs.disableJSNode || !moduleArgs.disableJSBrowser)
-        val enableNative = targetModeCompatible(moduleArgs.target, TargetMode2.Native) && !moduleArgs.disableNative
-        if (!(enableJVM || enableJS || enableNative)) {
-            return
+    var dummy = 0
+    val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
+    val enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM) && !moduleArgs.disableJVM
+    val enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS) && !moduleArgs.disableJS && (!moduleArgs.disableJSNode || !moduleArgs.disableJSBrowser)
+    val enableNative = targetModeCompatible(moduleArgs.target, TargetMode2.Native) && !moduleArgs.disableNative
+    if (!(enableJVM || enableJS || enableNative)) {
+        return
+    }
+    if (File("${moduleArgs.moduleFolder}/build.template.gradle.kts").exists()) {
+            File("${moduleArgs.moduleFolder}/build.gradle.kts").printWriter().use { out ->
+        File("${moduleArgs.moduleFolder}/build.template.gradle.kts").forEachLine { line ->
+                out.println(line)
+            }
         }
-if(File("${moduleArgs.moduleFolder}/build.template.gradle.kts").exists()){
-File("${moduleArgs.moduleFolder}/build.template.gradle.kts").forEachLine{line->
-File("${moduleArgs.moduleFolder}/build.gradle.kts").printWriter().use { out ->
-out.println(line)
-}
-}
-}
+        return
+    }
     moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
     try {
         val replacementsDefault = mutableMapOf<String, String>()
@@ -796,18 +797,18 @@ out.println(line)
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
-dummy+=        when (moduleArgs.dictionaryValueMode) {
+        dummy += when (moduleArgs.dictionaryValueMode) {
             EDictionaryValueMode.Int -> {
                 typeAliasAll["DictionaryValueHelper"] = Pair("DictionaryValueHelper", "lupos.shared.inline.DictionaryValueHelperInt")
                 typeAliasAll["DictionaryValueType"] = Pair("DictionaryValueType", "Int")
                 typeAliasAll["DictionaryValueTypeArray"] = Pair("DictionaryValueTypeArray", "IntArray")
-0
+                0
             }
             EDictionaryValueMode.Long -> {
                 typeAliasAll["DictionaryValueHelper"] = Pair("DictionaryValueHelper", "lupos.shared.inline.DictionaryValueHelperLong")
                 typeAliasAll["DictionaryValueType"] = Pair("DictionaryValueType", "Long")
                 typeAliasAll["DictionaryValueTypeArray"] = Pair("DictionaryValueTypeArray", "LongArray")
-0
+                0
             }
         }
 
@@ -956,7 +957,7 @@ dummy+=        when (moduleArgs.dictionaryValueMode) {
         }
     } catch (e: Throwable) {
         e.printStackTrace()
-println("$dummy")
+        println("$dummy")
         throw e
     }
 }

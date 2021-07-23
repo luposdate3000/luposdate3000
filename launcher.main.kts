@@ -693,7 +693,7 @@ val defaultParams = mutableListOf(
             enableParams(compileParams)
             execMode = ExecMode.SETUP_SPACLIENT
         },
-        false,
+        true,
     ),
     ParamClass(
         "--setup",
