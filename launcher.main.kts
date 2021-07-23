@@ -110,7 +110,6 @@ var inlineMode = InlineMode.Enable
 var partitionMode = ""
 var dictionaryMode = ""
 var mainClass = ""
-var target = TargetMode2.JVM
 var runArgs = mutableListOf<String>()
 var skipArgs = false
 var threadCount = 1
@@ -143,7 +142,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetSuspendMode(SuspendMode.valueOf(LauncherConfig.getConfigValue("--suspendMode")))
         .ssetInlineMode(inlineMode)
         .ssetIntellijMode(intellijMode)
-        .ssetTarget(target)
+        .ssetTarget(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")))
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
         .ssetCompilerVersion(LauncherConfig.getConfigValue("--compilerVersion"))
@@ -161,9 +160,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
                 .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
             if (filename.endsWith("_js_browser")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
+                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }
             } else if (filename.endsWith("_js_node")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
+                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JS) }
             }
             val dep = mutableSetOf<String>()
             f.forEachLine { line ->
@@ -549,7 +548,7 @@ val defaultParams = mutableListOf(
     ParamClass(
         "--target",
         TargetMode2.JVM.toString(),
-        TargetMode2.values().map { it -> it.toString() to { target = it } }.toMap()
+        TargetMode2.values().map { it -> it.toString() }
     ),
     ParamClass(
         "--dryMode",
@@ -672,7 +671,6 @@ val defaultParams = mutableListOf(
         {
             enableParams(compileParams)
             execMode = ExecMode.SETUP_SPACLIENT
-            target = TargetMode2.JS
         }
     ),
     ParamClass(
@@ -827,7 +825,7 @@ fun onSetupGradle() {
 fun onRun() {
     File("log").mkdirs()
     when {
-        targetModeCompatible(target, TargetMode2.JVM) -> {
+        targetModeCompatible(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")), TargetMode2.JVM) -> {
             val jarsLuposdate3000 = mutableListOf<String>()
             val jars = mutableSetOf<String>()
             for (module in getAllModuleConfigurations()) {
