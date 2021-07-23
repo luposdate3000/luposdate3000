@@ -31,13 +31,14 @@ task<Exec>("npmInstall") {
     }
 }
 task<Exec>("bowerInstall") {
-    dependsOn("npmInstall")
+    mustRunAfter("npmInstall")
 println(rootProject.projectDir.toString())
 if (isWindows) {
     environment["PATH"] = File(rootProject.projectDir.toString()+"./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+";"+executableDirectory + ";" + environment["PATH"]
     commandLine("bower", "install")
 }else{
     environment["PATH"] = File(rootProject.projectDir.toString()+"./src/luposdate3000_spa_client/node_modules/.bin/").absolutePath+":"+executableDirectory + ":" + environment["PATH"]
+println(environment)
     commandLine("bower", "install", "--allow-root")
 }
 }
