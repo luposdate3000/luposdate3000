@@ -33,7 +33,11 @@ task<Exec>("npmInstall") {
 task<Exec>("bowerInstall") {
     dependsOn("npmInstall")
     environment["PATH"] = "./node_modules/.bin/:"+executableDirectory + ":" + environment["PATH"]
+if (isWindows) {
+    commandLine("bower.cmd", "install")
+}else{
     commandLine("bower", "install", "--allow-root")
+}
 }
 task<Exec>("build") {
     dependsOn("bowerInstall")
