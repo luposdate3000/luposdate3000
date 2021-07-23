@@ -479,7 +479,6 @@ class ParamClass : Comparable<ParamClass> {
 
     fun execDefault() {
         if (mode == ParamClassMode.VALUES) {
-            println("execDefault $name")
             values[default]!!()
         }
     }
@@ -683,6 +682,14 @@ val defaultParams = mutableListOf(
         "--setupSPAClient",
         {
             LauncherConfig.setConfigValue("--target", TargetMode2.JVM_JS.toString())
+            enableParams(compileParams)
+            execMode = ExecMode.SETUP_SPACLIENT
+        },
+        false,
+    ),
+    ParamClass(
+        "--copySPAClient",
+        {
             enableParams(compileParams)
             execMode = ExecMode.SETUP_SPACLIENT
         },

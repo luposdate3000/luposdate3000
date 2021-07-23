@@ -305,8 +305,6 @@ class CreateModuleArgs() {
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
 var dummy=0
-    moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
-    try {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
         val enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM) && !moduleArgs.disableJVM
         val enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS) && !moduleArgs.disableJS && (!moduleArgs.disableJSNode || !moduleArgs.disableJSBrowser)
@@ -314,6 +312,15 @@ var dummy=0
         if (!(enableJVM || enableJS || enableNative)) {
             return
         }
+if(File("${moduleArgs.moduleFolder}/build.template.gradle.kts").exists()){
+File("${moduleArgs.moduleFolder}/build.template.gradle.kts").forEachLine{line->
+File("${moduleArgs.moduleFolder}/build.gradle.kts").printWriter().use { out ->
+out.println(line)
+}
+}
+}
+    moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
+    try {
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
             replacementsDefault[" public "] = " @lupos.ProguardKeepAnnotation public "
