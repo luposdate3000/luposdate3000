@@ -21,11 +21,14 @@ import lupos.simulator_iot.Evaluation
 internal fun mainFunc(): Unit = Parallel.runBlocking {
 
     val evaluation = Evaluation()
-    evaluation.evalQueryProcessingDistributedCase()
-    //evaluation.evalQueryProcessingCentralizedCase()
+    //evaluation.evalQueryProcessingDistributedCase()
+    //  evaluation.evalQueryProcessingCentralizedCase()
     //evaluation.evalMeshPerformance()
-    //evaluation.evalStarPerf()
-    //evaluation.evalStarPerfWithDummy()
-    //evaluation.evalStarPerfWithLuposdate()
+    //evaluation.evalStarPerformance()
+    //evaluation.evalStarPerformanceWithDummy()
+    //evaluation.evalStarPerformanceWithLuposdate()
+    //evaluation.evalCampusDistributedSampling()
+    //evaluation.evalCampusNumberOfSamplings()
+    evaluation.evalQueryProcessingDistributedCaseDummy()
 
 }
