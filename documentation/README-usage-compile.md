@@ -13,7 +13,7 @@ Please read all chapters in this README-file first, because you may want to add 
 The launcher remembers the settings you have choosen before, and applies them until you change them explicitly.
 
 # Intellij
-If you want to use intellij use "--intellijMode=Enable" instead.
+If you want to use intellij use `--intellijMode=Enable` instead.
 The main difference by using intellijMode is, that it contains an workaround for the fact, that the IDE does not accept the same source folder in multiple subprojects.
 Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.
 The Linux-version of intellij ignores this - this seems to change in every version of the IDE.
@@ -23,14 +23,14 @@ Within the IDE this works only for main functions, which dont require arguments.
 Additionally, the main function must be located in the jvmMain folder - main functions within in the commonMain folders can not be executed form intellij directly.
 
 # SPAClient
-To use the SPAClient, the target must be either "--target=JS" or "--target=JVM_JS".
-If you choose "--target=JS", than you must use an external tool to host the web-content, which is located in the folder "./src/luposdate3000_spa_client/dist/".
-If you use "--target=JVM_JS", than the database provides an webserver for hosting the web-frontent.
-To speed up the JS code, you may add "--dictionaryValueMode=Int", which is faster in the Browser (and improves the sonification results), but reduces the speed of the database in the JVM.
+To use the SPAClient, the target must be either `--target=JS` or `--target=JVM_JS`.
+If you choose `--target=JS`, than you must use an external tool to host the web-content, which is located in the folder "./src/luposdate3000_spa_client/dist/".
+If you use `--target=JVM_JS`, than the database provides an webserver for hosting the web-frontent.
+To speed up the JS code, you may add `--dictionaryValueMode=Int`, which is faster in the Browser (and improves the sonification results), but reduces the speed of the database in the JVM.
 
 # Debugging <-> Release
-To remove the debugging code from the target append the option "--releaseMode=Enable" .
-If you want the debugging mode again, you would use "--releaseMode=Disable" instead.
+To remove the debugging code from the target append the option `--releaseMode=Enable` .
+If you want the debugging mode again, you would use `--releaseMode=Disable` instead.
 
 # Other options
 Here you can specify many options like ("target, inlineMode, releaseMode, compiler, ...").
