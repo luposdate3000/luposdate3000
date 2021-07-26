@@ -6,7 +6,7 @@ luposdate3000 can be used as a wrapper for apache jena
 
 ```bash
 dependencieshome=/opt
-#list from https://www.w3.org/wiki/SparqlImplementations ->
+#list from https://www.w3.org/wiki/SparqlImplementations
 #list from wikipedia
 
 #4store

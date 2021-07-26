@@ -50,7 +50,7 @@ The module [shared](../src/luposdate3000_shared) is linked as dependency in EVER
 Put all your interfaces here.
 
 The module [shared_inline](../src/luposdate3000_shared_inline) is at compile time copy pasted into every other module.
-This allows the compiler to inline every function, but on the other hand, this costs a lot of compile time.
+This allows the compiler to inline every function, but on the other hand, this costs some compile time, and requires additionaly space in the resulting executable.
 
 Dependencies to other modules are automatically detected by parsing the source-code, and scanning all the import-statements.
 Due to dependency-order errors within gradle, all targets get a full recoursive list of all their dependencies directly, even, if for example the jvm source-code should be able to compile without the recoursive dependencies.

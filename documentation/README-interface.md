@@ -1,10 +1,10 @@
 ## Interface
 
 The interface is defined in the File [LuposdateEndpoint.kt](../src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt).
-The function "initialize" in that file must be called to obtain an instance of the database..
+The function "initialize" in that file must be called to obtain an instance of the database.
 Afterwards you can pass this instance to all other functions.
 If you are done with the database, call the "close" function, which saves all remaining data to the disk (not needed if you use an inmemory database).
-The close function should be called automatically, if the database is reciving a kill-signal.
+The close function should be called automatically, if the program is beeing terminated.
 
 If you extend this interface:
 * Do not overload any function there

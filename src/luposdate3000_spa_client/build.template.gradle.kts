@@ -65,6 +65,17 @@ task<Exec>("gulpBuild") {
         commandLine("./node_modules/.bin/gulp")
     }
 }
+task<Exec>("gulpOnly") {
+    environment["DISABLE_NOTIFIER"] = "true"
+    workingDir(rootProject.projectDir.toString()+ "/src/luposdate3000_spa_client")
+    if (isWindows) {
+        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+        commandLine("cmd","/c", "\""+File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/gulp.cmd").absolutePath+"\"")
+    } else {
+        environment["PATH"] = executableDirectory + ":" + environment["PATH"]
+        commandLine("./node_modules/.bin/gulp")
+    }
+}
 task("build") {
     dependsOn("gulpBuild")
 }

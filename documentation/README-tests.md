@@ -18,11 +18,11 @@ Afterwards generate the module, which contains the unit-test code.
 If you are using the commandline, the tests can be generated and executed using:
 
 ```bash
-./launcher.main.kts --setupIntellijIdea
+./launcher.main.kts --setup
 # assemble is like build, but skips the tests
 ./gradlew assemble
 ./launcher.main.kts --run --mainClass=Generate_Unit_Test_Suite_Multi
-./launcher.main.kts --setupIntellijIdea
+./launcher.main.kts --setup
 ./gradlew build
 ```
 
@@ -30,7 +30,7 @@ In intellij, you need to execute the main function in the Luposdate3000_Launch_G
 Than the intellij files need to be recreated to add the new module.
 
 ```bash
-./launcher.main.kts --setupIntellijIdea
+./launcher.main.kts --setup
 ```
 
 Finally you can execute the tests by compiling the project.

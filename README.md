@@ -55,21 +55,11 @@ Make sure, that you include the additional dependencies for the SPA-Client.
 
 You can compile the database in multiple different ways.
 
-You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
-
-[readme intelliJ-IDE](documentation/README-usage-compile-intellij.md)
-
-Or you may choose the commandline mode without IDE support, which allows you to use all configurations.
-
-[readme-advanced](documentation/README-usage-compile-advanced.md)
-
-Or if you want to use the SPA-Client, then the usage is described here:
-
-[readme-spaclient](documentation/README-SPAClient.md)
+The most important options are described in [readme usage](documentation/README-usage-compile.md)
 
 Running the VLDB'21 Demo:
 
-The webserver can be started using the instructions for the SPA-Client [readme-spaclient](documentation/README-SPAClient.md).
+The webserver can be compiled and started using these instructions [readme-sonification-demo](documentation/README-usage-sonification-demo.md).
 
 ## Web Demos
 

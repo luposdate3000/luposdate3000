@@ -4,7 +4,7 @@ Personally I prefer and therefore use linux.
 If you have some hints to simplify/improve this README, let me know.
 
 
-Download and install git-bash from https://git-scm.com/download/win .
+Download and install git-bash from (git-bash)[https://git-scm.com/download/win] .
 
 # install java
 
@@ -75,33 +75,20 @@ git clone https://github.com/luposdate3000/luposdate3000.git
 * "LUPOS_RAM"
   specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too. This is only used in the commanline startup of the database.
 
-
-# additional dependencies for the spa-client
-https://nodejs.org/dist/v14.17.0/node-v14.17.0-x64.msi
-https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi
-
-Add this to your path (modify them as needed)
-"/c/Python27"
-This directory must contain a "python2.exe". If there is no python2.exe, than copy paste the "python.exe" and rename it.
-
-copy paste 
-C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current
-to
-C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0
-because of an bug in node-gyp, which uses the wrong path
-
 # usage
 
 You can now compile the database in multiple different ways.
 
-You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
+* If you want to use the intellij IDE, follow this guide.
+  [readme intelliJ-IDE](../README-usage-compile-intellij.md)
 
-[readme intelliJ-IDE](../README-usage-compile-intellij.md)
-
-Or you may choose the commandline mode without IDE support, which allows you to use all configurations.
+* Or you may choose the commandline mode without Intellij-IDE support.
+  This avoids copy pasting files around during build.
 
 [readme-advanced](../README-usage-compile-advanced.md)
 
-Or if you want to use the SPA-Client, than the usage is described here:
+* Or if you want to use the SPA-Client, than the usage is described here:
 
 [readme-spaclient](../README-SPAClient.md)
+
+No matter wich option you choose, the project is always compileable from the commandline using gradle directly.
