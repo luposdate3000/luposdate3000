@@ -17,8 +17,8 @@ If you want to use intellij use "--intellijMode=Enable" instead.
 The main difference by using intellijMode is, that it contains an workaround for the fact, that the IDE does not accept the same source folder in multiple subprojects.
 Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.
 The Linux-version of intellij ignores this - this seems to change in every version of the IDE.
-You can compile and run the database by navigating to the main functions, which are located within the src/luposdate3000_launch_*/src/jvmMain/kotlin/Main.kt files.
-Substitute the "*" with the wanted target.
+You can compile and run the database by navigating to the main functions, which are located within the src/luposdate3000_launch_\*/src/jvmMain/kotlin/Main.kt files.
+Substitute the "\*" with the wanted target.
 Within the IDE this works only for main functions, which dont require arguments.
 This only works, if the main function is in the jvmMain folder - not for main functions in the commonMain folders.
 
@@ -78,4 +78,4 @@ To open the SPARQL endpoint use:
 ```
 
 If you have choosen to include "JS" in the target, than the SPAClient is now available at "localhost:80" .
-To see the list of compatible Browsers, you may take a look at (caniuse.com)[https://caniuse.com/?search=int64array] .
+To see the list of compatible Browsers, you may take a look at [caniuse.com](https://caniuse.com/?search=int64array) .
