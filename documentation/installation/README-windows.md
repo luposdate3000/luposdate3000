@@ -77,18 +77,10 @@ git clone https://github.com/luposdate3000/luposdate3000.git
 
 # usage
 
-You can now compile the database in multiple different ways.
+You can compile the database in multiple different ways.
 
-* If you want to use the intellij IDE, follow this guide.
-  [readme intelliJ-IDE](../README-usage-compile-intellij.md)
+The most important options are described in [readme usage](documentation/README-usage-compile.md)
 
-* Or you may choose the commandline mode without Intellij-IDE support.
-  This avoids copy pasting files around during build.
+Running the VLDB'21 Demo:
 
-[readme-advanced](../README-usage-compile-advanced.md)
-
-* Or if you want to use the SPA-Client, than the usage is described here:
-
-[readme-spaclient](../README-SPAClient.md)
-
-No matter wich option you choose, the project is always compileable from the commandline using gradle directly.
+The webserver can be compiled and started using these instructions [readme-sonification-demo](documentation/README-usage-sonification-demo.md).

@@ -78,16 +78,10 @@ dependencieshome=/opt
 
 # usage
 
-You can now compile the database in multiple different ways.
+You can compile the database in multiple different ways.
 
-You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
+The most important options are described in [readme usage](documentation/README-usage-compile.md)
 
-[readme intelliJ-IDE](../README-usage-compile-intellij.md)
+Running the VLDB'21 Demo:
 
-Or you may choose the commandline mode without IDE support, which allows you to use all configurations.
-
-[readme-advanced](../README-usage-compile-advanced.md)
-
-Or if you want to use the SPA-Client, than the usage is described here:
-
-[readme-spaclient](../README-SPAClient.md)
+The webserver can be compiled and started using these instructions [readme-sonification-demo](documentation/README-usage-sonification-demo.md).
