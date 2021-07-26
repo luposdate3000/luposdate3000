@@ -16,4 +16,4 @@ To start the SPARQL endpoint and the webserver:
 ```
 
 Now use a recent Browser to access localhost:80 ..
-To see the list of compatible Browsers, you may take a look at (caniuse.com)[https://caniuse.com/?search=int64array] .
+To see the list of compatible Browsers, you may take a look at [caniuse.com](https://caniuse.com/?search=int64array) .
