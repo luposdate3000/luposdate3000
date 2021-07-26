@@ -4,7 +4,7 @@ evaluationDependsOn(":src:luposdate3000_endpoint")
 var executableDirectoryBaseDir = gradle.gradleUserHomeDir.toString() + "/native-binaries/node/"
 var isWindows = System.getProperty("os.name").contains("Win")
 var executableDirectory=if(isWindows){
-executableDirectoryBaseDir+"node-v16.5.0-win-x64/bin/"
+executableDirectoryBaseDir+"node-v16.5.0-win-x64/"
 }else{
 executableDirectoryBaseDir+"node-v16.5.0-linux-x64/bin/"
 }
