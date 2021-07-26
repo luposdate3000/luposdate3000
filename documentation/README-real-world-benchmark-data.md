@@ -26,7 +26,7 @@ some import benchmarks (measured in seconds):
 | btc2010 |     624.0 GiB |          53.233 GiB |       3171793030 |                  |       1426828906 |          279151232 | 46576.546 | 38684.171 |  7892.375 |  1781.721 |  6110.654 | 34402.117 |
 
 The size in the "intermediate" column should give you an idea how large the dataset is, when using a dictionary.
-These intermediate files are generated using "./launcher.main.kts --run --mainClass=Import --runArgument_Luposdate3000_Launch_Import:inputFileName=turtle-file-name.nt"
+These intermediate files are generated using `./launcher.main.kts --run --mainClass=Import --runArgument_Luposdate3000_Launch_Import:inputFileName=turtle-file-name.nt`
 The intermediate representation is much smaller than the original text size.
 Of course you need some additional memory to evaluate queries on these datasets.
 
