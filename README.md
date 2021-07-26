@@ -76,10 +76,6 @@ The webserver can be compiled and started using these instructions [readme-sonif
 [readme - other databases](documentation/README-other-databases.md)
 [readme - will be updated soon](documentation/README-benchmarks.md)
 
-## Configuration
-
-[readme](documentation/README-configuration.md)
-
 ## Interface
 
 [readme](documentation/README-interface.md)
