@@ -1,4 +1,4 @@
-#!/usr/bin/env kotlin
+#!/usr/bin/env kotlin   
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -816,7 +816,6 @@ fun onSetupGradle() {
             outSettingsGradle.println("    }")
             outSettingsGradle.println("    repositories {")
             outSettingsGradle.println("        mavenLocal()")
-            outSettingsGradle.println("        maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
             outSettingsGradle.println("        google()")
             outSettingsGradle.println("        gradlePluginPortal()")
             outSettingsGradle.println("    }")

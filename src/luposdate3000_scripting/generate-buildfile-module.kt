@@ -396,7 +396,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        google()")
                 out.println("        mavenCentral()")
                 out.println("        maven(\"https://plugins.gradle.org/m2/\")")
-                out.println("        maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
                 out.println("    }")
                 out.println("    dependencies {")
                 out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${moduleArgs.compilerVersion}\")")
@@ -455,7 +454,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    google()")
                 out.println("    mavenCentral()")
                 out.println("    maven(\"https://plugins.gradle.org/m2/\")")
-                out.println("    maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
                 out.println("}")
                 out.println("group = \"luposdate3000\"") // maven-groupID
                 out.println("version = \"0.0.1\"") // maven-version

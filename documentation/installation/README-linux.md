@@ -12,11 +12,6 @@ git clone https://github.com/luposdate3000/luposdate3000.git
 
 apt install openjdk-8-jdk-headless unzip
 
-# additional dependencies for the spa-client
-{
-    apt install g++ python2 nodejs
-}
-
 #Define the folder, where to download everything else.
 dependencieshome=/opt
 
