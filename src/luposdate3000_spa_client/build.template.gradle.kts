@@ -42,7 +42,7 @@ task("downloadNodeIfNotExist") {
 task<Exec>("installNode") {
     dependsOn("downloadNodeIfNotExist")
     if (isWindows) {
-        commandLine("unzip", executableDirectoryBaseDir + "node-v16.5.0-win-x64.zip", executableDirectoryBaseDir)
+        commandLine("unzip", executableDirectoryBaseDir + "node-v16.5.0-win-x64.zip")
     } else {
         commandLine("tar", "-xf", executableDirectoryBaseDir + "node-v16.5.0-linux-x64.tar.xz")
     }
