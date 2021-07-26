@@ -9,11 +9,6 @@ Download and install git-bash from (git-bash)[https://git-scm.com/download/win] 
 # install java
 
 Install any Java version of at least java 8
-For Example:
-
-* Download and unpack java 15 from (openjdk-15.0.1_windows-x64_bin.zip)[https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_windows-x64_bin.zip] .
-* This download wants you to login (create an user) - there are workarounds in the internet, if you want to avoid creating credentials for that website.
-  Download and install java 8 from (jdk-8u271-windows-x64.exe)[https://download.oracle.com/otn-pub/java/jdk/8u271-b09/61ae65e088624f5aaa0b1d2d801acb16/jdk-8u271-windows-x64.exe] .
 
 restart gitbash, if it is already open
 
@@ -79,8 +74,8 @@ git clone https://github.com/luposdate3000/luposdate3000.git
 
 You can compile the database in multiple different ways.
 
-The most important options are described in [readme usage](documentation/README-usage-compile.md)
+The most important options are described in [readme usage](../README-usage-compile.md)
 
 Running the VLDB'21 Demo:
 
-The webserver can be compiled and started using these instructions [readme-sonification-demo](documentation/README-usage-sonification-demo.md).
+The webserver can be compiled and started using these instructions [readme-sonification-demo](../README-usage-sonification-demo.md).

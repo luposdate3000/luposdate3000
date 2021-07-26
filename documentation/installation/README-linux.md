@@ -80,8 +80,8 @@ dependencieshome=/opt
 
 You can compile the database in multiple different ways.
 
-The most important options are described in [readme usage](documentation/README-usage-compile.md)
+The most important options are described in [readme usage](../README-usage-compile.md)
 
 Running the VLDB'21 Demo:
 
-The webserver can be compiled and started using these instructions [readme-sonification-demo](documentation/README-usage-sonification-demo.md).
+The webserver can be compiled and started using these instructions [readme-sonification-demo](../README-usage-sonification-demo.md).
