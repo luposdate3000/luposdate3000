@@ -38,7 +38,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit) {
     var instance = Luposdate3000Instance()
-    Luposdate3000Instance.allowInitFromDisk = false
+    instance.allowInitFromDisk = false
     instance = LuposdateEndpoint.initializeB(instance)
     if (verbose) {
         println("start")

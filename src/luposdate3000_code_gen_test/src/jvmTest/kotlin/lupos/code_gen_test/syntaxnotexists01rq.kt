@@ -27,7 +27,7 @@ public class syntaxnotexists01rq {
     @Test
     public fun `syntaxnotexists01rq`() {
         val instance = LuposdateEndpoint.initialize()
-        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)

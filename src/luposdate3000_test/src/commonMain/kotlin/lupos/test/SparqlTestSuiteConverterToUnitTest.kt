@@ -318,7 +318,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 }
                 out.println("    public fun `$testCaseName2`() {")
                 out.println("        val instance = LuposdateEndpoint.initialize()")
-                out.println("        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128")
+                out.println("        instance.LUPOS_BUFFER_SIZE = 128")
                 out.println("        val buf = MyPrintWriter(false)")
                 for (i in 0 until inputGraphs.size) {
                     appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])")

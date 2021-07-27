@@ -55,7 +55,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        if (Luposdate3000Instance.useDictionaryInlineEncoding) {
+        if (instance.useDictionaryInlineEncoding) {
             val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res
@@ -65,7 +65,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         if (tmp2 != DictionaryValueHelper.nullValue) {
             return tmp2
         }
-        if (Luposdate3000Instance.dictionaryCacheCapacity> 0) {
+        if (instance.dictionaryCacheCapacity> 0) {
             val tmp = cache.getValueByContent(buffer)
             if (tmp != DictionaryValueHelper.nullValue) {
                 return tmp
@@ -79,14 +79,14 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         if (res == DictionaryValueHelper.nullValue) {
             return DictionaryValueHelper.nullValue
         }
-        if (Luposdate3000Instance.dictionaryCacheCapacity> 0) {
+        if (instance.dictionaryCacheCapacity> 0) {
             cache.insertValuePair(buffer, res)
         }
         return res
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        if (Luposdate3000Instance.useDictionaryInlineEncoding) {
+        if (instance.useDictionaryInlineEncoding) {
             val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res
@@ -96,7 +96,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         if (tmp2 != DictionaryValueHelper.nullValue) {
             return tmp2
         }
-        if (Luposdate3000Instance.dictionaryCacheCapacity> 0) {
+        if (instance.dictionaryCacheCapacity> 0) {
             val tmp = cache.getValueByContent(buffer)
             if (tmp != DictionaryValueHelper.nullValue) {
                 return tmp
@@ -107,21 +107,21 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
         val res = input.readDictionaryValueType()
-        if (Luposdate3000Instance.dictionaryCacheCapacity> 0) {
+        if (instance.dictionaryCacheCapacity> 0) {
             cache.insertValuePair(buffer, res)
         }
         return res
     }
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        if (Luposdate3000Instance.useDictionaryInlineEncoding) {
+        if (instance.useDictionaryInlineEncoding) {
             if (DictionaryInlineValues.getValueById(buffer, value)) {
                 return
             }
         }
 
         if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
-            if (Luposdate3000Instance.dictionaryCacheCapacity> 0) {
+            if (instance.dictionaryCacheCapacity> 0) {
                 val tmp = cache.getValueById(buffer, value)
                 if (tmp) {
                     return
@@ -136,7 +136,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         val len = input.readInt()
         ByteArrayWrapperExt.setSize(buffer, len, false)
         input.read(ByteArrayWrapperExt.getBuf(buffer), len)
-        if (Luposdate3000Instance.dictionaryCacheCapacity> 0) {
+        if (instance.dictionaryCacheCapacity> 0) {
             cache.insertValuePair(buffer, value)
         }
     }

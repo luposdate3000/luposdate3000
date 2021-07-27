@@ -92,13 +92,13 @@ public class DatabaseHandle : IDatabase {
         }
         ownAdress = initialState.ownAddress
         router = initialState.sender
-        Luposdate3000Instance.enableJoinOrderOnHistogram = false
-        Luposdate3000Instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
+        instance.enableJoinOrderOnHistogram = false
+        instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
-        Luposdate3000Instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
-        Luposdate3000Instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
-        Luposdate3000Instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
-        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 8192
+        instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
+        instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
+        instance.LUPOS_BUFFER_SIZE = 8192
         instance.communicationHandler = MySimulatorCommunicationHandler(instance, initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)
         globalCheatStart(instance)

@@ -60,7 +60,7 @@ public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
     @Test
     public fun `sq04  Subquery within graph pattern default graph does not apply`() {
         val instance = LuposdateEndpoint.initialize()
-        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

@@ -80,7 +80,7 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     @Test
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution`() {
         val instance = LuposdateEndpoint.initialize()
-        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

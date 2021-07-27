@@ -56,7 +56,7 @@ public class RDFSinferencetestsubClassOf {
     @Test
     public fun `RDFS inference test subClassOf`() {
         val instance = LuposdateEndpoint.initialize()
-        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

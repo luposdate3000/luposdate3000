@@ -102,7 +102,7 @@ public object RestEndpoint {
             connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
             true
         }
-        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "${Luposdate3000Instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
             JenaWrapper.loadFromFile(params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("success")
@@ -275,7 +275,7 @@ public object RestEndpoint {
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
             true
         }
-        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${Luposdate3000Instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(LuposdateEndpoint.importTurtleFile(instance, params["file"]!!))
             true
@@ -290,7 +290,7 @@ public object RestEndpoint {
             connectionOutMy.print(LuposdateEndpoint.importTurtleString(instance, params["data"]!!))
             true
         }
-        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${Luposdate3000Instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
             LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             true

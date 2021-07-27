@@ -27,7 +27,7 @@ public class syntaxbindings02arqwithVALUESclause {
     @Test
     public fun `syntaxbindings02arq with VALUES clause`() {
         val instance = LuposdateEndpoint.initialize()
-        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.close(instance)
