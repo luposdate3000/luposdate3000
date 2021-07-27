@@ -95,4 +95,8 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var REPLACE_STORE_WITH_VALUES: Boolean = false
+    public companion object {
+        @JvmField
+        public var enableVisualisationInSimulator: Boolean = false
+    }
 }
