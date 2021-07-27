@@ -112,7 +112,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         commited = false
         partitions.clear()
         val factory = instance.distributedOptimizerQueryFactory
-        return if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process && factory != null) {
+        return if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process && factory != null) {
             operatorgraphParts = mutableMapOf()
             operatorgraphPartsToHostMap = mutableMapOf()
             dependenciesMapTopDown = mutableMapOf()

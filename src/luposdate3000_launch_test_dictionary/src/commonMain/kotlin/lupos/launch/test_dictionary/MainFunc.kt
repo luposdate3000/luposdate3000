@@ -55,8 +55,8 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 continue
             }
             val instance = Luposdate3000Instance()
-            Luposdate3000Instance.useDictionaryInlineEncoding = false
-            Luposdate3000Instance.allowInitFromDisk = false
+            instance.useDictionaryInlineEncoding = false
+            instance.allowInitFromDisk = false
             resetRandom()
             BufferManagerExt.allowInitFromDisk = false
             instance.bufferManager = BufferManager(instance)

@@ -25,7 +25,7 @@ import lupos.shared.inline.File
 
 public object DictionaryFactory {
     public fun createGlobalDictionary(instance: Luposdate3000Instance): IDictionary {
-        return createDictionary(Luposdate3000Instance.LUPOS_DICTIONARY_MODE, false, instance)
+        return createDictionary(instance.LUPOS_DICTIONARY_MODE, false, instance)
     }
 
     public fun createDictionary(type: EDictionaryType, isLocal: Boolean, instance: Luposdate3000Instance): IDictionary {
@@ -41,8 +41,8 @@ public object DictionaryFactory {
                     val bufferManager = instance.bufferManager!!
                     var pageId: Int = -1
                     val fileName = "global_dictionary.page"
-                    val file = File(Luposdate3000Instance.BUFFER_HOME + fileName)
-                    val initFromDisk = BufferManagerExt.allowInitFromDisk && Luposdate3000Instance.allowInitFromDisk && file.exists()
+                    val file = File(instance.BUFFER_HOME + fileName)
+                    val initFromDisk = BufferManagerExt.allowInitFromDisk && instance.allowInitFromDisk && file.exists()
                     if (initFromDisk) {
                         file.withInputStream {
                             pageId = it.readInt()
@@ -50,7 +50,7 @@ public object DictionaryFactory {
                     } else {
                         pageId = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryFactory.kt:50"/*SOURCE_FILE_END*/)
                         if (BufferManagerExt.allowInitFromDisk) {
-                            File(Luposdate3000Instance.BUFFER_HOME + fileName).withOutputStream {
+                            File(instance.BUFFER_HOME + fileName).withOutputStream {
                                 it.writeInt(pageId)
                             }
                         }

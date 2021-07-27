@@ -1,7 +1,6 @@
 package lupos.simulator_iot.models
 
 import kotlinx.datetime.Instant
-import lupos.shared.Luposdate3000Instance
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.geo.GeoLocation
@@ -96,17 +95,15 @@ public class Device(
     }
 
     override fun onShutDown() {
-        if (Luposdate3000Instance.enableSimulatorVisualisation) {
-            for (dest in 0 until simRun.config.devices.size) {
-                try {
-                    val hop = router.getNextHop(dest)
-                    simRun.visualisationNetwork.addConnectionTable(address, dest, hop)
-                    if (database != null) {
-                        val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
-                        simRun.visualisationNetwork.addConnectionTableDB(address, dest, dbhop)
-                    }
-                } catch (e: Throwable) {
+        for (dest in 0 until simRun.config.devices.size) {
+            try {
+                val hop = router.getNextHop(dest)
+                simRun.visualisationNetwork.addConnectionTable(address, dest, hop)
+                if (database != null) {
+                    val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
+                    simRun.visualisationNetwork.addConnectionTableDB(address, dest, dbhop)
                 }
+            } catch (e: Throwable) {
             }
         }
         sensor?.stopSampling()

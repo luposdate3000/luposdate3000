@@ -28,7 +28,6 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.DontCareWhichException
 import lupos.shared.EPartitionModeExt
-import lupos.shared.Luposdate3000Instance
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 
@@ -36,7 +35,7 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
     // this optimizer moved the partitioning towards and into the triple store, but does NOT care if the specific triple store exist ...
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartition -> {
 // splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables

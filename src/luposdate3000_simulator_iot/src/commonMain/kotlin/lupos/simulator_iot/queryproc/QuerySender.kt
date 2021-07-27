@@ -1,6 +1,5 @@
 package lupos.simulator_iot.queryproc
 
-import lupos.shared.Luposdate3000Instance
 import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IDatabasePackage
@@ -66,9 +65,7 @@ public class QuerySender(
         simRun.incNumberOfQueries()
         val pck = DBQuerySenderPackage(queryPck)
         val netPck = NetworkPackage(receiver.address, receiver.address, pck)
-        if (Luposdate3000Instance.enableSimulatorVisualisation) {
-            PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock, receiver.simRun.visualisationNetwork, queryPck)
-        }
+        PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock, receiver.simRun.visualisationNetwork, queryPck)
         scheduleEvent(receiver, netPck, 0)
     }
 }

@@ -1,5 +1,5 @@
 package lupos.simulator_iot
-import lupos.shared.Luposdate3000Instance
+
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
@@ -73,15 +73,13 @@ public class SimulationRun {
     }
 
     private fun setUpVisualization(configuration: Configuration) {
-        if (Luposdate3000Instance.enableSimulatorVisualisation) {
-            for (d in configuration.devices) {
-                val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
-                vis.x = d.location.latitude
-                vis.y = d.location.longitude
-                visualisationNetwork.addDevice(vis)
-                for (n in d.linkManager.getNeighbours()) {
-                    visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
-                }
+        for (d in configuration.devices) {
+            val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
+            vis.x = d.location.latitude
+            vis.y = d.location.longitude
+            visualisationNetwork.addDevice(vis)
+            for (n in d.linkManager.getNeighbours()) {
+                visualisationNetwork.addConnection(VisualisationConnection(d.address, n))
             }
         }
     }

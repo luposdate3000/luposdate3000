@@ -30,9 +30,9 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
     allowInitFromDisk(false)
     val instance = Luposdate3000Instance()
     if (isUnitTest) {
-        Luposdate3000Instance.BUFFER_HOME = "build/tmp/executeBufferManagerTest"
+        instance.BUFFER_HOME = "build/tmp/executeBufferManagerTest"
     }
-    Luposdate3000Instance.allowInitFromDisk = false
+    instance.allowInitFromDisk = false
     val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     instance.bufferManager = BufferManager(instance)
     val pageIds = mutableListOf<Int>()

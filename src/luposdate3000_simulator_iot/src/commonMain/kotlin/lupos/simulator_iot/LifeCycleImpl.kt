@@ -1,6 +1,6 @@
 
 package lupos.simulator_iot
-import lupos.shared.Luposdate3000Instance
+
 import lupos.simulator_core.ISimulationLifeCycle
 
 public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeCycle {
@@ -18,9 +18,11 @@ public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeC
         simRun.timeMeasurer.onShutDown()
         simRun.measureOnShutDown()
         simRun.logger?.logShutDown()
-        if (Luposdate3000Instance.enableSimulatorVisualisation) {
-            println(simRun.visualisationNetwork.toString())
-            simRun.visualisationNetwork.toImage()
-        }
+//        printVisualization()
+    }
+
+    private fun printVisualization() {
+         println(simRun.visualisationNetwork.toString())
+         simRun.visualisationNetwork.toImage()
     }
 }

@@ -48,7 +48,7 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
 
     public actual fun getSize(): Int = _size
 
-    public actual constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean, instance: Luposdate3000Instance) : this(Luposdate3000Instance.BUFFER_HOME + id + BufferManagerExt.fileEndingIntArray, initialize) {
+    public actual constructor(bufferManager: IBufferManager, id: Int, initialize: Boolean, instance: Luposdate3000Instance) : this(instance.BUFFER_HOME + id + BufferManagerExt.fileEndingIntArray, initialize) {
         this.bufferManager = bufferManager
         this.bufferManagerPage = id
     }

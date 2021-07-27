@@ -211,9 +211,9 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     public override fun initialize() {
-        val file = File(Luposdate3000Instance.BUFFER_HOME + globalManagerRootFileName)
+        val file = File(instance.BUFFER_HOME + globalManagerRootFileName)
         var pageid = -1
-        if (BufferManagerExt.allowInitFromDisk && Luposdate3000Instance.allowInitFromDisk && file.exists()) {
+        if (BufferManagerExt.allowInitFromDisk && instance.allowInitFromDisk && file.exists()) {
             file.withInputStream {
                 pageid = it.readInt()
             }
@@ -360,7 +360,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     public override fun resetDefaultTripleStoreLayout() {
-        if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
             defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
                 .addIndex { it.simple(EIndexPatternExt.SPO) } //
                 .addIndex { it.simple(EIndexPatternExt.SOP) } //
@@ -370,7 +370,7 @@ public class TripleStoreManagerImpl public constructor(
                 .addIndex { it.simple(EIndexPatternExt.OPS) } //
         } else {
             var partitionCount = 4
-            while (partitionCount <Luposdate3000Instance.LUPOS_PROCESS_URLS.size) {
+            while (partitionCount <instance.LUPOS_PROCESS_URLS.size) {
                 partitionCount *= 2
             }
             when (0) {
@@ -435,7 +435,7 @@ public class TripleStoreManagerImpl public constructor(
 
     public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        val buf = DictionaryValueTypeArray(Luposdate3000Instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - 3
         var done = false
         while (!done) {
@@ -465,7 +465,7 @@ public class TripleStoreManagerImpl public constructor(
 
     public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
         val store = localStores_[key]!!
-        val buf = DictionaryValueTypeArray(Luposdate3000Instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - 3
         var done = false
         while (!done) {

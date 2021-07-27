@@ -1,6 +1,5 @@
 package lupos.simulator_iot.queryproc
 
-import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.File
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
@@ -105,9 +104,7 @@ public class DatabaseAdapter(internal val device: Device, isDummy: Boolean) : IR
         val query = SemanticData.getInsertQueryString(sample)
         val bytes = query.encodeToByteArray()
         val pck = QueryPackage(device.address, bytes)
-        if (Luposdate3000Instance.enableSimulatorVisualisation) {
-            PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
-        }
+        PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         processIDatabasePackage(pck)
     }
 
@@ -120,9 +117,7 @@ public class DatabaseAdapter(internal val device: Device, isDummy: Boolean) : IR
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
         checkActivation()
-        if (Luposdate3000Instance.enableSimulatorVisualisation) {
-            PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
-        }
+        PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         if (pck is QueryResponsePackage) {
             sendQueryResponse(destinationAddress, pck)
         } else {

@@ -67,7 +67,7 @@ public class DictionaryKV internal constructor(
         kv.delete()
         vk.delete()
         bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:68"/*SOURCE_FILE_END*/, rootPageID)
-        File(Luposdate3000Instance.BUFFER_HOME + "dict.page").deleteRecursively()
+        File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
     public override fun isInmemoryOnly(): Boolean = false
@@ -149,7 +149,7 @@ public class DictionaryKV internal constructor(
             else -> {
                 if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
                     var done = false
-                    if (Luposdate3000Instance.useDictionaryInlineEncoding) {
+                    if (instance.useDictionaryInlineEncoding) {
                         done = DictionaryInlineValues.getValueById(buffer, value)
                     }
                     if (!done) {
@@ -186,7 +186,7 @@ public class DictionaryKV internal constructor(
             ETripleComponentTypeExt.ERROR -> return DictionaryValueHelper.errorValue
             ETripleComponentTypeExt.UNDEF -> return DictionaryValueHelper.undefValue
             else -> {
-                if (Luposdate3000Instance.useDictionaryInlineEncoding) {
+                if (instance.useDictionaryInlineEncoding) {
                     val res = DictionaryInlineValues.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
                         return res
@@ -226,7 +226,7 @@ public class DictionaryKV internal constructor(
                             ready = false
                         }
                     }
-                    if (ready && Luposdate3000Instance.useDictionaryInlineEncoding) {
+                    if (ready && instance.useDictionaryInlineEncoding) {
                         val res = DictionaryInlineValues.getValueByContent(buffer)
                         if (res != DictionaryValueHelper.nullValue) {
                             mymapping = addEntry(originalID, res, mymapping)
@@ -262,7 +262,7 @@ public class DictionaryKV internal constructor(
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:261"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.BOOLEAN })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:262"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.ERROR })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:263"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.UNDEF })
-        if (Luposdate3000Instance.useDictionaryInlineEncoding) {
+        if (instance.useDictionaryInlineEncoding) {
             val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res

@@ -37,7 +37,6 @@ import lupos.operator.physical.singleinput.POPProjection
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
-import lupos.shared.Luposdate3000Instance
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 
@@ -60,7 +59,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
     }
 
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
-        if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             var a = childA
             var b = childB
             val newID = IntArray(joinColumns.size) { 0 }
@@ -68,8 +67,8 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             while (i >= 0) {
                 newID[i] = query.getNextPartitionOperatorID()
                 val s = joinColumns[i]
-                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, Luposdate3000Instance.initialThreads, newID[i], a)
-                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, Luposdate3000Instance.initialThreads, newID[i], b)
+                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], a)
+                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], b)
                 query.addPartitionOperator(a.uuid, newID[i])
                 query.addPartitionOperator(b.uuid, newID[i])
                 i--
@@ -78,17 +77,17 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             var c = create(a, b)
             if (c.getProvidedVariableNames().isEmpty()) {
                 for (s in joinColumns) {
-                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, Luposdate3000Instance.initialThreads, newID[i], c)
+                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
                     query.addPartitionOperator(c.uuid, newID[i])
                     i++
                 }
             } else {
                 for (s in joinColumns) {
                     if (keepOrder) {
-                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, Luposdate3000Instance.initialThreads, newID[i], c)
+                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
                         query.addPartitionOperator(c.uuid, newID[i])
                     } else {
-                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, Luposdate3000Instance.initialThreads, newID[i], c)
+                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
                         query.addPartitionOperator(c.uuid, newID[i])
                     }
                     i++

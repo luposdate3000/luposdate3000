@@ -39,7 +39,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         return
     }
     val instance = Luposdate3000Instance()
-    Luposdate3000Instance.allowInitFromDisk = false
+    instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)
     var dataSize = 0

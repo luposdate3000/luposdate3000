@@ -326,10 +326,10 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     actual override fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
 
     init {
-        File(Luposdate3000Instance.BUFFER_HOME).mkdirs()
-        val flag = BufferManagerExt.allowInitFromDisk && File(Luposdate3000Instance.BUFFER_HOME + BufferManagerExt.fileEnding).exists()
-        datafile = RandomAccessFile(Luposdate3000Instance.BUFFER_HOME + BufferManagerExt.fileEnding, "rw")
-        freelistfile = RandomAccessFile(Luposdate3000Instance.BUFFER_HOME + BufferManagerExt.fileEndingFree, "rw")
+        File(instance.BUFFER_HOME).mkdirs()
+        val flag = BufferManagerExt.allowInitFromDisk && File(instance.BUFFER_HOME + BufferManagerExt.fileEnding).exists()
+        datafile = RandomAccessFile(instance.BUFFER_HOME + BufferManagerExt.fileEnding, "rw")
+        freelistfile = RandomAccessFile(instance.BUFFER_HOME + BufferManagerExt.fileEndingFree, "rw")
         if (flag) {
             datafilelength = datafile.length()
             freelistfile.seek(freelistfileOffsetFreeLen)
