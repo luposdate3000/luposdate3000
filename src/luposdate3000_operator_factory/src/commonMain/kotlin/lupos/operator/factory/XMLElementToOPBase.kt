@@ -816,6 +816,11 @@ public object XMLElementToOPBase {
 
 /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:819"/*SOURCE_FILE_END*/ },
+            { theMap [node.tag] != null },
+            { node.tag }
+        )
         val res = theMap [node.tag]!!(query, node, mapping, operatorMap as Map<String, Any>)
         if (res !is AOPBase) {
             val tmp = node.attributes["selectedSort"]
