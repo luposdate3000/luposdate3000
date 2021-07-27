@@ -35,6 +35,7 @@ import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.EPartitionModeExt
+import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
@@ -151,6 +152,18 @@ public class DatabaseHandle : IDatabase {
         receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, null)
     }
 
+    private fun containsTripleStoreAccess(op: XMLElement): Boolean {
+        if (op.tag == "POPTripleStoreIterator") {
+            return true
+        }
+        for (c in op.childs) {
+            if (containsTripleStoreAccess(c)) {
+                return true
+            }
+        }
+        return false
+    }
+
     private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?) {
         val queryString = pck.query.decodeToString()
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
@@ -159,6 +172,22 @@ public class DatabaseHandle : IDatabase {
         q.initialize(op)
         visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
         val parts = q.getOperatorgraphParts()
+        var hostMap = mutableMapOf<String, String>()
+        hostMap.putAll(q.getOperatorgraphPartsToHostMap())
+        if (instance.queryDistributionMode == EQueryDistributionModeExt.Centralized) {
+            var flag = true
+            while (flag) {
+                flag = false
+                for (key in hostMap.keys) {
+                    val part = parts[key]!!
+                    if (!containsTripleStoreAccess(part)) {
+                        hostMap.remove(key)
+                        flag = true
+                        break
+                    }
+                }
+            }
+        }
         if (parts.size == 1) {
 // TODO wait for all ack - or assume ordered messages
             if (expectedResult != null) {
@@ -185,10 +214,9 @@ public class DatabaseHandle : IDatabase {
             }
         } else {
             val destinations = mutableMapOf("" to pck.sourceAddress)
-            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, q.getOperatorgraphPartsToHostMap(), q.getDependenciesMapTopDown(), onFinish, expectedResult))
+            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, q.getDependenciesMapTopDown(), onFinish, expectedResult))
         }
     }
-
     private fun receive(pck: MySimulatorAbstractPackage) {
         val paths = mutableMapOf<String, PathMappingHelper>()
         RestEndpoint.initialize(instance, paths)
@@ -200,7 +228,7 @@ public class DatabaseHandle : IDatabase {
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:202"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:230"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -243,7 +271,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:245"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:273"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -338,9 +366,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:340"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:368"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:342"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:370"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(

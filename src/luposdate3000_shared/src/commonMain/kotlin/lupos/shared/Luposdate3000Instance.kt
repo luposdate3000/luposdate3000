@@ -95,6 +95,9 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var REPLACE_STORE_WITH_VALUES: Boolean = false
+
+    @JvmField
+    public var queryDistributionMode: EQueryDistributionMode = EQueryDistributionModeExt.Centralized
     public companion object {
         @JvmField
         public var enableVisualisationInSimulator: Boolean = false
