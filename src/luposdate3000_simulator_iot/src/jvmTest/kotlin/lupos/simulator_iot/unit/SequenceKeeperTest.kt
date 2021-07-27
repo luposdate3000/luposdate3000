@@ -1,4 +1,4 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.unit
 import lupos.simulator_iot.queryproc.ISequencePackageSender
 import lupos.simulator_iot.queryproc.SequenceKeeper
 import lupos.simulator_iot.queryproc.pck.DBSequenceEndPackage

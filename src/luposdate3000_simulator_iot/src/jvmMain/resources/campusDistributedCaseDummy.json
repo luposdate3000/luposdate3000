@@ -1,5 +1,5 @@
 {
-    "dummyDatabase": false,
+    "dummyDatabase": true,
     "deterministic": true,
     "linkType": [
         {
@@ -17,72 +17,72 @@
         {
             "name": "Parking Sensor WSN 1",
             "area": 1,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 1",
             "rateInSec": 60,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 2",
             "area": 2,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 2",
             "rateInSec": 120,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 3",
             "area": 3,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 3",
             "rateInSec": 100,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 4",
             "area": 4,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 4",
             "rateInSec": 140,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 5",
             "area": 5,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 5",
             "rateInSec": 50,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 6",
             "area": 6,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 6",
             "rateInSec": 120,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 7",
             "area": 7,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 7",
             "rateInSec": 59,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 8",
             "area": 8,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 8",
             "rateInSec": 130,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 9",
             "area": 9,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 9",
             "rateInSec": 61,
-            "maxSamples": 3
+            "maxSamples": 10
         },
         {
             "name": "Parking Sensor WSN 10",
             "area": 10,
-            "dataSink": "Fog",
+            "dataSink": "Root WSN 10",
             "rateInSec": 110,
-            "maxSamples": 3
+            "maxSamples": 10
         }
     ],
     "deviceType": [{
@@ -101,70 +101,70 @@
         },
         {
             "name": "Edge Gateway WSN 1",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 2",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 3",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 4",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 5",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 6",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 7",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 8",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 9",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 10",
-            "database": false,
+            "database": true,
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]

@@ -1,8 +1,9 @@
-package lupos.simulator_db
+package lupos.simulator_db.luposdate3000
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
-import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
+import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.QueryResponsePackage
 import lupos.visualize.distributed.database.VisualisationMessage
 import lupos.visualize.distributed.database.VisualisationNetwork
 public object PostProcessSend {

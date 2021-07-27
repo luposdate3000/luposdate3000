@@ -48,7 +48,6 @@ public class Device(
         if (isDeterministic) {
             return 1
         }
-
         val now = TimeUtils.stamp()
         val microDif = TimeUtils.differenceInNanoSec(deviceStart, now)
         val scaled = microDif * 100 / performance
@@ -141,6 +140,11 @@ public class Device(
     }
 
     private fun measureSending(pck: NetworkPackage) {
+        // ignore rpl for the evaluation
+        if (router.isControlPackage(pck)) {
+            return
+        }
+
         if (pck.destinationAddress != address) {
             // ignore self packages
             simRun.incNumberOfSentPackages()
@@ -149,6 +153,10 @@ public class Device(
     }
 
     private fun measureForwarding(pck: NetworkPackage) {
+        // ignore rpl for the evaluation
+        if (router.isControlPackage(pck)) {
+            return
+        }
         simRun.incNumberOfForwardedPackages()
         simRun.incNetworkTraffic(pck.pckSize)
     }

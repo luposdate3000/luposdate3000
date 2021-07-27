@@ -19,10 +19,14 @@ package lupos.launch.simulator
 import lupos.shared.Parallel
 import lupos.simulator_iot.Evaluation
 internal fun mainFunc(): Unit = Parallel.runBlocking {
-    // Evaluation().simulate("${FilePaths.jvmResource}/Exception_2Sensors1Database.json")
-    // Evaluation().simulate("${FilePaths.jvmResource}/anotherException_2Sensor1Database.json")
-    // Evaluation().simulate("${FilePaths.jvmResource}/Exception_2DBwith1Sensor.json")
-    // Evaluation().simulate("${FilePaths.jvmResource}/star.json")
-    // Evaluation().measureStarPerformance(true)
-    Evaluation().evalStarPerformanceWithoutDatabase()
+    val evaluation = Evaluation()
+    // evaluation.evalQueryProcessingDistributedCase()
+    //  evaluation.evalQueryProcessingCentralizedCase()
+    // evaluation.evalMeshPerformance()
+    // evaluation.evalStarPerformance()
+    // evaluation.evalStarPerformanceWithDummy()
+    // evaluation.evalStarPerformanceWithLuposdate()
+    // evaluation.evalCampusDistributedSampling()
+    // evaluation.evalCampusNumberOfSamplings()
+    evaluation.evalQueryProcessingDistributedCaseDummy()
 }

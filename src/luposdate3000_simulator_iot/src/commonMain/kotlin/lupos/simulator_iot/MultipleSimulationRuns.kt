@@ -90,9 +90,9 @@ internal class MultipleSimulationRuns(
             sum.numberOfSentDIOPackages += m.numberOfSentDIOPackages
             sum.numberOfSentDatabasePackages += m.numberOfSentDatabasePackages
             sum.numberOfSentSamplePackages += m.numberOfSentSamplePackages
-            sum.numberOfForwardedPackages += sum.numberOfForwardedPackages
-            sum.numberOfParkingSamplesMade += sum.numberOfParkingSamplesMade
-            sum.numberOfQueriesRequested += sum.numberOfQueriesRequested
+            sum.numberOfForwardedPackages += m.numberOfForwardedPackages
+            sum.numberOfParkingSamplesMade += m.numberOfParkingSamplesMade
+            sum.numberOfQueriesRequested += m.numberOfQueriesRequested
         }
         return sum
     }
@@ -130,31 +130,38 @@ internal class MultipleSimulationRuns(
             tmp.numberOfParkingSamplesMade += step(m.numberOfParkingSamplesMade, avg.numberOfParkingSamplesMade)
             tmp.numberOfQueriesRequested += step(m.numberOfQueriesRequested, avg.numberOfQueriesRequested)
         }
-        val size = list.size - 1
+        val size = list.size
 
         // topology
-        tmp.numberOfDevices = (sqrt(tmp.numberOfDevices / size)) * 100 / avg.numberOfDevices
-        tmp.numberOfSensorDevices = (sqrt(tmp.numberOfSensorDevices / size)) * 100 / avg.numberOfSensorDevices
-        tmp.numberOfDatabaseDevices = (sqrt(tmp.numberOfDatabaseDevices / size)) * 100 / avg.numberOfDatabaseDevices
-        tmp.numberOfQuerySenders = (sqrt(tmp.numberOfQuerySenders / size)) * 100 / avg.numberOfQuerySenders
-        tmp.numberOfLinks = (sqrt(tmp.numberOfLinks / size)) * 100 / avg.numberOfLinks
+        tmp.numberOfDevices = calcDeviationInPercent(tmp.numberOfDevices, size, avg.numberOfDevices)
+        tmp.numberOfSensorDevices = calcDeviationInPercent(tmp.numberOfSensorDevices, size, avg.numberOfSensorDevices)
+        tmp.numberOfDatabaseDevices = calcDeviationInPercent(tmp.numberOfDatabaseDevices, size, avg.numberOfDatabaseDevices)
+        tmp.numberOfQuerySenders = calcDeviationInPercent(tmp.numberOfQuerySenders, size, avg.numberOfQuerySenders)
+        tmp.numberOfLinks = calcDeviationInPercent(tmp.numberOfLinks, size, avg.numberOfLinks)
 
         // times
-        tmp.initializationDurationInSec = (sqrt(tmp.initializationDurationInSec / size)) * 100 / avg.initializationDurationInSec
-        tmp.realSimulationDurationInSec = (sqrt(tmp.realSimulationDurationInSec / size)) * 100 / avg.realSimulationDurationInSec
-        tmp.simulationDurationInSec = (sqrt(tmp.simulationDurationInSec / size)) * 100 / avg.simulationDurationInSec
+        tmp.initializationDurationInSec = calcDeviationInPercent(tmp.initializationDurationInSec, size, avg.initializationDurationInSec)
+        tmp.realSimulationDurationInSec = calcDeviationInPercent(tmp.realSimulationDurationInSec, size, avg.realSimulationDurationInSec)
+        tmp.simulationDurationInSec = calcDeviationInPercent(tmp.simulationDurationInSec, size, avg.simulationDurationInSec)
 
         // traffic
-        tmp.numberOfSentPackages = (sqrt(tmp.numberOfSentPackages / size)) * 100 / avg.numberOfSentPackages
-        tmp.networkTrafficInKiloBytes = (sqrt(tmp.networkTrafficInKiloBytes / size)) * 100 / avg.networkTrafficInKiloBytes
-        tmp.numberOfSentDAOPackages = (sqrt(tmp.numberOfSentDAOPackages / size)) * 100 / avg.numberOfSentDAOPackages
-        tmp.numberOfSentDIOPackages = (sqrt(tmp.numberOfSentDIOPackages / size)) * 100 / avg.numberOfSentDIOPackages
-        tmp.numberOfSentDatabasePackages = (sqrt(tmp.numberOfSentDatabasePackages / size)) * 100 / avg.numberOfSentDatabasePackages
-        tmp.numberOfSentSamplePackages = (sqrt(tmp.numberOfSentSamplePackages / size)) * 100 / avg.numberOfSentSamplePackages
-        tmp.numberOfForwardedPackages = (sqrt(tmp.numberOfForwardedPackages / size)) * 100 / avg.numberOfForwardedPackages
-        tmp.numberOfParkingSamplesMade = (sqrt(tmp.numberOfParkingSamplesMade / size)) * 100 / avg.numberOfParkingSamplesMade
-        tmp.numberOfQueriesRequested = (sqrt(tmp.numberOfQueriesRequested / size)) * 100 / avg.numberOfQueriesRequested
+        tmp.numberOfSentPackages = calcDeviationInPercent(tmp.numberOfSentPackages, size, avg.numberOfSentPackages)
+        tmp.networkTrafficInKiloBytes = calcDeviationInPercent(tmp.networkTrafficInKiloBytes, size, avg.networkTrafficInKiloBytes)
+        tmp.numberOfSentDAOPackages = calcDeviationInPercent(tmp.numberOfSentDAOPackages, size, avg.numberOfSentDAOPackages)
+        tmp.numberOfSentDIOPackages = calcDeviationInPercent(tmp.numberOfSentDIOPackages, size, avg.numberOfSentDIOPackages)
+        tmp.numberOfSentDatabasePackages = calcDeviationInPercent(tmp.numberOfSentDatabasePackages, size, avg.numberOfSentDatabasePackages)
+        tmp.numberOfSentSamplePackages = calcDeviationInPercent(tmp.numberOfSentSamplePackages, size, avg.numberOfSentSamplePackages)
+        tmp.numberOfForwardedPackages = calcDeviationInPercent(tmp.numberOfForwardedPackages, size, avg.numberOfForwardedPackages)
+        tmp.numberOfParkingSamplesMade = calcDeviationInPercent(tmp.numberOfParkingSamplesMade, size, avg.numberOfParkingSamplesMade)
+        tmp.numberOfQueriesRequested = calcDeviationInPercent(tmp.numberOfQueriesRequested, size, avg.numberOfQueriesRequested)
 
         return tmp
+    }
+
+    private fun calcDeviationInPercent(sum: Double, n: Int, avg: Double): Double {
+        val variance = sum / n
+        val deviation = sqrt(variance)
+        val percent = if (avg == 0.0) 0.0 else deviation * 100 / avg
+        return percent
     }
 }

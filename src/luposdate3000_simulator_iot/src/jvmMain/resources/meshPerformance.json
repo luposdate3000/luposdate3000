@@ -1,0 +1,45 @@
+{
+    "dummyDatabase": false,
+    "deterministic": true,
+    "linkType": [
+        {
+        "name": "WIRELESS",
+        "rangeInMeters": 30,
+        "dataRateInKbps": 250
+        }
+    ],
+    "sensorType": [
+    ],
+    "deviceType": [{
+            "name": "Mesh Hop",
+            "database": false,
+            "parkingSensor": "",
+            "performance": 100.0,
+            "supportedLinkTypes": ["WIRELESS"]
+        }
+    ],
+    "fixedDevice": [{
+            "name": "DODAG ROOT",
+            "deviceType": "Mesh Hop",
+            "latitude": 53.83831534459554,
+            "longitude": 10.698774930618905
+        }
+    ],
+    "fixedLink": [],
+    "rootRouter": "DODAG ROOT",
+    "randomMeshNetwork": [{
+        "networkPrefix": "Campus Mesh",
+        "originLatitude": 53.83897140331313,
+        "originLongitude": 10.694405480987202,
+        "deviceType": "Mesh Hop",
+        "linkType": "WIRELESS",
+        "signalCoverageEast": 600,
+        "signalCoverageSouth": 600
+    }
+
+    ],
+    "randomStarNetwork": [
+    ],
+    "querySender": [
+    ]
+}

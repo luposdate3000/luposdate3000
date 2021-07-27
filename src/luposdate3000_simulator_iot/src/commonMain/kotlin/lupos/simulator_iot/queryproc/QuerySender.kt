@@ -3,8 +3,8 @@ package lupos.simulator_iot.queryproc
 import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.PostProcessSend
 import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage

@@ -1,5 +1,6 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.unit
 
+import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.models.geo.GeoLocation
 import kotlin.test.Test
 import kotlin.test.assertEquals

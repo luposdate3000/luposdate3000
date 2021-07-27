@@ -3,10 +3,11 @@ package lupos.simulator_iot.measure
 import lupos.shared.inline.File
 import lupos.simulator_iot.utils.FilePaths
 
-internal class MeasurementPrinter {
+internal class MeasurementPrinter(val dirName: String) {
 
-    private val avgFile = File("${FilePaths.outputDir}/average.csv")
-    private val deviationFile = File("${FilePaths.outputDir}/deviation.csv")
+    private val resultDir = "${FilePaths.outputDir}/$dirName"
+    private val avgFile = File("$resultDir/average.csv")
+    private val deviationFile = File("$resultDir/deviation.csv")
     private val delimiter = ";"
 
     init {
@@ -14,7 +15,7 @@ internal class MeasurementPrinter {
     }
 
     private fun refreshFile() {
-        val directory = File(FilePaths.outputDir)
+        val directory = File(resultDir)
         if (!directory.exists()) {
             directory.mkdirs()
         }
@@ -49,7 +50,6 @@ internal class MeasurementPrinter {
             "${m.numberOfDatabaseDevices}$delimiter" +
             "${m.numberOfQuerySenders}$delimiter" +
             "${m.numberOfLinks}$delimiter" +
-            "${"todo"}$delimiter" +
             "${m.initializationDurationInSec}$delimiter" +
             "${m.realSimulationDurationInSec}$delimiter" +
             "${m.simulationDurationInSec}$delimiter" +
@@ -70,12 +70,11 @@ internal class MeasurementPrinter {
             "Databases$delimiter" +
             "QuerySenders$delimiter" +
             "Links$delimiter" +
-            "DODAG Links$delimiter" +
-            "RealInitDuration$delimiter" +
-            "RealSimDuration$delimiter" +
-            "SimDuration$delimiter" +
-            "SentPackages$delimiter" +
-            "TrafficInKBytes$delimiter" +
+            "Real Initialization Time$delimiter" +
+            "Real Simulation Time$delimiter" +
+            "Simulation Time$delimiter" +
+            "Sent Packages$delimiter" +
+            "Traffic In Kilobytes$delimiter" +
             "SentDatabasePackages$delimiter" +
             "SentSamplePackages$delimiter" +
             "SentDIOPackages$delimiter" +

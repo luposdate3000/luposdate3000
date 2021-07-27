@@ -23,7 +23,7 @@ public data class JsonObjects(
 @Serializable
 public data class LinkType(
     val name: String = "",
-    val rangeInMeters: Int = 0,
+    var rangeInMeters: Int = 0,
     val dataRateInKbps: Int = 0,
 )
 
@@ -33,7 +33,7 @@ public data class SensorType(
     val area: Int = 0,
     val dataSink: String = "",
     val rateInSec: Int = 0,
-    val maxSamples: Int = -1,
+    var maxSamples: Int = -1,
 )
 
 @Serializable
@@ -85,7 +85,7 @@ public data class RandomMeshNetwork(
 public data class QuerySender(
     val name: String = "",
     val sendRateInSeconds: Int = 0,
-    val maxNumberOfQueries: Int = 0,
+    var maxNumberOfQueries: Int = 0,
     val sendStartClockInSec: Int = 0,
-    val query: String = "",
+    var query: String = "",
 )

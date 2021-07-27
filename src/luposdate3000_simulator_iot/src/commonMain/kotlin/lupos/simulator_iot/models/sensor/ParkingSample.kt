@@ -1,6 +1,7 @@
 package lupos.simulator_iot.models.sensor
 
 import lupos.simulator_iot.models.net.IPayload
+import lupos.simulator_iot.queryproc.SemanticData
 
 internal class ParkingSample(
     internal val sampleID: Int,
@@ -11,7 +12,9 @@ internal class ParkingSample(
     internal val area: String
 ) : IPayload {
     override fun getSizeInBytes(): Int {
-        return 2 + 2 + sampleTime.encodeToByteArray().size + 2 + area.encodeToByteArray().size
+        val badCodingStyle = SemanticData.getInsertQueryString(this).encodeToByteArray().size
+        return badCodingStyle
+        // return 2 + 2 + sampleTime.encodeToByteArray().size + 2 + area.encodeToByteArray().size
     }
 
     override fun toString(): String {

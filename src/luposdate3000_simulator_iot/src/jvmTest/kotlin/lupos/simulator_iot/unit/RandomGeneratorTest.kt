@@ -1,5 +1,6 @@
-package lupos.simulator_iot
+package lupos.simulator_iot.unit
 
+import lupos.simulator_iot.RandomGenerator
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
