@@ -44,6 +44,9 @@ public class Luposdate3000Instance {
     @JvmField
     public var communicationHandler: ICommunicationHandler? = null
 
+    @JvmField
+    public var LUPOS_PROCESS_ID: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()
+
     public companion object {
         @JvmField
         public var LUPOS_BUFFER_SIZE: Int = Platform.getEnv("LUPOS_BUFFER_SIZE", "134217728")!!.toInt() // set this to at most 5% of your available RAM
@@ -62,9 +65,6 @@ public class Luposdate3000Instance {
 
         @JvmField
         public var LUPOS_PROCESS_URLS: Array<String> = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
-
-        @JvmField
-        public var LUPOS_PROCESS_ID: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()
 
         @JvmField
         public var LUPOS_PARTITION_MODE: EPartitionMode = EPartitionModeExt.names.indexOf(Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!)

@@ -66,7 +66,7 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
     @Test
     public fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode`() {
         val instance = LuposdateEndpoint.initialize()
-        instance.LUPOS_BUFFER_SIZE = 128
+        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.EMPTY_STREAM)

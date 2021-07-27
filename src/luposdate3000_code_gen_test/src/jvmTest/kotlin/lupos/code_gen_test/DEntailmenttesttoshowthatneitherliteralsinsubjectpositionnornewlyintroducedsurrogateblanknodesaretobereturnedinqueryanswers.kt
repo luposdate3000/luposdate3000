@@ -53,7 +53,7 @@ public class DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyin
     @Test
     public fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers`() {
         val instance = LuposdateEndpoint.initialize()
-        instance.LUPOS_BUFFER_SIZE = 128
+        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

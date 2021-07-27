@@ -33,7 +33,7 @@ public class DELETEINSERT9 {
     @Test
     public fun `DELETE INSERT 9`() {
         val instance = LuposdateEndpoint.initialize()
-        instance.LUPOS_BUFFER_SIZE = 128
+        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         var flag = false
         try {

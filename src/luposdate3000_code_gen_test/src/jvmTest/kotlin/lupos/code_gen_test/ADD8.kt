@@ -63,7 +63,7 @@ public class ADD8 {
     @Test
     public fun `ADD 8`() {
         val instance = LuposdateEndpoint.initialize()
-        instance.LUPOS_BUFFER_SIZE = 128
+        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

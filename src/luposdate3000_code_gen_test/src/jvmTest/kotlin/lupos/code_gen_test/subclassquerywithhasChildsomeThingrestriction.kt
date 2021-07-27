@@ -59,7 +59,7 @@ public class subclassquerywithhasChildsomeThingrestriction {
     @Test
     public fun `subclass query with hasChild some Thing restriction`() {
         val instance = LuposdateEndpoint.initialize()
-        instance.LUPOS_BUFFER_SIZE = 128
+        Luposdate3000Instance.LUPOS_BUFFER_SIZE = 128
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

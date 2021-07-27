@@ -412,7 +412,7 @@ public object LuposdateEndpoint {
             instances.add(instance)
             instance.bufferManager = BufferManager(instance)
             instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
-            instance.tripleStoreManager = TripleStoreManagerImpl(Luposdate3000Instance.LUPOS_PROCESS_URLS, Luposdate3000Instance.LUPOS_PROCESS_URLS[Luposdate3000Instance.LUPOS_PROCESS_ID], instance)
+            instance.tripleStoreManager = TripleStoreManagerImpl(Luposdate3000Instance.LUPOS_PROCESS_URLS, Luposdate3000Instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID], instance)
             instance.tripleStoreManager!!.initialize()
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
             instance.initialized = true
