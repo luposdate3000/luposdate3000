@@ -106,7 +106,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:105"/*SOURCE_FILE_END*/ }, { (value and DictionaryValueHelper.maskValue) >= 0 }, { " $value >= 0" })
                     if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
                         var done = false
-                        if (instance.useDictionaryInlineEncoding) {
+                        if (Luposdate3000Instance.useDictionaryInlineEncoding) {
                             done = DictionaryInlineValues.getValueById(buffer, value)
                         }
                         if (!done) {
@@ -158,7 +158,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
                         return tmp
                     }
                 }
-                if (instance.useDictionaryInlineEncoding) {
+                if (Luposdate3000Instance.useDictionaryInlineEncoding) {
                     val res = DictionaryInlineValues.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
                         return res
@@ -194,7 +194,7 @@ public class DictionaryInMemory internal constructor(isLocal: Boolean, instance:
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:193"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.BOOLEAN })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:194"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.ERROR })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:195"/*SOURCE_FILE_END*/ }, { type != ETripleComponentTypeExt.UNDEF })
-        if (instance.useDictionaryInlineEncoding) {
+        if (Luposdate3000Instance.useDictionaryInlineEncoding) {
             val res = DictionaryInlineValues.getValueByContent(buffer)
             if (res != DictionaryValueHelper.nullValue) {
                 return res

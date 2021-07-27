@@ -23,6 +23,7 @@ import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
 import lupos.shared.Parallel
@@ -60,7 +61,7 @@ public object QueryResultToMemoryTable {
     }
 
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition) {
-        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+        if ((Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
             var partitionVariable = ""
             if (node is POPMergePartition) {
@@ -105,9 +106,9 @@ public object QueryResultToMemoryTable {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
-            query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
+        if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+            query.setDictionaryUrl("${Luposdate3000Instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
         }
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
@@ -131,7 +132,7 @@ public object QueryResultToMemoryTable {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:133"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:134"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -164,8 +165,8 @@ public object QueryResultToMemoryTable {
                 }
             }
         }
-        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+        if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
         return resultList
     }

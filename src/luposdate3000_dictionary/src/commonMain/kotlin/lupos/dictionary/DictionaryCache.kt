@@ -23,7 +23,7 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public class DictionaryCache(instance: Luposdate3000Instance) {
-    private val valueCapacity = instance.dictionaryCacheCapacity
+    private val valueCapacity = Luposdate3000Instance.dictionaryCacheCapacity
     private var offset = 0
     private val valueIds = DictionaryValueTypeArray(valueCapacity) { DictionaryValueHelper.booleanTrueValue }
     private val valueContent = Array(valueCapacity) {

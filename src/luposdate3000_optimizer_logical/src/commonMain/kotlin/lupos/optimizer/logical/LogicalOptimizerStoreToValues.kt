@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -28,6 +27,7 @@ import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
@@ -35,7 +35,7 @@ import lupos.shared.operator.IOPBase
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
-        if (node is LOPTriple && query.getInstance().REPLACE_STORE_WITH_VALUES) {
+        if (node is LOPTriple && Luposdate3000Instance.REPLACE_STORE_WITH_VALUES) {
             var hashCode = 0L
             for (c in node.getChildren()) {
                 hashCode += c.getUUID() + c.toString().hashCode()
@@ -58,13 +58,13 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val tmp = query.getInstance().tripleStoreManager!!.getGraph(node.graph).getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, idx)
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
-                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
-                        query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
+                    if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                        query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+                        query.setDictionaryUrl("${Luposdate3000Instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
-                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+                    if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                        query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
                     }
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:68"/*SOURCE_FILE_END*/ }, { tmp2.hasCountMode() })
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
@@ -78,13 +78,13 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val tmp = query.getInstance().tripleStoreManager!!.getGraph(node.graph).getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, idx)
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
-                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
-                        query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
+                    if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                        query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+                        query.setDictionaryUrl("${Luposdate3000Instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
-                    if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                        query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+                    if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                        query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
                     }
                     val columns = tmp2.columns
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:89"/*SOURCE_FILE_END*/ }, { columns.size == 1 })

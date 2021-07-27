@@ -33,7 +33,7 @@ import lupos.shared.SanityCheck
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
     private class LocalSortedInputStream(key: String, val mode: EModifyType, val idx: EIndexPattern, instance: Luposdate3000Instance) : IMyOutputStream {
         var off = 0
-        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(Luposdate3000Instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - (buf.size % 3)
         val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
         override fun flush() {}
@@ -87,7 +87,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
     private class LocalInputStream(key: String, val mode: EModifyType, val idx: EIndexPattern, instance: Luposdate3000Instance) : IMyOutputStream {
         var off = 0
-        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
+        val buf = DictionaryValueTypeArray(Luposdate3000Instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - (buf.size % 3)
         val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
         override fun flush() {}

@@ -27,6 +27,7 @@ import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 
@@ -34,7 +35,7 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
     // this optimizer removes useless partitioning operators
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     if (node.partitionCount == 1) {

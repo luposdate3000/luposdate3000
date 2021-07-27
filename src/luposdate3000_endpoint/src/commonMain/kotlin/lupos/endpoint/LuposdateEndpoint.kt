@@ -143,9 +143,9 @@ public object LuposdateEndpoint {
         val query = Query(instance)
         val key = "${query.getTransactionID()}"
         try {
-            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
-                query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
+            if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                instance.communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+                query.setDictionaryUrl("${Luposdate3000Instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
             }
             instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
             var counter = 0L
@@ -230,14 +230,14 @@ public object LuposdateEndpoint {
             val storeTime = totalTime - dictTime
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
-            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+            if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                instance.communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
-            if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+            if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                instance.communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             throw e
         }
@@ -412,7 +412,7 @@ public object LuposdateEndpoint {
             instances.add(instance)
             instance.bufferManager = BufferManager(instance)
             instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
-            instance.tripleStoreManager = TripleStoreManagerImpl(instance.LUPOS_PROCESS_URLS, instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID], instance)
+            instance.tripleStoreManager = TripleStoreManagerImpl(Luposdate3000Instance.LUPOS_PROCESS_URLS, Luposdate3000Instance.LUPOS_PROCESS_URLS[Luposdate3000Instance.LUPOS_PROCESS_ID], instance)
             instance.tripleStoreManager!!.initialize()
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
             instance.initialized = true

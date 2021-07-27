@@ -46,7 +46,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 
 internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     val instance = Luposdate3000Instance()
-    instance.allowInitFromDisk = false
+    Luposdate3000Instance.allowInitFromDisk = false
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)

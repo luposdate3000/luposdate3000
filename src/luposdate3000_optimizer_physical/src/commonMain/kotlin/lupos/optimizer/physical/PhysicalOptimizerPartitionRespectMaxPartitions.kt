@@ -27,6 +27,7 @@ import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.operator.IOPBase
 
 public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID, "PhysicalOptimizerPartitionRespectMaxPartitions") {
@@ -51,7 +52,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
@@ -78,8 +79,8 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                     query.partitionOperatorCount[node.partitionID] = node.partitionCount
                     var newCount = node.partitionCount
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                    if (count > query.getInstance().maxThreads) {
-                        val reduceFactor = count / query.getInstance().maxThreads
+                    if (count > Luposdate3000Instance.maxThreads) {
+                        val reduceFactor = count / Luposdate3000Instance.maxThreads
                         newCount = if (reduceFactor > node.partitionCount) {
                             1
                         } else {
@@ -127,8 +128,8 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                     query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
                     var newCount = node.partitionCountTo
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCountTo / node.partitionCountFrom
-                    if (count > query.getInstance().maxThreads) {
-                        val reduceFactor = count / query.getInstance().maxThreads
+                    if (count > Luposdate3000Instance.maxThreads) {
+                        val reduceFactor = count / Luposdate3000Instance.maxThreads
                         newCount = if (reduceFactor > node.partitionCountTo) {
                             1
                         } else {

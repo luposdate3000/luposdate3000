@@ -24,6 +24,7 @@ import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.ESortTypeExt
 import lupos.shared.EmptyResultException
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.operator.IOPBase
@@ -120,7 +121,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 if (result != null) {
                     return result
                 }
-                if (query.getInstance().enableJoinOrderOnHistogram) {
+                if (Luposdate3000Instance.enableJoinOrderOnHistogram) {
                     result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
                     if (result != null) {
                         return result
@@ -138,7 +139,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:140"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:141"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
                 return nodes[0]
             }
         }

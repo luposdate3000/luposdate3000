@@ -20,6 +20,7 @@ import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EPartitionModeExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -33,9 +34,9 @@ public object QueryResultToXMLElement {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
-            query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
+        if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+            query.setDictionaryUrl("${Luposdate3000Instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
         }
         val res = mutableListOf<XMLElement>()
         val nodes: Array<IOPBase>
@@ -62,7 +63,7 @@ public object QueryResultToXMLElement {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:64"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:65"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -72,7 +73,7 @@ public object QueryResultToXMLElement {
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                     val value = DictionaryHelper.byteArrayToSparql(buffer)
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:74"/*SOURCE_FILE_END*/ }, { value.endsWith("\"^^<$datatype>") })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:75"/*SOURCE_FILE_END*/ }, { value.endsWith("\"^^<$datatype>") })
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
                     child.columns["?boolean"]!!.close()
                 } else {
@@ -112,7 +113,7 @@ public object QueryResultToXMLElement {
                                                 nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
                                             } else {
                                                 val idx2 = value.lastIndexOf("\"@")
-                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:114"/*SOURCE_FILE_END*/ }, { idx2 >= 0 })
+                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:115"/*SOURCE_FILE_END*/ }, { idx2 >= 0 })
                                                 val data = value.substring(1, idx2)
                                                 val lang = value.substring(idx2 + 2, value.length)
                                                 nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
@@ -140,8 +141,8 @@ public object QueryResultToXMLElement {
             res.add(nodeSparql)
         }
         if (res.size == 1) {
-            if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+            if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+                query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             return res[0]
         }
@@ -149,8 +150,8 @@ public object QueryResultToXMLElement {
         for (r in res) {
             compountResult.addContent(r)
         }
-        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+        if (flag && Luposdate3000Instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            query.getInstance().communicationHandler!!.sendData(Luposdate3000Instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
         return compountResult
     }

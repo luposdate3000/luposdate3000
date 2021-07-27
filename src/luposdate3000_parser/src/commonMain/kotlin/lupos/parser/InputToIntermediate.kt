@@ -178,7 +178,7 @@ public object InputToIntermediate {
         } else {
             "triples"
         }
-        val dictSizeLimit = instance.LUPOS_BUFFER_SIZE.toLong()
+        val dictSizeLimit = Luposdate3000Instance.LUPOS_BUFFER_SIZE.toLong()
         var dictSizeEstimated = 0L
         var chunc = 0
 // create chunced dictionaries
@@ -392,8 +392,8 @@ public object InputToIntermediate {
                 EIndexPatternExt.OPS,
             )
             val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
-            val tripleBufA = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
-            val tripleBufB = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufA = DictionaryValueTypeArray(Luposdate3000Instance.LUPOS_BUFFER_SIZE / 12 * 3)
+            val tripleBufB = DictionaryValueTypeArray(Luposdate3000Instance.LUPOS_BUFFER_SIZE / 12 * 3)
             fun sortBlockMain() {
                 for (o in 0 until 6) {
                     val order = orders[o]
