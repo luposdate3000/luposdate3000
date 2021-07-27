@@ -173,19 +173,19 @@ public class DatabaseHandle : IDatabase {
         visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
         val parts = q.getOperatorgraphParts()
         var hostMap = mutableMapOf<String, String>()
-        hostMap.putAll(q.getOperatorgraphPartsToHostMap())
-        if (instance.queryDistributionMode == EQueryDistributionModeExt.Centralized) {
-            var flag = true
-            while (flag) {
-                flag = false
-                for (key in hostMap.keys) {
+        when (instance.queryDistributionMode) {
+            EQueryDistributionModeExt.Routing -> {
+// only define the explicit triple-store access
+                for ((key, value) in q.getOperatorgraphPartsToHostMap()) {
                     val part = parts[key]!!
-                    if (!containsTripleStoreAccess(part)) {
-                        hostMap.remove(key)
-                        flag = true
-                        break
+                    if (containsTripleStoreAccess(part)) {
+                        hostMap[key] = value
                     }
                 }
+            }
+            EQueryDistributionModeExt.Centralized -> {
+// define everything as in the DB outside of the simulator
+                hostMap.putAll(q.getOperatorgraphPartsToHostMap())
             }
         }
         if (parts.size == 1) {
