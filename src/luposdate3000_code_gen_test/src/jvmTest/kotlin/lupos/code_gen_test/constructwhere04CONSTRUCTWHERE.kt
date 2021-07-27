@@ -18,7 +18,6 @@ package lupos.code_gen_test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter

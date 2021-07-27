@@ -232,7 +232,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("import lupos.shared.CodeGenerationAnnotation")
                 }
                 out.println("import lupos.shared.EIndexPatternExt")
-                out.println("import lupos.shared.Luposdate3000Instance")
                 out.println("import lupos.shared.MemoryTable")
                 out.println("import lupos." + "shared.inline.File")
                 out.println("import lupos." + "shared.inline.MyPrintWriter")
