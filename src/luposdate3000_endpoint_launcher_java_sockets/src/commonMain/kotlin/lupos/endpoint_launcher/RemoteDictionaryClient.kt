@@ -33,6 +33,7 @@ internal class RemoteDictionaryClient(
     instance: Luposdate3000Instance,
     isLocal: Boolean
 ) : ADictionary(instance, isLocal) {
+    private val ontologyCache = instance.nodeGlobalOntologyCache
     private val cache = DictionaryCache(instance)
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
@@ -80,6 +81,10 @@ internal class RemoteDictionaryClient(
                 return tmp
             }
         }
+        val tmp3 = ontologyCache?.getValueByContent(buffer)
+        if (tmp3 != null && tmp3 != DictionaryValueHelper.nullValue) {
+            return tmp3
+        }
         output.writeInt(2)
         output.writeInt(ByteArrayWrapperExt.getSize(buffer))
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
@@ -111,6 +116,10 @@ internal class RemoteDictionaryClient(
                 return tmp
             }
         }
+        val tmp3 = ontologyCache?.getValueByContent(buffer)
+        if (tmp3 != null && tmp3 != DictionaryValueHelper.nullValue) {
+            return tmp3
+        }
         output.writeInt(5)
         output.writeInt(ByteArrayWrapperExt.getSize(buffer))
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
@@ -128,7 +137,10 @@ internal class RemoteDictionaryClient(
                 return
             }
         }
-
+        val tmp3 = ontologyCache?.getValueById(buffer, value)
+        if (tmp3 != null && tmp3) {
+            return
+        }
         if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
             if (instance.dictionaryCacheCapacity> 0) {
                 val tmp = cache.getValueById(buffer, value)

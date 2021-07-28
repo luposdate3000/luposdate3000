@@ -19,20 +19,22 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.IDictionaryCache
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-public class DictionaryCache(instance: Luposdate3000Instance) {
-    private val valueCapacity = instance.dictionaryCacheCapacity
+public class DictionaryCache : IDictionaryCache {
+    private val valueCapacity: Int
     private var offset = 0
-    private val valueIds = DictionaryValueTypeArray(valueCapacity) { DictionaryValueHelper.booleanTrueValue }
-    private val valueContent = Array(valueCapacity) {
-        val tmp = ByteArrayWrapper()
-        ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp, false)
-        tmp
+    private val valueIds: DictionaryValueTypeArray
+    public constructor(instance: Luposdate3000Instance) : this(instance.dictionaryCacheCapacity)
+    public constructor(capacity: Int) {
+        valueCapacity = capacity
+        valueIds = DictionaryValueTypeArray(valueCapacity) { DictionaryValueHelper.booleanTrueValue }
+        valueContent = Array(valueCapacity) { ByteArrayWrapper() }
     }
+    private val valueContent: Array<ByteArrayWrapper>
 
-    public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
+    override fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
         for (i in 0 until valueCapacity) {
             if (ByteArrayWrapperExt.compare_fast(valueContent[i], buffer) == 0) {
                 return valueIds[i]
@@ -41,7 +43,7 @@ public class DictionaryCache(instance: Luposdate3000Instance) {
         return DictionaryValueHelper.nullValue
     }
 
-    public fun getValueById(buffer: ByteArrayWrapper, id: DictionaryValueType): Boolean {
+    override fun getValueById(buffer: ByteArrayWrapper, id: DictionaryValueType): Boolean {
         for (i in 0 until valueCapacity) {
             if (valueIds[i] == id) {
                 ByteArrayWrapperExt.copyInto(valueContent[i], buffer, false)
@@ -51,7 +53,7 @@ public class DictionaryCache(instance: Luposdate3000Instance) {
         return false
     }
 
-    public fun insertValuePair(buffer: ByteArrayWrapper, id: DictionaryValueType) {
+    override fun insertValuePair(buffer: ByteArrayWrapper, id: DictionaryValueType) {
         for (i in 0 until valueCapacity) {
             if (valueIds[i] == id) {
                 return

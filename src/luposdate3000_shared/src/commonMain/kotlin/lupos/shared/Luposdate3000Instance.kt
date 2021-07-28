@@ -19,6 +19,7 @@ package lupos.shared
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
+import lupos.shared.dictionary.IDictionaryCache
 import lupos.shared.inline.Platform
 import lupos.shared.optimizer.IDistributedOptimizer
 import kotlin.jvm.JvmField
@@ -34,6 +35,9 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var nodeGlobalDictionary: IDictionary? = null
+
+    @JvmField
+    public var nodeGlobalOntologyCache: IDictionaryCache? = null
 
     @JvmField
     public var tripleStoreManager: TripleStoreManager? = null
