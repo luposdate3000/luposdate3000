@@ -16,6 +16,7 @@
  */
 package lupos.endpoint
 import lupos.buffer_manager.BufferManager
+import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -30,6 +31,8 @@ import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.parser.turtle.TurtleParserWithStringTriples
+import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToEmptyStream
@@ -55,10 +58,14 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElementFromXML
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.Platform
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
 import lupos.shared.inline.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
@@ -78,6 +85,56 @@ public object LuposdateEndpoint {
 
     @JvmField
     internal val instances = mutableListOf<Luposdate3000Instance>()
+
+    @JsName("load_shacl_ontology")
+    /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:90"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        val lcit = LexerCharIterator(data)
+        val tit = TurtleScanner(lcit)
+        val dict = instance.nodeGlobalDictionary!!
+        val cache2 = instance.nodeGlobalOntologyCache
+        val cache = if (cache2 == null) {
+            val c = DictionaryCache(0)
+            instance.nodeGlobalOntologyCache = c
+            c
+        } else {
+            cache2
+        }
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val x = object : TurtleParserWithStringTriples() {
+            /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(s))
+                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(p))
+                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(o))
+                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+            }
+        }
+        x.ltit = ltit
+        x.parse()
+        var data = ByteArrayWrapper()
+        cache.forEach { value, key ->
+            var c1 = ByteArrayWrapperExt.getSize(data)
+            val c2 = c1 + DictionaryValueHelper.getSize() + 4
+            ByteArrayWrapperExt.setSize(data, c2, true)
+            DictionaryValueHelper.toByteArray(data, c1, key)
+            c1 += DictionaryValueHelper.getSize()
+            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(data), c1, ByteArrayWrapperExt.getSize(value))
+            ByteArrayWrapperExt.appendTo(value, data)
+        }
+        val c3 = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, c3 + DictionaryValueHelper.getSize(), true)
+        DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(data), c3, DictionaryValueHelper.nullValue)
+        for (i in 1 until instance.LUPOS_PROCESS_URLS.size) {
+            val (input, output) = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS[i], "/shacl/ontology/load", mapOf(), -1)
+            output.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
+            output.close()
+            input.close()
+        }
+        return "successfully loaded ontology"
+    }
 
     @JsName("import_turtle_string")
     /*suspend*/ public fun importTurtleString(instance: Luposdate3000Instance, data: String): String {

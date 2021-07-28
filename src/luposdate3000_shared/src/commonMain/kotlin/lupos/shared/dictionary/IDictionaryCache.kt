@@ -23,4 +23,6 @@ public interface IDictionaryCache {
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType
     public fun getValueById(buffer: ByteArrayWrapper, id: DictionaryValueType): Boolean
     public fun insertValuePair(buffer: ByteArrayWrapper, id: DictionaryValueType)
+    public fun insertValuePairExtend(buffer: ByteArrayWrapper, id: DictionaryValueType)
+    public fun forEach(action: (ByteArrayWrapper, DictionaryValueType) -> Unit)
 }

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
+import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.EndpointExtendedVisualize
 import lupos.endpoint.LuposdateEndpoint
@@ -27,6 +28,7 @@ import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.operator.physical.partition.POPDistributedSendSingleCount
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.DateHelperRelative
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
@@ -37,8 +39,10 @@ import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.MyStringStream
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.xmlParser.XMLParser
 import kotlin.jvm.JvmField
 
@@ -125,6 +129,36 @@ public object RestEndpoint {
             sessionMap[key] = eev
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(key.toString())
+            true
+        }
+        paths["/shacl/ontology/import"] = PathMappingHelper(true, mapOf(Pair("data", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+            if (instance.LUPOS_PROCESS_ID == 0) {
+                LuposdateEndpoint.loadShaclOntology(instance, params["data"]!!)
+            } else {
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/shacl/ontology/import", params, -1)
+            }
+            true
+        }
+        paths["/shacl/ontology/load"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+            val data = ByteArrayWrapper()
+            val cache2 = instance.nodeGlobalOntologyCache
+            val cache = if (cache2 == null) {
+                val c = DictionaryCache(0)
+                instance.nodeGlobalOntologyCache = c
+                c
+            } else {
+                cache2
+            }
+            while (true) {
+                var id = connectionInMy.readDictionaryValueType()
+                if (id == DictionaryValueHelper.nullValue) {
+                    break
+                }
+                val len = connectionInMy.readInt()
+                ByteArrayWrapperExt.setSize(data, len, false)
+                connectionInMy.read(ByteArrayWrapperExt.getBuf(data), len)
+                cache.insertValuePairExtend(data, id)
+            }
             true
         }
         paths["/sparql/getLogicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->

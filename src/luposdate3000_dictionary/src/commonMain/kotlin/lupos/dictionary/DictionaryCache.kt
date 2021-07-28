@@ -19,21 +19,33 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionaryCache
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public class DictionaryCache : IDictionaryCache {
-    private val valueCapacity: Int
+    private var valueCapacity: Int
     private var offset = 0
-    private val valueIds: DictionaryValueTypeArray
+    private var valueIds: DictionaryValueTypeArray
+    private var valueContent: Array<ByteArrayWrapper>
+
     public constructor(instance: Luposdate3000Instance) : this(instance.dictionaryCacheCapacity)
     public constructor(capacity: Int) {
         valueCapacity = capacity
         valueIds = DictionaryValueTypeArray(valueCapacity) { DictionaryValueHelper.booleanTrueValue }
-        valueContent = Array(valueCapacity) { ByteArrayWrapper() }
+        valueContent = Array(valueCapacity) {
+            val tmp = ByteArrayWrapper()
+            ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp, false)
+            tmp
+        }
     }
-    private val valueContent: Array<ByteArrayWrapper>
-
+    override fun forEach(action: (ByteArrayWrapper, DictionaryValueType) -> Unit) {
+        for (i in 0 until valueCapacity) {
+            if (valueIds[i] != DictionaryValueHelper.booleanTrueValue) {
+                action(valueContent[i], valueIds[i])
+            }
+        }
+    }
     override fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
         for (i in 0 until valueCapacity) {
             if (ByteArrayWrapperExt.compare_fast(valueContent[i], buffer) == 0) {
@@ -54,6 +66,13 @@ public class DictionaryCache : IDictionaryCache {
     }
 
     override fun insertValuePair(buffer: ByteArrayWrapper, id: DictionaryValueType) {
+        insertValuePairInternal(buffer, id, false)
+    }
+    override fun insertValuePairExtend(buffer: ByteArrayWrapper, id: DictionaryValueType) {
+        insertValuePairInternal(buffer, id, true)
+    }
+
+    private fun insertValuePairInternal(buffer: ByteArrayWrapper, id: DictionaryValueType, extend: Boolean) {
         for (i in 0 until valueCapacity) {
             if (valueIds[i] == id) {
                 return
@@ -63,6 +82,29 @@ public class DictionaryCache : IDictionaryCache {
             if (ByteArrayWrapperExt.compare_fast(valueContent[i], buffer) == 0) {
                 return // to be save, otherwise we miss the case where a local dictionary id is upgraded to a global one
             }
+        }
+        if (extend && offset >= valueCapacity) {
+            var target = valueCapacity * 2
+            if (target == 0) {
+                target = 1
+            }
+            val tmpIds = DictionaryValueTypeArray(target) {
+                if (it <valueCapacity) {
+                    valueIds[it]
+                } else {
+                    DictionaryValueHelper.booleanTrueValue
+                }
+            }
+            val tmpContents = Array(target) {
+                if (it <valueCapacity) {
+                    valueContent[it]
+                } else {
+                    val tmp = ByteArrayWrapper()
+                    ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp, false)
+                    tmp
+                }
+            }
+            valueCapacity = target
         }
         ByteArrayWrapperExt.copyInto(buffer, valueContent[offset], false)
         valueIds[offset] = id
