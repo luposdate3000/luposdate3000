@@ -15,7 +15,7 @@ import lupos.simulator_iot.queryproc.DatabaseAdapter
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
-
+    public var enableSharedMemoryDictionaryCheat: Boolean = true
     public var devices: MutableList<Device> = mutableListOf()
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
