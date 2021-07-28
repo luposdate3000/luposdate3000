@@ -20,11 +20,11 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IDatabasePackage
 
-internal class MySimulatorAbstractPackage(
-    val queryID: Int,
-    val path: String,
-    val params: Map<String, String>,
-    val data: ByteArrayWrapper = ByteArrayWrapper()
+public class MySimulatorAbstractPackage(
+    internal val queryID: Int,
+    internal val path: String,
+    internal val params: Map<String, String>,
+    internal val data: ByteArrayWrapper = ByteArrayWrapper()
 ) : IDatabasePackage {
 
     override fun getPackageSizeInBytes(): Int {

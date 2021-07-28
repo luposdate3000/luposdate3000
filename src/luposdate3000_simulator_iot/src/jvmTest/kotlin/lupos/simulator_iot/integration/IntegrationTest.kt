@@ -1,5 +1,6 @@
 package lupos.simulator_iot.integration
 
+import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
 import lupos.simulator_iot.Evaluation
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.config.QuerySender
@@ -155,18 +156,29 @@ class IntegrationTest {
     }
 
     private fun campusWithQuery(configFile: String, queryString: String) {
-        val querySender = QuerySender(
-            name = "Q1",
-            sendRateInSeconds = 1,
-            maxNumberOfQueries = 1,
-            sendStartClockInSec = 10 * 60,
-            query = queryString
-        )
-
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile(configFile)
-        json.querySender.add(querySender)
+        json.querySender.add(
+            QuerySender(
+                name = "Q1",
+                sendRateInSeconds = 1,
+                maxNumberOfQueries = 1,
+                sendStartClockInSec = 10 * 60,
+                query = queryString
+            )
+        )
         val config = simRun.parseJsonObjects(json)
+        val ontologySender = lupos.simulator_iot.queryproc.QuerySender(
+            simRun,
+            "Ontology",
+            1,
+            1,
+            60,
+            config.devices.filter { it.hasDatabase() }.first(),
+            "ONTOLOGY-QUERY-OVERRIDES-THE-PACKAGE"
+        )
+        ontologySender.queryPck = MySimulatorAbstractPackage(-1, "/shacl/ontology/import", mapOf("data" to SemanticData.get_SHACL_OntolotgyString()))
+        config.querySenders.add(ontologySender)
         simRun.startSimulation(config)
     }
 

@@ -46,6 +46,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
+import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
@@ -88,7 +89,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:90"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:91"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val dict = instance.nodeGlobalDictionary!!
@@ -104,12 +105,12 @@ public object LuposdateEndpoint {
         val x = object : TurtleParserWithStringTriples() {
             /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                 val buffer = ByteArrayWrapper()
-                DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(s))
-                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
-                DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(p))
-                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
-                DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(o))
-                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                for (v in listOf(s, p, o)) {
+                    DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(v))
+                    if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
+                        cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                    }
+                }
             }
         }
         x.ltit = ltit

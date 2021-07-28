@@ -104,6 +104,8 @@ public class DictionaryCache : IDictionaryCache {
                     tmp
                 }
             }
+            valueIds = tmpIds
+            valueContent = tmpContents
             valueCapacity = target
         }
         ByteArrayWrapperExt.copyInto(buffer, valueContent[offset], false)

@@ -66,7 +66,7 @@ internal class MySimulatorOutputStreamToPackage(val queryID: Int, val target: In
     }
 
     override fun write(buf: ByteArray, len: Int) {
-        TODO()
+        ByteArrayWrapperExt.appendTo(buf, len, buffer)
     }
     override fun writeDictionaryValueType(value: DictionaryValueType) {
         val offset = ByteArrayWrapperExt.getSize(buffer)

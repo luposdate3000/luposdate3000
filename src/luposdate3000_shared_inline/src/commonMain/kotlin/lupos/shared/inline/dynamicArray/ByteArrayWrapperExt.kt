@@ -77,6 +77,13 @@ public object ByteArrayWrapperExt {
     }
 
     @Suppress("NOTHING_TO_INLINE")
+    public inline fun appendTo(a: ByteArray, a_size: Int, b: ByteArrayWrapper) {
+        val offset = b.size_
+        setSize(b, b.size_ + a_size, true)
+        a.copyInto(b.buf_, offset, 0, a_size)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun compare_slow(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         var res = 0
         var i = 0
