@@ -51,17 +51,19 @@ public class AOPConstant : AOPBase, IAOPConstant {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
-        return if (DictionaryHelper.byteArrayToType(buffer) == ETripleComponentTypeExt.BLANK_NODE) {
+        val res = if (DictionaryHelper.byteArrayToType(buffer) == ETripleComponentTypeExt.BLANK_NODE) {
             XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
         } else {
-            return DictionaryHelper.byteArrayToXMLElement(buffer)
+            DictionaryHelper.byteArrayToXMLElement(buffer)
         }
+        return res
     }
 
     override fun toSparql(): String {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
-        return DictionaryHelper.byteArrayToSparql(buffer)
+        val res = DictionaryHelper.byteArrayToSparql(buffer)
+        return res
     }
 
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value

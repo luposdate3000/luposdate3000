@@ -20,5 +20,5 @@ import lupos.shared.IQuery
 import lupos.shared.operator.IOPBase
 
 public interface IDistributedOptimizer {
-    public fun optimize(query: IQuery): IOPBase
+    public fun optimize(query: IQuery, wantReturnValue: Boolean): IOPBase
 }

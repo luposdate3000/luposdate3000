@@ -170,7 +170,7 @@ public class DatabaseHandle : IDatabase {
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
         q.setTransactionID(pck.queryID.toLong())
-        q.initialize(op)
+        q.initialize(op, false)
         visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
         val parts = q.getOperatorgraphParts()
         var hostMap = mutableMapOf<String, String>()

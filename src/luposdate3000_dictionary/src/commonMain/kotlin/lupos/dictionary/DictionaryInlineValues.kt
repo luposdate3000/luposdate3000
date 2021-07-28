@@ -40,7 +40,7 @@ public object DictionaryInlineValues {
             return DictionaryValueHelper.nullValue
         }
         val b = ByteArrayWrapperExt.getBuf(buffer)
-        return when (s) {
+        val res = when (s) {
             // fill the values from lower bits first, because there might be 4 or 8 bytes in the return-value-datatype available
             0 -> TODO()
             1 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue1 or (DictionaryValueHelper.fromByte(b[0]) shl 0)
@@ -52,6 +52,7 @@ public object DictionaryInlineValues {
             7 -> DictionaryValueHelper.flagNoBNode or DictionaryValueHelper.flagInlineValue7 or (DictionaryValueHelper.fromByte(b[0]) shl 0) or (DictionaryValueHelper.fromByte(b[1]) shl 8) or (DictionaryValueHelper.fromByte(b[2]) shl 16) or (DictionaryValueHelper.fromByte(b[3]) shl 24) or (DictionaryValueHelper.fromByte(b[4]) shl 32) or (DictionaryValueHelper.fromByte(b[5]) shl 40) or (DictionaryValueHelper.fromByte(b[6]) shl 48)
             else -> DictionaryValueHelper.nullValue
         }
+        return res
     }
 
     public fun getValueById(buffer: ByteArrayWrapper, id: DictionaryValueType): Boolean {

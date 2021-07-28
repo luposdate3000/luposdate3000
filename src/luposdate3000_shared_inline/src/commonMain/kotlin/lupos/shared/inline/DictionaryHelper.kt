@@ -367,6 +367,11 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun booleanToByteArray(buffer: ByteArrayWrapper, value: String) {
+        booleanToByteArray(buffer, value.toBoolean())
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun booleanToByteArray(buffer: ByteArrayWrapper, value: Boolean) {
         ByteArrayWrapperExt.setSize(buffer, headerSize(), false)
         if (value) {
@@ -374,13 +379,13 @@ internal object DictionaryHelper {
         } else {
             headerEncode(buffer, ETripleComponentTypeExt.BOOLEAN, 0x00)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:376"/*SOURCE_FILE_END*/ }, { byteArrayToBoolean(buffer) == value })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:381"/*SOURCE_FILE_END*/ }, { byteArrayToBoolean(buffer) == value })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToBoolean(buffer: ByteArrayWrapper): Boolean {
         val flag = headerDecodeFlag(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:382"/*SOURCE_FILE_END*/ }, { flag == 0x0 || flag == 0x80 }, { "0x${flag.toString(16)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:387"/*SOURCE_FILE_END*/ }, { flag == 0x0 || flag == 0x80 }, { "0x${flag.toString(16)}" })
         return flag == 0x80
     }
 
@@ -490,8 +495,8 @@ internal object DictionaryHelper {
         ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size + buf2.size, buf1.size)
         buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:492"/*SOURCE_FILE_END*/ }, { content == byteArrayToLang_Content(buffer) }, { "$content vs ${byteArrayToLang_Content(buffer)}" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:493"/*SOURCE_FILE_END*/ }, { lang == byteArrayToLang_Lang(buffer) }, { "$lang vs ${byteArrayToLang_Lang(buffer)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:497"/*SOURCE_FILE_END*/ }, { content == byteArrayToLang_Content(buffer) }, { "$content vs ${byteArrayToLang_Content(buffer)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:498"/*SOURCE_FILE_END*/ }, { lang == byteArrayToLang_Lang(buffer) }, { "$lang vs ${byteArrayToLang_Lang(buffer)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -647,8 +652,8 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
         val res = headerDecodeType(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:649"/*SOURCE_FILE_END*/ }, { res >= 0 }, { "$res" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:650"/*SOURCE_FILE_END*/ }, { res < ETripleComponentTypeExt.values_size }, { "$res" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:654"/*SOURCE_FILE_END*/ }, { res >= 0 }, { "$res" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:655"/*SOURCE_FILE_END*/ }, { res < ETripleComponentTypeExt.values_size }, { "$res" })
         return res
     }
 

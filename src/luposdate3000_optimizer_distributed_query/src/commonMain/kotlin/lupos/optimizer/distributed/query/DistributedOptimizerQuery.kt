@@ -212,7 +212,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         }
     }
 
-    public fun splitQuery(query2: IQuery) {
+    private fun splitQuery(query2: IQuery) {
         val query = query2 as Query
         val root = query.root!!
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
@@ -232,7 +232,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         }
     }
 
-    public override fun optimize(query2: IQuery): IOPBase {
+    public override fun optimize(query2: IQuery, wantReturnValue: Boolean): IOPBase {
         val query = query2 as Query
         val root = query.root!!
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
@@ -266,7 +266,11 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                     query.getInstance().communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"), query.getTransactionID().toInt())
                 }
             }
-            return XMLElementToOPBase(query, res!!)
+            if (wantReturnValue) {
+                return XMLElementToOPBase(query, res!!)
+            } else {
+                return root
+            }
         } else {
             return root
         }

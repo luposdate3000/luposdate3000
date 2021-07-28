@@ -16,8 +16,6 @@
  */
 package lupos.operator.factory
 
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
@@ -102,6 +100,7 @@ import lupos.operator.physical.multiinput.POPJoinWithStoreExists
 import lupos.operator.physical.multiinput.POPMinus
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.noinput.POPEmptyRow
+import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.partition.POPDistributedReceiveMulti
@@ -131,23 +130,15 @@ import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.EModifyTypeExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.UnreachableException
-import lupos.shared.ValueBoolean
-import lupos.shared.ValueDateTime
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueDouble
-import lupos.shared.ValueFloat
-import lupos.shared.ValueInteger
-import lupos.shared.ValueIri
-import lupos.shared.ValueLanguageTaggedLiteral
-import lupos.shared.ValueSimpleLiteral
-import lupos.shared.ValueTypedLiteral
-import lupos.shared.ValueUndef
 import lupos.shared.XMLElement
 import lupos.shared.XMLNotParseableException
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
@@ -166,7 +157,7 @@ public object XMLElementToOPBase {
 
     public fun createProjectedVariables(node: XMLElement): List<String> {
         val res = mutableListOf<String>()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:168"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:159"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
         for (c in node["projectedVariables"]!!.childs) {
             res.add(c.attributes["name"]!!)
         }
@@ -205,9 +196,6 @@ public object XMLElementToOPBase {
         }
         operatorMap["LOPSubGroup"] = { query, node, mapping, recursionFunc ->
             LOPSubGroup(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
-        }
-        operatorMap["ValueDateTime"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueDateTime(node.attributes["value"]!!))
         }
         operatorMap["AOPNot"] = { query, node, mapping, recursionFunc ->
             AOPNot(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
@@ -313,12 +301,6 @@ public object XMLElementToOPBase {
         operatorMap["AOPEQ"] = { query, node, mapping, recursionFunc ->
             AOPEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
-        operatorMap["ValueUndef"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueUndef())
-        }
-        operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, DictionaryValueHelper.fromString(node.attributes["dictvalue"]!!))
-        }
         operatorMap["AOPVariable"] = { query, node, mapping, recursionFunc ->
             AOPVariable(query, node.attributes["name"]!!)
         }
@@ -343,32 +325,69 @@ public object XMLElementToOPBase {
         operatorMap["AOPDivision"] = { query, node, mapping, recursionFunc ->
             AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
+        operatorMap["ValueDateTime"] = { query, node, mapping, recursionFunc ->
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.dateTimeToByteArray(buffer, node.attributes["value"]!!)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["ValueUndef"] = { query, node, mapping, recursionFunc ->
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.undefToByteArray(buffer)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
+            AOPConstant(query, DictionaryValueHelper.fromString(node.attributes["dictvalue"]!!))
+        }
         operatorMap["ValueInteger"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueInteger(BigInteger.parseString(node.attributes["value"]!!, 10)))
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.integerToByteArray(buffer, node.attributes["value"]!!)
+            AOPConstant(query, buffer)
         }
         operatorMap["ValueDecimal"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueDecimal(BigDecimal.parseString(node.attributes["value"]!!, 10)))
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.decimalToByteArray(buffer, node.attributes["value"]!!)
+            AOPConstant(query, buffer)
         }
         operatorMap["ValueFloat"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.floatToByteArray(buffer, node.attributes["value"]!!)
+            AOPConstant(query, buffer)
         }
         operatorMap["ValueDouble"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueDouble(node.attributes["value"]!!.toDouble()))
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.doubleToByteArray(buffer, node.attributes["value"]!!)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["ValueSimpleLiteral"] = { query, node, mapping, recursionFunc ->
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.stringToByteArray(buffer, node.attributes["content"]!!)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["ValueTypedLiteral"] = { query, node, mapping, recursionFunc ->
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.typedToByteArray(buffer, node.attributes["content"]!!, node.attributes["type_iri"]!!)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["ValueLanguageTaggedLiteral"] = { query, node, mapping, recursionFunc ->
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.langToByteArray(buffer, node.attributes["content"]!!, node.attributes["language"]!!)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["ValueBoolean"] = { query, node, mapping, recursionFunc ->
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.booleanToByteArray(buffer, node.attributes["value"]!!)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["ValueIri"] = { query, node, mapping, recursionFunc ->
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.iriToByteArray(buffer, node.attributes["value"]!!)
+            AOPConstant(query, buffer)
+        }
+        operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
+            XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping, recursionFunc)
         }
         operatorMap["AOPMultiplication"] = { query, node, mapping, recursionFunc ->
             AOPMultiplication(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
-        }
-        operatorMap["ValueSimpleLiteral"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!))
-        }
-        operatorMap["ValueTypedLiteral"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!))
-        }
-        operatorMap["ValueLanguageTaggedLiteral"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueLanguageTaggedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["language"]!!))
-        }
-        operatorMap["ValueBoolean"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueBoolean(node.attributes["value"]!!.toBoolean()))
         }
         operatorMap["AOPBuildInCallSTRDT"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallSTRDT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
@@ -390,9 +409,6 @@ public object XMLElementToOPBase {
         }
         operatorMap["AOPBuildInCallIsLITERAL"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallIsLITERAL(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
-        }
-        operatorMap["ValueIri"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, ValueIri(node.attributes["value"]!!))
         }
         operatorMap["AOPBuildInCallSTRENDS"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallSTRENDS(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
@@ -418,9 +434,6 @@ public object XMLElementToOPBase {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
             AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
-        }
-        operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
-            XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping, recursionFunc)
         }
         operatorMap["AOPAggregationAVG"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
@@ -716,6 +729,15 @@ public object XMLElementToOPBase {
                 POPGroup(query, createProjectedVariables(node), by, bindings as POPBind, child)
             }
         }
+        operatorMap["POPModifyData"] = { query, node, mapping, recursionFunc ->
+            val childs = mutableListOf<LOPTriple>()
+            for (c in node.childs) {
+                if (c.tag == "LOPTriple") {
+                    childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as LOPTriple)
+                }
+            }
+            POPModifyData(query, createProjectedVariables(node), EModifyTypeExt.names.indexOf(node.attributes["type"]!!), childs)
+        }
         operatorMap["POPModify"] = { query, node, mapping, recursionFunc ->
             val insert = mutableListOf<LOPTriple>()
             for (c in node["insert"]!!.childs) {
@@ -817,7 +839,7 @@ public object XMLElementToOPBase {
 /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:819"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:841"/*SOURCE_FILE_END*/ },
             { theMap [node.tag] != null },
             { node.tag }
         )

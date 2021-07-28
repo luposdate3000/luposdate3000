@@ -137,7 +137,7 @@ public abstract class OPBase public constructor(
     }
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
-        val node = query.initialize(this)
+        val node = query.initialize(this, true)
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:141"/*SOURCE_FILE_END*/ },
             {
@@ -151,7 +151,7 @@ public abstract class OPBase public constructor(
     }
 
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
-        val node = query.initialize(this)
+        val node = query.initialize(this, true)
         return node.evaluate(partition)
     }
 
