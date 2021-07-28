@@ -5,7 +5,6 @@ import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.FilePaths
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 class IntegrationTest {
@@ -59,43 +58,37 @@ class IntegrationTest {
 
     @Test
     fun campusCentralCase_getAllSpacesOfParkingArea() {
-        val areaRDF = "<http://parkingArea/6>"
-        val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
+        val query = SemanticData.getAllSpacesOfParkingArea(6)
         centralCaseWithQuery(query)
     }
 
     @Test
     fun campusCentralCase_getSampleNumberOfSensor() {
-        val sensorRDF = "<http://sensor/2/162>"
-        val query = SemanticData.getSampleNumberOfSensor(sensorRDF)
+        val query = SemanticData.getSampleNumberOfSensor(2, 162)
         centralCaseWithQuery(query)
     }
 
     @Test
     fun campusCentralCase_getLastSampleOfSensor() {
-        val sensorRDF = "<http://sensor/2/162>"
-        val query = SemanticData.getLastSampleOfSensor(sensorRDF)
+        val query = SemanticData.getLastSampleOfSensor(2, 162)
         centralCaseWithQuery(query)
     }
 
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInArea() {
-        val areaRDF = "<http://parkingArea/9>"
-        val query = SemanticData.getLastResultsOfEachSensorInArea(areaRDF)
+        val query = SemanticData.getLastResultsOfEachSensorInArea(9)
         centralCaseWithQuery(query)
     }
 
     @Test
     fun campusCentralCase_getLastResultsOfEachSensorInManyAreas() {
-        val areasRDF = "<http://parkingArea/9>, <http://parkingArea/4>"
-        val query = SemanticData.getLastResultsOfEachSensorInManyAreas(areasRDF)
+        val query = SemanticData.getLastResultsOfEachSensorInManyAreas(setOf(9, 4))
         centralCaseWithQuery(query)
     }
 
     @Test
     fun campusCentralCase_getNumberOfCurrentlyFreeSpacesInArea() {
-        val areaRDF = "<http://parkingArea/4>"
-        val query = SemanticData.getNumberOfCurrentlyFreeSpacesInArea(areaRDF)
+        val query = SemanticData.getNumberOfCurrentlyFreeSpacesInArea(4)
         centralCaseWithQuery(query)
     }
 
@@ -119,43 +112,37 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea() {
-        val areaRDF = "<http://parkingArea/6>"
-        val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
+        val query = SemanticData.getAllSpacesOfParkingArea(6)
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getSampleNumberOfSensor() {
-        val sensorRDF = "<http://sensor/2/162>"
-        val query = SemanticData.getSampleNumberOfSensor(sensorRDF)
+        val query = SemanticData.getSampleNumberOfSensor(2, 162)
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getLastSampleOfSensor() {
-        val sensorRDF = "<http://sensor/2/162>"
-        val query = SemanticData.getLastSampleOfSensor(sensorRDF)
+        val query = SemanticData.getLastSampleOfSensor(2, 162)
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInArea() {
-        val areaRDF = "<http://parkingArea/9>"
-        val query = SemanticData.getLastResultsOfEachSensorInArea(areaRDF)
+        val query = SemanticData.getLastResultsOfEachSensorInArea(9)
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getLastResultsOfEachSensorInManyAreas() {
-        val areasRDF = "<http://parkingArea/9>, <http://parkingArea/4>"
-        val query = SemanticData.getLastResultsOfEachSensorInManyAreas(areasRDF)
+        val query = SemanticData.getLastResultsOfEachSensorInManyAreas(setOf(9, 4))
         distributedCaseWithQuery(query)
     }
 
     @Test
     fun campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea() {
-        val areaRDF = "<http://parkingArea/4>"
-        val query = SemanticData.getNumberOfCurrentlyFreeSpacesInArea(areaRDF)
+        val query = SemanticData.getNumberOfCurrentlyFreeSpacesInArea(4)
         distributedCaseWithQuery(query)
     }
 
@@ -190,43 +177,7 @@ class IntegrationTest {
 
     @Test
     fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db() {
-        val areaRDF = "<http://parkingArea/1>"
-        val query = SemanticData.getAllSpacesOfParkingArea(areaRDF)
+        val query = SemanticData.getAllSpacesOfParkingArea(1)
         campusWithQuery("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json", query)
-    }
-
-    @Ignore
-    @Test
-    fun campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db2() {
-        val querySender1 = QuerySender(
-            name = "Q-init",
-            sendRateInSeconds = 1,
-            maxNumberOfQueries = 1,
-            sendStartClockInSec = 1,
-            query = "SELECT * WHERE {?s ?p ?o} Limit 1"
-        )
-        val querySender2 = QuerySender(
-            name = "Q1",
-            sendRateInSeconds = 1,
-            maxNumberOfQueries = 1,
-            sendStartClockInSec = 10 * 60,
-            query = """
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    PREFIX sosa: <http://www.w3.org/ns/sosa/>
-    select * where {
-        ?b rdf:type sosa:Observation.
-        ?b sosa:hasFeatureOfInterest  <http://parkingArea/1>.
-        ?b sosa:madeBySensor ?x.
-    }
-"""
-        )
-
-        val simRun = SimulationRun()
-        val json = simRun.parseConfigFile("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json")
-        json.querySender.add(querySender1)
-        json.querySender.add(querySender2)
-        val config = simRun.parseJsonObjects(json)
-        simRun.startSimulation(config)
     }
 }

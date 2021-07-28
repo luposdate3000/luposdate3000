@@ -4,18 +4,43 @@ import lupos.simulator_iot.models.sensor.ParkingSample
 
 internal object SemanticData {
 
-    internal fun getInsertQueryString(s: ParkingSample): String {
-        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+    internal fun get_SHACL_OntolotgyString(): String {
+        return "" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX sh: <http://www.w3.org/ns/shacl#>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
+            "_:b0 a sh:NodeShape.\n" +
+            "_:b0 sh:targetClass parking:Observation.\n" +
+            "_:b0 sh:property _:b1.\n" +
+            "_:b0 sh:property _:b2.\n" +
+            "_:b0 sh:property _:b3.\n" +
+            "_:b0 sh:property _:b4.\n" +
+
+            "_:b1 sh:path parking:area.\n" +
+            "_:b1 sh:datatype xsd:integer.\n" +
+
+            "_:b2 sh:path parking:spotInArea.\n" +
+            "_:b2 sh:datatype xsd:integer.\n" +
+
+            "_:b3 sh:path parking:isOccupied.\n" +
+            "_:b3 sh:datatype xsd:boolean.\n" +
+
+            "_:b4 sh:path parking:resultTime.\n" +
+            "_:b4 sh:datatype xsd:dateTime.\n" +
+
+            "\n"
+    }
+
+    internal fun getInsertQueryString(s: ParkingSample): String {
+        return "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
             "INSERT DATA {\n" +
-            "  <http://observation/${s.sampleID}/sensor/${s.area}/${s.sensorID}> rdf:type sosa:Observation;\n" +
-            "  sosa:hasFeatureOfInterest <http://parkingArea/${s.area}>;\n" +
-            "  sosa:observedProperty <http://parkingSpace/${s.parkingSpotID}>;\n" +
-            "  sosa:madeBySensor <http://sensor/${s.area}/${s.sensorID}>;\n" +
-            "  sosa:hasSimpleResult \"${s.isOccupied}\"^^xsd:boolean;\n" +
-            "  sosa:resultTime \"${s.sampleTime}\"^^xsd:dateTime.\n" +
+            "  _:b0 a parking:Observation;\n" +
+            "  parking:area \"${s.area}\"^^xsd:integer ;" +
+            "  parking:spotInArea \"${s.sensorID}\"^^xsd:integer ;" +
+            "  parking:isOccupied \"${s.isOccupied}\"^^xsd:boolean ;" +
+            "  parking:resultTime \"${s.sampleTime}\"^^xsd:dateTime ." +
             "}\n"
     }
 
@@ -26,132 +51,136 @@ internal object SemanticData {
     internal fun getNumberOfParkingAreas(): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
-            "select (count(distinct ?x) as ?count) \n" +
+            "select (count(distinct ?x) as ?count)\n" +
             "where {\n" +
-            " ?s sosa:hasFeatureOfInterest ?x\n" +
+            "  ?s parking:area ?x.\n" +
             "}"
     }
 
     internal fun getAllParkingAreas(): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
-            "select distinct ?x \n" +
+            "select distinct ?x\n" +
             "where {\n" +
-            " ?s sosa:hasFeatureOfInterest ?x\n" +
+            "  ?b a parking:Observation;\n" +
+            "  parking:area ?x.\n" +
             "}"
     }
 
-    internal fun getAllSpacesOfParkingArea(areaRDF: String): String {
+    internal fun getAllSpacesOfParkingArea(area: Int): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
-            "select  (count(distinct ?x) as ?count) \n" +
+            "select  (count(distinct ?x) as ?count)\n" +
             "where {\n" +
-            " ?b rdf:type sosa:Observation.\n" +
-            " ?b sosa:hasFeatureOfInterest  $areaRDF.\n" +
-            " ?b sosa:madeBySensor ?x.   \n" +
+            "  ?b a parking:Observation;\n" +
+            "  parking:area $area;\n" +
+            "  parking:spotInArea ?x.\n" +
             "}"
     }
 
-    internal fun getSampleNumberOfSensor(sensorRDF: String): String {
+    internal fun getSampleNumberOfSensor(area: Int, spot: Int): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
-            "select  (count(?b) as ?count) \n" +
+            "select  (count(?b) as ?count)\n" +
             "where {\n" +
-            " ?b rdf:type sosa:Observation.\n" +
-            " ?b sosa:madeBySensor $sensorRDF .   \n" +
+            "  ?b a parking:Observation;\n" +
+            "  parking:area $area;\n" +
+            "  parking:spotInArea $spot.\n" +
             "}"
     }
 
-    internal fun getLastSampleOfSensor(sensorRDF: String): String {
+    internal fun getLastSampleOfSensor(area: Int, spot: Int): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
             "select   (max(?d) AS ?latestDate)\n" +
             "where {\n" +
-            " ?b sosa:madeBySensor $sensorRDF .\n" +
-            " ?b sosa:resultTime ?d .\n" +
+            "  ?b a parking:Observation;\n" +
+            "  parking:area $area;\n" +
+            "  parking:spotInArea $spot;\n" +
+            "  parking:resultTime ?d.\n" +
             "}"
     }
 
-    internal fun getLastResultsOfEachSensorInArea(areaRDF: String): String {
+    internal fun getLastResultsOfEachSensorInArea(area: Int): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
-            "SELECT ?sensor ?isOccupied ?lastObservedAt\n" +
+            "SELECT ?spot ?isOccupied ?lastObservedAt\n" +
             "WHERE {\n" +
-            " ?o a sosa:Observation ;\n" +
-            " sosa:madeBySensor ?sensor;\n" +
-            " sosa:hasFeatureOfInterest $areaRDF;\n" +
-            " sosa:hasSimpleResult ?isOccupied;\n" +
-            " sosa:resultTime ?lastObservedAt .\n" +
-            " {\n" +
-            "   SELECT(MAX(?d) AS ?lastObservedAt) ?sensor WHERE{\n" +
-            "     ?o2 a sosa:Observation ;\n" +
-            "     sosa:madeBySensor ?sensor;\n" +
-            "     sosa:hasFeatureOfInterest $areaRDF;\n" +
-            "     sosa:resultTime ?d .\n" +
-            "   }\n" +
-            "   GROUP BY ?sensor\n" +
-            " }\n" +
+            "  ?o a parking:Observation;\n" +
+            "  parking:spotInArea ?spot;\n" +
+            "  parking:area $area;\n" +
+            "  parking:isOccupied ?isOccupied;\n" +
+            "  parking:resultTime ?lastObservedAt.\n" +
+            "  {\n" +
+            "    SELECT(MAX(?d) AS ?lastObservedAt) ?spot WHERE{\n" +
+            "      ?o2 a parking:Observation;\n" +
+            "      parking:spotInArea ?spot;\n" +
+            "      parking:area $area;\n" +
+            "      parking:resultTime ?d.\n" +
+            "    }\n" +
+            "    GROUP BY ?spot\n" +
+            "  }\n" +
             "}"
     }
 
-    internal fun getLastResultsOfEachSensorInManyAreas(commaSeparatedAreasRDF: String): String {
+    internal fun getLastResultsOfEachSensorInManyAreas(areas: Set<Int>): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
-            "SELECT ?sensor ?isOccupied ?lastObservedAt\n" +
+            "SELECT ?area ?spot ?isOccupied ?lastObservedAt\n" +
             "WHERE {\n" +
-            " ?o a sosa:Observation ;\n" +
-            " sosa:madeBySensor ?sensor;\n" +
-            " sosa:hasFeatureOfInterest ?f;\n" +
-            " sosa:hasSimpleResult ?isOccupied;\n" +
-            " sosa:resultTime ?lastObservedAt .\n" +
-            " {\n" +
-            "   SELECT(MAX(?d) AS ?lastObservedAt) ?sensor ?f WHERE{\n" +
-            "     ?o2 a sosa:Observation ;\n" +
-            "     sosa:madeBySensor ?sensor;\n" +
-            "     sosa:hasFeatureOfInterest ?f;\n" +
-            "     sosa:resultTime ?d .\n" +
-            "     FILTER (?f IN ($commaSeparatedAreasRDF))\n" +
-            "   }\n" +
-            "   GROUP BY ?sensor\n" +
-            " }\n" +
+            "  ?o a parking:Observation;\n" +
+            "  parking:area ?area;\n" +
+            "  parking:spotInArea ?spot;\n" +
+            "  parking:isOccupied ?isOccupied;\n" +
+            "  parking:resultTime ?lastObservedAt.\n" +
+            "  {\n" +
+            "    SELECT(MAX(?d) AS ?lastObservedAt) ?area ?spot ?f WHERE{\n" +
+            "      ?o2 a parking:Observation;\n" +
+            "      parking:area ?area;\n" +
+            "      parking:spotInArea ?spot;\n" +
+            "      parking:resultTime ?d.\n" +
+            "      FILTER (?area IN (${areas.joinToString()}))\n" +
+            "    }\n" +
+            "    GROUP BY ?area ?spot\n" +
+            "  }\n" +
             "}"
     }
 
-    internal fun getNumberOfCurrentlyFreeSpacesInArea(areaRDF: String): String {
+    internal fun getNumberOfCurrentlyFreeSpacesInArea(area: Int): String {
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n" +
+            "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
-            "SELECT (count(?sensor) as ?numberOfFreeSpaces)\n" +
+            "SELECT (count(?spot) as ?numberOfFreeSpaces)\n" +
             "WHERE {\n" +
-            " ?o a sosa:Observation ;\n" +
-            " sosa:madeBySensor ?sensor;\n" +
-            " sosa:hasFeatureOfInterest $areaRDF;\n" +
-            " sosa:hasSimpleResult \"false\"^^xsd:boolean;\n" +
-            " sosa:resultTime ?lastObservedAt .\n" +
-            " {\n" +
-            "   SELECT(MAX(?d) AS ?lastObservedAt) ?sensor WHERE{\n" +
-            "     ?o2 a sosa:Observation ;\n" +
-            "     sosa:madeBySensor ?sensor;\n" +
-            "     sosa:hasFeatureOfInterest $areaRDF;\n" +
-            "     sosa:resultTime ?d .\n" +
-            "   }\n" +
-            "   GROUP BY ?sensor\n" +
-            " }\n" +
+            "  ?o a parking:Observation;\n" +
+            "  parking:spotInArea ?spot;\n" +
+            "  parking:area $area;\n" +
+            "  parking:isOccupied \"false\"^^xsd:boolean;\n" +
+            "  parking:resultTime ?lastObservedAt.\n" +
+            "  {\n" +
+            "    SELECT(MAX(?d) AS ?lastObservedAt) ?spot WHERE{\n" +
+            "      ?o2 a parking:Observation;\n" +
+            "      parking:spotInArea ?spot;\n" +
+            "      parking:area $area;\n" +
+            "      parking:resultTime ?d.\n" +
+            "    }\n" +
+            "    GROUP BY ?spot\n" +
+            "  }\n" +
             "}"
     }
 }

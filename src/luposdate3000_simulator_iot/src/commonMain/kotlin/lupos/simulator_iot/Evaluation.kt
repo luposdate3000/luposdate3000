@@ -42,12 +42,12 @@ public class Evaluation {
             "",
             SemanticData.getAllTriples(),
             SemanticData.getAllParkingAreas(),
-            SemanticData.getAllSpacesOfParkingArea("<http://parkingArea/10>"),
-            SemanticData.getSampleNumberOfSensor("<http://sensor/9/67>"),
-            SemanticData.getLastSampleOfSensor("<http://sensor/7/55>"),
-            SemanticData.getLastResultsOfEachSensorInArea("<http://parkingArea/9>"),
-            SemanticData.getLastResultsOfEachSensorInManyAreas("<http://parkingArea/9>, <http://parkingArea/8>, <http://parkingArea/2>"),
-            SemanticData.getNumberOfCurrentlyFreeSpacesInArea("<http://parkingArea/9>")
+            SemanticData.getAllSpacesOfParkingArea(10),
+            SemanticData.getSampleNumberOfSensor(9, 67),
+            SemanticData.getLastSampleOfSensor(7, 55),
+            SemanticData.getLastResultsOfEachSensorInArea(9),
+            SemanticData.getLastResultsOfEachSensorInManyAreas(setOf(9, 8, 2)),
+            SemanticData.getNumberOfCurrentlyFreeSpacesInArea(9)
         )
     }
 
