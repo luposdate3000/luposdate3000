@@ -98,6 +98,9 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var queryDistributionMode: EQueryDistributionMode = EQueryDistributionModeExt.Routing
+
+    @JvmField
+    public var allowDistributedBNodeAssignment: Boolean = true
     public companion object {
         @JvmField
         public var enableVisualisationInSimulator: Boolean = false

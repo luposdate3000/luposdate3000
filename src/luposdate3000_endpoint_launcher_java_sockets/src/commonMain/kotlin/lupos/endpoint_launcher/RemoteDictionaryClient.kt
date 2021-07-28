@@ -27,7 +27,12 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, instance: Luposdate3000Instance, isLocal: Boolean) : ADictionary(instance, isLocal) {
+internal class RemoteDictionaryClient(
+    @JvmField val input: IMyInputStream,
+    @JvmField val output: IMyOutputStream,
+    instance: Luposdate3000Instance,
+    isLocal: Boolean
+) : ADictionary(instance, isLocal) {
     private val cache = DictionaryCache(instance)
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
@@ -43,9 +48,13 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     }
 
     override fun createNewBNode(): DictionaryValueType {
-        output.writeInt(1)
-        output.flush()
-        return input.readDictionaryValueType()
+        if (instance.allowDistributedBNodeAssignment) {
+            return instance.nodeGlobalDictionary!!.createNewBNode()
+        } else {
+            output.writeInt(1)
+            output.flush()
+            return input.readDictionaryValueType()
+        }
     }
 
     override fun createNewUUID(): Int {
