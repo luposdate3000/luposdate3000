@@ -103,7 +103,20 @@ public class QueryResultToTurtleStream : IResultFormat {
         }
     }
 
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
+ override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long){
+ invokeInternal(rootNode,output,timeoutInMs,true)
+}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream){
+ invokeInternal(rootNode,output,-1,true)
+}
+    override operator fun invoke(rootNode: IOPBase){
+TODO()
+}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean){
+ invokeInternal(rootNode,output,-1,asRoot)
+}
+
+    internal inline  fun invokeInternal(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -125,7 +138,7 @@ public class QueryResultToTurtleStream : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToTurtleStream.kt:127"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToTurtleStream.kt:140"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -151,7 +164,11 @@ public class QueryResultToTurtleStream : IResultFormat {
                             jobs[p] = Parallel.launch {
                                 try {
                                     val child2 = node.getChildren()[0]
-                                    val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                    val child = if(asRoot){
+child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+}else{
+child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+}
                                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                                     writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                                 } catch (e: Throwable) {
@@ -169,7 +186,11 @@ public class QueryResultToTurtleStream : IResultFormat {
                             }
                         }
                     } else {
-                        val child = node.evaluateRoot(parent)
+                        val child = if(asRoot){
+node.evaluateRoot(parent)
+}else{
+node.evaluate(parent)
+}
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
                     }

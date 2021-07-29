@@ -142,10 +142,20 @@ public class QueryResultToXMLStream : IResultFormat {
         }
     }
 
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
-        this(rootNode, output, timeoutInMs, true)
-    }
-    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean): Any {
+  override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long){
+ invokeInternal(rootNode,output,timeoutInMs,true)
+}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream){
+ invokeInternal(rootNode,output,-1,true)
+}
+    override operator fun invoke(rootNode: IOPBase){
+TODO()
+}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean){
+ invokeInternal(rootNode,output,-1,asRoot)
+}
+
+    internal inline  fun invokeInternal(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -182,7 +192,7 @@ public class QueryResultToXMLStream : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:184"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:194"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -277,6 +287,5 @@ public class QueryResultToXMLStream : IResultFormat {
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
-        return output
     }
 }

@@ -19,7 +19,6 @@
 
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryFactory
-import lupos.result_format.ResultFormatManager
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.PathMappingHelper
 import lupos.endpoint_launcher.RestEndpoint
@@ -35,7 +34,7 @@ import lupos.operator.physical.partition.POPDistributedSendMulti
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.result_format.EQueryResultToStreamExt
-import lupos.result_format.QueryResultToXMLStream
+import lupos.result_format.ResultFormatManager
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.IMyInputStream
@@ -216,7 +215,7 @@ public class DatabaseHandle : IDatabase {
                 }
             } else {
                 val out = MyPrintWriter(true)
-val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]
+                val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
                 evaluatorInstance(q.getRoot(), out)
                 val res = out.toString().encodeToByteArray()
                 if (onFinish != null) {
@@ -241,7 +240,7 @@ val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQuery
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:241"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:242"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -284,7 +283,7 @@ val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQuery
             changed = false
             loop@ for ((k, v) in pck.dependenciesMapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:284"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:285"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -379,9 +378,9 @@ val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQuery
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:379"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:380"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:381"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:382"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -463,8 +462,8 @@ val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQuery
                                 }
                             } else {
                                 val buf = MyPrintWriter(true)
-                                val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]
-                evaluatorInstance(q.getRoot(), out,false)
+                                val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                                evaluatorInstance(node, buf, false)
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {

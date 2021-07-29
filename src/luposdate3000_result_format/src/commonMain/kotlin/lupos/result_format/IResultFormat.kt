@@ -23,3 +23,5 @@ public interface IResultFormat {
     public operator fun invoke(rootNode: IOPBase): Any
     public operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean): Any
 }
+
+

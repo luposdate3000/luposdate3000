@@ -57,10 +57,21 @@ public class QueryResultToMemoryTable : IResultFormat {
         }
     }
 
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): List<MemoryTable> {
-        return invoke(rootNode)
-    }
-    public operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
+ override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): List<MemoryTable>{
+return invokeInternal(rootNode,timeoutInMs,true)
+}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream): List<MemoryTable>{
+return invokeInternal(rootNode,-1,true)
+}
+    override operator fun invoke(rootNode: IOPBase): List<MemoryTable>{
+return invokeInternal(rootNode,-1,true)
+}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean): List<MemoryTable>{
+return invokeInternal(rootNode,-1,asRoot)
+}
+
+    internal inline  fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot: Boolean): List<MemoryTable> {
+
         val partition = Partition()
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
@@ -91,13 +102,17 @@ public class QueryResultToMemoryTable : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:93"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:104"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val child = node.evaluateRoot(partition)
+                    val child = if(asRoot){
+node.evaluateRoot(partition)
+}else{
+node.evaluate(partition)
+}
                     val buffer = ByteArrayWrapper()
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                     val value = DictionaryHelper.byteArrayToBoolean(buffer)
@@ -108,7 +123,11 @@ public class QueryResultToMemoryTable : IResultFormat {
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-                        val child = node.evaluateRoot(partition)
+                        val child = if(asRoot){
+node.evaluateRoot(partition)
+}else{ 
+node.evaluate(partition)
+}
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()
                         for (j in 0 until child.count()) {
@@ -136,7 +155,11 @@ public class QueryResultToMemoryTable : IResultFormat {
                                 jobs[p] = Parallel.launch {
                                     try {
                                         val child2 = node.getChildren()[0]
-                                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                        val child = if(asRoot){
+child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+}else{
+child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+}
                                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                                     } catch (e: Throwable) {
@@ -154,7 +177,11 @@ public class QueryResultToMemoryTable : IResultFormat {
                                 }
                             }
                         } else {
-                            val child = node.evaluateRoot(parent)
+                            val child = if(asRoot){
+node.evaluateRoot(parent)
+}else{
+node.evaluate(parent)
+}
                             val columns = variables.map { child.columns[it]!! }.toTypedArray()
                             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
                         }
