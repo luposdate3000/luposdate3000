@@ -57,21 +57,20 @@ public class QueryResultToMemoryTable : IResultFormat {
         }
     }
 
- override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): List<MemoryTable>{
-return invokeInternal(rootNode,timeoutInMs,true)
-}
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream): List<MemoryTable>{
-return invokeInternal(rootNode,-1,true)
-}
-    override operator fun invoke(rootNode: IOPBase): List<MemoryTable>{
-return invokeInternal(rootNode,-1,true)
-}
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean): List<MemoryTable>{
-return invokeInternal(rootNode,-1,asRoot)
-}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): List<MemoryTable> {
+        return invokeInternal(rootNode, timeoutInMs, true)
+    }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream): List<MemoryTable> {
+        return invokeInternal(rootNode, -1, true)
+    }
+    override operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
+        return invokeInternal(rootNode, -1, true)
+    }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean): List<MemoryTable> {
+        return invokeInternal(rootNode, -1, asRoot)
+    }
 
-    internal inline  fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot: Boolean): List<MemoryTable> {
-
+    internal inline fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot: Boolean): List<MemoryTable> {
         val partition = Partition()
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
@@ -108,11 +107,11 @@ return invokeInternal(rootNode,-1,asRoot)
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val child = if(asRoot){
-node.evaluateRoot(partition)
-}else{
-node.evaluate(partition)
-}
+                    val child = if (asRoot) {
+                        node.evaluateRoot(partition)
+                    } else {
+                        node.evaluate(partition)
+                    }
                     val buffer = ByteArrayWrapper()
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                     val value = DictionaryHelper.byteArrayToBoolean(buffer)
@@ -123,11 +122,11 @@ node.evaluate(partition)
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-                        val child = if(asRoot){
-node.evaluateRoot(partition)
-}else{ 
-node.evaluate(partition)
-}
+                        val child = if (asRoot) {
+                            node.evaluateRoot(partition)
+                        } else {
+                            node.evaluate(partition)
+                        }
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()
                         for (j in 0 until child.count()) {
@@ -155,11 +154,11 @@ node.evaluate(partition)
                                 jobs[p] = Parallel.launch {
                                     try {
                                         val child2 = node.getChildren()[0]
-                                        val child = if(asRoot){
-child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
-}else{
-child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
-}
+                                        val child = if (asRoot) {
+                                            child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                        } else {
+                                            child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                                        }
                                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                                     } catch (e: Throwable) {
@@ -177,11 +176,11 @@ child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
                                 }
                             }
                         } else {
-                            val child = if(asRoot){
-node.evaluateRoot(parent)
-}else{
-node.evaluate(parent)
-}
+                            val child = if (asRoot) {
+                                node.evaluateRoot(parent)
+                            } else {
+                                node.evaluate(parent)
+                            }
                             val columns = variables.map { child.columns[it]!! }.toTypedArray()
                             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
                         }

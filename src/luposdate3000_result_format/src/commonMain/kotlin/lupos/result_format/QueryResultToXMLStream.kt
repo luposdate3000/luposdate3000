@@ -142,20 +142,20 @@ public class QueryResultToXMLStream : IResultFormat {
         }
     }
 
-  override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long){
- invokeInternal(rootNode,output,timeoutInMs,true)
-}
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream){
- invokeInternal(rootNode,output,-1,true)
-}
-    override operator fun invoke(rootNode: IOPBase){
-TODO()
-}
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean){
- invokeInternal(rootNode,output,-1,asRoot)
-}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
+        invokeInternal(rootNode, output, timeoutInMs, true)
+    }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
+        invokeInternal(rootNode, output, -1, true)
+    }
+    override operator fun invoke(rootNode: IOPBase) {
+        TODO()
+    }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
+        invokeInternal(rootNode, output, -1, asRoot)
+    }
 
-    internal inline  fun invokeInternal(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
+    internal inline fun invokeInternal(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"

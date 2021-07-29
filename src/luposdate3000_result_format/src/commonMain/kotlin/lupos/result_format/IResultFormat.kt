@@ -21,7 +21,5 @@ public interface IResultFormat {
     public operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): Any
     public operator fun invoke(rootNode: IOPBase, output: IMyOutputStream): Any
     public operator fun invoke(rootNode: IOPBase): Any
-    public operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean): Any
+    public operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean): Any
 }
-
-

@@ -50,20 +50,20 @@ public class QueryResultToEmptyStream : IResultFormat {
         }
     }
 
-  override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long){
- invokeInternal(rootNode,timeoutInMs,true)
-}
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream){
- invokeInternal(rootNode,-1,true)
-}
-    override operator fun invoke(rootNode: IOPBase){
- invokeInternal(rootNode,-1,true)
-}
-    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot:Boolean){
- invokeInternal(rootNode,-1,asRoot)
-}
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
+        invokeInternal(rootNode, timeoutInMs, true)
+    }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
+        invokeInternal(rootNode, -1, true)
+    }
+    override operator fun invoke(rootNode: IOPBase) {
+        invokeInternal(rootNode, -1, true)
+    }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
+        invokeInternal(rootNode, -1, asRoot)
+    }
 
-inline internal fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot:Boolean) {
+    internal inline fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot: Boolean) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -92,19 +92,19 @@ inline internal fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot:
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val child = if(asRoot){
-node.evaluateRoot()
-}else{
-node.evaluate(Partition())
-}
+                    val child = if (asRoot) {
+                        node.evaluateRoot()
+                    } else {
+                        node.evaluate(Partition())
+                    }
                     child.columns["?boolean"]!!.next()
                 } else {
                     if (variables.isEmpty()) {
-                        val child = if(asRoot){
-node.evaluateRoot()
-}else{ 
-node.evaluate(Partition())
-}
+                        val child = if (asRoot) {
+                            node.evaluateRoot()
+                        } else {
+                            node.evaluate(Partition())
+                        }
                         child.count()
                     } else {
                         val parent = Partition()
@@ -125,11 +125,11 @@ node.evaluate(Partition())
                                 jobs[p] = Parallel.launch {
                                     try {
                                         val child2 = node.getChildren()[0]
-                                        val child = if(asRoot){
-child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
-}else{
-child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
-}
+                                        val child = if (asRoot) {
+                                            child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                        } else {
+                                            child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                                        }
                                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                                         writeAllRows(variables, columns)
                                     } catch (e: Throwable) {
@@ -147,11 +147,11 @@ child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
                                 }
                             }
                         } else {
-                            val child = if(asRoot){
-node.evaluateRoot(parent)
-}else{
-node.evaluate(parent)
-}
+                            val child = if (asRoot) {
+                                node.evaluateRoot(parent)
+                            } else {
+                                node.evaluate(parent)
+                            }
                             val columns = variables.map { child.columns[it]!! }.toTypedArray()
                             writeAllRows(variables, columns)
                         }
