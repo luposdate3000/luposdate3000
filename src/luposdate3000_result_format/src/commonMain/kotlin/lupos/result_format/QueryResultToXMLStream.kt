@@ -20,6 +20,7 @@ import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
@@ -37,11 +38,12 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 public class QueryResultToXMLStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
+    private /*suspend*/ inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()
-        loop@ while (true) {
+        val startTime = DateHelperRelative.markNow()
+        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) <timeoutInMs) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == DictionaryValueHelper.nullValue) {
@@ -192,7 +194,7 @@ public class QueryResultToXMLStream : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:194"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:196"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -254,7 +256,7 @@ public class QueryResultToXMLStream : IResultFormat {
                                             child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
                                         }
                                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
+                                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output, timeoutInMs)
                                     } catch (e: Throwable) {
                                         e.printStackTrace()
                                         errors[p] = e
@@ -276,7 +278,7 @@ public class QueryResultToXMLStream : IResultFormat {
                                 node.evaluate(parent)
                             }
                             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
+                            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output, timeoutInMs)
                         }
                         output.print(" </results>\n")
                     }

@@ -20,6 +20,7 @@ import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
@@ -34,9 +35,10 @@ import lupos.shared.operator.iterator.ColumnIterator
 
 public class QueryResultToEmptyStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
-        loop@ while (true) {
+        val startTime = DateHelperRelative.markNow()
+        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) <timeoutInMs) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == DictionaryValueHelper.nullValue) {
@@ -86,7 +88,7 @@ public class QueryResultToEmptyStream : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyStream.kt:88"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyStream.kt:90"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -131,7 +133,7 @@ public class QueryResultToEmptyStream : IResultFormat {
                                             child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
                                         }
                                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                                        writeAllRows(variables, columns)
+                                        writeAllRows(variables, columns, timeoutInMs)
                                     } catch (e: Throwable) {
                                         e.printStackTrace()
                                         errors[p] = e
@@ -153,7 +155,7 @@ public class QueryResultToEmptyStream : IResultFormat {
                                 node.evaluate(parent)
                             }
                             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                            writeAllRows(variables, columns)
+                            writeAllRows(variables, columns, timeoutInMs)
                         }
                     }
                 }

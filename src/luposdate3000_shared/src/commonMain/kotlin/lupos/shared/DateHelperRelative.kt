@@ -19,4 +19,5 @@ package lupos.shared
 public expect object DateHelperRelative {
     public fun markNow(): Long
     public fun elapsedSeconds(marker: Long): Double
+    public fun elapsedMilliSeconds(marker: Long): Long
 }

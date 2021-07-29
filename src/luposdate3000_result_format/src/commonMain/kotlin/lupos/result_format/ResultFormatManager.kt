@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.result_format
-
 public var ResultFormatManager: MutableMap<String, IResultFormat> = mutableMapOf<String, IResultFormat>(
     "EMPTY_STREAM" to QueryResultToEmptyStream(),
     "EMPTYDICTIONARY_STREAM" to QueryResultToEmptyWithDictionaryStream(),
