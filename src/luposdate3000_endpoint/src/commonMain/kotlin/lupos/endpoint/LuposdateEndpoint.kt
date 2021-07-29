@@ -35,12 +35,7 @@ import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
-import lupos.result_format.QueryResultToEmptyStream
-import lupos.result_format.QueryResultToEmptyWithDictionaryStream
-import lupos.result_format.QueryResultToMemoryTable
-import lupos.result_format.QueryResultToTurtleStream
-import lupos.result_format.QueryResultToXMLElement
-import lupos.result_format.QueryResultToXMLStream
+import lupos.result_format.ResultFormatManager
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPatternExt
@@ -57,7 +52,6 @@ import lupos.shared.OPVisualNode
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
-import lupos.shared.UnreachableException
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
@@ -89,7 +83,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:91"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:85"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val dict = instance.nodeGlobalDictionary!!
@@ -358,22 +352,26 @@ public object LuposdateEndpoint {
     }
 
     @JsName("evaluate_operatorgraph_to_result")
-    /*suspend*/ public fun evaluateOperatorgraphToResult(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream) {
-        evaluateOperatorgraphToResultA(instance, node, output, EQueryResultToStreamExt.DEFAULT_STREAM)
+    /*suspend*/ public fun evaluateOperatorgraphToResultB(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream): Any {
+        return evaluateOperatorgraphToResultInternal(instance, node, output, EQueryResultToStreamExt.DEFAULT_STREAM, -1)
     }
 
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
-        val res = when (evaluator) {
-            EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
-            EQueryResultToStreamExt.XML_STREAM -> QueryResultToXMLStream(node, output)
-            EQueryResultToStreamExt.TURTLE_STREAM -> QueryResultToTurtleStream(node, output)
-            EQueryResultToStreamExt.EMPTY_STREAM -> QueryResultToEmptyStream(node, output)
-            EQueryResultToStreamExt.EMPTYDICTIONARY_STREAM -> QueryResultToEmptyWithDictionaryStream(node, output)
-            EQueryResultToStreamExt.MEMORY_TABLE -> QueryResultToMemoryTable(node)
-            EQueryResultToStreamExt.XML_ELEMENT -> QueryResultToXMLElement.toXML(node)
-            else -> throw UnreachableException()
+        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1)
+    }
+
+    @JsName("evaluate_operatorgraph_to_result_c")
+    /*suspend*/ public fun evaluateOperatorgraphToResultC(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
+        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, timeoutInMs)
+    }
+
+    /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
+        val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[evaluator]]
+        if (evaluatorInstance == null) {
+            TODO(EQueryResultToStreamExt.names[evaluator])
         }
+        val res = evaluatorInstance(node, output, timeoutInMs)
         instance.tripleStoreManager!!.commit(node.getQuery())
         node.getQuery().setCommited()
         return res
@@ -388,7 +386,7 @@ public object LuposdateEndpoint {
     /*suspend*/ public fun evaluateSparqlToResultC(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): String {
         val node = evaluateSparqlToOperatorgraphB(instance, query, logOperatorGraph)
         val buf = MyPrintWriter(true)
-        evaluateOperatorgraphToResult(instance, node, buf)
+        evaluateOperatorgraphToResultB(instance, node, buf)
         return buf.toString()
     }
 
@@ -400,7 +398,7 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_result_d")
     /*suspend*/ public fun evaluateSparqlToResultD(instance: Luposdate3000Instance, query: String, output: IMyOutputStream, logOperatorGraph: Boolean) {
         val node = evaluateSparqlToOperatorgraphB(instance, query, logOperatorGraph)
-        evaluateOperatorgraphToResult(instance, node, output)
+        evaluateOperatorgraphToResultB(instance, node, output)
     }
 
     @JsName("evaluate_operatorgraphXML_to_result_a")
@@ -426,7 +424,7 @@ public object LuposdateEndpoint {
             }
         }
         val buf = MyPrintWriter(true)
-        evaluateOperatorgraphToResult(instance, popNode, buf)
+        evaluateOperatorgraphToResultB(instance, popNode, buf)
         return buf.toString()
     }
 

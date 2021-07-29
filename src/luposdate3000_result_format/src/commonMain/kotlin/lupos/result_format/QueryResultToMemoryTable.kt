@@ -23,6 +23,7 @@ import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IMyOutputStream
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
 import lupos.shared.Parallel
@@ -34,10 +35,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-public object QueryResultToMemoryTable {
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: DictionaryValueTypeArray, output: MemoryTable) {
-        output.data.add(DictionaryValueTypeArray(variables.size) { rowBuf[it] })
-    }
+public class QueryResultToMemoryTable : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable) {
@@ -51,7 +49,7 @@ public object QueryResultToMemoryTable {
                 rowBuf[variableIndex] = valueID
             }
             lock?.lock()
-            writeRow(variables, rowBuf, output)
+            output.data.add(DictionaryValueTypeArray(variables.size) { rowBuf[it] })
             lock?.unlock()
         }
         for (element in columns) {
@@ -59,49 +57,11 @@ public object QueryResultToMemoryTable {
         }
     }
 
-    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition) {
-        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
-            var partitionCount = 0
-            var partitionVariable = ""
-            if (node is POPMergePartition) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            } else if (node is POPMergePartitionOrderedByIntId) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            }
-            val jobs = Array<ParallelJob?>(partitionCount) { null }
-            val lock = MyLock()
-            val errors = Array<Throwable?>(partitionCount) { null }
-            for (p in 0 until partitionCount) {
-                jobs[p] = Parallel.launch {
-                    try {
-                        val child2 = node.getChildren()[0]
-                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
-                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                        errors[p] = e
-                    }
-                }
-            }
-            for (p in 0 until partitionCount) {
-                jobs[p]!!.join()
-            }
-            for (e in errors) {
-                if (e != null) {
-                    throw e
-                }
-            }
-        } else {
-            val child = node.evaluateRoot(parent)
-            val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
-        }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): List<MemoryTable> {
+        return invoke(rootNode)
     }
-
-    public /*suspend*/ operator fun invoke(rootNode: IOPBase, partition: Partition = Partition()): List<MemoryTable> {
+    public operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
+        val partition = Partition()
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -131,7 +91,7 @@ public object QueryResultToMemoryTable {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:133"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:93"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -156,10 +116,49 @@ public object QueryResultToMemoryTable {
                         }
                         resultList.add(res)
                     } else {
-                        val res = MemoryTable(variables)
-                        res.query = rootNode.getQuery()
-                        writeNodeResult(variables, node, res, partition)
-                        resultList.add(res)
+                        val output = MemoryTable(variables)
+                        output.query = rootNode.getQuery()
+                        val parent = Partition()
+                        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+                            var partitionCount = 0
+                            var partitionVariable = ""
+                            if (node is POPMergePartition) {
+                                partitionCount = node.partitionCount
+                                partitionVariable = node.partitionVariable
+                            } else if (node is POPMergePartitionOrderedByIntId) {
+                                partitionCount = node.partitionCount
+                                partitionVariable = node.partitionVariable
+                            }
+                            val jobs = Array<ParallelJob?>(partitionCount) { null }
+                            val lock = MyLock()
+                            val errors = Array<Throwable?>(partitionCount) { null }
+                            for (p in 0 until partitionCount) {
+                                jobs[p] = Parallel.launch {
+                                    try {
+                                        val child2 = node.getChildren()[0]
+                                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
+                                    } catch (e: Throwable) {
+                                        e.printStackTrace()
+                                        errors[p] = e
+                                    }
+                                }
+                            }
+                            for (p in 0 until partitionCount) {
+                                jobs[p]!!.join()
+                            }
+                            for (e in errors) {
+                                if (e != null) {
+                                    throw e
+                                }
+                            }
+                        } else {
+                            val child = node.evaluateRoot(parent)
+                            val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
+                        }
+                        resultList.add(output)
                     }
                 }
             }

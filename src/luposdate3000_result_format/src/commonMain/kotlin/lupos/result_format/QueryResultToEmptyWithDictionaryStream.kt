@@ -21,7 +21,6 @@ import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
@@ -35,17 +34,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 
-public object QueryResultToEmptyWithDictionaryStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: DictionaryValueType, dictionary: IDictionary) {
-        dictionary.getValue(buffer, valueID)
-    }
-
-    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
-        for (variableIndex in variables.indices) {
-            writeValue(buffer, rowBuf[variableIndex], dictionary)
-        }
-    }
-
+public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, output: IMyOutputStream) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
@@ -58,56 +47,16 @@ public object QueryResultToEmptyWithDictionaryStream {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            writeRow(buffer, variables, rowBuf, dictionary, output)
+            for (variableIndex in variables.indices) {
+                dictionary.getValue(buffer, rowBuf[variableIndex])
+            }
         }
         for (element in columns) {
             element.close()
         }
     }
 
-    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition = Partition()) {
-        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
-            var partitionCount = 0
-            var partitionVariable = ""
-            if (node is POPMergePartition) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            } else if (node is POPMergePartitionOrderedByIntId) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            }
-            val jobs = Array<ParallelJob?>(partitionCount) { null }
-            val lock = MyLock()
-            val errors = Array<Throwable?>(partitionCount) { null }
-            for (p in 0 until partitionCount) {
-                jobs[p] = Parallel.launch {
-                    try {
-                        val child2 = node.getChildren()[0]
-                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
-                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                        errors[p] = e
-                    }
-                }
-            }
-            for (p in 0 until partitionCount) {
-                jobs[p]!!.join()
-            }
-            for (e in errors) {
-                if (e != null) {
-                    throw e
-                }
-            }
-        } else {
-            val child = node.evaluateRoot(parent)
-            val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
-        }
-    }
-
-    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): Any {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -131,7 +80,7 @@ public object QueryResultToEmptyWithDictionaryStream {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyWithDictionaryStream.kt:133"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyWithDictionaryStream.kt:82"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -146,7 +95,46 @@ public object QueryResultToEmptyWithDictionaryStream {
                         val child = node.evaluateRoot()
                         child.count()
                     } else {
-                        writeNodeResult(variables, node, output)
+                        val parent = Partition()
+                        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+                            var partitionCount = 0
+                            var partitionVariable = ""
+                            if (node is POPMergePartition) {
+                                partitionCount = node.partitionCount
+                                partitionVariable = node.partitionVariable
+                            } else if (node is POPMergePartitionOrderedByIntId) {
+                                partitionCount = node.partitionCount
+                                partitionVariable = node.partitionVariable
+                            }
+                            val jobs = Array<ParallelJob?>(partitionCount) { null }
+                            val lock = MyLock()
+                            val errors = Array<Throwable?>(partitionCount) { null }
+                            for (p in 0 until partitionCount) {
+                                jobs[p] = Parallel.launch {
+                                    try {
+                                        val child2 = node.getChildren()[0]
+                                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                                        writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
+                                    } catch (e: Throwable) {
+                                        e.printStackTrace()
+                                        errors[p] = e
+                                    }
+                                }
+                            }
+                            for (p in 0 until partitionCount) {
+                                jobs[p]!!.join()
+                            }
+                            for (e in errors) {
+                                if (e != null) {
+                                    throw e
+                                }
+                            }
+                        } else {
+                            val child = node.evaluateRoot(parent)
+                            val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                            writeAllRows(variables, columns, node.getQuery().getDictionary(), output)
+                        }
                     }
                 }
             }
@@ -154,5 +142,6 @@ public object QueryResultToEmptyWithDictionaryStream {
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
+        return output
     }
 }

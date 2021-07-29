@@ -282,7 +282,7 @@ public object RestEndpoint {
             var counter = 0
             while (true) {
                 counter++
-                LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+                LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                 time = DateHelperRelative.elapsedSeconds(timer)
                 if (time > minimumTime) {
                     break

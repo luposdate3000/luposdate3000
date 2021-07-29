@@ -69,7 +69,7 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
         }.toTypedArray()
         val buf = MyPrintWriter(true)
         recursive(optPhys)
-        LuposdateEndpoint.evaluateOperatorgraphToResult(instance, optPhys, buf)
+        LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, optPhys, buf)
         result = buf.toString()
     }
 

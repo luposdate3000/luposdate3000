@@ -19,6 +19,7 @@
 
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryFactory
+import lupos.result_format.ResultFormatManager
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.PathMappingHelper
 import lupos.endpoint_launcher.RestEndpoint
@@ -215,7 +216,8 @@ public class DatabaseHandle : IDatabase {
                 }
             } else {
                 val out = MyPrintWriter(true)
-                QueryResultToXMLStream(q.getRoot(), out)
+val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]
+                evaluatorInstance(q.getRoot(), out)
                 val res = out.toString().encodeToByteArray()
                 if (onFinish != null) {
                     receive(onFinish)
@@ -461,7 +463,8 @@ public class DatabaseHandle : IDatabase {
                                 }
                             } else {
                                 val buf = MyPrintWriter(true)
-                                QueryResultToXMLStream(node, buf, false)
+                                val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]
+                evaluatorInstance(q.getRoot(), out,false)
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {

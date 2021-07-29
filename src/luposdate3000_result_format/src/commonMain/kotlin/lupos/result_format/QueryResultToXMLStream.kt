@@ -21,7 +21,6 @@ import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
@@ -36,97 +35,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-public object QueryResultToXMLStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: DictionaryValueType, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
-        dictionary.getValue(buffer, valueID)
-        DictionaryHelper.byteArrayToCallback(
-            buffer,
-            { value ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <bnode>")
-                output.print(value.toString())
-                output.print("</bnode>\n   </binding>\n")
-            },
-            { value ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal>")
-                output.print(value.toString())
-                output.print("</literal>\n   </binding>\n")
-            },
-            { content, lang ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal xml:lang=\"")
-                output.print(lang)
-                output.print("\">")
-                output.print(content)
-                output.print("</literal>\n   </binding>\n")
-            },
-            { content ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal>")
-                output.print(content)
-                output.print("</literal>\n   </binding>\n")
-            },
-            { content, type ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"")
-                output.print(type)
-                output.print("\">")
-                output.print(content)
-                output.print("</literal>\n   </binding>\n")
-            },
-            { value ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">")
-                output.print(value)
-                output.print("</literal>\n   </binding>\n")
-            },
-            { value ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float\">")
-                output.print(value)
-                output.print("</literal>\n   </binding>\n")
-            },
-            { value ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double\">")
-                output.print(value)
-                output.print("</literal>\n   </binding>\n")
-            },
-            { value ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">")
-                output.print(value)
-                output.print("</literal>\n   </binding>\n")
-            },
-            { value ->
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <uri>")
-                output.print(value)
-                output.print("</uri>\n   </binding>\n")
-            },
-            {}, {}
-        )
-    }
-
-    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
-        output.print("  <result>\n")
-        for (variableIndex in variables.indices) {
-            writeValue(buffer, rowBuf[variableIndex], variables[variableIndex], dictionary, output)
-        }
-        output.print("  </result>\n")
-    }
-
+public class QueryResultToXMLStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
@@ -140,7 +49,89 @@ public object QueryResultToXMLStream {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            writeRow(buffer, variables, rowBuf, dictionary, resultWriter)
+            resultWriter.print("  <result>\n")
+            for (variableIndex in variables.indices) {
+                dictionary.getValue(buffer, rowBuf[variableIndex])
+                DictionaryHelper.byteArrayToCallback(
+                    buffer,
+                    { value ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <bnode>")
+                        resultWriter.print(value.toString())
+                        resultWriter.print("</bnode>\n   </binding>\n")
+                    },
+                    { value ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal>")
+                        resultWriter.print(value.toString())
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { content, lang ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal xml:lang=\"")
+                        resultWriter.print(lang)
+                        resultWriter.print("\">")
+                        resultWriter.print(content)
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { content ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal>")
+                        resultWriter.print(content)
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { content, type ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal datatype=\"")
+                        resultWriter.print(type)
+                        resultWriter.print("\">")
+                        resultWriter.print(content)
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { value ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">")
+                        resultWriter.print(value)
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { value ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float\">")
+                        resultWriter.print(value)
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { value ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double\">")
+                        resultWriter.print(value)
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { value ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">")
+                        resultWriter.print(value)
+                        resultWriter.print("</literal>\n   </binding>\n")
+                    },
+                    { value ->
+                        resultWriter.print("   <binding name=\"")
+                        resultWriter.print(variables[variableIndex])
+                        resultWriter.print("\">\n    <uri>")
+                        resultWriter.print(value)
+                        resultWriter.print("</uri>\n   </binding>\n")
+                    },
+                    {}, {}
+                )
+            }
+            resultWriter.print("  </result>\n")
             lock?.lock()
             output.print(resultWriter.toString())
             lock?.unlock()
@@ -151,60 +142,10 @@ public object QueryResultToXMLStream {
         }
     }
 
-    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition, asRoot: Boolean) {
-        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
-            var partitionCount = 0
-            var partitionVariable = ""
-            if (node is POPMergePartition) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            } else if (node is POPMergePartitionOrderedByIntId) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            }
-            val jobs = Array<ParallelJob?>(partitionCount) { null }
-            val lock = MyLock()
-            val errors = Array<Throwable?>(partitionCount) { null }
-            for (p in 0 until partitionCount) {
-                jobs[p] = Parallel.launch {
-                    try {
-                        val child2 = node.getChildren()[0]
-                        val child = if (asRoot) {
-                            child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
-                        } else {
-                            child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
-                        }
-                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                        errors[p] = e
-                    }
-                }
-            }
-            for (p in 0 until partitionCount) {
-                jobs[p]!!.join()
-            }
-            for (e in errors) {
-                if (e != null) {
-                    throw e
-                }
-            }
-        } else {
-            val child = if (asRoot) {
-                node.evaluateRoot(parent)
-            } else {
-                node.evaluate(parent)
-            }
-            val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
-        }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
+        this(rootNode, output, timeoutInMs, true)
     }
-
-    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
-        this(rootNode, output, true)
-    }
-    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
+    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean): Any {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -241,7 +182,7 @@ public object QueryResultToXMLStream {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:243"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:184"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -279,7 +220,54 @@ public object QueryResultToXMLStream {
                             output.print("\"/>\n")
                         }
                         output.print(" </head>\n <results>\n")
-                        writeNodeResult(variables, node, output, Partition(), asRoot)
+                        val parent = Partition()
+                        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+                            var partitionCount = 0
+                            var partitionVariable = ""
+                            if (node is POPMergePartition) {
+                                partitionCount = node.partitionCount
+                                partitionVariable = node.partitionVariable
+                            } else if (node is POPMergePartitionOrderedByIntId) {
+                                partitionCount = node.partitionCount
+                                partitionVariable = node.partitionVariable
+                            }
+                            val jobs = Array<ParallelJob?>(partitionCount) { null }
+                            val lock = MyLock()
+                            val errors = Array<Throwable?>(partitionCount) { null }
+                            for (p in 0 until partitionCount) {
+                                jobs[p] = Parallel.launch {
+                                    try {
+                                        val child2 = node.getChildren()[0]
+                                        val child = if (asRoot) {
+                                            child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                        } else {
+                                            child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                                        }
+                                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
+                                    } catch (e: Throwable) {
+                                        e.printStackTrace()
+                                        errors[p] = e
+                                    }
+                                }
+                            }
+                            for (p in 0 until partitionCount) {
+                                jobs[p]!!.join()
+                            }
+                            for (e in errors) {
+                                if (e != null) {
+                                    throw e
+                                }
+                            }
+                        } else {
+                            val child = if (asRoot) {
+                                node.evaluateRoot(parent)
+                            } else {
+                                node.evaluate(parent)
+                            }
+                            val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
+                        }
                         output.print(" </results>\n")
                     }
                 }
@@ -289,5 +277,6 @@ public object QueryResultToXMLStream {
         if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
+        return output
     }
 }

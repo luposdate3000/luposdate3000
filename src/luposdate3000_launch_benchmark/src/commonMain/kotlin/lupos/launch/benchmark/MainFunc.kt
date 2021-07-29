@@ -78,9 +78,9 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             val query = File(queryFile).readAsString()
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, true)
             val writer = MyPrintWriter(false)
-            LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
             val timerFirst = DateHelperRelative.markNow()
-            LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
             val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
             groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
             val timer = DateHelperRelative.markNow()
@@ -89,7 +89,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             while (true) {
                 counter += groupSize[queryFileIdx]
                 for (i in 0 until groupSize[queryFileIdx]) {
-                    LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                 }
                 time = DateHelperRelative.elapsedSeconds(timer)
                 if (time > minimumTime2) {

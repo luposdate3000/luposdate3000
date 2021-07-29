@@ -21,7 +21,6 @@ import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
@@ -36,60 +35,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-public object QueryResultToTurtleStream {
-    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: DictionaryValueType, dictionary: IDictionary): String? {
-        var res: String? = null
-        dictionary.getValue(buffer, valueID)
-        DictionaryHelper.byteArrayToCallback(
-            buffer,
-            onBNode = { value ->
-                res = "_:$value"
-            },
-            onBoolean = { value ->
-                res = "$value"
-            },
-            onLanguageTaggedLiteral = { content, lang ->
-                res = "\"$content\"@$lang"
-            },
-            onSimpleLiteral = { content ->
-                res = "\"$content\""
-            },
-            onTypedLiteral = { content, type ->
-                res = "$content^^$type"
-            },
-            onDecimal = { value ->
-                res = value
-            },
-            onFloat = { value ->
-                res = "$value"
-            },
-            onDouble = { value ->
-                res = "$value"
-            },
-            onInteger = { value ->
-                res = value
-            },
-            onIri = { value ->
-                res = "<$value>"
-            },
-            onError = {},
-            onUndefined = {}
-        )
-        return res
-    }
-
-    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variablesIndices: IntArray, rowBuf: DictionaryValueTypeArray, dictionary: IDictionary, output: IMyOutputStream) {
-        val line = Array(3) { "" }
-        for (i in 0 until 3) {
-            val tmp = writeValue(buffer, rowBuf[i], dictionary)
-            if (tmp == null) {
-                return
-            } else {
-                line[i] = tmp
-            }
-        }
-        output.print("${line[variablesIndices[0]]} ${line[variablesIndices[1]]} ${line[variablesIndices[2]]} .\n")
-    }
+public class QueryResultToTurtleStream : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
@@ -105,7 +51,48 @@ public object QueryResultToTurtleStream {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            writeRow(buffer, variablesIndices, rowBuf, dictionary, resultWriter)
+            val line = Array(3) { "" }
+            for (i in 0 until 3) {
+                dictionary.getValue(buffer, rowBuf[i])
+                DictionaryHelper.byteArrayToCallback(
+                    buffer,
+                    onBNode = { value ->
+                        line[i] = "_:$value"
+                    },
+                    onBoolean = { value ->
+                        line[i] = "$value"
+                    },
+                    onLanguageTaggedLiteral = { content, lang ->
+                        line[i] = "\"$content\"@$lang"
+                    },
+                    onSimpleLiteral = { content ->
+                        line[i] = "\"$content\""
+                    },
+                    onTypedLiteral = { content, type ->
+                        line[i] = "$content^^$type"
+                    },
+                    onDecimal = { value ->
+                        line[i] = value
+                    },
+                    onFloat = { value ->
+                        line[i] = "$value"
+                    },
+                    onDouble = { value ->
+                        line[i] = "$value"
+                    },
+                    onInteger = { value ->
+                        line[i] = value
+                    },
+                    onIri = { value ->
+                        line[i] = "<$value>"
+                    },
+                    onError = {
+                    },
+                    onUndefined = {
+                    }
+                )
+            }
+            resultWriter.print("${line[variablesIndices[0]]} ${line[variablesIndices[1]]} ${line[variablesIndices[2]]} .\n")
             lock?.lock()
             output.print(resultWriter.toString())
             lock?.unlock()
@@ -116,49 +103,7 @@ public object QueryResultToTurtleStream {
         }
     }
 
-    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition = Partition()) {
-        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
-            var partitionCount = 0
-            var partitionVariable = ""
-            if (node is POPMergePartition) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            } else if (node is POPMergePartitionOrderedByIntId) {
-                partitionCount = node.partitionCount
-                partitionVariable = node.partitionVariable
-            }
-            val jobs = Array<ParallelJob?>(partitionCount) { null }
-            val lock = MyLock()
-            val errors = Array<Throwable?>(partitionCount) { null }
-            for (p in 0 until partitionCount) {
-                jobs[p] = Parallel.launch {
-                    try {
-                        val child2 = node.getChildren()[0]
-                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
-                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                        errors[p] = e
-                    }
-                }
-            }
-            for (p in 0 until partitionCount) {
-                jobs[p]!!.join()
-            }
-            for (e in errors) {
-                if (e != null) {
-                    throw e
-                }
-            }
-        } else {
-            val child = node.evaluateRoot(parent)
-            val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
-        }
-    }
-
-    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -180,7 +125,7 @@ public object QueryResultToTurtleStream {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToTurtleStream.kt:182"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToTurtleStream.kt:127"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -188,7 +133,46 @@ public object QueryResultToTurtleStream {
                 if (variables.size != 3 || !variables.contains("s") || !variables.contains("p") || !variables.contains("o")) {
                     throw Exception("invalid format")
                 } else {
-                    writeNodeResult(variables, node, output)
+                    val parent = Partition()
+                    if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+                        var partitionCount = 0
+                        var partitionVariable = ""
+                        if (node is POPMergePartition) {
+                            partitionCount = node.partitionCount
+                            partitionVariable = node.partitionVariable
+                        } else if (node is POPMergePartitionOrderedByIntId) {
+                            partitionCount = node.partitionCount
+                            partitionVariable = node.partitionVariable
+                        }
+                        val jobs = Array<ParallelJob?>(partitionCount) { null }
+                        val lock = MyLock()
+                        val errors = Array<Throwable?>(partitionCount) { null }
+                        for (p in 0 until partitionCount) {
+                            jobs[p] = Parallel.launch {
+                                try {
+                                    val child2 = node.getChildren()[0]
+                                    val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                    val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                                    writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
+                                } catch (e: Throwable) {
+                                    e.printStackTrace()
+                                    errors[p] = e
+                                }
+                            }
+                        }
+                        for (p in 0 until partitionCount) {
+                            jobs[p]!!.join()
+                        }
+                        for (e in errors) {
+                            if (e != null) {
+                                throw e
+                            }
+                        }
+                    } else {
+                        val child = node.evaluateRoot(parent)
+                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                        writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
+                    }
                 }
             }
         }
