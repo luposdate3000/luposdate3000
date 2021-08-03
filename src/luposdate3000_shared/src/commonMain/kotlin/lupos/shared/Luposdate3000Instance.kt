@@ -107,11 +107,14 @@ public class Luposdate3000Instance {
     public var allowDistributedBNodeAssignment: Boolean = true
 
     @JvmField
-//    public var predefinedPartitionScheme:EPredefinedPartitionSchemes=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-    public var predefinedPartitionScheme: EPredefinedPartitionSchemes = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+    public var predefinedPartitionScheme: EPredefinedPartitionSchemes = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+//    public var predefinedPartitionScheme: EPredefinedPartitionSchemes = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+
+    @JvmField
+    public var mergeLocalOperatorgraphs: Boolean = true
 
     public companion object {
         @JvmField
-        public var enableVisualisationInSimulator: Boolean = false
+        public var enableVisualisationInSimulator: Boolean = true
     }
 }

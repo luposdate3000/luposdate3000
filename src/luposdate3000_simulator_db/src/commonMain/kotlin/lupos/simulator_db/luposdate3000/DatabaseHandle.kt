@@ -338,30 +338,32 @@ public class DatabaseHandle : IDatabase {
             }
         }
         val p = packages[ownAdress]!!
-        var dependenciesMapBottomUp = mutableMapOf<String, String>() // .... k == v
-        var containsSendMultiFlag = false
-        for ((k, v) in p.operatorGraph) {
-            var x = mutableSetOf<String>()
-            containsSendMulti(v, x)
-            if (x.size == 1) {
-                dependenciesMapBottomUp[k] = x.first()
-            } else if (x.size> 1) {
-                containsSendMultiFlag = true
+        if (instance.mergeLocalOperatorgraphs) {
+            var dependenciesMapBottomUp = mutableMapOf<String, String>() // .... k == v
+            var containsSendMultiFlag = false
+            for ((k, v) in p.operatorGraph) {
+                var x = mutableSetOf<String>()
+                containsSendMulti(v, x)
+                if (x.size == 1) {
+                    dependenciesMapBottomUp[k] = x.first()
+                } else if (x.size> 1) {
+                    containsSendMultiFlag = true
+                }
             }
-        }
-        if (!containsSendMultiFlag) {
+            if (!containsSendMultiFlag) {
 // try to merge operatorgraphs for local queries
-            loop@for (v in dependenciesMapBottomUp.values) { // what is provided
-                for ((k2, v2) in p.operatorGraph) { // what is calculated
-                    if (p.dependenciesMapTopDown[k2]!!.contains(v)) {
+                loop@for (v in dependenciesMapBottomUp.values) { // what is provided
+                    for ((k2, v2) in p.operatorGraph) { // what is calculated
+                        if (p.dependenciesMapTopDown[k2]!!.contains(v)) {
 // merge now !!
-                        var res = mergeOperatorGraphLocally(null, 0, v2, p.operatorGraph[v]!!, v)
-                        if (res) {
-                            p.operatorGraph.remove(v)
-                            p.destinations.remove(v)
-                            p.dependenciesMapTopDown.remove(v)
+                            var res = mergeOperatorGraphLocally(null, 0, v2, p.operatorGraph[v]!!, v)
+                            if (res) {
+                                p.operatorGraph.remove(v)
+                                p.destinations.remove(v)
+                                p.dependenciesMapTopDown.remove(v)
+                            }
+                            continue@loop
                         }
-                        continue@loop
                     }
                 }
             }
@@ -442,9 +444,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:444"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:446"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:446"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:448"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -488,7 +490,6 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun doWork() {
-try{
         var changed = true
         while (changed) {
             changed = false
@@ -544,20 +545,21 @@ try{
                 }
             }
         }
-catch(e:Throwable){
-visualisationNetwork.toImage()
-throw e
-}
     }
     override fun receive(pck: IDatabasePackage) {
-        when (pck) {
-            is MySimulatorTestingImportPackage -> receive(pck)
-            is MySimulatorTestingCompareGraphPackage -> receive(pck)
-            is MySimulatorTestingExecute -> receive(pck)
-            is QueryPackage -> receive(pck, null, null)
-            is MySimulatorAbstractPackage -> receive(pck)
-            is MySimulatorOperatorGraphPackage -> receive(pck)
-            else -> TODO("$pck")
+        try {
+            when (pck) {
+                is MySimulatorTestingImportPackage -> receive(pck)
+                is MySimulatorTestingCompareGraphPackage -> receive(pck)
+                is MySimulatorTestingExecute -> receive(pck)
+                is QueryPackage -> receive(pck, null, null)
+                is MySimulatorAbstractPackage -> receive(pck)
+                is MySimulatorOperatorGraphPackage -> receive(pck)
+                else -> TODO("$pck")
+            }
+        } catch (e: Throwable) {
+            visualisationNetwork.toImage()
+            throw e
         }
     }
 }
