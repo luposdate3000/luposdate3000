@@ -26,6 +26,7 @@ import kotlin.math.sqrt
 public class VisualisationOperatorGraph {
     internal companion object {
         internal var idcounter = 0
+        internal const val visuallySplitReceiveMulti = false
         internal const val distanceX = 120.0
         internal const val distanceY = 40.0
         internal const val layerConnection = 1
@@ -129,8 +130,23 @@ public class VisualisationOperatorGraph {
         image.addRect(layerOffset, minX + myOffsetX2, minY + myOffsetY2, maxX + myOffsetX2, maxY + myOffsetY2, mutableListOf("fill-yellow"))
         for (nn in nodes) {
             for (n in nn) {
-                val key2 = if (n.key.size> 0) {
-                    n.key.toString()
+                val key2 = if (n.key.size == 1) {
+                    n.key.first()
+                } else if (n.key.size> 1) {
+                    val kk: Array<String> = n.key.toTypedArray()
+                    val a = kk[0].split(":").map { it.split("=") }
+                    val b = kk[1].split(":").map { it.split("=") }
+                    var res = a[0][0]
+                    for (i in 1 until a.size) {
+                        res += ":" + a[i][0] + "="
+                        if (a[i][1] != b[i][1]) {
+                            res += "*"
+                        } else {
+                            res += a[i][1]
+                        }
+                    }
+                    println("$a $b $res")
+                    res
                 } else {
                     ""
                 }
@@ -140,23 +156,33 @@ public class VisualisationOperatorGraph {
                     "POPGroup" -> "G"
                     "POPUnion" -> "\u222A"
                     "POPDistributedSendSingle" -> {
-                        mapOfSenders[key2] = n.x to n.y
+                        for (k in n.key) {
+                            mapOfSenders[k] = n.x to n.y
+                        }
                         "\u2191" + key2
                     }
                     "POPDistributedReceiveSingle" -> {
-                        mapOfReceivers[key2] = n.x to n.y
+                        for (k in n.key) {
+                            mapOfReceivers[k] = n.x to n.y
+                        }
+                        "\u2193" + key2
+                    }
+                    "POPDistributedReceiveMulti" -> {
+                        for (k in n.key) {
+                            mapOfReceivers[k] = n.x to n.y
+                        }
                         "\u2193" + key2
                     }
                     "POPTripleStoreIterator" -> {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:151"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:177"/*SOURCE_FILE_END*/ },
                             { n.parentKeys.size <= 1 }
                         )
                         if (n.parentKeys.size == 1) {
                             val pkey = n.parentKeys.first()
                             val parr = pkey.split("=")
                             SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:158"/*SOURCE_FILE_END*/ },
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:184"/*SOURCE_FILE_END*/ },
                                 { parr.size == 2 }
                             )
                             val idxName = parr[1]
@@ -196,12 +222,12 @@ public class VisualisationOperatorGraph {
         }
         if (mapOfSenders2 != null && mapOfReceivers2 != null) {
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:198"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:224"/*SOURCE_FILE_END*/ },
                 { mapOfSenders2.size == mapOfReceivers2.size },
                 { "${ mapOfSenders2.size} ${mapOfReceivers2.size} ${mapOfSenders2.keys} ${mapOfReceivers2.keys}" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:203"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:229"/*SOURCE_FILE_END*/ },
                 { mapOfSenders2.keys.toSet().containsAll(mapOfReceivers2.keys.toSet()) },
                 { "${ mapOfSenders2.size} ${mapOfReceivers2.size} ${mapOfSenders2.keys} ${mapOfReceivers2.keys}" }
             )
@@ -273,7 +299,7 @@ public class VisualisationOperatorGraph {
             } else {
                 listOf()
             }
-        if (op.tag == "POPDistributedReceiveMulti") {
+        if (op.tag == "POPDistributedReceiveMulti" && visuallySplitReceiveMulti) {
             val node = VisualisationOperatorGraphNode(layer, below, above, XMLElement("POPUnion"), listOf(), parentKeys)
             node.y = layer * distanceY
             while (nodes.size <= layer + 1) {
