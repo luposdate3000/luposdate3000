@@ -18,8 +18,10 @@ package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
+import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitMergePartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
@@ -52,7 +54,20 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                 }
                             }
                         }
-                        if (new_countMax > 1) {
+                        if (new_countMax == 1 && node.requireSplitFromStore()) {
+                            val requiredPartition = node.requiresPartitioning()
+                            val partitionID = query.getNextPartitionOperatorID()
+                            if (requiredPartition != null) {
+                                res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), requiredPartition.first, requiredPartition.second, partitionID, node)
+                                query.addPartitionOperator(res.getUUID(), partitionID)
+                                res = POPMergePartition(query, res.getProvidedVariableNames(), requiredPartition.first, requiredPartition.second, partitionID, res)
+                                query.addPartitionOperator(res.getUUID(), partitionID)
+                            } else {
+                                res = POPSplitMergePartitionFromStore(query, res.getProvidedVariableNames(), partitionID, res)
+                            }
+                            node.hasSplitFromStore = true
+                            onChange()
+                        } else if (new_countMax > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
                             res = if (node.projectedVariables.isNotEmpty()) {
                                 POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)

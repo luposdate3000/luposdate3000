@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.IQuery
+import lupos.shared.operator.IOPBase
 import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
@@ -33,6 +34,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
     @JvmField
     internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescription(arrayOf(), instance)
     internal abstract fun requireSplitFromStore(): Boolean
+    internal abstract fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>?
     internal abstract fun toByteArray(): ByteArray
     internal abstract fun assignHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
