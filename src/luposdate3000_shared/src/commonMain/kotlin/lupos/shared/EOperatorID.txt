@@ -127,6 +127,7 @@ POPMinusID
 POPValuesID
 POPMergePartitionID
 POPSplitPartitionID
+POPSplitMergePartitionFromStoreID
 POPSplitPartitionFromStoreID
 POPSplitPartitionFromStoreCountID
 POPMergePartitionCountID

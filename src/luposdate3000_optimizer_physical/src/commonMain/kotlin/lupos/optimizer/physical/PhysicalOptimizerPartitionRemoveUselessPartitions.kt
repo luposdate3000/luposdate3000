@@ -21,6 +21,7 @@ import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitMergePartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
@@ -45,8 +46,13 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                             storeNodeTmp = storeNodeTmp.getChildren()[0]
                         }
                         val storeNode = storeNodeTmp
-                        storeNode.hasSplitFromStore = false
-                        query.removePartitionOperator(node.getUUID(), node.partitionID)
+                        if (storeNode.requireSplitFromStore()) {
+                            res = POPSplitMergePartitionFromStore(query, res.getProvidedVariableNames(), node.partitionID, res)
+                            query.removePartitionOperator(node.getUUID(), node.partitionID)
+                        } else {
+                            storeNode.hasSplitFromStore = false
+                            query.removePartitionOperator(node.getUUID(), node.partitionID)
+                        }
                         onChange()
                     }
                 }

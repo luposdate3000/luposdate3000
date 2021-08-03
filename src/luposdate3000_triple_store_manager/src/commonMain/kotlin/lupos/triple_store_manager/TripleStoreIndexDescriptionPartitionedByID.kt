@@ -140,4 +140,5 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         }
         return res
     }
+    override fun requireSplitFromStore(): Boolean = false
 }

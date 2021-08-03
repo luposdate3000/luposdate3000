@@ -32,6 +32,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
 
     @JvmField
     internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescription(arrayOf(), instance)
+    internal abstract fun requireSplitFromStore(): Boolean
     internal abstract fun toByteArray(): ByteArray
     internal abstract fun assignHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>

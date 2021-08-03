@@ -116,4 +116,5 @@ public class TripleStoreIndexDescriptionSimple(
         res.addAttribute("key", "$key")
         return res
     }
+    override fun requireSplitFromStore(): Boolean = true
 }
