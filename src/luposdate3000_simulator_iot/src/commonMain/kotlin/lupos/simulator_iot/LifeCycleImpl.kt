@@ -19,7 +19,7 @@ public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeC
         simRun.measureOnShutDown()
         simRun.logger?.logShutDown()
         if (Luposdate3000Instance.enableVisualisationInSimulator) {
-            println(simRun.visualisationNetwork.toString())
+//            println(simRun.visualisationNetwork.toString())
             simRun.visualisationNetwork.toImage()
         }
     }
