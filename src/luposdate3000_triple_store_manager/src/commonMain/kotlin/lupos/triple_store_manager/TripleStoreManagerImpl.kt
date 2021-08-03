@@ -410,13 +410,18 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
+    internal inline fun getNextHostAndKey(indexKey: Int): Pair<LuposHostname, LuposStoreKey> {
         var hostidx = 0
         for (i in 1 until hostnames.size) {
             if (keysOnHostname_[i].size < keysOnHostname_[hostidx].size) {
                 hostidx = i
             }
         }
+        val indexKey2 = indexKey % hostnames.size
+        if (keysOnHostname_[indexKey2].size <keysOnHostname_[hostidx].size * 2) {
+            hostidx = indexKey2
+        }
+
         var key = 0
         while (keysOnHostname_[hostidx].contains("$key")) {
             key++
@@ -448,9 +453,9 @@ public class TripleStoreManagerImpl public constructor(
                 }
                 val b = stream.readDictionaryValueType()
                 val c = stream.readDictionaryValueType()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:450"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(a) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:451"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(b) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:452"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(c) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:455"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(a) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:456"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(b) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:457"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(c) })
                 buf[i++] = a
                 buf[i++] = b
                 buf[i++] = c
@@ -503,7 +508,7 @@ public class TripleStoreManagerImpl public constructor(
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:505"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:510"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(second, tripleStore)
