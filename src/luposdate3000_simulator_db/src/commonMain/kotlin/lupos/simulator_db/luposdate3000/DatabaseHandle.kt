@@ -338,7 +338,35 @@ public class DatabaseHandle : IDatabase {
             }
         }
         val p = packages[ownAdress]!!
+        var dependenciesMapBottomUp = mutableMapOf<String, String>() // .... k == v
+        var containsSendMultiFlag = false
         for ((k, v) in p.operatorGraph) {
+            var x = mutableSetOf<String>()
+            containsSendMulti(v, x)
+            if (x.size == 1) {
+                dependenciesMapBottomUp[k] = x.first()
+            } else if (x.size> 1) {
+                containsSendMultiFlag = true
+            }
+        }
+        if (!containsSendMultiFlag) {
+// try to merge operatorgraphs for local queries
+            loop@for (v in dependenciesMapBottomUp.values) { // what is provided
+                for ((k2, v2) in p.operatorGraph) { // what is calculated
+                    if (p.dependenciesMapTopDown[k2]!!.contains(v)) {
+// merge now !!
+                        var res = mergeOperatorGraphLocally(null, 0, v2, p.operatorGraph[v]!!, v)
+                        if (res) {
+                            p.operatorGraph.remove(v)
+                            p.destinations.remove(v)
+                            p.dependenciesMapTopDown.remove(v)
+                        }
+                        continue@loop
+                    }
+                }
+            }
+        }
+        for (k in p.operatorGraph.keys) {
             val graph = p.operatorGraph[k]!!
             visualisationNetwork.addWork(p.queryID, ownAdress, graph, extractKey(graph, "POPDistributedReceive", ""), extractKey(graph, "POPDistributedSend", ""))
             myPendingWork.add(
@@ -354,6 +382,41 @@ public class DatabaseHandle : IDatabase {
             )
         }
         doWork()
+    }
+    private fun mergeOperatorGraphLocally(parent2: XMLElement?, parentChildIndex: Int, parent: XMLElement, child: XMLElement, key: String): Boolean {
+        if (parent.tag == "POPDistributedReceive") {
+            val tmp = parent.childs.filter { it.tag == "partitionDistributionReceiveKey" }
+            val tmp2 = child.childs.filter { it.tag == "partitionDistributionSendKey" }
+            if (tmp.size == 1 &&
+                tmp.first().attributes["key"] == key &&
+                tmp2.size == 1 &&
+                tmp2.first().attributes["key"] == key &&
+                parent2 != null
+            ) {
+                parent2.childs.removeAt(parentChildIndex)
+                parent2.childs.add(parentChildIndex, child["children"]!!.childs.first())
+                return true
+            } else {
+                return false
+            }
+        } else {
+            var i = 0
+            for (c in parent.childs) {
+                if (mergeOperatorGraphLocally(parent, i, c, child, key)) {
+                    return true
+                }
+                i++
+            }
+            return false
+        }
+    }
+    private fun containsSendMulti(node: XMLElement, provided: MutableSet<String>) {
+        if (node.tag.contains("partitionDistributionProvideKey")) {
+            provided.add(node.attributes["key"]!!)
+        }
+        for (c in node.childs) {
+            containsSendMulti(c, provided)
+        }
     }
     private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<String> {
         val res = mutableSetOf<String>()
@@ -378,9 +441,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:380"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:442"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:382"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:444"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
