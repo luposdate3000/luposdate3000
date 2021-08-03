@@ -107,6 +107,6 @@ public class Luposdate3000Instance {
     public var allowDistributedBNodeAssignment: Boolean = true
     public companion object {
         @JvmField
-        public var enableVisualisationInSimulator: Boolean = true
+        public var enableVisualisationInSimulator: Boolean = false
     }
 }
