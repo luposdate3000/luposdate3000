@@ -30,11 +30,14 @@ public class VisualisationOperatorGraph {
         internal const val distanceY = 40.0
         internal const val layerConnection = 1
         internal const val layerNodeText = 3
+        internal const val layerOPConnection = 4
         internal const val treshhold = 0.001
         internal const val maxMove = 5.0
         internal const val minMove = 0.1
     }
     internal val id = idcounter++
+    public val mapOfReceivers: MutableMap<String, Pair<Double, Double>> = mutableMapOf<String, Pair<Double, Double>>()
+    public val mapOfSenders: MutableMap<String, Pair<Double, Double>> = mutableMapOf<String, Pair<Double, Double>>()
     public val nodes: MutableList<MutableList<VisualisationOperatorGraphNode>> = mutableListOf<MutableList<VisualisationOperatorGraphNode>>()
     public var minX: Double = -999999.0
     public var minY: Double = -999999.0
@@ -94,7 +97,14 @@ public class VisualisationOperatorGraph {
             }
         }
     }
-    public fun toImage(image: ImageHelper, layerOffset: Int) {
+    public fun myOffsetX(): Double = offsetX - (minX + maxX) * 0.5
+    public fun myOffsetY(): Double = offsetY - (minY + maxY) * 0.5
+    public fun toImage(
+        image: ImageHelper,
+        layerOffset: Int,
+        mapOfSenders2: MutableMap<String, Pair<Double, Double>>?,
+        mapOfReceivers2: MutableMap<String, Pair<Double, Double>>?,
+    ) {
         image.createClass(
             "operator-node",
             mapOf(
@@ -114,9 +124,9 @@ public class VisualisationOperatorGraph {
                 "fill" to "#FFFF00",
             )
         )
-        val myOffsetX = offsetX - (minX + maxX) * 0.5
-        val myOffsetY = offsetY - (minY + maxY) * 0.5
-        image.addRect(layerOffset, minX + myOffsetX, minY + myOffsetY, maxX + myOffsetX, maxY + myOffsetY, mutableListOf("fill-yellow"))
+        val myOffsetX2 = myOffsetX()
+        val myOffsetY2 = myOffsetY()
+        image.addRect(layerOffset, minX + myOffsetX2, minY + myOffsetY2, maxX + myOffsetX2, maxY + myOffsetY2, mutableListOf("fill-yellow"))
         for (nn in nodes) {
             for (n in nn) {
                 val key2 = if (n.key.size> 0) {
@@ -129,18 +139,24 @@ public class VisualisationOperatorGraph {
                     "POPJoinMerge", "POPJoinMergeSingleColumn" -> "\u2A1D"
                     "POPGroup" -> "G"
                     "POPUnion" -> "\u222A"
-                    "POPDistributedSendSingle" -> "\u2191" + key2
-                    "POPDistributedReceiveSingle" -> "\u2193" + key2
+                    "POPDistributedSendSingle" -> {
+                        mapOfSenders[key2] = n.x to n.y
+                        "\u2191" + key2
+                    }
+                    "POPDistributedReceiveSingle" -> {
+                        mapOfReceivers[key2] = n.x to n.y
+                        "\u2193" + key2
+                    }
                     "POPTripleStoreIterator" -> {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:135"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:151"/*SOURCE_FILE_END*/ },
                             { n.parentKeys.size <= 1 }
                         )
                         if (n.parentKeys.size == 1) {
                             val pkey = n.parentKeys.first()
                             val parr = pkey.split("=")
                             SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:142"/*SOURCE_FILE_END*/ },
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:158"/*SOURCE_FILE_END*/ },
                                 { parr.size == 2 }
                             )
                             val idxName = parr[1]
@@ -155,12 +171,12 @@ public class VisualisationOperatorGraph {
                     }
                     else -> n.op.tag
                 }
-                image.addText(layerOffset + layerNodeText, n.x + myOffsetX, n.y + myOffsetY, label, mutableListOf())
+                image.addText(layerOffset + layerNodeText, n.x + myOffsetX2, n.y + myOffsetY2, label, mutableListOf())
                 for (a in n.above) {
-                    val x1 = a.x + myOffsetX
-                    val y1 = a.y + myOffsetY
-                    val x2 = n.x + myOffsetX
-                    val y2 = n.y + myOffsetY
+                    val x1 = a.x + myOffsetX2
+                    val y1 = a.y + myOffsetY2
+                    val x2 = n.x + myOffsetX2
+                    val y2 = n.y + myOffsetY2
                     val w = (x2 - x1)
                     val h = (y2 - y1)
                     val l1 = sqrt(w * w + h * h)
@@ -178,12 +194,28 @@ public class VisualisationOperatorGraph {
                 }
             }
         }
+        if (mapOfSenders2 != null && mapOfReceivers2 != null) {
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:198"/*SOURCE_FILE_END*/ },
+                { mapOfSenders2.size == mapOfReceivers2.size },
+                { "${ mapOfSenders2.size} ${mapOfReceivers2.size} ${mapOfSenders2.keys} ${mapOfReceivers2.keys}" }
+            )
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:203"/*SOURCE_FILE_END*/ },
+                { mapOfSenders2.keys.toSet().containsAll(mapOfReceivers2.keys.toSet()) },
+                { "${ mapOfSenders2.size} ${mapOfReceivers2.size} ${mapOfSenders2.keys} ${mapOfReceivers2.keys}" }
+            )
+            for ((k, s) in mapOfSenders2) {
+                val d = mapOfReceivers2[k]!!
+                image.addLine(layerOffset + layerOPConnection, s.first, s.second, d.first, d.second, mutableListOf("operator-connection"))
+            }
+        }
     }
     public fun operatorGraphToImage(op: XMLElement): ImageHelper {
         prepareOperatorGraph(op)
         val res = ImageHelper()
         res.setZeroSize()
-        toImage(res, 0)
+        toImage(res, 0, null, null)
         return res
     }
 
