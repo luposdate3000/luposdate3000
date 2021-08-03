@@ -14,6 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.result_format
+package lupos.shared
 
-public typealias EQueryResultToStream = Int
+import kotlin.jvm.JvmField
+
+public object EPredefinedPartitionSchemesExt {
+    public const val PartitionByIDTwiceAllCollations: EPredefinedPartitionSchemes = 0 // 0x00000000
+    public const val PartitionByKeyAllCollations: EPredefinedPartitionSchemes = 1 // 0x00000001
+    public const val values_size: Int = 2
+    public const val values_mask: Int = 1 // 0x00000001
+    public const val values_mask_inversed: Int = 2147483646 // 0x7ffffffe
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
+        "PartitionByIDTwiceAllCollations",
+        "PartitionByKeyAllCollations",
+    )
+}

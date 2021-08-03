@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.result_format
+
 import kotlin.jvm.JvmField
 
 public object EQueryResultToStreamExt {

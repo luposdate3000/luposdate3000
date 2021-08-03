@@ -488,6 +488,7 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun doWork() {
+try{
         var changed = true
         while (changed) {
             changed = false
@@ -543,6 +544,10 @@ public class DatabaseHandle : IDatabase {
                 }
             }
         }
+catch(e:Throwable){
+visualisationNetwork.toImage()
+throw e
+}
     }
     override fun receive(pck: IDatabasePackage) {
         when (pck) {

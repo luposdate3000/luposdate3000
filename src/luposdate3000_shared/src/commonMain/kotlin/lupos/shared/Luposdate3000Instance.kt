@@ -105,6 +105,11 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var allowDistributedBNodeAssignment: Boolean = true
+
+    @JvmField
+//    public var predefinedPartitionScheme:EPredefinedPartitionSchemes=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+    public var predefinedPartitionScheme: EPredefinedPartitionSchemes = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+
     public companion object {
         @JvmField
         public var enableVisualisationInSimulator: Boolean = false
