@@ -20,12 +20,12 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.IQuery
-import lupos.shared.operator.IOPBase
 import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 public abstract class TripleStoreIndexDescription(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescription {
     @JvmField

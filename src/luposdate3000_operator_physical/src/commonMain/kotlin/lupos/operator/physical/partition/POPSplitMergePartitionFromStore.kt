@@ -63,13 +63,16 @@ public class POPSplitMergePartitionFromStore public constructor(query: IQuery, p
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        val theKey = query.getDistributionKey()
+        val theKey = mutableMapOf("$uuid" to 0)
+        theKey.putAll(query.getDistributionKey())
         if (isRoot) {
             res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
         } else {
             res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
+        res.addAttribute("partitionVariable", "$uuid")
+        res.addAttribute("partitionCount", "1")
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)

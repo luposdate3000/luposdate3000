@@ -41,7 +41,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal val hostnames = Array(partitionCount) { "" }
     internal val keys = Array(partitionCount) { "" }
     internal val key_size: Int
-internal val fixedPartitionName="?PartitionedByKey"
+    internal val fixedPartitionName = "?PartitionedByKey"
 
     @JvmField
     internal var byteArray: ByteArray? = null
@@ -116,12 +116,12 @@ internal val fixedPartitionName="?PartitionedByKey"
                 counter++
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:118"/*SOURCE_FILE_END*/ }, { counter == key_size || (counter==0 &&partition.data.size==1) }, { "$counter $key_size ${triple.map{it}} ${params.map{it}} ${partition.data}" })
-        val partitionToUse =if(counter==0){
-partition.data[fixedPartitionName]!!
-}else{
- findPartitionFor(query, triple)
-}
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:118"/*SOURCE_FILE_END*/ }, { counter == key_size || (counter == 0 && partition.data.size == 1) }, { "$counter $key_size ${triple.map{it}} ${params.map{it}} ${partition.data}" })
+        val partitionToUse = if (counter == 0) {
+            partition.data[fixedPartitionName]!!
+        } else {
+            findPartitionFor(query, triple)
+        }
         return Pair(hostnames[partitionToUse], keys[partitionToUse])
     }
 
@@ -197,11 +197,11 @@ partition.data[fixedPartitionName]!!
     }
 
     override fun requireSplitFromStore(): Boolean = true
-override fun requiresPartitioning(params: Array<IOPBase>):Pair<String,Int>? {
-if(params.filter{it is AOPConstant}.isEmpty()){
-return fixedPartitionName to partitionCount
-}else{
-return null
-}
-}
+    override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? {
+        if (params.filter { it is AOPConstant }.isEmpty()) {
+            return fixedPartitionName to partitionCount
+        } else {
+            return null
+        }
+    }
 }

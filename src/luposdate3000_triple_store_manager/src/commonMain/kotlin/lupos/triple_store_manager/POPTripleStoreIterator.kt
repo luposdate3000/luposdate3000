@@ -55,7 +55,7 @@ public class POPTripleStoreIterator(
     @JvmField
     public var hasSplitFromStore: Boolean = false
     public fun requireSplitFromStore(): Boolean = tripleStoreIndexDescription.requireSplitFromStore()
-public fun requiresPartitioning():Pair<String,Int>? = tripleStoreIndexDescription.requiresPartitioning(children)
+    public fun requiresPartitioning(): Pair<String, Int>? = tripleStoreIndexDescription.requiresPartitioning(children)
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
@@ -82,26 +82,26 @@ public fun requiresPartitioning():Pair<String,Int>? = tripleStoreIndexDescriptio
 
     override fun childrenToVerifyCount(): Int = 0
     public fun changeToIndexWithMaximumPartitions(max_partitions: Int?, column: String): Int {
-if(column.startsWith("?")){
-return 1
-}else{
-        var partition_column = -1
-        for (i in 0 until 3) {
-            val c = children[i]
-            if (c is AOPVariable && c.name == column) {
-                partition_column = EIndexPatternHelper.tripleIndicees[tripleStoreIndexDescription.idx_set[0]][i]
-                break
+        if (column.startsWith("?")) {
+            return 1
+        } else {
+            var partition_column = -1
+            for (i in 0 until 3) {
+                val c = children[i]
+                if (c is AOPVariable && c.name == column) {
+                    partition_column = EIndexPatternHelper.tripleIndicees[tripleStoreIndexDescription.idx_set[0]][i]
+                    break
+                }
+            }
+            if (partition_column > -1) {
+                tripleStoreIndexDescription = tripleStoreIndexDescription.getIndexWithMaximumPartitions(max_partitions, partition_column)
+                val count = tripleStoreIndexDescription.getPartitionCount()
+                partitionColumn = column
+                return count
+            } else {
+                throw Exception("no matching index found $column")
             }
         }
-        if (partition_column > -1) {
-            tripleStoreIndexDescription = tripleStoreIndexDescription.getIndexWithMaximumPartitions(max_partitions, partition_column)
-            val count = tripleStoreIndexDescription.getPartitionCount()
-            partitionColumn = column
-            return count
-        } else {
-            throw Exception("no matching index found $column")
-        }
-}
     }
 
     override fun getPartitionCount(variable: String): Int {

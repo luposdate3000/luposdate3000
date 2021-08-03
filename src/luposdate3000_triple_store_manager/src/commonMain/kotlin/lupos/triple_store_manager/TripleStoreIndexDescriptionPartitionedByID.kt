@@ -141,5 +141,5 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         return res
     }
     override fun requireSplitFromStore(): Boolean = false
-override fun requiresPartitioning(params: Array<IOPBase>):Pair<String,Int>? = null
+    override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? = null
 }
