@@ -153,58 +153,60 @@ public class ImageHelper {
     }
     private var byPassMap = mutableMapOf<LocalPoint, Int>()
     public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double, minDistToOtherPath: Double) {
-        checkLayer(layer)
-        for ((first, second) in points) {
-            adjustBordersToPoint(first - pointRadius - minDistToOtherPath, second - pointRadius - minDistToOtherPath)
-            adjustBordersToPoint(first + pointRadius + minDistToOtherPath, second + pointRadius + minDistToOtherPath)
-        }
-        val directions = mutableListOf<Pair<Double, Double>>()
-        val correctedPoints = mutableListOf<Pair<Double, Double>>()
-        if (points.size == 1) {
-            correctedPoints.add(points[0])
-            correctedPoints.add(points[0])
-            directions.add(points[0].first + 10 to points[0].second + 10)
-            directions.add(points[0].first - 10 to points[0].second + 10)
-        } else {
-            for (i in 0 until points.size) {
-                val im = if (i> 0)i - 1 else i // i-1
-                val ip = if (i <points.size - 1) i + 1 else i // i+1
-                val dir = getDirection(points[im], points[ip])
-                directions.add(dir)
-                if (i == 0 || i == points.size - 1) {
-                    correctedPoints.add(points[i])
-                } else {
-                    val p = LocalPoint(points[i])
-                    var c = byPassMap[p]
-                    if (c == null) {
-                        c = 1
+        if (points.size> 0) {
+            checkLayer(layer)
+            for ((first, second) in points) {
+                adjustBordersToPoint(first - pointRadius - minDistToOtherPath, second - pointRadius - minDistToOtherPath)
+                adjustBordersToPoint(first + pointRadius + minDistToOtherPath, second + pointRadius + minDistToOtherPath)
+            }
+            val directions = mutableListOf<Pair<Double, Double>>()
+            val correctedPoints = mutableListOf<Pair<Double, Double>>()
+            if (points.size == 1) {
+                correctedPoints.add(points[0])
+                correctedPoints.add(points[0])
+                directions.add(points[0].first + 10 to points[0].second + 10)
+                directions.add(points[0].first - 10 to points[0].second + 10)
+            } else {
+                for (i in 0 until points.size) {
+                    val im = if (i> 0)i - 1 else i // i-1
+                    val ip = if (i <points.size - 1) i + 1 else i // i+1
+                    val dir = getDirection(points[im], points[ip])
+                    directions.add(dir)
+                    if (i == 0 || i == points.size - 1) {
+                        correctedPoints.add(points[i])
                     } else {
-                        c++
+                        val p = LocalPoint(points[i])
+                        var c = byPassMap[p]
+                        if (c == null) {
+                            c = 1
+                        } else {
+                            c++
+                        }
+                        byPassMap[p] = c
+                        correctedPoints.add(shortenPath(points[i], points[im], points[ip], dir, pointRadius + c * minDistToOtherPath))
                     }
-                    byPassMap[p] = c
-                    correctedPoints.add(shortenPath(points[i], points[im], points[ip], dir, pointRadius + c * minDistToOtherPath))
                 }
             }
-        }
-        val (x, y) = correctedPoints.first()
-        var s = "    <path d=\"M $x,$y"
-        for (i in 0 until correctedPoints.size - 1) {
-            val (x1, y1) = correctedPoints[i]
-            val (x2, y2) = correctedPoints[i + 1]
-            var len = getLength(getDirection(correctedPoints[i], correctedPoints[i + 1])) / 5.0 // 1/5 der strecke
-            if (len <pointRadius * 2) { // minimum doppelter punkt-radius
-                len = pointRadius * 2
+            val (x, y) = correctedPoints.first()
+            var s = "    <path d=\"M $x,$y"
+            for (i in 0 until correctedPoints.size - 1) {
+                val (x1, y1) = correctedPoints[i]
+                val (x2, y2) = correctedPoints[i + 1]
+                var len = getLength(getDirection(correctedPoints[i], correctedPoints[i + 1])) / 5.0 // 1/5 der strecke
+                if (len <pointRadius * 2) { // minimum doppelter punkt-radius
+                    len = pointRadius * 2
+                }
+                val (dx1, dy1) = setLength(directions[i], len)
+                val (dx2, dy2) = setLength(directions[i + 1], len)
+                val cx1 = x1 + dx1
+                val cy1 = y1 + dy1
+                val cx2 = x2 - dx2
+                val cy2 = y2 - dy2
+                s += " C $cx1,$cy1 $cx2,$cy2 $x2,$y2"
             }
-            val (dx1, dy1) = setLength(directions[i], len)
-            val (dx2, dy2) = setLength(directions[i + 1], len)
-            val cx1 = x1 + dx1
-            val cy1 = y1 + dy1
-            val cx2 = x2 - dx2
-            val cy2 = y2 - dy2
-            s += " C $cx1,$cy1 $cx2,$cy2 $x2,$y2"
+            s += "\"${classString(classes)} />"
+            layers[layer].add(s)
         }
-        s += "\"${classString(classes)} />"
-        layers[layer].add(s)
     }
     public override fun toString(): String {
         val buffer = StringBuilder()

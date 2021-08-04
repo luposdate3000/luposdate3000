@@ -209,14 +209,22 @@ public class VisualisationNetwork {
             imageHelperBase.addText(layerName, device.xnew, device.ynew, device.id.toString(), mutableListOf())
         }
         for (connection in connections) {
-            val a = getDeviceById(connection.source)
-            val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(layerConnection, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connection"))
+            try {
+                val a = getDeviceById(connection.source)
+                val b = getDeviceById(connection.destination)
+                imageHelperBase.addLine(layerConnection, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connection"))
+            } catch (e: Throwable) {
+                println("e: requesting not existent device '${connection.source}' '${connection.destination}'")
+            }
         }
         for (connection in connectionsInRouting) {
-            val a = getDeviceById(connection.source)
-            val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+            try {
+                val a = getDeviceById(connection.source)
+                val b = getDeviceById(connection.destination)
+                imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+            } catch (e: Throwable) {
+                println("e: requesting not existent device '${connection.source}' '${connection.destination}'")
+            }
         }
         return imageHelperBase
     }
@@ -252,8 +260,12 @@ public class VisualisationNetwork {
             val classes = mutableListOf<String>()
             classes.add("message")
             for (c in 0 until cc.size) {
-                val a = getDeviceById(cc[c])
-                points.add(a.xnew to a.ynew)
+                try {
+                    val a = getDeviceById(cc[c])
+                    points.add(a.xnew to a.ynew)
+                } catch (e: Throwable) {
+                    println("e: requesting not existent device '${cc[c]}'")
+                }
             }
             classes.add("message-${messages[i].type}")
             imgOverview.addPath(layerMessage, points, classes, deviceRadius * 1.5, minDistToOtherPath)
@@ -283,20 +295,28 @@ public class VisualisationNetwork {
             }
         }
         for (connection in connectionsInRoutingDB) {
-            val a = getDeviceById(connection.source)
-            val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+            try {
+                val a = getDeviceById(connection.source)
+                val b = getDeviceById(connection.destination)
+                imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+            } catch (e: Throwable) {
+                println("e: requesting not existent device '${connection.source}' '${connection.destination}'")
+            }
         }
         return imageHelperBase
     }
     private fun saveDBStorageLocations(imageHelperBase: ImageHelper): ImageHelper {
         val image = imageHelperBase.deepCopy()
         for ((k, vs) in device_to_key) {
-            val device = getDeviceById(k)
-            var i = 1
-            for (v in vs) {
-                image.addText(layerStorageKey, device.xnew, device.ynew - deviceRadius * 1.5 - i * 13, v, mutableListOf())
-                i++
+            try {
+                val device = getDeviceById(k)
+                var i = 1
+                for (v in vs) {
+                    image.addText(layerStorageKey, device.xnew, device.ynew - deviceRadius * 1.5 - i * 13, v, mutableListOf())
+                    i++
+                }
+            } catch (e: Throwable) {
+                println("e: requesting not existent device '$k'")
             }
         }
         return image
@@ -310,46 +330,50 @@ public class VisualisationNetwork {
         for ((queryID, listA) in workForQueryAtNode) {
             val image = imageHelperBase.deepCopy()
             for ((deviceID, workList) in listA) {
-                val device = getDeviceById(deviceID)
-                var i = 1
-                var umfang = 0.0
-                var minR = 0.0
-                var list = mutableListOf<VisualisationOperatorGraph>()
-                for ((first, second) in workList) {
-                    val opGraph = VisualisationOperatorGraph()
-                    val opImage = opGraph.operatorGraphToImage(second)
-                    opGraph.anchorX = device.xnew
-                    opGraph.anchorY = device.ynew
-                    list.add(opGraph)
-                    if (minR <opGraph.getRadius() + deviceRadius * 1.5) {
-                        minR = opGraph.getRadius() + deviceRadius * 1.5
-                    }
-                    umfang += opGraph.getRadius()
-                    allWork.add(opGraph)
-                    File("visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
-                        out.println(opImage.toString())
-                    }
-                    helperImageCounter++
-                    i++
-                }
-                if (list.size> 1) {
-                    val dist1 = umfang / (2.0 * PI)
-                    val dist = if (dist1> minR) {
-                        dist1
-                    } else {
-                        minR
-                    }
-                    i = 0
-                    for (opGraph in list) {
-                        opGraph.offsetX = opGraph.anchorX + sin(i.toDouble() / workList.size.toDouble() * 2.0 * PI) * dist
-                        opGraph.offsetY = opGraph.anchorY + cos(i.toDouble() / workList.size.toDouble() * 2.0 * PI) * dist
+                try {
+                    val device = getDeviceById(deviceID)
+                    var i = 1
+                    var umfang = 0.0
+                    var minR = 0.0
+                    var list = mutableListOf<VisualisationOperatorGraph>()
+                    for ((first, second) in workList) {
+                        val opGraph = VisualisationOperatorGraph()
+                        val opImage = opGraph.operatorGraphToImage(second)
+                        opGraph.anchorX = device.xnew
+                        opGraph.anchorY = device.ynew
+                        list.add(opGraph)
+                        if (minR <opGraph.getRadius() + deviceRadius * 1.5) {
+                            minR = opGraph.getRadius() + deviceRadius * 1.5
+                        }
+                        umfang += opGraph.getRadius()
+                        allWork.add(opGraph)
+                        File("visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
+                            out.println(opImage.toString())
+                        }
+                        helperImageCounter++
                         i++
                     }
-                } else {
-                    for (opGraph in list) {
-                        opGraph.offsetX = opGraph.anchorX
-                        opGraph.offsetY = opGraph.anchorY
+                    if (list.size> 1) {
+                        val dist1 = umfang / (2.0 * PI)
+                        val dist = if (dist1> minR) {
+                            dist1
+                        } else {
+                            minR
+                        }
+                        i = 0
+                        for (opGraph in list) {
+                            opGraph.offsetX = opGraph.anchorX + sin(i.toDouble() / workList.size.toDouble() * 2.0 * PI) * dist
+                            opGraph.offsetY = opGraph.anchorY + cos(i.toDouble() / workList.size.toDouble() * 2.0 * PI) * dist
+                            i++
+                        }
+                    } else {
+                        for (opGraph in list) {
+                            opGraph.offsetX = opGraph.anchorX
+                            opGraph.offsetY = opGraph.anchorY
+                        }
                     }
+                } catch (e: Throwable) {
+                    println("e: requesting not existent device '$deviceID'")
                 }
             }
             for (w in allWork) {
@@ -470,10 +494,10 @@ public class VisualisationNetwork {
             if (src != dest) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:472"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:473"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:474"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:475"/*SOURCE_FILE_END*/ }, { src != hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:496"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:497"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:498"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:499"/*SOURCE_FILE_END*/ }, { src != hop })
                 if (connectionTable.size <size) {
                     connectionTable = IntArray(size) { -1 }
                 }
@@ -487,9 +511,9 @@ public class VisualisationNetwork {
             if (src != dest && src != hop) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:489"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:490"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:491"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:513"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:514"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:515"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
                 if (connectionTableDB.size <size) {
                     connectionTableDB = IntArray(size) { -1 }
                 }
