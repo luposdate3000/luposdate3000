@@ -25,6 +25,7 @@ import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_db.luposdate3000.MySimulatorConfig
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
@@ -89,327 +90,168 @@ public class resourcessp2bq12b3sparql1640 {
     @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Centralized - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Centralized - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Centralized - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Centralized - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Routing - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Routing - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Routing - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - true - Routing - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = true
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Routing - true - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Routing - true - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = true
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Routing - false - true`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
     @Test
     public fun `resourcessp2bq12b3sparql1640 - in simulator - PartitionByKeyAllCollations - false - Routing - false - false`() {
-        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        Luposdate3000Config.mergeLocalOperatorgraphs = false
-        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
-        Luposdate3000Config.useDictionaryInlineEncoding = false
-        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
-        simulatorHelper()
+        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
-    public fun simulatorHelper() {
+    public fun simulatorHelper(cfg: MySimulatorConfig) {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
         val config = simRun.parseJsonObjects(json)
+        config.dbConfig = cfg
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock

@@ -72,7 +72,8 @@ public class DatabaseAdapter(internal val device: Device, isDummy: Boolean) : IR
             allAddresses = device.simRun.config.dbDeviceAddresses,
             sender = this@DatabaseAdapter,
             absolutePathToDataDirectory = pathToStateOfThisDevice,
-            enableSharedMemoryDictionaryCheat = device.simRun.config.enableSharedMemoryDictionaryCheat
+            enableSharedMemoryDictionaryCheat = device.simRun.config.enableSharedMemoryDictionaryCheat,
+            dbConfig = device.simRun.config.dbConfig,
         ) {}
     }
 

@@ -235,6 +235,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("import lupos.shared.CodeGenerationAnnotation")
                 }
                 out.println("import lupos.shared.EIndexPatternExt")
+                out.println("import lupos.shared.Luposdate3000Config")
                 out.println("import lupos.shared.MemoryTable")
                 out.println("import lupos." + "shared.inline.File")
                 out.println("import lupos." + "shared.inline.MyPrintWriter")
@@ -245,6 +246,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
                 out.println("import lupos.simulator_iot.config.Configuration")
                 out.println("import lupos.simulator_iot.log.Logger")
+                out.println("import lupos.simulator_db.luposdate3000.MySimulatorConfig")
                 out.println("import lupos.simulator_iot.SimulationRun")
                 out.println("")
                 if (!useCodeGen) {
@@ -392,22 +394,18 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                     for (REPLACE_STORE_WITH_VALUES in listOf("true", "false")) {
                                         out.println("    @Test")
                                         out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $mergeLocalOperatorgraphs - $queryDistributionMode - $useDictionaryInlineEncoding - $REPLACE_STORE_WITH_VALUES`() {")
-                                        out.println("        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
-                                        out.println("        Luposdate3000Config.mergeLocalOperatorgraphs = $mergeLocalOperatorgraphs")
-                                        out.println("        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.$queryDistributionMode")
-                                        out.println("        Luposdate3000Config.useDictionaryInlineEncoding = $useDictionaryInlineEncoding")
-                                        out.println("        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = $REPLACE_STORE_WITH_VALUES")
-                                        out.println("        simulatorHelper()")
+                                        out.println("        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.$predefinedPartitionScheme,mergeLocalOperatorgraphs = $mergeLocalOperatorgraphs,queryDistributionMode = EQueryDistributionModeExt.$queryDistributionMode,useDictionaryInlineEncoding = $useDictionaryInlineEncoding,REPLACE_STORE_WITH_VALUES = $REPLACE_STORE_WITH_VALUES))")
                                         out.println("    }")
                                     }
                                 }
                             }
                         }
                     }
-                    out.println("    public fun simulatorHelper() {")
+                    out.println("    public fun simulatorHelper(cfg:MySimulatorConfig) {")
                     out.println("        val simRun = SimulationRun()")
                     out.println("        val json=simRun.parseConfigFile(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
                     out.println("        val config = simRun.parseJsonObjects(json)")
+                    out.println("        config.dbConfig=cfg")
                     out.println("        simRun.sim = Simulation(config.getEntities())")
                     out.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
                     out.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
