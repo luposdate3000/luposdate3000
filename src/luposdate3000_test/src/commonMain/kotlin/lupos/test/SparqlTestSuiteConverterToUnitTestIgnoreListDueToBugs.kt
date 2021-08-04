@@ -104,6 +104,7 @@ internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs {
         "PostqueryVALUESwithOPTIONALobjvar1row" to "Bug",
         "PostqueryVALUESwithpredvar1row" to "Bug",
         "ProtectfromerrorinAVG" to "Bug",
+        "luposDuplicate" to "Bug",
         "RDFSinferencetestcombiningsubPropertyOfanddomain" to "Bug",
         "RDFSinferencetestdomain" to "Bug",
         "RDFSinferencetestrange" to "Bug",

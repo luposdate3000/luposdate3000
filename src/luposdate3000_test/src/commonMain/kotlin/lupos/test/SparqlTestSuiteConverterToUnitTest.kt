@@ -34,11 +34,13 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     internal val folderCount = 20
     internal var folderCurrent = 0
 
-    internal fun folderPathCoponent(idx: Int) = "code_gen_test_$idx"
+    internal fun folderPathCoponent(idx: Int) = "code_gen_test_${idx.toString().padStart(2,'0')}"
     internal fun outputFolderRoot(idx: Int) = "src/luposdate3000_${folderPathCoponent(idx)}/"
     internal fun outputFolderSrcJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmMain/kotlin/lupos/${folderPathCoponent(idx)}/"
     internal fun outputFolderTestJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/kotlin/lupos/${folderPathCoponent(idx)}/"
     internal fun outputFolderTestResourcesJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/resources/"
+
+    internal val duplicationDetector = mutableMapOf<String, Int>()
 
     @JvmField
     internal val allTests = mutableListOf<String>()
@@ -86,8 +88,17 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         inputDataGraph: MutableList<MutableMap<String, String>>, //
         outputDataGraph: MutableList<MutableMap<String, String>> //
     ): Boolean {
-        val testCaseName2 = testName.filter { it.isLetterOrDigit() || it == ' ' }
-        val testCaseName = testCaseName2.filter { it.isLetterOrDigit() }
+        var testCaseName2 = testName.filter { it.isLetterOrDigit() || it == ' ' }
+        var testCaseName = testCaseName2.filter { it.isLetterOrDigit() }
+        val duplicate = duplicationDetector[testCaseName]
+        if (duplicate != null) {
+            testCaseName = testCaseName + "luposDuplicate$duplicate"
+            testCaseName2 = testCaseName2 + " luposDuplicate$duplicate"
+            duplicationDetector[testCaseName] = duplicate + 1
+        } else {
+            duplicationDetector[testCaseName] = 1
+        }
+
         if (services != null && services.isNotEmpty()) {
             return false
         }
