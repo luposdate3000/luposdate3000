@@ -21,8 +21,8 @@ import lupos.shared.Luposdate3000Config
 import lupos.shared.Parallel
 import lupos.simulator_iot.Evaluation
 internal fun mainFunc(evaluate: String, distribution: String): Unit = Parallel.runBlocking {
-println("XXXX $evaluate $distribution")
     Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.names.indexOf(distribution)
+    Luposdate3000Config.mergeLocalOperatorgraphs = false
     when (evaluate) {
         "evalQueryProcessingDistributedCase" -> Evaluation().evalQueryProcessingDistributedCase()
         "evalQueryProcessingCentralizedCase" -> Evaluation().evalQueryProcessingCentralizedCase()

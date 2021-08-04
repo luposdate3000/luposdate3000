@@ -183,23 +183,23 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         }
     }
 
-    private fun calculateDependenciesTopDown(node: XMLElement): Set<String> {
+    private fun calculateDependenciesTopDown(node: XMLElement, parentTag: String): Set<String> {
         val res = mutableSetOf<String>()
         for (c in node.childs) {
-            res.addAll(calculateDependenciesTopDown(c))
+            res.addAll(calculateDependenciesTopDown(c, node.tag))
         }
-        if (node.tag == "partitionDistributionKey") {
+        if (parentTag.startsWith("POPDistributedReceive") && node.tag == "partitionDistributionKey") {
             res.add(node.attributes["key"]!!)
         }
         return res
     }
 
-    private fun calculateDependenciesBottomUp(node: XMLElement): Set<String> {
+    private fun calculateDependenciesBottomUp(node: XMLElement, parentTag: String): Set<String> {
         val res = mutableSetOf<String>()
         for (c in node.childs) {
-            res.addAll(calculateDependenciesBottomUp(c))
+            res.addAll(calculateDependenciesBottomUp(c, node.tag))
         }
-        if (node.tag == "partitionDistributionKey") {
+        if (parentTag.startsWith("POPDistributedSend") && node.tag == "partitionDistributionKey") {
             res.add(node.attributes["key"]!!)
         }
         return res
@@ -234,10 +234,10 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             splitPartitions(query, root, mutableMapOf(), true)
 // calculate dependencies
             for ((k, v) in query.operatorgraphParts) {
-                query.dependenciesMapTopDown[k] = calculateDependenciesTopDown(v)
+                query.dependenciesMapTopDown[k] = calculateDependenciesTopDown(v, "")
             }
             for ((k, v) in query.operatorgraphParts) {
-                query.dependenciesMapBottomUp[k] = calculateDependenciesBottomUp(v)
+                query.dependenciesMapBottomUp[k] = calculateDependenciesBottomUp(v, "")
             }
         }
     }

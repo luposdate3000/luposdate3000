@@ -23,7 +23,6 @@ internal class MySimulatorOperatorGraphPackage(
     val operatorGraph: MutableMap<String, XMLElement>,
     val destinations: MutableMap<String, Int>,
     val operatorGraphPartsToHostMap: MutableMap<String, String>,
-    val dependenciesMapTopDown: MutableMap<String, Set<String>>,
     val onFinish: IDatabasePackage?,
     val expectedResult: MemoryTable?,
 ) : IDatabasePackage {
@@ -31,12 +30,11 @@ internal class MySimulatorOperatorGraphPackage(
     override fun getPackageSizeInBytes(): Int {
         return getOperatorGraphSizeInBytes() +
             getDestinationsSizeInBytes() +
-            getPartsToHostMapSizeInBytes() +
-            getDependenciesMapTopDownSizeInBytes()
+            getPartsToHostMapSizeInBytes()
     }
 
     override fun getContentLogString(): String {
-        return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap, dependencies $dependenciesMapTopDown)"
+        return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap)"
     }
 
     private fun getOperatorGraphSizeInBytes(): Int {
@@ -58,13 +56,6 @@ internal class MySimulatorOperatorGraphPackage(
         var size = 0
         for ((key, value) in operatorGraphPartsToHostMap)
             size += key.encodeToByteArray().size + value.encodeToByteArray().size
-        return size
-    }
-
-    private fun getDependenciesMapTopDownSizeInBytes(): Int {
-        var size = 0
-        for ((key, value) in dependenciesMapTopDown)
-            size += key.encodeToByteArray().size + getStringSetSizeInBytes(value)
         return size
     }
 

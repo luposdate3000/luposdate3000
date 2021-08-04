@@ -208,6 +208,7 @@ public class DatabaseHandle : IDatabase {
             }
         }
         if (parts.size == 1) {
+            visualisationNetwork.addWork(pck.queryID, ownAdress, q.getRoot().toXMLElement(false), setOf(), setOf())
 // TODO wait for all ack - or assume ordered messages
             if (expectedResult != null) {
                 val buf = MyPrintWriter(false)
@@ -234,7 +235,8 @@ public class DatabaseHandle : IDatabase {
             }
         } else {
             val destinations = mutableMapOf("" to pck.sourceAddress)
-            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, q.getDependenciesMapTopDown(), onFinish, expectedResult))
+            println("XXXX" + parts.toList().joinToString("\nXXXX"))
+            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult))
         }
     }
     private fun receive(pck: MySimulatorAbstractPackage) {
@@ -248,7 +250,7 @@ public class DatabaseHandle : IDatabase {
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:250"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:252"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -266,6 +268,8 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
+        val mapTopDown = mutableMapOf<String, Set<String>>()
+        val mapBottomUp = mutableMapOf<String, Set<String>>()
         val allHosts = pck.operatorGraphPartsToHostMap.values.toSet().toTypedArray()
         val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
 //        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
@@ -276,22 +280,25 @@ public class DatabaseHandle : IDatabase {
                 mutableMapOf(),
                 mutableMapOf(),
                 mutableMapOf(),
-                mutableMapOf(),
                 pck.onFinish,
                 pck.expectedResult
             )
         }
-        packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
+        packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
             packageMap[k] = allHostAdresses[allHostAdresses.indexOf(v.toInt())]
         }
+        for ((k, v) in pck.operatorGraph) {
+            mapTopDown[k] = extractKey(v, "POPDistributedReceive", "")
+            mapBottomUp[k] = extractKey(v, "POPDistributedSend", "")
+        }
         var changed = true
         while (changed) {
             changed = false
-            loop@ for ((k, v) in pck.dependenciesMapTopDown) {
+            loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:293"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:300"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -300,8 +307,10 @@ public class DatabaseHandle : IDatabase {
                                 dest = d
                             } else {
                                 if (dest != d) {
-                                    packageMap[k] = ownAdress // alles mit unterschiedlichen next hops selber berechnen
-                                    for (i in pck.dependenciesMapTopDown[k]!!) {
+                                    for (assign in mapBottomUp[k]!!) {
+                                        packageMap[assign] = ownAdress // alles mit unterschiedlichen next hops selber berechnen
+                                    }
+                                    for (i in mapTopDown[k]!!) {
                                         pck.destinations[i] = ownAdress
                                     }
                                     changed = true
@@ -312,12 +321,20 @@ public class DatabaseHandle : IDatabase {
                             continue@loop
                         }
                     }
-                    for (i in pck.dependenciesMapTopDown[k]!!) {
+                    for (i in mapTopDown[k]!!) {
                         pck.destinations[i] = dest
                     }
-                    packageMap[k] = dest // alles mit gemeinsamen next Hop zusammen weitersenden
+                    for (assign in mapBottomUp[k]!!) {
+                        packageMap[assign] = dest // alles mit gemeinsamen next Hop zusammen weitersenden
+                    }
                     changed = true
                 }
+            }
+        }
+        for ((k, v) in pck.operatorGraph) {
+            if (!packageMap.contains(k)) {
+                packageMap[k] = ownAdress
+                TODO("this should not happen?? \nYYYY${pck.operatorGraph.keys.map{"$it - ${packageMap.contains(it)} - ${mapTopDown[it]} - ${pck.destinations[it]} - ${pck.operatorGraphPartsToHostMap[it]} - ${ pck.operatorGraph[it]}"}.joinToString("\nYYYY")}")
             }
         }
         for ((k, v) in packageMap) {
@@ -327,12 +344,6 @@ public class DatabaseHandle : IDatabase {
             if (h != null) {
                 p.operatorGraphPartsToHostMap[k] = h
             }
-            val deps = pck.dependenciesMapTopDown[k]
-            if (deps != null) {
-                p.dependenciesMapTopDown[k] = deps
-            } else {
-                p.dependenciesMapTopDown[k] = mutableSetOf()
-            }
             val d = pck.destinations[k]
             if (d != null) {
                 p.destinations[k] = d
@@ -340,58 +351,58 @@ public class DatabaseHandle : IDatabase {
                 p.destinations[k] = ownAdress
             }
         }
-        for ((k, v) in packages) {
+        for ((k, p) in packages) {
             if (k != ownAdress) {
-                router!!.send(k, v)
-            }
-        }
-        val p = packages[ownAdress]!!
-        if (instance.mergeLocalOperatorgraphs) {
-            var dependenciesMapBottomUp = mutableMapOf<String, String>() // .... k == v
-            var containsSendMultiFlag = false
-            for ((k, v) in p.operatorGraph) {
-                var x = mutableSetOf<String>()
-                containsSendMulti(v, x)
-                if (x.size == 1) {
-                    dependenciesMapBottomUp[k] = x.first()
-                } else if (x.size> 1) {
-                    containsSendMultiFlag = true
-                }
-            }
-            if (!containsSendMultiFlag) {
+                router!!.send(k, p)
+            } else {
+                if (instance.mergeLocalOperatorgraphs) {
+                    var dependenciesMapBottomUp = mutableMapOf<String, String>() // .... k == v
+                    var containsSendMultiFlag = false
+                    for ((k, v) in p.operatorGraph) {
+                        var x = mutableSetOf<String>()
+                        containsSendMulti(v, x)
+                        if (x.size == 1) {
+                            dependenciesMapBottomUp[k] = x.first()
+                        } else if (x.size> 1) {
+                            containsSendMultiFlag = true
+                        }
+                    }
+                    if (!containsSendMultiFlag) {
 // try to merge operatorgraphs for local queries
-                loop@for (v in dependenciesMapBottomUp.values) { // what is provided
-                    for ((k2, v2) in p.operatorGraph) { // what is calculated
-                        if (p.dependenciesMapTopDown[k2]!!.contains(v)) {
+                        loop@for (v in dependenciesMapBottomUp.values) { // what is provided
+                            for ((k2, v2) in p.operatorGraph) { // what is calculated
+                                if (mapTopDown[k2]!!.contains(v)) {
 // merge now !!
-                            var res = mergeOperatorGraphLocally(null, 0, v2, p.operatorGraph[v]!!, v)
-                            if (res) {
-                                p.operatorGraph.remove(v)
-                                p.destinations.remove(v)
-                                p.dependenciesMapTopDown.remove(v)
+                                    var res = mergeOperatorGraphLocally(null, 0, v2, p.operatorGraph[v]!!, v)
+                                    if (res) {
+                                        p.operatorGraph.remove(v)
+                                        p.destinations.remove(v)
+                                        mapTopDown.remove(v)
+                                    }
+                                    continue@loop
+                                }
                             }
-                            continue@loop
                         }
                     }
                 }
+                for (k in p.operatorGraph.keys) {
+                    val graph = p.operatorGraph[k]!!
+                    visualisationNetwork.addWork(p.queryID, ownAdress, graph, mapTopDown[k]!!, mapBottomUp[k]!!)
+                    myPendingWork.add(
+                        MySimulatorPendingWork(
+                            p.queryID,
+                            p.operatorGraph[k]!!,
+                            p.destinations[k]!!,
+                            mapTopDown[k]!!,
+                            k,
+                            pck.onFinish,
+                            pck.expectedResult,
+                        )
+                    )
+                }
+                doWork()
             }
         }
-        for (k in p.operatorGraph.keys) {
-            val graph = p.operatorGraph[k]!!
-            visualisationNetwork.addWork(p.queryID, ownAdress, graph, extractKey(graph, "POPDistributedReceive", ""), extractKey(graph, "POPDistributedSend", ""))
-            myPendingWork.add(
-                MySimulatorPendingWork(
-                    p.queryID,
-                    p.operatorGraph[k]!!,
-                    p.destinations[k]!!,
-                    p.dependenciesMapTopDown[k]!!,
-                    k,
-                    pck.onFinish,
-                    pck.expectedResult,
-                )
-            )
-        }
-        doWork()
     }
 
     private fun mergeOperatorGraphLocally(parent2: XMLElement?, parentChildIndex: Int, parent: XMLElement, child: XMLElement, key: String): Boolean {
@@ -432,7 +443,7 @@ public class DatabaseHandle : IDatabase {
     private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<String> {
         val res = mutableSetOf<String>()
         if (parentTag.startsWith(targetTag)) {
-            if (node.tag == "partitionDistributionKey" || node.tag == "partitionDistributionKey") {
+            if (node.tag == "partitionDistributionKey") {
                 res.add(node.attributes["key"]!!)
             }
         }
@@ -452,9 +463,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:454"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:465"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:456"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:467"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(

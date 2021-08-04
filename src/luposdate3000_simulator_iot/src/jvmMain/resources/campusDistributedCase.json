@@ -1,3 +1,4 @@
+
 {
     "dummyDatabase": false,
     "deterministic": true,
@@ -397,7 +398,7 @@
             "name": "Driver",
             "sendRateInSeconds": 1,
             "maxNumberOfQueries": 1,
-            "sendStartClockInSec": 10000,
+            "sendStartClockInSec": 9000,
             "query": ""
         }
     ]
