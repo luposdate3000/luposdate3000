@@ -36,6 +36,7 @@ public class POPDistributedReceiveMultiCount public constructor(
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
+    @JvmField public val keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiCountID, "POPDistributedReceiveMultiCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
@@ -56,7 +57,7 @@ public class POPDistributedReceiveMultiCount public constructor(
     }
 
     private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$uuid"
+        var s = "$keyPrefix"
         for (k in key.keys.sorted()) {
             s += ":$k=${key[k]}"
         }
@@ -65,19 +66,21 @@ public class POPDistributedReceiveMultiCount public constructor(
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
-            XMLElement(classname).addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+            XMLElement(classname).addContent(childrenToXML(partial))
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
+        res.addAttribute("keyPrefix", "$keyPrefix")
+        res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         } else {
-            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCount) {
                 theKey[partitionVariable] = theKey[partitionVariable]!! + 1
-                res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             }
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
@@ -103,11 +106,11 @@ public class POPDistributedReceiveMultiCount public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiCount.kt:109"/*SOURCE_FILE_END*/ }, { hosts.size == partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiCount.kt:112"/*SOURCE_FILE_END*/ }, { hosts.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {

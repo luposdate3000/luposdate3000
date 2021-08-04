@@ -519,7 +519,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableListOf<String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionProvideKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts.add(c.attributes["key"]!!)
                 }
             }
@@ -529,6 +529,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
                 hosts
             )
@@ -539,7 +540,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableListOf<String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionProvideKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts.add(c.attributes["key"]!!)
                 }
             }
@@ -549,6 +550,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
                 hosts
             )
@@ -559,7 +561,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableListOf<String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionProvideKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts.add(c.attributes["key"]!!)
                 }
             }
@@ -569,6 +571,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
                 hosts
             )
@@ -579,7 +582,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<String, String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionReceiveKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
             }
@@ -589,6 +592,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -599,7 +603,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<String, String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionReceiveKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
             }
@@ -609,6 +613,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -619,7 +624,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<String, String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionReceiveKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
             }
@@ -629,6 +634,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -639,7 +645,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<String, String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionReceiveKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
             }
@@ -649,6 +655,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -659,7 +666,7 @@ public object XMLElementToOPBase {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<String, String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionReceiveKey") {
+                if (c.tag == "partitionDistributionKey") {
                     hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
             }
@@ -669,6 +676,7 @@ public object XMLElementToOPBase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -839,7 +847,7 @@ public object XMLElementToOPBase {
 /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:841"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:849"/*SOURCE_FILE_END*/ },
             { theMap [node.tag] != null },
             { node.tag }
         )

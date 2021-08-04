@@ -70,26 +70,28 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
         val res = if (partial) {
             if (isRoot) {
                 if (partitionCount > 1) {
-                    XMLElement("POPDistributedSendMulti").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                    XMLElement("POPDistributedSendMulti").addContent(childrenToXML(partial))
                 } else {
-                    XMLElement("POPDistributedSendSingle").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                    XMLElement("POPDistributedSendSingle").addContent(childrenToXML(partial))
                 }
             } else {
-                XMLElement("POPDistributedReceiveSingle").addAttribute("uuid", "$uuid")
+                XMLElement("POPDistributedReceiveSingle")
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
+        res.addAttribute("keyPrefix", "$uuid")
+        res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCount) {
                 theKey[partitionVariable] = theKey[partitionVariable]!! + 1
-                res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             }
         } else {
-            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
@@ -137,9 +139,9 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:139"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:140"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:141"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:141"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:142"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:143"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
                 val elementsPerRing = query.getInstance().queue_size * variables.size
                 val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
@@ -167,7 +169,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                 }
                             }
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:169"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:171"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()

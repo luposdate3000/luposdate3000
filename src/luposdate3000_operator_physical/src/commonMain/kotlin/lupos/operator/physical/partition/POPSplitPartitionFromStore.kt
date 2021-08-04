@@ -1,3 +1,4 @@
+
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -29,7 +30,7 @@ import kotlin.jvm.JvmField
 
 public class POPSplitPartitionFromStore public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionFromStoreID, "POPSplitPartitionFromStore", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionFromStore.kt:31"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionFromStore.kt:32"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -63,19 +64,21 @@ public class POPSplitPartitionFromStore public constructor(query: IQuery, projec
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                XMLElement("POPDistributedSendSingle").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                XMLElement("POPDistributedSendSingle").addContent(childrenToXML(partial))
             } else {
-                XMLElement("POPDistributedReceiveSingle").addAttribute("uuid", "$uuid")
+                XMLElement("POPDistributedReceiveSingle")
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
+        res.addAttribute("keyPrefix", "$uuid")
+        res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         } else {
-            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)

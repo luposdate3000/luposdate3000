@@ -58,19 +58,21 @@ public class POPSplitPartitionFromStoreCount public constructor(query: IQuery, p
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                XMLElement("POPDistributedSendSingleCount").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                XMLElement("POPDistributedSendSingleCount").addContent(childrenToXML(partial))
             } else {
-                XMLElement("POPDistributedReceiveSingleCount").addAttribute("uuid", "$uuid")
+                XMLElement("POPDistributedReceiveSingleCount")
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
+        res.addAttribute("keyPrefix", "$uuid")
+        res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         } else {
-            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)

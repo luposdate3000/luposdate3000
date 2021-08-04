@@ -389,8 +389,8 @@ public class DatabaseHandle : IDatabase {
 
     private fun mergeOperatorGraphLocally(parent2: XMLElement?, parentChildIndex: Int, parent: XMLElement, child: XMLElement, key: String): Boolean {
         if (parent.tag == "POPDistributedReceiveSingle") {
-            val tmp = parent.childs.filter { it.tag == "partitionDistributionReceiveKey" }
-            val tmp2 = child.childs.filter { it.tag == "partitionDistributionProvideKey" }
+            val tmp = parent.childs.filter { it.tag == "partitionDistributionKey" }
+            val tmp2 = child.childs.filter { it.tag == "partitionDistributionKey" }
             if (tmp.size == 1 &&
                 tmp.first().attributes["key"] == key &&
                 tmp2.size == 1 &&
@@ -415,7 +415,7 @@ public class DatabaseHandle : IDatabase {
         }
     }
     private fun containsSendMulti(node: XMLElement, provided: MutableSet<String>) {
-        if (node.tag.contains("partitionDistributionProvideKey")) {
+        if (node.tag.contains("partitionDistributionKey")) {
             provided.add(node.attributes["key"]!!)
         }
         for (c in node.childs) {
@@ -425,7 +425,7 @@ public class DatabaseHandle : IDatabase {
     private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<String> {
         val res = mutableSetOf<String>()
         if (parentTag.startsWith(targetTag)) {
-            if (node.tag == "partitionDistributionProvideKey" || node.tag == "partitionDistributionReceiveKey") {
+            if (node.tag == "partitionDistributionKey" || node.tag == "partitionDistributionKey") {
                 res.add(node.attributes["key"]!!)
             }
         }
@@ -441,7 +441,7 @@ public class DatabaseHandle : IDatabase {
             val id = node.attributes["partitionID"]!!.toInt()
             val keys = mutableSetOf<String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionReceiveKey") {
+                if (c.tag == "partitionDistributionKey") {
                     keys.add(c.attributes["key"]!!)
                 }
             }
@@ -456,6 +456,7 @@ public class DatabaseHandle : IDatabase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 input
             )
@@ -466,7 +467,7 @@ public class DatabaseHandle : IDatabase {
             val id = node.attributes["partitionID"]!!.toInt()
             val keys = mutableSetOf<String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionReceiveKey") {
+                if (c.tag == "partitionDistributionKey") {
                     keys.add(c.attributes["key"]!!)
                 }
             }
@@ -481,6 +482,7 @@ public class DatabaseHandle : IDatabase {
                 node.attributes["partitionVariable"]!!,
                 node.attributes["partitionCount"]!!.toInt(),
                 id,
+                node.attributes["keyPrefix"]!!,
                 POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 inputs
             )

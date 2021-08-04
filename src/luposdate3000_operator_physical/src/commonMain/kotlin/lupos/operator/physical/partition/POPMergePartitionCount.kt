@@ -60,26 +60,28 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                XMLElement("POPDistributedSendSingleCount").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                XMLElement("POPDistributedSendSingleCount").addContent(childrenToXML(partial))
             } else {
                 if (partitionCount > 1) {
-                    XMLElement("POPDistributedReceiveMultiCount").addAttribute("uuid", "$uuid")
+                    XMLElement("POPDistributedReceiveMultiCount")
                 } else {
-                    XMLElement("POPDistributedReceiveSingleCount").addAttribute("uuid", "$uuid")
+                    XMLElement("POPDistributedReceiveSingleCount")
                 }
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
+        res.addAttribute("keyPrefix", "$uuid")
+        res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         } else {
-            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCount) {
                 theKey[partitionVariable] = theKey[partitionVariable]!! + 1
-                res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             }
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
@@ -115,8 +117,8 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
         } else {
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:117"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:118"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:119"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:120"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
             // partitionVariable as any other variable is not included in the result of the child operator
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required - available count is the difference between "ringbufferReadHead" and "ringbufferWriteHead"
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required

@@ -50,25 +50,29 @@ public class POPSplitMergePartitionFromStore public constructor(query: IQuery, p
         for (k in key.keys.sorted()) {
             s += ":$k=${key[k]}"
         }
+        println("uuid in keytostr $uuid $key $s")
         return s
     }
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                XMLElement("POPDistributedSendSingle").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                XMLElement("POPDistributedSendSingle").addContent(childrenToXML(partial))
             } else {
-                XMLElement("POPDistributedReceiveSingle").addAttribute("uuid", "$uuid")
+                XMLElement("POPDistributedReceiveSingle")
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
+        res.addAttribute("keyPrefix", "$uuid")
+        res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf("$uuid" to 0)
+        println("uuid in helper2 ... $uuid ${query.getDistributionKey()}")
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         } else {
-            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", "$uuid")

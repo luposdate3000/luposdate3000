@@ -271,7 +271,7 @@ public class VisualisationOperatorGraph {
         val res = mutableListOf<XMLElement>()
         for (c in childs) {
             when (c.tag) {
-                "columnProjectionOrders", "projectedVariables", "bindings", "columnProjectionOrderElement", "by", "sparam", "pparam", "oparam", "partitionDistributionProvideKey", "partitionDistributionReceiveKey" -> {}
+                "columnProjectionOrders", "projectedVariables", "bindings", "columnProjectionOrderElement", "by", "sparam", "pparam", "oparam", "partitionDistributionKey", "partitionDistributionKey" -> {}
                 "children", "POPDebug" -> {
                     res.addAll(filterChilds(c.childs))
                 }
@@ -286,7 +286,7 @@ public class VisualisationOperatorGraph {
     private fun operatorGraphToNodes(op: XMLElement, layer: Int, nodes: MutableList<MutableList<VisualisationOperatorGraphNode>>, parentKeys: List<String>): VisualisationOperatorGraphNode {
         val below = mutableListOf<VisualisationOperatorGraphNode>()
         val above = mutableListOf<VisualisationOperatorGraphNode>()
-        val key = (op.childs.filter { it.tag == "partitionDistributionProvideKey" }.map { it.attributes["key"]!! } + op.childs.filter { it.tag == "partitionDistributionReceiveKey" }.map { it.attributes["key"]!! }).toSet().toList()
+        val key = (op.childs.filter { it.tag == "partitionDistributionKey" }.map { it.attributes["key"]!! } + op.childs.filter { it.tag == "partitionDistributionKey" }.map { it.attributes["key"]!! }).toSet().toList()
         if (op.tag == "POPDistributedReceiveMulti" && visuallySplitReceiveMulti) {
             val node = VisualisationOperatorGraphNode(layer, below, above, XMLElement("POPUnion"), listOf(), parentKeys)
             node.y = layer * distanceY

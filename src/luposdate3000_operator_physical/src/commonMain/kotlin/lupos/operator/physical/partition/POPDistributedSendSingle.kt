@@ -36,11 +36,12 @@ public class POPDistributedSendSingle public constructor(
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
+    @JvmField public val keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:43"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -60,7 +61,7 @@ public class POPDistributedSendSingle public constructor(
     }
 
     private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$uuid"
+        var s = "$keyPrefix"
         for (k in key.keys.sorted()) {
             s += ":$k=${key[k]}"
         }
@@ -69,19 +70,21 @@ public class POPDistributedSendSingle public constructor(
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
-            XMLElement(classname).addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+            XMLElement(classname).addContent(childrenToXML(partial))
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
+        res.addAttribute("keyPrefix", "$keyPrefix")
+        res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         } else {
-            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCount) {
                 theKey[partitionVariable] = theKey[partitionVariable]!! + 1
-                res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             }
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
@@ -107,7 +110,7 @@ public class POPDistributedSendSingle public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -125,7 +128,7 @@ public class POPDistributedSendSingle public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:127"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:130"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
         connectionOut.writeInt(variables.size)

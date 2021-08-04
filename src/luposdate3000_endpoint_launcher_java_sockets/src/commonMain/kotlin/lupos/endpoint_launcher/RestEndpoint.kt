@@ -405,7 +405,7 @@ public object RestEndpoint {
             val xml = XMLParser(MyStringStream(params["query"]!!))
             val keys = mutableListOf<String>()
             for (c in xml.childs) {
-                if (c.tag == "partitionDistributionProvideKey") {
+                if (c.tag == "partitionDistributionKey") {
                     keys.add(c.attributes["key"]!!)
                 }
             }
