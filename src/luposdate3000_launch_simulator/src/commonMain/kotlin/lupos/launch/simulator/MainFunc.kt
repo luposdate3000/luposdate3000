@@ -16,16 +16,23 @@
  */
 package lupos.launch.simulator
 
+import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Parallel
 import lupos.simulator_iot.Evaluation
-internal fun mainFunc(): Unit = Parallel.runBlocking {
-    Evaluation().evalQueryProcessingDistributedCase()
-    Evaluation().evalQueryProcessingCentralizedCase()
-    // Evaluation().evalMeshPerformance()
-    // Evaluation().evalStarPerformance()
-    // Evaluation().evalStarPerformanceWithDummy()
-    // Evaluation().evalStarPerformanceWithLuposdate()
-    //  Evaluation().evalCampusDistributedSampling()
-    //  Evaluation().evalCampusNumberOfSamplings()
-    //  Evaluation().evalQueryProcessingDistributedCaseDummy()
+internal fun mainFunc(evaluate: String, distribution: String): Unit = Parallel.runBlocking {
+println("XXXX $evaluate $distribution")
+    Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.names.indexOf(distribution)
+    when (evaluate) {
+        "evalQueryProcessingDistributedCase" -> Evaluation().evalQueryProcessingDistributedCase()
+        "evalQueryProcessingCentralizedCase" -> Evaluation().evalQueryProcessingCentralizedCase()
+        "evalMeshPerformance" -> Evaluation().evalMeshPerformance()
+        "evalStarPerformance" -> Evaluation().evalStarPerformance()
+        "evalStarPerformanceWithDummy" -> Evaluation().evalStarPerformanceWithDummy()
+        "evalStarPerformanceWithLuposdate" -> Evaluation().evalStarPerformanceWithLuposdate()
+        "evalCampusDistributedSampling" -> Evaluation().evalCampusDistributedSampling()
+        "evalCampusNumberOfSamplings" -> Evaluation().evalCampusNumberOfSamplings()
+        "evalQueryProcessingDistributedCaseDummy" -> Evaluation().evalQueryProcessingDistributedCaseDummy()
+        else -> TODO(evaluate)
+    }
 }

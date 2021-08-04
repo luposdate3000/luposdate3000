@@ -18,6 +18,30 @@ import lupos.launch.simulator.mainFunc
 import kotlin.js.JsName
 
 @JsName("main")
-public fun main() {
-    mainFunc()
+public fun main(args: Array<String>) {
+    var flag = false
+    var evaluate: String = ""
+    for (a in args) {
+        if (a.startsWith("--evaluate=")) {
+            evaluate = a.substring(11)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--evaluate' is missing on the arguments list")
+    }
+    flag = false
+    var distribution: String = ""
+    for (a in args) {
+        if (a.startsWith("--distribution=")) {
+            distribution = a.substring(15)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--distribution' is missing on the arguments list")
+    }
+    mainFunc(evaluate, distribution)
 }
