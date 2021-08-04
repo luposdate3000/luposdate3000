@@ -31,35 +31,31 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     @JvmField
     internal var lastFile: String = ""
 
-    @JvmField
-    internal val folderPathCoponent = "code_gen_test"
+    internal val folderCount = 20
+    internal var folderCurrent = 0
 
-    @JvmField
-    internal val outputFolderRoot = "src/luposdate3000_$folderPathCoponent/"
-
-    @JvmField
-    internal val outputFolderSrcJvm = "${outputFolderRoot}src/jvmMain/kotlin/lupos/$folderPathCoponent/"
-
-    @JvmField
-    internal val outputFolderTestJvm = "${outputFolderRoot}src/jvmTest/kotlin/lupos/$folderPathCoponent/"
-
-    @JvmField
-    internal val outputFolderTestResourcesJvm = "${outputFolderRoot}src/jvmTest/resources/"
+    internal fun folderPathCoponent(idx: Int) = "code_gen_test_$idx"
+    internal fun outputFolderRoot(idx: Int) = "src/luposdate3000_${folderPathCoponent(idx)}/"
+    internal fun outputFolderSrcJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmMain/kotlin/lupos/${folderPathCoponent(idx)}/"
+    internal fun outputFolderTestJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/kotlin/lupos/${folderPathCoponent(idx)}/"
+    internal fun outputFolderTestResourcesJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/resources/"
 
     @JvmField
     internal val allTests = mutableListOf<String>()
 
     init {
         prefixDirectory = "$resource_folder/"
-        File(outputFolderRoot).deleteRecursively()
-        File(outputFolderRoot).mkdirs()
-        File(outputFolderSrcJvm).mkdirs()
-        File(outputFolderTestJvm).mkdirs()
-        File(outputFolderTestResourcesJvm).mkdirs()
-        File("$outputFolderRoot/module_config").withOutputStream { out ->
-            out.println("disableJS=true")
-            if (withCodeGen) {
-                out.println("codegenKAPT=true")
+        for (idx in 0 until folderCount) {
+            File(outputFolderRoot(idx)).deleteRecursively()
+            File(outputFolderRoot(idx)).mkdirs()
+            File(outputFolderSrcJvm(idx)).mkdirs()
+            File(outputFolderTestJvm(idx)).mkdirs()
+            File(outputFolderTestResourcesJvm(idx)).mkdirs()
+            File("${outputFolderRoot(idx)}/module_config").withOutputStream { out ->
+                out.println("disableJS=true")
+                if (withCodeGen) {
+                    out.println("codegenKAPT=true")
+                }
             }
         }
     }
@@ -110,7 +106,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         val inputGraphs = mutableMapOf<String, Pair<String, String>>() // filename -> graphname, filetype
         if (inputFile != null) {
             inputGraphs["$testCaseName.input"] = Pair(TripleStoreManager.DEFAULT_GRAPH_NAME, inputFile.substring(inputFile.lastIndexOf(".")))
-            File("$outputFolderTestResourcesJvm/$testCaseName.input").withOutputStream { out ->
+            File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.input").withOutputStream { out ->
                 File(inputFile).forEachLine {
                     out.println(it)
                 }
@@ -121,7 +117,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             val file = g["filename"]!!
             val outfile = "$testCaseName.input" + inputGraphs.size
             inputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
-            File("$outputFolderTestResourcesJvm/$outfile").withOutputStream { out ->
+            File("${outputFolderTestResourcesJvm(folderCurrent)}/$outfile").withOutputStream { out ->
                 File(file).forEachLine {
                     out.println(it)
                 }
@@ -133,7 +129,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             val file = g["filename"]!!
             val outfile = "$testCaseName.output" + outputGraphs.size
             outputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
-            File("$outputFolderTestResourcesJvm/$outfile").withOutputStream { out ->
+            File("${outputFolderTestResourcesJvm(folderCurrent)}/$outfile").withOutputStream { out ->
                 File(file).forEachLine {
                     out.println(it)
                 }
@@ -141,7 +137,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         }
         var targetType = "NONE"
         if (resultDataFileName != null) {
-            File("$outputFolderTestResourcesJvm/$testCaseName.output").withOutputStream { out ->
+            File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.output").withOutputStream { out ->
                 File(resultDataFileName).forEachLine {
                     out.println(it)
                 }
@@ -158,9 +154,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 filenamePart = "_CodeGen"
             }
             val filenameLocal: String = if (useCodeGen) {
-                "$outputFolderSrcJvm/$testCaseName$filenamePart.kt"
+                "${outputFolderSrcJvm(folderCurrent)}/$testCaseName$filenamePart.kt"
             } else {
-                "$outputFolderTestJvm/$testCaseName$filenamePart.kt"
+                "${outputFolderTestJvm(folderCurrent)}/$testCaseName$filenamePart.kt"
             }
             File(filenameLocal).withOutputStream { out ->
                 val distributedTest = StringBuilder()
@@ -226,7 +222,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println(" * You should have received a copy of the GNU General Public License")
                 out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
                 out.println(" */")
-                out.println("package lupos.$folderPathCoponent")
+                out.println("package lupos.${folderPathCoponent(folderCurrent)}")
                 out.println("import lupos.endpoint.LuposdateEndpoint")
                 out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
                 out.println("import lupos.operator.base.Query")
@@ -235,8 +231,10 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("import lupos.shared.CodeGenerationAnnotation")
                 }
                 out.println("import lupos.shared.EIndexPatternExt")
+                out.println("import lupos.shared.EQueryDistributionModeExt")
                 out.println("import lupos.shared.Luposdate3000Config")
                 out.println("import lupos.shared.MemoryTable")
+                out.println("import lupos.shared.EPredefinedPartitionSchemesExt")
                 out.println("import lupos." + "shared.inline.File")
                 out.println("import lupos." + "shared.inline.MyPrintWriter")
                 out.println("import lupos.simulator_core.Simulation")
@@ -435,6 +433,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("}")
             }
         }
+        folderCurrent = (folderCurrent + 1) % folderCount
         return true
     }
 }
