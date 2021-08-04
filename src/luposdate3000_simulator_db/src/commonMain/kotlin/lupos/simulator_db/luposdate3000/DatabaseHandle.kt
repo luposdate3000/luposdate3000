@@ -366,30 +366,27 @@ public class DatabaseHandle : IDatabase {
                 router!!.send(k, p)
             } else {
                 if (instance.mergeLocalOperatorgraphs) {
-                    var dependenciesMapBottomUp = mutableMapOf<String, String>() // .... k == v
                     var containsSendMultiFlag = false
                     for ((k, v) in p.operatorGraph) {
-                        var x = mutableSetOf<String>()
-                        containsSendMulti(v, x)
-                        if (x.size == 1) {
-                            dependenciesMapBottomUp[k] = x.first()
-                        } else if (x.size> 1) {
+                        if (mapBottomUp[k]!!.size > 1) {
                             containsSendMultiFlag = true
                         }
                     }
                     if (!containsSendMultiFlag) {
 // try to merge operatorgraphs for local queries
-                        loop@for (v in dependenciesMapBottomUp.values) { // what is provided
-                            for ((k2, v2) in p.operatorGraph) { // what is calculated
-                                if (mapTopDown[k2]!!.contains(v)) {
+                        loop@for (k5 in p.operatorGraph.keys.toSet()) {
+                            for (v in mapBottomUp[k5]!!) { // what is provided
+                                for ((k6, k7) in mapTopDown) { // what is required
+                                    if (k7.contains(v)) {
 // merge now !!
-                                    var res = mergeOperatorGraphLocally(null, 0, v2, p.operatorGraph[v]!!, v)
-                                    if (res) {
-                                        p.operatorGraph.remove(v)
-                                        p.destinations.remove(v)
-                                        mapTopDown.remove(v)
+                                        var res = mergeOperatorGraphLocally(null, 0, p.operatorGraph[k6]!!, p.operatorGraph[k5]!!, v)
+                                        if (res) {
+                                            p.operatorGraph.remove(v)
+                                            p.destinations.remove(v)
+                                            mapTopDown.remove(v)
+                                        }
+                                        continue@loop
                                     }
-                                    continue@loop
                                 }
                             }
                         }
@@ -442,14 +439,6 @@ public class DatabaseHandle : IDatabase {
             return false
         }
     }
-    private fun containsSendMulti(node: XMLElement, provided: MutableSet<String>) {
-        if (node.tag.contains("partitionDistributionKey")) {
-            provided.add(node.attributes["key"]!!)
-        }
-        for (c in node.childs) {
-            containsSendMulti(c, provided)
-        }
-    }
     private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<String> {
         val res = mutableSetOf<String>()
         if (parentTag.startsWith(targetTag)) {
@@ -473,9 +462,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:475"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:471"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:477"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:473"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(

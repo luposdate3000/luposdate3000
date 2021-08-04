@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clean -xdf
+#git clean -xdf
 ./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 ./gradlew assemble
 
