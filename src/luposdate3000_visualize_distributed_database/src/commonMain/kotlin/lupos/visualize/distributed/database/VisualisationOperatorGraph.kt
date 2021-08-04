@@ -66,7 +66,6 @@ public class VisualisationOperatorGraph {
         return sqrt((maxX - minX) * (maxX - minX) + (maxY - minY) * (maxY - minY))
     }
     public fun prepareOperatorGraph(op: XMLElement) {
-        println("operatorGraphToNodes $op")
         operatorGraphToNodes(op, 0, nodes, listOf())
         for (i in 0 until nodes.size) {
             for (j in 0 until nodes[i].size) {
@@ -170,14 +169,14 @@ public class VisualisationOperatorGraph {
                     }
                     "POPTripleStoreIterator" -> {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:172"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:171"/*SOURCE_FILE_END*/ },
                             { n.parentKeys.size <= 1 }
                         )
                         if (n.parentKeys.size == 1) {
                             val pkey = n.parentKeys.first()
                             val parr = pkey.split("=")
                             SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:179"/*SOURCE_FILE_END*/ },
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:178"/*SOURCE_FILE_END*/ },
                                 { parr.size == 2 },
                                 { "${parr.map{it}}" }
                             )

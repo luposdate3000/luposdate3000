@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#git clean -xdf
-#./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
+git clean -xdf
+./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 ./gradlew assemble
 
 rm -rf visual*svg "benchmark-results"
