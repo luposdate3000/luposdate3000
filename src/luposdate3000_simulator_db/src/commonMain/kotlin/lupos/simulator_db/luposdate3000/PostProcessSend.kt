@@ -1,6 +1,6 @@
 package lupos.simulator_db.luposdate3000
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.Luposdate3000Instance
+import lupos.shared.Luposdate3000Config
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
@@ -9,7 +9,7 @@ import lupos.visualize.distributed.database.VisualisationMessage
 import lupos.visualize.distributed.database.VisualisationNetwork
 public object PostProcessSend {
     public fun process(source: Int, destination: Int, clock: Long, visual: VisualisationNetwork, pck: IDatabasePackage) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             when (pck) {
                 is MySimulatorAbstractPackage -> {
                     when (pck.path) {

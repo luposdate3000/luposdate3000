@@ -50,7 +50,6 @@ public class POPSplitMergePartitionFromStore public constructor(query: IQuery, p
         for (k in key.keys.sorted()) {
             s += ":$k=${key[k]}"
         }
-        println("uuid in keytostr $uuid $key $s")
         return s
     }
 
@@ -67,7 +66,6 @@ public class POPSplitMergePartitionFromStore public constructor(query: IQuery, p
         res.addAttribute("keyPrefix", "$uuid")
         res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf("$uuid" to 0)
-        println("uuid in helper2 ... $uuid ${query.getDistributionKey()}")
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
             res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))

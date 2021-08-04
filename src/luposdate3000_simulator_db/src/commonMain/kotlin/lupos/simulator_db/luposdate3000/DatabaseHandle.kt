@@ -226,7 +226,6 @@ public class DatabaseHandle : IDatabase {
             }
         } else {
             val destinations = mutableMapOf("" to pck.sourceAddress)
-            println(parts)
             receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, q.getDependenciesMapTopDown(), onFinish, expectedResult))
         }
     }
@@ -504,7 +503,6 @@ public class DatabaseHandle : IDatabase {
                     when (val node = localXMLElementToOPBase(query, w.operatorGraph)) {
                         is POPDistributedSendSingle -> {
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
-                            println(node)
                             node.evaluate(out)
                             out.close()
                         }
@@ -512,7 +510,6 @@ public class DatabaseHandle : IDatabase {
                             val out = Array<IMyOutputStream?>(node.hosts.size) {
                                 MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to node.hosts[it]), router!!)
                             }
-                            println(node)
                             node.evaluate(out)
                             for (o in out) {
                                 o?.close()
@@ -534,7 +531,6 @@ public class DatabaseHandle : IDatabase {
                             } else {
                                 val buf = MyPrintWriter(true)
                                 val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
-                                println(node)
                                 evaluatorInstance(node, buf, false)
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)

@@ -89,7 +89,6 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                     }
                     val target = n.getDesiredHostnameFor(partition)
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:90"/*SOURCE_FILE_END*/ }, { !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target })
-                    println("yyyy ${query.operatorgraphPartsToHostMap} $key $target")
                     query.operatorgraphPartsToHostMap[key] = target
                 }
                 is POPSplitMergePartitionFromStore -> {
@@ -105,7 +104,6 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                     var partition = Partition()
                     val target = n.getDesiredHostnameFor(partition)
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:106"/*SOURCE_FILE_END*/ }, { !query.operatorgraphPartsToHostMap.contains(key) || query.operatorgraphPartsToHostMap[key] == target })
-                    println("xxxx ${query.operatorgraphPartsToHostMap} $key $target")
                     query.operatorgraphPartsToHostMap[key] = target
                 }
             }

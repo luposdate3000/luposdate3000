@@ -91,7 +91,325 @@ public class DROPSILENTGRAPHiri {
 
     @Ignore // Reason: >Bug<
     @Test
-    public fun `DROP SILENT GRAPH iri - in simulator`() {
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Centralized - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Centralized - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Centralized - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Centralized - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Routing - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Routing - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Routing - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - true - Routing - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = true
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Centralized - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Centralized - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Centralized - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Centralized - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Centralized
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Routing - true - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Routing - true - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = true
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Routing - false - true`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = true
+        simulatorHelper()
+    }
+
+    @Test
+    public fun `DROP SILENT GRAPH iri - in simulator - PartitionByKeyAllCollations - false - Routing - false - false`() {
+        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        Luposdate3000Config.mergeLocalOperatorgraphs = false
+        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.Routing
+        Luposdate3000Config.useDictionaryInlineEncoding = false
+        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = false
+        simulatorHelper()
+    }
+    public fun simulatorHelper() {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
         val config = simRun.parseJsonObjects(json)

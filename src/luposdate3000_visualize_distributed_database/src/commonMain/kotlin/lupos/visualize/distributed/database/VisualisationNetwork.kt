@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
-import lupos.shared.Luposdate3000Instance
+import lupos.shared.Luposdate3000Config
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.inline.File
@@ -398,7 +398,7 @@ public class VisualisationNetwork {
         return devices.filter { it.id == id }.first()
     }
     public fun addDistributedStorage(source: Int, destination: Int, time: Long, graphname: String, metaString: String) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             addMessage(VisualisationMessage(source, destination, time, "create '$graphname'"))
             val metad = metaString.split("|")
             for (meta in metad) {
@@ -457,7 +457,7 @@ public class VisualisationNetwork {
         }
     }
     public fun addDevice(device: VisualisationDevice) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             if (device.id> devicesMaxID) {
                 devicesMaxID = device.id
             }
@@ -466,7 +466,7 @@ public class VisualisationNetwork {
     }
 
     public fun addConnectionTable(src: Int, dest: Int, hop: Int) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             if (src != dest) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
@@ -483,7 +483,7 @@ public class VisualisationNetwork {
         }
     }
     public fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             if (src != dest && src != hop) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
@@ -499,20 +499,20 @@ public class VisualisationNetwork {
         }
     }
     public fun addConnection(connection: VisualisationConnection) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             connections.add(connection)
         }
     }
 
     public fun addMessage(message: VisualisationMessage) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             allMessageTypes.add(message.type)
             message.messageCounter = messages.size
             messages.add(message)
         }
     }
     public fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             var workNode = workForQueryAtNode[queryID]
             if (workNode == null) {
                 workNode = mutableMapOf()
@@ -527,7 +527,7 @@ public class VisualisationNetwork {
         }
     }
     public fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {
-        if (Luposdate3000Instance.enableVisualisationInSimulator) {
+        if (Luposdate3000Config.enableVisualisationInSimulator) {
             fullOperatorGraph[queryId] = operatorGraph
         }
     }

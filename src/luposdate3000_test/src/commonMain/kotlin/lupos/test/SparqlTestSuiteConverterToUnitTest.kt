@@ -15,9 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
+import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.TripleStoreManager
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
+
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
     private val withSimulator = true
@@ -382,8 +385,26 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                             out.println("    @Ignore")
                         }
                     }
-                    out.println("    @Test")
-                    out.println("    public fun `$testCaseName2 - in simulator`() {")
+                    for (predefinedPartitionScheme in EPredefinedPartitionSchemesExt.names) {
+                        for (mergeLocalOperatorgraphs in listOf("true", "false")) {
+                            for (queryDistributionMode in EQueryDistributionModeExt.names) {
+                                for (useDictionaryInlineEncoding in listOf("true", "false")) {
+                                    for (REPLACE_STORE_WITH_VALUES in listOf("true", "false")) {
+                                        out.println("    @Test")
+                                        out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $mergeLocalOperatorgraphs - $queryDistributionMode - $useDictionaryInlineEncoding - $REPLACE_STORE_WITH_VALUES`() {")
+                                        out.println("        Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
+                                        out.println("        Luposdate3000Config.mergeLocalOperatorgraphs = $mergeLocalOperatorgraphs")
+                                        out.println("        Luposdate3000Config.queryDistributionMode = EQueryDistributionModeExt.$queryDistributionMode")
+                                        out.println("        Luposdate3000Config.useDictionaryInlineEncoding = $useDictionaryInlineEncoding")
+                                        out.println("        Luposdate3000Config.REPLACE_STORE_WITH_VALUES = $REPLACE_STORE_WITH_VALUES")
+                                        out.println("        simulatorHelper()")
+                                        out.println("    }")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    out.println("    public fun simulatorHelper() {")
                     out.println("        val simRun = SimulationRun()")
                     out.println("        val json=simRun.parseConfigFile(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
                     out.println("        val config = simRun.parseJsonObjects(json)")
@@ -396,7 +417,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("        config.querySenders[0].queryPck = pkg0")
                     out.println("        simRun.sim.run()")
                     out.println("        simRun.sim.shutDown()")
-
                     out.println("    }")
                 }
                 if (!useCodeGen && withCodeGen) {
