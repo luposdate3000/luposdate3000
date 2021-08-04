@@ -22,15 +22,15 @@ public actual class MyThreadLock {
     internal val uuid = UUID_Counter.getNextUUID()
     public actual inline fun getUUID(): Long = uuid
     public actual inline fun lock() {
-TODO()
+        TODO()
     }
 
     public actual inline fun unlock() {
-TODO()
+        TODO()
     }
 
     public actual inline fun tryLock(): Boolean {
-TODO()
+        TODO()
     }
 
     public actual inline fun <T> withLock(crossinline action: () -> T): T {

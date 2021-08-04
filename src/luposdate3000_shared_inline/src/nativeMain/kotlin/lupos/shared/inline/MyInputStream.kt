@@ -17,7 +17,6 @@
 package lupos.shared.inline
 
 import lupos.shared.IMyInputStream
-import lupos.shared.NotImplementedException
 
 internal actual class MyInputStream : IMyInputStream {
     public actual override fun readByte(): Byte = TODO()

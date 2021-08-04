@@ -16,15 +16,13 @@
  */
 package lupos.shared.inline
 
-import lupos.shared.NotImplementedException
-
 internal actual class ParallelThreadQueue<T> {
     actual constructor(terminationValue: T) {
     }
 
-    internal actual inline fun send(value: T) =TODO()
+    internal actual inline fun send(value: T) = TODO()
 
-    internal actual inline fun close() =TODO()
+    internal actual inline fun close() = TODO()
 
-    internal actual inline fun receive(): T =TODO()
+    internal actual inline fun receive(): T = TODO()
 }

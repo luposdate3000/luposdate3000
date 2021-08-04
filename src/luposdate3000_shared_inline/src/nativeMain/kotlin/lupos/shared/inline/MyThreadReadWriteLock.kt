@@ -16,7 +16,6 @@
  */
 package lupos.shared.inline
 
-import lupos.shared.NotImplementedException
 import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
 
@@ -26,12 +25,12 @@ internal actual class MyThreadReadWriteLock {
     internal val uuid = UUID_Counter.getNextUUID()
 
     internal actual inline fun getUUID() = uuid
-    internal actual inline fun downgradeToReadLock() =TODO()
-    internal actual inline fun readLock() =TODO()
-    internal actual inline fun readUnlock() =TODO()
-    internal actual inline fun writeLock() =TODO()
-    internal actual inline fun tryWriteLock(): Boolean =TODO()
-    internal actual inline fun writeUnlock() =TODO()
+    internal actual inline fun downgradeToReadLock() = TODO()
+    internal actual inline fun readLock() = TODO()
+    internal actual inline fun readUnlock() = TODO()
+    internal actual inline fun writeLock() = TODO()
+    internal actual inline fun tryWriteLock(): Boolean = TODO()
+    internal actual inline fun writeUnlock() = TODO()
     internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         readLock()
         try {

@@ -3,10 +3,10 @@ import java.net.URL
 evaluationDependsOn(":src:luposdate3000_endpoint")
 var executableDirectoryBaseDir = gradle.gradleUserHomeDir.toString() + "/native-binaries/node/"
 var isWindows = System.getProperty("os.name").contains("Win")
-var executableDirectory=if(isWindows){
-executableDirectoryBaseDir+"node-v16.5.0-win-x64/"
-}else{
-executableDirectoryBaseDir+"node-v16.5.0-linux-x64/bin/"
+var executableDirectory = if (isWindows) {
+    executableDirectoryBaseDir + "node-v16.5.0-win-x64/"
+} else {
+    executableDirectoryBaseDir + "node-v16.5.0-linux-x64/bin/"
 }
 
 fun myDownload(src: String, destDir: String, destName: String) {
@@ -35,9 +35,9 @@ task("downloadNode") {
     }
 }
 task("downloadNodeIfNotExist") {
-    if (!File(executableDirectoryBaseDir+".download.ok").exists()){
+    if (!File(executableDirectoryBaseDir+".download.ok").exists()) {
         dependsOn("downloadNode")
-}
+    }
 }
 task<Exec>("installNode") {
     dependsOn("downloadNodeIfNotExist")
@@ -46,10 +46,10 @@ task<Exec>("installNode") {
     } else {
         commandLine("tar", "-xf", executableDirectoryBaseDir + "node-v16.5.0-linux-x64.tar.xz")
     }
-workingDir(executableDirectoryBaseDir)
-doLast{
-    File(executableDirectoryBaseDir + "ok").printWriter().use {}
-}
+    workingDir(executableDirectoryBaseDir)
+    doLast {
+        File(executableDirectoryBaseDir + "ok").printWriter().use {}
+    }
 }
 task("installNodeIfNotExist") {
     if (!File(executableDirectoryBaseDir+"ok").exists()) {
@@ -67,10 +67,10 @@ task("downloadInstrumentsIfNotExist") {
 task<Exec>("npmInstall") {
     dependsOn("installNodeIfNotExist")
     if (isWindows) {
-environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
+        environment["PATH"] = File(rootProject.projectDir.toString() + "/src/luposdate3000_spa_client/node_modules/.bin/").absolutePath + ";" + executableDirectory + ";" + environment["PATH"]
         commandLine(executableDirectory + "npm.cmd", "install", "--scripts-prepend-node-path")
     } else {
-environment["PATH"] = executableDirectory + ":" + environment["PATH"]
+        environment["PATH"] = executableDirectory + ":" + environment["PATH"]
         commandLine(executableDirectory + "npm", "install", "--scripts-prepend-node-path")
     }
 }

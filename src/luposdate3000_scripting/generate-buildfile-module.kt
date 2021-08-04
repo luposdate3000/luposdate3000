@@ -314,8 +314,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         return
     }
     if (File("${moduleArgs.moduleFolder}/build.template.gradle.kts").exists()) {
-            File("${moduleArgs.moduleFolder}/build.gradle.kts").printWriter().use { out ->
-        File("${moduleArgs.moduleFolder}/build.template.gradle.kts").forEachLine { line ->
+        File("${moduleArgs.moduleFolder}/build.gradle.kts").printWriter().use { out ->
+            File("${moduleArgs.moduleFolder}/build.template.gradle.kts").forEachLine { line ->
                 out.println(line)
             }
         }

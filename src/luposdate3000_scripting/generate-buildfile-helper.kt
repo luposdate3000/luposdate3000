@@ -24,7 +24,7 @@ enum class TargetMode2 { JVM, JS, Native, All, JVM_JS }
 enum class IntellijMode { Enable, Disable }
 enum class SuspendMode { Enable, Disable }
 enum class InlineMode { Enable, Disable }
-enum class EDictionaryValueMode{Int,Long}
+enum class EDictionaryValueMode { Int, Long }
 fun targetModeCompatible(base: TargetMode2, check: TargetMode2): Boolean {
     when (check) {
         TargetMode2.JVM -> return base == TargetMode2.JVM || base == TargetMode2.JVM_JS || base == TargetMode2.All
