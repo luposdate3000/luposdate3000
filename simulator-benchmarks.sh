@@ -4,7 +4,7 @@
 #./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 ./gradlew assemble
 
-rm visual*svg
+rm -rf visual*svg "benchmark-results"
 mkdir -p "benchmark-results"
 
 for distribution in "PartitionByIDTwiceAllCollations" "PartitionByKeyAllCollations"

@@ -291,14 +291,22 @@ public class DatabaseHandle : IDatabase {
         }
         for ((k, v) in pck.operatorGraph) {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "")
-            mapBottomUp[k] = extractKey(v, "POPDistributedSend", "")
+            mapBottomUp[k] = extractKey(v, "POPDistributedSend", "") + setOf(k)
+SanityCheck(
+{ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:295"/*SOURCE_FILE_END*/ }, 
+{
+            if (!extractKey(v, "POPDistributedSend", "").contains(k)&&k!="") {
+                println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
+            }
         }
+)
+}
         var changed = true
         while (changed) {
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:300"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:308"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -338,7 +346,8 @@ public class DatabaseHandle : IDatabase {
             }
         }
         for ((k, v) in packageMap) {
-            val p = packages[v]!!
+            val p = packages[v]
+if(p!=null){//p can be null if there is a send-multi
             p.operatorGraph[k] = pck.operatorGraph[k]!!
             val h = pck.operatorGraphPartsToHostMap[k]
             if (h != null) {
@@ -351,6 +360,7 @@ public class DatabaseHandle : IDatabase {
                 p.destinations[k] = ownAdress
             }
         }
+}
         for ((k, p) in packages) {
             if (k != ownAdress) {
                 router!!.send(k, p)
@@ -463,9 +473,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:465"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:475"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:467"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:477"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
