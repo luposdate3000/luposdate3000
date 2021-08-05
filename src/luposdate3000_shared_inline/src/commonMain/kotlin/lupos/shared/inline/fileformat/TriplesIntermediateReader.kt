@@ -18,10 +18,10 @@
 package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.inline.Compressor
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
+import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
@@ -51,7 +51,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
     }
 
     @JvmField
-    internal val buf: ByteArray = ByteArray(12)
+    internal val buf: ByteArray = ByteArray(24)
 
     @JvmField
     internal val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)
@@ -63,18 +63,18 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
             close()
             return null
         } else {
-Compressor.decodeTripleHeader(header){counter0,counter1,counter2->
-            val rel0 = counter0
-            val rel1 = rel0 + counter1
-            val rel2 = rel1 + counter2
-            streamIn!!.read(buf, rel2)
-            val b0 = DictionaryValueHelper.fromByteArrayX(buf, 0, counter0)
-            val b1 = DictionaryValueHelper.fromByteArrayX(buf, rel0, counter1)
-            val b2 = DictionaryValueHelper.fromByteArrayX(buf, rel1, counter2)
-            buffer[i0] = buffer[i0] xor b0
-            buffer[i1] = buffer[i1] xor b1
-            buffer[i2] = buffer[i2] xor b2
-}
+            Compressor.decodeTripleHeader(header.toInt()) { counter0, counter1, counter2 ->
+                val rel0 = counter0
+                val rel1 = rel0 + counter1
+                val rel2 = rel1 + counter2
+                streamIn!!.read(buf, rel2)
+                val b0 = DictionaryValueHelper.fromByteArrayX(buf, 0, counter0)
+                val b1 = DictionaryValueHelper.fromByteArrayX(buf, rel0, counter1)
+                val b2 = DictionaryValueHelper.fromByteArrayX(buf, rel1, counter2)
+                buffer[i0] = buffer[i0] xor b0
+                buffer[i1] = buffer[i1] xor b1
+                buffer[i2] = buffer[i2] xor b2
+            }
             return buffer
         }
     }

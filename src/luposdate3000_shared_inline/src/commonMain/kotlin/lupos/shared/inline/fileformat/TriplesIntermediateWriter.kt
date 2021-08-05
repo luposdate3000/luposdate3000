@@ -18,10 +18,10 @@ package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.inline.Compressor
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
@@ -40,7 +40,7 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
     internal var last2: DictionaryValueType = 0
 
     @JvmField
-    internal val buf: ByteArray = ByteArray(13)
+    internal val buf: ByteArray = ByteArray(25)
     private val writeOrder: EIndexPattern
 
     internal constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
@@ -97,15 +97,14 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
         var counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
         var counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
         var counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
-var header=0
-Compressor.encodeTripleHeader(counter0, counter1, counter2) { header0, corrected0, corrected1, corrected2 ->
-            BufferManagerPage.writeInt1(node, offset, header)
+        var header = 0
+        Compressor.encodeTripleHeader(counter0, counter1, counter2) { header0, corrected0, corrected1, corrected2 ->
             counter0 = corrected0
             counter1 = corrected1
             counter2 = corrected2
-header=header0
+            header = header0
         }
-        if (header!=0) {
+        if (header != 0) {
             count++
             val rel0 = counter0 + 1
             val rel1 = rel0 + counter1

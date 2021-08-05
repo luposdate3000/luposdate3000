@@ -1,7 +1,7 @@
 package lupos.shared.inline
-
-internal object Compressor{
- private val decodeTripleHeaderMapA = intArrayOf(0, 1, 2, 8)
+import lupos.shared.SanityCheck
+internal object Compressor {
+    private val decodeTripleHeaderMapA = intArrayOf(0, 1, 2, 8)
     private val decodeTripleHeaderMapBC = intArrayOf(0, 1, 2, 3, 4, 5, 6, 8)
     internal inline fun decodeTripleHeader(header: Int, crossinline action: (counter0: Int, counter1: Int, counter2: Int) -> Unit) {
         val a = decodeTripleHeaderMapA[(header shr 6)and 0x3]
@@ -24,15 +24,15 @@ internal object Compressor{
         header = header or encodeTripleHeaderMapC[counter2]
         action(header, corrected0, corrected1, corrected2)
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:78"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:26"/*SOURCE_FILE_END*/ },
             {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:80"/*SOURCE_FILE_END*/ }, { counter0 <= corrected0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:81"/*SOURCE_FILE_END*/ }, { counter1 <= corrected1 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:82"/*SOURCE_FILE_END*/ }, { counter2 <= corrected2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:28"/*SOURCE_FILE_END*/ }, { counter0 <= corrected0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:29"/*SOURCE_FILE_END*/ }, { counter1 <= corrected1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:30"/*SOURCE_FILE_END*/ }, { counter2 <= corrected2 })
                 decodeTripleHeader(header) { c0, c1, c2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:84"/*SOURCE_FILE_END*/ }, { c0 == corrected0 }, { "$c0 == $corrected0" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:85"/*SOURCE_FILE_END*/ }, { c1 == corrected1 }, { "$c1 == $corrected1" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:86"/*SOURCE_FILE_END*/ }, { c2 == corrected2 }, { "$c2 == $corrected2" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:32"/*SOURCE_FILE_END*/ }, { c0 == corrected0 }, { "$c0 == $corrected0" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:33"/*SOURCE_FILE_END*/ }, { c1 == corrected1 }, { "$c1 == $corrected1" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:34"/*SOURCE_FILE_END*/ }, { c2 == corrected2 }, { "$c2 == $corrected2" })
                 }
             }
         )
