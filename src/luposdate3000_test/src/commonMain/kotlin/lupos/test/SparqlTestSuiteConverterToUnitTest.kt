@@ -23,7 +23,7 @@ import kotlin.jvm.JvmField
 
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
-    private val withSimulator = true
+    private val withSimulator = false
 
     @JvmField
     internal var counter = 0
