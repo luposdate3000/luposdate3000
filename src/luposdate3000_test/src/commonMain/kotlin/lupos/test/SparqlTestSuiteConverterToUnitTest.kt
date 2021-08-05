@@ -259,9 +259,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.simulator_iot.SimulationRun")
                 out.println("")
                 if (!useCodeGen) {
-                    if (ignored) {
-                        out.println("import kotlin.test.Ignore")
-                    }
+                    out.println("import kotlin.test.Ignore")
                     out.println("import kotlin.test.Test")
                     out.println("import kotlin.test.fail")
                 }

@@ -32,5 +32,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             break
         }
     }
+    val time = DateHelperRelative.elapsedSeconds(timer)
     println("imported $inputFileName $counter times in $time Seconds - that is ${time / counter} Seconds per run or ${counter / time} runs per Second")
 }
