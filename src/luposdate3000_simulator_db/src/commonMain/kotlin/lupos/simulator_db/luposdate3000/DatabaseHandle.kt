@@ -211,7 +211,6 @@ public class DatabaseHandle : IDatabase {
         if (parts.size == 1) {
             visualisationNetwork.addWork(pck.queryID, ownAdress, q.getRoot().toXMLElement(false), setOf(), setOf())
 // TODO wait for all ack - or assume ordered messages
-            println("execute Query with ID directly ${pck.queryID}")
             if (expectedResult != null) {
                 val buf = MyPrintWriter(false)
                 val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, q.getRoot(), buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
@@ -408,7 +407,6 @@ public class DatabaseHandle : IDatabase {
                         pck.onFinish,
                         pck.expectedResult,
                     )
-                    println("assigned work ${w.pendingWorkID}")
                     myPendingWork.add(w)
                 }
                 doWork()
@@ -519,7 +517,6 @@ public class DatabaseHandle : IDatabase {
             changed = false
             for (w in myPendingWork) {
                 if (myPendingWorkData.keys.containsAll(w.dependencies)) {
-                    println("doing work ${w.pendingWorkID}")
                     myPendingWork.remove(w)
                     changed = true
                     val query = Query(instance)
@@ -539,7 +536,6 @@ public class DatabaseHandle : IDatabase {
                             }
                         }
                         is OPBaseCompound -> {
-                            println("executing Query ${w.queryID}")
                             if (w.expectedResult != null) {
                                 val buf = MyPrintWriter(false)
                                 val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()

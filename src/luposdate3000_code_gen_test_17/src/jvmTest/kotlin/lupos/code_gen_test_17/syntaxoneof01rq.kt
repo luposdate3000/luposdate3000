@@ -16,8 +16,28 @@
  */
 package lupos.code_gen_test_17
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.result_format.EQueryResultToStreamExt
+import lupos.shared.EIndexPatternExt
+import lupos.shared.EQueryDistributionModeExt
+import lupos.shared.Luposdate3000Config
+import lupos.shared.MemoryTable
+import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_iot.config.Configuration
+import lupos.simulator_iot.log.Logger
+import lupos.simulator_db.luposdate3000.MySimulatorConfig
+import lupos.simulator_iot.SimulationRun
+
 import kotlin.test.Test
+import kotlin.test.fail
 
 public class syntaxoneof01rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(?o NOT IN(1,2,?s+57)) } \n" +
