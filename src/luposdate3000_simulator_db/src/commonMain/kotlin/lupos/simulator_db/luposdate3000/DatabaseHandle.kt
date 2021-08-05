@@ -180,7 +180,6 @@ public class DatabaseHandle : IDatabase {
     }
 
     private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?) {
-        println("receive Query with ID ${pck.queryID}")
         val queryString = pck.query.decodeToString()
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
