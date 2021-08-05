@@ -24,7 +24,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val timer = DateHelperRelative.markNow()
     val instance = LuposdateEndpoint.initialize()
     var counter = 0
-var time=0.0
+    var time = 0.0
     while (true) {
         counter++
         InputToIntermediate.process(inputFileName, instance)

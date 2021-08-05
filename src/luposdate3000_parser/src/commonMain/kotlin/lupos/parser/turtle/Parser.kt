@@ -809,23 +809,7 @@ internal class GeneratedEnumTurtleScanner(val iterator: BufferedUnicodeReader2) 
     }
 }
 internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, val ltit: LookAheadTokenIteratorEnum) {
-    // for storing the prefixes...
-    val prefixes = mutableMapOf<String, String>()
-
-    // some constants used for typed literals
-    val xsd = "http://www.w3.org/2001/XMLSchema#"
-    val xsd_boolean = xsd + "boolean"
-    val xsd_integer = xsd + "integer"
-    val xsd_decimal = xsd + "decimal"
-    val xsd_double = xsd + "double"
-    val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    val nil = rdf + "nil"
-    val first = rdf + "first"
-    val rest = rdf + "rest"
-    val nil_iri = "<" + nil + ">"
-    val first_iri = "<" + first + ">"
-    val rest_iri = "<" + rest + ">"
-    val type_iri = "<" + rdf + "type" + ">"
+    val prefixes = mutableMapOf("" to "")
     var bnode_counter = 0
     var convertIriToDict: (String) -> DictionaryValueType = { TODO() }
     var convertBnodeToDict: (String) -> DictionaryValueType = { TODO() }
@@ -1028,7 +1012,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
                 if (token.image != "a") {
                     throw UnexpectedToken(token, arrayOf("a"), ltit)
                 } else {
-                    return convertIriToDict(type_iri)
+                    return convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
                 }
             }
             else -> { throw UnexpectedToken(t9, arrayOf("IRI", "PNAMELN", "PNAMENS", "a"), ltit) }
@@ -1121,8 +1105,8 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
 
     fun collection(): DictionaryValueType {
         var token: Token
-        var first = convertIriToDict(nil_iri)
-        var current = convertIriToDict(nil_iri)
+        var first = convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+        var current = convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
         token = ltit.nextToken()
         if (token.type != LBRACE) {
             throw UnexpectedToken(token, arrayOf("LBRACE"), ltit)
@@ -1130,22 +1114,22 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
         var t13 = ltit.lookahead()
         while (t13.type == IRI || t13.type == PNAMELN || t13.type == PNAMENS || t13.type == BNODE || t13.type == ANONBNODE || t13.type == LBRACE || t13.type == SLBRACE || t13.type == STRING || t13.type == INTEGER || t13.type == DECIMAL || t13.type == DOUBLE || t13.image == "true" || t13.image == "false") {
             val next = convertBnodeToDict("_:_" + bnode_counter); bnode_counter++
-            if (current == convertIriToDict(nil_iri)) {
+            if (current == convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")) {
                 first = next
             } else {
-                consume_triple(current, convertIriToDict(rest_iri), next)
+                consume_triple(current, convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"), next)
             }
             current = next
             val o = triple_object()
-            consume_triple(current, convertIriToDict(first_iri), o)
+            consume_triple(current, convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"), o)
             t13 = ltit.lookahead()
         }
         token = ltit.nextToken()
         if (token.type != RBRACE) {
             throw UnexpectedToken(token, arrayOf("RBRACE"), ltit)
         }
-        if (current != convertIriToDict(nil_iri)) {
-            consume_triple(current, convertIriToDict(rest_iri), convertIriToDict(nil_iri))
+        if (current != convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")) {
+            consume_triple(current, convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"), convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
         }
         return first
     }
@@ -1243,20 +1227,12 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
                 if (token.type != IRI) {
                     throw UnexpectedToken(token, arrayOf("IRI"), ltit)
                 }
-                iri = token.image.drop(1).dropLast(1)
+                iri = prefixes[""] + token.image.drop(1).dropLast(1)
             }
             t18.type == PNAMELN || t18.type == PNAMENS -> {
                 iri = PrefixedName()
             }
             else -> { throw UnexpectedToken(t18, arrayOf("IRI", "PNAMELN", "PNAMENS"), ltit) }
-        }
-        // Do some kind of relative IRI detection and resolution to the base iri (if given)
-        // This part is currently not perfect!
-        if (iri.startsWith('/') || iri.startsWith('#')) {
-            val base = prefixes.get("")
-            if (base != null) {
-                return convertIriToDict(base + iri.substring(1))
-            }
         }
         return convertIriToDict(iri)
     }
@@ -1271,20 +1247,12 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
                 if (token.type != IRI) {
                     throw UnexpectedToken(token, arrayOf("IRI"), ltit)
                 }
-                iri = token.image.drop(1).dropLast(1)
+                iri = prefixes[""] + token.image.drop(1).dropLast(1)
             }
             t19.type == PNAMELN || t19.type == PNAMENS -> {
                 iri = PrefixedName()
             }
             else -> { throw UnexpectedToken(t19, arrayOf("IRI", "PNAMELN", "PNAMENS"), ltit) }
-        }
-        // Do some kind of relative IRI detection and resolution to the base iri (if given)
-        // This part is currently not perfect!
-        if (iri.startsWith('/') || iri.startsWith('#')) {
-            val base = prefixes.get("")
-            if (base != null) {
-                return base + iri.substring(1)
-            }
         }
         return iri
     }
@@ -1298,14 +1266,14 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
                 if (token.type != PNAMELN) {
                     throw UnexpectedToken(token, arrayOf("PNAMELN"), ltit)
                 }
-                val split = token.image.split(":"); val key = split[0]; val result = prefixes.get(key); if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit); else return result + split[1]
+                val split = token.image.split(":"); val key = split[0]; val result = prefixes[key]; if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit); else return result + split[1]
             }
             t20.type == PNAMENS -> {
                 token = ltit.nextToken()
                 if (token.type != PNAMENS) {
                     throw UnexpectedToken(token, arrayOf("PNAMENS"), ltit)
                 }
-                val key = token.image.dropLast(1); val result = prefixes.get(key); if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit); else return result
+                val key = token.image.dropLast(1); val result = prefixes[key]; if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit); else return result
             }
             else -> { throw UnexpectedToken(t20, arrayOf("PNAMELN", "PNAMENS"), ltit) }
         }

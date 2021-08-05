@@ -18,6 +18,7 @@
 package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.inline.Compressor
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
@@ -58,13 +59,11 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun next(): DictionaryValueTypeArray? {
         val header = streamIn!!.readByte()
-        if (header == 125.toByte()) {
+        if (header == 0.toByte()) {
             close()
             return null
         } else {
-            val counter0 = header.rem(5)
-            val counter1 = (header / 5).rem(5)
-            val counter2 = header / 25
+Compressor.decodeTripleHeader(header){counter0,counter1,counter2->
             val rel0 = counter0
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
@@ -75,6 +74,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
             buffer[i0] = buffer[i0] xor b0
             buffer[i1] = buffer[i1] xor b1
             buffer[i2] = buffer[i2] xor b2
+}
             return buffer
         }
     }

@@ -43,7 +43,7 @@ import kotlin.math.min
 // rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 // rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 public object InputToIntermediate {
-    private val parserFromSoenke = false
+    private val parserFromSoenke = true
     public fun helperCleanString(s: String): String {
         var res: String = s
         try {

@@ -18,6 +18,7 @@ package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.inline.Compressor
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.inline.ByteArrayHelper
@@ -93,11 +94,18 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
         val b0 = last0 xor l0
         val b1 = last1 xor l1
         val b2 = last2 xor l2
-        val counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
-        val counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
-        val counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
-        val header = counter0 + counter1 * 5 + counter2 * 25
-        if (header != 0) {
+        var counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
+        var counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
+        var counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
+var header=0
+Compressor.encodeTripleHeader(counter0, counter1, counter2) { header0, corrected0, corrected1, corrected2 ->
+            BufferManagerPage.writeInt1(node, offset, header)
+            counter0 = corrected0
+            counter1 = corrected1
+            counter2 = corrected2
+header=header0
+        }
+        if (header!=0) {
             count++
             val rel0 = counter0 + 1
             val rel1 = rel0 + counter1
@@ -115,7 +123,7 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun close() {
-        buf[0] = 125
+        buf[0] = 0
         streamOut?.write(buf, 1)
         streamOut?.close()
         streamOut = null
