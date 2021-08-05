@@ -249,11 +249,44 @@ public object InputToIntermediate {
                             chunc++
                         }
                     },
-                    file = FileReader(inputFileName),
+                    file = lupos.parser.turtle.MyFileReader(inputFileName),
                 )
-                parserObject.convertIriToDict = {
+val buf=ByteArrayWrapper()
+                parserObject.parser.convertDecimalToDict = {
+                    DictionaryHelper.decimalToByteArray(buf, it)
+                    addToDict(buf)
+                }
+                parserObject.parser.convertDoubleToDict = {
+                    DictionaryHelper.doubleToByteArray(buf, it)
+                    addToDict(buf)
+                }
+ parserObject.parser.convertFloatToDict = {
+                    DictionaryHelper.floatToByteArray(buf, it)
+                    addToDict(buf)
+                }
+                parserObject.parser.convertIntegerToDict = {
+                    DictionaryHelper.integerToByteArray(buf, it)
+                    addToDict(buf)
+                }
+                parserObject.parser.convertIriToDict = {
                     DictionaryHelper.iriToByteArray(buf, it)
-                    addToDict(parserObject.byteArrayWrapper)
+                    addToDict(buf)
+                }
+                parserObject.parser.convertStringToDict = {
+                    DictionaryHelper.stringToByteArray(buf, it)
+                    addToDict(buf)
+                }
+                parserObject.parser.convertLangToDict = {c,l->
+                    DictionaryHelper.langToByteArray(buf, c,l)
+                    addToDict(buf)
+                }
+                parserObject.parser.convertTypedToDict = {c,t->
+                    DictionaryHelper.typedToByteArray(buf, c,t)
+                    addToDict(buf)
+                }
+                parserObject.parser.convertBnodeToDict = {
+                    DictionaryHelper.bnodeToByteArray(buf, it)
+                    addToDict(buf)
                 }
                 parserObject.parser.turtleDoc()
             } else {

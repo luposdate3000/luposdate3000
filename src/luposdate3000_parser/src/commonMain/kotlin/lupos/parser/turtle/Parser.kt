@@ -1,27 +1,26 @@
 package lupos.parser.turtle
-import java.io.FileReader
-
-import GeneratedEnumTurtleScannerTokens.EOF
-import GeneratedEnumTurtleScannerTokens.IRI
-import GeneratedEnumTurtleScannerTokens.LBRACE
-import GeneratedEnumTurtleScannerTokens.RBRACE
-import GeneratedEnumTurtleScannerTokens.SLBRACE
-import GeneratedEnumTurtleScannerTokens.SRBRACE
-import GeneratedEnumTurtleScannerTokens.DOT
-import GeneratedEnumTurtleScannerTokens.SEMICOLON
-import GeneratedEnumTurtleScannerTokens.COMMA
-import GeneratedEnumTurtleScannerTokens.STRING
-import GeneratedEnumTurtleScannerTokens.INTEGER
-import GeneratedEnumTurtleScannerTokens.DECIMAL
-import GeneratedEnumTurtleScannerTokens.DOUBLE
-import GeneratedEnumTurtleScannerTokens.LANGTAG
-import GeneratedEnumTurtleScannerTokens.DOUBLECIRCUMFLEX
-import GeneratedEnumTurtleScannerTokens.BNODE
-import GeneratedEnumTurtleScannerTokens.ANONBNODE
-import GeneratedEnumTurtleScannerTokens.PNAMENS
-import GeneratedEnumTurtleScannerTokens.PNAMELN
-import GeneratedEnumTurtleScannerTokens.POSSIBLEKEYWORD
-object GeneratedEnumTurtleScannerTokens {
+import lupos.shared.DictionaryValueType
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.EOF
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.IRI
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.LBRACE
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.RBRACE
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.SLBRACE
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.SRBRACE
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.DOT
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.SEMICOLON
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.COMMA
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.STRING
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.INTEGER
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.DECIMAL
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.DOUBLE
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.LANGTAG
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.DOUBLECIRCUMFLEX
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.BNODE
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.ANONBNODE
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.PNAMENS
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.PNAMELN
+import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.POSSIBLEKEYWORD
+internal object GeneratedEnumTurtleScannerTokens {
     const val EOF = 0
     const val IRI = 1
     const val LBRACE = 2
@@ -47,7 +46,7 @@ object GeneratedEnumTurtleScannerTokens {
 
 // generated scanner code generateN2Scanner
 
-class GeneratedEnumTurtleScanner(val iterator:BufferedUnicodeReader2):EnumScanner {
+internal class GeneratedEnumTurtleScanner(val iterator:BufferedUnicodeReader2):EnumScanner {
     //scanner goes here
     
     var lastTokenId = Int.MAX_VALUE
@@ -811,7 +810,7 @@ class GeneratedEnumTurtleScanner(val iterator:BufferedUnicodeReader2):EnumScanne
     }
 
 }
-class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType)->Unit, val ltit:LookAheadTokenIteratorEnum){
+internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType)->Unit, val ltit:LookAheadTokenIteratorEnum){
   // for storing the prefixes...
       val prefixes = mutableMapOf<String, String>()
       // some constants used for typed literals
@@ -829,7 +828,6 @@ class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (Dictionary
       val rest_iri = "<" + rest + ">"
       val type_iri = "<" + rdf + "type" + ">"
       var bnode_counter = 0
-      var byteArrayWrapper=ByteArrayWrapper()
       var convertIriToDict:(String)->DictionaryValueType={TODO()}
   fun turtleDoc() {
     var token:Token
@@ -1327,13 +1325,13 @@ class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (Dictionary
     }
   }
   
-}class UnexpectedToken(token: Token, arrayOf: Array<String>, ltit: LookAheadTokenIteratorEnum, ): Error() {
+}internal class UnexpectedToken(token: Token, arrayOf: Array<String>, ltit: LookAheadTokenIteratorEnum, ): Error() {
 }
 
-class ParseError(s: String, token: Token, ltit: LookAheadTokenIteratorEnum): Error() {
-}class Token(var type: Int, var image: String, var index:Int)
+internal class ParseError(s: String, token: Token, ltit: LookAheadTokenIteratorEnum): Error() {
+}internal class Token(var type: Int, var image: String, var index:Int)
 
-class LookAheadTokenIteratorEnum(val tokenIterator: EnumScanner, val lookahead:Int) {
+internal class LookAheadTokenIteratorEnum(val tokenIterator: EnumScanner, val lookahead:Int) {
     val tokens:Array<Token> = Array(lookahead) {
         Token(
             EOF,
@@ -1381,7 +1379,7 @@ class LookAheadTokenIteratorEnum(val tokenIterator: EnumScanner, val lookahead:I
         buffered = maxOf(buffered,number+1)
         return tokens[(index1+number) % tokens.size]
     }
-}interface EnumScanner {
+}internal interface EnumScanner {
     abstract var lastToken:Int
     abstract var lastImage:String
 
@@ -1390,12 +1388,12 @@ class LookAheadTokenIteratorEnum(val tokenIterator: EnumScanner, val lookahead:I
     abstract fun getIndex():Int
     abstract fun getLineNumber():Int
     abstract fun getColumnNumber():Int
-}open class ReadError(message:String, val index:Int, val lineNumber:Int, val columnNumber:Int):Throwable(message+" in line "+lineNumber+" at column "+columnNumber){
+}open internal class ReadError(message:String, val index:Int, val lineNumber:Int, val columnNumber:Int):Throwable(message+" in line "+lineNumber+" at column "+columnNumber){
     constructor(message:String, token:Token, lineNumber:Int, columnNumber:Int):this(message, token.index, lineNumber, columnNumber)
-}class UnexpectedEndOfFile(index:Int, lineNumber:Int, columnNumber:Int):ReadError("Unexpected End of File", index, lineNumber, columnNumber)
-class PutBackOverLimit(index:Int, lineNumber:Int, columnNumber:Int):ReadError("Maximum of allowed put back is reached...", index, lineNumber, columnNumber)
-class LookAheadOverLimit(lookahead:Int, requestedLookahead:Int, index:Int, lineNumber:Int, columnNumber:Int):ReadError("Requested "+lookahead+" lookahead, but maximum is "+requestedLookahead, index, lineNumber, columnNumber)
-class BufferedUnicodeReader2 {
+}internal class UnexpectedEndOfFile(index:Int, lineNumber:Int, columnNumber:Int):ReadError("Unexpected End of File", index, lineNumber, columnNumber)
+internal class PutBackOverLimit(index:Int, lineNumber:Int, columnNumber:Int):ReadError("Maximum of allowed put back is reached...", index, lineNumber, columnNumber)
+internal class LookAheadOverLimit(lookahead:Int, requestedLookahead:Int, index:Int, lineNumber:Int, columnNumber:Int):ReadError("Requested "+lookahead+" lookahead, but maximum is "+requestedLookahead, index, lineNumber, columnNumber)
+internal class BufferedUnicodeReader2 {
     companion object {
         val MAXSIZEPUTBACK = 256
     }
@@ -1405,7 +1403,7 @@ class BufferedUnicodeReader2 {
     var backArray: IntArray = IntArray(MAXSIZEPUTBACK) { 0 }
     var backArrayIndex = 0
 
-    val fileR: FileReader
+    val fileR: MyFileReader
     val buffer = CharArray(16384)
     val backBuffer = mutableListOf<CharArray>()
     var bufPos = 0
@@ -1416,7 +1414,7 @@ class BufferedUnicodeReader2 {
     var longestMatch = -1
     val sBuilder = StringBuilder()
 
-    constructor(fileR: FileReader) {
+    constructor(fileR: MyFileReader) {
         this.fileR = fileR
         charsLeft = fileR.read(buffer)
         bOffset+=8192
@@ -1556,7 +1554,7 @@ class BufferedUnicodeReader2 {
         return String(sBuilder)
     }
 }
-class ParserObject(val consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType)->Unit, file:FileReader, lookahead:Int = 3) {
+internal class ParserObject(val consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType)->Unit, file:MyFileReader, lookahead:Int = 3) {
     val bur = BufferedUnicodeReader2(file)
     val scanner = GeneratedEnumTurtleScanner(bur)
     val ltit = LookAheadTokenIteratorEnum(scanner,lookahead)
