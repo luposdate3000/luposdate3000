@@ -829,16 +829,16 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
       val rest_iri = "<" + rest + ">"
       val type_iri = "<" + rdf + "type" + ">"
       var bnode_counter = 0
-      var byteArrayWrapper=ByteArrayWrapper()
       var convertIriToDict:(String)->DictionaryValueType={TODO()}
       var convertBnodeToDict:(String)->DictionaryValueType={TODO()}
+      var convertBooleanToDict:(String)->DictionaryValueType={TODO()}
       var convertIntegerToDict:(String)->DictionaryValueType={TODO()}
       var convertDecimalToDict:(String)->DictionaryValueType={TODO()}
       var convertDoubleToDict:(String)->DictionaryValueType={TODO()}
       var convertFloatToDict:(String)->DictionaryValueType={TODO()}
       var convertStringToDict:(String)->DictionaryValueType={TODO()}
-      var convertLangToDict:(String,String)->DictionaryValueType={TODO()}
-      var convertTypedToDict:(String,String)->DictionaryValueType={TODO()}
+      var convertLangToDict:(String,String)->DictionaryValueType={c,l->TODO()}
+      var convertTypedToDict:(String,String)->DictionaryValueType={c,t->TODO()}
   fun turtleDoc() {
     var token:Token
     var t1 = ltit.lookahead()
@@ -1108,7 +1108,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
   
   fun blankNodePropertyList():DictionaryValueType {
     var token:Token
-    val result = convertBNodeToDict("_:_"+bnode_counter); bnode_counter++;
+    val result = convertBnodeToDict("_:_"+bnode_counter); bnode_counter++;
     token = ltit.nextToken()
     if(token.type != SLBRACE){
       throw UnexpectedToken(token, arrayOf("SLBRACE"), ltit)
@@ -1131,23 +1131,23 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
     }
     var t13 = ltit.lookahead()
     while(t13.type == IRI || t13.type == PNAMELN || t13.type == PNAMENS || t13.type == BNODE || t13.type == ANONBNODE || t13.type == LBRACE || t13.type == SLBRACE || t13.type == STRING || t13.type == INTEGER || t13.type == DECIMAL || t13.type == DOUBLE || t13.image == "true" || t13.image == "false"){
-      val next = convertBNodeToDict("_:_"+bnode_counter); bnode_counter++;
+      val next = convertBnodeToDict("_:_"+bnode_counter); bnode_counter++;
                       if(current == convertIriToDict(nil_iri)){
                           first = next;
                       } else {
-                          consume_triple(current, rest_iri, next);
+                          consume_triple(current, convertIriToDict(rest_iri), next);
                       }
                       current = next;
       val o = triple_object()
-      consume_triple(current, first_iri, o);
+      consume_triple(current, convertIriToDict(first_iri), o);
       t13 = ltit.lookahead()
     }
     token = ltit.nextToken()
     if(token.type != RBRACE){
       throw UnexpectedToken(token, arrayOf("RBRACE"), ltit)
     }
-    if(current !== nil_iri){
-                consume_triple(current, rest_iri, nil_iri);
+    if(current != convertIriToDict(nil_iri)){
+                consume_triple(current, convertIriToDict(rest_iri), convertIriToDict(nil_iri));
             }
             return first;
   }
@@ -1161,21 +1161,21 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
         if(token.type != INTEGER){
           throw UnexpectedToken(token, arrayOf("INTEGER"), ltit)
         }
-        return "\"" + token.image + "\"^^<" + xsd_integer + ">";
+        return convertIntegerToDict( token.image);
       }
       t14.type == DECIMAL -> {
         token = ltit.nextToken()
         if(token.type != DECIMAL){
           throw UnexpectedToken(token, arrayOf("DECIMAL"), ltit)
         }
-        return "\"" + token.image + "\"^^<" + token.image + "\"^^<" + xsd_decimal + ">";
+        return convertDecimalToDict( token.image);
       }
       t14.type == DOUBLE -> {
         token = ltit.nextToken()
         if(token.type != DOUBLE){
           throw UnexpectedToken(token, arrayOf("DOUBLE"), ltit)
         }
-        return "\"" + token.image + "\"^^<" + xsd_double + ">";
+        return convertDoubleToDict( token.image);
       }
       else -> { throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), ltit) }
     }
@@ -1187,7 +1187,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
     if(token.type != STRING){
       throw UnexpectedToken(token, arrayOf("STRING"), ltit)
     }
-    val content = token.image; val delimiter = "\"";
+    val content = token.image;
     val t16 = ltit.lookahead()
     if(t16.type == LANGTAG || t16.type == DOUBLECIRCUMFLEX){
       val t15 = ltit.lookahead()
@@ -1197,7 +1197,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
           if(token.type != LANGTAG){
             throw UnexpectedToken(token, arrayOf("LANGTAG"), ltit)
           }
-          return delimiter + content + delimiter + token.image;
+          return convertLangToDict( content,token.image);
         }
         t15.type == DOUBLECIRCUMFLEX -> {
           token = ltit.nextToken()
@@ -1205,12 +1205,12 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
             throw UnexpectedToken(token, arrayOf("DOUBLECIRCUMFLEX"), ltit)
           }
           val type_iri = iri_string()
-          return delimiter + content + delimiter + "^^<" + type_iri + ">";
+          return convertTypedToDict(content,type_iri);
         }
         else -> { throw UnexpectedToken(t15, arrayOf("LANGTAG", "DOUBLECIRCUMFLEX"), ltit) }
       }
     }
-    return delimiter + content + delimiter;
+    return convertStringToDict(content)
   }
   
   fun BooleanLiteral():DictionaryValueType {
@@ -1222,14 +1222,14 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
         if(token.image != "true"){
           throw UnexpectedToken(token, arrayOf("true"), ltit)
         }
-        if(token.image != "true"){ throw UnexpectedToken(token, arrayOf("true"), ltit);}; return "\"true\"^^<" + xsd_boolean + ">";
+        if(token.image != "true"){ throw UnexpectedToken(token, arrayOf("true"), ltit);}; return convertBooleanToDict("true");
       }
       t17.image == "false" -> {
         token = ltit.nextToken()
         if(token.image != "false"){
           throw UnexpectedToken(token, arrayOf("false"), ltit)
         }
-        if(token.image != "false"){ throw UnexpectedToken(token, arrayOf("false"), ltit);}; return "\"false\"^^<" + xsd_boolean + ">";
+        if(token.image != "false"){ throw UnexpectedToken(token, arrayOf("false"), ltit);}; return convertBooleanToDict("false");
       }
       else -> { throw UnexpectedToken(t17, arrayOf("true", "false"), ltit) }
     }
@@ -1237,7 +1237,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
   
   fun iri():DictionaryValueType {
     var token:Token
-    val iri:DictionaryValueType;
+    val iri:String;
     val t18 = ltit.lookahead()
     when {
       t18.type == IRI -> {
@@ -1257,15 +1257,15 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
             if(iri.startsWith('/') || iri.startsWith('#')) {
                 val base = prefixes.get("");
                 if(base!=null){
-                    return "<"+base+iri.substring(1)+">";
+                    return convertIriToDict(base+iri.substring(1));
                 }
             }
-            return "<" + iri + ">";
+            return convertIriToDict( iri );
   }
   
-  fun iri_string():DictionaryValueType {
+  fun iri_string():String {
     var token:Token
-    val iri:DictionaryValueType;
+    val iri:String;
     val t19 = ltit.lookahead()
     when {
       t19.type == IRI -> {
@@ -1322,14 +1322,14 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
         if(token.type != BNODE){
           throw UnexpectedToken(token, arrayOf("BNODE"), ltit)
         }
-        return "_:_"+token.image.drop(2);
+        return convertBnodeToDict("_:_"+token.image.drop(2));
       }
       t21.type == ANONBNODE -> {
         token = ltit.nextToken()
         if(token.type != ANONBNODE){
           throw UnexpectedToken(token, arrayOf("ANONBNODE"), ltit)
         }
-        return "_:_"+bnode_counter; bnode_counter++;
+        return convertBnodeToDict("_:_"+bnode_counter); bnode_counter++;
       }
       else -> { throw UnexpectedToken(t21, arrayOf("BNODE", "ANONBNODE"), ltit) }
     }
@@ -1538,7 +1538,7 @@ internal class BufferedUnicodeReader2 {
             sBuilder.append(buffer, bOffset, longestMatch+1)
         }
 
-        return String(sBuilder)
+        return sBuilder.toString()
     }
 
     /**
@@ -1561,7 +1561,7 @@ internal class BufferedUnicodeReader2 {
         for (i in bufPos-20..bufPos) {
             sBuilder.append(buffer[(i+16384)%16384])
         }
-        return String(sBuilder)
+        return sBuilder.toString()
     }
 }
 internal class ParserObject(val consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType)->Unit, file:MyFileReader, lookahead:Int = 3) {

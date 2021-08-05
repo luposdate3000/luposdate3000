@@ -256,6 +256,10 @@ val buf=ByteArrayWrapper()
                     DictionaryHelper.decimalToByteArray(buf, it)
                     addToDict(buf)
                 }
+                parserObject.parser.convertBooleanToDict = {
+                    DictionaryHelper.booleanToByteArray(buf, it)
+                    addToDict(buf)
+                }
                 parserObject.parser.convertDoubleToDict = {
                     DictionaryHelper.doubleToByteArray(buf, it)
                     addToDict(buf)
