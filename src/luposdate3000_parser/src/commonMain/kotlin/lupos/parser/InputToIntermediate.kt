@@ -251,7 +251,7 @@ public object InputToIntermediate {
                     },
                     file = lupos.parser.turtle.MyFileReader(inputFileName),
                 )
-val buf=ByteArrayWrapper()
+                val buf = ByteArrayWrapper()
                 parserObject.parser.convertDecimalToDict = {
                     DictionaryHelper.decimalToByteArray(buf, it)
                     addToDict(buf)
@@ -264,7 +264,7 @@ val buf=ByteArrayWrapper()
                     DictionaryHelper.doubleToByteArray(buf, it)
                     addToDict(buf)
                 }
- parserObject.parser.convertFloatToDict = {
+                parserObject.parser.convertFloatToDict = {
                     DictionaryHelper.floatToByteArray(buf, it)
                     addToDict(buf)
                 }
@@ -280,12 +280,12 @@ val buf=ByteArrayWrapper()
                     DictionaryHelper.stringToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.convertLangToDict = {c,l->
-                    DictionaryHelper.langToByteArray(buf, c,l)
+                parserObject.parser.convertLangToDict = { c, l ->
+                    DictionaryHelper.langToByteArray(buf, c, l)
                     addToDict(buf)
                 }
-                parserObject.parser.convertTypedToDict = {c,t->
-                    DictionaryHelper.typedToByteArray(buf, c,t)
+                parserObject.parser.convertTypedToDict = { c, t ->
+                    DictionaryHelper.typedToByteArray(buf, c, t)
                     addToDict(buf)
                 }
                 parserObject.parser.convertBnodeToDict = {
