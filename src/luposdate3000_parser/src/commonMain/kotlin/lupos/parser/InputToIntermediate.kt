@@ -16,6 +16,7 @@
  */
 package lupos.parser
 import lupos.parser.nQuads.NQuads2Parser
+import lupos.parser.turtle.ParserObject
 import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
@@ -42,6 +43,7 @@ import kotlin.math.min
 // rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 // rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 public object InputToIntermediate {
+    private val parserFromSoenke = true
     public fun helperCleanString(s: String): String {
         var res: String = s
         try {
@@ -231,30 +233,10 @@ public object InputToIntermediate {
         val iter = File(inputFileName).openInputStream()
         if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
             val row = DictionaryValueTypeArray(3)
-            if (backupmode) {
-                val triple: Array<ByteArrayWrapper> = Array(3) { ByteArrayWrapper() }
-                val f = File(inputFileName)
-                val lcit: LexerCharIterator = if (f.length() < Int.MAX_VALUE) {
-                    val data = f.readAsString()
-                    LexerCharIterator(data)
-                } else {
-                    val data = f.readAsCharIterator()
-                    LexerCharIterator(data)
-                }
-                val tit = TurtleScanner(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                val action: (Int, String) -> Unit = { i, v ->
-                    DictionaryHelper.sparqlToByteArray(triple[i], v)
-                }
-                val x = object : TurtleParserWithStringTriples() {
-                    /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                        action(0, s)
-                        action(1, p)
-                        action(2, o)
-                        for (i in 0 until 3) {
-                            row[i] = addToDict(triple[i])
-                        }
-                        outTriples.write(row[0], row[1], row[2])
+            if (parserFromSoenke) {
+                val parserObject = ParserObject(
+                    consume_triple = { s, p, o ->
+                        outTriples.write(s, p, o)
                         cnt++
                         if (cnt % 10000L == 0L) {
                             println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
@@ -266,14 +248,35 @@ public object InputToIntermediate {
                             dictSizeEstimated = 0
                             chunc++
                         }
-                    }
+                    },
+                    file = FileReader(inputFileName),
+                )
+                parserObject.convertIriToDict = {
+                    DictionaryHelper.iriToByteArray(buf, it)
+                    addToDict(parserObject.byteArrayWrapper)
                 }
-                x.ltit = ltit
-                x.parse()
+                parserObject.parser.turtleDoc()
             } else {
-                try {
-                    val x = object : Turtle2Parser(iter) {
-                        override fun onTriple() {
+                if (backupmode) {
+                    val triple: Array<ByteArrayWrapper> = Array(3) { ByteArrayWrapper() }
+                    val f = File(inputFileName)
+                    val lcit: LexerCharIterator = if (f.length() < Int.MAX_VALUE) {
+                        val data = f.readAsString()
+                        LexerCharIterator(data)
+                    } else {
+                        val data = f.readAsCharIterator()
+                        LexerCharIterator(data)
+                    }
+                    val tit = TurtleScanner(lcit)
+                    val ltit = LookAheadTokenIterator(tit, 3)
+                    val action: (Int, String) -> Unit = { i, v ->
+                        DictionaryHelper.sparqlToByteArray(triple[i], v)
+                    }
+                    val x = object : TurtleParserWithStringTriples() {
+                        /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
+                            action(0, s)
+                            action(1, p)
+                            action(2, o)
                             for (i in 0 until 3) {
                                 row[i] = addToDict(triple[i])
                             }
@@ -291,10 +294,34 @@ public object InputToIntermediate {
                             }
                         }
                     }
+                    x.ltit = ltit
                     x.parse()
-                } catch (e: Throwable) {
-                    process(inputFileName, true, instance)
-                    shouldReturn = true
+                } else {
+                    try {
+                        val x = object : Turtle2Parser(iter) {
+                            override fun onTriple() {
+                                for (i in 0 until 3) {
+                                    row[i] = addToDict(triple[i])
+                                }
+                                outTriples.write(row[0], row[1], row[2])
+                                cnt++
+                                if (cnt % 10000L == 0L) {
+                                    println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
+                                }
+                                if (dictSizeEstimated > dictSizeLimit) {
+                                    val startTime2 = DateHelperRelative.markNow()
+                                    DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+                                    dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
+                                    dictSizeEstimated = 0
+                                    chunc++
+                                }
+                            }
+                        }
+                        x.parse()
+                    } catch (e: Throwable) {
+                        process(inputFileName, true, instance)
+                        shouldReturn = true
+                    }
                 }
             }
         } else if (inputFileName.endsWith(".n4")) {
