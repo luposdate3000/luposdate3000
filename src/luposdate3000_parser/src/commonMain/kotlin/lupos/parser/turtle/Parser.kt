@@ -1,5 +1,6 @@
 package lupos.parser.turtle
 import lupos.shared.DictionaryValueType
+
 import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.EOF
 import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.IRI
 import lupos.parser.turtle.GeneratedEnumTurtleScannerTokens.LBRACE
@@ -828,7 +829,16 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
       val rest_iri = "<" + rest + ">"
       val type_iri = "<" + rdf + "type" + ">"
       var bnode_counter = 0
+      var byteArrayWrapper=ByteArrayWrapper()
       var convertIriToDict:(String)->DictionaryValueType={TODO()}
+      var convertBnodeToDict:(String)->DictionaryValueType={TODO()}
+      var convertIntegerToDict:(String)->DictionaryValueType={TODO()}
+      var convertDecimalToDict:(String)->DictionaryValueType={TODO()}
+      var convertDoubleToDict:(String)->DictionaryValueType={TODO()}
+      var convertFloatToDict:(String)->DictionaryValueType={TODO()}
+      var convertStringToDict:(String)->DictionaryValueType={TODO()}
+      var convertLangToDict:(String,String)->DictionaryValueType={TODO()}
+      var convertTypedToDict:(String,String)->DictionaryValueType={TODO()}
   fun turtleDoc() {
     var token:Token
     var t1 = ltit.lookahead()
@@ -1020,7 +1030,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
         if(token.image!="a"){
                     throw UnexpectedToken(token, arrayOf("a"), ltit);
                 } else {
-                    return type_iri;
+                    return convertIriToDict(type_iri);
                 }
       }
       else -> { throw UnexpectedToken(t9, arrayOf("IRI", "PNAMELN", "PNAMENS", "a"), ltit) }
@@ -1098,7 +1108,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
   
   fun blankNodePropertyList():DictionaryValueType {
     var token:Token
-    val result = "_:_"+bnode_counter; bnode_counter++;
+    val result = convertBNodeToDict("_:_"+bnode_counter); bnode_counter++;
     token = ltit.nextToken()
     if(token.type != SLBRACE){
       throw UnexpectedToken(token, arrayOf("SLBRACE"), ltit)
@@ -1113,16 +1123,16 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
   
   fun collection():DictionaryValueType {
     var token:Token
-    var first = nil_iri;
-            var current = nil_iri;
+    var first = convertIriToDict(nil_iri);
+            var current = convertIriToDict(nil_iri);
     token = ltit.nextToken()
     if(token.type != LBRACE){
       throw UnexpectedToken(token, arrayOf("LBRACE"), ltit)
     }
     var t13 = ltit.lookahead()
     while(t13.type == IRI || t13.type == PNAMELN || t13.type == PNAMENS || t13.type == BNODE || t13.type == ANONBNODE || t13.type == LBRACE || t13.type == SLBRACE || t13.type == STRING || t13.type == INTEGER || t13.type == DECIMAL || t13.type == DOUBLE || t13.image == "true" || t13.image == "false"){
-      val next = "_:_"+bnode_counter; bnode_counter++;
-                      if(current === nil_iri){
+      val next = convertBNodeToDict("_:_"+bnode_counter); bnode_counter++;
+                      if(current == convertIriToDict(nil_iri)){
                           first = next;
                       } else {
                           consume_triple(current, rest_iri, next);
