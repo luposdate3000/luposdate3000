@@ -24,14 +24,14 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val timer = DateHelperRelative.markNow()
     val instance = LuposdateEndpoint.initialize()
     var counter = 0
+var time=0.0
     while (true) {
         counter++
-        val time = DateHelperRelative.elapsedSeconds(timer)
         InputToIntermediate.process(inputFileName, instance)
+        time = DateHelperRelative.elapsedSeconds(timer)
         if (time> 10) {
             break
         }
     }
-    val time = DateHelperRelative.elapsedSeconds(timer)
     println("imported $inputFileName $counter times in $time Seconds - that is ${time / counter} Seconds per run or ${counter / time} runs per Second")
 }
