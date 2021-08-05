@@ -1169,7 +1169,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
         if (token.type != STRING) {
             throw UnexpectedToken(token, arrayOf("STRING"), ltit)
         }
-        val content = token.image
+        val content = token.image.drop(1).dropLast(1)
         val t16 = ltit.lookahead()
         if (t16.type == LANGTAG || t16.type == DOUBLECIRCUMFLEX) {
             val t15 = ltit.lookahead()
@@ -1179,7 +1179,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(val consume_triple: (D
                     if (token.type != LANGTAG) {
                         throw UnexpectedToken(token, arrayOf("LANGTAG"), ltit)
                     }
-                    return convertLangToDict(content, token.image)
+                    return convertLangToDict(content, token.image.drop(1))
                 }
                 t15.type == DOUBLECIRCUMFLEX -> {
                     token = ltit.nextToken()
