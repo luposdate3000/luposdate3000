@@ -31,7 +31,6 @@ import lupos.simulator_db.luposdate3000.MySimulatorConfig
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -84,193 +83,161 @@ public class IF {
         LuposdateEndpoint.close(instance)
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Centralized - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Centralized - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Centralized - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Centralized - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Routing - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Routing - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Routing - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - true - Routing - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Centralized - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Centralized - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Centralized - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Centralized - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Routing - true - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Routing - true - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Routing - false - true`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
     }
 
-    @Ignore
     @Test
     public fun `IF - in simulator - PartitionByKeyAllCollations - false - Routing - false - false`() {
         simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
