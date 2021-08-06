@@ -89,7 +89,6 @@ public class DatabaseHandle : IDatabase {
 
     override fun start(initialState: DatabaseState) {
         enableSharedMemoryDictionaryCheat = initialState.enableSharedMemoryDictionaryCheat
-        println("enableSharedMemoryDictionaryCheat $enableSharedMemoryDictionaryCheat")
         visualisationNetwork = initialState.visualisationNetwork
         println("DatabaseHandle.start ${initialState.allAddresses.map{it}} .. ${initialState.ownAddress}")
         if (initialState.allAddresses.isEmpty()) {
@@ -203,7 +202,7 @@ public class DatabaseHandle : IDatabase {
                 // define everything as in the DB outside of the simulator
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:205"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:204"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size }
                 )
             }
@@ -250,7 +249,7 @@ public class DatabaseHandle : IDatabase {
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:252"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:251"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -293,7 +292,7 @@ public class DatabaseHandle : IDatabase {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:295"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:294"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -306,7 +305,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:308"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:307"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -464,9 +463,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:466"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:465"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:468"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:467"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -510,7 +509,16 @@ public class DatabaseHandle : IDatabase {
         }
         return XMLElementToOPBase(query, node, mutableMapOf(), operatorMap)
     }
-
+    private fun detectBugDueToRemoteDictAccess(node: XMLElement) {
+        when (node.tag) {
+            "POPBind", "POPGroup" -> {
+                TODO()
+            }
+        }
+        for (c in node.childs) {
+            detectBugDueToRemoteDictAccess(c)
+        }
+    }
     private fun doWork() {
         var changed = true
         while (changed) {
@@ -520,6 +528,14 @@ public class DatabaseHandle : IDatabase {
                     myPendingWork.remove(w)
                     changed = true
                     val query = Query(instance)
+                    SanityCheck(
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:531"/*SOURCE_FILE_END*/ },
+                        {
+                            if (ownAdress != 0) {
+                                detectBugDueToRemoteDictAccess(w.operatorGraph)
+                            }
+                        }
+                    )
                     when (val node = localXMLElementToOPBase(query, w.operatorGraph)) {
                         is POPDistributedSendSingle -> {
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
