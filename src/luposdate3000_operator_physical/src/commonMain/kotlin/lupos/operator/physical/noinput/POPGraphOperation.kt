@@ -49,6 +49,21 @@ public class POPGraphOperation public constructor(
     @JvmField public var graph2iri: String?,
     @JvmField public val action: EGraphOperationType
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
+override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        val res = super.toXMLElement(partial)
+        res.addAttribute("uuid", "" + uuid)
+res.addAttribute("silent",""+silent)
+res.addAttribute("graph1type",EGraphRefTypeExt.names[graph1type])
+if(graph1iri!=null){
+res.addAttribute("graph1iri",graph1iri)
+}
+res.addAttribute("graph2type",EGraphRefTypeExt.names[graph2type])
+if(graph2iri!=null){
+res.addAttribute("graph2iri",graph2iri)
+}
+res.addAttribute("action",EGraphOperationTypeExt.names[action])
+        return res
+    }
     override fun getPartitionCount(variable: String): Int = 1
     override fun toSparqlQuery(): String = toSparql()
     override fun toSparql(): String {

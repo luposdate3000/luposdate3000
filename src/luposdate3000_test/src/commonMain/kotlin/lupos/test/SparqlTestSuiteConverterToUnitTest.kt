@@ -390,20 +390,24 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         for (mergeLocalOperatorgraphs in listOf("true", "false")) {
                             for (queryDistributionMode in EQueryDistributionModeExt.names) {
                                 for (useDictionaryInlineEncoding in listOf("true", "false")) {
-                                    for (REPLACE_STORE_WITH_VALUES in listOf("true", "false")) {
-                                        if (ignored || !withSimulator) {
-                                            val reason = ignoreList[testCaseName]
-                                            if (reason != null) {
-                                                out.println("    @Ignore // Reason: >$reason<")
-                                            } else {
-                                                out.println("    @Ignore")
-                                            }
+                                    if (ignored || !withSimulator) {
+                                        val reason = ignoreList[testCaseName]
+                                        if (reason != null) {
+                                            out.println("    @Ignore // Reason: >$reason<")
+                                        } else {
+                                            out.println("    @Ignore")
                                         }
-                                        out.println("    @Test")
-                                        out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $mergeLocalOperatorgraphs - $queryDistributionMode - $useDictionaryInlineEncoding - $REPLACE_STORE_WITH_VALUES`() {")
-                                        out.println("        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.$predefinedPartitionScheme,mergeLocalOperatorgraphs = $mergeLocalOperatorgraphs,queryDistributionMode = EQueryDistributionModeExt.$queryDistributionMode,useDictionaryInlineEncoding = $useDictionaryInlineEncoding,REPLACE_STORE_WITH_VALUES = $REPLACE_STORE_WITH_VALUES))")
-                                        out.println("    }")
                                     }
+                                    out.println("    @Test")
+                                    out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $mergeLocalOperatorgraphs - $queryDistributionMode - $useDictionaryInlineEncoding`() {")
+                                    out.println("        simulatorHelper(MySimulatorConfig(")
+                                    out.println("            predefinedPartitionScheme = EPredefinedPartitionSchemesExt.$predefinedPartitionScheme,")
+                                    out.println("            mergeLocalOperatorgraphs = $mergeLocalOperatorgraphs,")
+                                    out.println("            queryDistributionMode = EQueryDistributionModeExt.$queryDistributionMode,")
+                                    out.println("            useDictionaryInlineEncoding = $useDictionaryInlineEncoding,")
+                                    out.println("            REPLACE_STORE_WITH_VALUES = false,") // this does not work in simulator
+                                    out.println("        ))")
+                                    out.println("    }")
                                 }
                             }
                         }

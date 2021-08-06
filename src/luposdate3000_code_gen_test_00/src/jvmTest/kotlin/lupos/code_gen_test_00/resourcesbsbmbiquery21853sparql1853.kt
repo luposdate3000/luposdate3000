@@ -108,194 +108,226 @@ public class resourcesbsbmbiquery21853sparql1853 {
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Centralized - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Centralized - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Routing - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Routing - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = true,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Centralized - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Centralized - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Centralized,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Routing - true`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = true,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Centralized - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Centralized - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Centralized - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Centralized - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Routing - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Routing - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Routing - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - true - Routing - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = true, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Centralized, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Routing - true - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Routing - true - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = true, REPLACE_STORE_WITH_VALUES = false))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Routing - false - true`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = true))
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Routing - false - false`() {
-        simulatorHelper(MySimulatorConfig(predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations, mergeLocalOperatorgraphs = false, queryDistributionMode = EQueryDistributionModeExt.Routing, useDictionaryInlineEncoding = false, REPLACE_STORE_WITH_VALUES = false))
+    public fun `resourcesbsbmbiquery21853sparql1853 - in simulator - PartitionByKeyAllCollations - false - Routing - false`() {
+        simulatorHelper(
+            MySimulatorConfig(
+                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
+                mergeLocalOperatorgraphs = false,
+                queryDistributionMode = EQueryDistributionModeExt.Routing,
+                useDictionaryInlineEncoding = false,
+                REPLACE_STORE_WITH_VALUES = false,
+            )
+        )
     }
     public fun simulatorHelper(cfg: MySimulatorConfig) {
         val simRun = SimulationRun()

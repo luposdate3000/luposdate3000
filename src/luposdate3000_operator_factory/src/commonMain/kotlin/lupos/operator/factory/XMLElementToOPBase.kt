@@ -841,6 +841,18 @@ public object XMLElementToOPBase {
         operatorMap["LOPTriple"] = { query, node, mapping, recursionFunc ->
             LOPTriple(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping, recursionFunc) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())
         }
+
+operatorMap["POPGraphOperation"]= { query, node, mapping, recursionFunc ->
+POPGraphOperation(query,
+createProjectedVariables(node),
+node.attributes["silent"]!!.toBoolean(),
+EGraphRefTypeExt.names.indexOf(node.attributes["graph1type"]!!),
+node.attributes["graph1iri"],
+EGraphRefTypeExt.names.indexOf(node.attributes["graph2type"]!!),
+node.attributes["graph2iri"],
+EGraphOperationTypeExt.names.indexOf(node.attributes["action"]!!),
+)
+}
         this.operatorMap = operatorMap
     }
 
