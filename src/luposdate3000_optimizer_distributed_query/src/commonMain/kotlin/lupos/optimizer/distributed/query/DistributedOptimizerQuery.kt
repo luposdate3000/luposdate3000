@@ -218,7 +218,13 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             assignHosts(query, c)
         }
         if (node.tag == "partitionDistributionKey") {
-            node.addAttribute("host", getHostForKey(query, node.attributes["key"]!!)!!)
+            val k = node.attributes["key"]!!
+            val h = getHostForKey(query, k)
+            if (h == null) {
+                TODO("$k .. ${query.operatorgraphPartsToHostMap} .. ${query.keyRepresentative}")
+            } else {
+                node.addAttribute("host", h)
+            }
         }
     }
 
@@ -266,6 +272,10 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                     }
                 }
             }
+            println("query.operatorgraphParts :: " + query.operatorgraphParts)
+            println("query.operatorgraphPartsToHostMap :: " + query.operatorgraphPartsToHostMap)
+            println("query.dependenciesMapTopDown :: " + query.dependenciesMapTopDown)
+            println("query.dependenciesMapBottomUp :: " + query.dependenciesMapBottomUp)
 // publish the query to the other database instances
             var res: XMLElement? = null
             for ((k, v) in query.operatorgraphParts) {

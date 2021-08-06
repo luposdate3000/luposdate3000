@@ -353,25 +353,35 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_operatorgraph_to_result")
     /*suspend*/ public fun evaluateOperatorgraphToResultB(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream): Any {
-        return evaluateOperatorgraphToResultInternal(instance, node, output, EQueryResultToStreamExt.DEFAULT_STREAM, -1)
+        return evaluateOperatorgraphToResultInternal(instance, node, output, EQueryResultToStreamExt.DEFAULT_STREAM, -1, true)
     }
 
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
-        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1)
+        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1, true)
+    }
+
+    @JsName("evaluate_operatorgraph_to_result_e")
+    /*suspend*/ public fun evaluateOperatorgraphToResultE(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, asRoot: Boolean): Any {
+        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1, asRoot)
     }
 
     @JsName("evaluate_operatorgraph_to_result_c")
     /*suspend*/ public fun evaluateOperatorgraphToResultC(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
-        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, timeoutInMs)
+        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, timeoutInMs, true)
     }
 
-    /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
+    @JsName("evaluate_operatorgraph_to_result_d")
+    /*suspend*/ public fun evaluateOperatorgraphToResultD(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
+        return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, timeoutInMs, asRoot)
+    }
+
+    /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
         val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[evaluator]]
         if (evaluatorInstance == null) {
             TODO(EQueryResultToStreamExt.names[evaluator])
         }
-        val res = evaluatorInstance(node, output, timeoutInMs)
+        val res = evaluatorInstance(node, output, timeoutInMs, asRoot)
         instance.tripleStoreManager!!.commit(node.getQuery())
         node.getQuery().setCommited()
         return res

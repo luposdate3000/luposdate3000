@@ -212,7 +212,7 @@ public class DatabaseHandle : IDatabase {
 // TODO wait for all ack - or assume ordered messages
             if (expectedResult != null) {
                 val buf = MyPrintWriter(false)
-                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, q.getRoot(), buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, q.getRoot(), buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
                 val buf_err = MyPrintWriter()
                 if (!result.equalsVerbose(expectedResult, true, true, buf_err)) {
                     throw Exception(buf_err.toString())
@@ -537,8 +537,7 @@ public class DatabaseHandle : IDatabase {
                         is OPBaseCompound -> {
                             if (w.expectedResult != null) {
                                 val buf = MyPrintWriter(false)
-                                println(node)
-                                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
                                 val buf_err = MyPrintWriter()
                                 if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
                                     throw Exception(buf_err.toString())

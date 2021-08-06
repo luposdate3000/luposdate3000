@@ -107,6 +107,9 @@ public class QueryResultToTurtleStream : IResultFormat {
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
         invokeInternal(rootNode, output, timeoutInMs, true)
     }
+    override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
+        invokeInternal(rootNode, output, timeoutInMs, asRoot)
+    }
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
         invokeInternal(rootNode, output, -1, true)
     }
@@ -139,7 +142,7 @@ public class QueryResultToTurtleStream : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToTurtleStream.kt:141"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToTurtleStream.kt:144"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
