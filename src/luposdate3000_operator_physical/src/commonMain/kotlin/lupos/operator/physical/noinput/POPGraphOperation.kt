@@ -33,6 +33,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
+import lupos.shared.XMLElement
 import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -49,19 +50,19 @@ public class POPGraphOperation public constructor(
     @JvmField public var graph2iri: String?,
     @JvmField public val action: EGraphOperationType
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
-override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = super.toXMLElement(partial)
         res.addAttribute("uuid", "" + uuid)
-res.addAttribute("silent",""+silent)
-res.addAttribute("graph1type",EGraphRefTypeExt.names[graph1type])
-if(graph1iri!=null){
-res.addAttribute("graph1iri",graph1iri)
-}
-res.addAttribute("graph2type",EGraphRefTypeExt.names[graph2type])
-if(graph2iri!=null){
-res.addAttribute("graph2iri",graph2iri)
-}
-res.addAttribute("action",EGraphOperationTypeExt.names[action])
+        res.addAttribute("silent", "" + silent)
+        res.addAttribute("graph1type", EGraphRefTypeExt.names[graph1type])
+        if (graph1iri != null) {
+            res.addAttribute("graph1iri", graph1iri!!)
+        }
+        res.addAttribute("graph2type", EGraphRefTypeExt.names[graph2type])
+        if (graph2iri != null) {
+            res.addAttribute("graph2iri", graph2iri!!)
+        }
+        res.addAttribute("action", EGraphOperationTypeExt.names[action])
         return res
     }
     override fun getPartitionCount(variable: String): Int = 1
@@ -223,7 +224,7 @@ res.addAttribute("action",EGraphOperationTypeExt.names[action])
     public override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:210"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:226"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }

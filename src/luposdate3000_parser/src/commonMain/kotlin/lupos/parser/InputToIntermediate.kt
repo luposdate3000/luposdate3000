@@ -31,6 +31,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
+import lupos.shared.inline.MyStringExt
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
 import lupos.shared.inline.fileformat.DictionaryIntermediateReader
@@ -40,8 +41,6 @@ import lupos.shared.inline.fileformat.TriplesIntermediateReader
 import lupos.shared.inline.fileformat.TriplesIntermediateWriter
 import kotlin.math.min
 
-// rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-// rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 public object InputToIntermediate {
     private val parserFromSoenke = false
     public fun helperCleanString(s: String): String {
@@ -170,6 +169,7 @@ public object InputToIntermediate {
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     private fun process(inputFileName: String, backupmode: Boolean, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
         var shouldReturn = false
+        var strictMode = false
         val inference_enabled = false
         var inferredTriples = 0
         val startTime = DateHelperRelative.markNow()
@@ -277,15 +277,15 @@ public object InputToIntermediate {
                     addToDict(buf)
                 }
                 parserObject.parser.convertStringToDict = {
-                    DictionaryHelper.stringToByteArray(buf, it)
+                    DictionaryHelper.stringToByteArray(buf, MyStringExt.replaceEscapes(it, strictMode))
                     addToDict(buf)
                 }
                 parserObject.parser.convertLangToDict = { c, l ->
-                    DictionaryHelper.langToByteArray(buf, c, l)
+                    DictionaryHelper.langToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(l, strictMode))
                     addToDict(buf)
                 }
                 parserObject.parser.convertTypedToDict = { c, t ->
-                    DictionaryHelper.typedToByteArray(buf, c, t)
+                    DictionaryHelper.typedToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(t, strictMode))
                     addToDict(buf)
                 }
                 parserObject.parser.convertBnodeToDict = {

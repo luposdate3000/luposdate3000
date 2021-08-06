@@ -100,6 +100,7 @@ import lupos.operator.physical.multiinput.POPJoinWithStoreExists
 import lupos.operator.physical.multiinput.POPMinus
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.noinput.POPEmptyRow
+import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
@@ -130,6 +131,8 @@ import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.EGraphOperationTypeExt
+import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
@@ -157,7 +160,7 @@ public object XMLElementToOPBase {
 
     public fun createProjectedVariables(node: XMLElement): List<String> {
         val res = mutableListOf<String>()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:159"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:162"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
         for (c in node["projectedVariables"]!!.childs) {
             res.add(c.attributes["name"]!!)
         }
@@ -842,24 +845,25 @@ public object XMLElementToOPBase {
             LOPTriple(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[2], mapping, recursionFunc) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())
         }
 
-operatorMap["POPGraphOperation"]= { query, node, mapping, recursionFunc ->
-POPGraphOperation(query,
-createProjectedVariables(node),
-node.attributes["silent"]!!.toBoolean(),
-EGraphRefTypeExt.names.indexOf(node.attributes["graph1type"]!!),
-node.attributes["graph1iri"],
-EGraphRefTypeExt.names.indexOf(node.attributes["graph2type"]!!),
-node.attributes["graph2iri"],
-EGraphOperationTypeExt.names.indexOf(node.attributes["action"]!!),
-)
-}
+        operatorMap["POPGraphOperation"] = { query, node, mapping, recursionFunc ->
+            POPGraphOperation(
+                query,
+                createProjectedVariables(node),
+                node.attributes["silent"]!!.toBoolean(),
+                EGraphRefTypeExt.names.indexOf(node.attributes["graph1type"]!!),
+                node.attributes["graph1iri"],
+                EGraphRefTypeExt.names.indexOf(node.attributes["graph2type"]!!),
+                node.attributes["graph2iri"],
+                EGraphOperationTypeExt.names.indexOf(node.attributes["action"]!!),
+            )
+        }
         this.operatorMap = operatorMap
     }
 
 /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:849"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:865"/*SOURCE_FILE_END*/ },
             { theMap [node.tag] != null },
             { node.tag }
         )
