@@ -51,6 +51,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+        println("$classname -> $node")
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {

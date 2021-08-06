@@ -19,7 +19,7 @@ package lupos.shared
 import lupos.shared.operator.IOPBase
 
 public interface ITripleStoreIndexDescription {
-    public fun getPartitionCount(): Int
+    public fun getPartitionCount(params: Array<IOPBase>): Int
     public fun getDistributionCount(): Int
     public fun toXMLElement(): XMLElement
     public fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey>

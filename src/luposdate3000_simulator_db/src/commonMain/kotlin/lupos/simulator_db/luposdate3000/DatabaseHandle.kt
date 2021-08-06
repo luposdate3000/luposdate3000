@@ -537,6 +537,7 @@ public class DatabaseHandle : IDatabase {
                         is OPBaseCompound -> {
                             if (w.expectedResult != null) {
                                 val buf = MyPrintWriter(false)
+                                println(node)
                                 val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
                                 val buf_err = MyPrintWriter()
                                 if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {

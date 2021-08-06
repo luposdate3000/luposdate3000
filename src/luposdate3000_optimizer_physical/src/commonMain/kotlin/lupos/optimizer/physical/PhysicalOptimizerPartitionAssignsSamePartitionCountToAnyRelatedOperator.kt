@@ -33,6 +33,7 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID, "PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator") {
     // this optimizer makes sure, that every partitioning which belongs to the same section uses the same partition count
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+        println("$classname -> $node")
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
@@ -42,8 +43,11 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     val storeNode = storeNodeTmp
+                    println("XXXX . $storeNode")
                     val max_count = query.partitionOperatorCount[node.partitionID]
-                    val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
+                    println("xxxx .. $max_count ${node.partitionID}")
+                    var new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
+                    println("xxxx ... $new_count ${node.partitionVariable}")
                     query.partitionOperatorCount[node.partitionID] = new_count
                     node.partitionCount = new_count
                     if (new_count != max_count) {

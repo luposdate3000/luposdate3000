@@ -97,7 +97,7 @@ public class TripleStoreIndexDescriptionSimple(
         key = tmp.second
     }
 
-    public override fun getPartitionCount(): Int {
+    public override fun getPartitionCount(params: Array<IOPBase>): Int {
         return 1
     }
 

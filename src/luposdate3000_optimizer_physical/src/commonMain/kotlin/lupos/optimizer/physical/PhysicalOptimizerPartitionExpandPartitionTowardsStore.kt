@@ -34,6 +34,7 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID, "PhysicalOptimizerPartitionExpandPartitionTowardsStore") {
     // this optimizer moved the partitioning towards and into the triple store, but does NOT care if the specific triple store exist ...
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+        println("$classname -> $node")
         var res = node
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
