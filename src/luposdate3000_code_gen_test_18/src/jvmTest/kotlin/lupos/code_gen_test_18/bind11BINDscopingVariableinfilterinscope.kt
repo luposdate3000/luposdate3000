@@ -31,6 +31,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorConfig
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -86,6 +87,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true`() {
         simulatorHelper(
@@ -99,6 +101,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false`() {
         simulatorHelper(
@@ -112,6 +115,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true`() {
         simulatorHelper(
@@ -125,6 +129,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false`() {
         simulatorHelper(
@@ -138,6 +143,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true`() {
         simulatorHelper(
@@ -151,6 +157,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false`() {
         simulatorHelper(
@@ -164,6 +171,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true`() {
         simulatorHelper(
@@ -177,6 +185,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false`() {
         simulatorHelper(
@@ -190,6 +199,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - true - Centralized - true`() {
         simulatorHelper(
@@ -203,6 +213,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - true - Centralized - false`() {
         simulatorHelper(
@@ -216,6 +227,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - true - Routing - true`() {
         simulatorHelper(
@@ -229,6 +241,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - true - Routing - false`() {
         simulatorHelper(
@@ -242,6 +255,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - false - Centralized - true`() {
         simulatorHelper(
@@ -255,6 +269,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - false - Centralized - false`() {
         simulatorHelper(
@@ -268,6 +283,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - false - Routing - true`() {
         simulatorHelper(
@@ -281,6 +297,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
+    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - false - Routing - false`() {
         simulatorHelper(

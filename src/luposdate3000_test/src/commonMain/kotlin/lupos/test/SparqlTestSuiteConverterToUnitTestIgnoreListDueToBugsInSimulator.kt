@@ -18,5 +18,7 @@ package lupos.test
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator {
     internal val ignoreListDueToBugsInSimulator = mapOf(
         "HOURS" to "distributed dictionary access",
+        "MD5overUnicodedata" to "distributed dictionary access",
+        "bind11BINDscopingVariableinfilterinscope" to "distributed dictionary access",
     )
 }
