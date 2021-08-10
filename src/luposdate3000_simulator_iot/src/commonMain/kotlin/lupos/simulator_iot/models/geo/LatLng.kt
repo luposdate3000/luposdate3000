@@ -1,9 +1,3 @@
-package lupos.simulator_iot.models.geo
-
-import kotlin.Long
-import kotlin.math.abs
-import kotlin.random.Random
-
 /*
  *    Copyright 2010 Tyler Coles
  *
@@ -23,6 +17,13 @@ import kotlin.random.Random
 * Modified on June 3rd, 2021 by Johann Mantler.
 * The code was translated into Kotlin and cut to the required parts.
 * */
+
+package lupos.simulator_iot.models.geo
+
+import kotlin.Long
+import kotlin.math.abs
+import kotlin.random.Random
+
 
 /**
  *

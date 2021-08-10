@@ -1,5 +1,3 @@
-package lupos.simulator_iot.models.geo
-
 /* Copyright 2010 Tyler Coles
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -17,6 +15,8 @@ package lupos.simulator_iot.models.geo
 * Modified on June 3rd, 2021 by Johann Mantler.
 * The code was translated into Kotlin and cut to the required parts.
 * */
+package lupos.simulator_iot.models.geo
+
 
 /**
  * Configuration parameters for latitude and longitude calculations.

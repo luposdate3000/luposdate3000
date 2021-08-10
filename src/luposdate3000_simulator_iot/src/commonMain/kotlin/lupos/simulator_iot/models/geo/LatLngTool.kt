@@ -1,4 +1,3 @@
-package lupos.simulator_iot.models.geo
 /*
  *    Copyright 2010 Tyler Coles
  *
@@ -18,6 +17,7 @@ package lupos.simulator_iot.models.geo
 * Modified on June 3rd, 2021 by Johann Mantler.
 * The code was translated into Kotlin and cut to the required parts.
 * */
+package lupos.simulator_iot.models.geo
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.asin

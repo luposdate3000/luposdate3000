@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// onFinish:IDatabasePackage?,expectedResult:MemoryTable?
-
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
