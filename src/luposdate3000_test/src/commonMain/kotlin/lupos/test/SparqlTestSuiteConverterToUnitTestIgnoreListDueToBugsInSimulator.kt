@@ -32,5 +32,8 @@ internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator
         "COUNT8b" to "distributed dictionary access",
         "ADD6" to "query not distributed",
         "MINUTES" to "distributed dictionary access",
+        "ADDSILENT" to "query not distributed",
+        "COPY1" to "query not distributed",
+        "SHA1" to "distributed dictionary access",
     )
 }
