@@ -453,7 +453,10 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = (query.getInstance().tripleStoreManager!!).getGraph(node.graph).getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
+                    TODO("this is unreachable???")
+                    val manager = query.getInstance().tripleStoreManager!!
+                    val graph = manager.getGraph(node.graph)
+                    res = graph.getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, LOPTriple.getIndex(node.getChildren(), node.mySortPriority.map { it.variableName }))
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

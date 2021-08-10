@@ -356,14 +356,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     if (projection[1] != "_") {
                         columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager)
                     }
+                } else if (projection[1] != "_") {
+                    columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager)
                 } else {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:360"/*SOURCE_FILE_END*/ },
-                        { projection[1] == "_" },
-                        {
-                            "${filter.map{it}} $projection"
-                        }
-                    )
                     var count = 0
                     val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     while (it.next() != DictionaryValueHelper.nullValue) {
@@ -372,7 +367,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     res = IteratorBundle(count)
                 }
             } else {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:374"/*SOURCE_FILE_END*/ }, { filter.isEmpty() })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:369"/*SOURCE_FILE_END*/ }, { filter.isEmpty() })
                 if (projection[0] != "_") {
                     columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager)
                     if (projection[1] != "_") {
@@ -380,12 +375,17 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         if (projection[2] != "_") {
                             columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
                         }
-                    } else {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:383"/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
+                    } else if (projection[2] != "_") {
+                        columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
                     }
+                } else if (projection[1] != "_") {
+                    columns[projection[1]] = NodeInner.iterator(node, lock, 1, nodeManager)
+                    if (projection[2] != "_") {
+                        columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
+                    }
+                } else if (projection[2] != "_") {
+                    columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
                 } else {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:386"/*SOURCE_FILE_END*/ }, { projection[1] == "_" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:387"/*SOURCE_FILE_END*/ }, { projection[2] == "_" })
                     res = IteratorBundle(countPrimary_)
                 }
             }

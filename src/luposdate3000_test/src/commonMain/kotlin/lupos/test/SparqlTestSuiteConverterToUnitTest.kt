@@ -397,6 +397,11 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                         } else {
                                             out.println("    @Ignore")
                                         }
+                                    } else {
+                                        val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.ignoreListDueToBugsInSimulator[testCaseName]
+                                        if (reason != null) {
+                                            out.println("    @Ignore // Reason: >$reason<")
+                                        }
                                     }
                                     out.println("    @Test")
                                     out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $mergeLocalOperatorgraphs - $queryDistributionMode - $useDictionaryInlineEncoding`() {")
