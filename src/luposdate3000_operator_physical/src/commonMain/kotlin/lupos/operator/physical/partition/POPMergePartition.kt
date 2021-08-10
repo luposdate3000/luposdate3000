@@ -129,8 +129,15 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:128"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:129"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
             // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:130"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
-            val elementsPerRing = query.getInstance().queue_size * variables.size
-            val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
+            var queue_size = query.getInstance().queue_size
+            var elementsPerRing = queue_size * variables.size
+            var buffersize = elementsPerRing * partitionCount
+            while (buffersize <= 0 || elementsPerRing <= 0) {
+                queue_size = queue_size / 2
+                elementsPerRing = queue_size * variables.size
+                buffersize = elementsPerRing * partitionCount
+            }
+            val ringbuffer = DictionaryValueTypeArray(buffersize) // only modified by writer, reader just modifies its pointer
             val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required

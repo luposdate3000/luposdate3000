@@ -130,8 +130,15 @@ public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, p
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:129"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:130"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
             // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:131"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
-            val elementsPerRing = query.getInstance().queue_size * variables.size
-            val ringbuffer = DictionaryValueTypeArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
+            var queue_size = query.getInstance().queue_size
+            var elementsPerRing = queue_size * variables.size
+            var buffersize = elementsPerRing * partitionCount
+            while (buffersize <= 0 || elementsPerRing <= 0) {
+                queue_size = queue_size / 2
+                elementsPerRing = queue_size * variables.size
+                buffersize = elementsPerRing * partitionCount
+            }
+            val ringbuffer = DictionaryValueTypeArray(buffersize) // only modified by writer, reader just modifies its pointer
             val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
@@ -248,11 +255,11 @@ public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, p
             }
             val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:250"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:257"/*SOURCE_FILE_END*/ },
                 {
                     for (x in sortColumns.indices) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:253"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:254"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:260"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:261"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
                     }
                 }
             )
