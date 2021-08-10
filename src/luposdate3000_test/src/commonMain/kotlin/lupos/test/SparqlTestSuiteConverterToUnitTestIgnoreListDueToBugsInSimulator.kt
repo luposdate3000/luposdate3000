@@ -20,5 +20,17 @@ internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator
         "HOURS" to "distributed dictionary access",
         "MD5overUnicodedata" to "distributed dictionary access",
         "bind11BINDscopingVariableinfilterinscope" to "distributed dictionary access",
+        "ADD1" to "query not distributed",
+        "INSERT01" to "query not distributed",
+        "MIN" to "distributed dictionary access",
+        "MONTH" to "distributed dictionary access",
+        "MOVE6" to "query not distributed",
+        "STRLEN" to "distributed dictionary access",
+        "ADD3" to "query not distributed",
+        "FLOOR" to "distributed dictionary access",
+        "INSERT03" to "query not distributed",
+        "COUNT8b" to "distributed dictionary access",
+        "ADD6" to "query not distributed",
+        "MINUTES" to "distributed dictionary access",
     )
 }
