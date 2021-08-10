@@ -122,8 +122,8 @@ public object LuposdateEndpoint {
         val c3 = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, c3 + DictionaryValueHelper.getSize(), true)
         DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(data), c3, DictionaryValueHelper.nullValue)
-        for (i in 1 until instance.LUPOS_PROCESS_URLS.size) {
-            val (input, output) = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS[i], "/shacl/ontology/load", mapOf(), -1)
+        for (i in 1 until instance.LUPOS_PROCESS_URLS_ALL.size) {
+            val (input, output) = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS_ALL[i], "/shacl/ontology/load", mapOf(), -1)
             output.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
             output.close()
             input.close()
@@ -196,8 +196,8 @@ public object LuposdateEndpoint {
         val key = "${query.getTransactionID()}"
         try {
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
-                query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS[0]}/distributed/query/dictionary?key=$key")
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+                query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
             }
             instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
             var counter = 0L
@@ -283,13 +283,13 @@ public object LuposdateEndpoint {
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
             throw e
         }
@@ -478,7 +478,7 @@ public object LuposdateEndpoint {
             instances.add(instance)
             instance.bufferManager = BufferManager(instance)
             instance.nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary(instance)
-            instance.tripleStoreManager = TripleStoreManagerImpl(instance.LUPOS_PROCESS_URLS, instance.LUPOS_PROCESS_URLS[instance.LUPOS_PROCESS_ID], instance)
+            instance.tripleStoreManager = TripleStoreManagerImpl(instance)
             instance.tripleStoreManager!!.initialize()
             instance.distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
             instance.initialized = true

@@ -565,14 +565,19 @@ val defaultParams = mutableListOf(
         "", false,
     ),
     ParamClass(
-        "--processUrls",
+        "--processUrlsStore",
+        "", false,
+    ),
+    ParamClass(
+        "--processUrlsQuery",
         "", false,
     ),
     ParamClass(
         "--processCount",
         "",
         {
-            LauncherConfig.setConfigValue("--processUrls", Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(","))
+            LauncherConfig.setConfigValue("--processUrlsStore", Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(","))
+            LauncherConfig.setConfigValue("--processUrlsQuery", Array(it.toInt()) { "localhost:" + (80 + it) }.joinToString(","))
         },
         false,
     ),
@@ -898,20 +903,27 @@ fun onRun() {
             cmd.add("MainKt")
             cmd.addAll(runArgs)
             println(cmd)
+val a1=LauncherConfig.getConfigValue("--processUrlsStore")
+val a2=LauncherConfig.getConfigValue("--processUrlsQuery")
+val c1=a1.count { it == ',' }
+val c2=a2.count { it == ',' }
+val c=c1+c2+if(a1.length>0){1}else{0}+if(a2.length>0){1}else{0}
             if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
-                println("export LUPOS_PROCESS_URLS=${LauncherConfig.getConfigValue("--processUrls")}")
+                println("export LUPOS_PROCESS_URLS_STORE=${a1}")
+                println("export LUPOS_PROCESS_URLS_QUERY=${a2}")
                 println("export LUPOS_THREAD_COUNT=${LauncherConfig.getConfigValue("--threadCount")}")
                 println("export LUPOS_PARTITION_MODE=${LauncherConfig.getConfigValue("--partitionMode")}")
                 println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
-                Array(LauncherConfig.getConfigValue("--processUrls").count { it == ',' } + 1) {
+                Array(c) {
                     val p = myProcessBuilder(cmd)
                         .redirectOutput(Redirect.INHERIT)
                         .redirectError(Redirect.INHERIT)
                     val env = p.environment()
                     env["LUPOS_PROCESS_ID"] = "$it"
-                    env["LUPOS_PROCESS_URLS"] = "${LauncherConfig.getConfigValue("--processUrls")}"
+                    env["LUPOS_PROCESS_URLS_STORE"] = "${a1}"
+                    env["LUPOS_PROCESS_URLS_QUERY"] = "${a2}"
                     env["LUPOS_THREAD_COUNT"] = "${LauncherConfig.getConfigValue("--threadCount")}"
                     env["LUPOS_PARTITION_MODE"] = "${LauncherConfig.getConfigValue("--partitionMode")}"
                     env["LUPOS_DICTIONARY_MODE"] = "${LauncherConfig.getConfigValue("--dictionaryMode")}"

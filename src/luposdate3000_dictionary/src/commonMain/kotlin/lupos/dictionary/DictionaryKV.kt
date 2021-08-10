@@ -51,7 +51,7 @@ public class DictionaryKV internal constructor(
     internal var bNodeCounter = DictionaryValueHelper.FIRST_BNODE
 
     @JvmField
-    internal var stepSizeForCounters: Int = instance.LUPOS_PROCESS_URLS.size
+    internal var stepSizeForCounters: Int = instance.LUPOS_PROCESS_URLS_ALL.size
 
     @JvmField
     internal var uuidCounter: Int = 0

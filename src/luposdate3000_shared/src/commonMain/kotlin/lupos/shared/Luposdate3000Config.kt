@@ -58,10 +58,36 @@ public object Luposdate3000Config {
     public var LUPOS_DICTIONARY_MODE: EDictionaryType = EDictionaryTypeExt.names.indexOf(Platform.getEnv("LUPOS_DICTIONARY_MODE", EDictionaryTypeExt.names[EDictionaryTypeExt.KV]))
 
     @JvmField
-    public var LUPOS_PROCESS_URLS: Array<String> = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
+    public var LUPOS_PROCESS_URLS_STORE: Array<String> = Platform.getEnv("LUPOS_PROCESS_URLS_STORE", "localhost:80")!!.split(",").toTypedArray()
 
     @JvmField
-    public var LUPOS_PROCESS_ID: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()
+    public var LUPOS_PROCESS_URLS_QUERY: Array<String> = Platform.getEnv("LUPOS_PROCESS_URLS_QUERY", "localhost:80")!!.split(",").toTypedArray()
+
+    public fun mergeProcessurls(stores: Array<String>, queries: Array<String>): Array<String> {
+        val res = mutableListOf<String>()
+        for (s in stores) {
+            if (!queries.contains(s)) {
+                res.add(s)
+            }
+        }
+        for (s in stores) {
+            if (queries.contains(s)) {
+                res.add(s)
+            }
+        }
+        for (s in queries) {
+            if (!stores.contains(s)) {
+                res.add(s)
+            }
+        }
+        return res.toTypedArray()
+    }
+
+    @JvmField
+    public var LUPOS_PROCESS_URLS_ALL: Array<String> = mergeProcessurls(LUPOS_PROCESS_URLS_STORE, LUPOS_PROCESS_URLS_QUERY)
+
+    @JvmField
+    public var LUPOS_PROCESS_ID: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt() // pointing to the LUPOS_PROCESS_URLS_ALL array
 
     @JvmField
     public var LUPOS_PARTITION_MODE: EPartitionMode = EPartitionModeExt.names.indexOf(Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!)
@@ -79,8 +105,8 @@ public object Luposdate3000Config {
     public var initialThreads: Int = 128
 
     @JvmField
-    public var maxThreads: Int = if (LUPOS_PROCESS_URLS.size> 1) {
-        LUPOS_PROCESS_URLS.size
+    public var maxThreads: Int = if (LUPOS_PROCESS_URLS_ALL.size> 1) {
+        LUPOS_PROCESS_URLS_ALL.size
     } else {
         16
     }

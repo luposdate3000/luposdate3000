@@ -44,7 +44,11 @@ public class Luposdate3000Instance {
 
     @JvmField public var LUPOS_DICTIONARY_MODE: EDictionaryType = Luposdate3000Config.LUPOS_DICTIONARY_MODE
 
-    @JvmField public var LUPOS_PROCESS_URLS: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS
+    @JvmField public var LUPOS_PROCESS_URLS_ALL: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS_ALL
+
+    @JvmField public var LUPOS_PROCESS_URLS_STORE: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS_STORE
+
+    @JvmField public var LUPOS_PROCESS_URLS_QUERY: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS_QUERY
 
     @JvmField public var LUPOS_PROCESS_ID: Int = Luposdate3000Config.LUPOS_PROCESS_ID
 

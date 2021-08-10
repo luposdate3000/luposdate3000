@@ -135,7 +135,7 @@ public object RestEndpoint {
             if (instance.LUPOS_PROCESS_ID == 0) {
                 LuposdateEndpoint.loadShaclOntology(instance, params["data"]!!)
             } else {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS[0], "/shacl/ontology/import", params, -1)
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/shacl/ontology/import", params, -1)
             }
             true
         }

@@ -39,6 +39,7 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyInputStreamFromByteArray
@@ -97,7 +98,9 @@ public class DatabaseHandle : IDatabase {
         ownAdress = initialState.ownAddress
         router = initialState.sender
         instance.enableJoinOrderOnHistogram = false
-        instance.LUPOS_PROCESS_URLS = initialState.allAddresses.map { it.toString() }.toTypedArray()
+        instance.LUPOS_PROCESS_URLS_STORE = initialState.allAddresses.map { it.toString() }.toTypedArray()
+        instance.LUPOS_PROCESS_URLS_QUERY = initialState.allAddresses.map { it.toString() }.toTypedArray()
+        instance.LUPOS_PROCESS_URLS_ALL = Luposdate3000Config.mergeProcessurls(instance.LUPOS_PROCESS_URLS_STORE, instance.LUPOS_PROCESS_URLS_QUERY)
         instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
         instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
         instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
@@ -203,7 +206,7 @@ public class DatabaseHandle : IDatabase {
                 // define everything as in the DB outside of the simulator
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:205"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:208"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size }
                 )
             }
@@ -250,7 +253,7 @@ public class DatabaseHandle : IDatabase {
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:252"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:255"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -293,7 +296,7 @@ public class DatabaseHandle : IDatabase {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:295"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:298"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -306,7 +309,7 @@ public class DatabaseHandle : IDatabase {
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:308"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:311"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -464,9 +467,9 @@ public class DatabaseHandle : IDatabase {
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:466"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:469"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:468"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:471"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -530,7 +533,7 @@ public class DatabaseHandle : IDatabase {
                     changed = true
                     val query = Query(instance)
                     SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:532"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:535"/*SOURCE_FILE_END*/ },
                         {
                             if (ownAdress != 0) {
                                 detectBugDueToRemoteDictAccess(w.operatorGraph)
