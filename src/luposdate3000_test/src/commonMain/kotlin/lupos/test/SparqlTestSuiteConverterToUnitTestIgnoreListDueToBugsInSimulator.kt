@@ -57,5 +57,14 @@ internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator
         "UCASE" to "distributed dictionary access",
         "YEAR" to "distributed dictionary access",
         "SAMPLE" to "distributed dictionary access",
+        "COPYSILENT" to "query not distributed",
+        "SimpleDELETEWHERE3" to "query not distributed",
+        "Group1" to "distributed dictionary access",
+        "STRDTSTR" to "distributed dictionary access",
+        "constructwhere02CONSTRUCTWHERE" to "query not distributed",
+        "MD5" to "distributed dictionary access",
+        "MOVESILENT" to "query not distributed",
+        "STRLANGSTR" to "distributed dictionary access",
+        "bind10BINDscopingVariableinfilternotinscope" to "distributed dictionary access",
     )
 }

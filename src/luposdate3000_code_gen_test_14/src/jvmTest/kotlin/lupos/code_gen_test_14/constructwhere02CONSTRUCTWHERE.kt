@@ -31,6 +31,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorConfig
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -78,6 +79,7 @@ public class constructwhere02CONSTRUCTWHERE {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true`() {
         simulatorHelper(
@@ -91,6 +93,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false`() {
         simulatorHelper(
@@ -104,6 +107,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true`() {
         simulatorHelper(
@@ -117,6 +121,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false`() {
         simulatorHelper(
@@ -130,6 +135,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true`() {
         simulatorHelper(
@@ -143,6 +149,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false`() {
         simulatorHelper(
@@ -156,6 +163,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true`() {
         simulatorHelper(
@@ -169,6 +177,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false`() {
         simulatorHelper(
@@ -182,6 +191,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - true - Centralized - true`() {
         simulatorHelper(
@@ -195,6 +205,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - true - Centralized - false`() {
         simulatorHelper(
@@ -208,6 +219,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - true - Routing - true`() {
         simulatorHelper(
@@ -221,6 +233,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - true - Routing - false`() {
         simulatorHelper(
@@ -234,6 +247,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - false - Centralized - true`() {
         simulatorHelper(
@@ -247,6 +261,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - false - Centralized - false`() {
         simulatorHelper(
@@ -260,6 +275,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - false - Routing - true`() {
         simulatorHelper(
@@ -273,6 +289,7 @@ public class constructwhere02CONSTRUCTWHERE {
         )
     }
 
+    @Ignore // Reason: >query not distributed<
     @Test
     public fun `constructwhere02  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - false - Routing - false`() {
         simulatorHelper(
