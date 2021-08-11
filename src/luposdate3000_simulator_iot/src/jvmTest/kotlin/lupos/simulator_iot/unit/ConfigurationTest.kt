@@ -19,7 +19,6 @@ package lupos.simulator_iot.unit
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.config.RandomStarNetwork
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.sensor.ParkingSensor
 import lupos.simulator_iot.queryproc.DatabaseAdapter
@@ -317,9 +316,9 @@ class ConfigurationTest {
     @Test
     fun manipulateJsonObjects() {
         val config = SimulationRun().config
-val json=JsonParser().fileToJson("$prefix/manipulateJsonObjects.json") as JsonParserObject
-val randomStarNetworks=json.getOrEmptyArray("randomStarNetwork")
-randomStarNetworks.add(JsonParser().stringToJson("{\"networkPrefix\":\"star2\",\"starRoot\":\"Tower1\",\"linkType\":\"WPAN\",\"deviceType\":\"StandAloneParkingSensor\",\"number\":3}"))
+        val json = JsonParser().fileToJson("$prefix/manipulateJsonObjects.json") as JsonParserObject
+        val randomStarNetworks = json.getOrEmptyArray("randomStarNetwork")
+        randomStarNetworks.add(JsonParser().stringToJson("{\"networkPrefix\":\"star2\",\"starRoot\":\"Tower1\",\"linkType\":\"WPAN\",\"deviceType\":\"StandAloneParkingSensor\",\"number\":3}"))
         val jsonObjects = config.parse(json)
         assertEquals(2, config.randStarNetworks.size)
     }

@@ -237,6 +237,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.endpoint.LuposdateEndpoint")
                 out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
                 out.println("import lupos.operator.base.Query")
+                out.println("import lupos.parser.JsonParser")
+                out.println("import lupos.parser.JsonParserObject")
                 out.println("import lupos.result_format.EQueryResultToStreamExt")
                 if (useCodeGen) {
                     out.println("import lupos.shared.CodeGenerationAnnotation")

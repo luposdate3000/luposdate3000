@@ -1,0 +1,9 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="product"/>
+  <variable name="label"/>
+  <variable name="propertyTextual"/>
+ </head>
+ <results/>
+</sparql>
+
