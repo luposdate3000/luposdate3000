@@ -31,6 +31,7 @@ import lupos.operator.physical.partition.POPDistributedReceiveSingle
 import lupos.operator.physical.partition.POPDistributedSendMulti
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
+import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
 import lupos.shared.EPartitionModeExt
@@ -56,7 +57,7 @@ import lupos.simulator_db.IRouter
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
 import lupos.visualize.distributed.database.VisualisationNetwork
-public class DatabaseHandle public constructor(config: MutableMap<String, Any>) : IDatabase {
+public class DatabaseHandle public constructor(config: JsonParserObject) : IDatabase {
     private var enableSharedMemoryDictionaryCheat = true
     private var visualisationNetwork = VisualisationNetwork()
     private var ownAdress: Int = 0
@@ -71,39 +72,34 @@ public class DatabaseHandle public constructor(config: MutableMap<String, Any>) 
     private var useDictionaryInlineEncoding = Luposdate3000Config.useDictionaryInlineEncoding
     private var REPLACE_STORE_WITH_VALUES = Luposdate3000Config.REPLACE_STORE_WITH_VALUES
     init {
-        val enableSharedMemoryDictionaryCheatTmp = config["SharedMemoryDictionaryCheat"]
+        val enableSharedMemoryDictionaryCheatTmp = config.getOrDefault("SharedMemoryDictionaryCheat", true)
         when (enableSharedMemoryDictionaryCheatTmp) {
             is String -> enableSharedMemoryDictionaryCheat = enableSharedMemoryDictionaryCheatTmp.toLowerCase() == "true"
             is Boolean -> enableSharedMemoryDictionaryCheat = enableSharedMemoryDictionaryCheatTmp
         }
-        config["SharedMemoryDictionaryCheat"] = enableSharedMemoryDictionaryCheat
-        val predefinedPartitionSchemeTmp = config["predefinedPartitionScheme"]
+        val predefinedPartitionSchemeTmp = config.getOrDefault("predefinedPartitionScheme", Luposdate3000Config.predefinedPartitionScheme)
         when (predefinedPartitionSchemeTmp) {
             is String -> predefinedPartitionScheme = EPredefinedPartitionSchemesExt.names.indexOf(predefinedPartitionSchemeTmp)
         }
-        config["predefinedPartitionScheme"] = EPredefinedPartitionSchemesExt.names[predefinedPartitionScheme]
-        val mergeLocalOperatorgraphsTmp = config["mergeLocalOperatorgraphs"]
+        val mergeLocalOperatorgraphsTmp = config.getOrDefault("mergeLocalOperatorgraphs", Luposdate3000Config.mergeLocalOperatorgraphs)
         when (mergeLocalOperatorgraphsTmp) {
             is String -> mergeLocalOperatorgraphs = mergeLocalOperatorgraphsTmp.toLowerCase() == "true"
             is Boolean -> mergeLocalOperatorgraphs = mergeLocalOperatorgraphsTmp
         }
-        config["mergeLocalOperatorgraphs"] = mergeLocalOperatorgraphs
-        val queryDistributionModeTmp = config["queryDistributionMode"]
+        val queryDistributionModeTmp = config.getOrDefault("queryDistributionMode", Luposdate3000Config.queryDistributionMode)
         when (queryDistributionModeTmp) {
             is String -> queryDistributionMode = EQueryDistributionModeExt.names.indexOf(queryDistributionModeTmp)
         }
-        config["queryDistributionMode"] = EQueryDistributionModeExt.names[queryDistributionMode]
-        val useDictionaryInlineEncodingTmp = config["useDictionaryInlineEncoding"]
+        val useDictionaryInlineEncodingTmp = config.getOrDefault("useDictionaryInlineEncoding", Luposdate3000Config.useDictionaryInlineEncoding)
         when (useDictionaryInlineEncodingTmp) {
             is String -> useDictionaryInlineEncoding = useDictionaryInlineEncodingTmp.toLowerCase() == "true"
             is Boolean -> useDictionaryInlineEncoding = useDictionaryInlineEncodingTmp
         }
-        val REPLACE_STORE_WITH_VALUESTmp = config["REPLACE_STORE_WITH_VALUES"]
+        val REPLACE_STORE_WITH_VALUESTmp = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
         when (REPLACE_STORE_WITH_VALUESTmp) {
             is String -> REPLACE_STORE_WITH_VALUES = REPLACE_STORE_WITH_VALUESTmp.toLowerCase() == "true"
             is Boolean -> REPLACE_STORE_WITH_VALUES = REPLACE_STORE_WITH_VALUESTmp
         }
-        config["REPLACE_STORE_WITH_VALUES"] = REPLACE_STORE_WITH_VALUES
     }
     private companion object {
         // this is used for cheating .... because currently streams of data are not working in simulator
@@ -236,7 +232,7 @@ public class DatabaseHandle public constructor(config: MutableMap<String, Any>) 
                 // define everything as in the DB outside of the simulator
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:238"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:234"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size }
                 )
             }
@@ -283,7 +279,7 @@ public class DatabaseHandle public constructor(config: MutableMap<String, Any>) 
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:285"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:281"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -326,7 +322,7 @@ public class DatabaseHandle public constructor(config: MutableMap<String, Any>) 
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:328"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:324"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -339,7 +335,7 @@ public class DatabaseHandle public constructor(config: MutableMap<String, Any>) 
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:341"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:337"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -497,9 +493,9 @@ public class DatabaseHandle public constructor(config: MutableMap<String, Any>) 
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:499"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:495"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:501"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:497"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -563,7 +559,7 @@ public class DatabaseHandle public constructor(config: MutableMap<String, Any>) 
                     changed = true
                     val query = Query(instance)
                     SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:565"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:561"/*SOURCE_FILE_END*/ },
                         {
                             if (ownAdress != 0) {
                                 detectBugDueToRemoteDictAccess(w.operatorGraph)

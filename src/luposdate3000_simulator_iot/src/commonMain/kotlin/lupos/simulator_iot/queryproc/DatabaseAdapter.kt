@@ -43,8 +43,8 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
 
     private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
-    public val db: IDatabase = when (device.simRun.config.jsonObjects.database["type"]) {
-        "Dummy", null -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database)
+    public val db: IDatabase = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
+        "Dummy" -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database)
         "Luposdate3000" -> DatabaseHandle(device.simRun.config.jsonObjects.database)
         else -> TODO()
     }

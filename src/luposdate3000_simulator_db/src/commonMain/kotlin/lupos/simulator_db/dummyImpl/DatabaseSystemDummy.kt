@@ -17,13 +17,14 @@
 
 package lupos.simulator_db.dummyImpl
 
+import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
 
-public class DatabaseSystemDummy public constructor(config: MutableMap<String, Any>) : IDatabase {
+public class DatabaseSystemDummy public constructor(config: JsonParserObject) : IDatabase {
 
     private lateinit var state: DummyDatabaseState
 
