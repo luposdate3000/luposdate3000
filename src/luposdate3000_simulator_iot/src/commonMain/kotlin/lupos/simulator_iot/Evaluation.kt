@@ -17,16 +17,16 @@
 
 package lupos.simulator_iot
 
+import lupos.parser.JsonParser
 import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.MeasurementPrinter
 import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.FilePaths
-
 public class Evaluation {
     public constructor() {}
     public fun simulate(configFileName: String) {
         val simRun = SimulationRun()
-        val json = simRun.parseConfigFile(configFileName)
+        val json = simRun.parseConfig(JsonParser().fileToJson(configFileName))
         val config = simRun.parseJsonObjects(json)
         simRun.startSimulation(config)
     }

@@ -16,6 +16,7 @@
  */
 
 package lupos.parser
+import lupos.shared.inline.File
 
 public interface IJsonParserValue
 public class JsonParserObject(private val map: MutableMap<String, IJsonParserValue>) : Iterable<Pair<String, IJsonParserValue>>, IJsonParserValue {
@@ -158,6 +159,9 @@ public class JsonParserArray(private val array: MutableList<IJsonParserValue>) :
     override operator fun iterator(): Iterator<IJsonParserValue> {
         return array.iterator()
     }
+    public fun add(v: IJsonParserValue) {
+        array.add(v)
+    }
 }
 
 public class JsonParserInt(public var value: Int) : IJsonParserValue
@@ -283,10 +287,24 @@ public class JsonParser {
 
     private fun readStringAt(data: String, off: Int): Pair<Int, JsonParserString> {
         var i = off + 1
+        var backslashOpen = false
         while (i < data.length) {
             when (data[i]) {
-                '"' -> return (i + 1) to JsonParserString(data.substring(off + 1, i))
-                else -> i++
+                '"' -> {
+                    if (backslashOpen) {
+                        backslashOpen = false
+                        i++
+                    } else {
+                        return (i + 1) to JsonParserString(decodeString(data.substring(off + 1, i)))
+                    }
+                }
+                '\\' -> {
+                    backslashOpen = !backslashOpen
+                }
+                else -> {
+                    backslashOpen = false
+                    i++
+                }
             }
         }
         throw Exception("string not closed $off '${data[off]}' $data")
@@ -350,7 +368,7 @@ public class JsonParser {
             is JsonParserInt -> return "${data.value}"
             is JsonParserLong -> return "${data.value}"
             is JsonParserDouble -> return "${data.value}"
-            is JsonParserString -> return "\"${data.value}\""
+            is JsonParserString -> return "\"${encodeString(data.value)}\""
             else -> throw Exception("unknown JSON element G $data")
         }
     }
@@ -358,5 +376,26 @@ public class JsonParser {
     public fun stringToJson(data: String): IJsonParserValue {
         val res = readValueAt(data, 0).second
         return res
+    }
+    public fun fileToJson(fileName: String): IJsonParserValue {
+        val fileStr = File(fileName).readAsString()
+        val json = JsonParser().stringToJson(fileStr) as IJsonParserValue
+        return json
+    }
+    public fun encodeString(s: String): String {
+        return s
+            .replace("\\", "\\\\")
+            .replace("\t", "\\t")
+            .replace("\r", "\\r")
+            .replace("\n", "\\n")
+            .replace("\"", "\\\"")
+    }
+    public fun decodeString(s: String): String {
+        return s
+            .replace("\\\"", "\"")
+            .replace("\\n", "\n")
+            .replace("\\r", "\r")
+            .replace("\\t", "\t")
+            .replace("\\\\", "\\")
     }
 }

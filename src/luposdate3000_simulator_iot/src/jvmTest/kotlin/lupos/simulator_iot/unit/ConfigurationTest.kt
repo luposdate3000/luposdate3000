@@ -16,7 +16,8 @@
  */
 
 package lupos.simulator_iot.unit
-
+import lupos.parser.JsonParser
+import lupos.parser.JsonParserObject
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.config.RandomStarNetwork
 import lupos.simulator_iot.models.geo.GeoLocation
@@ -316,17 +317,10 @@ class ConfigurationTest {
     @Test
     fun manipulateJsonObjects() {
         val config = SimulationRun().config
-        val jsonObjects = config.readJsonFile("$prefix/manipulateJsonObjects.json")
-        jsonObjects.randomStarNetwork.add(
-            RandomStarNetwork(
-                networkPrefix = "star2",
-                starRoot = "Tower1",
-                linkType = "WPAN",
-                deviceType = "StandAloneParkingSensor",
-                number = 3
-            )
-        )
-        config.parse(jsonObjects)
+val json=JsonParser().fileToJson("$prefix/manipulateJsonObjects.json") as JsonParserObject
+val randomStarNetworks=json.getOrEmptyArray("randomStarNetwork")
+randomStarNetworks.add(JsonParser().stringToJson("{\"networkPrefix\":\"star2\",\"starRoot\":\"Tower1\",\"linkType\":\"WPAN\",\"deviceType\":\"StandAloneParkingSensor\",\"number\":3}"))
+        val jsonObjects = config.parse(json)
         assertEquals(2, config.randStarNetworks.size)
     }
 }

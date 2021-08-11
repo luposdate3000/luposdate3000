@@ -17,6 +17,8 @@
 
 package lupos.simulator_iot
 
+import lupos.parser.IJsonParserValue
+import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
@@ -70,8 +72,12 @@ public class SimulationRun {
         File(FilePaths.dbStates).mkdirs()
     }
 
-    public fun parseConfigFile(fileName: String): JsonObjects {
-        return config.readJsonFile(fileName)
+    public fun parseConfig(json: IJsonParserValue): JsonObjects {
+        return parseConfig(json as JsonParserObject)
+    }
+    public fun parseConfig(json: JsonParserObject): JsonObjects {
+        config.parse(json)
+        return config.jsonObjects
     }
 
     public fun parseJsonObjects(jsonObjects: JsonObjects): Configuration {

@@ -18,161 +18,155 @@
 @file:Suppress("UnusedImport")
 
 package lupos.simulator_iot.config
-import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
-public data class JsonObjects(
-    var database: JsonParserObject = JsonParserObject(mutableMapOf()), // custom properties interpreted directly by the database
-    var deterministic: Boolean = true,
-    var logging: Boolean = true,
-    val linkType: MutableList<LinkType> = mutableListOf(),
-    val sensorType: MutableList<SensorType> = mutableListOf(),
-    val deviceType: MutableList<DeviceType> = mutableListOf(),
-    val fixedDevice: MutableList<FixedDevice> = mutableListOf(),
-    val fixedLink: MutableList<FixedLink> = mutableListOf(),
-    val rootRouter: String = "",
-    val randomMeshNetwork: MutableList<RandomMeshNetwork> = mutableListOf(),
-    val randomStarNetwork: MutableList<RandomStarNetwork> = mutableListOf(),
-    val querySender: MutableList<QuerySender> = mutableListOf(),
-) {
-    public constructor(data: JsonParserObject) : this(
-        database = data.getOrEmptyObject("database"),
-        deterministic = data.getOrDefault("deterministic", true),
-        logging = data.getOrDefault("logging", true),
-        linkType = data.getOrEmptyArray("linkType").map { LinkType(it as JsonParserObject) },
-        sensorType = data.getOrEmptyArray("sensorType").map { SensorType(it as JsonParserObject) },
-        deviceType = data.getOrEmptyArray("deviceType").map { DeviceType(it as JsonParserObject) },
-        fixedDevice = data.getOrEmptyArray("fixedDevice").map { FixedDevice(it as JsonParserObject) },
-        fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) },
-        rootRouter = data.getOrDefault("rootRouter", ""),
-        randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) },
-        randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) },
-        querySender = data.getOrEmptyArray("querySender").map { QuerySender(it as JsonParserObject) },
-    ) {
-        println("used configuration ${JsonParser().jsonToString(data)}")
+public class JsonObjects {
+    public var database: JsonParserObject
+    public var deterministic: Boolean
+    public var logging: Boolean
+    public val linkType: MutableList<LinkType>
+    public val sensorType: MutableList<SensorType>
+    public val deviceType: MutableList<DeviceType>
+    public val fixedDevice: MutableList<FixedDevice>
+    public val fixedLink: MutableList<FixedLink>
+    public val rootRouter: String
+    public val randomMeshNetwork: MutableList<RandomMeshNetwork>
+    public val randomStarNetwork: MutableList<RandomStarNetwork>
+    public val querySender: MutableList<QuerySender>
+    public val json: JsonParserObject
+
+    public constructor() : this(JsonParserObject(mutableMapOf()))
+    public constructor(data: JsonParserObject) {
+        json = data
+        database = data.getOrEmptyObject("database")
+        deterministic = data.getOrDefault("deterministic", true)
+        logging = data.getOrDefault("logging", true)
+        linkType = data.getOrEmptyArray("linkType").map { LinkType(it as JsonParserObject) }
+        sensorType = data.getOrEmptyArray("sensorType").map { SensorType(it as JsonParserObject) }
+        deviceType = data.getOrEmptyArray("deviceType").map { DeviceType(it as JsonParserObject) }
+        fixedDevice = data.getOrEmptyArray("fixedDevice").map { FixedDevice(it as JsonParserObject) }
+        fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
+        rootRouter = data.getOrDefault("rootRouter", "")
+        randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
+        randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
+        querySender = data.getOrEmptyArray("querySender").map { QuerySender(it as JsonParserObject) }
     }
 }
 
-public data class LinkType(
-    val name: String = "",
-    var rangeInMeters: Int = 0,
-    val dataRateInKbps: Int = 0,
-) {
-    public constructor(data: JsonParserObject) : this(
-        name = data.getOrDefault("name", ""),
-        rangeInMeters = data.getOrDefault("rangeInMeters", 0),
-        dataRateInKbps = data.getOrDefault("dataRateInKbps", 0),
-    )
+public class LinkType {
+    public val name: String
+    public var rangeInMeters: Int
+    public val dataRateInKbps: Int
+    public constructor(data: JsonParserObject) {
+        name = data.getOrDefault("name", "")
+        rangeInMeters = data.getOrDefault("rangeInMeters", 0)
+        dataRateInKbps = data.getOrDefault("dataRateInKbps", 0)
+    }
 }
 
-public data class SensorType(
-    val name: String = "",
-    val area: Int = 0,
-    val dataSink: String = "",
-    val rateInSec: Int = 0,
-    var maxSamples: Int = -1,
-) {
-    public constructor(data: JsonParserObject) : this(
-        name = data.getOrDefault("name", ""),
-        area = data.getOrDefault("area", 0),
-        dataSink = data.getOrDefault("dataSink", ""),
-        rateInSec = data.getOrDefault("rateInSec", 0),
-        maxSamples = data.getOrDefault("maxSamples", -1),
-    )
+public class SensorType {
+    public val name: String
+    public val area: Int
+    public val dataSink: String
+    public val rateInSec: Int
+    public var maxSamples: Int
+
+    public constructor(data: JsonParserObject) {
+        name = data.getOrDefault("name", "")
+        area = data.getOrDefault("area", 0)
+        dataSink = data.getOrDefault("dataSink", "")
+        rateInSec = data.getOrDefault("rateInSec", 0)
+        maxSamples = data.getOrDefault("maxSamples", -1)
+    }
 }
 
-public data class DeviceType(
-    val name: String = "",
-    var database: Boolean = false,
-    val parkingSensor: String = "",
-    val performance: Double = 100.0,
-    val supportedLinkTypes: List<String> = mutableListOf(),
-) {
-    public constructor(data: JsonParserObject) : this(
-        name = data.getOrDefault("name", ""),
-        database = data.getOrDefault("database", false),
-        parkingSensor = data.getOrDefault("parkingSensor", ""),
-        performance = data.getOrDefault("performance", 100.0),
-        supportedLinkTypes = data.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList(),
-    )
+public class DeviceType {
+    public val name: String
+    public var database: Boolean = false
+    public val parkingSensor: String
+    public val performance: Double
+    public val supportedLinkTypes: List<String>
+    public constructor(data: JsonParserObject) {
+        name = data.getOrDefault("name", "")
+        database = data.getOrDefault("database", false)
+        parkingSensor = data.getOrDefault("parkingSensor", "")
+        performance = data.getOrDefault("performance", 100.0)
+        supportedLinkTypes = data.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList()
+    }
 }
 
-public data class FixedDevice(
-    val name: String = "",
-    val deviceType: String = "",
-    val latitude: Double = 0.0,
-    val longitude: Double = 0.0,
-) {
-    public constructor(data: JsonParserObject) : this(
-        name = data.getOrDefault("name", ""),
-        deviceType = data.getOrDefault("deviceType", ""),
-        latitude = data.getOrDefault("latitude", 0.0),
-        longitude = data.getOrDefault("longitude", 0.0),
-    )
+public class FixedDevice {
+    public val name: String
+    public val deviceType: String
+    public val latitude: Double
+    public val longitude: Double
+
+    public constructor(data: JsonParserObject) {
+        name = data.getOrDefault("name", "")
+        deviceType = data.getOrDefault("deviceType", "")
+        latitude = data.getOrDefault("latitude", 0.0)
+        longitude = data.getOrDefault("longitude", 0.0)
+    }
 }
 
-public data class FixedLink(
-    val fixedDeviceA: String = "",
-    val fixedDeviceB: String = "",
-    val dataRateInKbps: Int = 0,
-) {
-    public constructor(data: JsonParserObject) : this(
-        fixedDeviceA = data.getOrDefault("fixedDeviceA", ""),
-        fixedDeviceB = data.getOrDefault("fixedDeviceB", ""),
-        dataRateInKbps = data.getOrDefault("dataRateInKbps", 0),
-    )
+public class FixedLink {
+    public val fixedDeviceA: String
+    public val fixedDeviceB: String
+    public val dataRateInKbps: Int
+    public constructor(data: JsonParserObject) {
+        fixedDeviceA = data.getOrDefault("fixedDeviceA", "")
+        fixedDeviceB = data.getOrDefault("fixedDeviceB", "")
+        dataRateInKbps = data.getOrDefault("dataRateInKbps", 0)
+    }
 }
 
-public data class RandomStarNetwork(
-    val networkPrefix: String = "",
-    val starRoot: String = "",
-    val dataSink: String = "",
-    val linkType: String = "",
-    val deviceType: String = "",
-    var number: Int = 0
-) {
-    public constructor(data: JsonParserObject) : this(
-        networkPrefix = data.getOrDefault("networkPrefix", ""),
-        starRoot = data.getOrDefault("starRoot", ""),
-        dataSink = data.getOrDefault("dataSink", ""),
-        linkType = data.getOrDefault("linkType", ""),
-        deviceType = data.getOrDefault("deviceType", ""),
-        number = data.getOrDefault("number", 0),
-    )
+public class RandomStarNetwork {
+    public val networkPrefix: String
+    public val starRoot: String
+    public val dataSink: String
+    public val linkType: String
+    public val deviceType: String
+    public var number: Int
+    public constructor(data: JsonParserObject) {
+        networkPrefix = data.getOrDefault("networkPrefix", "")
+        starRoot = data.getOrDefault("starRoot", "")
+        dataSink = data.getOrDefault("dataSink", "")
+        linkType = data.getOrDefault("linkType", "")
+        deviceType = data.getOrDefault("deviceType", "")
+        number = data.getOrDefault("number", 0)
+    }
 }
 
-public data class RandomMeshNetwork(
-    val networkPrefix: String = "",
-    val originLatitude: Double = 0.0,
-    val originLongitude: Double = 0.0,
-    val deviceType: String = "",
-    val linkType: String = "",
-    val signalCoverageEast: Int = 0,
-    val signalCoverageSouth: Int = 0
-) {
-    public constructor(data: JsonParserObject) : this(
-        networkPrefix = data.getOrDefault("networkPrefix", ""),
-        originLatitude = data.getOrDefault("originLatitude", 0.0),
-        originLongitude = data.getOrDefault("originLongitude", 0.0),
-        deviceType = data.getOrDefault("deviceType", ""),
-        linkType = data.getOrDefault("linkType", ""),
-        signalCoverageEast = data.getOrDefault("signalCoverageEast", 0),
-        signalCoverageSouth = data.getOrDefault("signalCoverageSouth", 0),
-    )
+public class RandomMeshNetwork {
+    public val networkPrefix: String
+    public val originLatitude: Double
+    public val originLongitude: Double
+    public val deviceType: String
+    public val linkType: String
+    public val signalCoverageEast: Int
+    public val signalCoverageSouth: Int
+    public constructor(data: JsonParserObject) {
+        networkPrefix = data.getOrDefault("networkPrefix", "")
+        originLatitude = data.getOrDefault("originLatitude", 0.0)
+        originLongitude = data.getOrDefault("originLongitude", 0.0)
+        deviceType = data.getOrDefault("deviceType", "")
+        linkType = data.getOrDefault("linkType", "")
+        signalCoverageEast = data.getOrDefault("signalCoverageEast", 0)
+        signalCoverageSouth = data.getOrDefault("signalCoverageSouth", 0)
+    }
 }
 
-public data class QuerySender(
-    val name: String = "",
-    val sendRateInSeconds: Int = 0,
-    var maxNumberOfQueries: Int = 0,
-    val sendStartClockInSec: Int = 0,
-    var query: String = "",
-) {
-    public constructor(data: JsonParserObject) : this(
-        name = data.getOrDefault("name", ""),
-        sendRateInSeconds = data.getOrDefault("sendRateInSeconds", 0),
-        maxNumberOfQueries = data.getOrDefault("maxNumberOfQueries", 0),
-        sendStartClockInSec = data.getOrDefault("sendStartClockInSec", 0),
-        query = data.getOrDefault("query", ""),
-    )
+public class QuerySender {
+    public val name: String
+    public val sendRateInSeconds: Int
+    public var maxNumberOfQueries: Int
+    public val sendStartClockInSec: Int
+    public var query: String
+    public constructor(data: JsonParserObject) {
+        name = data.getOrDefault("name", "")
+        sendRateInSeconds = data.getOrDefault("sendRateInSeconds", 0)
+        maxNumberOfQueries = data.getOrDefault("maxNumberOfQueries", 0)
+        sendStartClockInSec = data.getOrDefault("sendStartClockInSec", 0)
+        query = data.getOrDefault("query", "")
+    }
 }

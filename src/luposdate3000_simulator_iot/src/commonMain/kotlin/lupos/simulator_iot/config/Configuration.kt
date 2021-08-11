@@ -77,7 +77,12 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     internal fun parse(fileName: String) {
-        parse(readJsonFile(fileName))
+        val fileStr = File(fileName).readAsString()
+        val json = JsonParser().stringToJson(fileStr) as JsonParserObject
+        parse(json)
+    }
+    internal fun parse(json: JsonParserObject) {
+        parse(JsonObjects(json))
     }
 
     private fun initVariables(jsonObjects: JsonObjects) {
@@ -85,10 +90,11 @@ public class Configuration(private val simRun: SimulationRun) {
         linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
     }
 
-    internal fun readJsonFile(fileName: String): JsonObjects {
+/*    internal fun readJsonFile(fileName: String): JsonObjects {
         val fileStr = File(fileName).readAsString()
         return JsonObjects(JsonParser().stringToJson(fileStr) as JsonParserObject)
     }
+*/
 
     public fun getEntities(): MutableList<Entity> {
         val entities: MutableList<Entity> = mutableListOf()
@@ -213,10 +219,10 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     private fun createFixedLinks() {
-        for ((fixedDeviceA, fixedDeviceB, dataRateInKbps) in jsonObjects.fixedLink) {
-            val a = getDeviceByName(fixedDeviceA)
-            val b = getDeviceByName(fixedDeviceB)
-            linker.link(a, b, dataRateInKbps)
+        for (l in jsonObjects.fixedLink) {
+            val a = getDeviceByName(l.fixedDeviceA)
+            val b = getDeviceByName(l.fixedDeviceB)
+            linker.link(a, b, l.dataRateInKbps)
         }
     }
 

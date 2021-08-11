@@ -16,7 +16,8 @@
  */
 
 package lupos.simulator_iot.integration
-
+import lupos.parser.JsonParser
+import lupos.parser.JsonParserObject
 import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
 import lupos.simulator_iot.Evaluation
 import lupos.simulator_iot.SimulationRun
@@ -174,17 +175,11 @@ class IntegrationTest {
 
     private fun campusWithQuery(configFile: String, queryString: String) {
         val simRun = SimulationRun()
-        val json = simRun.parseConfigFile(configFile)
-        json.querySender.add(
-            QuerySender(
-                name = "Q1",
-                sendRateInSeconds = 1,
-                maxNumberOfQueries = 1,
-                sendStartClockInSec = 10 * 60,
-                query = queryString
-            )
-        )
-        val config = simRun.parseJsonObjects(json)
+val json=JsonParser().fileToJson(configFile) as JsonParserObject
+val querySenders=json.getOrEmptyArray("querySender")
+querySenders.add(JsonParser().stringToJson("{\"name\":\"Q1\",\"sendRateInSeconds\":1,\"maxNumberOfQueries\":1,\"sendStartClockInSec\":600,\"query\":\"${JsonParser().encodeString(queryString)}\"}"))
+        val jsonObject = simRun.parseConfig(json)
+        val config = simRun.parseJsonObjects(jsonObject)
         config.jsonObjects.database["SharedMemoryDictionaryCheat"] = "false"
         val ontologySender = lupos.simulator_iot.queryproc.QuerySender(
             simRun,

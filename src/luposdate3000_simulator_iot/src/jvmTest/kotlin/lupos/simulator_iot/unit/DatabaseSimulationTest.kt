@@ -17,6 +17,7 @@
 
 package lupos.simulator_iot.unit
 
+import lupos.parser.JsonParser
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
@@ -37,7 +38,7 @@ class DatabaseSimulationTest {
     @Test
     fun saveParkingSamplesInDummyTripleStore() {
         val simRun = SimulationRun()
-        val json = simRun.parseConfigFile("$prefix/saveParkingSamplesInDummyTripleStore.json")
+        val json = simRun.parseConfig(JsonParser().fileToJson("$prefix/saveParkingSamplesInDummyTripleStore.json"))
         val config = simRun.parseJsonObjects(json)
         val g = config.getDeviceByName("G")
 
