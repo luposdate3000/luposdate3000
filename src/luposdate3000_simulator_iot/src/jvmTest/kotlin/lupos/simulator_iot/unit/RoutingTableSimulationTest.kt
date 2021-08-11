@@ -34,8 +34,7 @@ class RoutingTableSimulationTest {
     @Test
     fun multiHopDODAGRoutingTableTest() {
         val simRun = SimulationRun()
-        val json = simRun.parseConfig(JsonParser().fileToJson("$prefix/multiHopDODAGRoutingTableTest.json"))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson("$prefix/multiHopDODAGRoutingTableTest.json"))
 
         val a = config.getDeviceByName("A")
         val aRouter = a.router as RPL
@@ -83,8 +82,7 @@ class RoutingTableSimulationTest {
     @Test
     fun starNetworkRoutingTables() {
         val simRun = SimulationRun()
-        val json = simRun.parseConfig(JsonParser().fileToJson("$prefix/starNetworkRoutingTables.json"))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson("$prefix/starNetworkRoutingTables.json"))
 
         val starNet = config.randStarNetworks["garageA"]!!
         val root = starNet.root
@@ -108,8 +106,7 @@ class RoutingTableSimulationTest {
     @Test
     fun getNextDBHops1() {
         val simRun = SimulationRun()
-        val json = simRun.parseConfig(JsonParser().fileToJson("$prefix/getNextDBHops1.json"))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson("$prefix/getNextDBHops1.json"))
 
         val a = config.getDeviceByName("A")
         val b = config.getDeviceByName("B")
@@ -142,8 +139,7 @@ class RoutingTableSimulationTest {
     @Test
     fun getNextDBHops2() {
         val simRun = SimulationRun()
-        val json = simRun.parseConfig(JsonParser().fileToJson("$prefix/getNextDBHops2.json"))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson("$prefix/getNextDBHops2.json"))
 
         val a = config.getDeviceByName("A")
         val b = config.getDeviceByName("B")
@@ -172,8 +168,7 @@ class RoutingTableSimulationTest {
     @Test
     fun getNextDBHops3() {
         val simRun = SimulationRun()
-        val json = simRun.parseConfig(JsonParser().fileToJson("$prefix/getNextDBHops3.json"))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson("$prefix/getNextDBHops3.json"))
 
         val a = config.getDeviceByName("A")
         val b = config.getDeviceByName("B")

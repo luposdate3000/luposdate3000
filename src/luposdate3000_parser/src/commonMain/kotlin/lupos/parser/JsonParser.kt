@@ -300,6 +300,7 @@ public class JsonParser {
                 }
                 '\\' -> {
                     backslashOpen = !backslashOpen
+                    i++
                 }
                 else -> {
                     backslashOpen = false
