@@ -23,7 +23,7 @@ import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
 
-public class DatabaseSystemDummy : IDatabase {
+public class DatabaseSystemDummy public constructor(config: MutableMap<String, String>) : IDatabase {
 
     private lateinit var state: DummyDatabaseState
 

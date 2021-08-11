@@ -1,6 +1,6 @@
 {
-    "database" = {
-        "type" = "Dummy"
+    "database" : {
+        "type" : "Dummy"
     },
     "deterministic": false,
     "linkType": [],

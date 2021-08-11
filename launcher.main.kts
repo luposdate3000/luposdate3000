@@ -907,7 +907,10 @@ val a1=LauncherConfig.getConfigValue("--processUrlsStore")
 val a2=LauncherConfig.getConfigValue("--processUrlsQuery")
 val c1=a1.count { it == ',' }
 val c2=a2.count { it == ',' }
-val c=c1+c2+if(a1.length>0){1}else{0}+if(a2.length>0){1}else{0}
+var c=c1+c2+if(a1.length>0){1}else{0}+if(a2.length>0){1}else{0}
+if(c==0){
+c=1
+}
             if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
                 println("export LUPOS_PROCESS_URLS_STORE=${a1}")
                 println("export LUPOS_PROCESS_URLS_QUERY=${a2}")

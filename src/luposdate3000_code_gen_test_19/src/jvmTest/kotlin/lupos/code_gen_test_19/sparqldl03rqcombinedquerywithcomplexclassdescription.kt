@@ -20,14 +20,11 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EPredefinedPartitionSchemesExt
-import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_db.luposdate3000.MySimulatorConfig
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
@@ -92,12 +89,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -106,12 +103,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -120,12 +117,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -134,12 +131,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -148,12 +145,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -162,12 +159,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -176,12 +173,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -190,12 +187,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -204,12 +201,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - true - Centralized - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -218,12 +215,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - true - Centralized - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -232,12 +229,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - true - Routing - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -246,12 +243,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - true - Routing - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = true,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -260,12 +257,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - false - Centralized - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -274,12 +271,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - false - Centralized - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Centralized,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -288,12 +285,12 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - false - Routing - true`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = true,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
@@ -302,20 +299,20 @@ public class sparqldl03rqcombinedquerywithcomplexclassdescription {
     @Test
     public fun `sparqldl03rq combined query with complex class description - in simulator - PartitionByKeyAllCollations - false - Routing - false`() {
         simulatorHelper(
-            MySimulatorConfig(
-                predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations,
-                mergeLocalOperatorgraphs = false,
-                queryDistributionMode = EQueryDistributionModeExt.Routing,
-                useDictionaryInlineEncoding = false,
-                REPLACE_STORE_WITH_VALUES = false,
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
             )
         )
     }
-    public fun simulatorHelper(cfg: MySimulatorConfig) {
+    public fun simulatorHelper(cfg: MutableMap<String, String>) {
         val simRun = SimulationRun()
         val json = simRun.parseConfigFile("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json")
         val config = simRun.parseJsonObjects(json)
-        config.dbConfig = cfg
+        config.jsonObjects.database.putAll(cfg)
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock

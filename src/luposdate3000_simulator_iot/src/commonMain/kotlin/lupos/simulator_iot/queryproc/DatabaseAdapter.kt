@@ -27,7 +27,6 @@ import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.PostProcessSend
-import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.IPayload
 import lupos.simulator_iot.models.sensor.ParkingSample
@@ -38,16 +37,15 @@ import lupos.simulator_iot.queryproc.pck.DBSequenceEndPackage
 import lupos.simulator_iot.queryproc.pck.SequencedPackage
 import lupos.simulator_iot.utils.FilePaths
 
-public class DatabaseAdapter(internal val device: Device, config: Configuration) : IRouter {
+public class DatabaseAdapter(internal val device: Device) : IRouter {
 
     private var pathToStateOfThisDevice = "${FilePaths.dbStates}/device${device.address}"
 
     private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
-    private val dbType = config.jsonObjects.database["type"]
-    public val db: IDatabase = when (dbType) {
-        "Dummy", null -> DatabaseSystemDummy()
-        "Luposdate3000" -> DatabaseHandle()
+    public val db: IDatabase = when (device.simRun.config.jsonObjects.database["type"]) {
+        "Dummy", null -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database)
+        "Luposdate3000" -> DatabaseHandle(device.simRun.config.jsonObjects.database)
         else -> TODO()
     }
 
@@ -95,8 +93,6 @@ public class DatabaseAdapter(internal val device: Device, config: Configuration)
             allAddresses = device.simRun.config.dbDeviceAddresses,
             sender = this@DatabaseAdapter,
             absolutePathToDataDirectory = pathToStateOfThisDevice,
-            enableSharedMemoryDictionaryCheat = device.simRun.config.enableSharedMemoryDictionaryCheat,
-            dbConfig = device.simRun.config.dbConfig,
         ) {}
     }
 

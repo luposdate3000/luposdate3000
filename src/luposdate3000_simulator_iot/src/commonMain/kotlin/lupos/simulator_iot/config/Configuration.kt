@@ -21,7 +21,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
-import lupos.simulator_db.luposdate3000.MySimulatorConfig
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
@@ -33,14 +32,11 @@ import lupos.simulator_iot.queryproc.DatabaseAdapter
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
-    public var enableSharedMemoryDictionaryCheat: Boolean = true
     public var devices: MutableList<Device> = mutableListOf()
-
-    public var dbConfig: MySimulatorConfig? = null
 
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
-    internal var jsonObjects: JsonObjects = JsonObjects()
+    public var jsonObjects: JsonObjects = JsonObjects()
         private set
 
     internal var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
@@ -280,7 +276,7 @@ public class Configuration(private val simRun: SimulationRun) {
     private fun getDatabase(deviceType: DeviceType, device: Device): DatabaseAdapter? {
         if (deviceType.database) {
             numberOfDatabases++
-            return DatabaseAdapter(device, this)
+            return DatabaseAdapter(device)
         }
         return null
     }

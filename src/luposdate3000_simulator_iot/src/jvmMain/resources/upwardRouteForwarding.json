@@ -1,6 +1,6 @@
 {
-    "database" = {
-        "type" = "Luposdate3000"
+    "database" : {
+        "type" : "Luposdate3000"
     },
     "deterministic": true,
     "linkType": [],

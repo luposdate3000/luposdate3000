@@ -255,7 +255,6 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
                 out.println("import lupos.simulator_iot.config.Configuration")
                 out.println("import lupos.simulator_iot.log.Logger")
-                out.println("import lupos.simulator_db.luposdate3000.MySimulatorConfig")
                 out.println("import lupos.simulator_iot.SimulationRun")
                 out.println("")
                 if (!useCodeGen) {
@@ -405,23 +404,23 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                     }
                                     out.println("    @Test")
                                     out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $mergeLocalOperatorgraphs - $queryDistributionMode - $useDictionaryInlineEncoding`() {")
-                                    out.println("        simulatorHelper(MySimulatorConfig(")
-                                    out.println("            predefinedPartitionScheme = EPredefinedPartitionSchemesExt.$predefinedPartitionScheme,")
-                                    out.println("            mergeLocalOperatorgraphs = $mergeLocalOperatorgraphs,")
-                                    out.println("            queryDistributionMode = EQueryDistributionModeExt.$queryDistributionMode,")
-                                    out.println("            useDictionaryInlineEncoding = $useDictionaryInlineEncoding,")
-                                    out.println("            REPLACE_STORE_WITH_VALUES = false,") // this does not work in simulator
+                                    out.println("        simulatorHelper(mutableMapOf(")
+                                    out.println("            \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
+                                    out.println("            \"mergeLocalOperatorgraphs\" to \"$mergeLocalOperatorgraphs\",")
+                                    out.println("            \"queryDistributionMode\" to \"$queryDistributionMode\",")
+                                    out.println("            \"useDictionaryInlineEncoding\" to \"$useDictionaryInlineEncoding\",")
+                                    out.println("            \"REPLACE_STORE_WITH_VALUES\" to \"false\",") // this does not work in simulator
                                     out.println("        ))")
                                     out.println("    }")
                                 }
                             }
                         }
                     }
-                    out.println("    public fun simulatorHelper(cfg:MySimulatorConfig) {")
+                    out.println("    public fun simulatorHelper(cfg:MutableMap<String,String>) {")
                     out.println("        val simRun = SimulationRun()")
                     out.println("        val json=simRun.parseConfigFile(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\")")
                     out.println("        val config = simRun.parseJsonObjects(json)")
-                    out.println("        config.dbConfig=cfg")
+                    out.println("        config.jsonObjects.database.putAll(cfg)")
                     out.println("        simRun.sim = Simulation(config.getEntities())")
                     out.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
                     out.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")

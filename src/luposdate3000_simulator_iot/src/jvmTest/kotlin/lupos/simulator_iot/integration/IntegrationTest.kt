@@ -185,7 +185,7 @@ class IntegrationTest {
             )
         )
         val config = simRun.parseJsonObjects(json)
-        config.enableSharedMemoryDictionaryCheat = false
+        config.jsonObjects.database["SharedMemoryDictionaryCheat"] = "false"
         val ontologySender = lupos.simulator_iot.queryproc.QuerySender(
             simRun,
             "Ontology",

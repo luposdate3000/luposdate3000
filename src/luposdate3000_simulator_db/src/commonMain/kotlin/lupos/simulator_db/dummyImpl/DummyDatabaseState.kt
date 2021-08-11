@@ -27,7 +27,7 @@ public class DummyDatabaseState(
     sender: IRouter,
     absolutePathToDataDirectory: String
 ) :
-    DatabaseState(visualisationNetwork, ownAddress, allAddresses, sender, absolutePathToDataDirectory, true, null) {
+    DatabaseState(visualisationNetwork, ownAddress, allAddresses, sender, absolutePathToDataDirectory) {
 
     public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
     public var addressForQueryEndResult: Int = -1
