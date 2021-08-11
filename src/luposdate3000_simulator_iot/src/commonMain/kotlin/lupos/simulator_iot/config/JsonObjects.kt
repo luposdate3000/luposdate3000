@@ -23,7 +23,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class JsonObjects(
-    var database: MutableMap<String, String> = mutableMapOf(), // custom properties interpreted directly by the database
+    var database: MutableMap<String, Any> = mutableMapOf(), // custom properties interpreted directly by the database
     var deterministic: Boolean = true,
     var logging: Boolean = true,
     val linkType: MutableList<LinkType> = mutableListOf(),
