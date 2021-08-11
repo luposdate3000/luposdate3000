@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_core
 
 class EntityStub : Entity() {

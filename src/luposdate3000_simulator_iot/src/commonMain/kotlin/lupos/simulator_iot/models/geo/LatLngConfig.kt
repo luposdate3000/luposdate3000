@@ -17,7 +17,6 @@
 * */
 package lupos.simulator_iot.models.geo
 
-
 /**
  * Configuration parameters for latitude and longitude calculations.
  *

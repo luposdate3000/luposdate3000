@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_db.luposdate3000
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.Luposdate3000Config

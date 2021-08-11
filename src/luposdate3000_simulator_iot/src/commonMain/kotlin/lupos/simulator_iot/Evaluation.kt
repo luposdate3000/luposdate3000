@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_iot
 
 import lupos.simulator_iot.config.JsonObjects
@@ -184,7 +183,7 @@ public class Evaluation {
                 override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
                     jsonObjects.deviceType[0].database = true
-                    jsonObjects.dummyDatabase = false
+                    jsonObjects.database["type"] = "Luposdate3000"
                 }
             }
             MultipleSimulationRuns(configFileName, 100, prep, printer).startSimulationRuns()
@@ -202,7 +201,7 @@ public class Evaluation {
                 override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
                     jsonObjects.deviceType[0].database = true
-                    jsonObjects.dummyDatabase = true
+                    jsonObjects.database["type"] = "Dummy"
                 }
             }
             MultipleSimulationRuns(configFileName, 100, prep, printer).startSimulationRuns()
@@ -220,7 +219,7 @@ public class Evaluation {
                 override fun prepareJsonObjects(jsonObjects: JsonObjects) {
                     jsonObjects.randomStarNetwork[0].number = numberOfNodes
                     jsonObjects.deviceType[0].database = false
-                    jsonObjects.dummyDatabase = true
+                    jsonObjects.database["type"] = "Dummy"
                 }
             }
             MultipleSimulationRuns(configFileName, 100, prep, printer).startSimulationRuns()

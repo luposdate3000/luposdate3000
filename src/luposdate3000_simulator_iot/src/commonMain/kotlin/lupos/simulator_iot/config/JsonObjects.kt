@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 @file:Suppress("UnusedImport")
 
 package lupos.simulator_iot.config
@@ -24,18 +23,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class JsonObjects(
-    var dummyDatabase: Boolean = true,
+    var database: MutableMap<String, String> = mutableMapOf(), // custom properties interpreted directly by the database
     var deterministic: Boolean = true,
     var logging: Boolean = true,
-    val linkType: MutableList<LinkType> = arrayListOf(),
-    val sensorType: MutableList<SensorType> = arrayListOf(),
-    val deviceType: MutableList<DeviceType> = arrayListOf(),
-    val fixedDevice: MutableList<FixedDevice> = arrayListOf(),
-    val fixedLink: MutableList<FixedLink> = arrayListOf(),
+    val linkType: MutableList<LinkType> = mutableListOf(),
+    val sensorType: MutableList<SensorType> = mutableListOf(),
+    val deviceType: MutableList<DeviceType> = mutableListOf(),
+    val fixedDevice: MutableList<FixedDevice> = mutableListOf(),
+    val fixedLink: MutableList<FixedLink> = mutableListOf(),
     val rootRouter: String = "",
-    val randomMeshNetwork: MutableList<RandomMeshNetwork> = arrayListOf(),
-    val randomStarNetwork: MutableList<RandomStarNetwork> = arrayListOf(),
-    val querySender: MutableList<QuerySender> = arrayListOf(),
+    val randomMeshNetwork: MutableList<RandomMeshNetwork> = mutableListOf(),
+    val randomStarNetwork: MutableList<RandomStarNetwork> = mutableListOf(),
+    val querySender: MutableList<QuerySender> = mutableListOf(),
 )
 
 @Serializable
@@ -60,7 +59,7 @@ public data class DeviceType(
     var database: Boolean = false,
     val parkingSensor: String = "",
     val performance: Double = 100.0,
-    val supportedLinkTypes: List<String> = arrayListOf(),
+    val supportedLinkTypes: List<String> = mutableListOf(),
 )
 
 @Serializable

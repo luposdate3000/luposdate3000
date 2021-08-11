@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_iot.models.routing
 
 internal class RoutingTable(

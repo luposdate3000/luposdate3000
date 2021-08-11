@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_iot.config
 
 import kotlinx.serialization.decodeFromString
@@ -281,7 +280,7 @@ public class Configuration(private val simRun: SimulationRun) {
     private fun getDatabase(deviceType: DeviceType, device: Device): DatabaseAdapter? {
         if (deviceType.database) {
             numberOfDatabases++
-            return DatabaseAdapter(device, jsonObjects.dummyDatabase)
+            return DatabaseAdapter(device, this)
         }
         return null
     }

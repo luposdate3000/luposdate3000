@@ -20,7 +20,6 @@
 
 package lupos.simulator_iot.models.geo
 
-
 /**
  * A utility class for handling units and unit conversions
  * within this library.

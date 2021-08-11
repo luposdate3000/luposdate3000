@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_iot.measure
 import kotlinx.datetime.Instant
 import lupos.simulator_iot.SimulationRun

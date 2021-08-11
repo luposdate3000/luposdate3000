@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_db
 import lupos.simulator_db.luposdate3000.MySimulatorConfig
 import lupos.visualize.distributed.database.VisualisationNetwork

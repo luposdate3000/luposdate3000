@@ -27,6 +27,7 @@ import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.PostProcessSend
+import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.IPayload
 import lupos.simulator_iot.models.sensor.ParkingSample
@@ -37,13 +38,18 @@ import lupos.simulator_iot.queryproc.pck.DBSequenceEndPackage
 import lupos.simulator_iot.queryproc.pck.SequencedPackage
 import lupos.simulator_iot.utils.FilePaths
 
-public class DatabaseAdapter(internal val device: Device, isDummy: Boolean) : IRouter {
+public class DatabaseAdapter(internal val device: Device, config: Configuration) : IRouter {
 
     private var pathToStateOfThisDevice = "${FilePaths.dbStates}/device${device.address}"
 
     private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
-    public val db: IDatabase = if (isDummy) DatabaseSystemDummy() else DatabaseHandle()
+    private val dbType = config.jsonObjects.database["type"]
+    public val db: IDatabase = when (dbType) {
+        "Dummy", null -> DatabaseSystemDummy()
+        "Luposdate3000" -> DatabaseHandle()
+        else -> TODO()
+    }
 
     private lateinit var currentState: DatabaseState
 

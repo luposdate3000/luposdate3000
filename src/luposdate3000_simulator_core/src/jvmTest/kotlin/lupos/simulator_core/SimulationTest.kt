@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.simulator_core
 
 import kotlin.test.Test
@@ -35,7 +34,7 @@ class SimulationTest {
 
     @Test
     fun `run without sending events has no effect on clock`() {
-        val sim = Simulation(arrayListOf(EntityStub(), EntityStub()))
+        val sim = Simulation(mutableListOf(EntityStub(), EntityStub()))
         val startClock = sim.clock
         sim.startSimulation()
         assertEquals(0, startClock)
@@ -69,7 +68,7 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
+        val sim = Simulation(mutableListOf(receivingEntity, sendingEntity))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -119,7 +118,7 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
+        val sim = Simulation(mutableListOf(receivingEntity, sendingEntity))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -160,7 +159,7 @@ class SimulationTest {
             override fun onEvent(source: Entity, data: Any) {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(entityA, entityB, entityC))
+        val sim = Simulation(mutableListOf(entityA, entityB, entityC))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -181,7 +180,7 @@ class SimulationTest {
 
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(entityA))
+        val sim = Simulation(mutableListOf(entityA))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -217,7 +216,7 @@ class SimulationTest {
                 entityCIsCalled = true
             }
         }
-        val sim = Simulation(arrayListOf(entityA, entityB, entityC))
+        val sim = Simulation(mutableListOf(entityA, entityB, entityC))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -256,7 +255,7 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
+        val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -297,7 +296,7 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
+        val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -328,7 +327,7 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(busyEntity))
+        val sim = Simulation(mutableListOf(busyEntity))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -337,7 +336,7 @@ class SimulationTest {
 
     @Test
     fun `check default end time`() {
-        val sim = Simulation(arrayListOf())
+        val sim = Simulation(mutableListOf())
         sim.callback = LoggerStub(sim)
         assertEquals(Long.MAX_VALUE, sim.maxClock)
     }
@@ -362,7 +361,7 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(receivingEntity, sendingEntity))
+        val sim = Simulation(mutableListOf(receivingEntity, sendingEntity))
         sim.callback = LoggerStub(sim)
         sim.maxClock = maxClock
         sim.startSimulation()
@@ -398,7 +397,7 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
+        val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
         sim.callback = LoggerStub(sim)
         sim.maxClock = maxClock
         sim.startSimulation()
@@ -441,7 +440,7 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(respondingEntity, sendingEntity))
+        val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -485,7 +484,7 @@ class SimulationTest {
             override fun onSteadyState() {}
             override fun onShutDown() {}
         }
-        val sim = Simulation(arrayListOf(entity))
+        val sim = Simulation(mutableListOf(entity))
         sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
@@ -526,7 +525,7 @@ class SimulationTest {
             override fun onShutDown() {}
         }
 
-        val sim = Simulation(arrayListOf(entityA, entityB))
+        val sim = Simulation(mutableListOf(entityA, entityB))
         sim.callback = LoggerStub(sim)
         sim.steadyClock = steadyStateAt
         sim.startSimulation()

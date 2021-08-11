@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package lupos.code_generator_shared
 
 import lupos.shared.UUID_Counter

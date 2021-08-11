@@ -24,7 +24,6 @@ import kotlin.Long
 import kotlin.math.abs
 import kotlin.random.Random
 
-
 /**
  *
  * A representation of a single point in latitude and longitude.
