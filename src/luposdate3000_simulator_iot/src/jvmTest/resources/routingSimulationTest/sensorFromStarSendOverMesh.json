@@ -1,11 +1,12 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": false,
-    "linkType": [
-        {
-        "name": "WPAN",
-        "rangeInMeters": 30,
-        "dataRateInKbps": 250
+    "linkType": [{
+            "name": "WPAN",
+            "rangeInMeters": 30,
+            "dataRateInKbps": 250
         },
         {
             "name": "WLAN",
@@ -13,15 +14,13 @@
             "dataRateInKbps": 25000
         }
     ],
-    "sensorType": [
-        {
-            "name": "park1",
-            "area": 1,
-            "dataSink": "Fog",
-            "rateInSec": 60,
-            "maxSamples": 4
-        }
-    ],
+    "sensorType": [{
+        "name": "park1",
+        "area": 1,
+        "dataSink": "Fog",
+        "rateInSec": 60,
+        "maxSamples": 4
+    }],
     "deviceType": [{
             "name": "FogTower",
             "database": true,
@@ -114,14 +113,14 @@
     "fixedLink": [],
     "rootRouter": "Fog",
     "randomMeshNetwork": [{
-        "networkPrefix": "campusMesh",
-        "originLatitude": 53.83897140331313,
-        "originLongitude": 10.694405480987202,
-        "deviceType": "EdgeGatewayDevice",
-        "linkType": "WLAN",
-        "signalCoverageEast": 560,
-        "signalCoverageSouth": 460
-    }
+            "networkPrefix": "campusMesh",
+            "originLatitude": 53.83897140331313,
+            "originLongitude": 10.694405480987202,
+            "deviceType": "EdgeGatewayDevice",
+            "linkType": "WLAN",
+            "signalCoverageEast": 560,
+            "signalCoverageSouth": 460
+        }
 
     ],
     "randomStarNetwork": [{

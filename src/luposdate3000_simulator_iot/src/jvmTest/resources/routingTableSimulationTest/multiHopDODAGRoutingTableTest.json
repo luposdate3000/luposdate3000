@@ -1,10 +1,11 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": false,
     "logging": true,
     "linkType": [],
-    "sensorType": [
-    ],
+    "sensorType": [],
     "deviceType": [{
         "name": "Fog",
         "database": true,

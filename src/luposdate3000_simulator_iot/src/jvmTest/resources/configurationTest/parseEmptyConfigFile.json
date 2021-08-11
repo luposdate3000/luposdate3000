@@ -1,9 +1,10 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": false,
     "linkType": [],
-    "sensorType": [
-    ],
+    "sensorType": [],
     "deviceType": [],
     "fixedDevice": [],
     "fixedLink": [],

@@ -1,13 +1,14 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": false,
     "linkType": [{
         "name": "WIRE",
         "rangeInMeters": 100000,
         "dataRateInKbps": 1000
     }],
-    "sensorType": [
-    ],
+    "sensorType": [],
     "deviceType": [{
             "name": "RadioTower",
             "database": true,

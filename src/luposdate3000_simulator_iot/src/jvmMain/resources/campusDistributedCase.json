@@ -1,12 +1,12 @@
-
 {
-    "dummyDatabase": false,
+    "database" = {
+        "type" = "Luposdate3000"
+    },
     "deterministic": true,
-    "linkType": [
-        {
-        "name": "WPAN",
-        "rangeInMeters": 30,
-        "dataRateInKbps": 250
+    "linkType": [{
+            "name": "WPAN",
+            "rangeInMeters": 30,
+            "dataRateInKbps": 250
         },
         {
             "name": "WLAN",
@@ -14,8 +14,7 @@
             "dataRateInKbps": 25000
         }
     ],
-    "sensorType": [
-        {
+    "sensorType": [{
             "name": "Parking Sensor WSN 1",
             "area": 1,
             "dataSink": "Root WSN 1",
@@ -312,14 +311,14 @@
     "fixedLink": [],
     "rootRouter": "Fog",
     "randomMeshNetwork": [{
-        "networkPrefix": "Campus Mesh",
-        "originLatitude": 53.83897140331313,
-        "originLongitude": 10.694405480987202,
-        "deviceType": "Mesh Hop",
-        "linkType": "WLAN",
-        "signalCoverageEast": 560,
-        "signalCoverageSouth": 460
-    }
+            "networkPrefix": "Campus Mesh",
+            "originLatitude": 53.83897140331313,
+            "originLongitude": 10.694405480987202,
+            "deviceType": "Mesh Hop",
+            "linkType": "WLAN",
+            "signalCoverageEast": 560,
+            "signalCoverageSouth": 460
+        }
 
     ],
     "randomStarNetwork": [{
@@ -393,13 +392,11 @@
             "number": 5
         }
     ],
-    "querySender": [
-        {
-            "name": "Driver",
-            "sendRateInSeconds": 1,
-            "maxNumberOfQueries": 1,
-            "sendStartClockInSec": 9000,
-            "query": ""
-        }
-    ]
+    "querySender": [{
+        "name": "Driver",
+        "sendRateInSeconds": 1,
+        "maxNumberOfQueries": 1,
+        "sendStartClockInSec": 9000,
+        "query": ""
+    }]
 }

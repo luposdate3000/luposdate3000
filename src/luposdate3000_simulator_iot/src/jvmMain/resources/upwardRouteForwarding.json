@@ -1,15 +1,15 @@
 {
-    "dummyDatabase": false,
+    "database" = {
+        "type" = "Luposdate3000"
+    },
     "deterministic": true,
     "linkType": [],
-    "sensorType": [
-        {
-            "name": "park1",
-            "dataSink": "A",
-            "rateInSec": 30,
-            "maxSamples": 100
-        }
-    ],
+    "sensorType": [{
+        "name": "park1",
+        "dataSink": "A",
+        "rateInSec": 30,
+        "maxSamples": 100
+    }],
     "deviceType": [{
             "name": "Fog",
             "database": false,
@@ -99,13 +99,11 @@
     "rootRouter": "A",
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": [
-        {
-            "name": "driver looking for parking 1",
-            "sendRateInSeconds": 2,
-            "maxNumberOfQueries": 1,
-            "sendStartClockInSec": 200,
-            "query": "SELECT * WHERE {?s ?p ?o . }"
-        }
-    ]
+    "querySender": [{
+        "name": "driver looking for parking 1",
+        "sendRateInSeconds": 2,
+        "maxNumberOfQueries": 1,
+        "sendStartClockInSec": 200,
+        "query": "SELECT * WHERE {?s ?p ?o . }"
+    }]
 }

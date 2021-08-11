@@ -1,5 +1,7 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": true,
     "linkType": [{
         "name": "WPAN",

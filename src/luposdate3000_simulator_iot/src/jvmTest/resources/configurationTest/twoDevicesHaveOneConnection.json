@@ -1,20 +1,20 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": false,
     "linkType": [{
         "name": "WIRE",
         "rangeInMeters": 100000,
         "dataRateInKbps": 1000
     }],
-    "sensorType": [
-        {
-            "name": "park1",
-            "area": 1,
-            "dataSink": "Tower1",
-            "rateInSec": 30,
-            "maxSamples": -1
-        }
-    ],
+    "sensorType": [{
+        "name": "park1",
+        "area": 1,
+        "dataSink": "Tower1",
+        "rateInSec": 30,
+        "maxSamples": -1
+    }],
     "deviceType": [{
             "name": "RadioTower",
             "database": true,

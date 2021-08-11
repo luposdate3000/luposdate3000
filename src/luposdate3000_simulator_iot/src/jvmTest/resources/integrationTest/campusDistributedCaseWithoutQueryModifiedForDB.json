@@ -1,15 +1,14 @@
 {
-    "dummyDatabase": false,
+    "database" = {
+        "type" = "Luposdate3000"
+    },
     "deterministic": true,
-    "linkType": [
-        {
+    "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 1,
         "dataRateInKbps": 250
-        }
-    ],
-    "sensorType": [
-        {
+    }],
+    "sensorType": [{
             "name": "Parking Sensor WSN 1",
             "area": 1,
             "dataSink": "Root WSN 1",
@@ -38,8 +37,7 @@
             "maxSamples": 3
         }
     ],
-    "deviceType": [
-{
+    "deviceType": [{
             "name": "Mesh Hop",
             "database": false,
             "parkingSensor": "",
@@ -103,8 +101,7 @@
             "supportedLinkTypes": ["WPAN"]
         }
     ],
-    "fixedDevice": [
-{
+    "fixedDevice": [{
             "name": "Root WSN 1",
             "deviceType": "Edge Gateway WSN 1",
             "latitude": 0.002,
@@ -128,59 +125,57 @@
             "latitude": 0.003,
             "longitude": 0.002
         },
-{
+        {
             "name": "HOP 12",
             "deviceType": "Mesh Hop",
             "latitude": 0.002,
             "longitude": 0.0005
         },
-{
+        {
             "name": "HOP 23",
             "deviceType": "Mesh Hop",
             "latitude": 0.001,
             "longitude": 0.0015
         },
-{
+        {
             "name": "HOP 24",
             "deviceType": "Mesh Hop",
             "latitude": 0.003,
             "longitude": 0.0015
         }
     ],
-    "fixedLink": [
-{
-            "fixedDeviceA": "Root WSN 1",
-            "fixedDeviceB": "HOP 12",
-            "dataRateInKbps": 304
-},{
-            "fixedDeviceA": "HOP 12",
-            "fixedDeviceB": "Root WSN 2",
-            "dataRateInKbps": 304
-},{
-            "fixedDeviceA": "Root WSN 2",
-            "fixedDeviceB": "HOP 23",
-            "dataRateInKbps": 304
-},{
-            "fixedDeviceA": "Root WSN 2",
-            "fixedDeviceB": "HOP 24",
-            "dataRateInKbps": 304
-},{
-            "fixedDeviceA": "HOP 23",
-            "fixedDeviceB": "Root WSN 3",
-            "dataRateInKbps": 304
-},{
-            "fixedDeviceA": "HOP 24",
-            "fixedDeviceB": "Root WSN 4",
-            "dataRateInKbps": 304
-}
-],
+    "fixedLink": [{
+        "fixedDeviceA": "Root WSN 1",
+        "fixedDeviceB": "HOP 12",
+        "dataRateInKbps": 304
+    }, {
+        "fixedDeviceA": "HOP 12",
+        "fixedDeviceB": "Root WSN 2",
+        "dataRateInKbps": 304
+    }, {
+        "fixedDeviceA": "Root WSN 2",
+        "fixedDeviceB": "HOP 23",
+        "dataRateInKbps": 304
+    }, {
+        "fixedDeviceA": "Root WSN 2",
+        "fixedDeviceB": "HOP 24",
+        "dataRateInKbps": 304
+    }, {
+        "fixedDeviceA": "HOP 23",
+        "fixedDeviceB": "Root WSN 3",
+        "dataRateInKbps": 304
+    }, {
+        "fixedDeviceA": "HOP 24",
+        "fixedDeviceB": "Root WSN 4",
+        "dataRateInKbps": 304
+    }],
     "rootRouter": "Root WSN 1",
     "randomStarNetwork": [{
             "networkPrefix": "WSN 1",
             "starRoot": "Root WSN 1",
             "linkType": "WPAN",
             "deviceType": "Sensor Device WSN 1",
-            "number":5
+            "number": 5
         },
         {
             "networkPrefix": "WSN 2",
@@ -204,6 +199,5 @@
             "number": 5
         }
     ],
-    "querySender": [
-    ]
+    "querySender": []
 }

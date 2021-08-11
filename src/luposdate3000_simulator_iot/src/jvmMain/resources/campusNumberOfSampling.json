@@ -1,11 +1,12 @@
 {
-    "dummyDatabase": false,
+    "database" = {
+        "type" = "Luposdate3000"
+    },
     "deterministic": true,
-    "linkType": [
-        {
-        "name": "WPAN",
-        "rangeInMeters": 30,
-        "dataRateInKbps": 250
+    "linkType": [{
+            "name": "WPAN",
+            "rangeInMeters": 30,
+            "dataRateInKbps": 250
         },
         {
             "name": "WLAN",
@@ -13,17 +14,14 @@
             "dataRateInKbps": 25000
         }
     ],
-    "sensorType": [
-        {
-            "name": "Sensor",
-            "area": 1,
-            "dataSink": "Fog",
-            "rateInSec": 60,
-            "maxSamples": 1
-        }
-    ],
-    "deviceType": [
-        {
+    "sensorType": [{
+        "name": "Sensor",
+        "area": 1,
+        "dataSink": "Fog",
+        "rateInSec": 60,
+        "maxSamples": 1
+    }],
+    "deviceType": [{
             "name": "Central Tower",
             "database": true,
             "parkingSensor": "Sensor",
@@ -185,14 +183,14 @@
     "fixedLink": [],
     "rootRouter": "Fog",
     "randomMeshNetwork": [{
-        "networkPrefix": "Campus Mesh",
-        "originLatitude": 53.83897140331313,
-        "originLongitude": 10.694405480987202,
-        "deviceType": "Mesh Hop",
-        "linkType": "WLAN",
-        "signalCoverageEast": 560,
-        "signalCoverageSouth": 460
-    }
+            "networkPrefix": "Campus Mesh",
+            "originLatitude": 53.83897140331313,
+            "originLongitude": 10.694405480987202,
+            "deviceType": "Mesh Hop",
+            "linkType": "WLAN",
+            "signalCoverageEast": 560,
+            "signalCoverageSouth": 460
+        }
 
     ],
     "randomStarNetwork": [{

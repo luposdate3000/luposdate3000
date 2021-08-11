@@ -1,5 +1,7 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": false,
     "linkType": [{
             "name": "WIFI",
@@ -12,15 +14,13 @@
             "dataRateInKbps": 250
         }
     ],
-    "sensorType": [
-        {
-            "name": "park1",
-            "area": 1,
-            "dataSink": "Tower1",
-            "rateInSec": 30,
-            "maxSamples": -1
-        }
-    ],
+    "sensorType": [{
+        "name": "park1",
+        "area": 1,
+        "dataSink": "Tower1",
+        "rateInSec": 30,
+        "maxSamples": -1
+    }],
     "deviceType": [{
             "name": "StandAloneParkingSensor",
             "database": false,

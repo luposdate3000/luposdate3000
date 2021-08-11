@@ -1,16 +1,16 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": true,
     "linkType": [],
-    "sensorType": [
-        {
-            "name": "park1",
-            "area": 1,
-            "dataSink": "F",
-            "rateInSec": 9,
-            "maxSamples": 4
-        }
-    ],
+    "sensorType": [{
+        "name": "park1",
+        "area": 1,
+        "dataSink": "F",
+        "rateInSec": 9,
+        "maxSamples": 4
+    }],
     "deviceType": [{
             "name": "Fog",
             "database": false,

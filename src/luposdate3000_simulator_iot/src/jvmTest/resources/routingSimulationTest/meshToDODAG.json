@@ -1,13 +1,14 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": true,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 20,
         "dataRateInKbps": 250
     }],
-    "sensorType": [
-    ],
+    "sensorType": [],
     "deviceType": [{
         "name": "Fog",
         "database": true,

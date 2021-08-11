@@ -1,27 +1,27 @@
 {
-    "dummyDatabase": true,
+    "database" = {
+        "type" = "Dummy"
+    },
     "deterministic": false,
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 30,
         "dataRateInKbps": 250
     }],
-    "sensorType": [
-    ],
+    "sensorType": [],
     "deviceType": [{
-            "name": "Fog",
-            "database": true,
-            "parkingSensor": "",
-            "performance": 20.0,
-            "supportedLinkTypes": ["WPAN"]
-        }
-    ],
+        "name": "Fog",
+        "database": true,
+        "parkingSensor": "",
+        "performance": 20.0,
+        "supportedLinkTypes": ["WPAN"]
+    }],
     "fixedDevice": [{
-        "name": "Tower1",
-        "deviceType": "Fog",
-        "latitude": 3.0,
-        "longitude": 3.0
-    },
+            "name": "Tower1",
+            "deviceType": "Fog",
+            "latitude": 3.0,
+            "longitude": 3.0
+        },
         {
             "name": "Tower2",
             "deviceType": "Fog",
@@ -39,6 +39,5 @@
         "maxNumberOfQueries": 79,
         "sendStartClockInSec": 0,
         "query": "Select dummy From dum"
-        }
-    ]
+    }]
 }

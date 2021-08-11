@@ -1,16 +1,16 @@
 {
-    "dummyDatabase": false,
+    "database" = {
+        "type" = "Luposdate3000"
+    },
     "deterministic": true,
     "linkType": [],
-    "sensorType": [
-        {
-            "name": "park1",
-            "area": 1,
-            "dataSink": "C",
-            "rateInSec": 30,
-            "maxSamples": 50
-        }
-    ],
+    "sensorType": [{
+        "name": "park1",
+        "area": 1,
+        "dataSink": "C",
+        "rateInSec": 30,
+        "maxSamples": 50
+    }],
     "deviceType": [{
             "name": "Other",
             "database": false,
@@ -67,6 +67,5 @@
     "rootRouter": "A",
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": [
-    ]
+    "querySender": []
 }
