@@ -155,7 +155,18 @@ public class JsonParserArray(private val array: MutableList<IJsonParserValue>) :
         val res: List<T> = array.map { action(it) }
         return res.toMutableList()
     }
-
+    public fun firstOrEmptyObject(): JsonParserObject {
+        if (array.size> 0) {
+            return array[0] as JsonParserObject
+        } else {
+            val tmp = JsonParserObject(mutableMapOf())
+            array.add(tmp)
+            return tmp
+        }
+    }
+    public operator fun get(i: Int): IJsonParserValue {
+        return array[i]
+    }
     override operator fun iterator(): Iterator<IJsonParserValue> {
         return array.iterator()
     }

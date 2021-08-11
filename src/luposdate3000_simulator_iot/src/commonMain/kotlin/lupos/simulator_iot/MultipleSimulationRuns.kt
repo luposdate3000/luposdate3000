@@ -17,18 +17,15 @@
 
 package lupos.simulator_iot
 
-import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
-import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.Measurement
 import lupos.simulator_iot.measure.MeasurementPrinter
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 internal class MultipleSimulationRuns(
-    private val configFileName: String,
+    private val json: JsonParserObject,
     private val numberOfRepetitions: Int,
-    private val callback: ISimRunPreparation,
     private val printer: MeasurementPrinter
 ) {
 
@@ -43,8 +40,6 @@ internal class MultipleSimulationRuns(
 
     private fun startSimulationRun() {
         val simRun = SimulationRun()
-        val json = JsonParser().fileToJson(configFileName) as JsonParserObject
-        callback.prepareJsonObjects(JsonObjects(json))
         val config = simRun.parseConfig(json)
         simRun.startSimulation(config)
         measurements.add(simRun.measurement)

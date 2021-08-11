@@ -16,9 +16,9 @@
  */
 
 package lupos.simulator_iot.unit
-import lupos.simulator_iot.ISimRunPreparation
+import lupos.parser.JsonParser
+import lupos.parser.JsonParserObject
 import lupos.simulator_iot.MultipleSimulationRuns
-import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.MeasurementPrinter
 import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
@@ -31,15 +31,9 @@ internal class MultipleSimulationRunsTest {
 
     @Test
     fun runMultipleStarNetworkSimulations() {
-        val callback = object : ISimRunPreparation {
-            override fun prepareJsonObjects(jsonObjects: JsonObjects) {
-                jsonObjects.randomStarNetwork[0].number = 4
-            }
-        }
         val runs = MultipleSimulationRuns(
-            configFileName = "$prefix/runMultipleStarNetworkSimulations.json",
+            json = JsonParser().fileToJson("$prefix/runMultipleStarNetworkSimulations.json") as JsonParserObject,
             numberOfRepetitions = 3,
-            callback = callback,
             printer = MeasurementPrinter("test")
         )
         runs.startSimulationRuns()
@@ -47,14 +41,9 @@ internal class MultipleSimulationRunsTest {
 
     @Test
     fun test_1() {
-        val callback = object : ISimRunPreparation {
-            override fun prepareJsonObjects(jsonObjects: JsonObjects) {
-            }
-        }
         val runs = MultipleSimulationRuns(
-            configFileName = "$prefix/meshToDODAG.json",
+            json = JsonParser().fileToJson("$prefix/meshToDODAG.json") as JsonParserObject,
             numberOfRepetitions = 2,
-            callback = callback,
             printer = MeasurementPrinter("test")
         )
         runs.startSimulationRuns()
