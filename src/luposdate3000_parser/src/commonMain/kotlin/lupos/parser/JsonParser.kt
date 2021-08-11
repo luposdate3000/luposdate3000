@@ -36,27 +36,27 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
     }
 
     public fun putAll(d: Map<String, String>) {
-for((k,v) in d){
-map[k]=JsonParserString(v)
-}
+        for ((k, v) in d) {
+            map[k] = JsonParserString(v)
+        }
     }
-public fun isEmpty():Boolean=map.isEmpty()
+    public fun isEmpty(): Boolean = map.isEmpty()
     public operator fun set(k: String, v: IJsonParserValue) {
         map[k] = v
     }
     public operator fun set(k: String, v: String) {
         map[k] = JsonParserString(v)
     }
-    public operator fun set(k: String, v:Int) {
+    public operator fun set(k: String, v: Int) {
         map[k] = JsonParserInt(v)
     }
-    public operator fun set(k: String, v:Long) {
+    public operator fun set(k: String, v: Long) {
         map[k] = JsonParserLong(v)
     }
-    public operator fun set(k: String, v:Boolean) {
+    public operator fun set(k: String, v: Boolean) {
         map[k] = JsonParserBoolean(v)
     }
-    public operator fun set(k: String, v:Double) {
+    public operator fun set(k: String, v: Double) {
         map[k] = JsonParserDouble(v)
     }
 
@@ -74,11 +74,11 @@ public fun isEmpty():Boolean=map.isEmpty()
         }
     }
     public fun getOrEmptyObject(k: String): JsonParserObject {
-return getOrDefault(k,JsonParserObject(mutableMapOf())) as JsonParserObject
-}
+        return getOrDefault(k, JsonParserObject(mutableMapOf())) as JsonParserObject
+    }
     public fun getOrEmptyArray(k: String): JsonParserArray {
-return getOrDefault(k,JsonParserArray(mutableListOf())) as JsonParserArray
-}
+        return getOrDefault(k, JsonParserArray(mutableListOf())) as JsonParserArray
+    }
     public fun getOrDefault(k: String, v: String): String {
         val tmp = getOrDefault(k, JsonParserString(v))
         val res = when (tmp) {
@@ -95,7 +95,7 @@ return getOrDefault(k,JsonParserArray(mutableListOf())) as JsonParserArray
 
     public fun getOrDefault(k: String, v: Boolean): Boolean {
         val tmp = getOrDefault(k, JsonParserBoolean(v))
-            val res = when (tmp) {
+        val res = when (tmp) {
             is JsonParserString -> tmp.value.toLowerCase() == "true"
             is JsonParserBoolean -> tmp.value
             is JsonParserInt -> tmp.value != 0
@@ -109,7 +109,7 @@ return getOrDefault(k,JsonParserArray(mutableListOf())) as JsonParserArray
 
     public fun getOrDefault(k: String, v: Int): Int {
         val tmp = getOrDefault(k, JsonParserInt(v))
-            val res = when (tmp) {
+        val res = when (tmp) {
             is JsonParserString -> tmp.value.toInt()
             is JsonParserBoolean -> if (tmp.value) 1 else 0
             is JsonParserInt -> tmp.value
@@ -123,7 +123,7 @@ return getOrDefault(k,JsonParserArray(mutableListOf())) as JsonParserArray
 
     public fun getOrDefault(k: String, v: Long): Long {
         val tmp = getOrDefault(k, JsonParserLong(v))
-            val res = when (tmp) {
+        val res = when (tmp) {
             is JsonParserString -> tmp.value.toLong()
             is JsonParserBoolean -> if (tmp.value) 1 else 0
             is JsonParserInt -> tmp.value.toLong()
@@ -137,7 +137,7 @@ return getOrDefault(k,JsonParserArray(mutableListOf())) as JsonParserArray
 
     public fun getOrDefault(k: String, v: Double): Double {
         val tmp = getOrDefault(k, JsonParserDouble(v))
-            val res = when (tmp) {
+        val res = when (tmp) {
             is JsonParserString -> tmp.value.toDouble()
             is JsonParserBoolean -> if (tmp.value) 1.0 else 0.0
             is JsonParserInt -> tmp.value.toDouble()
@@ -151,10 +151,10 @@ return getOrDefault(k,JsonParserArray(mutableListOf())) as JsonParserArray
 }
 
 public class JsonParserArray(private val array: MutableList<IJsonParserValue>) : Iterable<IJsonParserValue>, IJsonParserValue {
-public fun isEmpty():Boolean=array.isEmpty()
+    public fun isEmpty(): Boolean = array.isEmpty()
     public fun <T> map(action: (IJsonParserValue) -> T): MutableList<T> {
-        val res:List<T> = array.map { action(it) }
-return res.toMutableList()
+        val res: List<T> = array.map { action(it) }
+        return res.toMutableList()
     }
 
     override operator fun iterator(): Iterator<IJsonParserValue> {
@@ -328,27 +328,27 @@ public class JsonParser {
 
     private fun jsonToString(data: IJsonParserValue, indention: String): String {
         when (data) {
-            is lupos.parser.JsonParserObject -> {
-if(data.isEmpty()){
-return "{}"
-}else{
-                var res = "{\n"
-                for ((k, v) in data) {
-                    res += "$indention    \"$k\" : ${jsonToString(v, indention + "    ")},\n"
+            is JsonParserObject -> {
+                if (data.isEmpty()) {
+                    return "{}"
+                } else {
+                    var res = "{\n"
+                    for ((k, v) in data) {
+                        res += "$indention    \"$k\": ${jsonToString(v, indention + "    ")},\n"
+                    }
+                    return "$res$indention}"
                 }
-                return "$res$indention}"
-}
             }
             is JsonParserArray -> {
-          if(data.isEmpty()){
-return "[]"
-}else{
-      var res = "[\n"
-                for (e in data) {
-                    res += "$indention    ${jsonToString(e, indention + "    ")},\n"
+                if (data.isEmpty()) {
+                    return "[]"
+                } else {
+                    var res = "[\n"
+                    for (e in data) {
+                        res += "$indention    ${jsonToString(e, indention + "    ")},\n"
+                    }
+                    return "$res$indention]"
                 }
-                return "$res$indention]"
-}
             }
             is JsonParserBoolean -> return "${data.value}"
             is JsonParserInt -> return "${data.value}"
@@ -361,11 +361,6 @@ return "[]"
 
     public fun stringToJson(data: String): IJsonParserValue {
         val res = readValueAt(data, 0).second
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/JsonParser.kt:364"/*SOURCE_FILE_END*/ },
-            { data == jsonToString(res) },
-            { "$data\n -> \n${jsonToString(res)}" }
-        )
-        return res
+return res
     }
 }
