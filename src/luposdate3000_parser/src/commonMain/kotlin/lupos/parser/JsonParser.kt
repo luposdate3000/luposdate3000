@@ -17,8 +17,6 @@
 
 package lupos.parser
 
-import lupos.shared.SanityCheck
-
 public interface IJsonParserValue
 public class JsonParserObject(private val map: MutableMap<String, IJsonParserValue>) : Iterable<Pair<String, IJsonParserValue>>, IJsonParserValue {
     override operator fun iterator(): Iterator<Pair<String, IJsonParserValue>> {
@@ -251,7 +249,7 @@ public class JsonParser {
         var i = off
         while (i < data.length) {
             when (data[i]) {
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '+', '.' -> i++
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '+', '.', 'e', 'E' -> i++
                 else -> break
             }
         }
@@ -276,13 +274,11 @@ public class JsonParser {
             }
             try {
                 val res = num.toDouble()
-                if (num == res.toString()) {
-                    return i to JsonParserDouble(res)
-                }
+                return i to JsonParserDouble(res)
             } catch (e: Throwable) {
             }
         }
-        throw Exception("unknown numberformat at E $off '${data[off]}' $data")
+        throw Exception("unknown numberformat at E $off '${data.substring(off, i)}' $data")
     }
 
     private fun readStringAt(data: String, off: Int): Pair<Int, JsonParserString> {
@@ -361,6 +357,6 @@ public class JsonParser {
 
     public fun stringToJson(data: String): IJsonParserValue {
         val res = readValueAt(data, 0).second
-return res
+        return res
     }
 }

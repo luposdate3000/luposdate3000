@@ -18,6 +18,7 @@
 @file:Suppress("UnusedImport")
 
 package lupos.simulator_iot.config
+import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
 public data class JsonObjects(
@@ -47,7 +48,9 @@ public data class JsonObjects(
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) },
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) },
         querySender = data.getOrEmptyArray("querySender").map { QuerySender(it as JsonParserObject) },
-    )
+    ) {
+        println("used configuration ${JsonParser().jsonToString(data)}")
+    }
 }
 
 public data class LinkType(
