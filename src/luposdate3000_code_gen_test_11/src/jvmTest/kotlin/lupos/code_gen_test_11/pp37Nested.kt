@@ -19,24 +19,16 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.parser.JsonParser
-import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EQueryDistributionModeExt
-import lupos.shared.Luposdate3000Config
 import lupos.shared.MemoryTable
-import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
-import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.log.Logger
 import lupos.simulator_iot.SimulationRun
-
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -87,196 +79,243 @@ public class pp37Nested {
         }
         LuposdateEndpoint.close(instance)
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - true - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - true - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - true - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - true - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - false - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - false - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - false - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >using not implemented feature<
     @Test
     public fun `pp37 Nested  - in simulator - PartitionByKeyAllCollations - false - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
-    public fun simulatorHelper(cfg:MutableMap<String,String>) {
+    public fun simulatorHelper(cfg: MutableMap<String, String>) {
         val simRun = SimulationRun()
-        val json=simRun.parseConfig(JsonParser().fileToJson("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json"))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json"))
         config.jsonObjects.database.putAll(cfg)
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance=(config.devices.filter { it.hasDatabase() }.map{it.database}.filter{it!=null}.map{it!!.db}.first() as DatabaseHandle).instance
+        val instance = (config.devices.filter { it.hasDatabase() }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
         pkg0.onFinish = pkg1
-        val pkg2 = MySimulatorTestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
+        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!)
         pkg1.onFinish = pkg2
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()

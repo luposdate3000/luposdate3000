@@ -64,7 +64,11 @@ public class Configuration(private val simRun: SimulationRun) {
     internal var linker = DeviceLinker()
         private set
 
+    private var hadParse = false
+
     internal fun parse(jsonObjects: JsonObjects) {
+        require(!hadParse)
+        hadParse = true
         initVariables(jsonObjects)
         createFixedDevices()
         setRootDevice()
@@ -89,12 +93,6 @@ public class Configuration(private val simRun: SimulationRun) {
         this.jsonObjects = jsonObjects
         linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
     }
-
-/*    internal fun readJsonFile(fileName: String): JsonObjects {
-        val fileStr = File(fileName).readAsString()
-        return JsonObjects(JsonParser().stringToJson(fileStr) as JsonParserObject)
-    }
-*/
 
     public fun getEntities(): MutableList<Entity> {
         val entities: MutableList<Entity> = mutableListOf()

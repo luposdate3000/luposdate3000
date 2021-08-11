@@ -312,8 +312,7 @@ public class resourcesmyqueriesoptional25sparql4 {
     }
     public fun simulatorHelper(cfg: MutableMap<String, String>) {
         val simRun = SimulationRun()
-        val json = simRun.parseConfig(JsonParser().fileToJson("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json"))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json"))
         config.jsonObjects.database.putAll(cfg)
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock

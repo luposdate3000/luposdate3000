@@ -420,8 +420,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     }
                     out.println("    public fun simulatorHelper(cfg:MutableMap<String,String>) {")
                     out.println("        val simRun = SimulationRun()")
-                    out.println("        val json=simRun.parseConfig(JsonParser().fileToJson(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\"))")
-                    out.println("        val config = simRun.parseJsonObjects(json)")
+                    out.println("        val config=simRun.parseConfig(JsonParser().fileToJson(\"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\"))")
                     out.println("        config.jsonObjects.database.putAll(cfg)")
                     out.println("        simRun.sim = Simulation(config.getEntities())")
                     out.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")

@@ -26,8 +26,7 @@ public class Evaluation {
     public constructor() {}
     public fun simulate(configFileName: String) {
         val simRun = SimulationRun()
-        val json = simRun.parseConfig(JsonParser().fileToJson(configFileName))
-        val config = simRun.parseJsonObjects(json)
+        val config = simRun.parseConfig(JsonParser().fileToJson(configFileName))
         simRun.startSimulation(config)
     }
 

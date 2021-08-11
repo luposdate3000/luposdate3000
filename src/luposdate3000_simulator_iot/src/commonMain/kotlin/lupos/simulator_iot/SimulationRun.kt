@@ -22,7 +22,6 @@ import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.config.JsonObjects
 import lupos.simulator_iot.measure.Logger
 import lupos.simulator_iot.measure.Measurement
 import lupos.simulator_iot.measure.TimeMeasurer
@@ -72,16 +71,11 @@ public class SimulationRun {
         File(FilePaths.dbStates).mkdirs()
     }
 
-    public fun parseConfig(json: IJsonParserValue): JsonObjects {
+    public fun parseConfig(json: IJsonParserValue): Configuration {
         return parseConfig(json as JsonParserObject)
     }
-    public fun parseConfig(json: JsonParserObject): JsonObjects {
+    public fun parseConfig(json: JsonParserObject): Configuration {
         config.parse(json)
-        return config.jsonObjects
-    }
-
-    public fun parseJsonObjects(jsonObjects: JsonObjects): Configuration {
-        config.parse(jsonObjects)
         return config
     }
 
