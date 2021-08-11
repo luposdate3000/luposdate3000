@@ -16,7 +16,7 @@
  */
 
 package lupos.parser
-
+import lupos.shared.SanityCheck
 public class JsonParserObject(private val map: MutableMap<String, Any>) : Iterable<Pair<String, Any>> {
     override operator fun iterator(): Iterator<Pair<String, Any>> {
         return object : Iterator<Pair<String, Any>> {
@@ -30,6 +30,15 @@ public class JsonParserObject(private val map: MutableMap<String, Any>) : Iterab
                 return k to v
             }
         }
+    }
+    public fun putAll(d: Map<String, Any>) {
+        map.putAll(d)
+    }
+    public operator fun set(k: String, v: Any) {
+        map[k] = v
+    }
+    public operator fun get(k: String): Any? {
+        return map[k]
     }
     public fun getOrDefault(k: String, v: Any): Any {
         val res = map[k]
@@ -222,6 +231,12 @@ public class JsonParser {
     }
 
     public fun stringToJson(data: String): Any {
-        return readValueAt(data, 0)
+        val res = readValueAt(data, 0)
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/JsonParser.kt:235"/*SOURCE_FILE_END*/ },
+            { data == jsonToString(res) },
+            { "$data\n -> \n${jsonToString(res)}" }
+        )
+        return res
     }
 }

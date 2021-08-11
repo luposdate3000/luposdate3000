@@ -38,15 +38,15 @@ public data class JsonObjects(
         database = data.getOrDefault("database", JsonParserObject(mutableMapOf())) as JsonParserObject,
         deterministic = data.getOrDefault("deterministic", true) as Boolean,
         logging = data.getOrDefault("logging", true) as Boolean,
-        linkType = (data.getOrDefault("linkType", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { LinkType(it as JsonParserObject) },
-        sensorType = (data.getOrDefault("sensorType", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { SensorType(it as JsonParserObject) },
-        deviceType = (data.getOrDefault("deviceType", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { DeviceType(it as JsonParserObject) },
-        fixedDevice = (data.getOrDefault("fixedDevice", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { FixedDevice(it as JsonParserObject) },
-        fixedLink = (data.getOrDefault("fixedLink", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { FixedLink(it as JsonParserObject) },
+        linkType = (data.getOrDefault("linkType", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { LinkType(it as JsonParserObject) },
+        sensorType = (data.getOrDefault("sensorType", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { SensorType(it as JsonParserObject) },
+        deviceType = (data.getOrDefault("deviceType", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { DeviceType(it as JsonParserObject) },
+        fixedDevice = (data.getOrDefault("fixedDevice", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { FixedDevice(it as JsonParserObject) },
+        fixedLink = (data.getOrDefault("fixedLink", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { FixedLink(it as JsonParserObject) },
         rootRouter = data.getOrDefault("rootRouter", "") as String,
-        randomMeshNetwork = (data.getOrDefault("randomMeshNetwork", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { RandomMeshNetwork(it as JsonParserObject) },
-        randomStarNetwork = (data.getOrDefault("randomStarNetwork", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { RandomStarNetwork(it as JsonParserObject) },
-        querySender = (data.getOrDefault("querySender", JsonParserArray(mutableListOf<JsonParserObject>()))as JsonParserArray).map { QuerySender(it as JsonParserObject) },
+        randomMeshNetwork = (data.getOrDefault("randomMeshNetwork", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { RandomMeshNetwork(it as JsonParserObject) },
+        randomStarNetwork = (data.getOrDefault("randomStarNetwork", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { RandomStarNetwork(it as JsonParserObject) },
+        querySender = (data.getOrDefault("querySender", JsonParserArray(mutableListOf<Any>()))as JsonParserArray).map { QuerySender(it as JsonParserObject) },
     )
 }
 
