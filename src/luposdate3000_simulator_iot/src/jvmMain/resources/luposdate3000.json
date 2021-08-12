@@ -1,10 +1,11 @@
- {   "database": {
-        "type": "Luposdate3000",
-        "SharedMemoryDictionaryCheat": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "mergeLocalOperatorgraphs": true,
-        "queryDistributionMode": "Routing",
-        "useDictionaryInlineEncoding": true,
+{
+    "database": {
         "REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
     },
 }

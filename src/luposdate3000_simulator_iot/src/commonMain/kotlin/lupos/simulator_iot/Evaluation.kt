@@ -80,7 +80,7 @@ public class Evaluation {
         val json = JsonParser().fileMergeToJson(configFileNames)as JsonParserObject
         var outputdirectoryTmp = ""
         for (n in configFileNames) {
-            val a = n.lastIndexOf("/")
+            val a = n.lastIndexOf("/") + 1
             val b = n.lastIndexOf(".")
             val t = if (a >= 0) {
                 if (b >= 0) {
@@ -101,7 +101,8 @@ public class Evaluation {
                 outputdirectoryTmp += "_$t"
             }
         }
-        val outputdirectory = json.getOrDefault("outputDirectory", outputdirectoryTmp)
+        val outputdirectory = json.getOrDefault("outputDirectory", outputdirectoryTmp) + "/"
+        File(outputdirectory).mkdirs()
         File(outputdirectory + ".generated.parsed.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json))
         }
@@ -173,7 +174,7 @@ public class Evaluation {
 
     public fun evalCampusNumberOfSamplings() {
         val configFileName = "${FilePaths.jvmResource}/campusNumberOfSampling.json"
-        val printer = MeasurementPrinter("campusNumberOfSampling")
+        val printer = MeasurementPrinter("${FilePaths.outputDir}/campusNumberOfSampling")
         val range = getSamplingNumber()
         for ((run, numOfSamples) in range.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
@@ -187,7 +188,7 @@ public class Evaluation {
 
     public fun evalCampusDistributedSampling() {
         val configFileName = "${FilePaths.jvmResource}/campusDistributedSampling.json"
-        val printer = MeasurementPrinter("campusDistributedSampling")
+        val printer = MeasurementPrinter("${FilePaths.outputDir}/campusDistributedSampling")
         for (run in 0 until 11) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val deviceType = json.getOrEmptyArray("deviceType")
@@ -204,7 +205,7 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/meshPerformance.json"
         var ranges = getMeshPerfRanges()
         ranges = addInitialBuffer(ranges, 4)
-        val printer = MeasurementPrinter("meshPerf")
+        val printer = MeasurementPrinter("${FilePaths.outputDir}/meshPerf")
         for ((index, range) in ranges.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val linkType = json.getOrEmptyArray("linkType")
@@ -219,7 +220,7 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(22, 50) // max. 1171 instances are possible.
         nodeSizes = addInitialBuffer(nodeSizes, 4)
-        val printer = MeasurementPrinter("starPerf_Luposdate")
+        val printer = MeasurementPrinter("${FilePaths.outputDir}/starPerf_Luposdate")
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
@@ -239,7 +240,7 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(22, 50)
         nodeSizes = addInitialBuffer(nodeSizes, 4)
-        val printer = MeasurementPrinter("starPerf_Dummy")
+        val printer = MeasurementPrinter("${FilePaths.outputDir}/starPerf_Dummy")
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
@@ -259,7 +260,7 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(21, 1000)
         nodeSizes = addInitialBuffer(nodeSizes, 4)
-        val printer = MeasurementPrinter("starPerf_Without")
+        val printer = MeasurementPrinter("${FilePaths.outputDir}/starPerf_Without")
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")

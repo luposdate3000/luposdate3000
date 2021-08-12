@@ -1,43 +1,9 @@
 {
-    "sensorType": [{
-            "dataSink": "FOG",
-        },
+    "deviceType": [
         {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        },
-        {
-            "dataSink": "FOG",
-        }
-    ],
-    "deviceType": [{
             "database": true,
         },
-        {
-        },
-        {
-            "database": false,
-        },
+        {},
         {
             "database": false,
         },
@@ -64,6 +30,41 @@
         },
         {
             "database": false,
+        },
+        {
+            "database": false,
+        },
+    ],
+    "sensorType": [
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
+        },
+        {
+            "dataSink": "Fog",
         },
     ],
 }

@@ -18,11 +18,8 @@
 package lupos.simulator_iot.measure
 
 import lupos.shared.inline.File
-import lupos.simulator_iot.utils.FilePaths
 
-internal class MeasurementPrinter(val dirName: String) {
-
-    private val resultDir = "${FilePaths.outputDir}/$dirName"
+internal class MeasurementPrinter(val resultDir: String) {
     private val avgFile = File("$resultDir/average.csv")
     private val deviationFile = File("$resultDir/deviation.csv")
     private val delimiter = ";"

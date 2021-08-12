@@ -34,7 +34,7 @@ internal class MultipleSimulationRunsTest {
         val runs = MultipleSimulationRuns(
             json = JsonParser().fileToJson("$prefix/runMultipleStarNetworkSimulations.json") as JsonParserObject,
             numberOfRepetitions = 3,
-            printer = MeasurementPrinter("test")
+            printer = MeasurementPrinter("${FilePaths.outputDir}/test")
         )
         runs.startSimulationRuns()
     }
@@ -44,7 +44,7 @@ internal class MultipleSimulationRunsTest {
         val runs = MultipleSimulationRuns(
             json = JsonParser().fileToJson("$prefix/meshToDODAG.json") as JsonParserObject,
             numberOfRepetitions = 2,
-            printer = MeasurementPrinter("test")
+            printer = MeasurementPrinter("${FilePaths.outputDir}/test")
         )
         runs.startSimulationRuns()
     }
