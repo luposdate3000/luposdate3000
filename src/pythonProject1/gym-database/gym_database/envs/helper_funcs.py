@@ -65,20 +65,21 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
 
 # TODO: DOC!!
 def perform_join(index_a: int, index_b: int, observation_matrix: np.ndarray):
-    """ Joins bgp a and bgp b.
+    """ Joins triple a and triple b.
 
     To join a and b, the corresponding entries of a and b are merged.
-    A 1 stands for the corresponding bgp and a 2 for its join candidates.
-    Therefore a 1 is placed in the row of a at the column of b.
-    And all the 2s are copied to row a.
-    And the 1 and the 2s in the row of b are deleted.
+    A filled cell with positive integers represents the corresponding 
+    triple and a -1 for its join candidates.
+    Therefore the triple b is placed in the row of a at the column of b.
+    And all the join candidates and other triples are copied to row a.
+    And the triples and the join candidates in the row of b are deleted.
 
     Parameters
     ----------
     index_a : int
-        index of bgp_a in obervation_matrix
+        index of triple_a in obervation_matrix
     index_b : int
-        index of bgp_b in observation_matrix
+        index of triple_b in observation_matrix
     observation_matrix : np.ndarray
         observation_matrix
 
@@ -149,18 +150,16 @@ def _create_matrix_index_bgp_dict(sorted_query: List[List[Tuple[int, int, int]]]
         new_dict[list_of_bgps[0]] = index
     return new_dict
 
-# TODO: faster, faster! 0,2 ms too much
+
 # TODO: DOC!!
 def check_if_done(observation_matrix: np.ndarray) -> bool:
     """Function to check if the episode is finished.
 
-    Takes the observation matrix and checks if all 1s are in one row. This means that all
-    bgps have been joined and the episode is finished.
+    Takes the observation matrix and checks if all triples that can be joined 
+    are in one row. This means that all triples have been joined and the episode is finished.
 
     Parameters
     ----------
-    query : list[int]
-        list of all bgps that are to join, number represents number of column in observation matrix
     observation_matrix : np.ndarray
         observation matrix
 
@@ -177,14 +176,6 @@ def check_if_done(observation_matrix: np.ndarray) -> bool:
                 return False
     else:
         return True
-    # counter = 0
-    # for row in done_array:
-    #     if row[0] == 0 or row[1] == 0:
-    #         counter += 1
-    #     else:
-    #         return False
-    # if counter == len(done_array):
-    #     return True
 
 
 def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
@@ -321,6 +312,20 @@ def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dic
 
 
 def calculate_reward(benched_query, join_order):
+    """Function that calculates the reward.
+    
+    Parameters
+    ----------
+    benched_query
+        Reference query that has been benchmarked.
+    join_order
+        Join order of the ml optimizer.
+        
+    Returns
+    -------
+    float
+        Reward.
+    """
     # print(benched_query)
     # get number of join order
     join_order_n = _join_order_to_number(join_order)
@@ -339,6 +344,9 @@ def calculate_reward(benched_query, join_order):
         reward1 = -1 + 4 * pow(reward0, 2)
     else:
         reward1 = 4 * pow(reward0, 2) - 4 * reward0 + 1
+
+    # reward = -(sqrt(exec_time-min_exec_time)/(sqrt(max_exec_time-min_exec_time)*10))
+
 
 
     # if join_order_n == np.argmax(execution_times):

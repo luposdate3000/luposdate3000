@@ -10,121 +10,116 @@ import numpy as np
 import gym_database.envs.helper_funcs as hf
 from timeit import default_timer
 
-# TODO: DOC!!
 class DatabaseEnv(gym.Env):
     """
     Description:
-        A pole is attached by an un-actuated joint to a cart, which moves along a frictionless track. The pendulum
-        starts upright, and the goal is to prevent it from falling over by increasing and reducing the cart's velocity.
-
-    Source:
-        This environment corresponds to the version of the cart-pole problem described by Barto, Sutton, and Anderson
+        This environment represents the joins in a SPARQL query.
+        Every row in the observation matrix represents a triple.
+        A triple has a value range from 1 to n_dictionary_ids.
+        A possible join is marked with an entry of a triple of negative ones.
+        If a join is executed, the triple and the possible joins of 
+        the corresponding join partner is copied into the row of the triple 
+        with the lower row number.
 
     Observation:
-        Type: Box(n_bgp, n_bgp, dtype=int)
-        Num	bgp0    bgp1    bgp2    bgp3    bgp4
-        0	1/0     1/0     1/0     1/0     1/0
-        1	1/0     1/0     1/0     1/0     1/0
-        2	1/0     1/0     1/0     1/0     1/0
-        3	1/0     1/0     1/0     1/0     1/0
-        4   1/0     1/0     1/0     1/0     1/0
-        1/0: highest value / lowest value
-        n_bgp: number of basic graph patterns
-        The ones in a row represent which corresponding bgps have been joined and which possible joins are left.
+        triple = t
+        possible join = j = [-1,-1,-1]
+        no entry = 0 = [0,0,0]
+        j/0 = j oder 0
+        
+        Type: Box(, , dtype=int)
+        Num	t0              t1          t2          t3          t4
+        t0	[t0s,t0p,t0o]   j/0         j/0         j/0         j/0
+        t1	    j/0     [t0s,t0p,t0o]   j/0         j/0         j/0
+        t2	    j/0          j/0    [t0s,t0p,t0o]   j/0         j/0
+        t3	    j/0          j/0        j/0    [t0s,t0p,t0o]    j/0
+        t4      j/0          j/0        j/0         j/0    [t0s,t0p,t0o]
+
+        n_dictionary_ids: number of dictionary ids
 
     Actions:
-        Type: Discrete(n_bgp*(n_bgp-1))
+        Type: Discrete(n_triples*(n_triples+1)/2)-n_triples)
         Num	Action
         0	[0 1] - join bgp0 and bgp1 -
         1	[0 2]
         2	[0 3]
         3	[0 4]
-        4	[1 0]
-        5	[1 2]
+        4	[1 2]
+        5	[1 3]
         ...
 
     Reward:
         Reward is the negative cost of the planned query, normalized to a range of -10 to 10.
+        Reward for an invalid action is -10.
         Reward is only given at the end of the planning process.
-        (Final version: costs are computed in LuposDate3000)
 
     Starting State:
-        The starting state consists of a Matrix where every column represents a BGP in the database.
+        The starting state consists of a Matrix where every row represents a triple 
+        and its join candidates in the query.
 
     Episode Termination:
         Episode ends when a query is fully planned, meaning no join candidate is left.
-        Solved Requirements
-        Considered solved when the average reward is greater than or equal to 195.0 over 100 consecutive trials.
     """
 
     # TODO: DOC!!
     # TODO: reward_range
     def __init__(self):
-
-        self.debug = False
-
         self.conn = None
         """Socket to establish connection to client database."""
 
         self.size_matrix: int = 10
         """Size of observation space matrix."""
 
-        self.observation_space = spaces.Box(-9, 281,
-                                            shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
-        """observation space is a matrix, where each column represents a BGP and the rows represent the state
-        (row, column) 1073741823 = 0x3fffffff
-        test data: 280
-        minus values are join variables"""
+        self.observation_space = None
+        """Observation space is a matrix, where each column and row represent a triple.
+        Triples are represented by their subject/predicate/object id.
+        Minus ones represent possible join, minus values are join variables"""
 
         self.action_space_size = int(self.size_matrix*(self.size_matrix+1)/2)-self.size_matrix
-        """action space size is all possible joins each step (number of BGPs * (number of BGPs - 1))"""
+        """Action space size is all possible joins each step"""
 
         self.action_space = spaces.Discrete(self.action_space_size)
-        """TODO"""
+        """Action space describes all possible actions."""
 
         self.action_list: List[Tuple[int, int]] = None
-        """TODO"""
+        """Maps action to specific rows to join."""
 
         self.observation_matrix: np.ndarray = None
-        """TODO"""
+        """Describes the state/observation as a matrix."""
 
         self.query: List[List[Tuple[int, int, int]]] = None
-        """TODO"""
+        """Query."""
 
         self.join_order: Dict = None
-        """TODO"""
+        """Join order."""
 
         self.join_order_h: Dict = None
-        """TODO"""
+        """Helper variable for join odering."""
 
         self.threshold = 1
         """Threshold for the reward. Under this value, the episode has to be redone."""
 
         self.redo = False
-        """TODO"""
+        """Redo episode until a specific reward is reached."""
 
-        self.reward_invalid_action = -1
+        self.reward_invalid_action = -10
+        """Reward for invalid actions."""
 
         self.training_data: List[List[List[str]]] = None
 
         self.networking = None
+        """Connection to Client: True or Local: False"""
 
         self.query_counter = 0
 
 
-    # TODO: DOC!!
     def step(self, action: int):
-
-        # TODO: eliminate invalid actions
-        # assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
-        # err_msg = "%r (%s) invalid" % (action, type(action))
-        # assert self.action_space.contains(action), err_msg
-
+    """The step function takes an action from the agent and executes it.
+       It calculates the next state and returns the observation of the new state."""
         # 1. choose action from action_space
         left = self.action_list[action][0]
         right = self.action_list[action][1]
 
-        # TODO: check if bgps are able to join ( same join variables )
         # return and redo if values index empty rows or invalid join attempts
         if left >= len(self.query) or right >= len(self.query) \
                 or hf.is_empty(left, self.observation_matrix) \
@@ -139,25 +134,12 @@ class DatabaseEnv(gym.Env):
         left = temp_one
         right = temp_two
 
-        if self.debug:
-            print(f"Action Left: {left}. Action Right: {right}")
-
         # 2. Execute action & 3. update observation_space & 4. remember join order
-        if self.debug:
-            start = default_timer()
         hf.perform_join(left, right, self.observation_matrix)
         hf.update_join_order(left, right, self.join_order, self.join_order_h)
-        if self.debug:
-            end = default_timer()
-            print(f"Perform Join: {end - start}")
 
         # 5. Check if episode is done (all bgps joined)
-        if self.debug:
-            start = default_timer()
         done = hf.check_if_done(self.observation_matrix)
-        if self.debug:
-            end = default_timer()
-            print(f"Check if done: {end - start}")
 
         # 6. Calculate reward - send join order over socket to database and calculate reward there
         if done:
@@ -168,8 +150,6 @@ class DatabaseEnv(gym.Env):
                 data = conn.recv(1024)
                 reward = float(data.decode("UTF-8")) # Reward for episode
             else:
-                if self.debug:
-                    print("Query counter: " + str(self.query_counter))
                 reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
 
             # Evaluate reward
@@ -182,13 +162,12 @@ class DatabaseEnv(gym.Env):
             # Reward for valid action
             reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
 
-
-
         # 7. Return observation_space, reward, done, {}
         return self.observation_matrix, reward, done, {}
 
-    # TODO: DOC!!
+
     def reset(self):
+    """Resets environment and returns a first observation."""
         if not self.redo: # If episode has not to be redone
             if self.networking:
                 # Notify client to start transmitting a new query
@@ -219,7 +198,6 @@ class DatabaseEnv(gym.Env):
         # Return initial observation
         return self.observation_matrix
 
-
     def set_connection(self, conn):
         """Set a socket object with an active connection to the client."""
         self.conn = conn
@@ -229,3 +207,10 @@ class DatabaseEnv(gym.Env):
         """Set training data."""
         self.training_data = training_data
         self.networking = False
+
+    def set_observation_space(self, n_dictionary_ids, size_matrix=10):
+        """Set and adjust observation space."""
+        self.size_matrix = size_matrix
+        self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,
+                                            shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
+

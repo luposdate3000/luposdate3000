@@ -151,14 +151,14 @@ if __name__ == '__main__':
 
     try:
         query_or_train = sys.argv[1]
-        input_file = sys.argv[2]  # "/home/a/lupos/luposdate-testdata/sp2b/1024/complete.n3"
-        output_directory = sys.argv[3]  # "/home/a/lupos/luposdate-testdata/queries/sp2b_queries/generated/"
+        input_file = sys.argv[2]
+        output_directory = sys.argv[3]
     except:
         print_error()
         sys.exit()
     if query_or_train == "query":
         try:
-            joins = sys.argv[4]  # "s"
+            joins = sys.argv[4]
         except:
             print("Param 4: query: \"s\", \"o\" or \"a\": join on subject/object/all")
             sys.exit()
