@@ -1,55 +1,64 @@
 {
-    "database" : {
-        "type" : "Luposdate3000"
+    "database": {
+        "type": "Luposdate3000",
     },
     "deterministic": true,
-    "linkType": [{
-        "name": "WIRE",
-        "rangeInMeters": 40000,
-        "dataRateInKbps": 50000
-    }],
-    "sensorType": [],
-    "deviceType": [{
-        "name": "LUPOSDATE_DEVICE",
-        "database": true,
-        "parkingSensor": "",
-        "performance": 100.0,
-        "supportedLinkTypes": ["WIRE"]
-    }],
-    "fixedDevice": [{
-            "name": "DEVICE_1",
+    "deviceType": [
+        {
+            "database": true,
+            "name": "LUPOSDATE_DEVICE",
+            "parkingSensor": "",
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WIRE",
+            ],
+        },
+    ],
+    "fixedDevice": [
+        {
             "deviceType": "LUPOSDATE_DEVICE",
             "latitude": 53.57865430622494,
-            "longitude": 10.055537389738404
+            "longitude": 10.055537389738404,
+            "name": "DEVICE_1",
         },
         {
-            "name": "DEVICE_2",
             "deviceType": "LUPOSDATE_DEVICE",
             "latitude": 53.577863456304975,
-            "longitude": 10.06198925045995
+            "longitude": 10.06198925045995,
+            "name": "DEVICE_2",
         },
         {
-            "name": "DEVICE_3",
             "deviceType": "LUPOSDATE_DEVICE",
             "latitude": 53.57397044934826,
-            "longitude": 10.062655542820172
+            "longitude": 10.062655542820172,
+            "name": "DEVICE_3",
         },
         {
-            "name": "DEVICE_4",
             "deviceType": "LUPOSDATE_DEVICE",
             "latitude": 53.571825865757305,
-            "longitude": 10.055012822683036
-        }
+            "longitude": 10.055012822683036,
+            "name": "DEVICE_4",
+        },
     ],
     "fixedLink": [],
-    "rootRouter": "DEVICE_1",
+    "linkType": [
+        {
+            "dataRateInKbps": 50000,
+            "name": "WIRE",
+            "rangeInMeters": 40000,
+        },
+    ],
+    "querySender": [
+        {
+            "maxNumberOfQueries": 1,
+            "name": "Driver1",
+            "query": "As soon as the root receives this query, it can start the tests.",
+            "sendRateInSeconds": 0,
+            "sendStartClockInSec": 10,
+        },
+    ],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": [{
-        "name": "Driver1",
-        "sendRateInSeconds": 0,
-        "maxNumberOfQueries": 1,
-        "sendStartClockInSec": 10,
-        "query": "As soon as the root receives this query, it can start the tests."
-    }]
+    "rootRouter": "DEVICE_1",
+    "sensorType": [],
 }

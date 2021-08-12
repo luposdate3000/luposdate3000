@@ -76,7 +76,7 @@ public class Evaluation {
             out.println(JsonParser().jsonToString(json))
         }
     }
-    public fun evalConfigFileMerge(configFileNames: List<String>,configFileName:String) {
+    public fun evalConfigFileMerge(configFileNames: List<String>, configFileName: String) {
         val json = JsonParser().fileMergeToJson(configFileNames)as JsonParserObject
         val printer = MeasurementPrinter(json.getOrDefault("outputDirectory", configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf("."))))
         val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1), printer)
@@ -91,24 +91,24 @@ public class Evaluation {
             println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1 } runs left..")
         }
     }
-    public fun evalConfigFilesMerge(configFileNames: Set<Pair<List<String>,String>>) {
+    public fun evalConfigFilesMerge(configFileNames: Set<Pair<List<String>, String>>) {
         for ((index, configFileName) in configFileNames.withIndex()) {
-            evalConfigFile(configFileName.first,configFileName.second)
+            evalConfigFileMerge(configFileName.first, configFileName.second)
             println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1 } runs left..")
         }
     }
 
     public fun evalQueryProcessingCentralizedCase() {
         val configFileNames = setOf(
-          listOf(  "${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.0.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_0.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.1.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_1.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.2.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_2.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.3.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_3.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.4.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_4.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.5.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_5.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.6.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_6.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.7.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_7.generated.json",
-            listOf("${FilePaths.jvmResource}/campusCentralCase.json","${FilePaths.jvmResource}/querySender.8.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_8.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.0.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_0.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.1.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_1.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.2.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_2.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.3.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_3.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.4.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_4.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.5.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_5.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.6.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_6.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.7.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_7.generated.json",
+            listOf("${FilePaths.jvmResource}/campusCentralCase.json", "${FilePaths.jvmResource}/querySender.8.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_8.generated.json",
         )
         evalConfigFilesMerge(configFileNames)
     }
@@ -120,15 +120,15 @@ public class Evaluation {
 
     public fun evalQueryProcessingDistributedCase() {
         val configFileNames = setOf(
-          listOf(  "${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.0.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_0.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.1.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_1.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.2.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_2.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.3.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_3.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.4.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_4.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.5.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_5.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.6.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_6.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.7.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_7.generated.json",
-            listOf("${FilePaths.jvmResource}/campusDistributedCase.json","${FilePaths.jvmResource}/querySender.8.json","${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_8.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.0.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_0.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.1.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_1.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.2.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_2.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.3.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_3.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.4.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_4.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.5.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_5.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.6.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_6.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.7.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_7.generated.json",
+            listOf("${FilePaths.jvmResource}/campusDistributedCase.json", "${FilePaths.jvmResource}/querySender.8.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_8.generated.json",
         )
         evalConfigFilesMerge(configFileNames)
     }
