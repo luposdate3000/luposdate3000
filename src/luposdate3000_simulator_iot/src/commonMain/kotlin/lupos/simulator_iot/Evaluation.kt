@@ -76,15 +76,39 @@ public class Evaluation {
             out.println(JsonParser().jsonToString(json))
         }
     }
-    public fun evalConfigFileMerge(configFileNames: List<String>, configFileName: String) {
+    public fun evalConfigFileMerge(configFileNames: List<String>) {
         val json = JsonParser().fileMergeToJson(configFileNames)as JsonParserObject
-        File(configFileName+".generated.parsed.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
+        var outputdirectoryTmp = ""
+        for (n in configFileNames) {
+            val a = n.lastIndexOf("/")
+            val b = n.lastIndexOf(".")
+            val t = if (a >= 0) {
+                if (b >= 0) {
+                    n.substring(a, b)
+                } else {
+                    n.substring(a, n.length)
+                }
+            } else {
+                if (b >= 0) {
+                    n.substring(0, b)
+                } else {
+                    n
+                }
+            }
+            if (outputdirectoryTmp == "") {
+                outputdirectoryTmp += t
+            } else {
+                outputdirectoryTmp += "_$t"
+            }
+        }
+        val outputdirectory = json.getOrDefault("outputDirectory", outputdirectoryTmp)
+        File(outputdirectory + ".generated.parsed.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json))
         }
-        val printer = MeasurementPrinter(json.getOrDefault("outputDirectory", configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf("."))))
+        val printer = MeasurementPrinter(outputdirectory)
         val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1), printer)
         runs.startSimulationRuns()
-        File(configFileName+".generated.used.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
+        File(outputdirectory + ".generated.used.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json))
         }
     }
@@ -94,45 +118,46 @@ public class Evaluation {
             println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1 } runs left..")
         }
     }
-    public fun evalConfigFilesMerge(configFileNames: Set<Pair<List<String>, String>>) {
+    public fun evalConfigFilesMerge(configFileNames: Set<List<String>>) {
         for ((index, configFileName) in configFileNames.withIndex()) {
-            evalConfigFileMerge(configFileName.first, configFileName.second)
+            evalConfigFileMerge(configFileName)
             println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1 } runs left..")
         }
     }
-
     public fun evalQueryProcessingCentralizedCase() {
-evalConfigFilesMerge(setOf(
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.0.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_0",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.1.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_1",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.2.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_2",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.3.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_3",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.4.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_4",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.5.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_5",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.6.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_6",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.7.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_7",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.central.json", "${FilePaths.jvmResource}/querySender.8.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusCentralCase_8",
+        evalConfigFilesMerge(
+            setOf(
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q0.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q1.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q2.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q3.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q4.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q5.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q6.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q7.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q8.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+            )
         )
-)
     }
 
     public fun evalQueryProcessingDistributedCaseDummy() {
-        evalConfigFileMerge(listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json","${FilePaths.jvmResource}/database.dummy.json"),"${FilePaths.jvmResource}/campusDistributedCaseDummy")
+        evalConfigFileMerge(listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/dummy.json"))
     }
 
     public fun evalQueryProcessingDistributedCase() {
-evalConfigFilesMerge(setOf(
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.0.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_0",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.1.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_1",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.2.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_2",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.3.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_3",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.4.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_4",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.5.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_5",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.6.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_6",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.7.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_7",
-            listOf("${FilePaths.jvmResource}/campus.json","${FilePaths.jvmResource}/topology.distributed.json", "${FilePaths.jvmResource}/querySender.8.json", "${FilePaths.jvmResource}/database.luposdate3000.json",) to "${FilePaths.jvmResource}/campusDistributedCase_8",
+        evalConfigFilesMerge(
+            setOf(
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q0.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q1.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q2.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q3.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q4.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q5.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q6.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q7.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q8.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+            )
         )
-)
     }
 
     private fun getSamplingNumber(): IntArray {
