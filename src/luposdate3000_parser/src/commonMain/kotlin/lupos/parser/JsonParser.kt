@@ -359,7 +359,7 @@ public class JsonParser {
                     return "{}"
                 } else {
                     var res = "{\n"
-                    for ((k, v) in data) {
+                    for ((k, v) in data.toList().sortedBy { it.first }) {
                         res += "$indention    \"$k\": ${jsonToString(v, indention + "    ")},\n"
                     }
                     return "$res$indention}"
