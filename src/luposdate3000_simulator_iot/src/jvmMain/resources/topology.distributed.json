@@ -1,0 +1,69 @@
+{
+    "sensorType": [{
+            "dataSink": "Root WSN 1",
+        },
+        {
+            "dataSink": "Root WSN 2",
+        },
+        {
+            "dataSink": "Root WSN 3",
+        },
+        {
+            "dataSink": "Root WSN 4",
+        },
+        {
+            "dataSink": "Root WSN 5",
+        },
+        {
+            "dataSink": "Root WSN 6",
+        },
+        {
+            "dataSink": "Root WSN 7",
+        },
+        {
+            "dataSink": "Root WSN 8",
+        },
+        {
+            "dataSink": "Root WSN 9",
+        },
+        {
+            "dataSink": "Root WSN 10",
+        }
+    ],
+    "deviceType": [{
+            "database": true,
+        },
+        {
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+    ],
+}

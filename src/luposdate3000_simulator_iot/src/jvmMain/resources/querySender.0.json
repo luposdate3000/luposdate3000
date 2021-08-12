@@ -1,11 +1,2 @@
 {
-    "querySender": [
-        {
-            "name": "Driver",
-            "sendRateInSeconds": 1,
-            "maxNumberOfQueries": 0,
-            "sendStartClockInSec": 9000,
-            "query": "",
-        },
-    ],
 }
