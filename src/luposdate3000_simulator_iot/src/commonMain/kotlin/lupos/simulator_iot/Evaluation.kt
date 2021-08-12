@@ -16,7 +16,6 @@
  */
 
 package lupos.simulator_iot
-
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.measure.MeasurementPrinter
@@ -67,28 +66,38 @@ public class Evaluation {
         )
     }
 
-    public fun evalQueryProcessingCentralizedCase() {
-        val configFileName = "${FilePaths.jvmResource}/campusCentralCase.json"
-        val ranges = getQueriesAsArray()
-        val printer = MeasurementPrinter("campusCentralCase")
-        for ((index, range) in ranges.withIndex()) {
-            val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-            val querySender = json.getOrEmptyArray("querySender")
-            val querySender0 = querySender.firstOrEmptyObject()
-            if (range.isEmpty()) {
-                querySender0["maxNumberOfQueries"] = 0
-            }
-            querySender0["query"] = range
-            MultipleSimulationRuns(json, 1, printer).startSimulationRuns()
-            println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
+    public fun evalConfigFile(configFileName: String) {
+        val json = JsonParser().fileToJson(configFileName)as JsonParserObject
+        val printer = MeasurementPrinter(json.getOrDefault("outputDirectory", configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf("."))))
+        val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1), printer)
+        runs.startSimulationRuns()
+    }
+    public fun evalConfigFiles(configFileNames: Set<String>) {
+        for ((index, configFileName) in configFileNames.withIndex()) {
+            evalConfigFile(configFileName)
+            println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1 } runs left..")
         }
+    }
+
+    public fun evalQueryProcessingCentralizedCase() {
+        val configFileNames = setOf(
+            "${FilePaths.jvmResource}/campusCentralCase_0.json",
+            "${FilePaths.jvmResource}/campusCentralCase_1.json",
+            "${FilePaths.jvmResource}/campusCentralCase_2.json",
+            "${FilePaths.jvmResource}/campusCentralCase_3.json",
+            "${FilePaths.jvmResource}/campusCentralCase_4.json",
+            "${FilePaths.jvmResource}/campusCentralCase_5.json",
+            "${FilePaths.jvmResource}/campusCentralCase_6.json",
+            "${FilePaths.jvmResource}/campusCentralCase_7.json",
+            "${FilePaths.jvmResource}/campusCentralCase_8.json",
+            "${FilePaths.jvmResource}/campusCentralCase_9.json",
+        )
+        evalConfigFiles(configFileNames)
     }
 
     public fun evalQueryProcessingDistributedCaseDummy() {
         val configFileName = "${FilePaths.jvmResource}/campusDistributedCaseDummy.json"
-        val printer = MeasurementPrinter("campusDistributedCaseDummy")
-        val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-        MultipleSimulationRuns(json, 1, printer).startSimulationRuns()
+        evalConfigFile(configFileName)
     }
 
     public fun evalQueryProcessingDistributedCase() {
