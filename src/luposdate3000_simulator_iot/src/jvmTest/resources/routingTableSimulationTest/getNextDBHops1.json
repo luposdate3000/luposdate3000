@@ -1,57 +1,60 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": false,
-    "linkType": [],
-    "sensorType": [],
-    "deviceType": [{
-            "name": "Fog",
+    "deviceType": [
+        {
             "database": false,
+            "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
-            "supportedLinkTypes": []
+            "supportedLinkTypes": [],
         },
         {
-            "name": "FogWithDatabase",
             "database": true,
+            "name": "FogWithDatabase",
             "parkingSensor": "",
             "performance": 20.0,
-            "supportedLinkTypes": []
-        }
+            "supportedLinkTypes": [],
+        },
     ],
-    "fixedDevice": [{
-            "name": "A",
+    "fixedDevice": [
+        {
             "deviceType": "FogWithDatabase",
             "latitude": 53.810130070613695,
-            "longitude": 10.373366256676398
+            "longitude": 10.373366256676398,
+            "name": "A",
         },
         {
-            "name": "B",
             "deviceType": "Fog",
             "latitude": 53.80805184108298,
-            "longitude": 10.373365961188053
+            "longitude": 10.373365961188053,
+            "name": "B",
         },
         {
-            "name": "C",
             "deviceType": "FogWithDatabase",
             "latitude": 53.80379401934398,
-            "longitude": 10.373365362591647
-        }
+            "longitude": 10.373365362591647,
+            "name": "C",
+        },
     ],
-    "fixedLink": [{
+    "fixedLink": [
+        {
+            "dataRateInKbps": 304,
             "fixedDeviceA": "A",
             "fixedDeviceB": "B",
-            "dataRateInKbps": 304
         },
         {
+            "dataRateInKbps": 233,
             "fixedDeviceA": "B",
             "fixedDeviceB": "C",
-            "dataRateInKbps": 233
-        }
+        },
     ],
-    "rootRouter": "A",
+    "linkType": [],
+    "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "A",
+    "sensorType": [],
 }

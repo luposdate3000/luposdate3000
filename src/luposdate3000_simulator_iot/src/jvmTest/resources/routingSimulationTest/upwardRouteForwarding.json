@@ -1,104 +1,108 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": false,
-    "linkType": [],
-    "sensorType": [{
-        "name": "park1",
-        "area": 1,
-        "dataSink": "A",
-        "rateInSec": 10,
-        "maxSamples": 6
-    }],
-    "deviceType": [{
-            "name": "Fog",
+    "deviceType": [
+        {
             "database": false,
+            "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
-            "supportedLinkTypes": []
+            "supportedLinkTypes": [],
         },
         {
-            "name": "SensorDevice",
             "database": false,
+            "name": "SensorDevice",
             "parkingSensor": "park1",
             "performance": 0.9,
-            "supportedLinkTypes": []
+            "supportedLinkTypes": [],
         },
         {
-            "name": "DataStore",
             "database": true,
+            "name": "DataStore",
             "parkingSensor": "",
             "performance": 120.0,
-            "supportedLinkTypes": []
-        }
-
+            "supportedLinkTypes": [],
+        },
     ],
-    "fixedDevice": [{
-            "name": "A",
+    "fixedDevice": [
+        {
             "deviceType": "DataStore",
             "latitude": 53.09814632127328,
-            "longitude": 8.754628362427354
+            "longitude": 8.754628362427354,
+            "name": "A",
         },
         {
-            "name": "B",
             "deviceType": "Fog",
             "latitude": 53.09278266982357,
-            "longitude": 8.747762643839831
+            "longitude": 8.747762643839831,
+            "name": "B",
         },
         {
-            "name": "C",
             "deviceType": "Fog",
             "latitude": 53.09407405925197,
-            "longitude": 8.761070144669068
+            "longitude": 8.761070144669068,
+            "name": "C",
         },
         {
-            "name": "D",
             "deviceType": "Fog",
             "latitude": 53.09072134809814,
-            "longitude": 8.75265783665239
+            "longitude": 8.75265783665239,
+            "name": "D",
         },
         {
-            "name": "E",
             "deviceType": "Fog",
             "latitude": 53.08345396298265,
-            "longitude": 8.772318909617125
+            "longitude": 8.772318909617125,
+            "name": "E",
         },
         {
-            "name": "F",
             "deviceType": "SensorDevice",
             "latitude": 53.07572006093855,
-            "longitude": 8.785879536459793
-        }
+            "longitude": 8.785879536459793,
+            "name": "F",
+        },
     ],
-    "fixedLink": [{
+    "fixedLink": [
+        {
+            "dataRateInKbps": 1,
             "fixedDeviceA": "A",
             "fixedDeviceB": "B",
-            "dataRateInKbps": 1
         },
         {
+            "dataRateInKbps": 1,
             "fixedDeviceA": "A",
             "fixedDeviceB": "C",
-            "dataRateInKbps": 1
         },
         {
+            "dataRateInKbps": 1,
             "fixedDeviceA": "C",
             "fixedDeviceB": "D",
-            "dataRateInKbps": 1
         },
         {
+            "dataRateInKbps": 1,
             "fixedDeviceA": "C",
             "fixedDeviceB": "E",
-            "dataRateInKbps": 1
         },
         {
+            "dataRateInKbps": 1,
             "fixedDeviceA": "E",
             "fixedDeviceB": "F",
-            "dataRateInKbps": 1
-        }
+        },
     ],
-    "rootRouter": "A",
+    "linkType": [],
+    "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "A",
+    "sensorType": [
+        {
+            "area": 1,
+            "dataSink": "A",
+            "maxSamples": 6,
+            "name": "park1",
+            "rateInSec": 10,
+        },
+    ],
 }

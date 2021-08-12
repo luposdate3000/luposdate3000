@@ -1,71 +1,75 @@
 {
-    "database" : {
-        "type" : "Luposdate3000"
+    "database": {
+        "type": "Luposdate3000",
     },
     "deterministic": true,
-    "linkType": [],
-    "sensorType": [{
-        "name": "park1",
-        "area": 1,
-        "dataSink": "B",
-        "rateInSec": 30,
-        "maxSamples": 1
-    }],
-    "deviceType": [{
-            "name": "Other",
+    "deviceType": [
+        {
             "database": false,
+            "name": "Other",
             "parkingSensor": "",
             "performance": 11.0,
-            "supportedLinkTypes": []
+            "supportedLinkTypes": [],
         },
         {
-            "name": "Sensor",
             "database": false,
+            "name": "Sensor",
             "parkingSensor": "park1",
             "performance": 0.9,
-            "supportedLinkTypes": []
+            "supportedLinkTypes": [],
         },
         {
-            "name": "DB",
             "database": true,
+            "name": "DB",
             "parkingSensor": "",
             "performance": 50.0,
-            "supportedLinkTypes": []
-        }
-
+            "supportedLinkTypes": [],
+        },
     ],
-    "fixedDevice": [{
-            "name": "A",
+    "fixedDevice": [
+        {
             "deviceType": "Sensor",
             "latitude": 53.09814632127328,
-            "longitude": 8.754628362427354
+            "longitude": 8.754628362427354,
+            "name": "A",
         },
         {
-            "name": "B",
             "deviceType": "DB",
             "latitude": 53.09278266982357,
-            "longitude": 8.747762643839831
+            "longitude": 8.747762643839831,
+            "name": "B",
         },
         {
-            "name": "C",
             "deviceType": "DB",
             "latitude": 53.09407405925197,
-            "longitude": 8.761070144669068
-        }
+            "longitude": 8.761070144669068,
+            "name": "C",
+        },
     ],
-    "fixedLink": [{
+    "fixedLink": [
+        {
+            "dataRateInKbps": 32,
             "fixedDeviceA": "A",
             "fixedDeviceB": "B",
-            "dataRateInKbps": 32
         },
         {
+            "dataRateInKbps": 38,
             "fixedDeviceA": "B",
             "fixedDeviceB": "C",
-            "dataRateInKbps": 38
-        }
+        },
     ],
-    "rootRouter": "A",
+    "linkType": [],
+    "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "A",
+    "sensorType": [
+        {
+            "area": 1,
+            "dataSink": "B",
+            "maxSamples": 1,
+            "name": "park1",
+            "rateInSec": 30,
+        },
+    ],
 }

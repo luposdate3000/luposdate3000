@@ -425,8 +425,10 @@ public class JsonParser {
     public fun fileToJson(fileName: String, autoformat: Boolean = true): IJsonParserValue {
         val fileStr = File(fileName).readAsString()
         val json = JsonParser().stringToJson(fileStr) as IJsonParserValue
-        File(fileName).withOutputStream { out ->
-            out.println(JsonParser().jsonToString(json))
+        if (autoformat) {
+            File(fileName).withOutputStream { out ->
+                out.println(JsonParser().jsonToString(json))
+            }
         }
         return json
     }

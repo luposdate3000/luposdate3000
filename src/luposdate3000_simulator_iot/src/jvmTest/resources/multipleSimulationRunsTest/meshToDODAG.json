@@ -1,38 +1,48 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": true,
-    "linkType": [{
-        "name": "WPAN",
-        "rangeInMeters": 20,
-        "dataRateInKbps": 250
-    }],
-    "sensorType": [],
-    "deviceType": [{
-        "name": "Fog",
-        "database": true,
-        "parkingSensor": "",
-        "performance": 20.0,
-        "supportedLinkTypes": ["WPAN"]
-    }],
-    "fixedDevice": [{
-        "name": "Tower1",
-        "deviceType": "Fog",
-        "latitude": 53.83671457538109,
-        "longitude": 10.697678009507923
-    }],
+    "deviceType": [
+        {
+            "database": true,
+            "name": "Fog",
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    ],
+    "fixedDevice": [
+        {
+            "deviceType": "Fog",
+            "latitude": 53.83671457538109,
+            "longitude": 10.697678009507923,
+            "name": "Tower1",
+        },
+    ],
     "fixedLink": [],
-    "rootRouter": "Tower1",
-    "randomMeshNetwork": [{
-        "networkPrefix": "meshA",
-        "originLatitude": 53.83671457538109,
-        "originLongitude": 10.697678009507923,
-        "deviceType": "Fog",
-        "linkType": "WPAN",
-        "signalCoverageEast": 200,
-        "signalCoverageSouth": 300
-    }],
+    "linkType": [
+        {
+            "dataRateInKbps": 250,
+            "name": "WPAN",
+            "rangeInMeters": 20,
+        },
+    ],
+    "querySender": [],
+    "randomMeshNetwork": [
+        {
+            "deviceType": "Fog",
+            "linkType": "WPAN",
+            "networkPrefix": "meshA",
+            "originLatitude": 53.83671457538109,
+            "originLongitude": 10.697678009507923,
+            "signalCoverageEast": 200,
+            "signalCoverageSouth": 300,
+        },
+    ],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "Tower1",
+    "sensorType": [],
 }

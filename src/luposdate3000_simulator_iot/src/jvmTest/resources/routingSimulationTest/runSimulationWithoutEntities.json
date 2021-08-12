@@ -1,31 +1,39 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": false,
-    "linkType": [{
-        "name": "WPAN",
-        "rangeInMeters": 15,
-        "dataRateInKbps": 250
-    }],
-    "sensorType": [{
-        "name": "park1",
-        "area": 1,
-        "dataSink": "Fog",
-        "rateInSec": 30,
-        "maxSamples": -1
-    }],
-    "deviceType": [{
-        "name": "Fog",
-        "database": true,
-        "parkingSensor": "park1",
-        "performance": 20.0,
-        "supportedLinkTypes": ["WPAN"]
-    }],
+    "deviceType": [
+        {
+            "database": true,
+            "name": "Fog",
+            "parkingSensor": "park1",
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    ],
     "fixedDevice": [],
     "fixedLink": [],
-    "rootRouter": "",
+    "linkType": [
+        {
+            "dataRateInKbps": 250,
+            "name": "WPAN",
+            "rangeInMeters": 15,
+        },
+    ],
+    "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "",
+    "sensorType": [
+        {
+            "area": 1,
+            "dataSink": "Fog",
+            "maxSamples": -1,
+            "name": "park1",
+            "rateInSec": 30,
+        },
+    ],
 }
