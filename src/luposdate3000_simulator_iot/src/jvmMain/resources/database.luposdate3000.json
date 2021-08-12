@@ -1,0 +1,10 @@
+ {   "database": {
+        "type": "Luposdate3000",
+        "SharedMemoryDictionaryCheat": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "mergeLocalOperatorgraphs": true,
+        "queryDistributionMode": "Routing",
+        "useDictionaryInlineEncoding": true,
+        "REPLACE_STORE_WITH_VALUES": false,
+    },
+}

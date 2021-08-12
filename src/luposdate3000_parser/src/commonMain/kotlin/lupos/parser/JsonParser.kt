@@ -20,6 +20,21 @@ import lupos.shared.inline.File
 
 public interface IJsonParserValue
 public class JsonParserObject(private val map: MutableMap<String, IJsonParserValue>) : Iterable<Pair<String, IJsonParserValue>>, IJsonParserValue {
+public fun mergeWith(other:JsonParserObject){
+for((k,other_v) in other.map){
+val my_v=map[k]
+if(my_v==null){
+map[k]=other_v
+}else{
+when(my_v){
+is JsonParserObject-> my_v.mergeWith(other_v as JsonParserObject)
+is JsonParserArray->my_v.mergeWith(other_v as JsonParserArray)
+is JsonParserInt,is JsonParserLong,is JsonParserBoolean,is JsonParserDouble,is JsonParserString->map[k]=other_v
+else-> TODO("$my_v - $other_v")
+}
+}
+}
+}
     override operator fun iterator(): Iterator<Pair<String, IJsonParserValue>> {
         return object : Iterator<Pair<String, IJsonParserValue>> {
             var iter = map.iterator()
@@ -150,6 +165,24 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
 }
 
 public class JsonParserArray(private val array: MutableList<IJsonParserValue>) : Iterable<IJsonParserValue>, IJsonParserValue {
+public fun mergeWith(other:JsonParserArray){
+var k=0
+while(k<array.size && k<other.array.size){
+val other_v=other.array[k]
+val my_v=array[k]
+when(my_v){
+is JsonParserObject-> my_v.mergeWith(other_v as JsonParserObject)
+is JsonParserArray->my_v.mergeWith(other_v as JsonParserArray)
+is JsonParserInt,is JsonParserLong,is JsonParserBoolean,is JsonParserDouble,is JsonParserString->map[k]=other_v
+else-> TODO("$my_v - $other_v")
+}
+k++
+}
+while(k<other.array.size){
+array.add(other.array[k])
+k++
+}
+}
     public fun isEmpty(): Boolean = array.isEmpty()
     public fun <T> map(action: (IJsonParserValue) -> T): MutableList<T> {
         val res: List<T> = array.map { action(it) }
@@ -392,7 +425,18 @@ public class JsonParser {
     public fun fileToJson(fileName: String): IJsonParserValue {
         val fileStr = File(fileName).readAsString()
         val json = JsonParser().stringToJson(fileStr) as IJsonParserValue
+File(fileName).withOutputStream{out->
+out.println(JsonParser().jsonToString(json))
+}
         return json
+    }
+    public fun fileMergeToJson(fileNames: List<String>): JsonParserObject {
+var res=JsonParserObject(mutableMapOf())
+for(fileName in fileNames){
+        val json = fileToJson(fileName)as JsonParserObject
+res.mergeWith(json)
+}
+        return res
     }
     public fun encodeString(s: String): String {
         return s

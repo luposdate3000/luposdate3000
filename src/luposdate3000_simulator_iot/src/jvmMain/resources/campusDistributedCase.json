@@ -1,7 +1,4 @@
 {
-    "database" : {
-        "type" : "Luposdate3000"
-    },
     "deterministic": true,
     "linkType": [{
             "name": "WPAN",
@@ -392,11 +389,4 @@
             "number": 5
         }
     ],
-    "querySender": [{
-        "name": "Driver",
-        "sendRateInSeconds": 1,
-        "maxNumberOfQueries": 1,
-        "sendStartClockInSec": 9000,
-        "query": ""
-    }]
 }
