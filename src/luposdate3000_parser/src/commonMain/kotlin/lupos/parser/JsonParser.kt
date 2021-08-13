@@ -18,8 +18,16 @@
 package lupos.parser
 import lupos.shared.inline.File
 
-public interface IJsonParserValue
+public interface IJsonParserValue {
+    public fun setAccessed()
+    public fun isAccessed(): Boolean
+}
 public class JsonParserObject(private val map: MutableMap<String, IJsonParserValue>) : Iterable<Pair<String, IJsonParserValue>>, IJsonParserValue {
+    private var accessed0 = false
+    override fun setAccessed() {
+        accessed0 = true
+    }
+    override fun isAccessed(): Boolean = accessed0
     public fun mergeWith(other: JsonParserObject) {
         for ((k, other_v) in other.map) {
             val my_v = map[k]
@@ -44,6 +52,7 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
 
             override fun next(): Pair<String, IJsonParserValue> {
                 val (k, v) = iter.next()
+                v.setAccessed()
                 return k to v
             }
         }
@@ -56,44 +65,86 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
     }
     public fun isEmpty(): Boolean = map.isEmpty()
     public operator fun set(k: String, v: IJsonParserValue) {
+        setAccessed()
+        v.setAccessed()
         map[k] = v
     }
     public operator fun set(k: String, v: String) {
-        map[k] = JsonParserString(v)
+        setAccessed()
+        val tmp = JsonParserString(v)
+        tmp.setAccessed()
+        map[k] = tmp
     }
     public operator fun set(k: String, v: Int) {
-        map[k] = JsonParserInt(v)
+        setAccessed()
+        val tmp = JsonParserInt(v)
+        tmp.setAccessed()
+        map[k] = tmp
     }
     public operator fun set(k: String, v: Long) {
-        map[k] = JsonParserLong(v)
+        setAccessed()
+        val tmp = JsonParserLong(v)
+        tmp.setAccessed()
+        map[k] = tmp
     }
     public operator fun set(k: String, v: Boolean) {
-        map[k] = JsonParserBoolean(v)
+        setAccessed()
+        val tmp = JsonParserBoolean(v)
+        tmp.setAccessed()
+        map[k] = tmp
     }
     public operator fun set(k: String, v: Double) {
-        map[k] = JsonParserDouble(v)
+        setAccessed()
+        val tmp = JsonParserDouble(v)
+        tmp.setAccessed()
+        map[k] = tmp
     }
 
     public operator fun get(k: String): IJsonParserValue? {
-        return map[k]
+        setAccessed()
+        val tmp = map[k]
+        tmp?.setAccessed()
+        return tmp
     }
 
     public fun getOrDefault(k: String, v: IJsonParserValue): IJsonParserValue {
+        setAccessed()
         val res = map[k]
-        if (res == null) {
+        val r = if (res == null) {
             map[k] = v
-            return v
+            v
         } else {
-            return res
+            res
         }
+        r.setAccessed()
+        try {
+            when (r) {
+                is JsonParserString -> r.setDefault((v as JsonParserString).value)
+                is JsonParserInt -> r.setDefault((v as JsonParserInt).value)
+                is JsonParserLong -> r.setDefault((v as JsonParserLong).value)
+                is JsonParserBoolean -> r.setDefault((v as JsonParserBoolean).value)
+                is JsonParserDouble -> r.setDefault((v as JsonParserDouble).value)
+            }
+        } catch (e: Throwable) {
+            println("$k -> $r ... $v")
+            throw e
+        }
+        return r
     }
     public fun getOrEmptyObject(k: String): JsonParserObject {
-        return getOrDefault(k, JsonParserObject(mutableMapOf())) as JsonParserObject
+        setAccessed()
+        val res = getOrDefault(k, JsonParserObject(mutableMapOf())) as JsonParserObject
+        res.setAccessed()
+        return res
     }
     public fun getOrEmptyArray(k: String): JsonParserArray {
-        return getOrDefault(k, JsonParserArray(mutableListOf())) as JsonParserArray
+        setAccessed()
+        val res = getOrDefault(k, JsonParserArray(mutableListOf())) as JsonParserArray
+        res.setAccessed()
+        return res
     }
     public fun getOrDefault(k: String, v: String): String {
+        setAccessed()
         val tmp = getOrDefault(k, JsonParserString(v))
         val res = when (tmp) {
             is JsonParserString -> tmp.value
@@ -103,11 +154,15 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
             is JsonParserDouble -> "${tmp.value}"
             else -> TODO("$tmp")
         }
-        map[k] = JsonParserString(res)
+        val tmp2 = JsonParserString(res)
+        tmp2.setAccessed()
+        tmp2.setDefault(v)
+        map[k] = tmp2
         return res
     }
 
     public fun getOrDefault(k: String, v: Boolean): Boolean {
+        setAccessed()
         val tmp = getOrDefault(k, JsonParserBoolean(v))
         val res = when (tmp) {
             is JsonParserString -> tmp.value.toLowerCase() == "true"
@@ -117,11 +172,15 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
             is JsonParserDouble -> tmp.value != 0.0
             else -> TODO("$tmp")
         }
-        map[k] = JsonParserBoolean(res)
+        val tmp2 = JsonParserBoolean(res)
+        tmp2.setAccessed()
+        tmp2.setDefault(v)
+        map[k] = tmp2
         return res
     }
 
     public fun getOrDefault(k: String, v: Int): Int {
+        setAccessed()
         val tmp = getOrDefault(k, JsonParserInt(v))
         val res = when (tmp) {
             is JsonParserString -> tmp.value.toInt()
@@ -131,11 +190,15 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
             is JsonParserInt -> tmp.value.toInt()
             else -> TODO("$tmp")
         }
-        map[k] = JsonParserInt(res)
+        val tmp2 = JsonParserInt(res)
+        tmp2.setAccessed()
+        tmp2.setDefault(v)
+        map[k] = tmp2
         return res
     }
 
     public fun getOrDefault(k: String, v: Long): Long {
+        setAccessed()
         val tmp = getOrDefault(k, JsonParserLong(v))
         val res = when (tmp) {
             is JsonParserString -> tmp.value.toLong()
@@ -145,11 +208,15 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
             is JsonParserDouble -> tmp.value.toLong()
             else -> TODO("$tmp")
         }
-        map[k] = JsonParserLong(res)
+        val tmp2 = JsonParserLong(res)
+        tmp2.setAccessed()
+        tmp2.setDefault(v)
+        map[k] = tmp2
         return res
     }
 
     public fun getOrDefault(k: String, v: Double): Double {
+        setAccessed()
         val tmp = getOrDefault(k, JsonParserDouble(v))
         val res = when (tmp) {
             is JsonParserString -> tmp.value.toDouble()
@@ -159,12 +226,20 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
             is JsonParserDouble -> tmp.value
             else -> TODO("$tmp")
         }
-        map[k] = JsonParserDouble(res)
+        val tmp2 = JsonParserDouble(res)
+        tmp2.setAccessed()
+        tmp2.setDefault(v)
+        map[k] = tmp2
         return res
     }
 }
 
 public class JsonParserArray(private val array: MutableList<IJsonParserValue>) : Iterable<IJsonParserValue>, IJsonParserValue {
+    private var accessed0 = false
+    override fun setAccessed() {
+        accessed0 = true
+    }
+    override fun isAccessed(): Boolean = accessed0
     public fun mergeWith(other: JsonParserArray) {
         var k = 0
         while (k <array.size && k <other.array.size) {
@@ -189,30 +264,98 @@ public class JsonParserArray(private val array: MutableList<IJsonParserValue>) :
         return res.toMutableList()
     }
     public fun firstOrEmptyObject(): JsonParserObject {
-        if (array.size> 0) {
-            return array[0] as JsonParserObject
-        } else {
-            val tmp = JsonParserObject(mutableMapOf())
-            array.add(tmp)
-            return tmp
-        }
+        setAccessed()
+        val res =
+            if (array.size> 0) {
+                array[0] as JsonParserObject
+            } else {
+                val tmp = JsonParserObject(mutableMapOf())
+                array.add(tmp)
+                tmp
+            }
+        res.setAccessed()
+        return res
     }
     public operator fun get(i: Int): IJsonParserValue {
-        return array[i]
+        setAccessed()
+        val res = array[i]
+        res.setAccessed()
+        return res
     }
     override operator fun iterator(): Iterator<IJsonParserValue> {
+        setAccessed()
+        for (a in array) {
+            a.setAccessed()
+        }
         return array.iterator()
     }
     public fun add(v: IJsonParserValue) {
+        setAccessed()
+        v.setAccessed()
         array.add(v)
     }
 }
 
-public class JsonParserInt(public var value: Int) : IJsonParserValue
-public class JsonParserLong(public var value: Long) : IJsonParserValue
-public class JsonParserDouble(public var value: Double) : IJsonParserValue
-public class JsonParserString(public var value: String) : IJsonParserValue
-public class JsonParserBoolean(public var value: Boolean) : IJsonParserValue
+public class JsonParserInt(public var value: Int) : IJsonParserValue {
+    private var accessed0 = false
+    override fun setAccessed() {
+        accessed0 = true
+    }
+    override fun isAccessed(): Boolean = accessed0
+    private var default0: Int? = null
+    internal fun setDefault(v: Int) {
+        default0 = v
+    }
+    internal fun getDefault() = default0
+}
+public class JsonParserLong(public var value: Long) : IJsonParserValue {
+    private var accessed0 = false
+    override fun setAccessed() {
+        accessed0 = true
+    }
+    override fun isAccessed(): Boolean = accessed0
+    private var default0: Long? = null
+    internal fun setDefault(v: Long) {
+        default0 = v
+    }
+    internal fun getDefault() = default0
+}
+public class JsonParserDouble(public var value: Double) : IJsonParserValue {
+    private var accessed0 = false
+    override fun setAccessed() {
+        accessed0 = true
+    }
+    override fun isAccessed(): Boolean = accessed0
+    private var default0: Double? = null
+    internal fun setDefault(v: Double) {
+        default0 = v
+    }
+    internal fun getDefault() = default0
+}
+public class JsonParserString(public var value: String) : IJsonParserValue {
+    private var accessed0 = false
+    override fun setAccessed() {
+        accessed0 = true
+    }
+    override fun isAccessed(): Boolean = accessed0
+    private var default0: String? = null
+    internal fun setDefault(v: String) {
+        default0 = v
+    }
+    internal fun getDefault() = default0
+}
+public class JsonParserBoolean(public var value: Boolean) : IJsonParserValue {
+    private var accessed0 = false
+    override fun setAccessed() {
+        accessed0 = true
+    }
+    override fun isAccessed(): Boolean = accessed0
+    private var default0: Boolean? = null
+    internal fun setDefault(v: Boolean) {
+        default0 = v
+    }
+    internal fun getDefault() = default0
+}
 
 public class JsonParser {
     private fun readValueAt(data: String, off: Int): Pair<Int, IJsonParserValue> {
@@ -381,40 +524,75 @@ public class JsonParser {
         throw Exception("unknown char at F $off '${data[off]}' $data")
     }
 
-    public fun jsonToString(data: IJsonParserValue): String {
-        return jsonToString(data, "")
+    public fun jsonToString(data: IJsonParserValue, printDefaults: Boolean): String {
+        return jsonToString(data, "", printDefaults)
     }
 
-    private fun jsonToString(data: IJsonParserValue, indention: String): String {
-        when (data) {
+    private fun jsonToString(data: IJsonParserValue, indention: String, printDefaults: Boolean): String {
+        val r = when (data) {
             is JsonParserObject -> {
                 if (data.isEmpty()) {
-                    return "{}"
+                    "{}"
                 } else {
                     var res = "{\n"
                     for ((k, v) in data.toList().sortedBy { it.first }) {
-                        res += "$indention    \"$k\": ${jsonToString(v, indention + "    ")},\n"
+                        res += "$indention    \"$k\": ${jsonToString(v, indention + "    ",printDefaults)},\n"
                     }
-                    return "$res$indention}"
+                    "$res$indention}"
                 }
             }
             is JsonParserArray -> {
                 if (data.isEmpty()) {
-                    return "[]"
+                    "[]"
                 } else {
                     var res = "[\n"
                     for (e in data) {
-                        res += "$indention    ${jsonToString(e, indention + "    ")},\n"
+                        res += "$indention    ${jsonToString(e, indention + "    ",printDefaults)},\n"
                     }
-                    return "$res$indention]"
+                    "$res$indention]"
                 }
             }
-            is JsonParserBoolean -> return "${data.value}"
-            is JsonParserInt -> return "${data.value}"
-            is JsonParserLong -> return "${data.value}"
-            is JsonParserDouble -> return "${data.value}"
-            is JsonParserString -> return "\"${encodeString(data.value)}\""
+            is JsonParserBoolean -> {
+                if (data.getDefault() == null || !printDefaults) {
+                    "${data.value}"
+                } else {
+                    "${data.value} /* '${data.getDefault()}' */"
+                }
+            }
+            is JsonParserInt -> {
+                if (data.getDefault() == null || !printDefaults) {
+                    "${data.value}"
+                } else {
+                    "${data.value} /* '${data.getDefault()}' */"
+                }
+            }
+            is JsonParserLong -> {
+                if (data.getDefault() == null || !printDefaults) {
+                    "${data.value}"
+                } else {
+                    "${data.value} /* '${data.getDefault()}' */"
+                }
+            }
+            is JsonParserDouble -> {
+                if (data.getDefault() == null || !printDefaults) {
+                    "${data.value}"
+                } else {
+                    "${data.value} /* '${data.getDefault()}' */"
+                }
+            }
+            is JsonParserString -> {
+                if (data.getDefault() == null || !printDefaults) {
+                    "\"${encodeString(data.value)}\""
+                } else {
+                    "\"${encodeString(data.value)}\" /* '${data.getDefault()}' */"
+                }
+            }
             else -> throw Exception("unknown JSON element G $data")
+        }
+        if (data.isAccessed() || !printDefaults) {
+            return r
+        } else {
+            return "$r /* unused */"
         }
     }
 
@@ -423,14 +601,19 @@ public class JsonParser {
         return res
     }
     public fun fileToJson(fileName: String, autoformat: Boolean = true): IJsonParserValue {
-        val fileStr = File(fileName).readAsString()
-        val json = JsonParser().stringToJson(fileStr) as IJsonParserValue
-        if (autoformat) {
-            File(fileName).withOutputStream { out ->
-                out.println(JsonParser().jsonToString(json))
+        try {
+            val fileStr = File(fileName).readAsString()
+            val json = JsonParser().stringToJson(fileStr) as IJsonParserValue
+            if (autoformat) {
+                File(fileName).withOutputStream { out ->
+                    out.println(JsonParser().jsonToString(json, false))
+                }
             }
+            return json
+        } catch (e: Throwable) {
+            println(fileName)
+            throw e
         }
-        return json
     }
     public fun fileMergeToJson(fileNames: List<String>, autoformat: Boolean = true): JsonParserObject {
         var res = JsonParserObject(mutableMapOf())
