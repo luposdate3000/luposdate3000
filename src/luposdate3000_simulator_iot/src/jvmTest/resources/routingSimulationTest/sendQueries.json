@@ -41,7 +41,7 @@
             "maxNumberOfQueries": 2,
             "name": "Driver1",
             "query": "Select dummy From dum",
-            "sendRateInSeconds": "2",
+            "sendRateInSeconds": 2,
             "sendStartClockInSec": 50,
         },
     ],
