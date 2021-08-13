@@ -69,7 +69,7 @@ public class Evaluation {
 
     public fun evalConfigFile(configFileName: String) {
         val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-        val printer = MeasurementPrinter(json.getOrDefault("outputDirectory", configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf("."))))
+        val printer = MeasurementPrinter(json.getOrDefault("outputDirectory", FilePaths. outputDir+"/"+configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf("."))))
         val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1), printer)
         runs.startSimulationRuns()
         File(configFileName).withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
@@ -78,7 +78,7 @@ public class Evaluation {
     }
     public fun evalConfigFileMerge(configFileNames: List<String>) {
         val json = JsonParser().fileMergeToJson(configFileNames)as JsonParserObject
-        var outputdirectoryTmp = ""
+        var outputdirectoryTmp = FilePaths. outputDir+"/"
         for (n in configFileNames) {
             val a = n.lastIndexOf("/") + 1
             val b = n.lastIndexOf(".")

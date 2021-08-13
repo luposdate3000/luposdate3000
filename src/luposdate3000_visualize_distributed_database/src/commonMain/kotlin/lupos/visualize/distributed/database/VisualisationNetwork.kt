@@ -22,7 +22,8 @@ import lupos.shared.inline.File
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-public class VisualisationNetwork {
+public class VisualisationNetwork (private val config:JsonParserObject){
+val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
     private var devicesMaxID = 0
     private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
@@ -275,7 +276,7 @@ public class VisualisationNetwork {
         } else {
             "visual-overview-${queryNumber.toString().padStart(4,'0')}.svg"
         }
-        File(name).withOutputStream { out ->
+        File(outputdirectory+name).withOutputStream { out ->
             out.println(imgOverview.toString())
         }
         return true
@@ -347,7 +348,7 @@ public class VisualisationNetwork {
                         }
                         umfang += opGraph.getRadius()
                         allWork.add(opGraph)
-                        File("visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
+                        File(outputdirectory+"visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
                             out.println(opImage.toString())
                         }
                         helperImageCounter++
@@ -389,7 +390,7 @@ public class VisualisationNetwork {
             for (w in allWork) {
                 w.toImage(image, layerWork, mapOfSenders, mapOfReceivers)
             }
-            File("visual-db-work-$queryID.svg").withOutputStream { out ->
+            File(outputdirectory+"visual-db-work-$queryID.svg").withOutputStream { out ->
                 out.println(image.toString())
             }
         }
@@ -398,13 +399,13 @@ public class VisualisationNetwork {
         val imageHelperBase = toBaseImage()
         val imageHelperBaseDB = toBaseImageDB()
 // ---->>>> save it as file
-        File("visual.svg").withOutputStream { out ->
+        File(outputdirectory+"visual.svg").withOutputStream { out ->
             out.println(imageHelperBase.toString())
         }
-        File("visual-db.svg").withOutputStream { out ->
+        File(outputdirectory+"visual-db.svg").withOutputStream { out ->
             out.println(imageHelperBaseDB.toString())
         }
-        File("visual-db-storage.svg").withOutputStream { out ->
+        File(outputdirectory+"visual-db-storage.svg").withOutputStream { out ->
             out.println(saveDBStorageLocations(imageHelperBaseDB).toString())
         }
         var flag = true

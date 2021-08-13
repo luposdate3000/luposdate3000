@@ -61,7 +61,7 @@ import lupos.visualize.distributed.database.VisualisationNetwork
 
 public class DatabaseHandle public constructor(config: JsonParserObject) : IDatabase {
     private var enableSharedMemoryDictionaryCheat = true
-    private var visualisationNetwork = VisualisationNetwork()
+    private lateinit var visualisationNetwork : VisualisationNetwork
     private var ownAdress: Int = 0
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
