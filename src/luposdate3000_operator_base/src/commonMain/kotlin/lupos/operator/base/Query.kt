@@ -106,7 +106,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     public override fun getDictionaryUrl(): String? = dictionaryUrl
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
-    override fun initialize(newroot: IOPBase, wantReturnValue: Boolean): IOPBase {
+    override fun initialize(newroot: IOPBase, wantReturnValue: Boolean, splitEverything: Boolean): IOPBase {
         root = newroot
         transactionID = UUID_Counter.getNextUUID()
         commited = false
@@ -118,7 +118,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
             dependenciesMapTopDown = mutableMapOf()
             dependenciesMapBottomUp = mutableMapOf()
             keyRepresentative = mutableMapOf()
-            factory().optimize(this, wantReturnValue)
+            factory().optimize(this, wantReturnValue, splitEverything)
         } else {
             newroot
         }

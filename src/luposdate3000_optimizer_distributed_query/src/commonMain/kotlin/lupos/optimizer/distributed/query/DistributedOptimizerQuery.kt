@@ -228,10 +228,14 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         }
     }
 
-    private fun splitQuery(query2: IQuery) {
+    private fun splitQuery(query2: IQuery, splitEverything: Boolean) {
         val query = query2 as Query
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            val root = PhysicalOptimizerSplitMergePartition(query).optimizeCall(query.root!!)
+            val root = if (splitEverything) {
+                PhysicalOptimizerSplitMergePartition(query).optimizeCall(query.root!!)
+            } else {
+                query.root!!
+            }
             query.operatorgraphParts.clear()
 // assign host to root node
             query.operatorgraphParts[""] = root.toXMLElement(true)
@@ -248,11 +252,11 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         }
     }
 
-    public override fun optimize(query2: IQuery, wantReturnValue: Boolean): IOPBase {
+    public override fun optimize(query2: IQuery, wantReturnValue: Boolean, splitEverything: Boolean): IOPBase {
         val query = query2 as Query
         val root = query.root!!
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            splitQuery(query)
+            splitQuery(query, splitEverything)
 // assign hosts to other parts
             for (childOptimizer2 in childOptimizer) {
                 var changed = true
