@@ -31,10 +31,10 @@ def create_action_list(matrix_size: int) -> List[Tuple[int, int]]:
     return action_list
 
 def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matrix: np.ndarray) -> np.ndarray:
-    """Function to initially fill the observation matrix with bgps and its join candidates.
+    """Function to initially fill the observation matrix with triples and its join candidates.
 
     Takes bgps from query and sets the diagonal values of the corresponding entry in the
-    observation matrix to the values of the corresponding bgp. The possible join candidates
+    observation matrix to the values of the corresponding triple. The possible join candidates
     are marked with a [-1, -1, -1]. Join variables are negative integers.
 
 
@@ -42,14 +42,14 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
     ----------
     sorted_query : List[List[Tuple[int, int, int]]
         list of lists of bgps and join candidates in query:
-        [bgp_a, bgp_b, ...]. bgp_a = [bgp, join_candidate0, join_candidate1, ...]
+        [triple_a, triple_b, ...]. triple_a = [triple, join_candidate0, join_candidate1, ...]
     observation_matrix : np.ndarray
         empty observation matrix with all entries set to zero
 
     Returns
     -------
     np.ndarray
-        initial observation matrix with bgps and join candidates
+        initial observation matrix with triples and join candidates
     """
 
     # Create dictionary to map bgp to its index in matrix and vice versa.
@@ -326,7 +326,7 @@ def calculate_reward(benched_query, join_order):
     float
         Reward.
     """
-    # print(benched_query)
+    
     # get number of join order
     join_order_n = _join_order_to_number(join_order)
     # calculate max
@@ -345,7 +345,9 @@ def calculate_reward(benched_query, join_order):
     else:
         reward1 = 4 * pow(reward0, 2) - 4 * reward0 + 1
 
-    # reward = -(sqrt(exec_time-min_exec_time)/(sqrt(max_exec_time-min_exec_time)*10))
+
+
+    # reward = -(sqrt(abs(exec_time-min_exec_time))/sqrt(max_exec_time-min_exec_time)*10)
 
 
 
