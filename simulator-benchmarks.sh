@@ -6,7 +6,7 @@
 
 BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 JSON_LOCATION="${BASE_PATH}/campus.json"
-for q in Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q0
+for q in Q3 Q2 Q1 Q4 Q5 Q6 Q7 Q8 Q0
 do
 JSON_QUERY="${BASE_PATH}/$q.json"
 #for t in central distributed

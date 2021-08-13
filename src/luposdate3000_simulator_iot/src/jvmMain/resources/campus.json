@@ -210,8 +210,8 @@
         },
         {
             "deviceType": "Edge Gateway WSN 1",
-            "latitude": 53.838474484901376,
-            "longitude": 10.695081476709452,
+            "latitude": 53.836891814222774,
+            "longitude": 10.697463417298081,
             "name": "Root WSN 1",
         },
         {
@@ -222,8 +222,8 @@
         },
         {
             "deviceType": "Edge Gateway WSN 3",
-            "latitude": 53.836891814222774,
-            "longitude": 10.697463417298081,
+            "latitude": 53.838474484901376,
+            "longitude": 10.695081476709452,
             "name": "Root WSN 3",
         },
         {
