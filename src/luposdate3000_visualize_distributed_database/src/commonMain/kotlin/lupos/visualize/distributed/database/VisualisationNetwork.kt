@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+import lupos.parser.JsonParserObject
 import lupos.shared.Luposdate3000Config
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -22,8 +23,8 @@ import lupos.shared.inline.File
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-public class VisualisationNetwork (private val config:JsonParserObject){
-val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
+public class VisualisationNetwork(private val config: JsonParserObject) {
+    private val outputdirectory = config.getOrDefault("outputDirectory", "") + "/"
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
     private var devicesMaxID = 0
     private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
@@ -276,7 +277,7 @@ val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
         } else {
             "visual-overview-${queryNumber.toString().padStart(4,'0')}.svg"
         }
-        File(outputdirectory+name).withOutputStream { out ->
+        File(outputdirectory + name).withOutputStream { out ->
             out.println(imgOverview.toString())
         }
         return true
@@ -348,7 +349,7 @@ val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
                         }
                         umfang += opGraph.getRadius()
                         allWork.add(opGraph)
-                        File(outputdirectory+"visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
+                        File(outputdirectory + "visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
                             out.println(opImage.toString())
                         }
                         helperImageCounter++
@@ -390,7 +391,7 @@ val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
             for (w in allWork) {
                 w.toImage(image, layerWork, mapOfSenders, mapOfReceivers)
             }
-            File(outputdirectory+"visual-db-work-$queryID.svg").withOutputStream { out ->
+            File(outputdirectory + "visual-db-work-$queryID.svg").withOutputStream { out ->
                 out.println(image.toString())
             }
         }
@@ -399,13 +400,13 @@ val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
         val imageHelperBase = toBaseImage()
         val imageHelperBaseDB = toBaseImageDB()
 // ---->>>> save it as file
-        File(outputdirectory+"visual.svg").withOutputStream { out ->
+        File(outputdirectory + "visual.svg").withOutputStream { out ->
             out.println(imageHelperBase.toString())
         }
-        File(outputdirectory+"visual-db.svg").withOutputStream { out ->
+        File(outputdirectory + "visual-db.svg").withOutputStream { out ->
             out.println(imageHelperBaseDB.toString())
         }
-        File(outputdirectory+"visual-db-storage.svg").withOutputStream { out ->
+        File(outputdirectory + "visual-db-storage.svg").withOutputStream { out ->
             out.println(saveDBStorageLocations(imageHelperBaseDB).toString())
         }
         var flag = true
@@ -495,10 +496,10 @@ val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
             if (src != dest) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:496"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:497"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:498"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:499"/*SOURCE_FILE_END*/ }, { src != hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:498"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:499"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:500"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:501"/*SOURCE_FILE_END*/ }, { src != hop })
                 if (connectionTable.size <size) {
                     connectionTable = IntArray(size) { -1 }
                 }
@@ -512,9 +513,9 @@ val outputdirectory = json.getOrDefault("outputDirectory","")+"/"
             if (src != dest && src != hop) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:513"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:514"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:515"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:515"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:516"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:517"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
                 if (connectionTableDB.size <size) {
                     connectionTableDB = IntArray(size) { -1 }
                 }

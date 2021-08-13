@@ -1,11 +1,11 @@
 {
     "querySender": [
         {
-            "name": "Driver",
-            "sendRateInSeconds": 1,
             "maxNumberOfQueries": 1,
-            "sendStartClockInSec": 9000,
+            "name": "Driver",
             "query": "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
+            "sendRateInSeconds": 1,
+            "sendStartClockInSec": 9000,
         },
     ],
 }

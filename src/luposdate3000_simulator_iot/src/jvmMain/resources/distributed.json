@@ -1,5 +1,42 @@
 {
-    "sensorType": [{
+    "deviceType": [
+        {
+            "database": true,
+        },
+        {},
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+        {
+            "database": true,
+        },
+    ],
+    "sensorType": [
+        {
             "dataSink": "Root WSN 1",
         },
         {
@@ -28,42 +65,6 @@
         },
         {
             "dataSink": "Root WSN 10",
-        }
-    ],
-    "deviceType": [{
-            "database": true,
-        },
-        {
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
-        },
-        {
-            "database": true,
         },
     ],
 }
