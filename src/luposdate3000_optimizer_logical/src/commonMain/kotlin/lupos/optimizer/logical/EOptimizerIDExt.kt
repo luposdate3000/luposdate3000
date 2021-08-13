@@ -61,9 +61,10 @@ public object EOptimizerIDExt {
     public const val PhysicalOptimizerPartitionExpandTowardsRootID: EOptimizerID = 39 // 0x00000027
     public const val PhysicalOptimizerPartitionRemoveUselessPartitionsID: EOptimizerID = 40 // 0x00000028
     public const val PhysicalOptimizerPartitionRespectMaxPartitionsID: EOptimizerID = 41 // 0x00000029
-    public const val PhysicalOptimizerTripleIndexID: EOptimizerID = 42 // 0x0000002a
-    public const val PhysicalOptimizerVisualisationID: EOptimizerID = 43 // 0x0000002b
-    public const val values_size: Int = 44
+    public const val PhysicalOptimizerSplitMergePartitionID: EOptimizerID = 42 // 0x0000002a
+    public const val PhysicalOptimizerTripleIndexID: EOptimizerID = 43 // 0x0000002b
+    public const val PhysicalOptimizerVisualisationID: EOptimizerID = 44 // 0x0000002c
+    public const val values_size: Int = 45
     public const val values_mask: Int = 63 // 0x0000003f
     public const val values_mask_inversed: Int = 2147483584 // 0x7fffffc0
 
@@ -111,6 +112,7 @@ public object EOptimizerIDExt {
         "PhysicalOptimizerPartitionExpandTowardsRootID",
         "PhysicalOptimizerPartitionRemoveUselessPartitionsID",
         "PhysicalOptimizerPartitionRespectMaxPartitionsID",
+        "PhysicalOptimizerSplitMergePartitionID",
         "PhysicalOptimizerTripleIndexID",
         "PhysicalOptimizerVisualisationID",
     )

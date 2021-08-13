@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.distributed.query
-
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -31,6 +30,7 @@ import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.operator.physical.partition.POPSplitPartitionPassThrough
+import lupos.optimizer.physical.PhysicalOptimizerSplitMergePartition
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
@@ -230,8 +230,8 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
 
     private fun splitQuery(query2: IQuery) {
         val query = query2 as Query
-        val root = query.root!!
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            val root = PhysicalOptimizerSplitMergePartition(query).optimizeCall(query.root!!)
             query.operatorgraphParts.clear()
 // assign host to root node
             query.operatorgraphParts[""] = root.toXMLElement(true)
