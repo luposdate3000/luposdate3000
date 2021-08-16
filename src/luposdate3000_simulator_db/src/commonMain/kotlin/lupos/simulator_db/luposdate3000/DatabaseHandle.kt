@@ -290,9 +290,9 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
         val mapTopDown = mutableMapOf<String, MutableSet<String>>()
         val mapBottomUp = mutableMapOf<String, MutableSet<String>>()
-        val allHosts = pck.operatorGraphPartsToHostMap.values.toSet().toTypedArray()
-        val allHostAdresses = IntArray(allHosts.size) { allHosts[it].toInt() }
-//        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)  //TODO
+        val allHosts = pck.operatorGraphPartsToHostMap.values.map { it.toInt() }.toSet().toTypedArray()
+        val allHostAdresses = IntArray(allHosts.size) { allHosts[it] }
+        val nextHops = router!!.getNextDatabaseHops(allHostAdresses)
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in allHostAdresses.toSet()) {
             packages[i] = MySimulatorOperatorGraphPackage(
@@ -307,7 +307,7 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
         packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
-            packageMap[k] = allHostAdresses[allHostAdresses.indexOf(v.toInt())]
+            packageMap[k] = nextHops[allHosts.indexOf(v.toInt())]
         }
         for ((k, v) in pck.operatorGraph) {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
@@ -372,7 +372,7 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
                 p.operatorGraph[k] = g
                 val h = pck.operatorGraphPartsToHostMap[k]
                 if (h != null) {
-                    p.operatorGraphPartsToHostMap[k] = h
+                    p.operatorGraphPartsToHostMap[k] = h // this allows to keep the final destination, while sending the package only to the next hop
                 }
                 val d = pck.destinations[k]
                 if (d != null) {
