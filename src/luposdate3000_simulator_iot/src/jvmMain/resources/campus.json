@@ -1,7 +1,7 @@
 {
     "deterministic": true,
     "deviceType": {
-"Central Tower":        {
+        "Central Tower": {
             "parkingSensor": "",
             "performance": 100.0,
             "supportedLinkTypes": [
@@ -9,8 +9,87 @@
                 "WLAN",
             ],
         },
- "Mesh Hop":        {
-            "database": false,
+        "Edge Gateway WSN 1": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 10": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 2": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 3": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 4": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 5": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 6": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 7": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 8": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Edge Gateway WSN 9": {
+            "parkingSensor": "",
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
@@ -18,87 +97,7 @@
                 "WLAN",
             ],
         },
-"Edge Gateway WSN 1":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
- "Edge Gateway WSN 2":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
-"Edge Gateway WSN 3":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
- "Edge Gateway WSN 4":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
-"Edge Gateway WSN 5":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
- "Edge Gateway WSN 6":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
-"Edge Gateway WSN 7":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
-"Edge Gateway WSN 8":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
-"Edge Gateway WSN 9":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
-"Edge Gateway WSN 10":        {
-            "parkingSensor": "",
-            "performance": 30.0,
-            "supportedLinkTypes": [
-                "WPAN",
-                "WLAN",
-            ],
-        },
-"Sensor Device WSN 1":        {
+        "Sensor Device WSN 1": {
             "database": false,
             "parkingSensor": "Parking Sensor WSN 1",
             "performance": 1.0,
@@ -106,71 +105,7 @@
                 "WPAN",
             ],
         },
-"Sensor Device WSN 2":        {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 2",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-"Sensor Device WSN 3":        {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 3",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
- "Sensor Device WSN 4":        {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 4",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-"Sensor Device WSN 5":        {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 5",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
- "Sensor Device WSN 6":        {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 6",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-"Sensor Device WSN 7"       : {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 7",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-"Sensor Device WSN 8":        {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 8",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-"Sensor Device WSN 9":        {
-            "database": false,
-            "parkingSensor": "Parking Sensor WSN 9",
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-"Sensor Device WSN 10":        {
+        "Sensor Device WSN 10": {
             "database": false,
             "parkingSensor": "Parking Sensor WSN 10",
             "performance": 1.0,
@@ -178,72 +113,136 @@
                 "WPAN",
             ],
         },
+        "Sensor Device WSN 2": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 2",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 3": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 3",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 4": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 4",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 5": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 5",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 6": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 6",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 7": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 7",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 8": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 8",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 9": {
+            "database": false,
+            "parkingSensor": "Parking Sensor WSN 9",
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
     },
     "fixedDevice": {
-"Fog":        {
+        "Fog": {
             "deviceType": "Central Tower",
             "latitude": 53.83831534459554,
             "longitude": 10.698774930618905,
         },
-"Root WSN 1":        {
+        "Root WSN 1": {
             "deviceType": "Edge Gateway WSN 1",
             "latitude": 53.836891814222774,
             "longitude": 10.697463417298081,
         },
-"Root WSN 2":        {
-            "deviceType": "Edge Gateway WSN 2",
-            "latitude": 53.83744253948933,
-            "longitude": 10.694834809499191,
-        },
-"Root WSN 3":        {
-            "deviceType": "Edge Gateway WSN 3",
-            "latitude": 53.838474484901376,
-            "longitude": 10.695081476709452,
-        },
-"Root WSN 4":        {
-            "deviceType": "Edge Gateway WSN 4",
-            "latitude": 53.83862015297171,
-            "longitude": 10.70005982052656,
-        },
-"Root WSN 5":        {
-            "deviceType": "Edge Gateway WSN 5",
-            "latitude": 53.8371134048039,
-            "longitude": 10.699351680333246,
-        },
- "Root WSN 6":        {
-            "deviceType": "Edge Gateway WSN 6",
-            "latitude": 53.83759450606049,
-            "longitude": 10.702377248379614,
-        },
-"Root WSN 7":        {
-            "deviceType": "Edge Gateway WSN 7",
-            "latitude": 53.83622460614883,
-            "longitude": 10.697405195405576,
-        },
-"Root WSN 8":        {
-            "deviceType": "Edge Gateway WSN 8",
-            "latitude": 53.83523539538031,
-            "longitude": 10.696438320766976,
-        },
-"Root WSN 9":        {
-            "deviceType": "Edge Gateway WSN 9",
-            "latitude": 53.83549953176541,
-            "longitude": 10.697955598003395,
-        },
-"Root WSN 10":        {
+        "Root WSN 10": {
             "deviceType": "Edge Gateway WSN 10",
             "latitude": 53.83582633252526,
             "longitude": 10.701612267614298,
         },
+        "Root WSN 2": {
+            "deviceType": "Edge Gateway WSN 2",
+            "latitude": 53.83744253948933,
+            "longitude": 10.694834809499191,
+        },
+        "Root WSN 3": {
+            "deviceType": "Edge Gateway WSN 3",
+            "latitude": 53.838474484901376,
+            "longitude": 10.695081476709452,
+        },
+        "Root WSN 4": {
+            "deviceType": "Edge Gateway WSN 4",
+            "latitude": 53.83862015297171,
+            "longitude": 10.70005982052656,
+        },
+        "Root WSN 5": {
+            "deviceType": "Edge Gateway WSN 5",
+            "latitude": 53.8371134048039,
+            "longitude": 10.699351680333246,
+        },
+        "Root WSN 6": {
+            "deviceType": "Edge Gateway WSN 6",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+        },
+        "Root WSN 7": {
+            "deviceType": "Edge Gateway WSN 7",
+            "latitude": 53.83622460614883,
+            "longitude": 10.697405195405576,
+        },
+        "Root WSN 8": {
+            "deviceType": "Edge Gateway WSN 8",
+            "latitude": 53.83523539538031,
+            "longitude": 10.696438320766976,
+        },
+        "Root WSN 9": {
+            "deviceType": "Edge Gateway WSN 9",
+            "latitude": 53.83549953176541,
+            "longitude": 10.697955598003395,
+        },
     },
     "linkType": {
-     "WPAN":   {
-            "dataRateInKbps": 250,
-            "rangeInMeters": 30,
-        },
- "WLAN":        {
+        "WLAN": {
             "dataRateInKbps": 25000,
             "rangeInMeters": 200,
+        },
+        "WPAN": {
+            "dataRateInKbps": 250,
+            "rangeInMeters": 30,
         },
     },
     "randomMeshNetwork": [
@@ -331,55 +330,55 @@
     ],
     "rootRouter": "Fog",
     "sensorType": {
-"Parking Sensor WSN 1":        {
+        "Parking Sensor WSN 1": {
             "area": 1,
             "maxSamples": 10,
             "rateInSec": 60,
         },
- "Parking Sensor WSN 2":        {
+        "Parking Sensor WSN 10": {
+            "area": 10,
+            "maxSamples": 10,
+            "rateInSec": 110,
+        },
+        "Parking Sensor WSN 2": {
             "area": 2,
             "maxSamples": 10,
             "rateInSec": 120,
         },
-"Parking Sensor WSN 3":        {
+        "Parking Sensor WSN 3": {
             "area": 3,
             "maxSamples": 10,
             "rateInSec": 100,
         },
-"Parking Sensor WSN 4":        {
+        "Parking Sensor WSN 4": {
             "area": 4,
             "maxSamples": 10,
             "rateInSec": 140,
         },
- "Parking Sensor WSN 5":        {
+        "Parking Sensor WSN 5": {
             "area": 5,
             "maxSamples": 10,
             "rateInSec": 50,
         },
- "Parking Sensor WSN 6":        {
+        "Parking Sensor WSN 6": {
             "area": 6,
             "maxSamples": 10,
             "rateInSec": 120,
         },
-"Parking Sensor WSN 7":        {
+        "Parking Sensor WSN 7": {
             "area": 7,
             "maxSamples": 10,
             "rateInSec": 59,
         },
-"Parking Sensor WSN 8":        {
+        "Parking Sensor WSN 8": {
             "area": 8,
             "maxSamples": 10,
             "rateInSec": 130,
         },
- "Parking Sensor WSN 9":        {
+        "Parking Sensor WSN 9": {
             "area": 9,
             "maxSamples": 10,
             "rateInSec": 61,
-        },
-"Parking Sensor WSN 10":        {
-            "area": 10,
-            "maxSamples": 10,
-            "rateInSec": 110,
         },
     },
 }
