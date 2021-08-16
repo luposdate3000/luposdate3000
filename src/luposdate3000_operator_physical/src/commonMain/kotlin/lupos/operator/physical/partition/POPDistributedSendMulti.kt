@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -39,10 +38,17 @@ public class POPDistributedSendMulti public constructor(
     keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: List<String>, // key
-) : APOPDistributed(query,
- projectedVariables, EOperatorIDExt.POPDistributedSendMultiID, "POPDistributedSendMulti", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix) {
+) : APOPDistributed(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPDistributedSendMultiID,
+    "POPDistributedSendMulti",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY,
+    keyPrefix
+) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:43"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -60,7 +66,6 @@ public class POPDistributedSendMulti public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, false)
     }
-
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -93,7 +98,6 @@ public class POPDistributedSendMulti public constructor(
         return res
     }
 
-
     override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -124,7 +128,7 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:143"/*SOURCE_FILE_END*/ }, { i == variables.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:130"/*SOURCE_FILE_END*/ }, { i == variables.size })
         val p = Partition()
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }

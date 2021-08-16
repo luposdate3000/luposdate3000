@@ -17,7 +17,6 @@
 package lupos.operator.physical.partition
 import lupos.operator.base.PartitionHelper
 import lupos.operator.base.Query
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
@@ -33,15 +32,23 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
-public class POPSplitPartition public constructor(query: IQuery,
- projectedVariables: List<String>,
- @JvmField public val partitionVariable: String,
- @JvmField public var partitionCount: Int,
- @JvmField public var partitionID: Int,
- child: IOPBase) : APOPParallel(query,
- projectedVariables, EOperatorIDExt.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPSplitPartition public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    @JvmField public val partitionVariable: String,
+    @JvmField public var partitionCount: Int,
+    @JvmField public var partitionID: Int,
+    child: IOPBase
+) : APOPParallel(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPSplitPartitionID,
+    "POPSplitPartition",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY
+) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:37"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -103,7 +110,6 @@ public class POPSplitPartition public constructor(query: IQuery,
         return res
     }
 
-
     override fun cloneOP(): IOPBase = POPSplitPartition(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -126,9 +132,9 @@ public class POPSplitPartition public constructor(query: IQuery,
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:141"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:142"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:143"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:134"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:135"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:136"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
                 var queue_size = query.getInstance().queue_size
                 var elementsPerRing = queue_size * variables.size
                 var buffersize = elementsPerRing * partitionCount
@@ -163,7 +169,7 @@ public class POPSplitPartition public constructor(query: IQuery,
                                 }
                             }
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:178"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:171"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()

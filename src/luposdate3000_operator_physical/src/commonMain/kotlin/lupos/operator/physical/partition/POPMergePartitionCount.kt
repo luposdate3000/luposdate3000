@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -28,13 +27,21 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class POPMergePartitionCount public constructor(query: IQuery,
- projectedVariables: List<String>,
- @JvmField public val partitionVariable: String,
- @JvmField public var partitionCount: Int,
- @JvmField public var partitionID: Int,
- child: IOPBase) : APOPParallel(query,
- projectedVariables, EOperatorIDExt.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPMergePartitionCount public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    @JvmField public val partitionVariable: String,
+    @JvmField public var partitionCount: Int,
+    @JvmField public var partitionID: Int,
+    child: IOPBase
+) : APOPParallel(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPMergePartitionCountID,
+    "POPMergePartitionCount",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY
+) {
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
@@ -94,7 +101,6 @@ public class POPMergePartitionCount public constructor(query: IQuery,
         return res
     }
 
-
     override fun cloneOP(): IOPBase = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -104,8 +110,8 @@ public class POPMergePartitionCount public constructor(query: IQuery,
         } else {
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:119"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:120"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:112"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:113"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
             // partitionVariable as any other variable is not included in the result of the child operator
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required - available count is the difference between "ringbufferReadHead" and "ringbufferWriteHead"
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required

@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -26,13 +25,21 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
-public class POPSplitMergePartitionFromStore public constructor(query: IQuery,
- projectedVariables: List<String>,
- public var partitionID: Int,
- child: IOPBase) : APOPParallel(query,
- projectedVariables, EOperatorIDExt.POPSplitMergePartitionFromStoreID, "POPSplitMergePartitionFromStore", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPSplitMergePartitionFromStore public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    public var partitionID: Int,
+    child: IOPBase
+) : APOPParallel(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPSplitMergePartitionFromStoreID,
+    "POPSplitMergePartitionFromStore",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY
+) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitMergePartitionFromStore.kt:30"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitMergePartitionFromStore.kt:41"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -79,7 +86,6 @@ public class POPSplitMergePartitionFromStore public constructor(query: IQuery,
         }
         return res
     }
-
 
     override fun cloneOP(): IOPBase = POPSplitMergePartitionFromStore(query, projectedVariables, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitMergePartitionFromStore && children[0] == other.children[0]

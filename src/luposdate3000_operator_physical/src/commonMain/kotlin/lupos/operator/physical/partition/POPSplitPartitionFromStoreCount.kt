@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -26,13 +25,21 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class POPSplitPartitionFromStoreCount public constructor(query: IQuery,
- projectedVariables: List<String>,
- @JvmField public val partitionVariable: String,
- @JvmField public var partitionCount: Int,
- @JvmField public var partitionID: Int,
- child: IOPBase) : APOPParallel(query,
- projectedVariables, EOperatorIDExt.POPSplitPartitionFromStoreCountID, "POPSplitPartitionFromStoreCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPSplitPartitionFromStoreCount public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    @JvmField public val partitionVariable: String,
+    @JvmField public var partitionCount: Int,
+    @JvmField public var partitionID: Int,
+    child: IOPBase
+) : APOPParallel(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPSplitPartitionFromStoreCountID,
+    "POPSplitPartitionFromStoreCount",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY
+) {
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
@@ -52,7 +59,6 @@ public class POPSplitPartitionFromStoreCount public constructor(query: IQuery,
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, false)
     }
-
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {

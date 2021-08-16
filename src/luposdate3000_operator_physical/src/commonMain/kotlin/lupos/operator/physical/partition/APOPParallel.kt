@@ -16,54 +16,34 @@
  */
 package lupos.operator.physical.partition
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Parallel
-import lupos.shared.ParallelCondition
-import lupos.shared.Partition
-import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
-import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.IQuery
-import lupos.shared.VariableNotDefinedSyntaxException
-import lupos.shared.XMLElement
-import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.IPOPBase
-import kotlin.jvm.JvmField
-import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.RowIterator
-import kotlin.jvm.JvmField
 
 public abstract class APOPParallel public constructor(
- query: IQuery,
+    query: IQuery,
     projectedVariables: List<String>,
     operatorID: EOperatorID,
     classname: String,
     children: Array<IOPBase>,
     sortPriority: ESortPriority,
-):POPBase( 
-query,
-projectedVariables,
-operatorID,
-classname,
-children,
-sortPriority,
-){
-internal fun theKeyToString(key: Map<String, Int>): String {
+) : POPBase(
+    query,
+    projectedVariables,
+    operatorID,
+    classname,
+    children,
+    sortPriority,
+) {
+    internal open fun theKeyToString(key: Map<String, Int>): String {
         var s = "$uuid"
         for (k in key.keys.sorted()) {
             s += ":$k=${key[k]}"
         }
         return s
     }
-override fun getRequiredVariableNames(): List<String> = listOf()
+    override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
         val tmp = children[0]
@@ -73,5 +53,5 @@ override fun getRequiredVariableNames(): List<String> = listOf()
             tmp.getProvidedVariableNames()
         }
     }
- override fun toSparql(): String = children[0].toSparql()
+    override fun toSparql(): String = children[0].toSparql()
 }

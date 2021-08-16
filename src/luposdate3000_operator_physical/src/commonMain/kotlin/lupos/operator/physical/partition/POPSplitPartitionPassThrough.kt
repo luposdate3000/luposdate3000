@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -27,15 +26,23 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class POPSplitPartitionPassThrough public constructor(query: IQuery,
- projectedVariables: List<String>,
- @JvmField public val partitionVariable: String,
- @JvmField public var partitionCount: Int,
- @JvmField public var partitionID: Int,
- child: IOPBase) : APOPParallel(query,
- projectedVariables, EOperatorIDExt.POPSplitPartitionPassThroughID, "POPSplitPartitionPassThrough", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPSplitPartitionPassThrough public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    @JvmField public val partitionVariable: String,
+    @JvmField public var partitionCount: Int,
+    @JvmField public var partitionID: Int,
+    child: IOPBase
+) : APOPParallel(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPSplitPartitionPassThroughID,
+    "POPSplitPartitionPassThrough",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY
+) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionPassThrough.kt:31"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionPassThrough.kt:44"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {

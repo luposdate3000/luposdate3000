@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -36,9 +35,15 @@ public class POPDistributedReceiveSingleCount public constructor(
     keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
-) : APOPDistributed(query,
- projectedVariables,
- EOperatorIDExt.POPDistributedReceiveSingleCountID, "POPDistributedReceiveSingleCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix) {
+) : APOPDistributed(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPDistributedReceiveSingleCountID,
+    "POPDistributedReceiveSingleCount",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY,
+    keyPrefix
+) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1
@@ -77,7 +82,6 @@ public class POPDistributedReceiveSingleCount public constructor(
         }
         return res
     }
-
 
     override fun cloneOP(): IOPBase = POPDistributedReceiveSingleCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable

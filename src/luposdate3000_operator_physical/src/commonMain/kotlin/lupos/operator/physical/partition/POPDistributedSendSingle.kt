@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -39,11 +38,17 @@ public class POPDistributedSendSingle public constructor(
     keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: List<String>, // key
-) : APOPDistributed(query,
- projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix,
+) : APOPDistributed(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPDistributedSendSingleID,
+    "POPDistributedSendSingle",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY,
+    keyPrefix,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:43"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -85,7 +90,6 @@ public class POPDistributedSendSingle public constructor(
         return res
     }
 
-
     override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -103,7 +107,7 @@ public class POPDistributedSendSingle public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:122"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:109"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
         connectionOut.writeInt(variables.size)

@@ -15,49 +15,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Parallel
-import lupos.shared.ParallelCondition
-import lupos.shared.Partition
-import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
-import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.IQuery
-import lupos.shared.VariableNotDefinedSyntaxException
-import lupos.shared.XMLElement
-import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.IPOPBase
-import kotlin.jvm.JvmField
-import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
-public abstract class APOPDistributed public constructor( 
- query: IQuery,
+public abstract class APOPDistributed public constructor(
+    query: IQuery,
     projectedVariables: List<String>,
     operatorID: EOperatorID,
     classname: String,
     children: Array<IOPBase>,
     sortPriority: ESortPriority,
-@JvmField public val keyPrefix: String,
-):APOPParallel( 
-query,
-projectedVariables,
-operatorID,
-classname,
-children,
-sortPriority,
-){
-override  fun theKeyToString(key: Map<String, Int>): String {
+    @JvmField public val keyPrefix: String,
+) : APOPParallel(
+    query,
+    projectedVariables,
+    operatorID,
+    classname,
+    children,
+    sortPriority,
+) {
+    override fun theKeyToString(key: Map<String, Int>): String {
         var s = "$keyPrefix"
         for (k in key.keys.sorted()) {
             s += ":$k=${key[k]}"

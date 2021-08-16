@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -36,14 +35,19 @@ public class POPDistributedReceiveMultiCount public constructor(
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-     keyPrefix: String,
+    keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
-) : APOPDistributed(query,
- projectedVariables,
- EOperatorIDExt.POPDistributedReceiveMultiCountID, "POPDistributedReceiveMultiCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix,
+) : APOPDistributed(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPDistributedReceiveMultiCountID,
+    "POPDistributedReceiveMultiCount",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY,
+    keyPrefix,
 ) {
-    override fun getPartitionCount(variable: String): Int =1
+    override fun getPartitionCount(variable: String): Int = 1
 
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, true)
@@ -84,11 +88,10 @@ public class POPDistributedReceiveMultiCount public constructor(
         return res
     }
 
-
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiCount.kt:112"/*SOURCE_FILE_END*/ }, { hosts.size == partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiCount.kt:93"/*SOURCE_FILE_END*/ }, { hosts.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {

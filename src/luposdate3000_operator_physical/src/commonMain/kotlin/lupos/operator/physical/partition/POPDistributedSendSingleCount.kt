@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
@@ -38,8 +37,14 @@ public class POPDistributedSendSingleCount public constructor(
     keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: List<String>, // key
-) : APOPDistributed(query,
- projectedVariables, EOperatorIDExt.POPDistributedSendSingleCountID, "POPDistributedSendSingleCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix,
+) : APOPDistributed(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPDistributedSendSingleCountID,
+    "POPDistributedSendSingleCount",
+    arrayOf(child),
+    ESortPriorityExt.PREVENT_ANY,
+    keyPrefix,
 ) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
@@ -56,7 +61,6 @@ public class POPDistributedSendSingleCount public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, false)
     }
-
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -98,7 +102,7 @@ public class POPDistributedSendSingleCount public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingleCount.kt:117"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingleCount.kt:104"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
         val p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
         connectionOut.writeInt(bundle.count())

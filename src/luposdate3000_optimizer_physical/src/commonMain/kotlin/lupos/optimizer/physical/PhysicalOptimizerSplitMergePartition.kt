@@ -19,6 +19,7 @@ package lupos.optimizer.physical
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
+import lupos.operator.physical.partition.APOPParallel
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartition
 import lupos.optimizer.logical.EOptimizerIDExt
@@ -29,8 +30,8 @@ public class PhysicalOptimizerSplitMergePartition(query: Query) : OptimizerBase(
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         when (node) {
-            !is APOPParallel->{
-                if (node is POPBase && (                    parent == null || (                        parent !is APOPParallel &&                            parent !is OPBaseCompound                        )                    )                ) {
+            !is APOPParallel -> {
+                if (node is POPBase && (parent == null || (parent !is APOPParallel && parent !is OPBaseCompound))) {
                     val variableName = "?Split${node.getUUID()}"
                     val partitionID = query.getNextPartitionOperatorID()
                     res = POPSplitPartition(query, node.getProvidedVariableNames(), variableName, 1, partitionID, node)
