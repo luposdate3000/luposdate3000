@@ -37,7 +37,7 @@ public class SimulationRun {
         refreshDatabaseDirectories()
     }
 
-    public lateinit var visualisationNetwork: VisualisationNetwork
+    public var visualisationNetwork: VisualisationNetwork = VisualisationNetwork()
 
     public lateinit var sim: Simulation
 
@@ -75,7 +75,7 @@ public class SimulationRun {
         return parseConfig(json as JsonParserObject)
     }
     public fun parseConfig(json: JsonParserObject): Configuration {
-        visualisationNetwork = VisualisationNetwork(json)
+        visualisationNetwork.setup(json)
         config.parse(json)
         return config
     }
