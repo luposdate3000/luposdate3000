@@ -70,16 +70,21 @@ public class Configuration(private val simRun: SimulationRun) {
         jsonObjects = JsonObjects(json)
         linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
         for (fixedDevice in jsonObjects.fixedDevice) {
-            createFixedLocatedDevice(fixedDevice)
+            val deviceType = getDeviceTypeByName(fixedDevice.deviceType)
+            val location = GeoLocation(fixedDevice.latitude, fixedDevice.longitude)
+            val nameID = addDeviceName(fixedDevice.name)
+            val created = createDevice(deviceType, location, nameID)
+            require(!namedAddresses.containsKey(fixedDevice.name)) { "name ${fixedDevice.name} must be unique" }
+            namedAddresses[fixedDevice.name] = created.address
         }
-        val name = jsonObjects.rootRouter
-        if (name.isNotEmpty()) {
-            val device = getDeviceByName(name)
+        val rootRouterName = json.getOrDefault("rootRouter", "")
+        if (rootRouterName.isNotEmpty()) {
+            val device = getDeviceByName(rootRouterName)
             device.router.isRoot = true
             rootRouterAddress = device.address
         }
         for (sender in jsonObjects.querySender) {
-            val receiverDevice = getDeviceByName(jsonObjects.rootRouter)
+            val receiverDevice = getDeviceByName(rootRouterName)
             val querySender = lupos.simulator_iot.queryproc.QuerySender(
                 simRun = simRun,
                 name = sender.name,
@@ -204,15 +209,6 @@ public class Configuration(private val simRun: SimulationRun) {
     private fun addDeviceName(name: String): Int {
         deviceNames.add(name)
         return deviceNames.size - 1
-    }
-
-    private fun createFixedLocatedDevice(fixedDevice: FixedDevice) {
-        val deviceType = getDeviceTypeByName(fixedDevice.deviceType)
-        val location = GeoLocation(fixedDevice.latitude, fixedDevice.longitude)
-        val nameID = addDeviceName(fixedDevice.name)
-        val created = createDevice(deviceType, location, nameID)
-        require(!namedAddresses.containsKey(fixedDevice.name)) { "name ${fixedDevice.name} must be unique" }
-        namedAddresses[fixedDevice.name] = created.address
     }
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation, nameIndex: Int): Device {

@@ -29,7 +29,6 @@ public class JsonObjects {
     public val deviceType: MutableList<DeviceType>
     public val fixedDevice: MutableList<FixedDevice>
     public val fixedLink: MutableList<FixedLink>
-    public val rootRouter: String
     public val randomMeshNetwork: MutableList<RandomMeshNetwork>
     public val randomStarNetwork: MutableList<RandomStarNetwork>
     public val querySender: MutableList<QuerySender>
@@ -46,7 +45,6 @@ public class JsonObjects {
         deviceType = data.getOrEmptyArray("deviceType").map { DeviceType(it as JsonParserObject) }
         fixedDevice = data.getOrEmptyArray("fixedDevice").map { FixedDevice(it as JsonParserObject) }
         fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
-        rootRouter = data.getOrDefault("rootRouter", "")
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
         querySender = data.getOrEmptyArray("querySender").map { QuerySender(it as JsonParserObject) }
@@ -89,9 +87,8 @@ public class DeviceType {
     public val supportedLinkTypes: List<String>
     public constructor(data: JsonParserObject) {
         name = data.getOrDefault("name", "")
-        val database = data.getOrDefault("database", false)
-        databaseStore = data.getOrDefault("databaseStore", database)
-        databaseQuery = data.getOrDefault("databaseQuery", database)
+        databaseStore = data.getOrDefault("databaseStore", data.getOrDefault("database", false))
+        databaseQuery = data.getOrDefault("databaseQuery", data.getOrDefault("database", false))
         parkingSensor = data.getOrDefault("parkingSensor", "")
         performance = data.getOrDefault("performance", 100.0)
         supportedLinkTypes = data.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList()
