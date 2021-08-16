@@ -1,5 +1,6 @@
 """Helper functions for the database Gym environment"""
 
+import math
 import numpy as np
 from typing import List, Tuple, Dict
 
@@ -68,7 +69,7 @@ def perform_join(index_a: int, index_b: int, observation_matrix: np.ndarray):
     """ Joins triple a and triple b.
 
     To join a and b, the corresponding entries of a and b are merged.
-    A filled cell with positive integers represents the corresponding 
+    A filled cell with positive integers represents the corresponding
     triple and a -1 for its join candidates.
     Therefore the triple b is placed in the row of a at the column of b.
     And all the join candidates and other triples are copied to row a.
@@ -155,7 +156,7 @@ def _create_matrix_index_bgp_dict(sorted_query: List[List[Tuple[int, int, int]]]
 def check_if_done(observation_matrix: np.ndarray) -> bool:
     """Function to check if the episode is finished.
 
-    Takes the observation matrix and checks if all triples that can be joined 
+    Takes the observation matrix and checks if all triples that can be joined
     are in one row. This means that all triples have been joined and the episode is finished.
 
     Parameters
@@ -311,53 +312,36 @@ def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dic
         join_order_h[left] = index
 
 
-def calculate_reward(benched_query, join_order):
+def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order):
     """Function that calculates the reward.
-    
+
     Parameters
     ----------
+    max_exec_t
+        Maximum execution time of benched queries, used to normalize.
+    min_exec_t
+        Minimum execution time of benched queries, used to normalize.
     benched_query
         Reference query that has been benchmarked.
     join_order
         Join order of the ml optimizer.
-        
+
     Returns
     -------
     float
         Reward.
     """
-    
     # get number of join order
     join_order_n = _join_order_to_number(join_order)
-    # calculate max
-    execution_times = []
-    execution_times.append(int(float(benched_query[0][2])))
-    execution_times.append(int(float(benched_query[1][2])))
-    execution_times.append(int(float(benched_query[2][2])))
-    best_execution_t = max(execution_times)  # executions/sec
+    # get execution time of this join order
+    execution_times = [int(float(benched_query[0][2])), int(float(benched_query[1][2])),
+                       int(float(benched_query[2][2]))]
+    # calculate reward on base of execution time relative to maximum and minimum
+    # execution times of all benched queries
+    reward = -(math.sqrt(abs(execution_times[join_order_n]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10)
 
-    # calculate % of max for given join order
-    reward0 = execution_times[join_order_n]/best_execution_t
+    return reward
 
-    # normalize to -1 .. 0 .. 1
-    if reward0 < 0.5:
-        reward1 = -1 + 4 * pow(reward0, 2)
-    else:
-        reward1 = 4 * pow(reward0, 2) - 4 * reward0 + 1
-
-
-
-    # reward = -(sqrt(abs(exec_time-min_exec_time))/sqrt(max_exec_time-min_exec_time)*10)
-
-
-
-    # if join_order_n == np.argmax(execution_times):
-    #     reward1 = 1
-    # else:
-    #     reward1 = -1
-    # print(reward1)
-
-    return reward1
 
 def _join_order_to_number(join_order):
     if join_order[-1] == [0, 1]:

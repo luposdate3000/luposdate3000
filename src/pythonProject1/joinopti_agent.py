@@ -2,38 +2,27 @@ import gym
 import gym_database
 import socket
 import sys
-
 import numpy as np
-
-from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
 from stable_baselines3 import DQN, PPO, DDPG
 
 N_JOIN_ORDERS = 3
 
 
 def train_model():
-    benched_queries = []
-    with open(param_file, "r") as p_file:
-        counter = 0  # all join orders of one query
-        counter2 = 0  # index for one query
-        for line in p_file:
-            if counter == 0:
-                tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]
-                benched_queries.append([tmp])
-            else:
-                tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]
-                benched_queries[counter2].append(tmp)
+    benched_queries = read_query()
 
-            if counter == N_JOIN_ORDERS-1:
-                counter = 0
-                counter2 += 1
-            else:
-                counter += 1
+    # find min max execution times
+    tmp = []
+    for i in benched_queries:
+        for j in range(0, 3):
+            tmp.append(int(float(i[j][2])))
+    max_execution_time = max(tmp)
+    min_execution_time = min(tmp)
 
     env = gym.make('gym_database:Database-v0')
     model = PPO("MlpPolicy", env, verbose=2)
+    env.set_max_exec_t(max_execution_time)
+    env.set_min_exec_t(min_execution_time)
     # for i in range(len(benched_queries)):
     for i in range(21):
         env.set_training_data([benched_queries[i]])
@@ -48,25 +37,7 @@ def train_model():
 def optimize_query():
     env = gym.make('gym_database:Database-v0')
     model = PPO.load(param_file)
-    benched_queries = []
-    with open(param_file2, "r") as p_file:
-        counter = 0  # all join orders of one query
-        counter2 = 0  # index for one query
-        for line in p_file:
-            if counter == 0:
-                tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]
-                benched_queries.append([tmp])
-            else:
-                tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]
-                benched_queries[counter2].append(tmp)
-
-            if counter == N_JOIN_ORDERS-1:
-                counter = 0
-                counter2 += 1
-            else:
-                counter += 1
+    benched_queries = read_query()
 
     rewards = ""
     actions = ""
@@ -97,27 +68,29 @@ def optimize_query():
                 print(obs)
             print(rewards)
             print(actions)
-    # qs_mins = []
-    # qs_maxs = []
-    # qs_min_rew = []
-    # for qs in benched_queries:
-    #     qss_min = min([float(qs[0][2]), float(qs[1][2]), float(qs[2][2])])
-    #     qss_max = max([float(qs[0][2]), float(qs[1][2]), float(qs[2][2])])
-    #     qs_mins.append(int(qss_min))
-    #
-    #     reward0 = qss_min/qss_max
-    #     qs_maxs.append(int(qss_max))
-    #     # normalize to -1 .. 0 .. 1
-    #     if reward0 < 0.5:
-    #         reward1 = -1 + 4 * pow(reward0, 2)
-    #     else:
-    #         reward1 = 4 * pow(reward0, 2) - 4 * reward0 + 1
-    #
-    #     qs_min_rew.append(reward1)
-    #
-    # print(qs_mins)
-    # print(qs_maxs)
-    # print(qs_min_rew)
+
+
+def read_query():
+    benched_queries = []
+    with open(param_file, "r") as p_file:
+        counter = 0  # all join orders of one query
+        counter2 = 0  # index for one query
+        for line in p_file:
+            if counter == 0:
+                tmp = line.split(" ")
+                tmp[-1] = tmp[-1][:-1]
+                benched_queries.append([tmp])
+            else:
+                tmp = line.split(" ")
+                tmp[-1] = tmp[-1][:-1]
+                benched_queries[counter2].append(tmp)
+
+            if counter == N_JOIN_ORDERS-1:
+                counter = 0
+                counter2 += 1
+            else:
+                counter += 1
+    return benched_queries
 
 
 if __name__ == '__main__':

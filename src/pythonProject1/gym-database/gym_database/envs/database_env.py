@@ -17,8 +17,8 @@ class DatabaseEnv(gym.Env):
         Every row in the observation matrix represents a triple.
         A triple has a value range from 1 to n_dictionary_ids.
         A possible join is marked with an entry of a triple of negative ones.
-        If a join is executed, the triple and the possible joins of 
-        the corresponding join partner is copied into the row of the triple 
+        If a join is executed, the triple and the possible joins of
+        the corresponding join partner is copied into the row of the triple
         with the lower row number.
 
     Observation:
@@ -26,7 +26,7 @@ class DatabaseEnv(gym.Env):
         possible join = j = [-1,-1,-1]
         no entry = 0 = [0,0,0]
         j/0 = j oder 0
-        
+
         Type: Box(, , dtype=int)
         Num	t0              t1          t2          t3          t4
         t0	[t0s,t0p,t0o]   j/0         j/0         j/0         j/0
@@ -49,19 +49,18 @@ class DatabaseEnv(gym.Env):
         ...
 
     Reward:
-        Reward is the negative cost of the planned query, normalized to a range of -10 to 10.
+        Reward is the negative execution time of the planned query, normalized to a range of -10 to 0.
         Reward for an invalid action is -10.
         Reward is only given at the end of the planning process.
 
     Starting State:
-        The starting state consists of a Matrix where every row represents a triple 
+        The starting state consists of a Matrix where every row represents a triple
         and its join candidates in the query.
 
     Episode Termination:
         Episode ends when a query is fully planned, meaning no join candidate is left.
     """
 
-    # TODO: DOC!!
     # TODO: reward_range
     def __init__(self):
         self.conn = None
@@ -94,7 +93,7 @@ class DatabaseEnv(gym.Env):
         """Join order."""
 
         self.join_order_h: Dict = None
-        """Helper variable for join odering."""
+        """Helper variable for join ordering."""
 
         self.threshold = 1
         """Threshold for the reward. Under this value, the episode has to be redone."""
@@ -112,9 +111,12 @@ class DatabaseEnv(gym.Env):
 
         self.query_counter = 0
 
+        self.max_exec_time: float = None
+
+        self.min_exec_time: float = None
 
     def step(self, action: int):
-    """The step function takes an action from the agent and executes it.
+        """The step function takes an action from the agent and executes it.
        It calculates the next state and returns the observation of the new state."""
         # 1. choose action from action_space
         left = self.action_list[action][0]
@@ -138,7 +140,7 @@ class DatabaseEnv(gym.Env):
         hf.perform_join(left, right, self.observation_matrix)
         hf.update_join_order(left, right, self.join_order, self.join_order_h)
 
-        # 5. Check if episode is done (all bgps joined)
+        # 5. Check if episode is done (all triples joined)
         done = hf.check_if_done(self.observation_matrix)
 
         # 6. Calculate reward - send join order over socket to database and calculate reward there
@@ -147,7 +149,7 @@ class DatabaseEnv(gym.Env):
                 # Encode join order in utf-8 and send to client
                 self.conn.sendall(hf.join_order_to_string(self.join_order).encode("UTF-8"))
                 # Receive reward for episode
-                data = conn.recv(1024)
+                data = self.conn.recv(1024)
                 reward = float(data.decode("UTF-8")) # Reward for episode
             else:
                 reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
@@ -160,14 +162,14 @@ class DatabaseEnv(gym.Env):
             reward = 0.1
         else:
             # Reward for valid action
-            reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
+            reward = hf.calculate_reward(self.max_exec_time, self.min_exec_time,
+                                         self.training_data[self.query_counter], self.join_order)
 
         # 7. Return observation_space, reward, done, {}
         return self.observation_matrix, reward, done, {}
 
-
     def reset(self):
-    """Resets environment and returns a first observation."""
+        """Resets environment and returns a first observation."""
         if not self.redo: # If episode has not to be redone
             if self.networking:
                 # Notify client to start transmitting a new query
@@ -214,3 +216,8 @@ class DatabaseEnv(gym.Env):
         self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,
                                             shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
 
+    def set_max_exec_t(self, max_exec_time: float):
+        self.max_exec_time = max_exec_time
+
+    def set_min_exec_t(self, min_exec_time: float):
+        self.min_exec_time = min_exec_time
