@@ -19,15 +19,12 @@
 
 package lupos.simulator_iot.config
 import lupos.parser.JsonParserObject
-import lupos.parser.JsonParserString
 public class JsonObjects {
     public var database: JsonParserObject
     public var deterministic: Boolean
     public var logging: Boolean
     public val linkType: MutableList<LinkType>
     public val sensorType: MutableList<SensorType>
-    public val deviceType: MutableList<DeviceType>
-    public val fixedDevice: MutableList<FixedDevice>
     public val fixedLink: MutableList<FixedLink>
     public val randomMeshNetwork: MutableList<RandomMeshNetwork>
     public val randomStarNetwork: MutableList<RandomStarNetwork>
@@ -42,8 +39,6 @@ public class JsonObjects {
         logging = data.getOrDefault("logging", true)
         linkType = data.getOrEmptyArray("linkType").map { LinkType(it as JsonParserObject) }
         sensorType = data.getOrEmptyArray("sensorType").map { SensorType(it as JsonParserObject) }
-        deviceType = data.getOrEmptyArray("deviceType").map { DeviceType(it as JsonParserObject) }
-        fixedDevice = data.getOrEmptyArray("fixedDevice").map { FixedDevice(it as JsonParserObject) }
         fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
@@ -75,37 +70,6 @@ public class SensorType {
         dataSink = data.getOrDefault("dataSink", "")
         rateInSec = data.getOrDefault("rateInSec", 0)
         maxSamples = data.getOrDefault("maxSamples", -1)
-    }
-}
-
-public class DeviceType {
-    public val name: String
-    public var databaseStore: Boolean = false
-    public var databaseQuery: Boolean = false
-    public val parkingSensor: String
-    public val performance: Double
-    public val supportedLinkTypes: List<String>
-    public constructor(data: JsonParserObject) {
-        name = data.getOrDefault("name", "")
-        databaseStore = data.getOrDefault("databaseStore", data.getOrDefault("database", false))
-        databaseQuery = data.getOrDefault("databaseQuery", data.getOrDefault("database", false))
-        parkingSensor = data.getOrDefault("parkingSensor", "")
-        performance = data.getOrDefault("performance", 100.0)
-        supportedLinkTypes = data.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList()
-    }
-}
-
-public class FixedDevice {
-    public val name: String
-    public val deviceType: String
-    public val latitude: Double
-    public val longitude: Double
-
-    public constructor(data: JsonParserObject) {
-        name = data.getOrDefault("name", "")
-        deviceType = data.getOrDefault("deviceType", "")
-        latitude = data.getOrDefault("latitude", 0.0)
-        longitude = data.getOrDefault("longitude", 0.0)
     }
 }
 

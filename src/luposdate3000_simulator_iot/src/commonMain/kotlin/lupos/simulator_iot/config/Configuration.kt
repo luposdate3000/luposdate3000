@@ -19,6 +19,7 @@ package lupos.simulator_iot.config
 
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
+import lupos.parser.JsonParserString
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_iot.SimulationRun
@@ -38,7 +39,7 @@ public class Configuration(private val simRun: SimulationRun) {
 
     public var jsonObjects: JsonObjects = JsonObjects()
         private set
-
+    public var json: JsonParserObject? = null
     internal var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
         private set
 
@@ -67,15 +68,17 @@ public class Configuration(private val simRun: SimulationRun) {
         private set
 
     internal fun parse(json: JsonParserObject) {
+        this.json = json
         jsonObjects = JsonObjects(json)
         linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
-        for (fixedDevice in jsonObjects.fixedDevice) {
-            val deviceType = getDeviceTypeByName(fixedDevice.deviceType)
-            val location = GeoLocation(fixedDevice.latitude, fixedDevice.longitude)
-            val nameID = addDeviceName(fixedDevice.name)
-            val created = createDevice(deviceType, location, nameID)
-            require(!namedAddresses.containsKey(fixedDevice.name)) { "name ${fixedDevice.name} must be unique" }
-            namedAddresses[fixedDevice.name] = created.address
+        for (fixedDevice in json.getOrEmptyArray("fixedDevice")) {
+            fixedDevice as JsonParserObject
+            val location = GeoLocation(fixedDevice.getOrDefault("latitude", 0.0), fixedDevice.getOrDefault("longitude", 0.0))
+            val name = fixedDevice.getOrDefault("name", "")
+            val nameID = addDeviceName(name)
+            val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
+            require(namedAddresses[name] == null) { "name $name must be unique" }
+            namedAddresses[name] = created.address
         }
         val rootRouterName = json.getOrDefault("rootRouter", "")
         if (rootRouterName.isNotEmpty()) {
@@ -131,17 +134,16 @@ public class Configuration(private val simRun: SimulationRun) {
         meshNetwork.networkPrefix = network.networkPrefix
         val nameID = addDeviceName("${network.networkPrefix}_member")
         val linkType = getLinkTypeByName(network.linkType)
-        val deviceType = getDeviceTypeByName(network.deviceType)
 
-        var column = createSouthernDevices(origin, linkType, network, deviceType, nameID)
+        var column = createSouthernDevices(origin, linkType, network, network.deviceType, nameID)
         meshNetwork.mesh[0] = column
         var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
         var predecessor = origin
         while (restCoverageEast > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createEasternLocation(predecessor.location, distance)
-            predecessor = createDevice(deviceType, location, nameID)
-            column = createSouthernDevices(predecessor, linkType, network, deviceType, nameID)
+            predecessor = createDevice(network.deviceType, location, nameID)
+            column = createSouthernDevices(predecessor, linkType, network, network.deviceType, nameID)
             meshNetwork.mesh.add(column)
 
             restCoverageEast -= distance
@@ -150,7 +152,7 @@ public class Configuration(private val simRun: SimulationRun) {
         randMeshNetworks[network.networkPrefix] = meshNetwork
     }
 
-    private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceType: DeviceType, nameID: Int): MutableList<Device> {
+    private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceTypeName: String, nameID: Int): MutableList<Device> {
         val column = mutableListOf<Device>()
         var restCoverageSouth = network.signalCoverageSouth - linkType.rangeInMeters
         column.add(origin)
@@ -158,7 +160,7 @@ public class Configuration(private val simRun: SimulationRun) {
         while (restCoverageSouth > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createSouthernLocation(predecessor.location, distance)
-            predecessor = createDevice(deviceType, location, nameID)
+            predecessor = createDevice(deviceTypeName, location, nameID)
             column.add(predecessor)
             restCoverageSouth -= distance
         }
@@ -173,20 +175,17 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
-        val deviceType = getDeviceTypeByName(network.deviceType)
         val location = GeoLocation(network.originLatitude, network.originLongitude)
         val nameID = addDeviceName("${network.networkPrefix}_origin")
-        return createDevice(deviceType, location, nameID)
+        return createDevice(network.deviceType, location, nameID)
     }
 
     internal fun getDeviceByName(name: String): Device {
-        val index = namedAddresses.getValue(name)
+        val index = namedAddresses[name]!!
         return devices[index]
     }
 
-    internal fun getDeviceName(nameIndex: Int) =
-        deviceNames[nameIndex]
-
+    internal fun getDeviceName(nameIndex: Int) = deviceNames[nameIndex]
     internal fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
@@ -194,11 +193,10 @@ public class Configuration(private val simRun: SimulationRun) {
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val childNameID = addDeviceName("${starNetwork.networkPrefix}_child")
-        val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, simRun.randGenerator.random)
-            val leaf = createDevice(deviceType, location, childNameID)
+            val leaf = createDevice(network.deviceType, location, childNameID)
             linker.linkIfPossible(root, leaf)
             leaf.isStarNetworkChild = true
             starNetwork.children.add(leaf)
@@ -211,28 +209,36 @@ public class Configuration(private val simRun: SimulationRun) {
         return deviceNames.size - 1
     }
 
-    private fun createDevice(deviceType: DeviceType, location: GeoLocation, nameIndex: Int): Device {
-        val linkTypes = linker.getSortedLinkTypeIndices(deviceType.supportedLinkTypes)
-        require(deviceType.performance != 0.0) { "The performance level of a device can not be 0.0 %" }
-        val device = Device(simRun, location, devices.size, null, deviceType.performance, linkTypes, nameIndex, jsonObjects.deterministic)
-        val parkingSensor = getParkingSensor(deviceType, device)
-        device.sensor = parkingSensor
+    private fun createDevice(deviceTypeName: String, location: GeoLocation, nameIndex: Int): Device {
+        var deviceType: JsonParserObject? = null
+        for (d in json!!.getOrEmptyArray("deviceType")) {
+            d as JsonParserObject
+            if (deviceTypeName == d.getOrDefault("name", "")) {
+                deviceType = d
+            }
+        }
+        requireNotNull(deviceType) { "device type name $deviceTypeName does not exist" }
 
-        if (deviceType.databaseStore || deviceType.databaseQuery) {
+        val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
+        require(deviceType.getOrDefault("performance", 100.0) != 0.0) { "The performance level of a device can not be 0.0 %" }
+        val device = Device(simRun, location, devices.size, null, deviceType.getOrDefault("performance", 100.0), linkTypes, nameIndex, jsonObjects.deterministic)
+        val sensor = deviceType.getOrDefault("parkingSensor", "")
+        if (sensor.isNotEmpty()) {
+            numberOfSensors++
+            val sensorType = getSensorTypeByName(sensor)
+            device.sensor = ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink, sensorType.area)
+        }
+        val databaseStore = deviceType.getOrDefault("databaseStore", deviceType.getOrDefault("database", false))
+        val databaseQuery = deviceType.getOrDefault("databaseQuery", deviceType.getOrDefault("database", false))
+        if (databaseStore || databaseQuery) {
             numberOfDatabases++
             device.database = DatabaseAdapter(device)
-            device.hasDatabaseStore = deviceType.databaseStore
-            device.hasDatabaseQuery = deviceType.databaseQuery
+            device.hasDatabaseStore = databaseStore
+            device.hasDatabaseQuery = databaseQuery
         }
 
         devices.add(device)
         return device
-    }
-
-    private fun getDeviceTypeByName(typeName: String): DeviceType {
-        val deviceType = jsonObjects.deviceType.find { typeName == it.name }
-        requireNotNull(deviceType) { "device type name $typeName does not exist" }
-        return deviceType
     }
 
     private fun getLinkTypeByName(name: String): LinkType {
@@ -245,15 +251,6 @@ public class Configuration(private val simRun: SimulationRun) {
         val element = jsonObjects.sensorType.find { name == it.name }
         requireNotNull(element) { "sensor type $name does not exist" }
         return element
-    }
-
-    private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
-        if (deviceType.parkingSensor.isNotEmpty()) {
-            numberOfSensors++
-            val sensorType = getSensorTypeByName(deviceType.parkingSensor)
-            return ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink, sensorType.area)
-        }
-        return null
     }
 
     internal fun getNumberOfDevices(): Int {
