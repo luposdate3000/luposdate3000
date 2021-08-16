@@ -22,21 +22,28 @@ import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.APOPParallel
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartition
+import lupos.operator.physical.singleinput.POPDebug
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.operator.IOPBase
-
 public class PhysicalOptimizerSplitMergePartition(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerSplitMergePartitionID, "PhysicalOptimizerSplitMergePartition") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         when (node) {
             !is APOPParallel -> {
-                if (node is POPBase && (parent == null || (parent !is APOPParallel && parent !is OPBaseCompound))) {
+                if (node is POPBase && (
+                    parent == null || (
+                        parent !is APOPParallel &&
+                            parent !is OPBaseCompound &&
+                            parent !is POPDebug
+                        )
+                    )
+                ) {
                     val variableName = "?Split${node.getUUID()}"
                     val partitionID = query.getNextPartitionOperatorID()
                     res = POPSplitPartition(query, node.getProvidedVariableNames(), variableName, 1, partitionID, node)
                     query.addPartitionOperator(res.uuid, partitionID)
-                    res = POPMergePartition(query, node.getProvidedVariableNames(), variableName, 1, partitionID, node)
+                    res = POPMergePartition(query, res.getProvidedVariableNames(), variableName, 1, partitionID, res)
                     query.addPartitionOperator(res.uuid, partitionID)
                     onChange()
                 }
