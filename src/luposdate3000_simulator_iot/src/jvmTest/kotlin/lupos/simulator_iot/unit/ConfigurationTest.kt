@@ -19,16 +19,12 @@ package lupos.simulator_iot.unit
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.sensor.ParkingSensor
-import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -43,33 +39,6 @@ class ConfigurationTest {
         val config = SimulationRun().config
         config.parse("$prefix/parseEmptyConfigFile.json")
         assertEquals(0, config.getNumberOfDevices())
-    }
-
-    @Test
-    fun oneFixedDevice() {
-        val config = SimulationRun().config
-        config.parse("$prefix/oneFixedDevice.json")
-        val deviceName = config.jsonObjects.fixedDevice[0].name
-        val lat = config.jsonObjects.fixedDevice[0].latitude
-        val lon = config.jsonObjects.fixedDevice[0].longitude
-        val location = GeoLocation(lat, lon)
-        val device = config.getDeviceByName(deviceName)
-
-        assertEquals(config.jsonObjects.fixedDevice.size, config.getNumberOfDevices())
-        assertEquals(0, device.address)
-        assertEquals(location, device.location)
-        assertNull(device.database)
-        assertNull(device.sensor)
-    }
-
-    @Test
-    fun oneDatabaseDeviceWithSensor() {
-        val config = SimulationRun().config
-        config.parse("$prefix/oneDatabaseDeviceWithSensor.json")
-        val deviceName = config.jsonObjects.fixedDevice[0].name
-        val device = config.getDeviceByName(deviceName)
-        assertTrue(device.database is DatabaseAdapter)
-        assertNotNull(device.sensor)
     }
 
     @Test
@@ -166,24 +135,6 @@ class ConfigurationTest {
     }
 
     @Test
-    fun checkLinkData() {
-        val config = SimulationRun().config
-        config.parse("$prefix/checkLinkData.json")
-        val device1Address = config.jsonObjects.fixedDevice[0].name
-        val device2Address = config.jsonObjects.fixedDevice[1].name
-        val device1 = config.getDeviceByName(device1Address)
-        val device2 = config.getDeviceByName(device2Address)
-        val link1 = device1.linkManager.getLink(device2)
-        val link2 = device2.linkManager.getLink(device1)
-
-        assertTrue(device1.linkManager.hasLink(device2))
-        assertTrue(device2.linkManager.hasLink(device1))
-        assertEquals(1, device1.linkManager.links.size)
-        assertEquals(1, device2.linkManager.links.size)
-        assertEquals(link1!!.distanceInMeters, link2!!.distanceInMeters)
-    }
-
-    @Test
     fun onlyOneMeshDevice() {
         val config = SimulationRun().config
         config.parse("$prefix/onlyOneMeshDevice.json")
@@ -269,36 +220,6 @@ class ConfigurationTest {
 
         assertTrue(distanceToNeighbour <= maxLinkRange)
         assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
-    }
-
-    @Test
-    fun fixedAndMeshedDevicesAreLinkable() {
-        val config = SimulationRun().config
-        config.parse("$prefix/fixedAndMeshedDevicesAreLinkable.json")
-        val fixedDeviceName = config.jsonObjects.fixedDevice[0].name
-        val fixedDevice = config.getDeviceByName(fixedDeviceName)
-
-        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val mesh = config.randMeshNetworks[networkPrefix]!!.mesh
-        val meshOrigin = mesh[0][0]
-
-        assertTrue(fixedDevice.linkManager.hasLink(meshOrigin))
-        assertEquals(meshOrigin.linkManager.links.size, fixedDevice.linkManager.links.size)
-    }
-
-    @Test
-    fun fixedAndMeshedDevicesAreNotLinkable() {
-        val config = SimulationRun().config
-        config.parse("$prefix/fixedAndMeshedDevicesAreNotLinkable.json")
-        val fixedDeviceName = config.jsonObjects.fixedDevice[0].name
-        val fixedDevice = config.getDeviceByName(fixedDeviceName)
-
-        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val mesh = config.randMeshNetworks[networkPrefix]!!.mesh
-        val meshOrigin = mesh[0][0]
-
-        assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
-        assertNotEquals(meshOrigin.linkManager.links.size, fixedDevice.linkManager.links.size)
     }
 
     @Test
