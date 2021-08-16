@@ -39,11 +39,13 @@ public class POPDistributedReceiveSingle public constructor(
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    @JvmField public val keyPrefix: String,
+    keyPrefix: String,
     child: IOPBase,
     private val input: IMyInputStream,
     private val output: IMyOutputStream? = null,
-) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveSingleID, "POPDistributedReceiveSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+) : APOPDistributed(query,
+ projectedVariables,
+ EOperatorIDExt.POPDistributedReceiveSingleID, "POPDistributedReceiveSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix) {
     public companion object {
         public operator fun invoke(
             query: IQuery,
@@ -83,13 +85,6 @@ public class POPDistributedReceiveSingle public constructor(
         return toXMLElementHelper2(partial, false)
     }
 
-    private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$keyPrefix"
-        for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
-        }
-        return s
-    }
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -113,19 +108,8 @@ public class POPDistributedReceiveSingle public constructor(
         }
         return res
     }
-    override fun getRequiredVariableNames(): List<String> = listOf()
-    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> {
-        val tmp = children[0]
-        return if (tmp is POPBase) {
-            tmp.getProvidedVariableNamesInternal()
-        } else {
-            tmp.getProvidedVariableNames()
-        }
-    }
 
     override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), input, output)
-    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {

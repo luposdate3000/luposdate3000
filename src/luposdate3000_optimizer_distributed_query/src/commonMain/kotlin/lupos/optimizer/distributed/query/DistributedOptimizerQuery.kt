@@ -77,7 +77,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                     SanityCheck.check(
                         { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:77"/*SOURCE_FILE_END*/ },
                         { (allIdx.size == 1) },
-                        { "${ allIdx.size}" }
+                        { "${ allIdx.size} ${query.root}" }
                     )
                     var n: IOPBase = node
                     while (n !is POPTripleStoreIterator) {

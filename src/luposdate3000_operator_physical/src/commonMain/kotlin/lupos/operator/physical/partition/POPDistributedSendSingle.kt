@@ -36,10 +36,12 @@ public class POPDistributedSendSingle public constructor(
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    @JvmField public val keyPrefix: String,
+    keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: List<String>, // key
-) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+) : APOPDistributed(query,
+ projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix,
+) {
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:43"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
@@ -58,14 +60,6 @@ public class POPDistributedSendSingle public constructor(
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, false)
-    }
-
-    private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$keyPrefix"
-        for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
-        }
-        return s
     }
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -91,19 +85,8 @@ public class POPDistributedSendSingle public constructor(
         return res
     }
 
-    override fun getRequiredVariableNames(): List<String> = listOf()
-    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> {
-        val tmp = children[0]
-        return if (tmp is POPBase) {
-            tmp.getProvidedVariableNamesInternal()
-        } else {
-            tmp.getProvidedVariableNames()
-        }
-    }
 
     override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
-    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         throw Exception("this must not be called !!")

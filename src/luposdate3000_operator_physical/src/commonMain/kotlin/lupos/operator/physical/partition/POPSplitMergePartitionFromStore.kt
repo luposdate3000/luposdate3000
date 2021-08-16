@@ -26,7 +26,11 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
-public class POPSplitMergePartitionFromStore public constructor(query: IQuery, projectedVariables: List<String>, public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitMergePartitionFromStoreID, "POPSplitMergePartitionFromStore", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPSplitMergePartitionFromStore public constructor(query: IQuery,
+ projectedVariables: List<String>,
+ public var partitionID: Int,
+ child: IOPBase) : APOPParallel(query,
+ projectedVariables, EOperatorIDExt.POPSplitMergePartitionFromStoreID, "POPSplitMergePartitionFromStore", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitMergePartitionFromStore.kt:30"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
@@ -43,14 +47,6 @@ public class POPSplitMergePartitionFromStore public constructor(query: IQuery, p
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, false)
-    }
-
-    private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$uuid"
-        for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
-        }
-        return s
     }
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -84,19 +80,8 @@ public class POPSplitMergePartitionFromStore public constructor(query: IQuery, p
         return res
     }
 
-    override fun getRequiredVariableNames(): List<String> = listOf()
-    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> {
-        val tmp = children[0]
-        return if (tmp is POPBase) {
-            tmp.getProvidedVariableNamesInternal()
-        } else {
-            tmp.getProvidedVariableNames()
-        }
-    }
 
     override fun cloneOP(): IOPBase = POPSplitMergePartitionFromStore(query, projectedVariables, partitionID, children[0].cloneOP())
-    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitMergePartitionFromStore && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         return children[0].evaluate(parent)

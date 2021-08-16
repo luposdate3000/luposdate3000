@@ -36,17 +36,14 @@ public class POPDistributedReceiveMultiCount public constructor(
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    @JvmField public val keyPrefix: String,
+     keyPrefix: String,
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
-) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiCountID, "POPDistributedReceiveMultiCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-    override fun getPartitionCount(variable: String): Int {
-        return if (variable == partitionVariable) {
-            1
-        } else {
-            1
-        }
-    }
+) : APOPDistributed(query,
+ projectedVariables,
+ EOperatorIDExt.POPDistributedReceiveMultiCountID, "POPDistributedReceiveMultiCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY,keyPrefix,
+) {
+    override fun getPartitionCount(variable: String): Int =1
 
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, true)
@@ -54,14 +51,6 @@ public class POPDistributedReceiveMultiCount public constructor(
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, false)
-    }
-
-    private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$keyPrefix"
-        for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
-        }
-        return s
     }
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -95,19 +84,8 @@ public class POPDistributedReceiveMultiCount public constructor(
         return res
     }
 
-    override fun getRequiredVariableNames(): List<String> = listOf()
-    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> {
-        val tmp = children[0]
-        return if (tmp is POPBase) {
-            tmp.getProvidedVariableNamesInternal()
-        } else {
-            tmp.getProvidedVariableNames()
-        }
-    }
 
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
-    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiCount.kt:112"/*SOURCE_FILE_END*/ }, { hosts.size == partitionCount })

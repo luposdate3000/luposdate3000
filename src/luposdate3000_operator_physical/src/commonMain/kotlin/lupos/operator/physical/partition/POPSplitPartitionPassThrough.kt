@@ -27,7 +27,13 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class POPSplitPartitionPassThrough public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionPassThroughID, "POPSplitPartitionPassThrough", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPSplitPartitionPassThrough public constructor(query: IQuery,
+ projectedVariables: List<String>,
+ @JvmField public val partitionVariable: String,
+ @JvmField public var partitionCount: Int,
+ @JvmField public var partitionID: Int,
+ child: IOPBase) : APOPParallel(query,
+ projectedVariables, EOperatorIDExt.POPSplitPartitionPassThroughID, "POPSplitPartitionPassThrough", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionPassThrough.kt:31"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
@@ -50,14 +56,6 @@ public class POPSplitPartitionPassThrough public constructor(query: IQuery, proj
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper2(partial, false)
-    }
-
-    private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$uuid"
-        for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
-        }
-        return s
     }
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -91,19 +89,7 @@ public class POPSplitPartitionPassThrough public constructor(query: IQuery, proj
         return res
     }
 
-    override fun getRequiredVariableNames(): List<String> = listOf()
-    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> {
-        val tmp = children[0]
-        return if (tmp is POPBase) {
-            tmp.getProvidedVariableNamesInternal()
-        } else {
-            tmp.getProvidedVariableNames()
-        }
-    }
-
     override fun cloneOP(): IOPBase = POPSplitPartitionPassThrough(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
-    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionPassThrough && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val partitionCount = parent.limit[partitionVariable]!!

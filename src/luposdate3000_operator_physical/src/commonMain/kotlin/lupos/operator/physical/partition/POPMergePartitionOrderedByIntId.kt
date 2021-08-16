@@ -33,7 +33,13 @@ import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMergePartitionOrderedByIntIdID, "POPMergePartitionOrderedByIntId", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPMergePartitionOrderedByIntId public constructor(query: IQuery,
+ projectedVariables: List<String>,
+ @JvmField public val partitionVariable: String,
+ @JvmField public var partitionCount: Int,
+ @JvmField public var partitionID: Int,
+ child: IOPBase) : APOPParallel(query,
+ projectedVariables, EOperatorIDExt.POPMergePartitionOrderedByIntIdID, "POPMergePartitionOrderedByIntId", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:37"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
@@ -58,13 +64,6 @@ public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, p
         return toXMLElementHelper2(partial, false)
     }
 
-    private fun theKeyToString(key: Map<String, Int>): String {
-        var s = "$uuid"
-        for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
-        }
-        return s
-    }
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -105,19 +104,7 @@ public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, p
         return res
     }
 
-    override fun getRequiredVariableNames(): List<String> = listOf()
-    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> {
-        val tmp = children[0]
-        return if (tmp is POPBase) {
-            tmp.getProvidedVariableNamesInternal()
-        } else {
-            tmp.getProvidedVariableNames()
-        }
-    }
-
     override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
-    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (partitionCount == 1) {
