@@ -35,13 +35,15 @@ public class Device(
     internal val simRun: SimulationRun,
     internal var location: GeoLocation,
     internal val address: Int,
-    public var database: DatabaseAdapter?,
     internal var sensor: ISensor?,
     internal val performance: Double,
     supportedLinkTypes: IntArray,
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
 ) : Entity() {
+    public var hasDatabaseStore: Boolean = false
+    public var hasDatabaseQuery: Boolean = false
+    public var database: DatabaseAdapter? = null
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false
@@ -185,8 +187,6 @@ public class Device(
         }
         sendRoutedPackage(address, destinationAddress, data)
     }
-
-    public fun hasDatabase(): Boolean = database != null
 
     private fun logReceivePackage(pck: NetworkPackage) {
         simRun.logger?.log("> $this receives $pck at clock ${simRun.getCurrentSimulationClock()}")

@@ -23,11 +23,12 @@ import lupos.visualize.distributed.database.VisualisationNetwork
 public class DummyDatabaseState(
     visualisationNetwork: VisualisationNetwork,
     ownAddress: Int,
-    allAddresses: IntArray,
+    allAddressesStore: IntArray,
+    allAddressesQuery: IntArray,
     sender: IRouter,
     absolutePathToDataDirectory: String
 ) :
-    DatabaseState(visualisationNetwork, ownAddress, allAddresses, sender, absolutePathToDataDirectory) {
+    DatabaseState(visualisationNetwork, ownAddress, allAddressesStore, allAddressesQuery, sender, absolutePathToDataDirectory) {
 
     public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
     public var addressForQueryEndResult: Int = -1

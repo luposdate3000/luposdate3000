@@ -56,7 +56,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     private fun sendDAO(destinationAddress: Int) {
         val destinations = routingTable.getDestinations()
         val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
-        val dao = DAO(true, destinations, device.hasDatabase(), nextDatabaseHops)
+        val dao = DAO(true, destinations, device.hasDatabaseStore || device.hasDatabaseQuery, nextDatabaseHops)
         device.sendUnRoutedPackage(destinationAddress, dao)
         device.simRun.incNumberOfSentDAOPackages()
     }
@@ -124,7 +124,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     override fun startRouting() {
         val numberOfDevices = device.simRun.config.getNumberOfDevices()
-        routingTable = RoutingTable(device.address, numberOfDevices, device.hasDatabase())
+        routingTable = RoutingTable(device.address, numberOfDevices, device.hasDatabaseStore || device.hasDatabaseQuery)
         if (isRoot) {
             rank = ROOT_RANK
             broadcastDIO()

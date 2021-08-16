@@ -108,17 +108,17 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
 
     override fun start(initialState: DatabaseState) {
         visualisationNetwork = initialState.visualisationNetwork
-        println("DatabaseHandle.start ${initialState.allAddresses.map { it }} .. ${initialState.ownAddress}")
-        if (initialState.allAddresses.isEmpty()) {
+        println("DatabaseHandle.start ${initialState.allAddressesStore.map { it }} .. ${initialState.allAddressesQuery.map { it }} .. ${initialState.ownAddress}")
+        if (initialState.allAddressesStore.isEmpty()) {
             throw Exception("invalid input")
         }
         ownAdress = initialState.ownAddress
         router = initialState.sender
         instance.enableJoinOrderOnHistogram = false
-        instance.LUPOS_PROCESS_URLS_STORE = initialState.allAddresses.map { it.toString() }.toTypedArray()
-        instance.LUPOS_PROCESS_URLS_QUERY = initialState.allAddresses.map { it.toString() }.toTypedArray()
+        instance.LUPOS_PROCESS_URLS_STORE = initialState.allAddressesStore.map { it.toString() }.toTypedArray()
+        instance.LUPOS_PROCESS_URLS_QUERY = initialState.allAddressesQuery.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_URLS_ALL = Luposdate3000Config.mergeProcessurls(instance.LUPOS_PROCESS_URLS_STORE, instance.LUPOS_PROCESS_URLS_QUERY)
-        instance.LUPOS_PROCESS_ID = initialState.allAddresses.indexOf(initialState.ownAddress)
+        instance.LUPOS_PROCESS_ID = instance.LUPOS_PROCESS_URLS_ALL.indexOf(initialState.ownAddress.toString())
         instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
         instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
         instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
@@ -290,8 +290,7 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
         val mapTopDown = mutableMapOf<String, MutableSet<String>>()
         val mapBottomUp = mutableMapOf<String, MutableSet<String>>()
-        val allHosts = pck.operatorGraphPartsToHostMap.values.map { it.toInt() }.toSet().toTypedArray()
-        val allHostAdresses = IntArray(allHosts.size) { allHosts[it] }
+        val allHostAdresses = pck.operatorGraphPartsToHostMap.values.map { it.toInt() }.toSet().toIntArray()
         val nextHops = router!!.getNextDatabaseHops(allHostAdresses)
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in allHostAdresses.toSet()) {
@@ -307,13 +306,13 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
         packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
         val packageMap = mutableMapOf<String, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
-            packageMap[k] = nextHops[allHosts.indexOf(v.toInt())]
+            packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
         }
         for ((k, v) in pck.operatorGraph) {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:315"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:314"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -326,7 +325,7 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:328"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:327"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -486,9 +485,9 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:488"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:487"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:490"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:489"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -554,7 +553,7 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
                     changed = true
                     val query = Query(instance)
                     SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:556"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:555"/*SOURCE_FILE_END*/ },
                         {
                             if (ownAdress != 0) {
                                 detectBugDueToRemoteDictAccess(w.operatorGraph)

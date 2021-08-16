@@ -90,7 +90,8 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
         return object : DatabaseState(
             visualisationNetwork = device.simRun.visualisationNetwork,
             ownAddress = device.address,
-            allAddresses = device.simRun.config.dbDeviceAddresses,
+            allAddressesStore = device.simRun.config.dbDeviceAddressesStore,
+            allAddressesQuery = device.simRun.config.dbDeviceAddressesQuery,
             sender = this@DatabaseAdapter,
             absolutePathToDataDirectory = pathToStateOfThisDevice,
         ) {}

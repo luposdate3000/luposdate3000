@@ -82,13 +82,16 @@ public class SensorType {
 
 public class DeviceType {
     public val name: String
-    public var database: Boolean = false
+    public var databaseStore: Boolean = false
+    public var databaseQuery: Boolean = false
     public val parkingSensor: String
     public val performance: Double
     public val supportedLinkTypes: List<String>
     public constructor(data: JsonParserObject) {
         name = data.getOrDefault("name", "")
-        database = data.getOrDefault("database", false)
+        val database = data.getOrDefault("database", false)
+        databaseStore = data.getOrDefault("databaseStore", database)
+        databaseQuery = data.getOrDefault("databaseQuery", database)
         parkingSensor = data.getOrDefault("parkingSensor", "")
         performance = data.getOrDefault("performance", 100.0)
         supportedLinkTypes = data.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList()

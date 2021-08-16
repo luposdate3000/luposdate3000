@@ -48,7 +48,7 @@ public class QuerySender(
     }
 
     override fun onStartUp() {
-        require(receiver.hasDatabase()) { "The query receiver device must have a database" }
+        require(receiver.hasDatabaseStore || receiver.hasDatabaseQuery) { "The query receiver device must have a database" }
         setTimer(TimeUtils.toNanoSec(startClockInSec), StartUpTimer())
     }
 
