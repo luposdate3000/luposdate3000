@@ -110,50 +110,50 @@
             ],
         },
     },
-    "fixedDevice": [
-        {
-            "deviceType": "Edge Gateway WSN 1",
-            "latitude": 0.002,
-            "longitude": 0.0,
-            "name": "Root WSN 1",
-        },
-        {
-            "deviceType": "Edge Gateway WSN 2",
-            "latitude": 0.002,
-            "longitude": 0.001,
-            "name": "Root WSN 2",
-        },
-        {
-            "deviceType": "Edge Gateway WSN 3",
-            "latitude": 0.001,
-            "longitude": 0.002,
-            "name": "Root WSN 3",
-        },
-        {
-            "deviceType": "Edge Gateway WSN 4",
-            "latitude": 0.003,
-            "longitude": 0.002,
-            "name": "Root WSN 4",
-        },
-        {
+    "fixedDevice": {
+        "HOP 12": {
             "deviceType": "Mesh Hop",
             "latitude": 0.002,
             "longitude": 5.0E-4,
             "name": "HOP 12",
         },
-        {
+        "HOP 23": {
             "deviceType": "Mesh Hop",
             "latitude": 0.001,
             "longitude": 0.0015,
             "name": "HOP 23",
         },
-        {
+        "HOP 24": {
             "deviceType": "Mesh Hop",
             "latitude": 0.003,
             "longitude": 0.0015,
             "name": "HOP 24",
         },
-    ],
+        "Root WSN 1": {
+            "deviceType": "Edge Gateway WSN 1",
+            "latitude": 0.002,
+            "longitude": 0.0,
+            "name": "Root WSN 1",
+        },
+        "Root WSN 2": {
+            "deviceType": "Edge Gateway WSN 2",
+            "latitude": 0.002,
+            "longitude": 0.001,
+            "name": "Root WSN 2",
+        },
+        "Root WSN 3": {
+            "deviceType": "Edge Gateway WSN 3",
+            "latitude": 0.001,
+            "longitude": 0.002,
+            "name": "Root WSN 3",
+        },
+        "Root WSN 4": {
+            "deviceType": "Edge Gateway WSN 4",
+            "latitude": 0.003,
+            "longitude": 0.002,
+            "name": "Root WSN 4",
+        },
+    },
     "fixedLink": [
         {
             "dataRateInKbps": 304,
@@ -186,30 +186,16 @@
             "fixedDeviceB": "Root WSN 4",
         },
     ],
-    "linkType": [
-        {
+    "linkType": {
+        "WPAN": {
             "dataRateInKbps": 250,
             "name": "WPAN",
             "rangeInMeters": 1,
         },
-    ],
+    },
     "logging": true,
     "outputDirectory": "",
     "querySender": [
-        {
-            "maxNumberOfQueries": 1,
-            "name": "Q1",
-            "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nselect  (count(distinct ?x) as ?count)\nwhere {\n  ?b a parking:Observation;\n  parking:area 1;\n  parking:spotInArea ?x.\n}",
-            "sendRateInSeconds": 1,
-            "sendStartClockInSec": 600,
-        },
-        {
-            "maxNumberOfQueries": 1,
-            "name": "Q1",
-            "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nselect  (count(distinct ?x) as ?count)\nwhere {\n  ?b a parking:Observation;\n  parking:area 1;\n  parking:spotInArea ?x.\n}",
-            "sendRateInSeconds": 1,
-            "sendStartClockInSec": 600,
-        },
     ],
     "randomMeshNetwork": [],
     "randomStarNetwork": [

@@ -36,26 +36,26 @@
             "supportedLinkTypes": [],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "A": {
             "deviceType": "Sensor",
             "latitude": 53.09814632127328,
             "longitude": 8.754628362427354,
             "name": "A",
         },
-        {
+        "B": {
             "deviceType": "DB",
             "latitude": 53.09278266982357,
             "longitude": 8.747762643839831,
             "name": "B",
         },
-        {
+        "C": {
             "deviceType": "DB",
             "latitude": 53.09407405925197,
             "longitude": 8.761070144669068,
             "name": "C",
         },
-    ],
+    },
     "fixedLink": [
         {
             "dataRateInKbps": 32,
@@ -68,7 +68,7 @@
             "fixedDeviceB": "C",
         },
     ],
-    "linkType": [],
+    "linkType": {},
     "logging": true,
     "outputDirectory": "",
     "querySender": [],

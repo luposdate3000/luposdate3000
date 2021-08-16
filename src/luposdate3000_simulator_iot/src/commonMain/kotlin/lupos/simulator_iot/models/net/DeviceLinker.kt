@@ -30,7 +30,9 @@ internal class DeviceLinker {
             field = value
             field.sortByDescending { it.dataRateInKbps }
         }
-
+    internal fun getLinkByName(name: String): LinkType {
+        return sortedLinkTypes.filter { it.name == name }.first()
+    }
     internal fun getSortedLinkTypeIndices(linkTypeNames: List<String>): IntArray {
         val result = IntArray(linkTypeNames.size) { -1 }
         for ((index, name) in linkTypeNames.withIndex()) {

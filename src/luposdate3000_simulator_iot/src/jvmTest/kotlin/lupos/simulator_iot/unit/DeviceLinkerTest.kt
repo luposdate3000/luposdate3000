@@ -16,8 +16,6 @@
  */
 
 package lupos.simulator_iot.unit
-import lupos.parser.JsonParser
-import lupos.parser.JsonParserObject
 import lupos.simulator_iot.config.LinkType
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
@@ -61,7 +59,7 @@ class DeviceLinkerTest {
         val two: Device = Stubs.createEmptyDevice(2)
         val distance = 51
         two.location = GeoLocation.createNorthernLocation(one.location, distance)
-        val linkType = LinkType(JsonParser().stringToJson("{\"rangeInMeters\" : 52}")as JsonParserObject)
+        val linkType = LinkType(rangeInMeters = 52)
         val actual = DeviceLinker().isReachable(linkType, one, two)
         assertTrue(actual)
     }
@@ -72,7 +70,7 @@ class DeviceLinkerTest {
         val two: Device = Stubs.createEmptyDevice(2)
         val distance = 51
         two.location = GeoLocation.createNorthernLocation(one.location, distance)
-        val linkType = LinkType(JsonParser().stringToJson("{\"rangeInMeters\" : 50}")as JsonParserObject)
+        val linkType = LinkType(rangeInMeters = 50)
         val actual = DeviceLinker().isReachable(linkType, one, two)
         assertFalse(actual)
     }
@@ -88,10 +86,10 @@ class DeviceLinkerTest {
     @Test
     fun sortLinkTypesByDataRate() {
         val deviceLinker = DeviceLinker()
-        val linkTypeW = LinkType(JsonParser().stringToJson(" {\"name\": \"W\", \"rangeInMeters\":51,\"dataRateInKbps\": 13}")as JsonParserObject)
-        val linkTypeX = LinkType(JsonParser().stringToJson(" {\"name\": \"X\", \"rangeInMeters\":50,\"dataRateInKbps\": 20}")as JsonParserObject)
-        val linkTypeY = LinkType(JsonParser().stringToJson(" {\"name\": \"Y\", \"rangeInMeters\":50,\"dataRateInKbps\": 1}")as JsonParserObject)
-        val linkTypeZ = LinkType(JsonParser().stringToJson(" {\"name\": \"Z\", \"rangeInMeters\":48,\"dataRateInKbps\": 40}")as JsonParserObject)
+        val linkTypeW = LinkType("W", 51, 13)
+        val linkTypeX = LinkType("X", 50, 20)
+        val linkTypeY = LinkType("Y", 50, 1)
+        val linkTypeZ = LinkType("Z", 48, 40)
         deviceLinker.sortedLinkTypes = arrayOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ)
         assertEquals(linkTypeZ, deviceLinker.sortedLinkTypes[0])
         assertEquals(linkTypeX, deviceLinker.sortedLinkTypes[1])
@@ -102,10 +100,10 @@ class DeviceLinkerTest {
     @Test
     fun getSortedLinkTypeIndices() {
         val deviceLinker = DeviceLinker()
-        val linkTypeW = LinkType(JsonParser().stringToJson(" {\"name\": \"W\", \"rangeInMeters\":51,\"dataRateInKbps\": 13}")as JsonParserObject)
-        val linkTypeX = LinkType(JsonParser().stringToJson(" {\"name\": \"X\", \"rangeInMeters\":50,\"dataRateInKbps\": 20}")as JsonParserObject)
-        val linkTypeY = LinkType(JsonParser().stringToJson(" {\"name\": \"Y\", \"rangeInMeters\":50,\"dataRateInKbps\": 1}")as JsonParserObject)
-        val linkTypeZ = LinkType(JsonParser().stringToJson(" {\"name\": \"Z\", \"rangeInMeters\":48,\"dataRateInKbps\": 40}")as JsonParserObject)
+        val linkTypeW = LinkType("W", 51, 13)
+        val linkTypeX = LinkType("X", 50, 20)
+        val linkTypeY = LinkType("Y", 50, 1)
+        val linkTypeZ = LinkType("Z", 48, 40)
         deviceLinker.sortedLinkTypes = arrayOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ)
         val actual1 = deviceLinker.getSortedLinkTypeIndices(listOf("W"))
         val actual2 = deviceLinker.getSortedLinkTypeIndices(listOf("W", "Z"))
@@ -119,7 +117,7 @@ class DeviceLinkerTest {
     @Test
     fun deviceWithoutLinkTypeCanNotLink() {
         val deviceLinker = DeviceLinker()
-        val linkType = LinkType(JsonParser().stringToJson(" {\"name\": \"X\"}")as JsonParserObject)
+        val linkType = LinkType("X")
         deviceLinker.sortedLinkTypes = arrayOf(linkType)
         val one: Device = Stubs.createEmptyDevice(1)
         val two: Device = Stubs.createEmptyDevice(2, intArrayOf(0))
@@ -133,7 +131,7 @@ class DeviceLinkerTest {
     @Test
     fun tooFarAwayToLink() {
         val deviceLinker = DeviceLinker()
-        val linkTypeX = LinkType(JsonParser().stringToJson(" {\"name\": \"X\", \"rangeInMeters\":50,\"dataRateInKbps\": 7}")as JsonParserObject)
+        val linkTypeX = LinkType("X", 50, 7)
         deviceLinker.sortedLinkTypes = arrayOf(linkTypeX)
         val one: Device = Stubs.createEmptyDevice(1, intArrayOf(0))
         val two: Device = Stubs.createEmptyDevice(2, intArrayOf(0))
@@ -149,9 +147,9 @@ class DeviceLinkerTest {
     @Test
     fun `two devices link with most suitable linkType`() {
         val deviceLinker = DeviceLinker()
-        val linkTypeX = LinkType(JsonParser().stringToJson(" {\"name\": \"X\", \"rangeInMeters\":50,\"dataRateInKbps\": 7}")as JsonParserObject)
-        val linkTypeY = LinkType(JsonParser().stringToJson(" {\"name\": \"Y\", \"rangeInMeters\":50,\"dataRateInKbps\": 8}")as JsonParserObject)
-        val linkTypeZ = LinkType(JsonParser().stringToJson(" {\"name\": \"Z\", \"rangeInMeters\":48,\"dataRateInKbps\": 9}")as JsonParserObject)
+        val linkTypeX = LinkType("X", 50, 7)
+        val linkTypeY = LinkType("Y", 50, 8)
+        val linkTypeZ = LinkType("Z", 48, 9)
         deviceLinker.sortedLinkTypes = arrayOf(linkTypeX, linkTypeY, linkTypeZ)
         val one: Device = Stubs.createEmptyDevice(1, intArrayOf(0, 1, 2))
         val two: Device = Stubs.createEmptyDevice(2, intArrayOf(0, 1, 2))
@@ -164,9 +162,9 @@ class DeviceLinkerTest {
     @Test
     fun `two devices link with the only possible linkType`() {
         val deviceLinker = DeviceLinker()
-        val linkTypeX = LinkType(JsonParser().stringToJson(" {\"name\": \"X\", \"rangeInMeters\":50,\"dataRateInKbps\": 20}")as JsonParserObject)
-        val linkTypeY = LinkType(JsonParser().stringToJson(" {\"name\": \"Y\", \"rangeInMeters\":50,\"dataRateInKbps\": 8}")as JsonParserObject)
-        val linkTypeZ = LinkType(JsonParser().stringToJson(" {\"name\": \"Z\", \"rangeInMeters\":50,\"dataRateInKbps\": 400}")as JsonParserObject)
+        val linkTypeX = LinkType("X", 50, 20)
+        val linkTypeY = LinkType("Y", 50, 8)
+        val linkTypeZ = LinkType("Z", 50, 400)
         deviceLinker.sortedLinkTypes = arrayOf(linkTypeX, linkTypeY, linkTypeZ)
 
         val oneSupportedLTypes = deviceLinker.getSortedLinkTypeIndices(listOf("X", "Y"))

@@ -71,32 +71,42 @@ public class Configuration(private val simRun: SimulationRun) {
     internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
 // /TODO delete this --->>>
-
-        val j = json!!["deviceType"]
-        if (j is JsonParserArray) {
-            val j2 = JsonParserObject(mutableMapOf())
-            for (e in j) {
-                e as JsonParserObject
-                j2[e.getOrDefault("name", "")] = e
+        if (true) {
+            val j = json!!["fixedDevice"]
+            if (j is JsonParserArray) {
+                val j2 = JsonParserObject(mutableMapOf())
+                for (e in j) {
+                    e as JsonParserObject
+                    j2[e.getOrDefault("name", "")] = e
+                }
+                json!!["fixedDevice"] = j2
             }
-            json!!["deviceType"] = j2
         }
-        val j3 = json!!["sensorType"]
-        if (j3 is JsonParserArray) {
-            val j2 = JsonParserObject(mutableMapOf())
-            for (e in j3) {
-                e as JsonParserObject
-                j2[e.getOrDefault("name", "")] = e
+        if (true) {
+            val j = json!!["linkType"]
+            if (j is JsonParserArray) {
+                val j2 = JsonParserObject(mutableMapOf())
+                for (e in j) {
+                    e as JsonParserObject
+                    j2[e.getOrDefault("name", "")] = e
+                }
+                json!!["linkType"] = j2
             }
-            json!!["sensorType"] = j2
         }
 // /TODO delete this <<<<---
         jsonObjects = JsonObjects(json)
-        linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
-        for (fixedDevice in json.getOrEmptyArray("fixedDevice")) {
+        linker.sortedLinkTypes = json!!.getOrEmptyObject("linkType").iterator().asSequence().map {
+            val v = it.second
+            v as JsonParserObject
+            LinkType(
+                it.first,
+                v.getOrDefault("rangeInMeters", 0),
+                v.getOrDefault("dataRateInKbps", 0),
+            )
+        }.toList<LinkType>().toTypedArray()
+        for ((name, fixedDevice) in json.getOrEmptyObject("fixedDevice")) {
             fixedDevice as JsonParserObject
             val location = GeoLocation(fixedDevice.getOrDefault("latitude", 0.0), fixedDevice.getOrDefault("longitude", 0.0))
-            val name = fixedDevice.getOrDefault("name", "")
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
             require(namedAddresses[name] == null) { "name $name must be unique" }
@@ -160,7 +170,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val meshNetwork = MeshNetwork()
         meshNetwork.networkPrefix = network.networkPrefix
         val nameID = addDeviceName("${network.networkPrefix}_member")
-        val linkType = getLinkTypeByName(network.linkType)
+        val linkType = linker.getLinkByName(network.linkType)
 
         var column = createSouthernDevices(origin, linkType, network, network.deviceType, nameID)
         meshNetwork.mesh[0] = column
@@ -220,7 +230,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val childNameID = addDeviceName("${starNetwork.networkPrefix}_child")
-        val linkType = getLinkTypeByName(network.linkType)
+        val linkType = linker.getLinkByName(network.linkType)
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, simRun.randGenerator.random)
             val leaf = createDevice(network.deviceType, location, childNameID)
@@ -266,12 +276,6 @@ public class Configuration(private val simRun: SimulationRun) {
 
         devices.add(device)
         return device
-    }
-
-    private fun getLinkTypeByName(name: String): LinkType {
-        val element = jsonObjects.linkType.find { name == it.name }
-        requireNotNull(element) { "link type $name does not exist" }
-        return element
     }
 
     internal fun getNumberOfDevices(): Int {

@@ -205,24 +205,6 @@ class ConfigurationTest {
     }
 
     @Test
-    fun distanceToNeighboringDevicesIsSmaller() {
-        val config = SimulationRun().config
-        config.parse("$prefix/distanceToNeighboringDevicesIsSmaller.json")
-        val networkPrefix = config.jsonObjects.randomMeshNetwork[0].networkPrefix
-        val maxLinkRange = config.jsonObjects.linkType[0].rangeInMeters
-        val mesh = config.randMeshNetworks[networkPrefix]!!.mesh
-        val device = mesh[0][0]
-        val neighbour = mesh[1][0]
-        val neighbourNeighbour = mesh[2][0]
-
-        val distanceToNeighbour = config.linker.getDistanceInMeters(device, neighbour)
-        val distanceToNeighbourNeighbour = config.linker.getDistanceInMeters(device, neighbourNeighbour)
-
-        assertTrue(distanceToNeighbour <= maxLinkRange)
-        assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
-    }
-
-    @Test
     fun configOneQuerySender() {
         val config = SimulationRun().config
         config.parse("$prefix/configOneQuerySender.json")

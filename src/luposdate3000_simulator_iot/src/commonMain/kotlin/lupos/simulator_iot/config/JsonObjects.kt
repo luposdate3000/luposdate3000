@@ -23,7 +23,6 @@ public class JsonObjects {
     public var database: JsonParserObject
     public var deterministic: Boolean
     public var logging: Boolean
-    public val linkType: MutableList<LinkType>
     public val fixedLink: MutableList<FixedLink>
     public val randomMeshNetwork: MutableList<RandomMeshNetwork>
     public val randomStarNetwork: MutableList<RandomStarNetwork>
@@ -36,7 +35,6 @@ public class JsonObjects {
         database = data.getOrEmptyObject("database")
         deterministic = data.getOrDefault("deterministic", true)
         logging = data.getOrDefault("logging", true)
-        linkType = data.getOrEmptyArray("linkType").map { LinkType(it as JsonParserObject) }
         fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
@@ -44,16 +42,11 @@ public class JsonObjects {
     }
 }
 
-public class LinkType {
-    public val name: String
-    public var rangeInMeters: Int
-    public val dataRateInKbps: Int
-    public constructor(data: JsonParserObject) {
-        name = data.getOrDefault("name", "")
-        rangeInMeters = data.getOrDefault("rangeInMeters", 0)
-        dataRateInKbps = data.getOrDefault("dataRateInKbps", 0)
-    }
-}
+public class LinkType(
+    public val name: String = "",
+    public var rangeInMeters: Int = 0,
+    public val dataRateInKbps: Int = 0,
+)
 
 public class FixedLink {
     public val fixedDeviceA: String

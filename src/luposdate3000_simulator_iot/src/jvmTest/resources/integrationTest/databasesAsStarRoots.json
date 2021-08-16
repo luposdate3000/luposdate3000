@@ -81,39 +81,39 @@
             ],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "Fog": {
             "deviceType": "FogTower",
             "latitude": 53.83831534459554,
             "longitude": 10.698774930618905,
             "name": "Fog",
         },
-        {
+        "Gateway of WSN 1": {
             "deviceType": "EdgeGatewayDevice_1",
             "latitude": 53.838474484901376,
             "longitude": 10.695081476709452,
             "name": "Gateway of WSN 1",
         },
-        {
+        "Gateway of WSN 2": {
             "deviceType": "EdgeGatewayDevice_2",
             "latitude": 53.83744253948933,
             "longitude": 10.694834809499191,
             "name": "Gateway of WSN 2",
         },
-    ],
+    },
     "fixedLink": [],
-    "linkType": [
-        {
-            "dataRateInKbps": 250,
-            "name": "WPAN",
-            "rangeInMeters": 30,
-        },
-        {
+    "linkType": {
+        "WLAN": {
             "dataRateInKbps": 25000,
             "name": "WLAN",
             "rangeInMeters": 50,
         },
-    ],
+        "WPAN": {
+            "dataRateInKbps": 250,
+            "name": "WPAN",
+            "rangeInMeters": 30,
+        },
+    },
     "logging": true,
     "outputDirectory": "",
     "querySender": [],
