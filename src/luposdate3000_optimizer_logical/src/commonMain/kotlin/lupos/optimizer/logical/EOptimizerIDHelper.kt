@@ -18,106 +18,119 @@ package lupos.optimizer.logical
 
 import kotlin.jvm.JvmField
 
-public object EOptimizerIDHelper {
+public class EOptimizerIDHelper {
     @JvmField
-    public val optional: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
-        when (it) {
-            EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
-            EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
-            EOptimizerIDExt.LogicalOptimizerSortDownID -> true
-            EOptimizerIDExt.LogicalOptimizerReducedDownID -> true
-            EOptimizerIDExt.LogicalOptimizerID -> false
-            EOptimizerIDExt.LogicalOptimizerDetectMinusID -> false
-            EOptimizerIDExt.LogicalOptimizerDetectMinusStep2ID -> false
-            EOptimizerIDExt.LogicalOptimizerColumnSortOrderID -> true
-            EOptimizerIDExt.LogicalOptimizerRemoveProjectionID -> true
-            EOptimizerIDExt.LogicalOptimizerJoinOrderID -> true
-            EOptimizerIDExt.LogicalOptimizerUnionUpID -> true
-            EOptimizerIDExt.LogicalOptimizerExistsID -> true
-            EOptimizerIDExt.LogicalOptimizerArithmeticID -> false
-            EOptimizerIDExt.LogicalOptimizerFilterDownID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterEQID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterUpID -> true
-            EOptimizerIDExt.LogicalOptimizerBindUpID -> true
-            EOptimizerIDExt.LogicalOptimizerProjectionDownID -> true
-            EOptimizerIDExt.LogicalOptimizerProjectionUpID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterIntoTripleID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterOptionalID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterOptionalStep2ID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterSplitANDID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterMergeANDID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterSplitORID -> true
-            EOptimizerIDExt.LogicalOptimizerBindToFilterID -> false
-            EOptimizerIDExt.LogicalOptimizerRemoveNOOPID -> false
-            EOptimizerIDExt.LogicalOptimizerOptionalID -> false
-            EOptimizerIDExt.LogicalOptimizerRemovePrefixID -> false
-            EOptimizerIDExt.LogicalOptimizerRemoveBindVariableID -> true
-            EOptimizerIDExt.PhysicalOptimizerID -> false
-            EOptimizerIDExt.PhysicalOptimizerTripleIndexID -> true
-            EOptimizerIDExt.PhysicalOptimizerJoinTypeID -> false
-            EOptimizerIDExt.PhysicalOptimizerNaiveID -> false
-            EOptimizerIDExt.PhysicalOptimizerDebugID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
-            EOptimizerIDExt.LogicalOptimizerDistinctUpID -> false
-            EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> true
-            EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
-            else -> TODO()
-        }
-    }
+    public val optional: BooleanArray
 
     @JvmField
-    public val repeatOnChange: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
-        when (it) {
-            EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
-            EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
-            EOptimizerIDExt.LogicalOptimizerSortDownID -> true
-            EOptimizerIDExt.LogicalOptimizerReducedDownID -> true
-            EOptimizerIDExt.LogicalOptimizerID -> true
-            EOptimizerIDExt.LogicalOptimizerDetectMinusID -> true
-            EOptimizerIDExt.LogicalOptimizerDetectMinusStep2ID -> true
-            EOptimizerIDExt.LogicalOptimizerColumnSortOrderID -> true
-            EOptimizerIDExt.LogicalOptimizerRemoveProjectionID -> true
-            EOptimizerIDExt.LogicalOptimizerJoinOrderID -> false
-            EOptimizerIDExt.LogicalOptimizerUnionUpID -> true
-            EOptimizerIDExt.LogicalOptimizerExistsID -> true
-            EOptimizerIDExt.LogicalOptimizerArithmeticID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterDownID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterEQID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterUpID -> true
-            EOptimizerIDExt.LogicalOptimizerBindUpID -> true
-            EOptimizerIDExt.LogicalOptimizerProjectionDownID -> true
-            EOptimizerIDExt.LogicalOptimizerProjectionUpID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterIntoTripleID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterOptionalID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterOptionalStep2ID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterSplitANDID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterMergeANDID -> true
-            EOptimizerIDExt.LogicalOptimizerFilterSplitORID -> true
-            EOptimizerIDExt.LogicalOptimizerBindToFilterID -> true
-            EOptimizerIDExt.LogicalOptimizerRemoveNOOPID -> true
-            EOptimizerIDExt.LogicalOptimizerOptionalID -> true
-            EOptimizerIDExt.LogicalOptimizerRemovePrefixID -> true
-            EOptimizerIDExt.LogicalOptimizerRemoveBindVariableID -> true
-            EOptimizerIDExt.PhysicalOptimizerID -> true
-            EOptimizerIDExt.PhysicalOptimizerTripleIndexID -> true
-            EOptimizerIDExt.PhysicalOptimizerJoinTypeID -> true
-            EOptimizerIDExt.PhysicalOptimizerNaiveID -> true
-            EOptimizerIDExt.PhysicalOptimizerDebugID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
-            EOptimizerIDExt.LogicalOptimizerDistinctUpID -> true
-            EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> false
-            EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
-            else -> TODO()
+    public val repeatOnChange: BooleanArray
+
+    init {
+        try {
+            optional = BooleanArray(EOptimizerIDExt.values_size) {
+                when (it) {
+                    EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
+                    EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
+                    EOptimizerIDExt.LogicalOptimizerSortDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerReducedDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerID -> false
+                    EOptimizerIDExt.LogicalOptimizerDetectMinusID -> false
+                    EOptimizerIDExt.LogicalOptimizerDetectMinusStep2ID -> false
+                    EOptimizerIDExt.LogicalOptimizerColumnSortOrderID -> true
+                    EOptimizerIDExt.LogicalOptimizerRemoveProjectionID -> true
+                    EOptimizerIDExt.LogicalOptimizerJoinOrderID -> true
+                    EOptimizerIDExt.LogicalOptimizerUnionUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerExistsID -> true
+                    EOptimizerIDExt.LogicalOptimizerArithmeticID -> false
+                    EOptimizerIDExt.LogicalOptimizerFilterDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterEQID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerBindUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerProjectionDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerProjectionUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterIntoTripleID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterOptionalID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterOptionalStep2ID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterSplitANDID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterMergeANDID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterSplitORID -> true
+                    EOptimizerIDExt.LogicalOptimizerBindToFilterID -> false
+                    EOptimizerIDExt.LogicalOptimizerRemoveNOOPID -> false
+                    EOptimizerIDExt.LogicalOptimizerOptionalID -> false
+                    EOptimizerIDExt.LogicalOptimizerRemovePrefixID -> false
+                    EOptimizerIDExt.LogicalOptimizerRemoveBindVariableID -> true
+                    EOptimizerIDExt.PhysicalOptimizerID -> false
+                    EOptimizerIDExt.PhysicalOptimizerTripleIndexID -> true
+                    EOptimizerIDExt.PhysicalOptimizerJoinTypeID -> false
+                    EOptimizerIDExt.PhysicalOptimizerNaiveID -> false
+                    EOptimizerIDExt.PhysicalOptimizerDebugID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
+                    EOptimizerIDExt.LogicalOptimizerDistinctUpID -> false
+                    EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> true
+                    EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
+                    EOptimizerIDExt.PhysicalOptimizerSplitMergePartitionID -> true
+                    else -> TODO("optional $it")
+                }
+            }
+
+            repeatOnChange = BooleanArray(EOptimizerIDExt.values_size) {
+                when (it) {
+                    EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
+                    EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
+                    EOptimizerIDExt.LogicalOptimizerSortDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerReducedDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerID -> true
+                    EOptimizerIDExt.LogicalOptimizerDetectMinusID -> true
+                    EOptimizerIDExt.LogicalOptimizerDetectMinusStep2ID -> true
+                    EOptimizerIDExt.LogicalOptimizerColumnSortOrderID -> true
+                    EOptimizerIDExt.LogicalOptimizerRemoveProjectionID -> true
+                    EOptimizerIDExt.LogicalOptimizerJoinOrderID -> false
+                    EOptimizerIDExt.LogicalOptimizerUnionUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerExistsID -> true
+                    EOptimizerIDExt.LogicalOptimizerArithmeticID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterEQID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerBindUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerProjectionDownID -> true
+                    EOptimizerIDExt.LogicalOptimizerProjectionUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterIntoTripleID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterOptionalID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterOptionalStep2ID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterSplitANDID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterMergeANDID -> true
+                    EOptimizerIDExt.LogicalOptimizerFilterSplitORID -> true
+                    EOptimizerIDExt.LogicalOptimizerBindToFilterID -> true
+                    EOptimizerIDExt.LogicalOptimizerRemoveNOOPID -> true
+                    EOptimizerIDExt.LogicalOptimizerOptionalID -> true
+                    EOptimizerIDExt.LogicalOptimizerRemovePrefixID -> true
+                    EOptimizerIDExt.LogicalOptimizerRemoveBindVariableID -> true
+                    EOptimizerIDExt.PhysicalOptimizerID -> true
+                    EOptimizerIDExt.PhysicalOptimizerTripleIndexID -> true
+                    EOptimizerIDExt.PhysicalOptimizerJoinTypeID -> true
+                    EOptimizerIDExt.PhysicalOptimizerNaiveID -> true
+                    EOptimizerIDExt.PhysicalOptimizerDebugID -> true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID -> true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
+                    EOptimizerIDExt.LogicalOptimizerDistinctUpID -> true
+                    EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> false
+                    EOptimizerIDExt.PhysicalOptimizerSplitMergePartitionID -> false
+                    EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
+                    else -> TODO("repeatOnChange $it")
+                }
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            throw e
         }
     }
 }

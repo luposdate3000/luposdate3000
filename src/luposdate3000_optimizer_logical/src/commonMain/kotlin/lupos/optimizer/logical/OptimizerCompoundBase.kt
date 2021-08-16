@@ -95,6 +95,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
         }
         var tmp = node
         var d: Boolean
+        var eOptimizerIDHelper = EOptimizerIDHelper()
         for (opt in childrenOptimizers) {
             d = true
             while (d) {
@@ -105,7 +106,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                         c = false
                         query.setRoot(tmp)
                         tmp = o.optimizeInternal(tmp, null) {
-                            if (EOptimizerIDHelper.repeatOnChange[o.optimizerID]) {
+                            if (eOptimizerIDHelper.repeatOnChange[o.optimizerID]) {
                                 c = true
                                 d = true
                                 onChange()
@@ -115,17 +116,17 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                     }
                 }
                 SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:117"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:118"/*SOURCE_FILE_END*/ },
                     {
                         val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
                         verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf(), tmp)
                         for ((k, v1) in allPartitionOperators) {
                             val v2 = query.partitionOperators[k]
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:123"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:124"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
                         }
                         for ((k, v1) in query.partitionOperators) {
                             val v2 = allPartitionOperators[k]
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:127"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:128"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
                         }
                         if (query.filtersMovedUpFromOptionals) {
                             tmp.syntaxVerifyAllVariableExists(listOf(), false)
