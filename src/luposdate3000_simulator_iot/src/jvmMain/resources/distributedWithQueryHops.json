@@ -1,9 +1,5 @@
 {
     "deviceType": {
-"Mesh Hop": {
-"databaseStore": false,
-"databaseQuery": true,
-},
         "Central Tower": {
             "database": true,
         },
@@ -36,6 +32,10 @@
         },
         "Edge Gateway WSN 9": {
             "database": true,
+        },
+        "Mesh Hop": {
+            "databaseQuery": true,
+            "databaseStore": false,
         },
     },
     "sensorType": {

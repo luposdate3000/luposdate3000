@@ -27,6 +27,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
+import lupos.shared.LuposStoreKey
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -73,6 +74,13 @@ public class POPTripleStoreIterator(
         res.addContent(XMLElement("pparam").addContent(children[1].toXMLElement(partial)))
         res.addContent(XMLElement("oparam").addContent(children[2].toXMLElement(partial)))
         res.addContent(XMLElement("idx").addContent(tripleStoreIndexDescription.toXMLElement()))
+        try {
+            val target = getTarget(Partition())
+            res.addAttribute("targetHost", target.first)
+            res.addAttribute("targetKey", target.second)
+        } catch (e: Throwable) {
+// ignore it
+        }
         return res
     }
 
@@ -116,7 +124,7 @@ public class POPTripleStoreIterator(
         } else {
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:118"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:126"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
                 for (i in 0 until 3) {
                     val c = children[i]
                     if (c is AOPVariable && c.name == variable) {
@@ -134,19 +142,15 @@ public class POPTripleStoreIterator(
         }
     }
 
-    public fun getDesiredHostnameFor(partition: Partition): LuposHostname {
-        val index = tripleStoreIndexDescription
-        val target = index.getStore(query, children, partition)
-        return target.first
-    }
-
+    public fun getDesiredHostnameFor(parent: Partition): LuposHostname = getTarget(parent).first
+    public fun getTarget(parent: Partition): Pair<LuposHostname, LuposStoreKey> = tripleStoreIndexDescription.getStore(query, children, parent)
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val index = tripleStoreIndexDescription
-        val target = index.getStore(query, children, parent)
+        val target = getTarget(parent)
         val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:148"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:152"/*SOURCE_FILE_END*/ },
             { target.first == manager.localhost },
         )
         val store = manager.localStoresGet()[target.second]!!
@@ -156,7 +160,7 @@ public class POPTripleStoreIterator(
             val i = EIndexPatternHelper.tripleIndicees[index.idx_set[0]][ii]
             when (val param = children[i]) {
                 is IAOPConstant -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:158"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:162"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                     val v = param.getValue()
                     if (query.getDictionary().isLocalValue(v)) {
                         filter2.add(DictionaryValueHelper.nullValue)

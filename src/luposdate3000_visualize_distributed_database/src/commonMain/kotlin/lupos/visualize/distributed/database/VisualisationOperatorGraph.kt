@@ -187,7 +187,11 @@ public class VisualisationOperatorGraph {
                             val keyUsed = desc.attributes["key$idxName"]!!
                             "S[$patternUsed@$hostUsed:$keyUsed]"
                         } else {
-                            "S"
+                            val hostUsed = n.op.attributes["targetHost"]
+                            val keyUsed = n.op.attributes["targetKey"]
+                            val desc = n.op["idx"]!!["TripleStoreIndexDescription"]!!
+                            val patternUsed = desc.attributes["pattern"]!!
+                            "S[$patternUsed@$hostUsed:$keyUsed]"
                         }
                     }
                     else -> {
