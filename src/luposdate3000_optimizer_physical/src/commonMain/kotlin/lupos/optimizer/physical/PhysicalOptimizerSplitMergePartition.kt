@@ -39,13 +39,16 @@ public class PhysicalOptimizerSplitMergePartition(query: Query) : OptimizerBase(
                         )
                     )
                 ) {
-                    val variableName = "?Split${node.getUUID()}"
-                    val partitionID = query.getNextPartitionOperatorID()
-                    res = POPSplitPartition(query, node.getProvidedVariableNames(), variableName, 1, partitionID, node)
-                    query.addPartitionOperator(res.uuid, partitionID)
-                    res = POPMergePartition(query, res.getProvidedVariableNames(), variableName, 1, partitionID, res)
-                    query.addPartitionOperator(res.uuid, partitionID)
-                    onChange()
+                    val provided = node.getProvidedVariableNames()
+                    if (provided.size > 0) {
+                        val variableName = "?Split${node.getUUID()}"
+                        val partitionID = query.getNextPartitionOperatorID()
+                        res = POPSplitPartition(query, provided, variableName, 1, partitionID, node)
+                        query.addPartitionOperator(res.uuid, partitionID)
+                        res = POPMergePartition(query, provided, variableName, 1, partitionID, res)
+                        query.addPartitionOperator(res.uuid, partitionID)
+                        onChange()
+                    }
                 }
             }
         }
