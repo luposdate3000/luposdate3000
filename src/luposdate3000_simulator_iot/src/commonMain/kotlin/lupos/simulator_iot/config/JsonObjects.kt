@@ -24,7 +24,6 @@ public class JsonObjects {
     public var deterministic: Boolean
     public var logging: Boolean
     public val linkType: MutableList<LinkType>
-    public val sensorType: MutableList<SensorType>
     public val fixedLink: MutableList<FixedLink>
     public val randomMeshNetwork: MutableList<RandomMeshNetwork>
     public val randomStarNetwork: MutableList<RandomStarNetwork>
@@ -38,7 +37,6 @@ public class JsonObjects {
         deterministic = data.getOrDefault("deterministic", true)
         logging = data.getOrDefault("logging", true)
         linkType = data.getOrEmptyArray("linkType").map { LinkType(it as JsonParserObject) }
-        sensorType = data.getOrEmptyArray("sensorType").map { SensorType(it as JsonParserObject) }
         fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
@@ -54,22 +52,6 @@ public class LinkType {
         name = data.getOrDefault("name", "")
         rangeInMeters = data.getOrDefault("rangeInMeters", 0)
         dataRateInKbps = data.getOrDefault("dataRateInKbps", 0)
-    }
-}
-
-public class SensorType {
-    public val name: String
-    public val area: Int
-    public val dataSink: String
-    public val rateInSec: Int
-    public var maxSamples: Int
-
-    public constructor(data: JsonParserObject) {
-        name = data.getOrDefault("name", "")
-        area = data.getOrDefault("area", 0)
-        dataSink = data.getOrDefault("dataSink", "")
-        rateInSec = data.getOrDefault("rateInSec", 0)
-        maxSamples = data.getOrDefault("maxSamples", -1)
     }
 }
 

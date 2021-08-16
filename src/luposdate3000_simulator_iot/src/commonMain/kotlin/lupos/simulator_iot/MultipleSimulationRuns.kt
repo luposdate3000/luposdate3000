@@ -40,7 +40,7 @@ internal class MultipleSimulationRuns(
 
     private fun startSimulationRun() {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(json)
+        val config = simRun.parseConfig(json, "", false)
         simRun.startSimulation(config)
         measurements.add(simRun.measurement)
     }

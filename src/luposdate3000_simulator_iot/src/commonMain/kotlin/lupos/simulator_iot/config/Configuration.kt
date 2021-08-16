@@ -18,6 +18,7 @@
 package lupos.simulator_iot.config
 
 import lupos.parser.JsonParser
+import lupos.parser.JsonParserArray
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
 import lupos.shared.inline.File
@@ -67,8 +68,29 @@ public class Configuration(private val simRun: SimulationRun) {
     internal var linker = DeviceLinker()
         private set
 
-    internal fun parse(json: JsonParserObject) {
+    internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean) {
         this.json = json
+// /TODO delete this --->>>
+
+        val j = json!!["deviceType"]
+        if (j is JsonParserArray) {
+            val j2 = JsonParserObject(mutableMapOf())
+            for (e in j) {
+                e as JsonParserObject
+                j2[e.getOrDefault("name", "")] = e
+            }
+            json!!["deviceType"] = j2
+        }
+        val j3 = json!!["sensorType"]
+        if (j3 is JsonParserArray) {
+            val j2 = JsonParserObject(mutableMapOf())
+            for (e in j3) {
+                e as JsonParserObject
+                j2[e.getOrDefault("name", "")] = e
+            }
+            json!!["sensorType"] = j2
+        }
+// /TODO delete this <<<<---
         jsonObjects = JsonObjects(json)
         linker.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
         for (fixedDevice in json.getOrEmptyArray("fixedDevice")) {
@@ -113,12 +135,17 @@ public class Configuration(private val simRun: SimulationRun) {
         linker.createAvailableLinks(devices)
         dbDeviceAddressesStore = devices.filter { it.hasDatabaseStore }.map { it.address }.toIntArray()
         dbDeviceAddressesQuery = devices.filter { it.hasDatabaseQuery }.map { it.address }.toIntArray()
+        if (autocorrect) {
+            File(fileName).withOutputStream { out ->
+                out.println(JsonParser().jsonToString(json, false))
+            }
+        }
     }
 
-    internal fun parse(fileName: String) {
+    internal fun parse(fileName: String, autocorrect: Boolean) {
         val fileStr = File(fileName).readAsString()
         val json = JsonParser().stringToJson(fileStr) as JsonParserObject
-        parse(json)
+        parse(json, fileName, autocorrect)
     }
 
     public fun getEntities(): MutableList<Entity> {
@@ -210,23 +237,23 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     private fun createDevice(deviceTypeName: String, location: GeoLocation, nameIndex: Int): Device {
-        var deviceType: JsonParserObject? = null
-        for (d in json!!.getOrEmptyArray("deviceType")) {
-            d as JsonParserObject
-            if (deviceTypeName == d.getOrDefault("name", "")) {
-                deviceType = d
-            }
-        }
-        requireNotNull(deviceType) { "device type name $deviceTypeName does not exist" }
-
+        val deviceTypes = json!!.getOrEmptyObject("deviceType")
+        val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         require(deviceType.getOrDefault("performance", 100.0) != 0.0) { "The performance level of a device can not be 0.0 %" }
         val device = Device(simRun, location, devices.size, null, deviceType.getOrDefault("performance", 100.0), linkTypes, nameIndex, jsonObjects.deterministic)
-        val sensor = deviceType.getOrDefault("parkingSensor", "")
-        if (sensor.isNotEmpty()) {
+        val sensorTypeName = deviceType.getOrDefault("parkingSensor", "")
+        if (sensorTypeName.isNotEmpty()) {
             numberOfSensors++
-            val sensorType = getSensorTypeByName(sensor)
-            device.sensor = ParkingSensor(device, sensorType.rateInSec, sensorType.maxSamples, sensorType.dataSink, sensorType.area)
+            val sensorTypes = json!!.getOrEmptyObject("sensorType")
+            val sensorType = sensorTypes.getOrEmptyObject(sensorTypeName)
+            device.sensor = ParkingSensor(
+                device,
+                sensorType.getOrDefault("rateInSec", 0),
+                sensorType.getOrDefault("maxSamples", -1),
+                sensorType.getOrDefault("dataSink", ""),
+                sensorType.getOrDefault("area", 0),
+            )
         }
         val databaseStore = deviceType.getOrDefault("databaseStore", deviceType.getOrDefault("database", false))
         val databaseQuery = deviceType.getOrDefault("databaseQuery", deviceType.getOrDefault("database", false))
@@ -244,12 +271,6 @@ public class Configuration(private val simRun: SimulationRun) {
     private fun getLinkTypeByName(name: String): LinkType {
         val element = jsonObjects.linkType.find { name == it.name }
         requireNotNull(element) { "link type $name does not exist" }
-        return element
-    }
-
-    private fun getSensorTypeByName(name: String): SensorType {
-        val element = jsonObjects.sensorType.find { name == it.name }
-        requireNotNull(element) { "sensor type $name does not exist" }
         return element
     }
 
