@@ -27,22 +27,22 @@
             ],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "Tower1": {
             "deviceType": "Fog",
             "latitude": 3.0,
             "longitude": 3.0,
             "name": "Tower1",
         },
-    ],
+    },
     "fixedLink": [],
-    "linkType": [
-        {
+    "linkType": {
+        "WPAN": {
             "dataRateInKbps": 250,
             "name": "WPAN",
             "rangeInMeters": 30,
         },
-    ],
+    },
     "logging": true,
     "querySender": [],
     "randomMeshNetwork": [],
@@ -53,22 +53,6 @@
             "linkType": "WPAN",
             "networkPrefix": "garageA",
             "number": 1,
-            "starRoot": "Tower1",
-        },
-        {
-            "dataSink": "",
-            "deviceType": "StandAloneParkingSensor",
-            "linkType": "WPAN",
-            "networkPrefix": "star2",
-            "number": 3,
-            "starRoot": "Tower1",
-        },
-        {
-            "dataSink": "",
-            "deviceType": "StandAloneParkingSensor",
-            "linkType": "WPAN",
-            "networkPrefix": "star2",
-            "number": 3,
             "starRoot": "Tower1",
         },
     ],

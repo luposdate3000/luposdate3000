@@ -27,20 +27,20 @@
             ],
         },
     },
-    "fixedDevice": [
-        {
-            "deviceType": "RadioTower",
-            "latitude": 53.83490706177371,
-            "longitude": 10.692555029863962,
-            "name": "Tower1",
-        },
-        {
+    "fixedDevice": {
+        "Fog1": {
             "deviceType": "Fog",
             "latitude": 53.83410604011873,
             "longitude": 10.702721833240291,
             "name": "Fog1",
         },
-    ],
+        "Tower1": {
+            "deviceType": "RadioTower",
+            "latitude": 53.83490706177371,
+            "longitude": 10.692555029863962,
+            "name": "Tower1",
+        },
+    },
     "fixedLink": [
         {
             "dataRateInKbps": 2500,
@@ -48,13 +48,13 @@
             "fixedDeviceB": "Fog1",
         },
     ],
-    "linkType": [
-        {
+    "linkType": {
+        "WIRE": {
             "dataRateInKbps": 1000,
             "name": "WIRE",
             "rangeInMeters": 100000,
         },
-    ],
+    },
     "logging": true,
     "querySender": [],
     "randomMeshNetwork": [],

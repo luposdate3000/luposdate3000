@@ -3,33 +3,30 @@
         "type": "Dummy",
     },
     "deterministic": true,
-    "deviceType": [
-        {
+    "deviceType": {
+        "Fog": {
             "database": true,
-            "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
-    ],
-    "fixedDevice": [
-        {
+    },
+    "fixedDevice": {
+        "Tower1": {
             "deviceType": "Fog",
             "latitude": 53.83671457538109,
             "longitude": 10.697678009507923,
-            "name": "Tower1",
         },
-    ],
+    },
     "fixedLink": [],
-    "linkType": [
-        {
+    "linkType": {
+        "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
             "rangeInMeters": 20,
         },
-    ],
+    },
     "querySender": [],
     "randomMeshNetwork": [
         {
@@ -44,5 +41,5 @@
     ],
     "randomStarNetwork": [],
     "rootRouter": "Tower1",
-    "sensorType": [],
+    "sensorType": {},
 }

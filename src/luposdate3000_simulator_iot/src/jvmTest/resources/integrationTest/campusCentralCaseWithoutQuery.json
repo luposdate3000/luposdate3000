@@ -348,7 +348,7 @@
     },
     "logging": true,
     "outputDirectory": "",
-    "querySender": [    ],
+    "querySender": [],
     "randomMeshNetwork": [
         {
             "deviceType": "Mesh Hop",

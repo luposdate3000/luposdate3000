@@ -32,44 +32,44 @@
             "supportedLinkTypes": [],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "A": {
             "deviceType": "SensorDevice",
             "latitude": 53.09814632127328,
             "longitude": 8.754628362427354,
             "name": "A",
         },
-        {
+        "B": {
             "deviceType": "Fog",
             "latitude": 53.09278266982357,
             "longitude": 8.747762643839831,
             "name": "B",
         },
-        {
+        "C": {
             "deviceType": "Fog",
             "latitude": 53.09407405925197,
             "longitude": 8.761070144669068,
             "name": "C",
         },
-        {
+        "D": {
             "deviceType": "Fog",
             "latitude": 53.09072134809814,
             "longitude": 8.75265783665239,
             "name": "D",
         },
-        {
+        "E": {
             "deviceType": "Fog",
             "latitude": 53.08345396298265,
             "longitude": 8.772318909617125,
             "name": "E",
         },
-        {
+        "F": {
             "deviceType": "DataStore",
             "latitude": 53.07572006093855,
             "longitude": 8.785879536459793,
             "name": "F",
         },
-    ],
+    },
     "fixedLink": [
         {
             "dataRateInKbps": 2500,
@@ -97,7 +97,7 @@
             "fixedDeviceB": "F",
         },
     ],
-    "linkType": [],
+    "linkType": {},
     "logging": true,
     "outputDirectory": "",
     "querySender": [],

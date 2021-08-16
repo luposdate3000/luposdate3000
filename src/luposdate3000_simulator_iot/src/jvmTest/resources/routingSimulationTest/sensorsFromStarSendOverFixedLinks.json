@@ -36,32 +36,32 @@
             ],
         },
     },
-    "fixedDevice": [
-        {
-            "deviceType": "Mesh Hop",
-            "latitude": 0.002,
-            "longitude": 0.0,
-            "name": "star root WSN 1",
-        },
-        {
+    "fixedDevice": {
+        "DODAG ROOT": {
             "deviceType": "Mesh Hop",
             "latitude": 3.002,
             "longitude": 0.001,
             "name": "DODAG ROOT",
         },
-        {
+        "Hop 1": {
             "deviceType": "Mesh Hop",
             "latitude": 0.001,
             "longitude": 0.002,
             "name": "Hop 1",
         },
-        {
+        "Hop 2": {
             "deviceType": "Mesh Hop",
             "latitude": 0.003,
             "longitude": 0.002,
             "name": "Hop 2",
         },
-    ],
+        "star root WSN 1": {
+            "deviceType": "Mesh Hop",
+            "latitude": 0.002,
+            "longitude": 0.0,
+            "name": "star root WSN 1",
+        },
+    },
     "fixedLink": [
         {
             "dataRateInKbps": 304,
@@ -79,13 +79,13 @@
             "fixedDeviceB": "DODAG ROOT",
         },
     ],
-    "linkType": [
-        {
+    "linkType": {
+        "WPAN": {
             "dataRateInKbps": 2500,
             "name": "WPAN",
             "rangeInMeters": 1,
         },
-    ],
+    },
     "logging": true,
     "outputDirectory": "",
     "querySender": [],

@@ -18,7 +18,6 @@
 package lupos.simulator_iot.config
 
 import lupos.parser.JsonParser
-import lupos.parser.JsonParserArray
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
 import lupos.shared.inline.File
@@ -70,30 +69,6 @@ public class Configuration(private val simRun: SimulationRun) {
 
     internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
-// /TODO delete this --->>>
-        if (true) {
-            val j = json!!["fixedDevice"]
-            if (j is JsonParserArray) {
-                val j2 = JsonParserObject(mutableMapOf())
-                for (e in j) {
-                    e as JsonParserObject
-                    j2[e.getOrDefault("name", "")] = e
-                }
-                json!!["fixedDevice"] = j2
-            }
-        }
-        if (true) {
-            val j = json!!["linkType"]
-            if (j is JsonParserArray) {
-                val j2 = JsonParserObject(mutableMapOf())
-                for (e in j) {
-                    e as JsonParserObject
-                    j2[e.getOrDefault("name", "")] = e
-                }
-                json!!["linkType"] = j2
-            }
-        }
-// /TODO delete this <<<<---
         jsonObjects = JsonObjects(json)
         linker.sortedLinkTypes = json!!.getOrEmptyObject("linkType").iterator().asSequence().map {
             val v = it.second

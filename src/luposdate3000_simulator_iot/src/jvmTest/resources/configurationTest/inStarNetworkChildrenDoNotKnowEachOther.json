@@ -27,22 +27,22 @@
             ],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "1": {
             "deviceType": "Fog",
             "latitude": 49.0,
             "longitude": 49.0,
             "name": "1",
         },
-    ],
+    },
     "fixedLink": [],
-    "linkType": [
-        {
+    "linkType": {
+        "WPAN": {
             "dataRateInKbps": 250,
             "name": "WPAN",
             "rangeInMeters": 30,
         },
-    ],
+    },
     "logging": true,
     "querySender": [],
     "randomMeshNetwork": [],

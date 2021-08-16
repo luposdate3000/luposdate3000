@@ -16,15 +16,15 @@
             ],
         },
     },
-    "fixedDevice": [],
+    "fixedDevice": {},
     "fixedLink": [],
-    "linkType": [
-        {
+    "linkType": {
+        "WPAN": {
             "dataRateInKbps": 250,
             "name": "WPAN",
             "rangeInMeters": 15,
         },
-    ],
+    },
     "logging": true,
     "querySender": [],
     "randomMeshNetwork": [

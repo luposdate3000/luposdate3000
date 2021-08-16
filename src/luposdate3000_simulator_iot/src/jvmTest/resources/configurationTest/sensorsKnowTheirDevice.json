@@ -14,16 +14,16 @@
             "supportedLinkTypes": [],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "Tower1": {
             "deviceType": "RadioTower",
             "latitude": 3.0,
             "longitude": 3.0,
             "name": "Tower1",
         },
-    ],
+    },
     "fixedLink": [],
-    "linkType": [],
+    "linkType": {},
     "logging": true,
     "querySender": [],
     "randomMeshNetwork": [],

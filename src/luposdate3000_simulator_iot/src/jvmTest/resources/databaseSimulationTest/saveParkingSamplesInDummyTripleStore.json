@@ -32,50 +32,50 @@
             "supportedLinkTypes": [],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "A": {
             "deviceType": "FogWithDatabaseAndSensor",
             "latitude": 53.810130070613695,
             "longitude": 10.373366256676398,
             "name": "A",
         },
-        {
+        "B": {
             "deviceType": "Fog",
             "latitude": 53.80805184108298,
             "longitude": 10.373365961188053,
             "name": "B",
         },
-        {
+        "C": {
             "deviceType": "FogWithDatabase",
             "latitude": 53.80379401934398,
             "longitude": 10.373365362591647,
             "name": "C",
         },
-        {
+        "D": {
             "deviceType": "FogWithDatabase",
             "latitude": 53.80430067418773,
             "longitude": 10.376970429972713,
             "name": "D",
         },
-        {
+        "E": {
             "deviceType": "Fog",
             "latitude": 53.79902942849213,
             "longitude": 10.364782470851438,
             "name": "E",
         },
-        {
+        "F": {
             "deviceType": "FogWithDatabase",
             "latitude": 53.79385907510848,
             "longitude": 10.361607755820934,
             "name": "F",
         },
-        {
+        "G": {
             "deviceType": "FogWithDatabase",
             "latitude": 53.80059965939999,
             "longitude": 10.384007340970392,
             "name": "G",
         },
-    ],
+    },
     "fixedLink": [
         {
             "dataRateInKbps": 304,
@@ -108,7 +108,7 @@
             "fixedDeviceB": "G",
         },
     ],
-    "linkType": [],
+    "linkType": {},
     "logging": true,
     "outputDirectory": "",
     "querySender": [],

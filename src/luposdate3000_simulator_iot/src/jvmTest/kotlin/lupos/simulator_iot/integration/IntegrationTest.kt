@@ -178,7 +178,7 @@ class IntegrationTest {
         val json = JsonParser().fileToJson(configFile) as JsonParserObject
         val querySenders = json.getOrEmptyArray("querySender")
         querySenders.add(JsonParser().stringToJson("{\"name\":\"Q1\",\"sendRateInSeconds\":1,\"maxNumberOfQueries\":1,\"sendStartClockInSec\":600,\"query\":\"${JsonParser().encodeString(queryString)}\"}"))
-        val config = simRun.parseConfig(json, configFile)
+        val config = simRun.parseConfig(json, configFile, false)
         config.jsonObjects.database["SharedMemoryDictionaryCheat"] = "false"
         val ontologySender = lupos.simulator_iot.queryproc.QuerySender(
             simRun,

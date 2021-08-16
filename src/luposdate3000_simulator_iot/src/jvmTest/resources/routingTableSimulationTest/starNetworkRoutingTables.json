@@ -27,22 +27,22 @@
             ],
         },
     },
-    "fixedDevice": [
-        {
+    "fixedDevice": {
+        "Tower1": {
             "deviceType": "Fog",
             "latitude": 53.640454118715894,
             "longitude": 10.179179491574411,
             "name": "Tower1",
         },
-    ],
+    },
     "fixedLink": [],
-    "linkType": [
-        {
+    "linkType": {
+        "WPAN": {
             "dataRateInKbps": 250,
             "name": "WPAN",
             "rangeInMeters": 30,
         },
-    ],
+    },
     "logging": true,
     "outputDirectory": "",
     "querySender": [],
