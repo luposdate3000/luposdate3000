@@ -92,7 +92,7 @@ public class SimulationRun {
 
     private fun setUpVisualization(configuration: Configuration) {
         for (d in configuration.devices) {
-            val vis = VisualisationDevice(d.address, d.database != null, d.sensor != null)
+            val vis = VisualisationDevice(d.address, d.hasDatabaseStore, d.hasDatabaseQuery, d.sensor != null)
             vis.x = d.location.longitude
             vis.y = d.location.latitude
             visualisationNetwork.addDevice(vis)

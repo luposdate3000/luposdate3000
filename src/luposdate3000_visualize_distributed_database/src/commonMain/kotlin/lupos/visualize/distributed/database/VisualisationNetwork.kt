@@ -94,7 +94,21 @@ public class VisualisationNetwork() {
             )
         )
         imageHelperBase.createClass(
-            "device-database",
+            "device-database-store",
+            mapOf(
+                "stroke" to "#550000",
+                "stroke-width" to "4",
+            )
+        )
+        imageHelperBase.createClass(
+            "device-database-query",
+            mapOf(
+                "stroke" to "#990000",
+                "stroke-width" to "4",
+            )
+        )
+        imageHelperBase.createClass(
+            "device-database-store-query",
             mapOf(
                 "stroke" to "#FF0000",
                 "stroke-width" to "4",
@@ -205,8 +219,16 @@ public class VisualisationNetwork() {
                 layer = layerDeviceSensor
                 layerName = layerDeviceSensorName
             }
-            if (device.hasDatabase) {
-                classes.add("device-database")
+            if (device.hasDatabaseStore && device.hasDatabaseQuery) {
+                classes.add("device-database-store-query")
+                layer = layerDeviceDB
+                layerName = layerDeviceDBName
+            } else if (device.hasDatabaseStore) {
+                classes.add("device-database-store")
+                layer = layerDeviceDB
+                layerName = layerDeviceDBName
+            } else if (device.hasDatabaseQuery) {
+                classes.add("device-database-query")
                 layer = layerDeviceDB
                 layerName = layerDeviceDBName
             }
@@ -291,13 +313,22 @@ public class VisualisationNetwork() {
             val classes = mutableListOf("device")
             var layer = layerDeviceNone
             var layerName = layerDeviceNoneName
-            if (device.hasDatabase) {
-                classes.add("device-database")
+
+            if (device.hasDatabaseStore && device.hasDatabaseQuery) {
+                classes.add("device-database-store-query")
                 layer = layerDeviceDB
                 layerName = layerDeviceDBName
-                imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
-                imageHelperBase.addText(layerName, device.xnew, device.ynew - deviceRadius * 1.5, device.id.toString(), mutableListOf())
+            } else if (device.hasDatabaseStore) {
+                classes.add("device-database-store")
+                layer = layerDeviceDB
+                layerName = layerDeviceDBName
+            } else if (device.hasDatabaseQuery) {
+                classes.add("device-database-query")
+                layer = layerDeviceDB
+                layerName = layerDeviceDBName
             }
+            imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
+            imageHelperBase.addText(layerName, device.xnew, device.ynew - deviceRadius * 1.5, device.id.toString(), mutableListOf())
         }
         for (connection in connectionsInRoutingDB) {
             try {
@@ -498,10 +529,10 @@ public class VisualisationNetwork() {
             if (src != dest) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:500"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:501"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:502"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:503"/*SOURCE_FILE_END*/ }, { src != hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:531"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:532"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:533"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:534"/*SOURCE_FILE_END*/ }, { src != hop })
                 if (connectionTable.size <size) {
                     connectionTable = IntArray(size) { -1 }
                 }
@@ -515,9 +546,9 @@ public class VisualisationNetwork() {
             if (src != dest && src != hop) {
                 val idx = src * devicesMaxID + dest
                 val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:517"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:518"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:519"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:548"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:549"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:550"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
                 if (connectionTableDB.size <size) {
                     connectionTableDB = IntArray(size) { -1 }
                 }
