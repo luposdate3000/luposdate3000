@@ -1,49 +1,69 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": false,
-    "linkType": [{
-        "name": "WPAN",
-        "rangeInMeters": 30,
-        "dataRateInKbps": 250
-    }],
-    "sensorType": [{
-        "name": "park1",
-        "area": 1,
-        "dataSink": "Fog1",
-        "rateInSec": 30,
-        "maxSamples": -1
-    }],
-    "deviceType": [{
-            "name": "Fog",
+    "deviceType": {
+        "Fog": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
-            "supportedLinkTypes": ["WPAN"]
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
         },
-        {
-            "name": "StandAloneParkingSensor",
+        "StandAloneParkingSensor": {
             "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
+            "name": "StandAloneParkingSensor",
             "parkingSensor": "park1",
-            "supportedLinkTypes": ["WPAN"]
-        }
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": [
+        {
+            "deviceType": "Fog",
+            "latitude": 9.0,
+            "longitude": 9.0,
+            "name": "Fog1",
+        },
     ],
-    "fixedDevice": [{
-        "name": "Fog1",
-        "deviceType": "Fog",
-        "latitude": 9.0,
-        "longitude": 9.0
-    }],
     "fixedLink": [],
-    "rootRouter": "",
+    "linkType": [
+        {
+            "dataRateInKbps": 250,
+            "name": "WPAN",
+            "rangeInMeters": 30,
+        },
+    ],
+    "logging": true,
+    "querySender": [],
     "randomMeshNetwork": [],
-    "randomStarNetwork": [{
-        "networkPrefix": "garageA",
-        "starRoot": "Fog1",
-        "linkType": "WPAN",
-        "deviceType": "StandAloneParkingSensor",
-        "number": 2
-    }],
-    "querySender": []
+    "randomStarNetwork": [
+        {
+            "dataSink": "",
+            "deviceType": "StandAloneParkingSensor",
+            "linkType": "WPAN",
+            "networkPrefix": "garageA",
+            "number": 2,
+            "starRoot": "Fog1",
+        },
+    ],
+    "rootRouter": "",
+    "sensorType": {
+        "park1": {
+            "area": 1,
+            "dataSink": "Fog1",
+            "maxSamples": -1,
+            "name": "park1",
+            "rateInSec": 30,
+        },
+    },
 }

@@ -3,29 +3,35 @@
         "type": "Dummy",
     },
     "deterministic": true,
-    "deviceType": [
-        {
-            "database": false,
-            "name": "Fog",
-            "parkingSensor": "",
-            "performance": 20.0,
-            "supportedLinkTypes": [],
-        },
-        {
-            "database": false,
-            "name": "SensorDevice",
-            "parkingSensor": "park1",
-            "performance": 20.0,
-            "supportedLinkTypes": [],
-        },
-        {
+    "deviceType": {
+        "DataStore": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
             "name": "DataStore",
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
-    ],
+        "Fog": {
+            "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
+            "name": "Fog",
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": [],
+        },
+        "SensorDevice": {
+            "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
+            "name": "SensorDevice",
+            "parkingSensor": "park1",
+            "performance": 20.0,
+            "supportedLinkTypes": [],
+        },
+    },
     "fixedDevice": [
         {
             "deviceType": "SensorDevice",
@@ -92,17 +98,19 @@
         },
     ],
     "linkType": [],
+    "logging": true,
+    "outputDirectory": "",
     "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",
-    "sensorType": [
-        {
+    "sensorType": {
+        "park1": {
             "area": 1,
             "dataSink": "F",
             "maxSamples": 4,
             "name": "park1",
             "rateInSec": 9,
         },
-    ],
+    },
 }

@@ -1,32 +1,41 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": false,
-    "linkType": [],
-    "sensorType": [{
-        "name": "park1",
-        "area": 1,
-        "dataSink": "Tower1",
-        "rateInSec": 30,
-        "maxSamples": -1
-    }],
-    "deviceType": [{
-        "name": "RadioTower",
-        "database": true,
-        "parkingSensor": "park1",
-        "performance": 20.0,
-        "supportedLinkTypes": []
-    }],
-    "fixedDevice": [{
-        "name": "Tower1",
-        "deviceType": "RadioTower",
-        "latitude": 3.0,
-        "longitude": 3.0
-    }],
+    "deviceType": {
+        "RadioTower": {
+            "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "name": "RadioTower",
+            "parkingSensor": "park1",
+            "performance": 20.0,
+            "supportedLinkTypes": [],
+        },
+    },
+    "fixedDevice": [
+        {
+            "deviceType": "RadioTower",
+            "latitude": 3.0,
+            "longitude": 3.0,
+            "name": "Tower1",
+        },
+    ],
     "fixedLink": [],
-    "rootRouter": "Tower1",
+    "linkType": [],
+    "logging": true,
+    "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "Tower1",
+    "sensorType": {
+        "park1": {
+            "area": 1,
+            "dataSink": "Tower1",
+            "maxSamples": -1,
+            "name": "park1",
+            "rateInSec": 30,
+        },
+    },
 }

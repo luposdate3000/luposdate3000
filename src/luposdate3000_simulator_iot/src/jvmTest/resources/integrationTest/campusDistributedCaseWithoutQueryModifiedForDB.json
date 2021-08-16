@@ -1,20 +1,19 @@
 {
     "database": {
+        "REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
     },
     "deterministic": true,
-    "deviceType": [
-        {
-            "database": false,
-            "name": "Mesh Hop",
-            "parkingSensor": "",
-            "performance": 20.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-        {
+    "deviceType": {
+        "Edge Gateway WSN 1": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
             "name": "Edge Gateway WSN 1",
             "parkingSensor": "",
             "performance": 30.0,
@@ -22,8 +21,10 @@
                 "WPAN",
             ],
         },
-        {
+        "Edge Gateway WSN 2": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
             "name": "Edge Gateway WSN 2",
             "parkingSensor": "",
             "performance": 30.0,
@@ -31,8 +32,10 @@
                 "WPAN",
             ],
         },
-        {
+        "Edge Gateway WSN 3": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
             "name": "Edge Gateway WSN 3",
             "parkingSensor": "",
             "performance": 30.0,
@@ -40,8 +43,10 @@
                 "WPAN",
             ],
         },
-        {
+        "Edge Gateway WSN 4": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
             "name": "Edge Gateway WSN 4",
             "parkingSensor": "",
             "performance": 30.0,
@@ -49,8 +54,21 @@
                 "WPAN",
             ],
         },
-        {
+        "Mesh Hop": {
             "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
+            "name": "Mesh Hop",
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 1": {
+            "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
             "name": "Sensor Device WSN 1",
             "parkingSensor": "Parking Sensor WSN 1",
             "performance": 1.0,
@@ -58,8 +76,10 @@
                 "WPAN",
             ],
         },
-        {
+        "Sensor Device WSN 2": {
             "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
             "name": "Sensor Device WSN 2",
             "parkingSensor": "Parking Sensor WSN 2",
             "performance": 1.0,
@@ -67,8 +87,10 @@
                 "WPAN",
             ],
         },
-        {
+        "Sensor Device WSN 3": {
             "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
             "name": "Sensor Device WSN 3",
             "parkingSensor": "Parking Sensor WSN 3",
             "performance": 1.0,
@@ -76,8 +98,10 @@
                 "WPAN",
             ],
         },
-        {
+        "Sensor Device WSN 4": {
             "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
             "name": "Sensor Device WSN 4",
             "parkingSensor": "Parking Sensor WSN 4",
             "performance": 1.0,
@@ -85,7 +109,7 @@
                 "WPAN",
             ],
         },
-    ],
+    },
     "fixedDevice": [
         {
             "deviceType": "Edge Gateway WSN 1",
@@ -169,9 +193,28 @@
             "rangeInMeters": 1,
         },
     ],
-    "querySender": [],
+    "logging": true,
+    "outputDirectory": "",
+    "querySender": [
+        {
+            "maxNumberOfQueries": 1,
+            "name": "Q1",
+            "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nselect  (count(distinct ?x) as ?count)\nwhere {\n  ?b a parking:Observation;\n  parking:area 1;\n  parking:spotInArea ?x.\n}",
+            "sendRateInSeconds": 1,
+            "sendStartClockInSec": 600,
+        },
+        {
+            "maxNumberOfQueries": 1,
+            "name": "Q1",
+            "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nselect  (count(distinct ?x) as ?count)\nwhere {\n  ?b a parking:Observation;\n  parking:area 1;\n  parking:spotInArea ?x.\n}",
+            "sendRateInSeconds": 1,
+            "sendStartClockInSec": 600,
+        },
+    ],
+    "randomMeshNetwork": [],
     "randomStarNetwork": [
         {
+            "dataSink": "",
             "deviceType": "Sensor Device WSN 1",
             "linkType": "WPAN",
             "networkPrefix": "WSN 1",
@@ -179,6 +222,7 @@
             "starRoot": "Root WSN 1",
         },
         {
+            "dataSink": "",
             "deviceType": "Sensor Device WSN 2",
             "linkType": "WPAN",
             "networkPrefix": "WSN 2",
@@ -186,6 +230,7 @@
             "starRoot": "Root WSN 2",
         },
         {
+            "dataSink": "",
             "deviceType": "Sensor Device WSN 3",
             "linkType": "WPAN",
             "networkPrefix": "WSN 3",
@@ -193,6 +238,7 @@
             "starRoot": "Root WSN 3",
         },
         {
+            "dataSink": "",
             "deviceType": "Sensor Device WSN 4",
             "linkType": "WPAN",
             "networkPrefix": "WSN 4",
@@ -201,34 +247,34 @@
         },
     ],
     "rootRouter": "Root WSN 1",
-    "sensorType": [
-        {
+    "sensorType": {
+        "Parking Sensor WSN 1": {
             "area": 1,
             "dataSink": "Root WSN 1",
             "maxSamples": 3,
             "name": "Parking Sensor WSN 1",
             "rateInSec": 60,
         },
-        {
+        "Parking Sensor WSN 2": {
             "area": 2,
             "dataSink": "Root WSN 2",
             "maxSamples": 3,
             "name": "Parking Sensor WSN 2",
             "rateInSec": 120,
         },
-        {
+        "Parking Sensor WSN 3": {
             "area": 3,
             "dataSink": "Root WSN 3",
             "maxSamples": 3,
             "name": "Parking Sensor WSN 3",
             "rateInSec": 100,
         },
-        {
+        "Parking Sensor WSN 4": {
             "area": 4,
             "dataSink": "Root WSN 4",
             "maxSamples": 3,
             "name": "Parking Sensor WSN 4",
             "rateInSec": 100,
         },
-    ],
+    },
 }

@@ -3,9 +3,11 @@
         "type": "Dummy",
     },
     "deterministic": true,
-    "deviceType": [
-        {
+    "deviceType": {
+        "Fog": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -13,7 +15,7 @@
                 "WPAN",
             ],
         },
-    ],
+    },
     "fixedDevice": [
         {
             "deviceType": "Fog",
@@ -30,6 +32,8 @@
             "rangeInMeters": 20,
         },
     ],
+    "logging": true,
+    "outputDirectory": "",
     "querySender": [],
     "randomMeshNetwork": [
         {
@@ -44,5 +48,5 @@
     ],
     "randomStarNetwork": [],
     "rootRouter": "Tower1",
-    "sensorType": [],
+    "sensorType": {},
 }

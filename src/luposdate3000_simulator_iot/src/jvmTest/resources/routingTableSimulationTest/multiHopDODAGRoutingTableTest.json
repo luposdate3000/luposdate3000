@@ -3,15 +3,17 @@
         "type": "Dummy",
     },
     "deterministic": false,
-    "deviceType": [
-        {
+    "deviceType": {
+        "Fog": {
             "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
-    ],
+    },
     "fixedDevice": [
         {
             "deviceType": "Fog",
@@ -79,9 +81,10 @@
     ],
     "linkType": [],
     "logging": true,
+    "outputDirectory": "",
     "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",
-    "sensorType": [],
+    "sensorType": {},
 }

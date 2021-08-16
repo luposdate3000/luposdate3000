@@ -18,24 +18,17 @@ package lupos.code_gen_test_00
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
-import lupos.parser.JsonParser
-import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EQueryDistributionModeExt
-import lupos.shared.Luposdate3000Config
 import lupos.shared.MemoryTable
-import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_iot.log.Logger
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
-
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
@@ -123,203 +116,251 @@ public class ADD1 {
         }
         LuposdateEndpoint.close(instance)
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - true - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - true - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - true - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - true - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "true",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "true",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - false - Centralized - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - false - Centralized - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Centralized",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - false - Routing - true`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "true",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "true",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
+
     @Ignore // Reason: >query not distributed<
     @Test
     public fun `ADD 1 - in simulator - PartitionByKeyAllCollations - false - Routing - false`() {
-        simulatorHelper(mutableMapOf(
-            "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-            "mergeLocalOperatorgraphs" to "false",
-            "queryDistributionMode" to "Routing",
-            "useDictionaryInlineEncoding" to "false",
-            "REPLACE_STORE_WITH_VALUES" to "false",
-        ))
+        simulatorHelper(
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to "false",
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to "false",
+                "REPLACE_STORE_WITH_VALUES" to "false",
+            )
+        )
     }
-    public fun simulatorHelper(cfg:MutableMap<String,String>) {
+    public fun simulatorHelper(cfg: MutableMap<String, String>) {
         val simRun = SimulationRun()
-        val config=simRun.parseConfig("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",false)
+        val config = simRun.parseConfig("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json", false)
         config.jsonObjects.database.putAll(cfg)
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance=(config.devices.filter { it.hasDatabaseStore }.map{it.database}.filter{it!=null}.map{it!!.db}.first() as DatabaseHandle).instance
+        val instance = (config.devices.filter { it.hasDatabaseStore }.map { it.database }.filter { it != null }.map { it!!.db }.first() as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
         pkg0.onFinish = pkg1
-        val pkg2 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        val pkg2 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
         pkg1.onFinish = pkg2
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}",MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
         pkg2.onFinish = pkg3
         val pkg4 = MySimulatorTestingExecute(query)
         pkg3.onFinish = pkg4
-        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
         pkg4.onFinish = pkg5
-        val pkg6 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[1]}> { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
+        val pkg6 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
         pkg5.onFinish = pkg6
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()

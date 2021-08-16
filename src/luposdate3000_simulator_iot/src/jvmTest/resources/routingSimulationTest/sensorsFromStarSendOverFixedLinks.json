@@ -3,17 +3,8 @@
         "type": "Dummy",
     },
     "deterministic": true,
-    "deviceType": [
-        {
-            "database": true,
-            "name": "Mesh Hop",
-            "parkingSensor": "",
-            "performance": 20.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
-        {
+    "deviceType": {
+        "Edge Gateway WSN 1": {
             "database": true,
             "name": "Edge Gateway WSN 1",
             "parkingSensor": "",
@@ -22,8 +13,21 @@
                 "WPAN",
             ],
         },
-        {
+        "Mesh Hop": {
+            "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "name": "Mesh Hop",
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "Sensor Device WSN 1": {
             "database": false,
+            "databaseQuery": false,
+            "databaseStore": false,
             "name": "Sensor Device WSN 1",
             "parkingSensor": "Parking Sensor WSN 1",
             "performance": 1.0,
@@ -31,7 +35,7 @@
                 "WPAN",
             ],
         },
-    ],
+    },
     "fixedDevice": [
         {
             "deviceType": "Mesh Hop",
@@ -82,9 +86,13 @@
             "rangeInMeters": 1,
         },
     ],
+    "logging": true,
+    "outputDirectory": "",
     "querySender": [],
+    "randomMeshNetwork": [],
     "randomStarNetwork": [
         {
+            "dataSink": "",
             "deviceType": "Sensor Device WSN 1",
             "linkType": "WPAN",
             "networkPrefix": "WSN 1",
@@ -93,13 +101,13 @@
         },
     ],
     "rootRouter": "DODAG ROOT",
-    "sensorType": [
-        {
+    "sensorType": {
+        "Parking Sensor WSN 1": {
             "area": 1,
             "dataSink": "DODAG ROOT",
             "maxSamples": 5,
             "name": "Parking Sensor WSN 1",
             "rateInSec": 60,
         },
-    ],
+    },
 }

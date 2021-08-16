@@ -1,15 +1,16 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": false,
-    "linkType": [],
-    "sensorType": [],
-    "deviceType": [],
+    "deviceType": {},
     "fixedDevice": [],
     "fixedLink": [],
-    "rootRouter": "",
+    "linkType": [],
+    "logging": true,
+    "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "",
+    "sensorType": {},
 }

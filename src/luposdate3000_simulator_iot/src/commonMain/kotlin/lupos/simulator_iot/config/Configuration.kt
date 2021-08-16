@@ -68,7 +68,7 @@ public class Configuration(private val simRun: SimulationRun) {
     internal var linker = DeviceLinker()
         private set
 
-    internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean) {
+    internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
 // /TODO delete this --->>>
 
@@ -142,7 +142,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
     }
 
-    internal fun parse(fileName: String, autocorrect: Boolean) {
+    internal fun parse(fileName: String, autocorrect: Boolean = true) {
         val fileStr = File(fileName).readAsString()
         val json = JsonParser().stringToJson(fileStr) as JsonParserObject
         parse(json, fileName, autocorrect)

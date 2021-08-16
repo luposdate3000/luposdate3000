@@ -1,33 +1,44 @@
 {
-    "database" : {
-        "type" : "Dummy"
+    "database": {
+        "type": "Dummy",
     },
     "deterministic": false,
-    "linkType": [{
-        "name": "WPAN",
-        "rangeInMeters": 1,
-        "dataRateInKbps": 250
-    }],
-    "sensorType": [],
-    "deviceType": [{
-        "name": "Fog",
-        "database": true,
-        "parkingSensor": "",
-        "performance": 20.0,
-        "supportedLinkTypes": ["WPAN"]
-    }],
+    "deviceType": {
+        "Fog": {
+            "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "name": "Fog",
+            "parkingSensor": "",
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
     "fixedDevice": [],
     "fixedLink": [],
-    "rootRouter": "",
-    "randomMeshNetwork": [{
-        "networkPrefix": "meshA",
-        "originLatitude": 53.83671457538109,
-        "originLongitude": 10.697678009507923,
-        "deviceType": "Fog",
-        "linkType": "WPAN",
-        "signalCoverageEast": 10,
-        "signalCoverageSouth": 1
-    }],
+    "linkType": [
+        {
+            "dataRateInKbps": 250,
+            "name": "WPAN",
+            "rangeInMeters": 1,
+        },
+    ],
+    "logging": true,
+    "querySender": [],
+    "randomMeshNetwork": [
+        {
+            "deviceType": "Fog",
+            "linkType": "WPAN",
+            "networkPrefix": "meshA",
+            "originLatitude": 53.83671457538109,
+            "originLongitude": 10.697678009507923,
+            "signalCoverageEast": 10,
+            "signalCoverageSouth": 1,
+        },
+    ],
     "randomStarNetwork": [],
-    "querySender": []
+    "rootRouter": "",
+    "sensorType": {},
 }

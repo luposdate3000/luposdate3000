@@ -236,11 +236,12 @@ class ConfigurationTest {
 
     @Test
     fun manipulateJsonObjects() {
+        val configFile = "$prefix/manipulateJsonObjects.json"
         val config = SimulationRun().config
-        val json = JsonParser().fileToJson("$prefix/manipulateJsonObjects.json") as JsonParserObject
+        val json = JsonParser().fileToJson(configFile) as JsonParserObject
         val randomStarNetworks = json.getOrEmptyArray("randomStarNetwork")
         randomStarNetworks.add(JsonParser().stringToJson("{\"networkPrefix\":\"star2\",\"starRoot\":\"Tower1\",\"linkType\":\"WPAN\",\"deviceType\":\"StandAloneParkingSensor\",\"number\":3}"))
-        val jsonObjects = config.parse(json)
+        val jsonObjects = config.parse(json, configFile)
         assertEquals(2, config.randStarNetworks.size)
     }
 }
