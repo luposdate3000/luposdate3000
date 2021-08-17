@@ -62,7 +62,7 @@ object LauncherConfig {
     val configFileName = "build.config"
     val config = readConfig()
     fun readConfig(): MutableMap<String, String> {
-        var res = mutableMapOf<String, String>()
+        var res = mutableMapOf<String, String>() 
         if (File(configFileName).exists()) {
             File(configFileName).forEachLine { line ->
                 val a = line.split("=")
@@ -603,7 +603,10 @@ val defaultParams = mutableListOf(
             "1.4.0",
             "1.5.0",
             "1.5.21",
+            "1.5.30-RC",
             "1.5.255-SNAPSHOT",
+            "1.6.255-SNAPSHOT",
+"1.6.0-dev-2198",
         ),
         false,
     ),

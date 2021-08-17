@@ -344,7 +344,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             appendix += "_Debug"
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
-        val enableProguard = !onWindows && enableJVM && !buildLibrary
+        val enableProguard = !onWindows && enableJVM && !buildLibrary && moduleArgs.compilerVersion=="1.5.0"
 
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
