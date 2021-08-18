@@ -64,7 +64,6 @@ import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
-import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 
 public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerNaiveID, "PhysicalOptimizerNaive") {
@@ -451,12 +450,6 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPriorities = node.sortPriorities
                     res.mySortPriority = node.mySortPriority
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
-                }
-                is LOPTriple -> {
-                    TODO("this is unreachable???")
-                    val manager = query.getInstance().tripleStoreManager!!
-                    val graph = manager.getGraph(node.graph)
-                    res = graph.getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, LOPTriple.getIndex(node.getChildren(), node.mySortPriority.map { it.variableName }))
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

@@ -120,6 +120,7 @@ public class QueryResultToTurtleStream : IResultFormat {
         invokeInternal(rootNode, output, -1, asRoot)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun invokeInternal(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null

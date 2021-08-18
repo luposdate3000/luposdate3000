@@ -75,6 +75,7 @@ public class QueryResultToMemoryTable : IResultFormat {
         return invokeInternal(rootNode, -1, asRoot)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot: Boolean): List<MemoryTable> {
         val partition = Partition()
         val query = rootNode.getQuery()

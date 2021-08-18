@@ -25,7 +25,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.MyLock
 import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
@@ -74,6 +73,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
         invokeInternal(rootNode, output, -1, asRoot)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun invokeInternal(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
@@ -98,7 +98,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyWithDictionaryStream.kt:100"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyWithDictionaryStream.kt:99"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -133,7 +133,6 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
                                 partitionVariable = node.partitionVariable
                             }
                             val jobs = Array<ParallelJob?>(partitionCount) { null }
-                            val lock = MyLock()
                             val errors = Array<Throwable?>(partitionCount) { null }
                             for (p in 0 until partitionCount) {
                                 jobs[p] = Parallel.launch {

@@ -32,24 +32,21 @@ internal object Compressor {
     private val encodeTripleHeaderCorrectA = intArrayOf(0, 1, 2, 8, 8, 8, 8, 8, 8)
     private val encodeTripleHeaderCorrectBC = intArrayOf(0, 1, 2, 3, 4, 5, 6, 8, 8)
     internal inline fun encodeTripleHeader(counter0: Int, counter1: Int, counter2: Int, crossinline action: (header: Int, corrected0: Int, corrected1: Int, corrected2: Int) -> Unit) {
-        var header = 0
+        val header = encodeTripleHeaderMapA[counter0] or encodeTripleHeaderMapB[counter1] or encodeTripleHeaderMapC[counter2]
         val corrected0: Int = encodeTripleHeaderCorrectA[counter0]
-        header = encodeTripleHeaderMapA[counter0]
         val corrected1: Int = encodeTripleHeaderCorrectBC[counter1]
-        header = header or encodeTripleHeaderMapB[counter1]
         val corrected2: Int = encodeTripleHeaderCorrectBC[counter2]
-        header = header or encodeTripleHeaderMapC[counter2]
         action(header, corrected0, corrected1, corrected2)
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:43"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:40"/*SOURCE_FILE_END*/ },
             {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:45"/*SOURCE_FILE_END*/ }, { counter0 <= corrected0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:46"/*SOURCE_FILE_END*/ }, { counter1 <= corrected1 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:47"/*SOURCE_FILE_END*/ }, { counter2 <= corrected2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:42"/*SOURCE_FILE_END*/ }, { counter0 <= corrected0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:43"/*SOURCE_FILE_END*/ }, { counter1 <= corrected1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:44"/*SOURCE_FILE_END*/ }, { counter2 <= corrected2 })
                 decodeTripleHeader(header) { c0, c1, c2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:49"/*SOURCE_FILE_END*/ }, { c0 == corrected0 }, { "$c0 == $corrected0" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:50"/*SOURCE_FILE_END*/ }, { c1 == corrected1 }, { "$c1 == $corrected1" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:51"/*SOURCE_FILE_END*/ }, { c2 == corrected2 }, { "$c2 == $corrected2" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:46"/*SOURCE_FILE_END*/ }, { c0 == corrected0 }, { "$c0 == $corrected0" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:47"/*SOURCE_FILE_END*/ }, { c1 == corrected1 }, { "$c1 == $corrected1" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:48"/*SOURCE_FILE_END*/ }, { c2 == corrected2 }, { "$c2 == $corrected2" })
                 }
             }
         )

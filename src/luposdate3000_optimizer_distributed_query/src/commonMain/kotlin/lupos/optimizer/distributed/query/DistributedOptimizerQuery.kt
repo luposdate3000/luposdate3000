@@ -252,20 +252,20 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         }
     }
 
-    public override fun optimize(query2: IQuery, wantReturnValue: Boolean, splitEverything: Boolean): IOPBase {
-        val query = query2 as Query
-        val root = query.root!!
-        if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
-            splitQuery(query, splitEverything)
+    public override fun optimize(query: IQuery, wantReturnValue: Boolean, splitEverything: Boolean): IOPBase {
+        val query2 = query as Query
+        val root = query2.root!!
+        if (query2.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+            splitQuery(query2, splitEverything)
 // assign hosts to other parts
             for (childOptimizer2 in childOptimizer) {
                 var changed = true
                 loop@ while (changed) {
                     changed = false
                     for (opt in childOptimizer2) {
-                        for ((k, v) in query.operatorgraphParts) {
-                            if (!query.operatorgraphPartsToHostMap.contains(k)) {
-                                opt.optimize(query, k, v, query.dependenciesMapTopDown[k]!!, query.dependenciesMapBottomUp[k]!!, { getHostForKey(query, it) }, { key, value -> query.operatorgraphPartsToHostMap[key] = value }) {
+                        for ((k, v) in query2.operatorgraphParts) {
+                            if (!query2.operatorgraphPartsToHostMap.contains(k)) {
+                                opt.optimize(query2, k, v, query2.dependenciesMapTopDown[k]!!, query2.dependenciesMapBottomUp[k]!!, { getHostForKey(query2, it) }, { key, value -> query2.operatorgraphPartsToHostMap[key] = value }) {
                                     changed = true
                                 }
                                 if (changed) {
@@ -278,16 +278,16 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             }
 // publish the query to the other database instances
             var res: XMLElement? = null
-            for ((k, v) in query.operatorgraphParts) {
-                assignHosts(query, v)
+            for ((k, v) in query2.operatorgraphParts) {
+                assignHosts(query2, v)
                 if (k == "") {
                     res = v
                 } else {
-                    query.getInstance().communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"), query.getTransactionID().toInt())
+                    query2.getInstance().communicationHandler!!.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"), query2.getTransactionID().toInt())
                 }
             }
             if (wantReturnValue) {
-                return XMLElementToOPBase(query, res!!)
+                return XMLElementToOPBase(query2, res!!)
             } else {
                 return root
             }
