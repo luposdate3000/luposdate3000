@@ -63,6 +63,7 @@ public fun main() {
         params = arrayOf("<QueryFileName>"),
         action = { args ->
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, File(args[1]).readAsString())
+            println(node)
             if (outputFile == null) {
                 val output = MyPrintWriter(true)
                 LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, output)
@@ -78,6 +79,7 @@ public fun main() {
         params = arrayOf("<QueryFileName>", "<" + EQueryResultToStreamExt.names.joinToString("|") + ">"),
         action = { args ->
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, File(args[1]).readAsString())
+            println(node)
             if (outputFile == null) {
                 val output = MyPrintWriter(true)
                 LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, output, EQueryResultToStreamExt.names.indexOf(args[2]))

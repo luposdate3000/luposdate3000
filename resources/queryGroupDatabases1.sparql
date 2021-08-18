@@ -1,0 +1,3 @@
+SELECT * WHERE {
+<EAGRE_Towards_scalable_I_O_efficient_SPARQL_query_evaluation_on_the_cloud> ?p ?o
+} limit 4

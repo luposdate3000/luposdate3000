@@ -1,0 +1,3 @@
+loadTurtle /src/benjamin/uni_luebeck/_00_papers/gelesenePaper/literatur.n3
+
+eval queryGroupDatabases.sparql
