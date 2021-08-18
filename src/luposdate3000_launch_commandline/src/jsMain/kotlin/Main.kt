@@ -14,24 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.import_benchmark
+import lupos.launch.commandline.mainFunc
+import kotlin.js.JsName
 
-import lupos.endpoint.LuposdateEndpoint
-import lupos.parser.InputToIntermediate
-import lupos.shared.DateHelperRelative
-import lupos.shared.Parallel
-internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
-    val timer = DateHelperRelative.markNow()
-    val instance = LuposdateEndpoint.initialize()
-    var counter = 0
-    var time = 0.0
-    while (true) {
-        counter++
-        InputToIntermediate.process(inputFileName, instance)
-        time = DateHelperRelative.elapsedSeconds(timer)
-        if (time> 10) {
-            break
-        }
-    }
-    println("imported $inputFileName $counter times in $time Seconds - that is ${time / counter} Seconds per run or ${counter / time} runs per Second")
+@JsName("main")
+public fun main() {
+    mainFunc()
 }
