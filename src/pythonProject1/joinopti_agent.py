@@ -1,6 +1,7 @@
 import gym
 import gym_database
 import socket
+from datetime import date
 import sys
 import numpy as np
 from stable_baselines3 import DQN, PPO, DDPG
@@ -9,35 +10,48 @@ N_JOIN_ORDERS = 3
 
 
 def train_model():
-    benched_queries = read_query()
+    benched_queries = read_query(benched_query_file)
 
     # find min max execution times
-    tmp = []
-    for i in benched_queries:
-        for j in range(0, 3):
-            tmp.append(int(float(i[j][2])))
-    max_execution_time = max(tmp)
-    min_execution_time = min(tmp)
-
+    max_execution_time = max_ex_t(benched_queries)
+    min_execution_time = min_ex_t(benched_queries)
+    # find max id of predicate
+    max_dict_id = max_id(benched_queries)
+    # setup environment
     env = gym.make('gym_database:Database-v0')
-    model = PPO("MlpPolicy", env, verbose=2)
+    env.set_observation_space(max_dict_id)
     env.set_max_exec_t(max_execution_time)
     env.set_min_exec_t(min_execution_time)
+    # setup model
+    model = PPO("MlpPolicy", env, verbose=2)
+    # model = DQN("MlpPolicy", env)
+    #print(model)
+
     # for i in range(len(benched_queries)):
     for i in range(21):
         env.set_training_data([benched_queries[i]])
         model.learn(total_timesteps=50000, log_interval=1)
-    model.save(param_file + ".ppo_model")
-        # env = model.get_env()
-        # del model
-        # model = PPO.load("ppo_gym_database")
-        # env = model.get_env()
+    model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
+    # env = model.get_env()
+    # del model
+    # model = PPO.load("ppo_gym_database")
+    # env = model.get_env()
 
 
 def optimize_query():
+    benched_queries = read_query(query_file)
+    # find min max execution times
+    max_execution_time = max_ex_t(benched_queries)
+    min_execution_time = min_ex_t(benched_queries)
+    # find max id of predicate
+    max_dict_id = max_id(benched_queries)
+    # setup environment
     env = gym.make('gym_database:Database-v0')
-    model = PPO.load(param_file)
-    benched_queries = read_query()
+    env.set_observation_space(max_dict_id)
+    env.set_max_exec_t(max_execution_time)
+    env.set_min_exec_t(min_execution_time)
+    # setup model
+    model = PPO.load(optimizer_model_file)
 
     rewards = ""
     actions = ""
@@ -70,9 +84,9 @@ def optimize_query():
             print(actions)
 
 
-def read_query():
+def read_query(q_file):
     benched_queries = []
-    with open(param_file, "r") as p_file:
+    with open(q_file, "r") as p_file:
         counter = 0  # all join orders of one query
         counter2 = 0  # index for one query
         for line in p_file:
@@ -93,6 +107,30 @@ def read_query():
     return benched_queries
 
 
+def max_ex_t(benched_q):
+    tmp = []
+    for i in benched_q:
+        for j in range(0, 3):
+            tmp.append(int(float(i[j][2])))
+    return max(tmp)
+
+
+def min_ex_t(benched_q):
+    tmp = []
+    for i in benched_q:
+        for j in range(0, 3):
+            tmp.append(int(float(i[j][2])))
+    return min(tmp)
+
+
+def max_id(benched_q):
+    tmp = []
+    for i in benched_q:
+        for j in range(len(i)):
+            tmp.append(int(i[j][0].split(";")[2].split(",")[1]))
+    return max(tmp)
+
+
 if __name__ == '__main__':
 
     try:
@@ -104,18 +142,19 @@ if __name__ == '__main__':
 
     if train_or_opti == "train":
         try:
-            param_file = sys.argv[2]
+            benched_query_file = sys.argv[2]
         except:
-            print("Param 2: train: full path for input file")
+            print("Param 2: train: full path to benched query input file")
             sys.exit()
         train_model()
 
     elif train_or_opti == "opti":
         try:
-            param_file = sys.argv[2]
-            param_file2 = sys.argv[3]
+            query_file = sys.argv[2]
+            optimizer_model_file = sys.argv[3]
         except:
-            print("Param 2: train: full path for input file")
+            print("Param 2: opti: full path to query input file")
+            print("Param 3: opti: full path to file of trained optimizer (e.g. ../../model.ppo)")
             sys.exit()
         optimize_query()
 

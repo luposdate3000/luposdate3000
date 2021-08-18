@@ -66,7 +66,7 @@ class DatabaseEnv(gym.Env):
         self.conn = None
         """Socket to establish connection to client database."""
 
-        self.size_matrix: int = 10
+        self.size_matrix: int = 3
         """Size of observation space matrix."""
 
         self.observation_space = None
@@ -95,7 +95,7 @@ class DatabaseEnv(gym.Env):
         self.join_order_h: Dict = None
         """Helper variable for join ordering."""
 
-        self.threshold = 1
+        # self.threshold = -3
         """Threshold for the reward. Under this value, the episode has to be redone."""
 
         self.redo = False
@@ -152,18 +152,16 @@ class DatabaseEnv(gym.Env):
                 data = self.conn.recv(1024)
                 reward = float(data.decode("UTF-8")) # Reward for episode
             else:
-                reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
-
+                reward = hf.calculate_reward(self.max_exec_time, self.min_exec_time,
+                                             self.training_data[self.query_counter], self.join_order)
             # Evaluate reward
-            if reward < self.threshold: # If join order is not good enough
-                self.redo = True # Redo this join task
-            else: # If join order is good enough
-                self.redo = False # Continue with next join episode with new triples
-            reward = 0.1
+            # if reward < self.threshold: # If join order is not good enough
+            #     self.redo = True # Redo this join task
+            # else: # If join order is good enough
+            #     self.redo = False # Continue with next join episode with new triples
         else:
             # Reward for valid action
-            reward = hf.calculate_reward(self.max_exec_time, self.min_exec_time,
-                                         self.training_data[self.query_counter], self.join_order)
+            reward = 0
 
         # 7. Return observation_space, reward, done, {}
         return self.observation_matrix, reward, done, {}
@@ -210,7 +208,7 @@ class DatabaseEnv(gym.Env):
         self.training_data = training_data
         self.networking = False
 
-    def set_observation_space(self, n_dictionary_ids, size_matrix=10):
+    def set_observation_space(self, n_dictionary_ids, size_matrix=3):
         """Set and adjust observation space."""
         self.size_matrix = size_matrix
         self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,
