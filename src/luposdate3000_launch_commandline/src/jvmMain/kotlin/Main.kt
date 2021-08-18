@@ -24,6 +24,7 @@ internal class MyCommands(
 )
 
 public fun main() {
+    var done = false
     var outputFile: String? = null
     val instance = LuposdateEndpoint.initialize()
     val commands = mutableMapOf<String, MyCommands>()
@@ -34,6 +35,12 @@ public fun main() {
             for ((name, command) in commands) {
                 println("$name ${command.params.joinToString(" ")}")
             }
+        }
+    )
+    commands["quit"] = MyCommands(
+        params = arrayOf(),
+        action = { args ->
+            done = true
         }
     )
     commands["loadTurtle"] = MyCommands(
@@ -68,7 +75,7 @@ public fun main() {
         }
     )
     commands["evalWith"] = MyCommands(
-        params = arrayOf("<QueryFileName>", EQueryResultToStreamExt.names.joinToString("|")),
+        params = arrayOf("<QueryFileName>", "<" + EQueryResultToStreamExt.names.joinToString("|") + ">"),
         action = { args ->
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, File(args[1]).readAsString())
             if (outputFile == null) {
@@ -82,17 +89,24 @@ public fun main() {
             }
         }
     )
-    while (true) {
+    while (!done) {
         val line = readLine()
         if (line == null) {
             break
         }
-        val args = line.split(" ").toTypedArray()
-        val command = commands[args[0]]
-        if (command == null) {
-            commands["help"]!!.action(args)
-        } else {
-            command.action(args)
+        if (line != "") {
+            val args = line.split(" ").toTypedArray()
+            val command = commands[args[0]]
+            if (command == null) {
+                commands["help"]!!.action(args)
+            } else {
+                try {
+                    command.action(args)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+            }
+            println()
         }
     }
 }
