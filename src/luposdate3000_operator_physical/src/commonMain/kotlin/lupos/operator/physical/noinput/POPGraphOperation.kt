@@ -32,7 +32,6 @@ import lupos.shared.MemoryTable
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
-import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
 import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
@@ -113,7 +112,7 @@ public class POPGraphOperation public constructor(
                     "GRAPH <" + graph1iri!! + ">"
                 }
                 else -> {
-                    throw UnreachableException()
+                    TODO("a $graph1type")
                 }
             }
         }
@@ -174,7 +173,7 @@ public class POPGraphOperation public constructor(
                             manager.createGraph(query, graph1iri!!)
                         }
                         else -> {
-                            SanityCheck.checkUnreachable()
+                            TODO("b $graph1type")
                         }
                     }
                 }
@@ -206,7 +205,7 @@ public class POPGraphOperation public constructor(
                     }
                     cache.close()
                 }
-                else -> { TODO("$action") }
+                else -> { TODO("c $action") }
             }
         } catch (e: EvaluationException) {
             e.printStackTrace()
@@ -224,7 +223,7 @@ public class POPGraphOperation public constructor(
     public override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:226"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:225"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }

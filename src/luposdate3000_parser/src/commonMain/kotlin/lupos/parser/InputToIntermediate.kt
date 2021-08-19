@@ -292,7 +292,11 @@ public object InputToIntermediate {
                     DictionaryHelper.bnodeToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.turtleDoc()
+                try {
+                    parserObject.turtleDoc()
+                } catch (e: Throwable) {
+                    throw Exception(inputFileName, e)
+                }
             } else {
                 if (backupmode) {
                     val triple: Array<ByteArrayWrapper> = Array(3) { ByteArrayWrapper() }

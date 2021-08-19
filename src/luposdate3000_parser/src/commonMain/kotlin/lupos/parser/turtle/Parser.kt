@@ -2289,7 +2289,7 @@ internal object TurtleParserWithDictionaryValueTypeTriplesObject {
             }
         }
     }
-    internal class UnexpectedToken(token: Token, arrayOf: Array<String>, ltit: LookAheadTokenIterator) : Error("Position: " + ltit.errorMessage() + " " + token.type)
+    internal class UnexpectedToken(token: Token, array: Array<String>, ltit: LookAheadTokenIterator) : Error("Found $token, but expected one of ${array.map{it}} Position: " + ltit.errorMessage() + " " + token.type)
 
     internal class LookAheadOverLimit(lookahead: Int, requestedLookahead: Int, index: Int, lineNumber: Int, columnNumber: Int) :
         Error("Requested " + lookahead + " lookahead, but maximum is " + requestedLookahead + " at " + lineNumber + ":" + columnNumber)
