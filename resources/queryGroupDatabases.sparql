@@ -1,3 +1,3 @@
-SELECT * WHERE {
-?s <bibtex_booktitle> ?o
-} limit 4
+SELECT distinct ?p WHERE {
+?s ?p ?o
+}

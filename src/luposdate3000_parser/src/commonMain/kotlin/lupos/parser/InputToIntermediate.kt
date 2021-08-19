@@ -16,8 +16,8 @@
  */
 package lupos.parser
 import lupos.parser.nQuads.NQuads2Parser
-import lupos.parser.turtle.ParserObject
 import lupos.parser.turtle.Turtle2Parser
+import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriplesObject
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
 import lupos.shared.DateHelperRelative
@@ -42,7 +42,7 @@ import lupos.shared.inline.fileformat.TriplesIntermediateWriter
 import kotlin.math.min
 
 public object InputToIntermediate {
-    private val parserFromSoenke = false
+    private val parserFromSoenke = true
     public fun helperCleanString(s: String): String {
         var res: String = s
         try {
@@ -234,7 +234,7 @@ public object InputToIntermediate {
         if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
             val row = DictionaryValueTypeArray(3)
             if (parserFromSoenke) {
-                val parserObject = ParserObject(
+                val parserObject = TurtleParserWithDictionaryValueTypeTriplesObject.setUp(
                     consume_triple = { s, p, o ->
                         outTriples.write(s, p, o)
                         cnt++
@@ -249,50 +249,50 @@ public object InputToIntermediate {
                             chunc++
                         }
                     },
-                    file = lupos.parser.turtle.MyFileReader(inputFileName),
+                    file = inputFileName,
                 )
                 val buf = ByteArrayWrapper()
-                parserObject.parser.convertDecimalToDict = {
+                parserObject.convertDecimalToDict = {
                     DictionaryHelper.decimalToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.convertBooleanToDict = {
+                parserObject.convertBooleanToDict = {
                     DictionaryHelper.booleanToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.convertDoubleToDict = {
+                parserObject.convertDoubleToDict = {
                     DictionaryHelper.doubleToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.convertFloatToDict = {
+                parserObject.convertFloatToDict = {
                     DictionaryHelper.floatToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.convertIntegerToDict = {
+                parserObject.convertIntegerToDict = {
                     DictionaryHelper.integerToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.convertIriToDict = {
+                parserObject.convertIriToDict = {
                     DictionaryHelper.iriToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.convertStringToDict = {
+                parserObject.convertStringToDict = {
                     DictionaryHelper.stringToByteArray(buf, MyStringExt.replaceEscapes(it, strictMode))
                     addToDict(buf)
                 }
-                parserObject.parser.convertLangToDict = { c, l ->
+                parserObject.convertLangToDict = { c, l ->
                     DictionaryHelper.langToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(l, strictMode))
                     addToDict(buf)
                 }
-                parserObject.parser.convertTypedToDict = { c, t ->
+                parserObject.convertTypedToDict = { c, t ->
                     DictionaryHelper.typedToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(t, strictMode))
                     addToDict(buf)
                 }
-                parserObject.parser.convertBnodeToDict = {
+                parserObject.convertBnodeToDict = {
                     DictionaryHelper.bnodeToByteArray(buf, it)
                     addToDict(buf)
                 }
-                parserObject.parser.turtleDoc()
+                parserObject.turtleDoc()
             } else {
                 if (backupmode) {
                     val triple: Array<ByteArrayWrapper> = Array(3) { ByteArrayWrapper() }
