@@ -100,230 +100,582 @@ public class resourcesbsbmexplorequery12210sparql2210 {
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
+                "mergeLocalOperatorgraphs" to false,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - None`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
+                "mergeLocalOperatorgraphs" to false,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - None`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Centralized - true - None`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Centralized - false - None`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
-            )
-        )
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Centralized - true`() {
-        simulatorHelper(
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
+                "mergeLocalOperatorgraphs" to false,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Centralized - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Centralized - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
+                "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Routing - true`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
-            )
-        )
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Routing - false`() {
-        simulatorHelper(
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "true",
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
-            )
-        )
-    }
-
-    @Ignore // Reason: >too slow<
-    @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - true`() {
-        simulatorHelper(
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
+                "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - true - Routing - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to false,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Routing - true`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "true",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
 
     @Ignore // Reason: >too slow<
     @Test
-    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Routing - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to "false",
+                "mergeLocalOperatorgraphs" to false,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to "false",
-                "REPLACE_STORE_WITH_VALUES" to "false",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             )
         )
     }
-    public fun simulatorHelper(cfg: MutableMap<String, String>) {
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Routing - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - true - Centralized - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - true - Centralized - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - true - Routing - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - true - Routing - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Centralized - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Centralized - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Routing - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Routing - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Centralized - true - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Ignore // Reason: >too slow<
+    @Test
+    public fun `resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - false - Centralized - false - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+    public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig("../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json", false)
+        val config = simRun.parseConfig(fileName, false)
         config.jsonObjects.database.putAll(cfg)
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock

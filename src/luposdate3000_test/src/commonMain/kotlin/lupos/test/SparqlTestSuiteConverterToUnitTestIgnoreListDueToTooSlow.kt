@@ -18,6 +18,9 @@ package lupos.test
 
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow {
     internal val ignoreListDueToTooSlow = mapOf(
+        // "" to "too slow",
+        "resourcessp2bq12csparql973" to "too slow",
+
         "resourcesbsbmbiquery11853sparql1853" to "too slow",
         "resourcesbsbmbiquery12210sparql2210" to "too slow",
         "resourcesbsbmbiquery12553sparql2553" to "too slow",
@@ -190,4 +193,3 @@ internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow {
         "resourcessp2bq9sparql32978" to "too slow",
     )
 }
-

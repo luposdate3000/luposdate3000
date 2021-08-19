@@ -58,9 +58,16 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
         }
     }
 
-    public fun putAll(d: Map<String, String>) {
+    public fun putAll(d: Map<String, Any>) {
         for ((k, v) in d) {
-            map[k] = JsonParserString(v)
+            map[k] = when (v) {
+                is Int -> JsonParserInt(v)
+                is Long -> JsonParserLong(v)
+                is Double -> JsonParserDouble(v)
+                is Boolean -> JsonParserBoolean(v)
+                is String -> JsonParserString(v)
+                else -> TODO("$v")
+            }
         }
     }
     public fun isEmpty(): Boolean = map.isEmpty()

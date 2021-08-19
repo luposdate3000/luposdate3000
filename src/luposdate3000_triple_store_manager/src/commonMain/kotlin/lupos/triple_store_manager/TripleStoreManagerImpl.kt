@@ -360,49 +360,49 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     public override fun resetDefaultTripleStoreLayout() {
-            var partitionCount = 4
-            while (partitionCount <instance.LUPOS_PROCESS_URLS_STORE.size) {
-                partitionCount *= 2
-            }
+        var partitionCount = 4
+        while (partitionCount <instance.LUPOS_PROCESS_URLS_STORE.size) {
+            partitionCount *= 2
+        }
         if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
-instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        } 
-            when (instance.predefinedPartitionScheme) {
-EPredefinedPartitionSchemesExt.Simple->{
-defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) 
-                .addIndex { it.simple(EIndexPatternExt.SPO) } 
-                .addIndex { it.simple(EIndexPatternExt.SOP) } 
-                .addIndex { it.simple(EIndexPatternExt.PSO) } 
-                .addIndex { it.simple(EIndexPatternExt.POS) } 
-                .addIndex { it.simple(EIndexPatternExt.OSP) } 
-                .addIndex { it.simple(EIndexPatternExt.OPS) } 
-}
-                EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations -> {
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 1) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 2) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 1) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 2) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 1) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 2) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 1) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 2) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 1) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 2) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 1) } 
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 2) } 
-                }
-                EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations -> {  
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) 
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = partitionCount) } 
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = partitionCount) } 
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = partitionCount) } 
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = partitionCount) } 
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = partitionCount) } 
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = partitionCount) } 
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = partitionCount) } 
-                }
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+        }
+        when (instance.predefinedPartitionScheme) {
+            EPredefinedPartitionSchemesExt.Simple -> {
+                defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
+                    .addIndex { it.simple(EIndexPatternExt.SPO) }
+                    .addIndex { it.simple(EIndexPatternExt.SOP) }
+                    .addIndex { it.simple(EIndexPatternExt.PSO) }
+                    .addIndex { it.simple(EIndexPatternExt.POS) }
+                    .addIndex { it.simple(EIndexPatternExt.OSP) }
+                    .addIndex { it.simple(EIndexPatternExt.OPS) }
             }
+            EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations -> {
+                defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 1) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 2) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 1) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 2) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 1) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 2) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 1) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 2) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 1) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 2) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 1) }
+                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 2) }
+            }
+            EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations -> {
+                defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
+                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = partitionCount) }
+                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = partitionCount) }
+                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = partitionCount) }
+                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = partitionCount) }
+                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = partitionCount) }
+                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = partitionCount) }
+                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = partitionCount) }
+            }
+        }
     }
 
     public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
@@ -455,9 +455,9 @@ defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
                 }
                 val b = stream.readDictionaryValueType()
                 val c = stream.readDictionaryValueType()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:455"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(a) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:456"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(b) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:457"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(c) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:457"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(a) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:458"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(b) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:459"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(c) })
                 buf[i++] = a
                 buf[i++] = b
                 buf[i++] = c
@@ -510,7 +510,7 @@ defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:510"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:512"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(second, tripleStore)
