@@ -101,13 +101,17 @@ public class POPDistributedSendSingle public constructor(
         for (j in hosts) {
             for (k in j.split(":")) {
                 if (k.startsWith("$partitionVariable=")) {
-// dont care, if this is not directly the triple store ... .
+                    // dont care, if this is not directly visible to the triple store ... .
                     partitionNumber = k.substring("$partitionVariable=".length).toInt()
                     break
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:109"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
+        val p = if (partitionNumber >= 0 && partitionNumber < partitionCount) {
+            Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
+        } else {
+            Partition()
+        }
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
         connectionOut.writeInt(variables.size)
@@ -117,7 +121,6 @@ public class POPDistributedSendSingle public constructor(
             connectionOut.writeInt(buf.size)
             connectionOut.write(buf)
         }
-        val p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = DictionaryValueHelper.nullValue + 1

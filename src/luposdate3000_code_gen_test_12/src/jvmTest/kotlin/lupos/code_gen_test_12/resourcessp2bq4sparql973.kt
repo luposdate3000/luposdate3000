@@ -67,6 +67,7 @@ public class resourcessp2bq4sparql973 {
         "} \n" +
         ""
 
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -441,7 +442,7 @@ public class resourcessp2bq4sparql973 {
         LuposdateEndpoint.close(instance)
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
@@ -457,7 +458,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - None`() {
         simulatorHelper(
@@ -473,7 +474,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
@@ -489,7 +490,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - None`() {
         simulatorHelper(
@@ -505,7 +506,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Centralized - true - None`() {
         simulatorHelper(
@@ -521,7 +522,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Centralized - false - None`() {
         simulatorHelper(
@@ -537,7 +538,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - Process`() {
         simulatorHelper(
@@ -553,7 +554,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
@@ -569,7 +570,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
@@ -585,7 +586,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - Process`() {
         simulatorHelper(
@@ -601,7 +602,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Process`() {
         simulatorHelper(
@@ -617,7 +618,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
@@ -633,7 +634,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
@@ -649,7 +650,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - Process`() {
         simulatorHelper(
@@ -665,7 +666,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - true - Centralized - true - Process`() {
         simulatorHelper(
@@ -681,7 +682,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
@@ -697,7 +698,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
@@ -713,7 +714,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - true - Routing - false - Process`() {
         simulatorHelper(
@@ -729,7 +730,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Process`() {
         simulatorHelper(
@@ -745,7 +746,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
@@ -761,7 +762,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
@@ -777,7 +778,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Routing - false - Process`() {
         simulatorHelper(
@@ -793,7 +794,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - true - Centralized - true - Process`() {
         simulatorHelper(
@@ -809,7 +810,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - true - Centralized - false - Process`() {
         simulatorHelper(
@@ -825,7 +826,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - true - Routing - true - Process`() {
         simulatorHelper(
@@ -841,7 +842,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - true - Routing - false - Process`() {
         simulatorHelper(
@@ -857,7 +858,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Centralized - true - Process`() {
         simulatorHelper(
@@ -873,7 +874,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Centralized - false - Process`() {
         simulatorHelper(
@@ -889,7 +890,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Routing - true - Process`() {
         simulatorHelper(
@@ -905,7 +906,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Routing - false - Process`() {
         simulatorHelper(
@@ -921,7 +922,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Thread`() {
         simulatorHelper(
@@ -937,7 +938,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Thread`() {
         simulatorHelper(
@@ -953,7 +954,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Thread`() {
         simulatorHelper(
@@ -969,7 +970,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Thread`() {
         simulatorHelper(
@@ -985,7 +986,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1001,7 +1002,7 @@ public class resourcessp2bq4sparql973 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
+    @Ignore // Reason: >too slow<
     @Test
     public fun `resourcessp2bq4sparql973 - in simulator - Simple - false - Centralized - false - Thread`() {
         simulatorHelper(

@@ -31,7 +31,6 @@ import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -53,7 +52,6 @@ public class simpletriplepatternmatch {
         "WHERE { ?x rdf:type :c . } \n" +
         ""
 
-    @Test
     public fun `simple triple pattern match - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         instance.LUPOS_BUFFER_SIZE = 128
@@ -427,8 +425,6 @@ public class simpletriplepatternmatch {
         LuposdateEndpoint.close(instance)
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -443,8 +439,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -459,8 +453,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -475,8 +467,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -491,8 +481,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -507,8 +495,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -523,8 +509,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -539,8 +523,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -555,8 +537,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -571,8 +551,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -587,8 +565,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -603,8 +579,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -619,8 +593,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -635,8 +607,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -651,8 +621,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - true - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -667,8 +635,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -683,8 +649,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -699,8 +663,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - true - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -715,8 +677,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -731,8 +691,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -747,8 +705,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -763,8 +719,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -779,7 +733,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
     @Test
     public fun `simple triple pattern match - in simulator - Simple - true - Centralized - true - Process`() {
         simulatorHelper(
@@ -795,8 +748,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - true - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -811,8 +762,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - true - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -827,8 +776,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - true - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -843,8 +790,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -859,8 +804,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -875,8 +818,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -891,8 +832,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -907,8 +846,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -923,8 +860,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -939,8 +874,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -955,8 +888,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -971,8 +902,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -987,8 +916,6 @@ public class simpletriplepatternmatch {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
     public fun `simple triple pattern match - in simulator - Simple - false - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
