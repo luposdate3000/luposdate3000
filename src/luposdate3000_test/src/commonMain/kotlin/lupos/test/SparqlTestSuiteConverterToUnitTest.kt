@@ -423,6 +423,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                         if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && mergeLocalOperatorgraphs == "true") {
                                             continue
                                         }
+                                        if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
+                                            continue
+                                        }
                                         if (ignored || !withSimulator) {
                                             val reason = ignoreList[testCaseName]
                                             if (reason != null) {
