@@ -16,6 +16,9 @@
  */
 package lupos.code_gen_test_06
 import lupos.endpoint.LuposdateEndpoint
+import lupos.shared.EPartitionModeExt
+import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Ignore
 import kotlin.test.Test
@@ -30,9 +33,222 @@ public class syntaxupdate54ru {
 
     @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
     @Test
-    public fun `syntaxupdate54ru`() {
-        val instance = LuposdateEndpoint.initialize()
+    public fun `syntaxupdate54ru - None - PartitionByIDTwiceAllCollations - true`() {
+        var instance = Luposdate3000Instance()
         instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding = true
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - None - PartitionByIDTwiceAllCollations - false`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding = false
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - None - PartitionByKeyAllCollations - true`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding = true
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - None - PartitionByKeyAllCollations - false`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding = false
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - None - Simple - true`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding = true
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - None - Simple - false`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding = false
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - Thread - PartitionByIDTwiceAllCollations - true`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding = true
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - Thread - PartitionByIDTwiceAllCollations - false`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding = false
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - Thread - PartitionByKeyAllCollations - true`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding = true
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - Thread - PartitionByKeyAllCollations - false`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding = false
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - Thread - Simple - true`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding = true
+        instance = LuposdateEndpoint.initializeB(instance)
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
+        }
+        LuposdateEndpoint.close(instance)
+    }
+    public fun `syntaxupdate54ru - Thread - Simple - false`() {
+        var instance = Luposdate3000Instance()
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding = false
+        instance = LuposdateEndpoint.initializeB(instance)
         val buf = MyPrintWriter(false)
         var flag = false
         try {

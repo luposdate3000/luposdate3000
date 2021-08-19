@@ -276,7 +276,10 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
         val mapTopDown = mutableMapOf<String, MutableSet<String>>()
         val mapBottomUp = mutableMapOf<String, MutableSet<String>>()
-        val allHostAdresses = pck.operatorGraphPartsToHostMap.values.map { it.toInt() }.toSet().toIntArray()
+        val rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
+        val operatorGraphPartsToHostMapTmp = mutableSetOf<String>(rootAddress)
+        operatorGraphPartsToHostMapTmp.addAll(pck.operatorGraphPartsToHostMap.values)
+        val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
         val nextHops = router!!.getNextDatabaseHops(allHostAdresses)
         val packages = mutableMapOf<Int, MySimulatorOperatorGraphPackage>()
         for (i in allHostAdresses.toSet()) {
@@ -290,15 +293,11 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             )
         }
         packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
-        val packageMap = mutableMapOf<String, Int>()
-        for ((k, v) in pck.operatorGraphPartsToHostMap) {
-            packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
-        }
         for ((k, v) in pck.operatorGraph) {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:300"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:299"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -306,12 +305,36 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 }
             )
         }
+        val assignToRootDueToDictionary = mutableSetOf<String>()
+        for ((k, v) in pck.operatorGraph) {
+            if (containsRemoteDictAccess(v)) {
+                assignToRootDueToDictionary.add(k)
+            }
+        }
+        loop2@while (assignToRootDueToDictionary.size> 0) {
+            val k = assignToRootDueToDictionary.first()
+            pck.operatorGraphPartsToHostMap[k] = rootAddress
+            assignToRootDueToDictionary.remove(k)
+            val bUp = mapBottomUp[k]
+            if (bUp != null) {
+                for (v in bUp) {
+                    if (pck.operatorGraphPartsToHostMap[v] != rootAddress) {
+                        assignToRootDueToDictionary.add(v)
+                    }
+                }
+            }
+        }
+
+        val packageMap = mutableMapOf<String, Int>()
+        for ((k, v) in pck.operatorGraphPartsToHostMap) {
+            packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
+        }
         var changed = true
         while (changed) {
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:313"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:336"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -471,9 +494,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:473"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:496"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:475"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:498"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -518,15 +541,17 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         return XMLElementToOPBase(query, node, mutableMapOf(), operatorMap)
     }
 
-    private fun detectBugDueToRemoteDictAccess(node: XMLElement) {
+    private fun containsRemoteDictAccess(node: XMLElement): Boolean {
+        var res = false
         when (node.tag) {
-            "POPBind", "POPGroup" -> {
-                TODO()
+            "POPBind", "POPGroup", "POPFilter" -> {
+                res = true
             }
         }
         for (c in node.childs) {
-            detectBugDueToRemoteDictAccess(c)
+            res = res || containsRemoteDictAccess(c)
         }
+        return res
     }
 
     private fun doWork() {
@@ -539,10 +564,12 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     changed = true
                     val query = Query(instance)
                     SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:541"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:566"/*SOURCE_FILE_END*/ },
                         {
-                            if (ownAdress != 0) {
-                                detectBugDueToRemoteDictAccess(w.operatorGraph)
+                            if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
+                                if (containsRemoteDictAccess(w.operatorGraph)) {
+                                    TODO()
+                                }
                             }
                         }
                     )
