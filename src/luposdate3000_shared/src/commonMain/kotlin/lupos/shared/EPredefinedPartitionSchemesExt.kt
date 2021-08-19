@@ -21,13 +21,15 @@ import kotlin.jvm.JvmField
 public object EPredefinedPartitionSchemesExt {
     public const val PartitionByIDTwiceAllCollations: EPredefinedPartitionSchemes = 0 // 0x00000000
     public const val PartitionByKeyAllCollations: EPredefinedPartitionSchemes = 1 // 0x00000001
-    public const val values_size: Int = 2
-    public const val values_mask: Int = 1 // 0x00000001
-    public const val values_mask_inversed: Int = 2147483646 // 0x7ffffffe
+    public const val Simple: EPredefinedPartitionSchemes = 2 // 0x00000002
+    public const val values_size: Int = 3
+    public const val values_mask: Int = 3 // 0x00000003
+    public const val values_mask_inversed: Int = 2147483644 // 0x7ffffffc
 
     @JvmField
     public val names: Array<String> = arrayOf(
         "PartitionByIDTwiceAllCollations",
         "PartitionByKeyAllCollations",
+        "Simple",
     )
 }

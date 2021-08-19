@@ -1,0 +1,53 @@
+{
+    "database": {
+        "REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+    },
+    "deterministic": true,
+    "deviceType": {
+        "LUPOSDATE_DEVICE": {
+            "database": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "parkingSensor": "",
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WIRE",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "DEVICE_1": {
+            "deviceType": "LUPOSDATE_DEVICE",
+            "latitude": 53.57865430622494,
+            "longitude": 10.055537389738404,
+        },
+    },
+    "fixedLink": [],
+    "linkType": {
+        "WIRE": {
+            "dataRateInKbps": 50000,
+            "rangeInMeters": 40000,
+        },
+    },
+    "logging": true,
+    "outputDirectory": "",
+    "querySender": [
+        {
+            "maxNumberOfQueries": 1,
+            "name": "Driver1",
+            "query": "As soon as the root receives this query, it can start the tests.",
+            "sendRateInSeconds": 0,
+            "sendStartClockInSec": 10,
+        },
+    ],
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "rootRouter": "DEVICE_1",
+    "sensorType": [],
+}

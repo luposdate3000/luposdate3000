@@ -60,7 +60,7 @@ import lupos.simulator_db.QueryResponsePackage
 import lupos.visualize.distributed.database.VisualisationNetwork
 
 public class DatabaseHandle public constructor(config: JsonParserObject) : IDatabase {
-    private var enableSharedMemoryDictionaryCheat = true
+    private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
     private lateinit var visualisationNetwork: VisualisationNetwork
     private var ownAdress: Int = 0
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
@@ -68,20 +68,6 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
     private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
     private var router: IRouter? = null
     private var nodeGlobalDictionaryBackup: IDictionary? = null
-    private var predefinedPartitionScheme = Luposdate3000Config.predefinedPartitionScheme
-    private var mergeLocalOperatorgraphs = Luposdate3000Config.mergeLocalOperatorgraphs
-    private var queryDistributionMode = Luposdate3000Config.queryDistributionMode
-    private var useDictionaryInlineEncoding = Luposdate3000Config.useDictionaryInlineEncoding
-    private var REPLACE_STORE_WITH_VALUES = Luposdate3000Config.REPLACE_STORE_WITH_VALUES
-
-    init {
-        val enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
-        predefinedPartitionScheme = EPredefinedPartitionSchemesExt.names.indexOf(config.getOrDefault("predefinedPartitionScheme", EPredefinedPartitionSchemesExt.names[Luposdate3000Config.predefinedPartitionScheme]))
-        mergeLocalOperatorgraphs = config.getOrDefault("mergeLocalOperatorgraphs", Luposdate3000Config.mergeLocalOperatorgraphs)
-        queryDistributionMode = EQueryDistributionModeExt.names.indexOf(config.getOrDefault("queryDistributionMode", EQueryDistributionModeExt.names[Luposdate3000Config.queryDistributionMode]))
-        useDictionaryInlineEncoding = config.getOrDefault("useDictionaryInlineEncoding", Luposdate3000Config.useDictionaryInlineEncoding)
-        REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
-    }
 
     private companion object {
         // this is used for cheating .... because currently streams of data are not working in simulator
@@ -120,14 +106,14 @@ public class DatabaseHandle public constructor(config: JsonParserObject) : IData
         instance.LUPOS_PROCESS_URLS_ALL = Luposdate3000Config.mergeProcessurls(instance.LUPOS_PROCESS_URLS_STORE, instance.LUPOS_PROCESS_URLS_QUERY)
         instance.LUPOS_PROCESS_ID = instance.LUPOS_PROCESS_URLS_ALL.indexOf(initialState.ownAddress.toString())
         instance.LUPOS_HOME = initialState.absolutePathToDataDirectory
-        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Process
+        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.names.indexOf(config.getOrDefault("LUPOS_PARTITION_MODE",EPartitionModeExt.names[EPartitionModeExt.Process]))
         instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
         instance.LUPOS_BUFFER_SIZE = 8192
-        instance.predefinedPartitionScheme = predefinedPartitionScheme
-        instance.mergeLocalOperatorgraphs = mergeLocalOperatorgraphs
-        instance.queryDistributionMode = queryDistributionMode
-        instance.useDictionaryInlineEncoding = useDictionaryInlineEncoding
-        instance.REPLACE_STORE_WITH_VALUES = REPLACE_STORE_WITH_VALUES
+        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.names.indexOf(config.getOrDefault("predefinedPartitionScheme", EPredefinedPartitionSchemesExt.names[Luposdate3000Config.predefinedPartitionScheme]))
+        instance.mergeLocalOperatorgraphs = config.getOrDefault("mergeLocalOperatorgraphs", Luposdate3000Config.mergeLocalOperatorgraphs)
+        instance.queryDistributionMode = EQueryDistributionModeExt.names.indexOf(config.getOrDefault("queryDistributionMode", EQueryDistributionModeExt.names[Luposdate3000Config.queryDistributionMode]))
+        instance.useDictionaryInlineEncoding = config.getOrDefault("useDictionaryInlineEncoding", Luposdate3000Config.useDictionaryInlineEncoding)
+        instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
         instance.queue_size = 2048
         instance.communicationHandler = MySimulatorCommunicationHandler(instance, initialState.sender)
         instance = LuposdateEndpoint.initializeB(instance)

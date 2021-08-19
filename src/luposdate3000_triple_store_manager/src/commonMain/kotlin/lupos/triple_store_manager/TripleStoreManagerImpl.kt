@@ -360,47 +360,49 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     public override fun resetDefaultTripleStoreLayout() {
-        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
-            defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
-                .addIndex { it.simple(EIndexPatternExt.SPO) } //
-                .addIndex { it.simple(EIndexPatternExt.SOP) } //
-                .addIndex { it.simple(EIndexPatternExt.PSO) } //
-                .addIndex { it.simple(EIndexPatternExt.POS) } //
-                .addIndex { it.simple(EIndexPatternExt.OSP) } //
-                .addIndex { it.simple(EIndexPatternExt.OPS) } //
-        } else {
             var partitionCount = 4
             while (partitionCount <instance.LUPOS_PROCESS_URLS_STORE.size) {
                 partitionCount *= 2
             }
+        if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
+instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        } 
             when (instance.predefinedPartitionScheme) {
-                EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations -> { // use partitions as default
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 2) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 1) } //
-                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 2) } //
+EPredefinedPartitionSchemesExt.Simple->{
+defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) 
+                .addIndex { it.simple(EIndexPatternExt.SPO) } 
+                .addIndex { it.simple(EIndexPatternExt.SOP) } 
+                .addIndex { it.simple(EIndexPatternExt.PSO) } 
+                .addIndex { it.simple(EIndexPatternExt.POS) } 
+                .addIndex { it.simple(EIndexPatternExt.OSP) } 
+                .addIndex { it.simple(EIndexPatternExt.OPS) } 
+}
+                EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations -> {
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 1) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 2) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 1) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = partitionCount, partitionColumn = 2) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 1) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 2) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 1) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = partitionCount, partitionColumn = 2) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 1) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 2) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 1) } 
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 2) } 
                 }
-                EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations -> { // use hashing as default
-                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = partitionCount) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = partitionCount) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = partitionCount) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = partitionCount) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = partitionCount) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = partitionCount) } //
-                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = partitionCount) } //
+                EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations -> {  
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance) 
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = partitionCount) } 
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = partitionCount) } 
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = partitionCount) } 
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = partitionCount) } 
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = partitionCount) } 
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = partitionCount) } 
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = partitionCount) } 
                 }
             }
-        }
     }
 
     public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
