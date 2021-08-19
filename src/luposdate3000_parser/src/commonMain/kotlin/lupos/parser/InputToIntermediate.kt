@@ -43,6 +43,7 @@ import kotlin.math.min
 
 public object InputToIntermediate {
     private val parserFromSoenke = false
+    private val parserBenchmarkOnly = false
     public fun helperCleanString(s: String): String {
         var res: String = s
         try {
@@ -401,6 +402,7 @@ public object InputToIntermediate {
             throw Exception("unknown filetype $inputFileName")
         }
         println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
+        shouldReturn = shouldReturn || parserBenchmarkOnly
         if (!shouldReturn) {
             val startTime2 = DateHelperRelative.markNow()
             DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)

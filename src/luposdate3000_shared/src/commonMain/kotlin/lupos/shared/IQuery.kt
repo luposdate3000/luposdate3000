@@ -35,7 +35,7 @@ public interface IQuery {
 
     public fun getDictionaryUrl(): String?
     public fun setDictionaryUrl(url: String)
-    public fun setDictionaryServer(dict: IDictionary)
+    public fun setDictionary(dict: IDictionary)
 
     public fun getRoot(): IOPBase
     public fun setRoot(node: IOPBase)

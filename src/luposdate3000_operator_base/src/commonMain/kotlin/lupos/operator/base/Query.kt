@@ -95,7 +95,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         this.dictionaryUrl = url
     }
 
-    public override fun setDictionaryServer(dict: IDictionary) {
+    public override fun setDictionary(dict: IDictionary) {
         dictionary = dict
     }
 

@@ -459,9 +459,9 @@ public object RestEndpoint {
                         val idx2 = dictionaryURL.indexOf("/")
                         val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n", query.getTransactionID().toInt())
                         val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
-                        query.setDictionaryServer(remoteDictionary)
+                        query.setDictionary(remoteDictionary)
                     } else {
-                        query.setDictionaryServer(DictionaryNotImplemented())
+                        query.setDictionary(DictionaryNotImplemented())
                     }
                     query.setDictionaryUrl(dictionaryURL)
 // evaluate

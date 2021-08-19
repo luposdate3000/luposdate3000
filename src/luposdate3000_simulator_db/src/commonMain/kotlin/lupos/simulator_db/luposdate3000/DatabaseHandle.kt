@@ -17,6 +17,7 @@
 
 package lupos.simulator_db.luposdate3000
 
+import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.PathMappingHelper
@@ -550,7 +551,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
     private fun containsRemoteDictAccess(node: XMLElement): Boolean {
         var res = false
         when (node.tag) {
-            "POPBind", "POPGroup", "POPFilter" -> {
+            "POPBind", "POPGroup" -> { // POPFilter does not matter, because they do not calculate relevant values
                 res = true
             }
         }
@@ -569,16 +570,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     myPendingWork.remove(w)
                     changed = true
                     val query = Query(instance)
-                    SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:572"/*SOURCE_FILE_END*/ },
-                        {
-                            if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
-                                if (containsRemoteDictAccess(w.operatorGraph)) {
-                                    TODO()
-                                }
-                            }
-                        }
-                    )
+if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
+query.setDictionary(DictionaryNotImplemented())
+}
                     when (val node = localXMLElementToOPBase(query, w.operatorGraph)) {
                         is POPDistributedSendSingle -> {
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)

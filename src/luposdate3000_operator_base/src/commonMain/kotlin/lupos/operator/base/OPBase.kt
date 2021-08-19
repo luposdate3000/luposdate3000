@@ -143,7 +143,7 @@ public abstract class OPBase public constructor(
             {
                 val usesDictionary = node.usesDictionary()
                 if (!usesDictionary) {
-                    query.setDictionaryServer(DictionaryNotImplemented())
+                    query.setDictionary(DictionaryNotImplemented())
                 }
             }
         )
