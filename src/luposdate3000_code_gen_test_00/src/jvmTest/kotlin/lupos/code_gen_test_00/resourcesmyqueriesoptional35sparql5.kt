@@ -28,6 +28,7 @@ import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -57,6 +58,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         "} \n" +
         ""
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5`() {
         val instance = LuposdateEndpoint.initialize()
@@ -86,6 +88,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         LuposdateEndpoint.close(instance)
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
@@ -101,6 +104,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - None`() {
         simulatorHelper(
@@ -116,6 +120,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - None`() {
         simulatorHelper(
@@ -131,6 +136,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - None`() {
         simulatorHelper(
@@ -146,6 +152,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Centralized - true - None`() {
         simulatorHelper(
@@ -161,6 +168,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Centralized - false - None`() {
         simulatorHelper(
@@ -176,6 +184,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - true - Process`() {
         simulatorHelper(
@@ -191,6 +200,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
@@ -206,6 +216,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
@@ -221,6 +232,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - true - Routing - false - Process`() {
         simulatorHelper(
@@ -236,6 +248,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Process`() {
         simulatorHelper(
@@ -251,6 +264,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
@@ -266,6 +280,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
@@ -281,6 +296,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Routing - false - Process`() {
         simulatorHelper(
@@ -296,6 +312,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - true - Centralized - true - Process`() {
         simulatorHelper(
@@ -311,6 +328,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - true - Centralized - false - Process`() {
         simulatorHelper(
@@ -326,6 +344,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - true - Routing - true - Process`() {
         simulatorHelper(
@@ -341,6 +360,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - true - Routing - false - Process`() {
         simulatorHelper(
@@ -356,6 +376,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Process`() {
         simulatorHelper(
@@ -371,6 +392,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Process`() {
         simulatorHelper(
@@ -386,6 +408,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Routing - true - Process`() {
         simulatorHelper(
@@ -401,6 +424,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Routing - false - Process`() {
         simulatorHelper(
@@ -416,6 +440,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - true - Centralized - true - Process`() {
         simulatorHelper(
@@ -431,6 +456,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - true - Centralized - false - Process`() {
         simulatorHelper(
@@ -446,6 +472,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - true - Routing - true - Process`() {
         simulatorHelper(
@@ -461,6 +488,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - true - Routing - false - Process`() {
         simulatorHelper(
@@ -476,6 +504,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Centralized - true - Process`() {
         simulatorHelper(
@@ -491,6 +520,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Centralized - false - Process`() {
         simulatorHelper(
@@ -506,6 +536,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Routing - true - Process`() {
         simulatorHelper(
@@ -521,6 +552,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Routing - false - Process`() {
         simulatorHelper(
@@ -536,6 +568,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - true - Thread`() {
         simulatorHelper(
@@ -551,6 +584,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByIDTwiceAllCollations - false - Centralized - false - Thread`() {
         simulatorHelper(
@@ -566,6 +600,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Centralized - true - Thread`() {
         simulatorHelper(
@@ -581,6 +616,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - PartitionByKeyAllCollations - false - Centralized - false - Thread`() {
         simulatorHelper(
@@ -596,6 +632,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Centralized - true - Thread`() {
         simulatorHelper(
@@ -611,6 +648,7 @@ public class resourcesmyqueriesoptional35sparql5 {
         )
     }
 
+    @Ignore // Reason: >Bug<
     @Test
     public fun `resourcesmyqueriesoptional35sparql5 - in simulator - Simple - false - Centralized - false - Thread`() {
         simulatorHelper(
