@@ -277,6 +277,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 } else {
                     out.println("public class $testCaseName {")
                 }
+
                 if (inputGraphs.isNotEmpty()) {
                     out.println("    internal val inputData = arrayOf(")
                     for ((k, v) in inputGraphs) {
@@ -342,7 +343,8 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                             }
 
                             out.println("    public fun `$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding`() {")
-                            out.println("        var instance = Luposdate3000Instance()")
+                            out.println("      var instance = Luposdate3000Instance()")
+                            out.println("      try{")
                             out.println("        instance.LUPOS_BUFFER_SIZE = 128")
                             out.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
                             out.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
@@ -400,7 +402,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                 val c = localCounter++
                                 myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i])
                             }
+                            out.println("      }finally{")
                             out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
+                            out.println("      }")
                             out.println("    }")
                             distributedTestAppendFlag = false
                         }

@@ -410,13 +410,17 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                                 for ((k6, k7) in mapTopDown) { // what is required
                                     if (k7.contains(v)) {
 // merge now !!
-                                        var res = mergeOperatorGraphLocally(null, 0, p.operatorGraph[k6]!!, p.operatorGraph[k5]!!, k5)
-                                        if (res) {
-                                            p.operatorGraph.remove(k5) // remove the entire child
-                                            p.destinations.remove(k5) // remove the entire child
-                                            mapTopDown[k6]!!.remove(k5) // remove the child dependency from the parent
-                                            mapTopDown[k6]!!.addAll(mapTopDown[k5]!!)
-                                            mapTopDown.remove(k5) // remove the entire child
+                                        val kk6 = p.operatorGraph[k6]
+                                        val kk5 = p.operatorGraph[k5]
+                                        if (kk5 != null && kk6 != null) {
+                                            var res = mergeOperatorGraphLocally(null, 0, kk6, kk5, k5)
+                                            if (res) {
+                                                p.operatorGraph.remove(k5) // remove the entire child
+                                                p.destinations.remove(k5) // remove the entire child
+                                                mapTopDown[k6]!!.remove(k5) // remove the child dependency from the parent
+                                                mapTopDown[k6]!!.addAll(mapTopDown[k5]!!)
+                                                mapTopDown.remove(k5) // remove the entire child
+                                            }
                                         }
                                         continue@loop
                                     }
@@ -496,9 +500,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:498"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:502"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:500"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:504"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -566,7 +570,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     changed = true
                     val query = Query(instance)
                     SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:568"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:572"/*SOURCE_FILE_END*/ },
                         {
                             if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
                                 if (containsRemoteDictAccess(w.operatorGraph)) {
