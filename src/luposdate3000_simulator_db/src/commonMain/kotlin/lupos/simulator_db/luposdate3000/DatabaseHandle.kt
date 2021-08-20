@@ -40,6 +40,7 @@ import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
@@ -167,11 +168,21 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
     }
 
     private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
-        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, pck.expectedResult, pck.verifyAction)
+        receive(
+            QueryPackage(ownAdress, pck.query.encodeToByteArray()),
+            pck.onFinish,
+            pck.expectedResult,
+            pck.verifyAction,
+        )
     }
 
     private fun receive(pck: MySimulatorTestingExecute) {
-        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, null, {})
+        receive(
+            QueryPackage(ownAdress, pck.query.encodeToByteArray()),
+            pck.onFinish,
+            null,
+            {},
+        )
     }
 
     private fun containsTripleStoreAccess(op: XMLElement): Boolean {
@@ -190,12 +201,18 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         val queryString = pck.query.decodeToString()
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
+        println("optimized start dictionary ${q.getDictionary()} 1")
         println(q.getRoot())
+        println("optimized start dictionary ${q.getDictionary()} 2")
         q.setTransactionID(pck.queryID.toLong())
+        println("optimized start dictionary ${q.getDictionary()} 3")
         q.initialize(op, false, true)
+        println("optimized start dictionary ${q.getDictionary()} 4")
         visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
+        println("optimized start dictionary ${q.getDictionary()} 5")
         val parts = q.getOperatorgraphParts()
         var hostMap = mutableMapOf<String, String>()
+        println("optimized start dictionary ${q.getDictionary()} 6")
         when (instance.queryDistributionMode) {
             EQueryDistributionModeExt.Routing -> {
                 // only define the explicit triple-store access
@@ -210,15 +227,17 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 // define everything as in the DB outside of the simulator
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:212"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:229"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size }
                 )
             }
         }
+        println("optimized start dictionary ${q.getDictionary()} 7")
         if (parts.size == 1) {
             visualisationNetwork.addWork(pck.queryID, ownAdress, q.getRoot().toXMLElement(false), setOf(), setOf())
 // TODO wait for all ack - or assume ordered messages
             if (expectedResult != null) {
+                println("optimized start dictionary ${q.getDictionary()} 8")
                 val buf = MyPrintWriter(false)
                 val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, q.getRoot(), buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
                 val buf_err = MyPrintWriter()
@@ -231,6 +250,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     router!!.send(pck.sourceAddress, QueryResponsePackage("success".encodeToByteArray(), pck.queryID))
                 }
             } else {
+                println("optimized start dictionary ${q.getDictionary()} 9")
                 val out = MyPrintWriter(true)
                 val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
                 evaluatorInstance(q.getRoot(), out)
@@ -242,8 +262,10 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 }
             }
         } else {
+            println("optimized start dictionary ${q.getDictionary()} 10")
             val destinations = mutableMapOf("" to pck.sourceAddress)
-            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult, verifyAction))
+            println("optimized using dictionary ${q.getDictionary()}")
+            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult, verifyAction, q))
         }
     }
 
@@ -258,7 +280,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:260"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:282"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -293,6 +315,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 pck.onFinish,
                 pck.expectedResult,
                 pck.verifyAction,
+                pck.query,
             )
         }
         packages[ownAdress] = MySimulatorOperatorGraphPackage(
@@ -303,12 +326,13 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             pck.onFinish,
             pck.expectedResult,
             pck.verifyAction,
+            pck.query,
         )
         for ((k, v) in pck.operatorGraph) {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:310"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:334"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -345,7 +369,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:347"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:371"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -450,6 +474,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         pck.onFinish,
                         pck.expectedResult,
                         pck.verifyAction,
+                        pck.query,
                     )
                     myPendingWork.add(w)
                 }
@@ -499,7 +524,8 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         return res
     }
 
-    private fun localXMLElementToOPBase(query: Query, node: XMLElement): IOPBase {
+    private fun localXMLElementToOPBase(query2: IQuery, node: XMLElement): IOPBase {
+        val query = query2 as Query
         val operatorMap = mutableMapOf<String, XMLElementToOPBaseMap>()
         operatorMap.putAll(XMLElementToOPBase.operatorMap)
         operatorMap["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
@@ -510,9 +536,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:512"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:538"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:514"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:540"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -578,11 +604,16 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 if (myPendingWorkData.keys.containsAll(w.dependencies)) {
                     myPendingWork.remove(w)
                     changed = true
-                    val query = Query(instance)
+                    val query: IQuery
                     println(w.operatorGraph)
                     if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
+                        println("using new dictionary in doWork")
+                        query = Query(instance)
                         query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
+                    } else {
+                        query = w.query
                     }
+                    println("using dictionary ${query.getDictionary()}")
                     val node = localXMLElementToOPBase(query, w.operatorGraph)
                     when (node) {
                         is POPDistributedSendSingle -> {

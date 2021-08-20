@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
+import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
@@ -27,6 +28,7 @@ internal class MySimulatorPendingWork(
     val onFinish: IDatabasePackage?,
     val expectedResult: MemoryTable?,
     val verifyAction: () -> Unit,
+    val query: IQuery,
 ) {
     internal companion object {
         var pendingWorkCounter = 0

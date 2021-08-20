@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
+import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
@@ -26,6 +27,7 @@ internal class MySimulatorOperatorGraphPackage(
     val onFinish: IDatabasePackage?,
     val expectedResult: MemoryTable?,
     val verifyAction: () -> Unit,
+    val query: IQuery, // this is an required fake, because the intermediate valued definetly need to share a dictionary, which requires streaming, which the simulator does not support
 ) : IDatabasePackage {
 
     override fun getPackageSizeInBytes(): Int {
