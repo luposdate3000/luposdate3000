@@ -22,6 +22,7 @@ import lupos.simulator_db.IDatabasePackage
 public class MySimulatorTestingCompareGraphPackage(
     public val query: String,
     public val expectedResult: MemoryTable,
+    public val verifyAction: () -> Unit,
 ) : IDatabasePackage {
     public var onFinish: IDatabasePackage? = null
     override fun getPackageSizeInBytes(): Int {

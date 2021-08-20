@@ -172,10 +172,21 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             }
             File(filenameLocal).withOutputStream { out ->
                 val distributedTest = StringBuilder()
+                val distributedTestAtEnd = StringBuilder()
                 var distributedTestCtr = 0
                 var distributedTestAppendFlag = true
-                fun appendDistributedTest(s: String) {
+                fun appendDistributedTest(s: String, verify: Boolean) {
                     if (distributedTestAppendFlag) {
+                        if (verify) {
+                            distributedTest.appendLine("        var verifyExecuted$distributedTestCtr = 0")
+                            distributedTestAtEnd.appendLine("        if (verifyExecuted$distributedTestCtr==0) {")
+                            if (useCodeGen) {
+                                distributedTestAtEnd.appendLine("            throw Exception(\"pck$distributedTestCtr not verified\")")
+                            } else {
+                                distributedTestAtEnd.appendLine("            fail(\"pck$distributedTestCtr not verified\")")
+                            }
+                            distributedTestAtEnd.appendLine("        }")
+                        }
                         distributedTest.appendLine("        val pkg$distributedTestCtr = $s")
                         distributedTestCtr++
                         if (distributedTestCtr> 1) {
@@ -219,7 +230,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                         } else {
                             "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
                         }
-                    appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!)")
+                    appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!, {verifyExecuted$distributedTestCtr++})", true)
                 }
                 out.println("/*")
                 out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
@@ -352,7 +363,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                             out.println("        instance = LuposdateEndpoint.initializeB(instance)")
                             out.println("        val buf = MyPrintWriter(false)")
                             for (i in 0 until inputGraphs.size) {
-                                appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])")
+                                appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])", false)
                                 out.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
                                 out.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i], inputGraph[$i])")
                                 out.println("        } else {")
@@ -375,7 +386,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                     myVerifyGraph(counter, "targetData", "targetType", "", "query", false)
                                 } else {
                                     if (evaluateIt) {
-                                        appendDistributedTest("MySimulatorTestingExecute(query)")
+                                        appendDistributedTest("MySimulatorTestingExecute(query)", false)
                                         out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                                     }
                                 }
@@ -470,6 +481,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("        config.querySenders[0].queryPck = pkg0")
                     out.println("        simRun.sim.run()")
                     out.println("        simRun.sim.shutDown()")
+                    out.print(distributedTestAtEnd.toString())
                     out.println("    }")
                 }
                 if (!useCodeGen && withCodeGen) {

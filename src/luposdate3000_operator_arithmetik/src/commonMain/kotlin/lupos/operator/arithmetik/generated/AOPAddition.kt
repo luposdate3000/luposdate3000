@@ -242,6 +242,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                             val tmp_157: BigInteger = tmp_155 + tmp_156
                             DictionaryHelper.integerToByteArray(tmp_4, tmp_157)
                             res = query.getDictionary().createValue(tmp_4)
+                            println("adding $tmp_155 + $tmp_156 = $tmp_157 ..... $childIn0 + $childIn1 = $res")
                         }
                         else -> {
                             res = DictionaryValueHelper.errorValue

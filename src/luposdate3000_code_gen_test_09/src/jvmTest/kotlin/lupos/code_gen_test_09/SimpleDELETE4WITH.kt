@@ -1141,18 +1141,34 @@ public class SimpleDELETE4WITH {
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
         pkg0.onFinish = pkg1
-        val pkg2 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!)
+        var verifyExecuted2 = 0
+        val pkg2 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted2++ })
         pkg1.onFinish = pkg2
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!)
+        var verifyExecuted3 = 0
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted3++ })
         pkg2.onFinish = pkg3
         val pkg4 = MySimulatorTestingExecute(query)
         pkg3.onFinish = pkg4
-        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!)
+        var verifyExecuted5 = 0
+        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted5++ })
         pkg4.onFinish = pkg5
-        val pkg6 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!)
+        var verifyExecuted6 = 0
+        val pkg6 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted6++ })
         pkg5.onFinish = pkg6
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()
         simRun.sim.shutDown()
+        if (verifyExecuted2 == 0) {
+            fail("pck2 not verified")
+        }
+        if (verifyExecuted3 == 0) {
+            fail("pck3 not verified")
+        }
+        if (verifyExecuted5 == 0) {
+            fail("pck5 not verified")
+        }
+        if (verifyExecuted6 == 0) {
+            fail("pck6 not verified")
+        }
     }
 }

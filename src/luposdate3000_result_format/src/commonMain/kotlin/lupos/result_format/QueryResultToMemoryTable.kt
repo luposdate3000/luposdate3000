@@ -37,6 +37,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 public class QueryResultToMemoryTable : IResultFormat {
+    private val testingVerbose = true
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable, timeoutInMs: Long) {
@@ -50,6 +51,93 @@ public class QueryResultToMemoryTable : IResultFormat {
                 }
                 rowBuf[variableIndex] = valueID
             }
+
+            if (testingVerbose) {
+                val buffer = ByteArrayWrapper()
+                for (variableIndex in variables.indices) {
+                    dictionary.getValue(buffer, rowBuf[variableIndex])
+                    print("valueID :{ ${rowBuf[variableIndex]}}")
+                    DictionaryHelper.byteArrayToCallback(
+                        buffer,
+                        { value ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <bnode>")
+                            print(value.toString())
+                            print("</bnode>\n   </binding>\n")
+                        },
+                        { value ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal>")
+                            print(value.toString())
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { content, lang ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal xml:lang=\"")
+                            print(lang)
+                            print("\">")
+                            print(content)
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { content ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal>")
+                            print(content)
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { content, type ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal datatype=\"")
+                            print(type)
+                            print("\">")
+                            print(content)
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { value ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">")
+                            print(value)
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { value ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float\">")
+                            print(value)
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { value ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double\">")
+                            print(value)
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { value ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">")
+                            print(value)
+                            print("</literal>\n   </binding>\n")
+                        },
+                        { value ->
+                            print("   <binding name=\"")
+                            print(variables[variableIndex])
+                            print("\">\n    <uri>")
+                            print(value)
+                            print("</uri>\n   </binding>\n")
+                        },
+                        {}, {}
+                    )
+                }
+            }
+
             lock?.lock()
             output.data.add(DictionaryValueTypeArray(variables.size) { rowBuf[it] })
             lock?.unlock()
@@ -107,7 +195,7 @@ public class QueryResultToMemoryTable : IResultFormat {
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:109"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:197"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }

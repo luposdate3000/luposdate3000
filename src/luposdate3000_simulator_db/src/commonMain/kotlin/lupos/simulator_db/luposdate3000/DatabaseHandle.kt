@@ -167,11 +167,11 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
     }
 
     private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
-        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, pck.expectedResult)
+        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, pck.expectedResult, pck.verifyAction)
     }
 
     private fun receive(pck: MySimulatorTestingExecute) {
-        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, null)
+        receive(QueryPackage(ownAdress, pck.query.encodeToByteArray()), pck.onFinish, null, {})
     }
 
     private fun containsTripleStoreAccess(op: XMLElement): Boolean {
@@ -186,7 +186,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         return false
     }
 
-    private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?) {
+    private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?, verifyAction: () -> Unit) {
         val queryString = pck.query.decodeToString()
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
@@ -243,8 +243,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             }
         } else {
             val destinations = mutableMapOf("" to pck.sourceAddress)
-            println(parts)
-            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult))
+            receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult, verifyAction))
         }
     }
 
@@ -259,7 +258,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:261"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:260"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
             true
@@ -292,15 +291,24 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 mutableMapOf(),
                 mutableMapOf(),
                 pck.onFinish,
-                pck.expectedResult
+                pck.expectedResult,
+                pck.verifyAction,
             )
         }
-        packages[ownAdress] = MySimulatorOperatorGraphPackage(pck.queryID, mutableMapOf(), mutableMapOf(), mutableMapOf(), pck.onFinish, pck.expectedResult)
+        packages[ownAdress] = MySimulatorOperatorGraphPackage(
+            pck.queryID,
+            mutableMapOf(),
+            mutableMapOf(),
+            mutableMapOf(),
+            pck.onFinish,
+            pck.expectedResult,
+            pck.verifyAction,
+        )
         for ((k, v) in pck.operatorGraph) {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:302"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:310"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -337,7 +345,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             changed = false
             loop@ for ((k, v) in mapTopDown) {
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:339"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:347"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
                     var dest = -1
                     for (key in v) {
                         val d = packageMap[key]
@@ -441,6 +449,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         k,
                         pck.onFinish,
                         pck.expectedResult,
+                        pck.verifyAction,
                     )
                     myPendingWork.add(w)
                 }
@@ -501,9 +510,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:503"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:512"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:505"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:514"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
@@ -570,6 +579,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     myPendingWork.remove(w)
                     changed = true
                     val query = Query(instance)
+                    println(w.operatorGraph)
                     if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
                         query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
                     }
@@ -597,6 +607,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                                 if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
                                     throw Exception(buf_err.toString())
                                 }
+                                w.verifyAction()
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
@@ -629,7 +640,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 is MySimulatorTestingImportPackage -> receive(pck)
                 is MySimulatorTestingCompareGraphPackage -> receive(pck)
                 is MySimulatorTestingExecute -> receive(pck)
-                is QueryPackage -> receive(pck, null, null)
+                is QueryPackage -> receive(pck, null, null, {})
                 is MySimulatorAbstractPackage -> receive(pck)
                 is MySimulatorOperatorGraphPackage -> receive(pck)
                 else -> TODO("$pck")

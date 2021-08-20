@@ -68,6 +68,28 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
             }
             return false
         }
+        val buffer1 = ByteArrayWrapper()
+        val buffer2 = ByteArrayWrapper()
+        val dict1 = query!!.getDictionary()
+        val dict2 = other.query!!.getDictionary()
+
+        println(
+            "equalsVerbose left ${data.map{
+                "${it.map{it}} : ${it.map{
+                    dict1.getValue(buffer1, it)
+                    DictionaryHelper.byteArrayToSparql(buffer1)
+                }}"
+            }}"
+        )
+        println(
+            "equalsVerbose right ${other.data.map{
+                "${it.map{it}} : ${it.map{
+                    dict2.getValue(buffer1, it)
+                    DictionaryHelper.byteArrayToSparql(buffer1)
+                }}"
+            }}"
+        )
+
         if (columns.size != other.columns.size) {
             if (verbose) {
                 out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
@@ -92,10 +114,6 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 false
             }
         }
-        val buffer1 = ByteArrayWrapper()
-        val buffer2 = ByteArrayWrapper()
-        val dict1 = query!!.getDictionary()
-        val dict2 = other.query!!.getDictionary()
         val flags1 = IntArray(data.size) { -1 }
         val flags2 = IntArray(other.data.size) { -1 }
         for (i in 0 until data.size) {
@@ -118,6 +136,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
             }
         }
+
         var result = true
         if (ignoreOrder) {
             var i = 0

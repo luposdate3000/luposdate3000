@@ -26,6 +26,7 @@ internal class MySimulatorPendingWork(
     val key: String,
     val onFinish: IDatabasePackage?,
     val expectedResult: MemoryTable?,
+    val verifyAction: () -> Unit,
 ) {
     internal companion object {
         var pendingWorkCounter = 0

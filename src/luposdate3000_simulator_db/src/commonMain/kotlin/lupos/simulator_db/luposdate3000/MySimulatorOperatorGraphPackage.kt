@@ -25,6 +25,7 @@ internal class MySimulatorOperatorGraphPackage(
     val operatorGraphPartsToHostMap: MutableMap<String, String>,
     val onFinish: IDatabasePackage?,
     val expectedResult: MemoryTable?,
+    val verifyAction: () -> Unit,
 ) : IDatabasePackage {
 
     override fun getPackageSizeInBytes(): Int {
