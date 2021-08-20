@@ -58,6 +58,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             instance.useDictionaryInlineEncoding = false
             instance.allowInitFromDisk = false
             instance.allowDistributedBNodeAssignment = false
+            instance.dictionaryCacheCapacity = 0
             resetRandom()
             BufferManagerExt.allowInitFromDisk = false
             instance.bufferManager = BufferManager(instance)
@@ -80,7 +81,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 return when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:82"/*SOURCE_FILE_END*/)
+                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:83"/*SOURCE_FILE_END*/)
                         }
                         DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
@@ -215,7 +216,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 var res: DictionaryValueType = DictionaryValueHelper.nullValue
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
+                val assumeCrash = (isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE)) && type !in listOf(ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN)
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
@@ -225,7 +226,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     flag = false
                 }
                 if (flag == assumeCrash) {
-                    throw Exception("$flag $isLocal")
+                    throw Exception("$flag $isLocal $type $data ${res.toString(16)}")
                 }
                 if (flag) {
                     if (res != targetKey) {
@@ -241,7 +242,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 var res: DictionaryValueType = DictionaryValueHelper.nullValue
                 var flag = true
                 val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
+                val assumeCrash = (isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE)) && type !in listOf(ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN)
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
