@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
+
 import lupos.dictionary.ADictionary
+import lupos.dictionary.DictionaryCacheLayer
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
@@ -23,42 +25,37 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.dictionary.DictionaryInlineValues
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient : ADictionary {
-@JvmField val input: IMyInputStream,
-    @JvmField val output: IMyOutputStream,
-
-internal companion object {
-operator fun invoke(
-input: IMyInputStream,
-     output: IMyOutputStream,
+internal class RemoteDictionaryClient internal constructor(
+    @JvmField
+    val input: IMyInputStream,
+    @JvmField
+    val output: IMyOutputStream,
     instance: Luposdate3000Instance,
     isLocal: Boolean,
-):DictionaryCacheLayer{
-return DictionaryCacheLayer(instance,
-RemoteDictionaryClient(
-input,
-output,
-instance,
-isLocal,
-0,
-),
-)
-}
-}
-    
-private constructor( input: IMyInputStream,
-     output: IMyOutputStream,
-    instance: Luposdate3000Instance,
-    isLocal: Boolean,
-unusedParam:Int,
-):super(instance, isLocal){
-this.input=input
-this.output=output
-}
+    unusedParam: Int,
+) : ADictionary(instance, isLocal) {
 
+    internal companion object {
+        internal operator fun invoke(
+            input: IMyInputStream,
+            output: IMyOutputStream,
+            instance: Luposdate3000Instance,
+            isLocal: Boolean,
+        ): DictionaryCacheLayer {
+            return DictionaryCacheLayer(
+                instance,
+                RemoteDictionaryClient(
+                    input,
+                    output,
+                    instance,
+                    isLocal,
+                    0,
+                ),
+            )
+        }
+    }
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
     override fun isInmemoryOnly(): Boolean = true

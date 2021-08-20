@@ -16,31 +16,22 @@
  */
 package lupos.dictionary
 
-import lupos.dictionary.DictionaryInlineValues
-import lupos.dictionary.ADictionary
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared.Luposdate3000Instance
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.dictionary.DictionaryInlineValues
-import kotlin.jvm.JvmField
-import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 
 public class DictionaryCacheLayer(
-    @JvmField private val instance: Luposdate3000Instance,
-    @JvmField private val dictionary: ADictionary,
+    private val instance: Luposdate3000Instance,
+    private val dictionary: ADictionary,
 ) : IDictionary {
 
-    @JvmField
     private val ontologyCache = instance.nodeGlobalOntologyCache
-    @JvmField
+
     private val cache = DictionaryCache(instance)
     override fun close() {
         dictionary.close()
@@ -120,12 +111,12 @@ public class DictionaryCacheLayer(
                         return res
                     }
                 }
-if(child.isLocal){
-                res = instance.nodeGlobalDictionary!!.hasValue(buffer)
-                if (res != DictionaryValueHelper.nullValue) {
-                    return res
+                if (dictionary.isLocal) {
+                    res = instance.nodeGlobalDictionary!!.hasValue(buffer)
+                    if (res != DictionaryValueHelper.nullValue) {
+                        return res
+                    }
                 }
-}
                 res = dictionary.createValue(buffer)
                 if (res == DictionaryValueHelper.nullValue) {
                     return DictionaryValueHelper.nullValue
@@ -162,13 +153,13 @@ if(child.isLocal){
                     }
                 }
                 if (dictionary.isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
-                dictionary.getValue(buffer, value)
-                if (instance.dictionaryCacheCapacity > 0) {
-                    cache.insertValuePair(buffer, value)
-                }
-                }else{
+                    dictionary.getValue(buffer, value)
+                    if (instance.dictionaryCacheCapacity > 0) {
+                        cache.insertValuePair(buffer, value)
+                    }
+                } else {
                     return instance.nodeGlobalDictionary!!.getValue(buffer, value)
-}
+                }
             }
         }
     }
@@ -208,12 +199,12 @@ if(child.isLocal){
                         return res
                     }
                 }
-if(child.isLocal){
-                res = instance.nodeGlobalDictionary!!.hasValue(buffer)
-                if (res != DictionaryValueHelper.nullValue) {
-                    return res
+                if (dictionary.isLocal) {
+                    res = instance.nodeGlobalDictionary!!.hasValue(buffer)
+                    if (res != DictionaryValueHelper.nullValue) {
+                        return res
+                    }
                 }
-}
                 res = dictionary.hasValue(buffer)
                 if (res == DictionaryValueHelper.nullValue) {
                     return DictionaryValueHelper.nullValue
@@ -225,5 +216,4 @@ if(child.isLocal){
             }
         }
     }
-
 }
