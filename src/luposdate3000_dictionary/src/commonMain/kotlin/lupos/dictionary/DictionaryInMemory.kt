@@ -141,46 +141,34 @@ public class DictionaryInMemory internal constructor(
             { (value and DictionaryValueHelper.maskValue) >= 0 },
             { " $value >= 0" }
         )
-        if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
-// TODO here indexOutOfBounds?!?
-            val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
-            ByteArrayWrapperExt.copyInto(buf, buffer, false)
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:148"/*SOURCE_FILE_END*/ },
-                { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() },
-                { "xxx$value" }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:153"/*SOURCE_FILE_END*/ },
-                { (value and DictionaryValueHelper.maskValue) < dataV2I.size },
-                { "$value < ${dataV2I.size}" }
-            )
-        } else {
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:159"/*SOURCE_FILE_END*/ },
-                { (value and DictionaryValueHelper.maskValue) < bNodeCounter },
-                { "$value < $bNodeCounter" }
-            )
-            DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
-        }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:166"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:144"/*SOURCE_FILE_END*/ },
+            { dataV2I.size> DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue) },
+        )
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:148"/*SOURCE_FILE_END*/ },
+            { (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode }
+        )
+        val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
+        ByteArrayWrapperExt.copyInto(buf, buffer, false)
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:154"/*SOURCE_FILE_END*/ },
             { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() },
-            { "" + value }
+            { "$value" }
         )
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:174"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:162"/*SOURCE_FILE_END*/ },
             { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
         )
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:178"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:166"/*SOURCE_FILE_END*/ },
             { DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE) }
         )
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:182"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:170"/*SOURCE_FILE_END*/ },
             { instance.nodeGlobalDictionary!!.hasValue(buffer) == DictionaryValueHelper.nullValue }
         )
         var res = dataV2I[buffer]
@@ -205,28 +193,28 @@ public class DictionaryInMemory internal constructor(
 
     public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:207"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:195"/*SOURCE_FILE_END*/ },
             { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:212"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:200"/*SOURCE_FILE_END*/ },
             { !isLocal }
         )
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:216"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:204"/*SOURCE_FILE_END*/ },
             { type != ETripleComponentTypeExt.BLANK_NODE }
         )
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:220"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:208"/*SOURCE_FILE_END*/ },
             { type != ETripleComponentTypeExt.BOOLEAN }
         )
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:224"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:212"/*SOURCE_FILE_END*/ },
             { type != ETripleComponentTypeExt.ERROR }
         )
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:228"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:216"/*SOURCE_FILE_END*/ },
             { type != ETripleComponentTypeExt.UNDEF }
         )
         val res = dataV2I[buffer] ?: return DictionaryValueHelper.nullValue

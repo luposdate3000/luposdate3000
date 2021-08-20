@@ -203,28 +203,36 @@ public class DictionaryCacheLayer(
             DictionaryValueHelper.undefValue -> DictionaryHelper.undefToByteArray(buffer)
             DictionaryValueHelper.nullValue -> throw Exception("invalid call")
             else -> {
-                if (instance.useDictionaryInlineEncoding) {
-                    if (DictionaryInlineValues.getValueById(buffer, value)) {
-                        return
+                if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
+                    if (instance.useDictionaryInlineEncoding) {
+                        if (DictionaryInlineValues.getValueById(buffer, value)) {
+                            return
+                        }
                     }
-                }
-                if (ontologyCache != null) {
-                    if (ontologyCache.getValueById(buffer, value)) {
-                        return
+                    if (ontologyCache != null) {
+                        if (ontologyCache.getValueById(buffer, value)) {
+                            return
+                        }
                     }
-                }
-                if (instance.dictionaryCacheCapacity > 0) {
-                    if (cache.getValueById(buffer, value)) {
-                        return
-                    }
-                }
-                if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
-                    dictionary.getValue(buffer, value)
                     if (instance.dictionaryCacheCapacity > 0) {
-                        cache.insertValuePair(buffer, value)
+                        if (cache.getValueById(buffer, value)) {
+                            return
+                        }
+                    }
+                    if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
+                        dictionary.getValue(buffer, value)
+                        if (instance.dictionaryCacheCapacity > 0) {
+                            cache.insertValuePair(buffer, value)
+                        }
+                    } else {
+                        return instance.nodeGlobalDictionary!!.getValue(buffer, value)
                     }
                 } else {
-                    return instance.nodeGlobalDictionary!!.getValue(buffer, value)
+                    SanityCheck.check(
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:231"/*SOURCE_FILE_END*/ },
+                        { value >= 0 }
+                    )
+                    DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
                 }
             }
         }
@@ -232,7 +240,7 @@ public class DictionaryCacheLayer(
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:234"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:242"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)
