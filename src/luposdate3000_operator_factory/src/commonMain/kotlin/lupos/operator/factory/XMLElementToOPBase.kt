@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
-
+import lupos.dictionary.DictionaryCacheLayer
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
@@ -328,125 +328,177 @@ public object XMLElementToOPBase {
         operatorMap["AOPDivision"] = { query, node, mapping, recursionFunc ->
             AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
+        operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
+            val dictvalue = node.attributes["dictvalue"]!!
+            AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+        }
         operatorMap["ValueDateTime"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.dateTimeToByteArray(buffer, node.attributes["value"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.dateTimeToByteArray(buffer, node.attributes["value"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueUndef"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.undefToByteArray(buffer)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.undefToByteArray(buffer)
                 AOPConstant(query, buffer)
-            }
-        }
-        operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
-            val dictvalue = node.attributes["dictvalue"]
-            if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
-            } else {
-                AOPConstant(query, DictionaryValueHelper.fromString(node.attributes["dictvalue"]!!))
             }
         }
         operatorMap["ValueInteger"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.integerToByteArray(buffer, node.attributes["value"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.integerToByteArray(buffer, node.attributes["value"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueDecimal"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.decimalToByteArray(buffer, node.attributes["value"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.decimalToByteArray(buffer, node.attributes["value"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueFloat"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.floatToByteArray(buffer, node.attributes["value"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.floatToByteArray(buffer, node.attributes["value"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueDouble"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.doubleToByteArray(buffer, node.attributes["value"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.doubleToByteArray(buffer, node.attributes["value"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueSimpleLiteral"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.stringToByteArray(buffer, node.attributes["content"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.stringToByteArray(buffer, node.attributes["content"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueTypedLiteral"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.typedToByteArray(buffer, node.attributes["content"]!!, node.attributes["type_iri"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.typedToByteArray(buffer, node.attributes["content"]!!, node.attributes["type_iri"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueLanguageTaggedLiteral"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.langToByteArray(buffer, node.attributes["content"]!!, node.attributes["language"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.langToByteArray(buffer, node.attributes["content"]!!, node.attributes["language"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueBoolean"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.booleanToByteArray(buffer, node.attributes["value"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.booleanToByteArray(buffer, node.attributes["value"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["ValueIri"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.iriToByteArray(buffer, node.attributes["value"]!!)
             if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+                val value = DictionaryValueHelper.fromString(dictvalue)
+                val dict = query.getDictionary()
+                if (dict is DictionaryCacheLayer) {
+                    dict.addToCache(buffer, value)
+                }
+                AOPConstant(query, value)
             } else {
-                val buffer = ByteArrayWrapper()
-                DictionaryHelper.iriToByteArray(buffer, node.attributes["value"]!!)
                 AOPConstant(query, buffer)
             }
         }
         operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
+            TODO("$node")
             val dictvalue = node.attributes["dictvalue"]
             if (dictvalue != null) {
                 AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
@@ -928,7 +980,7 @@ public object XMLElementToOPBase {
 /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:930"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:982"/*SOURCE_FILE_END*/ },
             { theMap [node.tag] != null },
             { node.tag }
         )

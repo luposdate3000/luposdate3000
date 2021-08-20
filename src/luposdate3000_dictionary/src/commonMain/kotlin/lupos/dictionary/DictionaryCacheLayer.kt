@@ -191,9 +191,15 @@ public class DictionaryCacheLayer(
         }
     }
 
+    public fun addToCache(buffer: ByteArrayWrapper, value: DictionaryValueType) {
+        if (instance.dictionaryCacheCapacity > 0) {
+            cache.insertValuePair(buffer, value)
+        }
+    }
+
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:195"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:201"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         when (value) {
@@ -229,7 +235,7 @@ public class DictionaryCacheLayer(
                     }
                 } else {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:231"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:237"/*SOURCE_FILE_END*/ },
                         { value >= 0 }
                     )
                     DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
@@ -240,7 +246,7 @@ public class DictionaryCacheLayer(
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:242"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:248"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)

@@ -282,15 +282,15 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     println("testGetValueFail $key")
                 }
                 var flag = true
+                val buffer = ByteArrayWrapper()
                 try {
-                    val buffer = ByteArrayWrapper()
                     dict.getValue(buffer, key)
                 } catch (e: Throwable) {
                     // e.printStackTrace() this is handled correctly
                     flag = false
                 }
                 if (flag) {
-                    throw Exception("")
+                    throw Exception("${key.toString(16)} $buffer ${DictionaryHelper.byteArrayToType(buffer)}")
                 }
             }
 
