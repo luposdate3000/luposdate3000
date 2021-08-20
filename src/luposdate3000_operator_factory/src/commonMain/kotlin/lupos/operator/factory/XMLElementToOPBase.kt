@@ -329,65 +329,130 @@ public object XMLElementToOPBase {
             AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
         operatorMap["ValueDateTime"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.dateTimeToByteArray(buffer, node.attributes["value"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.dateTimeToByteArray(buffer, node.attributes["value"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueUndef"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.undefToByteArray(buffer)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.undefToByteArray(buffer)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
-            AOPConstant(query, DictionaryValueHelper.fromString(node.attributes["dictvalue"]!!))
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                AOPConstant(query, DictionaryValueHelper.fromString(node.attributes["dictvalue"]!!))
+            }
         }
         operatorMap["ValueInteger"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.integerToByteArray(buffer, node.attributes["value"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.integerToByteArray(buffer, node.attributes["value"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueDecimal"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.decimalToByteArray(buffer, node.attributes["value"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.decimalToByteArray(buffer, node.attributes["value"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueFloat"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.floatToByteArray(buffer, node.attributes["value"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.floatToByteArray(buffer, node.attributes["value"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueDouble"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.doubleToByteArray(buffer, node.attributes["value"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.doubleToByteArray(buffer, node.attributes["value"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueSimpleLiteral"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.stringToByteArray(buffer, node.attributes["content"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.stringToByteArray(buffer, node.attributes["content"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueTypedLiteral"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.typedToByteArray(buffer, node.attributes["content"]!!, node.attributes["type_iri"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.typedToByteArray(buffer, node.attributes["content"]!!, node.attributes["type_iri"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueLanguageTaggedLiteral"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.langToByteArray(buffer, node.attributes["content"]!!, node.attributes["language"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.langToByteArray(buffer, node.attributes["content"]!!, node.attributes["language"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueBoolean"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.booleanToByteArray(buffer, node.attributes["value"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.booleanToByteArray(buffer, node.attributes["value"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["ValueIri"] = { query, node, mapping, recursionFunc ->
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.iriToByteArray(buffer, node.attributes["value"]!!)
-            AOPConstant(query, buffer)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.iriToByteArray(buffer, node.attributes["value"]!!)
+                AOPConstant(query, buffer)
+            }
         }
         operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
-            XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping, recursionFunc)
+            val dictvalue = node.attributes["dictvalue"]
+            if (dictvalue != null) {
+                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
+            } else {
+                XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping, recursionFunc)
+            }
         }
         operatorMap["AOPMultiplication"] = { query, node, mapping, recursionFunc ->
             AOPMultiplication(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
@@ -863,7 +928,7 @@ public object XMLElementToOPBase {
 /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:865"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:930"/*SOURCE_FILE_END*/ },
             { theMap [node.tag] != null },
             { node.tag }
         )

@@ -52,10 +52,11 @@ public class AOPConstant : AOPBase, IAOPConstant {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
         val res = if (DictionaryHelper.byteArrayToType(buffer) == ETripleComponentTypeExt.BLANK_NODE) {
-            XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
+            XMLElement("ValueBnode")
         } else {
             DictionaryHelper.byteArrayToXMLElement(buffer)
         }
+        res.addAttribute("dictvalue", "" + value)
         return res
     }
 

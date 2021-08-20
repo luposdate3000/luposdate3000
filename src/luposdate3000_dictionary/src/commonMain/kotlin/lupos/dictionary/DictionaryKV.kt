@@ -38,9 +38,26 @@ public class DictionaryKV internal constructor(
     @JvmField
     internal val rootPageID: Int,
     initFromRootPage: Boolean,
-    instance: Luposdate3000Instance
+    instance: Luposdate3000Instance,
+unusedVar:Int,
 ) : ADictionary(instance, false) {
-
+internal companion object{
+internal operator fun invoke( bufferManager: IBufferManager,
+ rootPageID: Int,
+    initFromRootPage: Boolean,
+    instance: Luposdate3000Instance,
+):DictionaryCacheLayer{
+return DictionaryCacheLayer(instance,
+DictionaryKV(
+bufferManager,
+rootPageID,
+initFromRootPage,
+instance
+0,
+)
+)
+}
+}
     @JvmField
     internal val kv: KeyValueStore
 

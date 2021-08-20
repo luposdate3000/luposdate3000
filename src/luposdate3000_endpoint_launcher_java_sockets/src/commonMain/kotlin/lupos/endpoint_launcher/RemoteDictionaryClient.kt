@@ -16,8 +16,6 @@
  */
 package lupos.endpoint_launcher
 import lupos.dictionary.ADictionary
-import lupos.dictionary.DictionaryCache
-import lupos.dictionary.DictionaryInlineValues
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
@@ -25,16 +23,42 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.dictionary.DictionaryInlineValues
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(
-    @JvmField val input: IMyInputStream,
+internal class RemoteDictionaryClient : ADictionary {
+@JvmField val input: IMyInputStream,
     @JvmField val output: IMyOutputStream,
+
+internal companion object {
+operator fun invoke(
+input: IMyInputStream,
+     output: IMyOutputStream,
     instance: Luposdate3000Instance,
-    isLocal: Boolean
-) : ADictionary(instance, isLocal) {
-    private val ontologyCache = instance.nodeGlobalOntologyCache
-    private val cache = DictionaryCache(instance)
+    isLocal: Boolean,
+):DictionaryCacheLayer{
+return DictionaryCacheLayer(instance,
+RemoteDictionaryClient(
+input,
+output,
+instance,
+isLocal,
+0,
+),
+)
+}
+}
+    
+private constructor( input: IMyInputStream,
+     output: IMyOutputStream,
+    instance: Luposdate3000Instance,
+    isLocal: Boolean,
+unusedParam:Int,
+):super(instance, isLocal){
+this.input=input
+this.output=output
+}
+
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
     override fun isInmemoryOnly(): Boolean = true
@@ -65,26 +89,6 @@ internal class RemoteDictionaryClient(
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        if (instance.useDictionaryInlineEncoding) {
-            val res = DictionaryInlineValues.getValueByContent(buffer)
-            if (res != DictionaryValueHelper.nullValue) {
-                return res
-            }
-        }
-        val tmp2 = instance.nodeGlobalDictionary!!.hasValue(buffer)
-        if (tmp2 != DictionaryValueHelper.nullValue) {
-            return tmp2
-        }
-        if (instance.dictionaryCacheCapacity> 0) {
-            val tmp = cache.getValueByContent(buffer)
-            if (tmp != DictionaryValueHelper.nullValue) {
-                return tmp
-            }
-        }
-        val tmp3 = ontologyCache?.getValueByContent(buffer)
-        if (tmp3 != null && tmp3 != DictionaryValueHelper.nullValue) {
-            return tmp3
-        }
         output.writeInt(2)
         output.writeInt(ByteArrayWrapperExt.getSize(buffer))
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
@@ -93,73 +97,25 @@ internal class RemoteDictionaryClient(
         if (res == DictionaryValueHelper.nullValue) {
             return DictionaryValueHelper.nullValue
         }
-        if (instance.dictionaryCacheCapacity> 0) {
-            cache.insertValuePair(buffer, res)
-        }
         return res
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        if (instance.useDictionaryInlineEncoding) {
-            val res = DictionaryInlineValues.getValueByContent(buffer)
-            if (res != DictionaryValueHelper.nullValue) {
-                return res
-            }
-        }
-        val tmp2 = instance.nodeGlobalDictionary!!.hasValue(buffer)
-        if (tmp2 != DictionaryValueHelper.nullValue) {
-            return tmp2
-        }
-        if (instance.dictionaryCacheCapacity> 0) {
-            val tmp = cache.getValueByContent(buffer)
-            if (tmp != DictionaryValueHelper.nullValue) {
-                return tmp
-            }
-        }
-        val tmp3 = ontologyCache?.getValueByContent(buffer)
-        if (tmp3 != null && tmp3 != DictionaryValueHelper.nullValue) {
-            return tmp3
-        }
         output.writeInt(5)
         output.writeInt(ByteArrayWrapperExt.getSize(buffer))
         output.write(ByteArrayWrapperExt.getBuf(buffer), ByteArrayWrapperExt.getSize(buffer))
         output.flush()
         val res = input.readDictionaryValueType()
-        if (instance.dictionaryCacheCapacity> 0) {
-            cache.insertValuePair(buffer, res)
-        }
         return res
     }
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        if (instance.useDictionaryInlineEncoding) {
-            if (DictionaryInlineValues.getValueById(buffer, value)) {
-                return
-            }
-        }
-        val tmp3 = ontologyCache?.getValueById(buffer, value)
-        if (tmp3 != null && tmp3) {
-            return
-        }
-        if (isLocal == ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal)) {
-            if (instance.dictionaryCacheCapacity> 0) {
-                val tmp = cache.getValueById(buffer, value)
-                if (tmp) {
-                    return
-                }
-            }
-        } else {
-            return instance.nodeGlobalDictionary!!.getValue(buffer, value)
-        }
         output.writeInt(6)
         output.writeDictionaryValueType(value)
         output.flush()
         val len = input.readInt()
         ByteArrayWrapperExt.setSize(buffer, len, false)
         input.read(ByteArrayWrapperExt.getBuf(buffer), len)
-        if (instance.dictionaryCacheCapacity> 0) {
-            cache.insertValuePair(buffer, value)
-        }
     }
 
     override fun close() {
