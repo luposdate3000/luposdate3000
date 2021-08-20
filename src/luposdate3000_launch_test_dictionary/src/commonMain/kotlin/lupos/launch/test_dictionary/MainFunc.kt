@@ -209,58 +209,6 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 values[DictionaryValueHelper.fromInt(values.size)] = data
             }
 
-            fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: DictionaryValueType) {
-                if (verbose) {
-                    println("testHasValueYesOk $targetKey $data")
-                }
-                var res: DictionaryValueType = DictionaryValueHelper.nullValue
-                var flag = true
-                val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = (isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE)) && type !in listOf(ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN)
-                try {
-                    res = dict.hasValue(data)
-                } catch (e: Throwable) {
-                    if (!assumeCrash) {
-                        e.printStackTrace()
-                    }
-                    flag = false
-                }
-                if (flag == assumeCrash) {
-                    throw Exception("$flag $isLocal $type $data ${res.toString(16)}")
-                }
-                if (flag) {
-                    if (res != targetKey) {
-                        throw Exception("$res $targetKey")
-                    }
-                }
-            }
-
-            fun testHasValueNotExistingOk(data: ByteArrayWrapper) {
-                if (verbose) {
-                    println("testHasValueNoOk $data")
-                }
-                var res: DictionaryValueType = DictionaryValueHelper.nullValue
-                var flag = true
-                val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = (isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE)) && type !in listOf(ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN)
-                try {
-                    res = dict.hasValue(data)
-                } catch (e: Throwable) {
-                    if (!assumeCrash) {
-                        e.printStackTrace()
-                    }
-                    flag = false
-                }
-                if (flag == assumeCrash) {
-                    throw Exception("")
-                }
-                if (flag) {
-                    if (res != DictionaryValueHelper.nullValue) {
-                        throw Exception("")
-                    }
-                }
-            }
-
             fun testGetValueOk(target: ByteArrayWrapper, key: DictionaryValueType) {
                 if (verbose) {
                     println("testGetValueOk $key ${key.toString(2)} $target")
@@ -289,23 +237,20 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     // e.printStackTrace() this is handled correctly
                     flag = false
                 }
-                if (flag) {
+                if (flag && (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE)) {
                     throw Exception("${key.toString(16)} $buffer ${DictionaryHelper.byteArrayToType(buffer)}")
                 }
             }
 
             while (hasNextRandom() >= 2) {
-                val mode = abs(nextRandom() % 6)
+                val mode = abs(nextRandom() % 4)
                 val rng = nextRandom()
                 when (mode) {
                     0 -> getExistingData(rng) { v, k -> testCreateValueExistingOk(v, k) }
                     1 -> getNotExistingData(rng) { v -> testCreateValueNotExistingOk(v) }
 
-                    2 -> getExistingData(rng) { v, k -> testHasValueExistingOk(v, k) }
-                    3 -> getNotExistingData(rng) { v -> testHasValueNotExistingOk(v) }
-
-                    4 -> getExistingData(rng) { v, k -> testGetValueOk(v, k) }
-                    5 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
+                    2 -> getExistingData(rng) { v, k -> testGetValueOk(v, k) }
+                    3 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
                 }
             }
             for ((k, v) in mapping) {

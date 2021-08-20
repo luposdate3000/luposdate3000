@@ -134,10 +134,10 @@ public class DictionaryCacheLayer(
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {
-                return if (DictionaryHelper.byteArrayToBoolean(buffer)) {
-                    DictionaryValueHelper.booleanTrueValue
+                if (DictionaryHelper.byteArrayToBoolean(buffer)) {
+                    return DictionaryValueHelper.booleanTrueValue
                 } else {
-                    DictionaryValueHelper.booleanFalseValue
+                    return DictionaryValueHelper.booleanFalseValue
                 }
             }
             ETripleComponentTypeExt.ERROR -> {
@@ -150,11 +150,12 @@ public class DictionaryCacheLayer(
                 if (DictionaryHelper.headerDecodeFlag(buffer) == 0x80) {
                     return DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
-                    return dictionary.createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
+                    val res = dictionary.createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
+                    return res
                 }
             }
             else -> {
-                var res = DictionaryValueHelper.nullValue
+                var res: DictionaryValueType
                 if (instance.useDictionaryInlineEncoding) {
                     res = DictionaryInlineValues.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
@@ -199,7 +200,7 @@ public class DictionaryCacheLayer(
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:201"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:202"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         when (value) {
@@ -235,7 +236,7 @@ public class DictionaryCacheLayer(
                     }
                 } else {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:237"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:238"/*SOURCE_FILE_END*/ },
                         { value >= 0 }
                     )
                     DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
@@ -246,7 +247,7 @@ public class DictionaryCacheLayer(
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:248"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:249"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)
@@ -264,14 +265,19 @@ public class DictionaryCacheLayer(
             ETripleComponentTypeExt.UNDEF -> {
                 return DictionaryValueHelper.undefValue
             }
+            ETripleComponentTypeExt.BLANK_NODE -> {
+                if (DictionaryHelper.headerDecodeFlag(buffer) == 0x80) {
+                    return DictionaryHelper.byteArrayToBnode_I(buffer)
+                } else {
+                    return dictionary.hasValue(buffer)
+                }
+            }
             else -> {
-                var res = DictionaryValueHelper.nullValue
-                if (type != ETripleComponentTypeExt.BLANK_NODE) {
-                    if (instance.useDictionaryInlineEncoding) {
-                        res = DictionaryInlineValues.getValueByContent(buffer)
-                        if (res != DictionaryValueHelper.nullValue) {
-                            return res
-                        }
+                var res: DictionaryValueType
+                if (instance.useDictionaryInlineEncoding) {
+                    res = DictionaryInlineValues.getValueByContent(buffer)
+                    if (res != DictionaryValueHelper.nullValue) {
+                        return res
                     }
                 }
                 if (ontologyCache != null) {
@@ -296,10 +302,8 @@ public class DictionaryCacheLayer(
                 if (res == DictionaryValueHelper.nullValue) {
                     return DictionaryValueHelper.nullValue
                 }
-                if (type != ETripleComponentTypeExt.BLANK_NODE) {
-                    if (instance.dictionaryCacheCapacity > 0) {
-                        cache.insertValuePair(buffer, res)
-                    }
+                if (instance.dictionaryCacheCapacity > 0) {
+                    cache.insertValuePair(buffer, res)
                 }
                 return res
             }

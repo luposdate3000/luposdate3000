@@ -51,4 +51,12 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     override fun toString(): String {
         return buf_.map { it }.subList(0, size_).toString()
     }
+    public fun toStringShort(): String {
+        val len = if (size_ <20) {
+            size_
+        } else {
+            20
+        }
+        return buf_.map { it }.subList(0, len).toString()
+    }
 }
