@@ -414,50 +414,45 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 if (!useCodeGen && str.isNotEmpty()) {
                     for (LUPOS_PARTITION_MODE in EPartitionModeExt.names) {
                         for (predefinedPartitionScheme in EPredefinedPartitionSchemesExt.names) {
-                            for (mergeLocalOperatorgraphs in listOf("true", "false")) {
-                                for (queryDistributionMode in EQueryDistributionModeExt.names) {
-                                    for (useDictionaryInlineEncoding in listOf("true", "false")) {
-                                        if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && queryDistributionMode == EQueryDistributionModeExt.names[EQueryDistributionModeExt.Routing]) {
-                                            continue
-                                        }
-                                        if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && mergeLocalOperatorgraphs == "true") {
-                                            continue
-                                        }
-                                        if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
-                                            continue
-                                        }
-                                        if (ignored || !withSimulator) {
-                                            val reason = ignoreList[testCaseName]
-                                            if (reason != null) {
-                                                out.println("    @Ignore // Reason: >$reason<")
-                                            } else {
-                                                out.println("    @Ignore")
-                                            }
-                                        } else {
-                                            val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.ignoreListDueToBugsInSimulator[testCaseName]
-                                            if (reason != null) {
-                                                out.println("    @Ignore // Reason: >$reason<")
-                                            }
-                                        }
-                                        out.println("    @Test")
-                                        out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $mergeLocalOperatorgraphs - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE`() {")
-                                        out.println("        simulatorHelper(")
-                                        if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                            out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
-                                        } else {
-                                            out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
-                                        }
-                                        out.println("            mutableMapOf(")
-                                        out.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
-                                        out.println("                \"mergeLocalOperatorgraphs\" to $mergeLocalOperatorgraphs,")
-                                        out.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
-                                        out.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
-                                        out.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
-                                        out.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
-                                        out.println("            )")
-                                        out.println("        )")
-                                        out.println("    }")
+                            for (queryDistributionMode in EQueryDistributionModeExt.names) {
+                                for (useDictionaryInlineEncoding in listOf("true", "false")) {
+                                    if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && queryDistributionMode == EQueryDistributionModeExt.names[EQueryDistributionModeExt.Routing]) {
+                                        continue
                                     }
+                                    if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
+                                        continue
+                                    }
+                                    if (ignored || !withSimulator) {
+                                        val reason = ignoreList[testCaseName]
+                                        if (reason != null) {
+                                            out.println("    @Ignore // Reason: >$reason<")
+                                        } else {
+                                            out.println("    @Ignore")
+                                        }
+                                    } else {
+                                        val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.ignoreListDueToBugsInSimulator[testCaseName]
+                                        if (reason != null) {
+                                            out.println("    @Ignore // Reason: >$reason<")
+                                        }
+                                    }
+                                    out.println("    @Test")
+                                    out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE`() {")
+                                    out.println("        simulatorHelper(")
+                                    if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
+                                        out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
+                                    } else {
+                                        out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
+                                    }
+                                    out.println("            mutableMapOf(")
+                                    out.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
+                                    out.println("                \"mergeLocalOperatorgraphs\" to true,")
+                                    out.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
+                                    out.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
+                                    out.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
+                                    out.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
+                                    out.println("            )")
+                                    out.println("        )")
+                                    out.println("    }")
                                 }
                             }
                         }
