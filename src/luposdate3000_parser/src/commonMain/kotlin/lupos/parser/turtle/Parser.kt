@@ -2,6 +2,7 @@ package lupos.parser.turtle
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.inline.File
+
 internal object TurtleParserWithDictionaryValueTypeTriplesObject {
 
     internal const val COMMA = 0
@@ -1378,8 +1379,8 @@ internal object TurtleParserWithDictionaryValueTypeTriplesObject {
             )
         } // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
         val token = Token(EOF, "", 0)
-        var index1 = 0
-        var index2 = 0
+        private var index1 = 0
+        private var index2 = 0
         var buffered = 0 // how many tokens are currently buffered?
 
         fun nextToken(startNode: Int): Token {

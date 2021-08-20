@@ -83,30 +83,34 @@ public class DictionaryCache : IDictionaryCache {
                 return // to be save, otherwise we miss the case where a local dictionary id is upgraded to a global one
             }
         }
-        if (extend && offset >= valueCapacity) {
-            var target = valueCapacity * 2
-            if (target == 0) {
-                target = 1
-            }
-            val tmpIds = DictionaryValueTypeArray(target) {
-                if (it <valueCapacity) {
-                    valueIds[it]
-                } else {
-                    DictionaryValueHelper.booleanTrueValue
+        if (offset >= valueCapacity) {
+            if (extend) {
+                var target = valueCapacity * 2
+                if (target == 0) {
+                    target = 1
                 }
-            }
-            val tmpContents = Array(target) {
-                if (it <valueCapacity) {
-                    valueContent[it]
-                } else {
-                    val tmp = ByteArrayWrapper()
-                    ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp, false)
-                    tmp
+                val tmpIds = DictionaryValueTypeArray(target) {
+                    if (it <valueCapacity) {
+                        valueIds[it]
+                    } else {
+                        DictionaryValueHelper.booleanTrueValue
+                    }
                 }
+                val tmpContents = Array(target) {
+                    if (it <valueCapacity) {
+                        valueContent[it]
+                    } else {
+                        val tmp = ByteArrayWrapper()
+                        ByteArrayWrapperExt.copyInto(DictionaryExt.booleanTrueValue3, tmp, false)
+                        tmp
+                    }
+                }
+                valueIds = tmpIds
+                valueContent = tmpContents
+                valueCapacity = target
+            } else {
+                offset = 0
             }
-            valueIds = tmpIds
-            valueContent = tmpContents
-            valueCapacity = target
         }
         ByteArrayWrapperExt.copyInto(buffer, valueContent[offset], false)
         valueIds[offset] = id
