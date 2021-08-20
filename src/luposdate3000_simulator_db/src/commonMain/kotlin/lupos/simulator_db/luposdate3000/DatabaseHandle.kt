@@ -16,7 +16,7 @@
  */
 
 package lupos.simulator_db.luposdate3000
-
+import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.PathMappingHelper
@@ -571,7 +571,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     changed = true
                     val query = Query(instance)
                     if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
-                        query.setDictionary(DictionaryNotImplemented())
+                        query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
                     }
                     val node = localXMLElementToOPBase(query, w.operatorGraph)
                     when (node) {

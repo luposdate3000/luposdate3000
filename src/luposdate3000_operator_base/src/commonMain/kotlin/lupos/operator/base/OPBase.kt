@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base
-
+import lupos.dictionary.DictionaryCacheLayer
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.base.singleinput.LOPNOOP
 import lupos.shared.DictionaryValueType
@@ -143,7 +143,7 @@ public abstract class OPBase public constructor(
             {
                 val usesDictionary = node.usesDictionary()
                 if (!usesDictionary) {
-                    query.setDictionary(DictionaryNotImplemented())
+                    query.setDictionary(DictionaryCacheLayer(query.getInstance(), DictionaryNotImplemented(), true))
                 }
             }
         )

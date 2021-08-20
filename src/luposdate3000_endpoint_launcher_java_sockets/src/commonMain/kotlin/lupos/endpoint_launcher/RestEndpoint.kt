@@ -16,6 +16,7 @@
  */
 package lupos.endpoint_launcher
 import lupos.dictionary.DictionaryCache
+import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.EndpointExtendedVisualize
 import lupos.endpoint.LuposdateEndpoint
@@ -461,7 +462,7 @@ public object RestEndpoint {
                         val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
                         query.setDictionary(remoteDictionary)
                     } else {
-                        query.setDictionary(DictionaryNotImplemented())
+                        query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
                     }
                     query.setDictionaryUrl(dictionaryURL)
 // evaluate
