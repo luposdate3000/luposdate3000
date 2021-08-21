@@ -64,7 +64,6 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
 
     return observation_matrix
 
-# TODO: DOC!!
 def perform_join(index_a: int, index_b: int, observation_matrix: np.ndarray):
     """ Joins triple a and triple b.
 
@@ -152,7 +151,6 @@ def _create_matrix_index_bgp_dict(sorted_query: List[List[Tuple[int, int, int]]]
     return new_dict
 
 
-# TODO: DOC!!
 def check_if_done(observation_matrix: np.ndarray) -> bool:
     """Function to check if the episode is finished.
 
@@ -183,7 +181,7 @@ def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
     """Function that loads a new query.
 
     Function gets a serialized query in form of a string. It builds a query object and
-    sorts the BGPs on their predicate (2nd ID).
+    sorts the triples on their predicate (2nd ID).
 
     Parameters
     ----------
@@ -339,6 +337,13 @@ def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order):
     # calculate reward on base of execution time relative to maximum and minimum
     # execution times of all benched queries
     reward = -(math.sqrt(abs(execution_times[join_order_n]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10)
+
+    max_list = []
+    for i in range(3):
+        print(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
+        max_list.append(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
+    print("MAX: "+ str(max(max_list)))
+    print("Reward: " + str(reward))
 
     return reward
 

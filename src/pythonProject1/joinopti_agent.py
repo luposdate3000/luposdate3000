@@ -28,14 +28,18 @@ def train_model():
     #print(model)
 
     # for i in range(len(benched_queries)):
-    for i in range(21):
-        env.set_training_data([benched_queries[i]])
-        model.learn(total_timesteps=50000, log_interval=1)
-    model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
+    # for i in range(21):
+    #     env.set_training_data([benched_queries[i]])
+    #     model.learn(total_timesteps=50000, log_interval=1)
+    # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
     # env = model.get_env()
     # del model
     # model = PPO.load("ppo_gym_database")
     # env = model.get_env()
+
+    env.set_training_data(benched_queries)
+    model.learn(total_timesteps=500000, log_interval=1)
+    model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
 
 
 def optimize_query():
@@ -55,10 +59,10 @@ def optimize_query():
 
     rewards = ""
     actions = ""
-    for i in range(21):
+    for i in range(210):
         done = False
         print("---------------Query: ----------- " + str(i))
-        env.set_training_data([benched_queries[i]])
+        env.set_training_data(benched_queries)
         obs = env.reset()
         print("Observation: ")
         print(obs)

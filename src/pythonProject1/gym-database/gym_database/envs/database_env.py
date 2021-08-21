@@ -95,13 +95,13 @@ class DatabaseEnv(gym.Env):
         self.join_order_h: Dict = None
         """Helper variable for join ordering."""
 
-        # self.threshold = -3
+        self.threshold = -10
         """Threshold for the reward. Under this value, the episode has to be redone."""
 
         self.redo = False
         """Redo episode until a specific reward is reached."""
 
-        self.reward_invalid_action = -10
+        self.reward_invalid_action = -11
         """Reward for invalid actions."""
 
         self.training_data: List[List[List[str]]] = None
@@ -114,6 +114,8 @@ class DatabaseEnv(gym.Env):
         self.max_exec_time: float = None
 
         self.min_exec_time: float = None
+
+        self.whole_dataset = False
 
     def step(self, action: int):
         """The step function takes an action from the agent and executes it.
@@ -155,15 +157,15 @@ class DatabaseEnv(gym.Env):
                 reward = hf.calculate_reward(self.max_exec_time, self.min_exec_time,
                                              self.training_data[self.query_counter], self.join_order)
             # Evaluate reward
-            # if reward < self.threshold: # If join order is not good enough
-            #     self.redo = True # Redo this join task
-            # else: # If join order is good enough
-            #     self.redo = False # Continue with next join episode with new triples
+            if reward < self.threshold: # If join order is not good enough
+                self.redo = True # Redo this join task
+            else: # If join order is good enough
+                self.redo = False # Continue with next join episode with new triples
         else:
             # Reward for valid action
             reward = 0
 
-        # 7. Return observation_space, reward, done, {}
+        # 7. Return observation space, reward, done, {}
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
