@@ -1104,7 +1104,7 @@ public class MOVE7 {
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = config.devices.filter { it.userApplication != null }.map { it.getAllChildApplications().filter { it is DatabaseHandle } }.flatten().first().instance
+        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
         pkg0.onFinish = pkg1

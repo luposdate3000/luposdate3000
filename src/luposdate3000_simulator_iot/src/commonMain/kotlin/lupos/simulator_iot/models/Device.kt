@@ -45,7 +45,7 @@ public class Device(
 ) : Entity() {
     internal var hasDatabaseStore: Boolean = false
     internal var hasDatabaseQuery: Boolean = false
-    internal var userApplication: IUserApplicationLayer? = null
+    public var userApplication: IUserApplicationLayer? = null
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false

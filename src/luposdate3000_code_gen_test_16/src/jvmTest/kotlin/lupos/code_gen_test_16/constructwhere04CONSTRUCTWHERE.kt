@@ -610,7 +610,7 @@ public class constructwhere04CONSTRUCTWHERE {
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = config.devices.filter { it.userApplication != null }.map { it.getAllChildApplications().filter { it is DatabaseHandle } }.flatten().first().instance
+        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
         var verifyExecuted0 = 0
         val pkg0 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted0++ })
         config.querySenders[0].queryPck = pkg0

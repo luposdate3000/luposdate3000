@@ -683,7 +683,7 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = config.devices.filter { it.userApplication != null }.map { it.getAllChildApplications().filter { it is DatabaseHandle } }.flatten().first().instance
+        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingExecute(query)
         var verifyExecuted1 = 0
         val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[0]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted1++ })

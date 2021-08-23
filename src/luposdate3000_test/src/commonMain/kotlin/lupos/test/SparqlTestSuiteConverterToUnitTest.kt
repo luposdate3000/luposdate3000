@@ -476,7 +476,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
                     out.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
                     out.println("        simRun.sim.startUp()")
-                    out.println("        val instance = config.devices.filter {it.userApplication!=null}.map{it.getAllChildApplications().filter{it is DatabaseHandle}}.flatten().first().instance")
+                    out.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance")
                     out.print(str)
                     out.println("        config.querySenders[0].queryPck = pkg0")
                     out.println("        simRun.sim.run()")
