@@ -22,7 +22,6 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -40,13 +39,9 @@ internal class RemoteDictionaryServer(
     override fun close() {
     }
 
-    @JvmField
-    internal val lock = MyReadWriteLock()
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
         var res: DictionaryValueType = 0
-        lock.withWriteLock {
-            res = dictionary.valueToGlobal(value)
-        }
+        res = dictionary.valueToGlobal(value)
         return res
     }
 

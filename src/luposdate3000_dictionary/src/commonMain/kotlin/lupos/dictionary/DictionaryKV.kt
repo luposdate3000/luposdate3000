@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
-
 import lupos.kv.KeyValueStore
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -23,6 +22,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.BufferManagerPage
@@ -42,6 +42,8 @@ public class DictionaryKV internal constructor(
     instance: Luposdate3000Instance,
     unusedVar: Int,
 ) : ADictionary(instance, false) {
+    @JvmField
+    internal val lock = MyReadWriteLock()
 
     @JvmField
     internal val kv: KeyValueStore
@@ -59,48 +61,59 @@ public class DictionaryKV internal constructor(
     internal var uuidCounter: Int = 0
 
     @JvmField
-    internal val rootPage: ByteArray = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:61"/*SOURCE_FILE_END*/, rootPageID)
+    internal val rootPage: ByteArray = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:63"/*SOURCE_FILE_END*/, rootPageID)
+
+    @JvmField
+    internal var closed = false
     public override fun close() {
-        kv.close()
-        vk.close()
-        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:65"/*SOURCE_FILE_END*/, rootPageID)
+        lock.withWriteLock {
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:69"/*SOURCE_FILE_END*/ }, { !closed })
+            closed = true
+            kv.close()
+            vk.close()
+            bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:73"/*SOURCE_FILE_END*/, rootPageID)
+        }
     }
 
     public override fun delete() {
-        kv.delete()
-        vk.delete()
-        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:71"/*SOURCE_FILE_END*/, rootPageID)
-        File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
+        lock.withWriteLock {
+            kv.delete()
+            vk.delete()
+            bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:81"/*SOURCE_FILE_END*/, rootPageID)
+            File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
+        }
     }
 
     public override fun isInmemoryOnly(): Boolean = false
     public override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
-        var flag: DictionaryValueType = DictionaryValueHelper.flagNoBNode
-        var flag2: DictionaryValueType = 0
-        if (isLocal) {
-            flag = flag or DictionaryValueHelper.flagLocal
-            flag2 = flag2 or DictionaryValueHelper.flagLocal
-        }
-        DictionaryHelper.booleanToByteArray(buffer, true)
-        action(DictionaryValueHelper.booleanTrueValue)
-        DictionaryHelper.booleanToByteArray(buffer, false)
-        action(DictionaryValueHelper.booleanFalseValue)
-        DictionaryHelper.errorToByteArray(buffer)
-        action(DictionaryValueHelper.errorValue)
-        DictionaryHelper.undefToByteArray(buffer)
-        action(DictionaryValueHelper.undefValue)
-        if (!instance.allowDistributedBNodeAssignment) {
-            for (i in DictionaryValueHelper.FIRST_BNODE until bNodeCounter) {
-                DictionaryHelper.bnodeToByteArray(buffer, i)
-                action(i or flag2)
+        lock.withReadLock {
+            var flag: DictionaryValueType = DictionaryValueHelper.flagNoBNode
+            var flag2: DictionaryValueType = 0
+            if (isLocal) {
+                flag = flag or DictionaryValueHelper.flagLocal
+                flag2 = flag2 or DictionaryValueHelper.flagLocal
             }
+            DictionaryHelper.booleanToByteArray(buffer, true)
+            action(DictionaryValueHelper.booleanTrueValue)
+            DictionaryHelper.booleanToByteArray(buffer, false)
+            action(DictionaryValueHelper.booleanFalseValue)
+            DictionaryHelper.errorToByteArray(buffer)
+            action(DictionaryValueHelper.errorValue)
+            DictionaryHelper.undefToByteArray(buffer)
+            action(DictionaryValueHelper.undefValue)
+            if (!instance.allowDistributedBNodeAssignment) {
+                for (i in DictionaryValueHelper.FIRST_BNODE until bNodeCounter) {
+                    DictionaryHelper.bnodeToByteArray(buffer, i)
+                    action(i or flag2)
+                }
+            }
+            val iter = vk.getIterator(buffer)
+            while (iter.hasNext()) {
+                val id = DictionaryValueHelper.fromInt(iter.next())
+                action(id or flag)
+            }
+            iter.close()
         }
-        val iter = vk.getIterator(buffer)
-        while (iter.hasNext()) {
-            val id = DictionaryValueHelper.fromInt(iter.next())
-            action(id or flag)
-        }
-        iter.close()
     }
 
     internal companion object {
@@ -136,8 +149,8 @@ public class DictionaryKV internal constructor(
             vkPage = BufferManagerPage.readInt4(rootPage, offsetvkPage)
             uuidCounter = BufferManagerPage.readInt4(rootPage, offsetuuidCounter)
         } else {
-            kvPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:138"/*SOURCE_FILE_END*/)
-            vkPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:139"/*SOURCE_FILE_END*/)
+            kvPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:151"/*SOURCE_FILE_END*/)
+            vkPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:152"/*SOURCE_FILE_END*/)
             if (instance.allowDistributedBNodeAssignment) {
                 bNodeCounter = DictionaryValueHelper.fromInt(instance.LUPOS_PROCESS_ID)
                 uuidCounter = instance.LUPOS_PROCESS_ID
@@ -155,144 +168,157 @@ public class DictionaryKV internal constructor(
     }
 
     public override fun createNewBNode(): DictionaryValueType {
-        val res: DictionaryValueType = bNodeCounter
-        if (instance.allowDistributedBNodeAssignment) {
-            bNodeCounter += stepSizeForCounters
-        } else {
-            bNodeCounter++
+        var res: DictionaryValueType = bNodeCounter
+        lock.withWriteLock {
+            res = bNodeCounter
+            if (instance.allowDistributedBNodeAssignment) {
+                bNodeCounter += stepSizeForCounters
+            } else {
+                bNodeCounter++
+            }
+            DictionaryValueHelper.toByteArray(rootPage, offsetBNodeCounter, bNodeCounter)
         }
-        DictionaryValueHelper.toByteArray(rootPage, offsetBNodeCounter, bNodeCounter)
         return res
     }
 
     public override fun createNewUUID(): Int {
-        val res: Int = uuidCounter
-        if (instance.allowDistributedBNodeAssignment) {
-            uuidCounter += stepSizeForCounters
-        } else {
-            uuidCounter++
+        var res: Int = uuidCounter
+        lock.withWriteLock {
+            res = uuidCounter
+            if (instance.allowDistributedBNodeAssignment) {
+                uuidCounter += stepSizeForCounters
+            } else {
+                uuidCounter++
+            }
+            BufferManagerPage.writeInt4(rootPage, offsetuuidCounter, uuidCounter)
         }
-
-        BufferManagerPage.writeInt4(rootPage, offsetuuidCounter, uuidCounter)
         return res
     }
 
     public override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:181"/*SOURCE_FILE_END*/ },
-            { (value and DictionaryValueHelper.maskValue) >= 0 },
-            { " $value >= 0" }
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:186"/*SOURCE_FILE_END*/ },
-            { (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode }
-        )
-        kv.getValue(buffer, DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue))
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:191"/*SOURCE_FILE_END*/ },
-            { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() },
-            { "" + value }
-        )
+        lock.withReadLock {
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:200"/*SOURCE_FILE_END*/ },
+                { (value and DictionaryValueHelper.maskValue) >= 0 },
+                { " $value >= 0" }
+            )
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:205"/*SOURCE_FILE_END*/ },
+                { (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode }
+            )
+            kv.getValue(buffer, DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue))
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:210"/*SOURCE_FILE_END*/ },
+                { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() },
+                { "" + value }
+            )
+        }
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:199"/*SOURCE_FILE_END*/ },
-            { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:203"/*SOURCE_FILE_END*/ },
-            { DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE) }
-        )
-        val res = vk.createValue(
-            buffer,
-            value = {
-                kv.createValue(buffer)
-            }
-        )
-        val r = DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
-        return r
+        var res = 0
+        lock.withWriteLock {
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:221"/*SOURCE_FILE_END*/ },
+                { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
+            )
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:225"/*SOURCE_FILE_END*/ },
+                { DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE) }
+            )
+            res = vk.createValue(
+                buffer,
+                value = {
+                    kv.createValue(buffer)
+                }
+            )
+        }
+        return DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         var mymapping = DictionaryValueTypeArray(0)
         val lastId: DictionaryValueType = -1
-
-        val buffer = ByteArrayWrapper()
-        val reader = DictionaryIntermediateReader(filename)
-        var ready = false
-        var originalID: DictionaryValueType = 0
-        vk.createValues(
-            hasNext = {
-                loop@ while (!ready && reader.hasNext()) {
-                    reader.next(buffer) { id ->
-                        originalID = id
-                        ready = true
-                        val type = DictionaryHelper.byteArrayToType(buffer)
-                        if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                            val id = createNewBNode()
-                            mymapping = addEntry(originalID, id, mymapping)
-                            ready = false
+        lock.withWriteLock {
+            val buffer = ByteArrayWrapper()
+            val reader = DictionaryIntermediateReader(filename)
+            var ready = false
+            var originalID: DictionaryValueType = 0
+            vk.createValues(
+                hasNext = {
+                    loop@ while (!ready && reader.hasNext()) {
+                        reader.next(buffer) { id ->
+                            originalID = id
+                            ready = true
+                            val type = DictionaryHelper.byteArrayToType(buffer)
+                            if (type == ETripleComponentTypeExt.BLANK_NODE) {
+                                val id = createNewBNode()
+                                mymapping = addEntry(originalID, id, mymapping)
+                                ready = false
+                            }
+                        }
+                        if (ready && instance.useDictionaryInlineEncoding) {
+                            val res = DictionaryInlineValues.getValueByContent(buffer)
+                            if (res != DictionaryValueHelper.nullValue) {
+                                mymapping = addEntry(originalID, res, mymapping)
+                                ready = false
+                            }
                         }
                     }
-                    if (ready && instance.useDictionaryInlineEncoding) {
-                        val res = DictionaryInlineValues.getValueByContent(buffer)
-                        if (res != DictionaryValueHelper.nullValue) {
-                            mymapping = addEntry(originalID, res, mymapping)
-                            ready = false
-                        }
-                    }
+                    ready
+                },
+                next = {
+                    SanityCheck.check(
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:272"/*SOURCE_FILE_END*/ },
+                        { ready }
+                    )
+                    ready = false
+                    buffer
+                },
+                onNotFound = {
+                    val id = kv.createValue(it)
+                    mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
+                    id
+                },
+                onFound = { _, id ->
+                    mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
                 }
-                ready
-            },
-            next = {
-                SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:250"/*SOURCE_FILE_END*/ },
-                    { ready }
-                )
-                ready = false
-                buffer
-            },
-            onNotFound = {
-                val id = kv.createValue(it)
-                mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
-                id
-            },
-            onFound = { _, id ->
-                mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
-            }
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:266"/*SOURCE_FILE_END*/ },
-            { !ready }
-        )
-        println("imported $lastId dictionaryItems")
+            )
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:288"/*SOURCE_FILE_END*/ },
+                { !ready }
+            )
+            println("imported $lastId dictionaryItems")
+        }
         return Pair(mymapping, DictionaryValueHelper.toInt(lastId + 1))
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         val type = DictionaryHelper.byteArrayToType(buffer)
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:276"/*SOURCE_FILE_END*/ },
-            { type != ETripleComponentTypeExt.BLANK_NODE }
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:280"/*SOURCE_FILE_END*/ },
-            { type != ETripleComponentTypeExt.BOOLEAN }
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:284"/*SOURCE_FILE_END*/ },
-            { type != ETripleComponentTypeExt.ERROR }
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:288"/*SOURCE_FILE_END*/ },
-            { type != ETripleComponentTypeExt.UNDEF }
-        )
-        val res = vk.hasValue(buffer)
-        if (res == ValueKeyStore.ID_NULL) {
-            return DictionaryValueHelper.nullValue
+        var r = DictionaryValueHelper.nullValue
+        lock.withReadLock {
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:301"/*SOURCE_FILE_END*/ },
+                { type != ETripleComponentTypeExt.BLANK_NODE }
+            )
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:305"/*SOURCE_FILE_END*/ },
+                { type != ETripleComponentTypeExt.BOOLEAN }
+            )
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:309"/*SOURCE_FILE_END*/ },
+                { type != ETripleComponentTypeExt.ERROR }
+            )
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:313"/*SOURCE_FILE_END*/ },
+                { type != ETripleComponentTypeExt.UNDEF }
+            )
+            val res = vk.hasValue(buffer)
+            if (res != ValueKeyStore.ID_NULL) {
+                r = DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
+            }
         }
-        return DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
+        return r
     }
 }
