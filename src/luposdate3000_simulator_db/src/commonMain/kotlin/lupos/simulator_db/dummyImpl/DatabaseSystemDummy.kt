@@ -24,17 +24,17 @@ import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
 
-public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val sender: IUserApplicationLayer, initialState: DatabaseState) : IUserApplication {
-
-    private var state = DummyDatabaseState(initialState.visualisationNetwork, initialState.ownAddress, initialState.allAddressesStore, initialState.allAddressesQuery, initialState.absolutePathToDataDirectory)
-
+public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val sender: IUserApplicationLayer, internal val initialState: () -> DatabaseState) : IUserApplication {
+    internal lateinit var state: DummyDatabaseState
     init {
-        state.dataFile = "${initialState.absolutePathToDataDirectory}/file.txt"
         sender.addChildApplication(this)
     }
     override fun shutDown() {
     }
     override fun startUp() {
+        val initialStateTmp = initialState()
+        state = DummyDatabaseState(initialStateTmp.visualisationNetwork, initialStateTmp.ownAddress, initialStateTmp.allAddressesStore, initialStateTmp.allAddressesQuery, initialStateTmp.absolutePathToDataDirectory)
+        state.dataFile = "${initialStateTmp.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }
     override fun receive(pck: IPayload) {

@@ -248,13 +248,15 @@ public class Configuration(private val simRun: SimulationRun) {
         val databaseQuery = deviceType.getOrDefault("databaseQuery", deviceType.getOrDefault("database", false))
         if (databaseStore || databaseQuery) {
             numberOfDatabases++
-            val initialState = object : DatabaseState(
-                visualisationNetwork = device.simRun.visualisationNetwork,
-                ownAddress = device.address,
-                allAddressesStore = device.simRun.config.dbDeviceAddressesStore,
-                allAddressesQuery = device.simRun.config.dbDeviceAddressesQuery,
-                absolutePathToDataDirectory = "${FilePaths.dbStates}/device${device.address}",
-            ) {}
+            val initialState = {
+                object : DatabaseState(
+                    visualisationNetwork = device.simRun.visualisationNetwork,
+                    ownAddress = device.address,
+                    allAddressesStore = device.simRun.config.dbDeviceAddressesStore,
+                    allAddressesQuery = device.simRun.config.dbDeviceAddressesQuery,
+                    absolutePathToDataDirectory = "${FilePaths.dbStates}/device${device.address}",
+                ) {}
+            }
             val adapter = DatabaseAdapter(device)
             val messageGrouper = RouterCombiningBlocks(adapter)
 
