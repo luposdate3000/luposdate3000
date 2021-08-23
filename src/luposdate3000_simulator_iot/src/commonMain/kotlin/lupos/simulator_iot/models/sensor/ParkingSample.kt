@@ -17,7 +17,7 @@
 
 package lupos.simulator_iot.models.sensor
 
-import lupos.simulator_iot.models.net.IPayload
+import lupos.simulator_db.IPayload
 import lupos.simulator_iot.queryproc.SemanticData
 
 internal class ParkingSample(

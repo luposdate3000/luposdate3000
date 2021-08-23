@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.models.net
+package lupos.simulator_db
 
 public interface IPayload {
     public fun getSizeInBytes(): Int

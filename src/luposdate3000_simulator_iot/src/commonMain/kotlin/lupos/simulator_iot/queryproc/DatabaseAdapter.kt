@@ -21,6 +21,7 @@ import lupos.shared.inline.File
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IPayload
 import lupos.simulator_db.IRouter
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
@@ -28,7 +29,6 @@ import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.models.net.IPayload
 import lupos.simulator_iot.models.sensor.ParkingSample
 import lupos.simulator_iot.queryproc.pck.DBInternPackage
 import lupos.simulator_iot.queryproc.pck.DBQueryResultPackage
@@ -44,8 +44,6 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
         "Luposdate3000" -> DatabaseHandle(device.simRun.config.jsonObjects.database)
         else -> TODO()
     }
-
-    private lateinit var currentState: DatabaseState
 
     private var isActive = false
 
@@ -70,25 +68,19 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
 
     private fun endSession() {
         db.end()
-        currentState = buildInitialStateObject()
         isActive = false
     }
 
     private fun startSession() {
-        currentState = buildInitialStateObject()
-        db.start(currentState)
-        isActive = true
-    }
-
-    private fun buildInitialStateObject(): DatabaseState {
-        return object : DatabaseState(
+        db.start(object : DatabaseState(
             visualisationNetwork = device.simRun.visualisationNetwork,
             ownAddress = device.address,
             allAddressesStore = device.simRun.config.dbDeviceAddressesStore,
             allAddressesQuery = device.simRun.config.dbDeviceAddressesQuery,
             sender = this@DatabaseAdapter,
             absolutePathToDataDirectory = pathToStateOfThisDevice,
-        ) {}
+        ) {})
+        isActive = true
     }
 
     internal fun shutDown() {
@@ -124,9 +116,7 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
     }
 
     internal fun isDatabasePackage(pck: IPayload): Boolean {
-        return pck is DBInternPackage ||
-            pck is DBQueryResultPackage ||
-            pck is DBQuerySenderPackage
+        return pck is DBInternPackage || pck is DBQueryResultPackage || pck is DBQuerySenderPackage
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {

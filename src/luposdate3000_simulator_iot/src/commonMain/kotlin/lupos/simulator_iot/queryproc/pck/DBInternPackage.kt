@@ -18,7 +18,7 @@
 package lupos.simulator_iot.queryproc.pck
 
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_iot.models.net.IPayload
+import lupos.simulator_db.IPayload
 
 internal class DBInternPackage(
     sourceAddress: Int,

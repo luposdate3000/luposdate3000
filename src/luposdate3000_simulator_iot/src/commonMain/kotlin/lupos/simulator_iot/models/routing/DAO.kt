@@ -17,7 +17,7 @@
 
 package lupos.simulator_iot.models.routing
 
-import lupos.simulator_iot.models.net.IPayload
+import lupos.simulator_db.IPayload
 
 internal class DAO(
     internal val isPath: Boolean,
