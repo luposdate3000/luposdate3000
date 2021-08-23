@@ -57,9 +57,9 @@ import lupos.shared.operator.IOPBase
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IRouter
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
-import lupos.simulator_db.RouterCombiningBlocks
 import lupos.visualize.distributed.database.VisualisationNetwork
 public class DatabaseHandle public constructor(internal val config: JsonParserObject) : IDatabase {
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
@@ -68,7 +68,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
     private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
-    private var router: RouterCombiningBlocks? = null
+    private var router: IRouter? = null
     private var nodeGlobalDictionaryBackup: IDictionary? = null
 
     private companion object {
@@ -101,7 +101,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             throw Exception("invalid input")
         }
         ownAdress = initialState.ownAddress
-        router = RouterCombiningBlocks(initialState.sender)
+        router = initialState.sender
         instance.enableJoinOrderOnHistogram = false
         instance.LUPOS_PROCESS_URLS_STORE = initialState.allAddressesStore.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_URLS_QUERY = initialState.allAddressesQuery.map { it.toString() }.toTypedArray()
@@ -702,6 +702,5 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             visualisationNetwork.toImage()
             throw e
         }
-        router!!.flush()
     }
 }

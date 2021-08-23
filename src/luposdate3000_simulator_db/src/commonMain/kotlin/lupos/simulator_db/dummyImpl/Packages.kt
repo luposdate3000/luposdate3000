@@ -27,7 +27,7 @@ public class PreprocessingPackage(
 ) : IDatabasePackage {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
-    override fun getPackageSizeInBytes(): Int {
+    override fun getSizeInBytes(): Int {
         @Suppress("UnnecessaryVariable")
         val dummySize = 20
         return dummySize
@@ -47,7 +47,7 @@ public class ChoosenOperatorPackage(
 ) : IDatabasePackage {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
-    override fun getPackageSizeInBytes(): Int {
+    override fun getSizeInBytes(): Int {
         @Suppress("UnnecessaryVariable")
         val dummySize = 20
         return dummySize
@@ -67,7 +67,7 @@ public class ResultPackage(
 ) : IDatabasePackage {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
-    override fun getPackageSizeInBytes(): Int {
+    override fun getSizeInBytes(): Int {
         @Suppress("UnnecessaryVariable")
         val dummySize = 20
         return dummySize

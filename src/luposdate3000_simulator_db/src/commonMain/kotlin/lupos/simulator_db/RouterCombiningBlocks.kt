@@ -17,8 +17,25 @@
 package lupos.simulator_db
 
 public class RouterCombiningBlocks(private val router: IRouter) : IRouter {
-    private val cache = mutableMapOf<Int, MutableList<IDatabasePackage>>()
-    override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+    private val cache = mutableMapOf<Int, MutableList<IPayload>>()
+    override fun receive(pck: IPayload) {
+        if (pck is QueryPackageBlock) {
+            for (p in pck.data) {
+                router.receive(p)
+            }
+        } else {
+            router.receive(pck)
+        }
+        for ((destinationAddress, pckList) in cache) {
+            if (pckList.size> 1) {
+                router.send(destinationAddress, QueryPackageBlock(pckList))
+            } else {
+                router.send(destinationAddress, pckList.first())
+            }
+        }
+        cache.clear()
+    }
+    override fun send(destinationAddress: Int, pck: IPayload) {
         var c = cache[destinationAddress]
         if (c == null) {
             c = mutableListOf()
@@ -28,12 +45,5 @@ public class RouterCombiningBlocks(private val router: IRouter) : IRouter {
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return router.getNextDatabaseHops(destinationAddresses)
-    }
-    override fun flush() {
-        for ((destinationAddress, pckList) in cache) {
-            router.send(destinationAddress, QueryPackageBlock(pckList))
-        }
-        cache.clear()
-        router.flush()
     }
 }

@@ -27,7 +27,7 @@ public class QueryPackage(
     private companion object {
         private var idCounter: Int = 0
     }
-    public override fun getPackageSizeInBytes(): Int {
+    public override fun getSizeInBytes(): Int {
         return query.size + 4
     }
     public override fun getContentLogString(): String {

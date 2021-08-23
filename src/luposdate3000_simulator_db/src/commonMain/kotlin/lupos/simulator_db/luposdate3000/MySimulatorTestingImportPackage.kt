@@ -26,7 +26,7 @@ public class MySimulatorTestingImportPackage(
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
     public var onFinish: IDatabasePackage? = null
-    override fun getPackageSizeInBytes(): Int {
+    override fun getSizeInBytes(): Int {
         return 0
     }
     override fun getContentLogString(): String {

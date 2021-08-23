@@ -17,8 +17,7 @@
 
 package lupos.simulator_db
 
-public interface IDatabasePackage {
+public interface IDatabasePackage : IPayload {
     public fun getPackageID(): Long // for message tracing only, this does not affect the simulated data volume
-    public fun getPackageSizeInBytes(): Int
     public fun getContentLogString(): String
 }

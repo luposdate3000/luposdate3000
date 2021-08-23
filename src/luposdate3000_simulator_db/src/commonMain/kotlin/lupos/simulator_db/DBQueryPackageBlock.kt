@@ -16,14 +16,9 @@
  */
 
 package lupos.simulator_db
-import lupos.shared.UUID_Counter
 internal class QueryPackageBlock(
-    internal val data: MutableList<IDatabasePackage>,
-) : IDatabasePackage {
+    internal val data: MutableList<IPayload>,
+) : IPayload {
 
-    public val pckID: Long = UUID_Counter.getNextUUID()
-    override fun getPackageID(): Long = pckID
-    override fun getPackageSizeInBytes(): Int = data.map { it.getPackageSizeInBytes() }.sum()
-    override fun toString(): String = "QueryPackageBlock $data"
-    override fun getContentLogString(): String = "${data.map{it.getContentLogString()}}"
+    override fun getSizeInBytes(): Int = data.map { it.getSizeInBytes() }.sum()
 }

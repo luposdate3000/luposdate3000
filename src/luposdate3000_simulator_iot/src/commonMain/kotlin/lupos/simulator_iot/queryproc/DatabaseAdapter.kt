@@ -23,16 +23,12 @@ import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IRouter
-import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.models.sensor.ParkingSample
-import lupos.simulator_iot.queryproc.pck.DBInternPackage
 import lupos.simulator_iot.queryproc.pck.DBQueryResultPackage
-import lupos.simulator_iot.queryproc.pck.DBQuerySenderPackage
 import lupos.simulator_iot.utils.FilePaths
 
 public class DatabaseAdapter(internal val device: Device) : IRouter {
@@ -88,12 +84,15 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
         endSession()
     }
 
-    internal fun processPackage(payload: IPayload) {
+    override fun receive(payload: IPayload) {
         when (payload) {
-            is DBInternPackage -> processIDatabasePackage(payload.content)
             is DBQueryResultPackage -> processDBQueryResultPackage(payload)
-            is DBQuerySenderPackage -> processIDatabasePackage(payload.content)
-            else -> throw Exception("undefined payload")
+            is IDatabasePackage -> {
+                activateSession()
+                db.receive(pck)
+                deactivateSession()
+            }
+            else -> TODO("$payload")
         }
     }
 
@@ -101,28 +100,11 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
         // TODO write the result with the corresponding query in a file
     }
 
-    internal fun processIDatabasePackage(pck: IDatabasePackage) {
-        activateSession()
-        db.receive(pck)
-        deactivateSession()
-    }
-
-    internal fun saveParkingSample(sample: ParkingSample) {
-        val query = SemanticData.getInsertQueryString(sample)
-        val bytes = query.encodeToByteArray()
-        val pck = QueryPackage(device.address, bytes)
-        PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
-        processIDatabasePackage(pck)
-    }
-
-    internal fun isDatabasePackage(pck: IPayload): Boolean {
-        return pck is DBInternPackage || pck is DBQueryResultPackage || pck is DBQuerySenderPackage
-    }
-
-    override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+    override fun send(destinationAddress: Int, pck: IPayload) {
         require(isActive) { "This DBMS Instance is not active!" }
-        println("${pck.getPackageID()} $destinationAddress DatabaseAdapter.send")
-        PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
+        if (pck is IDatabasePackage) {
+            PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
+        }
         if (pck is QueryResponsePackage) {
             val pck2 = DBQueryResultPackage(device.address, destinationAddress, pck.result)
             if (device.address == destinationAddress) {
@@ -133,19 +115,19 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
             }
         } else {
             if (device.address == destinationAddress) {
-                db.receive(pck)
-// TODO the database should optimize this itself
+                if (pck is IDatabasePackage) {
+                    db.receive(pck)
+                } else {
+                    TODO("$pck")
+                }
             } else {
-                val pck2 = DBInternPackage(device.address, destinationAddress, pck)
                 device.simRun.incNumberOfSentDatabasePackages()
-                device.sendRoutedPackage(device.address, destinationAddress, pck2)
+                device.sendRoutedPackage(device.address, destinationAddress, pck)
             }
         }
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return device.router.getNextDatabaseHops(destinationAddresses)
-    }
-    override fun flush() {
     }
 }

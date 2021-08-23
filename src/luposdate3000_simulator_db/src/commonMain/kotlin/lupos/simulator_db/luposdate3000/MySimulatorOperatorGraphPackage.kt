@@ -33,7 +33,7 @@ internal class MySimulatorOperatorGraphPackage(
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
 
-    override fun getPackageSizeInBytes(): Int {
+    override fun getSizeInBytes(): Int {
         return getOperatorGraphSizeInBytes() +
             getDestinationsSizeInBytes() +
             getPartsToHostMapSizeInBytes()

@@ -104,12 +104,20 @@ public class Device(
                 requireNotNull(
                     database
                 ) { "The device $address has no database configured to store the ParkingSample." }
-                database!!.saveParkingSample(pck.payload)
+                val sample = pck.payload as ParkingSample
+                val query = SemanticData.getInsertQueryString(sample)
+                val bytes = query.encodeToByteArray()
+                val pck = QueryPackage(device.address, bytes)
+                PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
+                processPackage(pck)
             }
-            database?.isDatabasePackage(pck.payload) == true -> {
-                database?.processPackage(pck.payload)
+            else -> {
+                if (database != null) {
+                    database!!.receive(pck.payload)
+                } else {
+                    TODO("$pck")
+                }
             }
-            else -> throw Exception("Undefined NetworkPackage or wrong device address.")
         }
     }
 
