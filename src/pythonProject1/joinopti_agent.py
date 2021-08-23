@@ -5,6 +5,7 @@ from datetime import date
 import sys
 import numpy as np
 from stable_baselines3 import DQN, PPO, DDPG
+import math
 
 N_JOIN_ORDERS = 3
 
@@ -38,8 +39,9 @@ def train_model():
     # env = model.get_env()
 
     env.set_training_data(benched_queries)
-    model.learn(total_timesteps=500000, log_interval=1)
-    model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
+    model.learn(total_timesteps=5000000, log_interval=1)
+    # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
+    model.save("train.me.s.complete" + ".ppo_model")
 
 
 def optimize_query():
@@ -57,35 +59,51 @@ def optimize_query():
     # setup model
     model = PPO.load(optimizer_model_file)
 
-    rewards = ""
-    actions = ""
-    for i in range(210):
+    rewards = []
+    actions = []
+    query_counter = 0
+    env.set_training_data(benched_queries)
+    for i in range(len(benched_queries)):
         done = False
         print("---------------Query: ----------- " + str(i))
-        env.set_training_data(benched_queries)
         obs = env.reset()
         print("Observation: ")
         print(obs)
         while not done:
+            actions.append([])
             action, _states = model.predict(obs, deterministic=True)
             print(f"Action: {action}")
             obs, reward, done, info = env.step(action)
-            rewards += str(reward) + " "
-            actions += str(action) + " "
-            # print(f"Action taken: {info}")
+            actions[query_counter].append(action)
             print("Observation: ")
-            # env.render()
             print(obs)
             print(f"Reward: {reward}")
             print(f"Done: {done}")
             print(info)
             if done:
+                query_counter += 1
                 print("finish")
-                obs = env.reset()
-                print("Observation: ")
-                print(obs)
-            print(rewards)
-            print(actions)
+                rewards.append(reward)
+
+    for i in rewards:
+        print(i)
+
+    with open("evaluation.txt", "w") as evaluation:
+        evaluation.write(str(max_execution_time) + "\n")
+        evaluation.write(str(min_execution_time) + "\n")
+        for i in range(len(benched_queries)):
+            evaluation.write(str(rewards[i]) + " ")
+            for j in range(3):
+                evaluation.write(str(-(math.sqrt(abs(float(benched_queries[i][j][2]) - max_execution_time)) /
+                                       math.sqrt(max_execution_time - min_execution_time) * 10)))
+                if j != 2:
+                    evaluation.write(" ")
+                else:
+                    evaluation.write("\n")
+
+
+def analyse():
+    return None
 
 
 def read_query(q_file):
@@ -115,7 +133,7 @@ def max_ex_t(benched_q):
     tmp = []
     for i in benched_q:
         for j in range(0, 3):
-            tmp.append(int(float(i[j][2])))
+            tmp.append(float(i[j][2]))
     return max(tmp)
 
 
@@ -123,7 +141,7 @@ def min_ex_t(benched_q):
     tmp = []
     for i in benched_q:
         for j in range(0, 3):
-            tmp.append(int(float(i[j][2])))
+            tmp.append(float(i[j][2]))
     return min(tmp)
 
 

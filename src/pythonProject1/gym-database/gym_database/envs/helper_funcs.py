@@ -57,9 +57,11 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
     index_dict = _create_matrix_index_bgp_dict(sorted_query)
 
     # Fill matrix with bgps from query.
-    for index, bgps in enumerate(sorted_query): # bgps is a list with the bgp and its join candidates
-        observation_matrix[index, index] = bgps[0]
-        for join_candidate in bgps[1:]:  # fill matrix with join candidates
+    for index, triples in enumerate(sorted_query): # triples is a list with the triple and its join candidates
+        observation_matrix[index, index] = triples[0]
+        observation_matrix[index, index, 0] -= 1 # fix join variable offset
+        observation_matrix[index, index, 2] -= 1
+        for join_candidate in triples[1:]:  # fill matrix with join candidates
             observation_matrix[index_dict[join_candidate], index] = -1 # possible joins marked with -1
 
     return observation_matrix
@@ -332,18 +334,18 @@ def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order):
     # get number of join order
     join_order_n = _join_order_to_number(join_order)
     # get execution time of this join order
-    execution_times = [int(float(benched_query[0][2])), int(float(benched_query[1][2])),
-                       int(float(benched_query[2][2]))]
+    execution_times = [float(benched_query[0][2]), float(benched_query[1][2]),
+                       float(benched_query[2][2])]
     # calculate reward on base of execution time relative to maximum and minimum
     # execution times of all benched queries
     reward = -(math.sqrt(abs(execution_times[join_order_n]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10)
 
-    max_list = []
-    for i in range(3):
-        print(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
-        max_list.append(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
-    print("MAX: "+ str(max(max_list)))
-    print("Reward: " + str(reward))
+    # max_list = []
+    # for i in range(3):
+    #     print(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
+    #     max_list.append(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
+    # print("MAX: "+ str(max(max_list)))
+    # print("Reward: " + str(reward))
 
     return reward
 

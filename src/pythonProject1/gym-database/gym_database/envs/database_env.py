@@ -161,6 +161,10 @@ class DatabaseEnv(gym.Env):
                 self.redo = True # Redo this join task
             else: # If join order is good enough
                 self.redo = False # Continue with next join episode with new triples
+                if self.query_counter < len(self.training_data)-1:
+                    self.query_counter += 1
+                else:
+                    self.query_counter = 0
         else:
             # Reward for valid action
             reward = 0
@@ -176,15 +180,10 @@ class DatabaseEnv(gym.Env):
                 self.conn.sendall(b'start')
                 data = self.conn.recv(1024)
                 query_string = data.decode("UTF-8")
-                self.query_counter += 1
             else:
                 # Load new query
                 query_string = self.training_data[self.query_counter][0][0]
                 self.query = hf.load_query(query_string)
-                if self.query_counter < len(self.training_data)-1:
-                    self.query_counter += 1
-                else:
-                    self.query_counter = 0
 
         # Create initial observation matrix, in this state no joins have happened
         self.observation_matrix = hf.fill_matrix(self.query,
