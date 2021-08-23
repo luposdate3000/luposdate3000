@@ -214,6 +214,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         var hostMap = mutableMapOf<String, String>()
         if (parts.size <= 1) {
             parts[""] = q.getRoot().toXMLElement(false)
+            if (!hostMap.contains("")) {
+                hostMap[""] = "$ownAdress"
+            }
         }
         when (instance.queryDistributionMode) {
             EQueryDistributionModeExt.Routing -> {
@@ -229,7 +232,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 // define everything as in the DB outside of the simulator
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:231"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:234"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size },
                     { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
                 )
@@ -255,7 +258,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:257"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:260"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!] == null }
             )
             println("received result for ${pck.params["key"]}")
@@ -311,7 +314,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:313"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:316"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -350,10 +353,10 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
 // k benötigt alle Ergebnisse von v
                 if (!packageMap.contains(k)) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:352"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:355"/*SOURCE_FILE_END*/ },
                         { v.isNotEmpty() },
                         {
-                            pck.operatorGraphParts[k]
+                            "${pck.operatorGraph[k]}"
                         }
                     )
                     var dest = -1
@@ -383,7 +386,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             }
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:384"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:388"/*SOURCE_FILE_END*/ },
             { packageMap.keys.containsAll(pck.operatorGraph.keys) }
         )
         for ((k, v) in packageMap) {
@@ -524,12 +527,12 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 }
             }
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:525"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:529"/*SOURCE_FILE_END*/ },
                 { keys.size == 1 }
             )
             val key = keys.first()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:530"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:534"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData.contains(key) }
             )
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)

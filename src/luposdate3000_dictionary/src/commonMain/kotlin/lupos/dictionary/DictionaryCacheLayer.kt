@@ -133,37 +133,30 @@ public class DictionaryCacheLayer(
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        println("DictionaryCacheLayer.createValue $this $buffer")
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:137"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:136"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {
                 if (DictionaryHelper.byteArrayToBoolean(buffer)) {
-                    println("DictionaryCacheLayer.createValue a ${DictionaryValueHelper.booleanTrueValue}")
                     return DictionaryValueHelper.booleanTrueValue
                 } else {
-                    println("DictionaryCacheLayer.createValue b ${DictionaryValueHelper.booleanFalseValue}")
                     return DictionaryValueHelper.booleanFalseValue
                 }
             }
             ETripleComponentTypeExt.ERROR -> {
-                println("DictionaryCacheLayer.createValue c ${DictionaryValueHelper.errorValue}")
                 return DictionaryValueHelper.errorValue
             }
             ETripleComponentTypeExt.UNDEF -> {
-                println("DictionaryCacheLayer.createValue d ${DictionaryValueHelper.undefValue}")
                 return DictionaryValueHelper.undefValue
             }
             ETripleComponentTypeExt.BLANK_NODE -> {
                 if (DictionaryHelper.headerDecodeFlag(buffer) == 0x80) {
-                    println("DictionaryCacheLayer.createValue e ${DictionaryHelper.byteArrayToBnode_I(buffer)}")
                     return DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
                     val res = dictionary.createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
-                    println("DictionaryCacheLayer.createValue f $res")
                     return res
                 }
             }
@@ -172,40 +165,34 @@ public class DictionaryCacheLayer(
                 if (instance.useDictionaryInlineEncoding) {
                     res = DictionaryInlineValues.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
-                        println("DictionaryCacheLayer.createValue g $res")
                         return res
                     }
                 }
                 if (ontologyCache != null) {
                     res = ontologyCache.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
-                        println("DictionaryCacheLayer.createValue h $res")
                         return res
                     }
                 }
                 if (instance.dictionaryCacheCapacity > 0) {
                     res = cache.getValueByContent(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
-                        println("DictionaryCacheLayer.createValue i $res")
                         return res
                     }
                 }
                 if (isLocal) {
                     res = instance.nodeGlobalDictionary!!.hasValue(buffer)
                     if (res != DictionaryValueHelper.nullValue) {
-                        println("DictionaryCacheLayer.createValue j $res")
                         return res
                     }
                 }
                 res = dictionary.createValue(buffer)
                 if (res == DictionaryValueHelper.nullValue) {
-                    println("DictionaryCacheLayer.createValue k ${DictionaryValueHelper.nullValue}")
                     return DictionaryValueHelper.nullValue
                 }
                 if (instance.dictionaryCacheCapacity > 0) {
                     cache.insertValuePair(buffer, res)
                 }
-                println("DictionaryCacheLayer.createValue l $res")
                 return res
             }
         }
@@ -213,7 +200,7 @@ public class DictionaryCacheLayer(
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:215"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:202"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         when (value) {
@@ -249,7 +236,7 @@ public class DictionaryCacheLayer(
                     }
                 } else {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:251"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:238"/*SOURCE_FILE_END*/ },
                         { value >= 0 }
                     )
                     DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
@@ -260,7 +247,7 @@ public class DictionaryCacheLayer(
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:262"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:249"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)
