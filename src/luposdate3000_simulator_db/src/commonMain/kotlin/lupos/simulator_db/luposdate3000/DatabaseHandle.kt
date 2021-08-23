@@ -1,3 +1,4 @@
+
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -228,7 +229,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 // define everything as in the DB outside of the simulator
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:230"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:231"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size },
                     { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
                 )
@@ -253,7 +254,10 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:255"/*SOURCE_FILE_END*/ }, { myPendingWorkData[pck.params["key"]!!] == null })
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:257"/*SOURCE_FILE_END*/ },
+                { myPendingWorkData[pck.params["key"]!!] == null }
+            )
             println("received result for ${pck.params["key"]}")
             myPendingWorkData[pck.params["key"]!!] = pck.data
             doWork()
@@ -307,7 +311,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUp[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:309"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:313"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -339,51 +343,49 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
             packageMap[k] = nextHops[allHostAdresses.indexOf(v.toInt())]
         }
-TODO("das assignment und die nachrichten ziele passen nicht")
         var changed = true
         while (changed) {
             changed = false
             loop@ for ((k, v) in mapTopDown) {
+// k benötigt alle Ergebnisse von v
                 if (!packageMap.contains(k)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:346"/*SOURCE_FILE_END*/ }, { v.isNotEmpty() })
+                    SanityCheck.check(
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:352"/*SOURCE_FILE_END*/ },
+                        { v.isNotEmpty() },
+                        {
+                            pck.operatorGraphParts[k]
+                        }
+                    )
                     var dest = -1
-                    for (key in v) {
+                    innerloop@ for (key in v) {
                         val d = packageMap[key]
+// d ist der Ort wo eine dependency von k ausgeführt wird
                         if (d != null) {
                             if (dest == -1) {
                                 dest = d
-                            } else {
-                                if (dest != d) {
-                                    for (assign in mapBottomUp[k]!!) {
-                                        packageMap[assign] = ownAdress // alles mit unterschiedlichen next hops selber berechnen
-                                    }
-                                    for (i in mapTopDown[k]!!) {
-                                        pck.destinations[i] = ownAdress
-                                    }
-                                    changed = true
-                                    continue@loop
-                                }
+                            } else if (dest != d) {
+                                dest = ownAdress
+                                break@innerloop
                             }
                         } else {
+// die abhängigkeiten stehen noch nicht alle fest, daher jetzt kein assignment
                             continue@loop
                         }
                     }
+// alle abhängigkeiten werden in dest berechnet, daher dies jetzt auch
+// oder die abhängigkeiten kommen von unterschiedlichen quellen
+                    packageMap[k] = dest
                     for (i in mapTopDown[k]!!) {
                         pck.destinations[i] = dest
-                    }
-                    for (assign in mapBottomUp[k]!!) {
-                        packageMap[assign] = dest // alles mit gemeinsamen next Hop zusammen weitersenden
                     }
                     changed = true
                 }
             }
         }
-        for ((k, v) in pck.operatorGraph) {
-            if (!packageMap.contains(k)) {
-                packageMap[k] = ownAdress
-                TODO("this should not happen?? \nYYYY${pck.operatorGraph.keys.map { "$it - ${packageMap.contains(it)} - ${mapTopDown[it]} - ${pck.destinations[it]} - ${pck.operatorGraphPartsToHostMap[it]} - ${pck.operatorGraph[it]}" }.joinToString("\nYYYY")}")
-            }
-        }
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:384"/*SOURCE_FILE_END*/ },
+            { packageMap.keys.containsAll(pck.operatorGraph.keys) }
+        )
         for ((k, v) in packageMap) {
             val p = packages[v]
             val g = pck.operatorGraph[k]
@@ -521,9 +523,15 @@ TODO("das assignment und die nachrichten ziele passen nicht")
                     keys.add(c.attributes["key"]!!)
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:522"/*SOURCE_FILE_END*/ }, { keys.size == 1 })
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:525"/*SOURCE_FILE_END*/ },
+                { keys.size == 1 }
+            )
             val key = keys.first()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:524"/*SOURCE_FILE_END*/ }, { myPendingWorkData.contains(key) })
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:530"/*SOURCE_FILE_END*/ },
+                { myPendingWorkData.contains(key) }
+            )
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
