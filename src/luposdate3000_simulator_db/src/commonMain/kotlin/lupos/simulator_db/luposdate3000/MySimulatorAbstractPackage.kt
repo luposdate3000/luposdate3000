@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
-
+import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IDatabasePackage
@@ -26,6 +26,8 @@ public class MySimulatorAbstractPackage(
     internal val params: Map<String, String>,
     internal val data: ByteArrayWrapper = ByteArrayWrapper()
 ) : IDatabasePackage {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
 
     override fun getPackageSizeInBytes(): Int {
         return path.encodeToByteArray().size + getParamsSizeInBytes() + ByteArrayWrapperExt.getSize(data)

@@ -15,12 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
-
+import lupos.shared.UUID_Counter
 import lupos.simulator_db.IDatabasePackage
 
 public class MySimulatorTestingExecute(
     public val query: String,
 ) : IDatabasePackage {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
     public var onFinish: IDatabasePackage? = null
     override fun getPackageSizeInBytes(): Int {
         return 0

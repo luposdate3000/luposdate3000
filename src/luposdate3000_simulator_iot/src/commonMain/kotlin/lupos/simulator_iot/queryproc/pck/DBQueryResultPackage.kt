@@ -23,13 +23,13 @@ internal class DBQueryResultPackage(
     sourceAddress: Int,
     destinationAddress: Int,
     internal val result: ByteArray
-) : IPayload, SequencedPackage(sourceAddress, destinationAddress) {
+) : IPayload {
 
     override fun getSizeInBytes(): Int {
         return result.size
     }
 
     override fun toString(): String {
-        return "DBQueryResultPck(seqID $sequenceNumber, numInSeq $packageNumber)"
+        return "DBQueryResultPck()"
     }
 }

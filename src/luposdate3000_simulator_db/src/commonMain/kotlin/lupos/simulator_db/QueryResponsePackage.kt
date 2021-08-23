@@ -16,11 +16,13 @@
  */
 
 package lupos.simulator_db
-
+import lupos.shared.UUID_Counter
 public class QueryResponsePackage(
     public val result: ByteArray,
     public val queryID: Int
 ) : IDatabasePackage {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
 
     public override fun getPackageSizeInBytes(): Int {
         return result.size

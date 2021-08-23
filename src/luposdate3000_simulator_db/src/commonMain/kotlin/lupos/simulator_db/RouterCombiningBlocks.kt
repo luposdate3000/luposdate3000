@@ -14,22 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.simulator_db
 
-package lupos.simulator_iot.queryproc.pck
-
-import lupos.simulator_iot.models.net.IPayload
-
-internal class DBSequenceEndPackage(
-    sourceAddress: Int,
-    destinationAddress: Int,
-) : IPayload, SequencedPackage(sourceAddress, destinationAddress) {
-
-    override fun getSizeInBytes(): Int {
-        // ignore this package size
-        return 0
+public class RouterCombiningBlocks(private val router: IRouter) : IRouter {
+    private val cache = mutableMapOf<Int, MutableList<IDatabasePackage>>()
+    override fun send(destinationAddress: Int, pck: IDatabasePackage) {
+        var c = cache[destinationAddress]
+        if (c == null) {
+            c = mutableListOf()
+            cache[destinationAddress] = c
+        }
+        c.add(pck)
     }
-
-    override fun toString(): String {
-        return "DBSeqEndPck(seqNum $sequenceNumber, pckNum $packageNumber,)"
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
+        return router.getNextDatabaseHops(destinationAddresses)
+    }
+    override fun flush() {
+        for ((destinationAddress, pckList) in cache) {
+            router.send(destinationAddress, QueryPackageBlock(pckList))
+        }
+        cache.clear()
+        router.flush()
     }
 }

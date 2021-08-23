@@ -24,12 +24,8 @@ internal class DBInternPackage(
     sourceAddress: Int,
     destinationAddress: Int,
     internal val content: IDatabasePackage
-) : IPayload, SequencedPackage(sourceAddress, destinationAddress) {
+) : IPayload {
     override fun getSizeInBytes(): Int {
         return content.getPackageSizeInBytes()
-    }
-
-    override fun toString(): String {
-        return "DBInternPck(seqNum $sequenceNumber, pckNum $packageNumber, content ${content.getContentLogString()})"
     }
 }

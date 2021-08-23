@@ -33,15 +33,11 @@ import lupos.simulator_iot.models.sensor.ParkingSample
 import lupos.simulator_iot.queryproc.pck.DBInternPackage
 import lupos.simulator_iot.queryproc.pck.DBQueryResultPackage
 import lupos.simulator_iot.queryproc.pck.DBQuerySenderPackage
-import lupos.simulator_iot.queryproc.pck.DBSequenceEndPackage
-import lupos.simulator_iot.queryproc.pck.SequencedPackage
 import lupos.simulator_iot.utils.FilePaths
 
 public class DatabaseAdapter(internal val device: Device) : IRouter {
 
     private var pathToStateOfThisDevice = "${FilePaths.dbStates}/device${device.address}"
-
-    private val sequenceKeeper = SequenceKeeper(SequencePackageSenderImpl())
 
     public val db: IDatabase = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
         "Dummy" -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database)
@@ -69,13 +65,11 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
 
     private fun deactivateSession() {
         db.deactivate()
-        sequenceKeeper.markSequenceEnd()
         isActive = false
     }
 
     private fun endSession() {
         db.end()
-        sequenceKeeper.markSequenceEnd()
         currentState = buildInitialStateObject()
         isActive = false
     }
@@ -104,9 +98,8 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
 
     internal fun processPackage(payload: IPayload) {
         when (payload) {
-            is DBInternPackage -> sequenceKeeper.receive(payload)
-            is DBQueryResultPackage -> sequenceKeeper.receive(payload)
-            is DBSequenceEndPackage -> sequenceKeeper.receive(payload)
+            is DBInternPackage -> processIDatabasePackage(payload.content)
+            is DBQueryResultPackage -> processDBQueryResultPackage(payload)
             is DBQuerySenderPackage -> processIDatabasePackage(payload.content)
             else -> throw Exception("undefined payload")
         }
@@ -133,64 +126,36 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
     internal fun isDatabasePackage(pck: IPayload): Boolean {
         return pck is DBInternPackage ||
             pck is DBQueryResultPackage ||
-            pck is DBSequenceEndPackage ||
             pck is DBQuerySenderPackage
     }
 
     override fun send(destinationAddress: Int, pck: IDatabasePackage) {
-        checkActivation()
+        require(isActive) { "This DBMS Instance is not active!" }
+        println("${pck.getPackageID()} $destinationAddress DatabaseAdapter.send")
         PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         if (pck is QueryResponsePackage) {
-            sendQueryResponse(destinationAddress, pck)
+            val pck2 = DBQueryResultPackage(device.address, destinationAddress, pck.result)
+            if (device.address == destinationAddress) {
+                processDBQueryResultPackage(pck2)
+            } else {
+                device.simRun.incNumberOfSentDatabasePackages()
+                device.sendRoutedPackage(device.address, destinationAddress, pck2)
+            }
         } else {
-            sendDBInternPackage(destinationAddress, pck)
+            if (device.address == destinationAddress) {
+                db.receive(pck)
+// TODO the database should optimize this itself
+            } else {
+                val pck2 = DBInternPackage(device.address, destinationAddress, pck)
+                device.simRun.incNumberOfSentDatabasePackages()
+                device.sendRoutedPackage(device.address, destinationAddress, pck2)
+            }
         }
-    }
-
-    private fun sendQueryResponse(destinationAddress: Int, pck: QueryResponsePackage) {
-        val myResponsePackage = DBQueryResultPackage(device.address, destinationAddress, pck.result)
-        if (device.address == destinationAddress) {
-            processDBQueryResultPackage(myResponsePackage)
-        } else {
-            sequenceKeeper.sendSequencedPackage(myResponsePackage)
-        }
-    }
-
-    private fun sendDBInternPackage(destinationAddress: Int, pck: IDatabasePackage) {
-        val internPck = DBInternPackage(device.address, destinationAddress, pck)
-        sequenceKeeper.sendSequencedPackage(internPck)
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return device.router.getNextDatabaseHops(destinationAddresses)
     }
-
-    private fun checkActivation() {
-        require(isActive) { "This DBMS Instance is not active!" }
-    }
-
-    private inner class SequencePackageSenderImpl : ISequencePackageSender {
-
-        override fun send(pck: SequencedPackage) {
-            checkActivation()
-            if (pck.destinationAddress != device.address) {
-                // ignore self packages
-                device.simRun.incNumberOfSentDatabasePackages()
-            }
-            device.sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck as IPayload)
-        }
-
-        override fun receive(pck: SequencedPackage) {
-            device.simRun.logger?.log("> DB of Device $device receives $pck at clock ${device.simRun.getCurrentSimulationClock()}")
-            when (pck) {
-                is DBInternPackage -> processIDatabasePackage(pck.content)
-                is DBQueryResultPackage -> processDBQueryResultPackage(pck)
-                else -> throw Exception("undefined payload")
-            }
-        }
-
-        override fun getSenderAddress(): Int {
-            return device.address
-        }
+    override fun flush() {
     }
 }

@@ -15,12 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.queryproc
+package lupos.simulator_db
+import lupos.shared.UUID_Counter
+internal class QueryPackageBlock(
+    internal val data: MutableList<IDatabasePackage>,
+) : IDatabasePackage {
 
-import lupos.simulator_iot.queryproc.pck.SequencedPackage
-
-internal interface ISequencePackageSender {
-    fun send(pck: SequencedPackage)
-    fun receive(pck: SequencedPackage)
-    fun getSenderAddress(): Int
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
+    override fun getPackageSizeInBytes(): Int = data.map { it.getPackageSizeInBytes() }.sum()
+    override fun toString(): String = "QueryPackageBlock $data"
+    override fun getContentLogString(): String = "${data.map{it.getContentLogString()}}"
 }

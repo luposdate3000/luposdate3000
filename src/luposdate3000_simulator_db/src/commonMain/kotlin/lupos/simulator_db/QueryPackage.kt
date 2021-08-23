@@ -16,12 +16,14 @@
  */
 
 package lupos.simulator_db
-
+import lupos.shared.UUID_Counter
 public class QueryPackage(
     public val sourceAddress: Int,
     public val query: ByteArray,
 ) : IDatabasePackage {
     public val queryID: Int = idCounter++
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
     private companion object {
         private var idCounter: Int = 0
     }

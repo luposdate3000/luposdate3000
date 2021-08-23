@@ -17,6 +17,7 @@
 package lupos.simulator_db.luposdate3000
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
+import lupos.shared.UUID_Counter
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
 internal class MySimulatorOperatorGraphPackage(
@@ -29,6 +30,8 @@ internal class MySimulatorOperatorGraphPackage(
     val verifyAction: () -> Unit,
     val query: IQuery, // this is an required fake, because the intermediate valued definetly need to share a dictionary, which requires streaming, which the simulator does not support
 ) : IDatabasePackage {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
 
     override fun getPackageSizeInBytes(): Int {
         return getOperatorGraphSizeInBytes() +

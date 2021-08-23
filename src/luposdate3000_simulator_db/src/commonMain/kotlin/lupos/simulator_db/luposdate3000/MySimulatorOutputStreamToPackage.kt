@@ -34,7 +34,7 @@ internal class MySimulatorOutputStreamToPackage(val queryID: Int, val target: In
                 return
             }
         }
-        kotlinprintln("router must send $path $params $target")
+        kotlinprintln("router should send $target MySimulatorAbstractPackage $path $params")
         router.send(target, MySimulatorAbstractPackage(queryID, path, params, buffer))
     }
 

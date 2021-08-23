@@ -16,7 +16,7 @@
  */
 
 package lupos.simulator_db.dummyImpl
-
+import lupos.shared.UUID_Counter
 import lupos.simulator_db.IDatabasePackage
 
 public class PreprocessingPackage(
@@ -25,6 +25,8 @@ public class PreprocessingPackage(
     public val senderAddress: Int, // dies MUSS ein DB-node sein ... von wo kommt das paket
     public val queryID: Int, // die ist immer gleich für alles was zu einem "QueryPackage" gehört
 ) : IDatabasePackage {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
     override fun getPackageSizeInBytes(): Int {
         @Suppress("UnnecessaryVariable")
         val dummySize = 20
@@ -43,6 +45,8 @@ public class ChoosenOperatorPackage(
     public val operators: IntArray, // zeigt an welche "operatorGraphParts" teile berechnet werden - dadurch ist schnell klar, welcher node was berechnet
     public val queryID: Int,
 ) : IDatabasePackage {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
     override fun getPackageSizeInBytes(): Int {
         @Suppress("UnnecessaryVariable")
         val dummySize = 20
@@ -61,6 +65,8 @@ public class ResultPackage(
     public val queryID: Int,
     public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
 ) : IDatabasePackage {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
     override fun getPackageSizeInBytes(): Int {
         @Suppress("UnnecessaryVariable")
         val dummySize = 20
