@@ -15,20 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db.dummyImpl
+package lupos.simulator_db
 
-import lupos.simulator_db.DatabaseState
-import lupos.visualize.distributed.database.VisualisationNetwork
-public class DummyDatabaseState(
-    visualisationNetwork: VisualisationNetwork,
-    ownAddress: Int,
-    allAddressesStore: IntArray,
-    allAddressesQuery: IntArray,
-    absolutePathToDataDirectory: String
-) :
-    DatabaseState(visualisationNetwork, ownAddress, allAddressesStore, allAddressesQuery, absolutePathToDataDirectory) {
-
-    public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
-    public var addressForQueryEndResult: Int = -1
-    public lateinit var dataFile: String
+public interface IUserApplication {
+    public fun receive(pck: IPayload)
+    public fun startUp()
+    public fun shutDown()
 }

@@ -16,34 +16,28 @@
  */
 
 package lupos.simulator_db.dummyImpl
-
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.IDatabase
-import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IPayload
+import lupos.simulator_db.IUserApplication
+import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
 
-public class DatabaseSystemDummy public constructor(config: JsonParserObject) : IDatabase {
+public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val sender: IUserApplicationLayer, initialState: DatabaseState) : IUserApplication {
 
-    private lateinit var state: DummyDatabaseState
+    private var state = DummyDatabaseState(initialState.visualisationNetwork, initialState.ownAddress, initialState.allAddressesStore, initialState.allAddressesQuery, initialState.absolutePathToDataDirectory)
 
-    public override fun start(initialState: DatabaseState) {
-        state = DummyDatabaseState(initialState.visualisationNetwork, initialState.ownAddress, initialState.allAddressesStore, initialState.allAddressesQuery, initialState.sender, initialState.absolutePathToDataDirectory)
+    init {
         state.dataFile = "${initialState.absolutePathToDataDirectory}/file.txt"
+        sender.addChildApplication(this)
+    }
+    override fun shutDown() {
+    }
+    override fun startUp() {
         File(state.dataFile).withOutputStream { }
     }
-
-    public override fun activate() {
-    }
-
-    public override fun deactivate() {
-    }
-
-    public override fun end() {
-    }
-
-    public override fun receive(pck: IDatabasePackage) {
+    override fun receive(pck: IPayload) {
         when (pck) {
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
@@ -119,7 +113,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject) : 
 
         mergeChoosenOperators(query)
 
-        state.sender.send(
+        sender.send(
             senderAddress,
             ChoosenOperatorPackage(
                 destinationAddress = senderAddress,
@@ -138,7 +132,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject) : 
         // kann der Optimizer nicht immer diese Operanden fusionieren.
         for (op in query.choosenOperators) {
 // ergebnisse senden
-            state.sender.send(
+            sender.send(
                 senderAddress,
                 ResultPackage(
                     destinationAddress = senderAddress,
@@ -153,7 +147,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject) : 
 
     private fun getHopToDestinationsMap(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
         val map = HashMap<Int, MutableSet<Int>>(destinationAddresses.size)
-        val nextHops = state.sender.getNextDatabaseHops(destinationAddresses)
+        val nextHops = sender.getNextDatabaseHops(destinationAddresses)
         for (i in nextHops.indices)
             addToHopMap(map, nextHops[i], destinationAddresses[i])
         return map
@@ -184,7 +178,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject) : 
     }
 
     private fun sendPreprocessingPackage(to: Int, dests: IntArray, parts: ByteArray, queryID: Int) {
-        state.sender.send(
+        sender.send(
             to,
             PreprocessingPackage(
                 destinationAddresses = dests,

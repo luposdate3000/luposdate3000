@@ -22,6 +22,5 @@ public abstract class DatabaseState(
     public val ownAddress: Int,
     public var allAddressesStore: IntArray,
     public var allAddressesQuery: IntArray,
-    public val sender: IRouter,
     public val absolutePathToDataDirectory: String,
 )

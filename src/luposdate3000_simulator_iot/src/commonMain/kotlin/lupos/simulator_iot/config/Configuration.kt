@@ -16,12 +16,15 @@
  */
 
 package lupos.simulator_iot.config
-
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
+import lupos.simulator_db.DatabaseState
+import lupos.simulator_db.RouterCombiningBlocks
+import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
+import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
@@ -30,6 +33,7 @@ import lupos.simulator_iot.models.net.MeshNetwork
 import lupos.simulator_iot.models.net.StarNetwork
 import lupos.simulator_iot.models.sensor.ParkingSensor
 import lupos.simulator_iot.queryproc.DatabaseAdapter
+import lupos.simulator_iot.utils.FilePaths
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
@@ -244,7 +248,23 @@ public class Configuration(private val simRun: SimulationRun) {
         val databaseQuery = deviceType.getOrDefault("databaseQuery", deviceType.getOrDefault("database", false))
         if (databaseStore || databaseQuery) {
             numberOfDatabases++
-            device.database = DatabaseAdapter(device)
+            val initialState = object : DatabaseState(
+                visualisationNetwork = device.simRun.visualisationNetwork,
+                ownAddress = device.address,
+                allAddressesStore = device.simRun.config.dbDeviceAddressesStore,
+                allAddressesQuery = device.simRun.config.dbDeviceAddressesQuery,
+                absolutePathToDataDirectory = "${FilePaths.dbStates}/device${device.address}",
+            ) {}
+            val adapter = DatabaseAdapter(device)
+            val messageGrouper = RouterCombiningBlocks(adapter)
+
+            val db = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
+                "Dummy" -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database, messageGrouper, initialState)
+                "Luposdate3000" -> DatabaseHandle(messageGrouper, device.simRun.config.jsonObjects.database, initialState)
+                else -> TODO()
+            }
+
+            device.userApplication = adapter
             device.hasDatabaseStore = databaseStore
             device.hasDatabaseQuery = databaseQuery
         }

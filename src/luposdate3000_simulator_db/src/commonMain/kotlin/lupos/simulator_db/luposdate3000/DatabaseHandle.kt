@@ -1,4 +1,3 @@
-
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -55,20 +54,22 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.IRouter
+import lupos.simulator_db.IPayload
+import lupos.simulator_db.IUserApplication
+import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
 import lupos.visualize.distributed.database.VisualisationNetwork
-public class DatabaseHandle public constructor(internal val config: JsonParserObject) : IDatabase {
+public class DatabaseHandle public constructor(private val parent: IUserApplicationLayer, internal val config: JsonParserObject, internal val initialState: DatabaseState) : IUserApplication {
+
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
     private lateinit var visualisationNetwork: VisualisationNetwork
     private var ownAdress: Int = 0
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
     private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
-    private var router: IRouter? = null
+    private var router: IUserApplicationLayer? = null
     private var nodeGlobalDictionaryBackup: IDictionary? = null
 
     private companion object {
@@ -93,15 +94,17 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             }
         }
     }
-
-    override fun start(initialState: DatabaseState) {
+    init {
+        parent.addChildApplication(this)
+    }
+    override fun startUp() {
         visualisationNetwork = initialState.visualisationNetwork
         println("DatabaseHandle.start ${initialState.allAddressesStore.map { it }} .. ${initialState.allAddressesQuery.map { it }} .. ${initialState.ownAddress}")
         if (initialState.allAddressesStore.isEmpty()) {
             throw Exception("invalid input")
         }
         ownAdress = initialState.ownAddress
-        router = initialState.sender
+        router = parent
         instance.enableJoinOrderOnHistogram = false
         instance.LUPOS_PROCESS_URLS_STORE = initialState.allAddressesStore.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_URLS_QUERY = initialState.allAddressesQuery.map { it.toString() }.toTypedArray()
@@ -117,7 +120,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         instance.useDictionaryInlineEncoding = config.getOrDefault("useDictionaryInlineEncoding", Luposdate3000Config.useDictionaryInlineEncoding)
         instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
         instance.queue_size = 2048
-        instance.communicationHandler = MySimulatorCommunicationHandler(instance, initialState.sender)
+        instance.communicationHandler = MySimulatorCommunicationHandler(instance, parent)
         instance = LuposdateEndpoint.initializeB(instance)
         if (enableSharedMemoryDictionaryCheat) {
             globalCheatStart(instance)
@@ -128,25 +131,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             DistributedOptimizerQuery()
         }
     }
-
-    override fun activate() {
-/*
-    if (!instance.initialized) {
-      instance = LuposdateEndpoint.initializeB(instance)
-    }
-*/
-    }
-
-    override fun deactivate() {
-/*
-    if ((!BufferManagerExt.isInMemoryOnly) && (instance.LUPOS_DICTIONARY_MODE != EDictionaryTypeExt.InMemory)) {
-      // do not disable inmemory databases, because they would loose all data
-      LuposdateEndpoint.close(instance)
-    }
-*/
-    }
-
-    override fun end() {
+    override fun shutDown() {
         if (enableSharedMemoryDictionaryCheat) {
             instance.nodeGlobalDictionary = nodeGlobalDictionaryBackup
             globalCheatEnd()
@@ -231,7 +216,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 // define everything as in the DB outside of the simulator - later in the execution-pass there are some overrides due to the not implemented distributed dictionary in the simulator for example
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:233"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:218"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size },
                     { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
                 )
@@ -239,7 +224,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 for ((k, v) in parts) {
                     mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
                     SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:241"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:226"/*SOURCE_FILE_END*/ },
                         {
                             if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                                 println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -270,7 +255,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:272"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:257"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!] == null }
             )
             myPendingWorkData[pck.params["key"]!!] = pck.data
@@ -332,7 +317,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 TODO("loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v")
             }
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:334"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:319"/*SOURCE_FILE_END*/ },
                 {
                     if (!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") {
                         println("something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v")
@@ -390,7 +375,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
 // k benötigt alle Ergebnisse von v
                 if (!packageMap.contains(k)) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:392"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:377"/*SOURCE_FILE_END*/ },
                         { v.isNotEmpty() },
                         {
                             "${pck.operatorGraph[k]}"
@@ -423,7 +408,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             }
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:425"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:410"/*SOURCE_FILE_END*/ },
             { packageMap.keys.containsAll(pck.operatorGraph.keys) }
         )
         for ((k, v) in packageMap) {
@@ -555,12 +540,12 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 }
             }
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:557"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:542"/*SOURCE_FILE_END*/ },
                 { keys.size == 1 }
             )
             val key = keys.first()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:562"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:547"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData.contains(key) }
             )
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
@@ -685,9 +670,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             }
         }
     }
-
-    override fun receive(pck: IDatabasePackage) {
-        println("${pck.getPackageID()} $ownAdress receive IDatabasePackage")
+    override fun receive(pck: IPayload) {
         try {
             when (pck) {
                 is MySimulatorTestingImportPackage -> receive(pck)

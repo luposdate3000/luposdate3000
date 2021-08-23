@@ -18,82 +18,54 @@
 package lupos.simulator_iot.queryproc
 
 import lupos.shared.inline.File
-import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.IDatabase
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IRouter
+import lupos.simulator_db.IUserApplication
+import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryResponsePackage
-import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
-import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.queryproc.pck.DBQueryResultPackage
 import lupos.simulator_iot.utils.FilePaths
 
-public class DatabaseAdapter(internal val device: Device) : IRouter {
-
+public class DatabaseAdapter(
+    private val device: Device,
+) : IUserApplicationLayer {
+    private lateinit var child: IUserApplication
     private var pathToStateOfThisDevice = "${FilePaths.dbStates}/device${device.address}"
 
-    public val db: IDatabase = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
-        "Dummy" -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database)
-        "Luposdate3000" -> DatabaseHandle(device.simRun.config.jsonObjects.database)
-        else -> TODO()
+    override fun getAllChildApplications(): Set<IUserApplication> {
+        var res = mutableSetOf<IUserApplication>()
+        res.add(child)
+        val c = child
+        if (c is IUserApplicationLayer) {
+            res.addAll(c.getAllChildApplications())
+        }
+        return res
     }
-
-    private var isActive = false
+    override fun addChildApplication(child: IUserApplication) {
+        this.child = child
+    }
+    public override fun receive(pck: IPayload) {
+        when (pck) {
+            is DBQueryResultPackage -> processDBQueryResultPackage(pck)
+            is IDatabasePackage -> {
+                child.receive(pck)
+            }
+            else -> TODO("$pck")
+        }
+    }
 
     init {
         File(pathToStateOfThisDevice).mkdirs()
     }
 
-    internal fun startUp() {
-        startSession()
-        deactivateSession()
+    public override fun startUp() {
+        child.startUp()
     }
 
-    private fun activateSession() {
-        db.activate()
-        isActive = true
-    }
-
-    private fun deactivateSession() {
-        db.deactivate()
-        isActive = false
-    }
-
-    private fun endSession() {
-        db.end()
-        isActive = false
-    }
-
-    private fun startSession() {
-        db.start(object : DatabaseState(
-            visualisationNetwork = device.simRun.visualisationNetwork,
-            ownAddress = device.address,
-            allAddressesStore = device.simRun.config.dbDeviceAddressesStore,
-            allAddressesQuery = device.simRun.config.dbDeviceAddressesQuery,
-            sender = this@DatabaseAdapter,
-            absolutePathToDataDirectory = pathToStateOfThisDevice,
-        ) {})
-        isActive = true
-    }
-
-    internal fun shutDown() {
-        activateSession()
-        endSession()
-    }
-
-    override fun receive(payload: IPayload) {
-        when (payload) {
-            is DBQueryResultPackage -> processDBQueryResultPackage(payload)
-            is IDatabasePackage -> {
-                activateSession()
-                db.receive(pck)
-                deactivateSession()
-            }
-            else -> TODO("$payload")
-        }
+    public override fun shutDown() {
+        child.shutDown()
     }
 
     private fun processDBQueryResultPackage(pck: DBQueryResultPackage) {
@@ -101,7 +73,6 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
     }
 
     override fun send(destinationAddress: Int, pck: IPayload) {
-        require(isActive) { "This DBMS Instance is not active!" }
         if (pck is IDatabasePackage) {
             PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         }
@@ -116,7 +87,7 @@ public class DatabaseAdapter(internal val device: Device) : IRouter {
         } else {
             if (device.address == destinationAddress) {
                 if (pck is IDatabasePackage) {
-                    db.receive(pck)
+                    child.receive(pck)
                 } else {
                     TODO("$pck")
                 }

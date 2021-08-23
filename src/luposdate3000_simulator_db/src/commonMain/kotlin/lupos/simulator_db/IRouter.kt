@@ -17,8 +17,9 @@
 
 package lupos.simulator_db
 
-public interface IRouter {
-    public fun receive(pck: IPayload)
+public interface IUserApplicationLayer : IUserApplication {
     public fun send(destinationAddress: Int, pck: IPayload)
     public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
+    public fun getAllChildApplications(): Set<IUserApplication>
+    public fun addChildApplication(child: IUserApplication)
 }

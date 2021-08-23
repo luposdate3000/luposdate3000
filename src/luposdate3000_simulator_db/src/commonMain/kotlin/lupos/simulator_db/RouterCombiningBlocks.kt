@@ -16,21 +16,40 @@
  */
 package lupos.simulator_db
 
-public class RouterCombiningBlocks(private val router: IRouter) : IRouter {
+public class RouterCombiningBlocks(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
     private val cache = mutableMapOf<Int, MutableList<IPayload>>()
+    private lateinit var child: IUserApplication
+    override fun startUp() {
+        child.startUp()
+    }
+    override fun shutDown() {
+        child.shutDown()
+    }
+    override fun getAllChildApplications(): Set<IUserApplication> {
+        var res = mutableSetOf<IUserApplication>()
+        res.add(child)
+        val c = child
+        if (c is IUserApplicationLayer) {
+            res.addAll(c.getAllChildApplications())
+        }
+        return res
+    }
+    override fun addChildApplication(child: IUserApplication) {
+        this.child = child
+    }
     override fun receive(pck: IPayload) {
         if (pck is QueryPackageBlock) {
             for (p in pck.data) {
-                router.receive(p)
+                child.receive(p)
             }
         } else {
-            router.receive(pck)
+            child.receive(pck)
         }
         for ((destinationAddress, pckList) in cache) {
             if (pckList.size> 1) {
-                router.send(destinationAddress, QueryPackageBlock(pckList))
+                parent.send(destinationAddress, QueryPackageBlock(pckList))
             } else {
-                router.send(destinationAddress, pckList.first())
+                parent.send(destinationAddress, pckList.first())
             }
         }
         cache.clear()
@@ -44,6 +63,6 @@ public class RouterCombiningBlocks(private val router: IRouter) : IRouter {
         c.add(pck)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
-        return router.getNextDatabaseHops(destinationAddresses)
+        return parent.getNextDatabaseHops(destinationAddresses)
     }
 }

@@ -16,10 +16,12 @@
  */
 
 package lupos.simulator_iot.models
-
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_db.IPayload
+import lupos.simulator_db.IUserApplicationLayer
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
@@ -28,7 +30,7 @@ import lupos.simulator_iot.models.routing.IRoutingProtocol
 import lupos.simulator_iot.models.routing.RPL
 import lupos.simulator_iot.models.sensor.ISensor
 import lupos.simulator_iot.models.sensor.ParkingSample
-import lupos.simulator_iot.queryproc.DatabaseAdapter
+import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.TimeUtils
 
 public class Device(
@@ -41,9 +43,9 @@ public class Device(
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
 ) : Entity() {
-    public var hasDatabaseStore: Boolean = false
-    public var hasDatabaseQuery: Boolean = false
-    public var database: DatabaseAdapter? = null
+    internal var hasDatabaseStore: Boolean = false
+    internal var hasDatabaseQuery: Boolean = false
+    internal var userApplication: IUserApplicationLayer? = null
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false
@@ -76,7 +78,7 @@ public class Device(
     override fun onStartUp() {
         deviceStart = TimeUtils.stamp()
         sensor?.startSampling()
-        database?.startUp()
+        userApplication?.startUp()
         router.startRouting()
     }
 
@@ -101,22 +103,15 @@ public class Device(
             }
             pck.payload is ParkingSample -> {
                 processedSensorDataPackages++
-                requireNotNull(
-                    database
-                ) { "The device $address has no database configured to store the ParkingSample." }
                 val sample = pck.payload as ParkingSample
                 val query = SemanticData.getInsertQueryString(sample)
                 val bytes = query.encodeToByteArray()
-                val pck = QueryPackage(device.address, bytes)
-                PostProcessSend.process(device.address, device.address, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
-                processPackage(pck)
+                val pck = QueryPackage(address, bytes)
+                PostProcessSend.process(address, address, simRun.sim.clock, simRun.visualisationNetwork, pck)
+                userApplication!!.receive(pck)
             }
             else -> {
-                if (database != null) {
-                    database!!.receive(pck.payload)
-                } else {
-                    TODO("$pck")
-                }
+                userApplication!!.receive(pck.payload)
             }
         }
     }
@@ -126,15 +121,11 @@ public class Device(
             try {
                 val hop = router.getNextHop(dest)
                 simRun.visualisationNetwork.addConnectionTable(address, dest, hop)
-                if (database != null) {
-                    val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
-                    simRun.visualisationNetwork.addConnectionTableDB(address, dest, dbhop)
-                }
             } catch (e: Throwable) {
             }
         }
         sensor?.stopSampling()
-        database?.shutDown()
+        userApplication?.shutDown()
     }
 
     private fun forwardPackage(pck: NetworkPackage) {

@@ -20,9 +20,9 @@ import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
-import lupos.simulator_db.IRouter
+import lupos.simulator_db.IUserApplicationLayer
 
-internal class MySimulatorCommunicationHandler(val instance: Luposdate3000Instance, val router: IRouter) : ICommunicationHandler {
+internal class MySimulatorCommunicationHandler(val instance: Luposdate3000Instance, val router: IUserApplicationLayer) : ICommunicationHandler {
     override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {
         router.send(targetHost.toInt(), MySimulatorAbstractPackage(queryID, path, params))
     }
