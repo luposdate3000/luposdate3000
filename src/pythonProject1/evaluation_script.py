@@ -1,5 +1,5 @@
 
-with open("evaluation.txt", "r") as evaluation:
+with open("evaluation.train.me.s.500k.ppo_model", "r") as evaluation:
     lines = evaluation.readlines()
     max_t = float(lines[0])
     min_t = float(lines[1])
@@ -10,6 +10,7 @@ with open("evaluation.txt", "r") as evaluation:
             rewards[i].append(float(j))
 
 # vergleich, ob max
+average_reward = 0
 is_max = []
 num_maxs = 0
 is_min = []
@@ -26,6 +27,11 @@ for i in rewards:
     else:
         is_min.append(0)
 
+    average_reward += i[0]
+
+average_reward = average_reward/len(rewards)
+
+
 print(is_max)
 print(num_maxs)
 print(num_maxs/len(rewards))
@@ -34,4 +40,5 @@ print(is_min)
 print(num_mins)
 print(num_mins/len(rewards))
 
+print(f"Average reward: {average_reward}")
 # complete reward

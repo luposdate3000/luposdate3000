@@ -39,9 +39,9 @@ def train_model():
     # env = model.get_env()
 
     env.set_training_data(benched_queries)
-    model.learn(total_timesteps=5000000, log_interval=1)
+    model.learn(total_timesteps=500000, log_interval=None)
     # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
-    model.save("train.me.s.complete" + ".ppo_model")
+    model.save("train.me.s.500k" + ".ppo_model")
 
 
 def optimize_query():
@@ -65,7 +65,7 @@ def optimize_query():
     env.set_training_data(benched_queries)
     for i in range(len(benched_queries)):
         done = False
-        print("---------------Query: ----------- " + str(i))
+        print("---------------Query: ----------- " + str(query_counter))
         obs = env.reset()
         print("Observation: ")
         print(obs)
@@ -88,7 +88,7 @@ def optimize_query():
     for i in rewards:
         print(i)
 
-    with open("evaluation.txt", "w") as evaluation:
+    with open("evaluation." + optimizer_model_file, "w") as evaluation:
         evaluation.write(str(max_execution_time) + "\n")
         evaluation.write(str(min_execution_time) + "\n")
         for i in range(len(benched_queries)):

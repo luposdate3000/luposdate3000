@@ -168,7 +168,7 @@ class DatabaseEnv(gym.Env):
         else:
             # Reward for valid action
             reward = 0
-
+        #print(self.query_counter)
         # 7. Return observation space, reward, done, {}
         return self.observation_matrix, reward, done, {}
 
