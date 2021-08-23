@@ -115,6 +115,7 @@ import lupos.operator.physical.partition.POPDistributedSendSingleCount
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitMergePartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
@@ -160,7 +161,7 @@ public object XMLElementToOPBase {
 
     public fun createProjectedVariables(node: XMLElement): List<String> {
         val res = mutableListOf<String>()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:162"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:163"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
         for (c in node["projectedVariables"]!!.childs) {
             res.add(c.attributes["name"]!!)
         }
@@ -823,7 +824,20 @@ public object XMLElementToOPBase {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                 storeNodeTmp = storeNodeTmp.getChildren()[0]
             }
-            val storeNode = storeNodeTmp
+            val storeNode = storeNodeTmp as POPTripleStoreIterator
+            storeNode.hasSplitFromStore = true
+            query.addPartitionOperator(res.uuid, id)
+            res
+        }
+        operatorMap["POPSplitMergePartitionFromStore"] = { query, node, mapping, recursionFunc ->
+            val id = node.attributes["partitionID"]!!.toInt()
+            val res = POPSplitMergePartitionFromStore(query, createProjectedVariables(node), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            var storeNodeTmp = res.children[0]
+            while (storeNodeTmp !is POPTripleStoreIterator) {
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+                storeNodeTmp = storeNodeTmp.getChildren()[0]
+            }
+            val storeNode = storeNodeTmp as POPTripleStoreIterator
             storeNode.hasSplitFromStore = true
             query.addPartitionOperator(res.uuid, id)
             res
@@ -979,12 +993,13 @@ public object XMLElementToOPBase {
 
 /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
+        val theOperator = theMap [node.tag]
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:982"/*SOURCE_FILE_END*/ },
-            { theMap [node.tag] != null },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:997"/*SOURCE_FILE_END*/ },
+            { theOperator != null },
             { node.tag }
         )
-        val res = theMap [node.tag]!!(query, node, mapping, operatorMap as Map<String, Any>)
+        val res = theOperator!!(query, node, mapping, operatorMap as Map<String, Any>)
         if (res !is AOPBase) {
             val tmp = node.attributes["selectedSort"]
             if (tmp != null && tmp.length > 2) {
