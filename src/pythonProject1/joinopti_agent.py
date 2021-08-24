@@ -39,9 +39,9 @@ def train_model():
     # env = model.get_env()
 
     env.set_training_data(benched_queries)
-    model.learn(total_timesteps=500000, log_interval=None)
+    model.learn(total_timesteps=25000000, log_interval=None)
     # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
-    model.save("train.me.s.500k" + ".ppo_model")
+    model.save("train.me.s.25000k" + ".ppo_model")
 
 
 def optimize_query():
