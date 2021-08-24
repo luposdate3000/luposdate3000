@@ -62,28 +62,24 @@ internal class RoutingTable(
         }
     }
 
-    internal fun getNextHop(destinationAddress: Int): Int =
-        if (!hasDestination(destinationAddress)) {
-            fallbackHop
-        } else {
-            nextHops[destinationAddress]
+    internal fun getNextHop(destinationAddress: Int): Int {
+        if (destinationAddress <nextHops.size) {
+            val res = nextHops[destinationAddress]
+            if (res != -1) {
+                return res
+            }
         }
-
+        return fallbackHop
+    }
     internal fun getNextDatabaseHop(destinationAddress: Int): Int =
-        if (!hasDestination(destinationAddress)) {
-            -1
-        } else {
+        if (destinationAddress <nextDatabaseHops.size) {
             nextDatabaseHops[destinationAddress]
+        } else {
+            -1
         }
-
-    private fun getOwnAddressIfItHasDatabase(): Int =
-        if (hasDatabase) ownAddress else -1
 
     internal fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
         IntArray(destinationAddresses.size) { getNextDatabaseHop(destinationAddresses[it]) }
-
-    private fun hasDestination(destinationAddress: Int) =
-        destinationAddress <= nextHops.size - 1 && nextHops[destinationAddress] != -1
 
     internal fun removeDestinationsByHop(hop: Int): Boolean {
         var updated = false
