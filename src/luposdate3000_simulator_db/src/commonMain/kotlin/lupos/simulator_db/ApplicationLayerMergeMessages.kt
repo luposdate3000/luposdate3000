@@ -17,7 +17,7 @@
 package lupos.simulator_db
 
 public class ApplicationLayerMergeMessages(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
-    private val cache = mutableMapOf<Int, MutableList<IPayload>>()
+    private var cache = mutableMapOf<Int, MutableList<IPayload>>()
     private lateinit var child: IUserApplication
     init {
         parent.addChildApplication(this)
@@ -41,6 +41,7 @@ public class ApplicationLayerMergeMessages(private val parent: IUserApplicationL
         this.child = child
     }
     override fun receive(pck: IPayload): IPayload? {
+        println(pck)
         if (pck is QueryPackageBlock) {
             for (p in pck.data) {
                 val pp = child.receive(p)
@@ -54,14 +55,15 @@ public class ApplicationLayerMergeMessages(private val parent: IUserApplicationL
                 return pp
             }
         }
-        for ((destinationAddress, pckList) in cache) {
+        val cacheLocal = cache
+        cache = mutableMapOf()
+        for ((destinationAddress, pckList) in cacheLocal) {
             if (pckList.size> 1) {
                 parent.send(destinationAddress, QueryPackageBlock(pckList))
             } else {
                 parent.send(destinationAddress, pckList.first())
             }
         }
-        cache.clear()
         return null
     }
     override fun send(destinationAddress: Int, pck: IPayload) {

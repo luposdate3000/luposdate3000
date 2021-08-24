@@ -22,10 +22,8 @@ import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
-import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.queryproc.pck.DBQueryResultPackage
 import lupos.simulator_iot.utils.FilePaths
 
 public class DatabaseAdapter(
@@ -70,12 +68,12 @@ public class DatabaseAdapter(
         if (pck is IDatabasePackage) {
             PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         }
-            if (device.address == destinationAddress) {
-                receive(pck)
-            } else {
-                device.simRun.incNumberOfSentDatabasePackages()
-                device.sendRoutedPackage(device.address, destinationAddress, pck)
-            }
+        if (device.address == destinationAddress) {
+            receive(pck)
+        } else {
+            device.simRun.incNumberOfSentDatabasePackages()
+            device.sendRoutedPackage(device.address, destinationAddress, pck)
+        }
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {

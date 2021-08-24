@@ -14,22 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-package lupos.simulator_iot.queryproc.pck
-
+package lupos.simulator_iot.queryproc
 import lupos.simulator_db.IPayload
-
-internal class DBQueryResultPackage(
-    sourceAddress: Int,
-    destinationAddress: Int,
-    internal val result: ByteArray
-) : IPayload {
-
-    override fun getSizeInBytes(): Int {
-        return result.size
+import lupos.simulator_db.IUserApplication
+import lupos.simulator_db.IUserApplicationLayer
+import lupos.simulator_db.QueryResponsePackage
+public class ApplicationLayerReceiveQueryResonse(private val parent: IUserApplicationLayer) : IUserApplication {
+    init {
+        parent.addChildApplication(this)
     }
-
-    override fun toString(): String {
-        return "DBQueryResultPck()"
+    override fun startUp() {
+    }
+    override fun shutDown() {
+    }
+    override fun receive(pck: IPayload): IPayload? {
+        if (pck is QueryResponsePackage) {
+            return null
+        } else {
+            return pck
+        }
     }
 }

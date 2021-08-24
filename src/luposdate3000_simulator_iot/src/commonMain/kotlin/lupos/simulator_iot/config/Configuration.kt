@@ -22,6 +22,7 @@ import lupos.parser.JsonParserString
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_db.ApplicationLayerMergeMessages
+import lupos.simulator_db.ApplicationLayerMultipleChilds
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
@@ -32,6 +33,7 @@ import lupos.simulator_iot.models.net.DeviceLinker
 import lupos.simulator_iot.models.net.MeshNetwork
 import lupos.simulator_iot.models.net.StarNetwork
 import lupos.simulator_iot.models.sensor.ParkingSensor
+import lupos.simulator_iot.queryproc.ApplicationLayerReceiveQueryResonse
 import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.utils.FilePaths
 import kotlin.math.round
@@ -259,17 +261,17 @@ public class Configuration(private val simRun: SimulationRun) {
             }
             val adapter = DatabaseAdapter(device)
             val mergeMessages = ApplicationLayerMergeMessages(adapter)
-val multiChilds=ApplicationLayerMultipleChilds(mergeMessages)
+            val multiChilds = ApplicationLayerMultipleChilds(mergeMessages)
 
             val db = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
                 "Dummy" -> {
-DatabaseSystemDummy(device.simRun.config.jsonObjects.database, multiChilds, initialState)
-ApplicationLayerReceiveQueryResonse(multiChilds)
-}
+                    DatabaseSystemDummy(device.simRun.config.jsonObjects.database, multiChilds, initialState)
+                    ApplicationLayerReceiveQueryResonse(multiChilds)
+                }
                 "Luposdate3000" -> {
-DatabaseHandle(multiChilds, device.simRun.config.jsonObjects.database, initialState)
-ApplicationLayerReceiveQueryResonse(multiChilds)
-}
+                    DatabaseHandle(multiChilds, device.simRun.config.jsonObjects.database, initialState)
+                    ApplicationLayerReceiveQueryResonse(multiChilds)
+                }
                 else -> TODO()
             }
 
