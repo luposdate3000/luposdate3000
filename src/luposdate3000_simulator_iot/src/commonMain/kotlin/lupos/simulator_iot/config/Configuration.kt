@@ -22,7 +22,7 @@ import lupos.parser.JsonParserString
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.RouterCombiningBlocks
+import lupos.simulator_db.ApplicationLayerMergeMessages
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.SimulationRun
@@ -258,7 +258,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 ) {}
             }
             val adapter = DatabaseAdapter(device)
-            val messageGrouper = RouterCombiningBlocks(adapter)
+            val messageGrouper = ApplicationLayerMergeMessages(adapter)
 
             val db = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
                 "Dummy" -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database, messageGrouper, initialState)

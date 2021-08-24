@@ -86,11 +86,7 @@ public class DatabaseAdapter(
             }
         } else {
             if (device.address == destinationAddress) {
-                if (pck is IDatabasePackage) {
                     child.receive(pck)
-                } else {
-                    TODO("$pck")
-                }
             } else {
                 device.simRun.incNumberOfSentDatabasePackages()
                 device.sendRoutedPackage(device.address, destinationAddress, pck)

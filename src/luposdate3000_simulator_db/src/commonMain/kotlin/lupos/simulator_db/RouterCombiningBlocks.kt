@@ -16,7 +16,7 @@
  */
 package lupos.simulator_db
 
-public class RouterCombiningBlocks(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
+public class ApplicationLayerMergeMessages(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
     private val cache = mutableMapOf<Int, MutableList<IPayload>>()
     private lateinit var child: IUserApplication
     init {
