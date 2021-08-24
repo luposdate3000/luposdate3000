@@ -186,7 +186,7 @@ class IntegrationTest {
             1,
             1,
             60,
-            config.devices.filter { it.hasDatabaseStore }.first(),
+            config.devices.filter { config.dbDeviceAddressesStore.contains(it.address) }.first(),
             "ONTOLOGY-QUERY-OVERRIDES-THE-PACKAGE"
         )
         ontologySender.queryPck = MySimulatorAbstractPackage(-1, "/shacl/ontology/import", mapOf("data" to SemanticData.get_SHACL_OntolotgyString()))
