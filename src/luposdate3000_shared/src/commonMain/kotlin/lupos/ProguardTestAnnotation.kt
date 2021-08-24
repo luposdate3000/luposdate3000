@@ -32,10 +32,5 @@ package lupos
     AnnotationTarget.TYPE_PARAMETER,
     AnnotationTarget.VALUE_PARAMETER
 )
-
-/*
- * this indicates that the target is only public because of testing
- * if the testing functionality is not wanted, change the target to private
- */
 @Retention(AnnotationRetention.BINARY)
 public annotation class ProguardTestAnnotation
