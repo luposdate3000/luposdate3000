@@ -41,7 +41,6 @@ public class ApplicationLayerMergeMessages(private val parent: IUserApplicationL
         this.child = child
     }
     override fun receive(pck: IPayload): IPayload? {
-        println(pck)
         if (pck is QueryPackageBlock) {
             for (p in pck.data) {
                 val pp = child.receive(p)
