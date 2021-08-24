@@ -126,6 +126,7 @@ public class Configuration(private val simRun: SimulationRun) {
         linker.createAvailableLinks(devices)
         dbDeviceAddressesStore = dbDeviceAddressesStoreList.toIntArray()
         dbDeviceAddressesQuery = dbDeviceAddressesQueryList.toIntArray()
+        println("configuration defined the databasedevices just now .. $dbDeviceAddressesStoreList $dbDeviceAddressesQueryList $dbDeviceAddressesStore $dbDeviceAddressesQuery")
         if (autocorrect) {
             File(fileName).withOutputStream { out ->
                 out.println(JsonParser().jsonToString(json, false))

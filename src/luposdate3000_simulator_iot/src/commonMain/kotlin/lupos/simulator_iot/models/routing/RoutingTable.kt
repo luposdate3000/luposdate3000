@@ -72,14 +72,24 @@ internal class RoutingTable(
         } else {
             nextHops[destinationAddress]
         }
-
-    internal fun getNextDatabaseHop(destinationAddress: Int): Int =
+    internal fun getNextDatabaseHop(destinationAddress: Int): Int {
+        val res: Int
+        println("RoutingTable.getNextDatabaseHop $destinationAddress ... ${nextDatabaseHops.map{it}} .. ${nextHops.map{it}}")
         if (!hasDestination(destinationAddress)) {
-            getOwnAddressIfItHasDatabase()
+            res = getOwnAddressIfItHasDatabase()
+            println("RoutingTable.getNextDatabaseHop a $destinationAddress -> $res")
         } else {
             val hop = nextDatabaseHops[destinationAddress]
-            if (hop != notInitialized) hop else getOwnAddressIfItHasDatabase()
+            if (hop != notInitialized) {
+                res = hop
+                println("RoutingTable.getNextDatabaseHop b $destinationAddress -> $res")
+            } else {
+                res = getOwnAddressIfItHasDatabase()
+                println("RoutingTable.getNextDatabaseHop c $destinationAddress -> $res")
+            }
         }
+        return res
+    }
 
     private fun getOwnAddressIfItHasDatabase(): Int =
         if (hasDatabase) ownAddress else notInitialized
@@ -88,7 +98,7 @@ internal class RoutingTable(
         val dbHops = IntArray(destinationAddresses.size) { -1 }
         for ((index, dest) in destinationAddresses.withIndex())
             dbHops[index] = getNextDatabaseHop(dest)
-
+        println("RoutingTable.getNextDatabaseHops ${destinationAddresses.map{it}} .. ${dbHops.map{it}}")
         return dbHops
     }
 
@@ -114,6 +124,7 @@ internal class RoutingTable(
         for ((index, dest) in destinations.withIndex()) {
             val flag = updateHop(dest, hop, existingDatabaseHops[index])
             updated = updated || flag
+            println("RoutingTable.setDestinationsByHop $ownAddress ... ${nextDatabaseHops.map{it}} .. ${nextHops.map{it}}")
         }
         return updated
     }
@@ -124,6 +135,7 @@ internal class RoutingTable(
         for (dest in destinations) {
             val flag = updateHop(dest, hop, hop)
             updated = updated || flag
+            println("RoutingTable.setDestinationsByDatabaseHop $ownAddress ... ${nextDatabaseHops.map{it}} .. ${nextHops.map{it}}")
         }
         return updated
     }

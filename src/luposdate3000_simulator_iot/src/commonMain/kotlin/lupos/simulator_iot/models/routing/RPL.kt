@@ -53,6 +53,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         device.simRun.incNumberOfSentDIOPackages()
     }
     private fun hasDatabase(): Boolean {
+        println("RPL check for database using ${device.simRun.config.dbDeviceAddressesStore} ${device.simRun.config.dbDeviceAddressesQuery}")
         return device.simRun.config.dbDeviceAddressesStore.contains(device.address) || device.simRun.config.dbDeviceAddressesQuery.contains(device.address)
     }
 
