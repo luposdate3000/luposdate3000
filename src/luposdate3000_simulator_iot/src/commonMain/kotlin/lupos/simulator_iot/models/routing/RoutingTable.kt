@@ -28,27 +28,21 @@ internal class RoutingTable(
     private var hops: MutableSet<Int> = mutableSetOf()
 
     internal var destinationCounter: Int = 0
-        private set
 
     internal var fallbackHop = ownAddress
 
     private fun updateHop(destinationAddress: Int, nextHopAddress: Int, nextDatabaseHopAddress: Int): Boolean {
         var updated = false
         initializeEntries()
-
         if (nextHops[destinationAddress] == -1) {
             destinationCounter++
         }
-
         if (nextHops[destinationAddress] != nextHopAddress) {
             updated = true
         }
-
         nextHops[destinationAddress] = nextHopAddress
         hops.add(nextHopAddress)
-
         nextDatabaseHops[destinationAddress] = nextDatabaseHopAddress
-
         return updated
     }
 
@@ -75,7 +69,7 @@ internal class RoutingTable(
         if (destinationAddress <nextDatabaseHops.size) {
             nextDatabaseHops[destinationAddress]
         } else {
-            -1
+            -1 // tell the caller that we dont know it
         }
 
     internal fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
@@ -95,8 +89,7 @@ internal class RoutingTable(
     }
 
     internal fun setDestinationsByHop(hop: Int, destinations: IntArray, existingDatabaseHops: IntArray): Boolean {
-        var updated: Boolean
-        updated = updateHop(hop, hop, -1)
+        var updated = updateHop(hop, hop, -1)
         for ((index, dest) in destinations.withIndex()) {
             val flag = updateHop(dest, hop, existingDatabaseHops[index])
             updated = updated || flag
@@ -105,8 +98,7 @@ internal class RoutingTable(
     }
 
     internal fun setDestinationsByDatabaseHop(hop: Int, destinations: IntArray): Boolean {
-        var updated: Boolean
-        updated = updateHop(hop, hop, hop)
+        var updated = updateHop(hop, hop, hop)
         for (dest in destinations) {
             val flag = updateHop(dest, hop, hop)
             updated = updated || flag
