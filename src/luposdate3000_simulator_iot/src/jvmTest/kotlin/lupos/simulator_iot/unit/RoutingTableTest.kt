@@ -185,7 +185,7 @@ class RoutingTableTest {
         val table = RoutingTable(0, 20, false)
         val hop = 8
         table.setDestinationsByHop(hop, intArrayOf(), intArrayOf())
-        assertEquals(RoutingTable.notInitialized, table.getNextDatabaseHop(hop))
+        assertEquals(-1, table.getNextDatabaseHop(hop))
     }
 
     @Test
@@ -223,7 +223,7 @@ class RoutingTableTest {
         val dest = 4
         table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, 9))
         table.removeDestinationsByHop(hop)
-        assertEquals(RoutingTable.notInitialized, table.getNextDatabaseHop(dest))
+        assertEquals(-1, table.getNextDatabaseHop(dest))
     }
 
     @Test

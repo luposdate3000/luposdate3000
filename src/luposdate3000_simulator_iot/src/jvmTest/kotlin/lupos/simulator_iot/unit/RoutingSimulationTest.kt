@@ -79,7 +79,7 @@ class RoutingSimulationTest {
         val rootRouter = root.router as RPL
         simRun.startSimulation(config)
 
-        assertEquals(config.getNumberOfDevices() - 1, rootRouter.routingTable.destinationCounter)
+        assertEquals(config.getNumberOfDevices() - 1, rootRouter.routingTable.getDestinations().size)
     }
 
     @Test

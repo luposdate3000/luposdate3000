@@ -27,27 +27,19 @@ internal class RoutingTable(
     private var nextDatabaseHops = IntArray(0)
     private var hops: MutableSet<Int> = mutableSetOf()
 
-    internal var destinationCounter: Int = 0
-        private set
-
-    internal companion object {
-        internal const val notInitialized: Int = -1
-    }
-
     internal var fallbackHop = ownAddress
 
     private fun updateHop(destinationAddress: Int, nextHopAddress: Int, nextDatabaseHopAddress: Int): Boolean {
         var updated = false
-        initializeEntries()
-
-        if (nextHops[destinationAddress] == notInitialized) {
-            destinationCounter++
+        if (nextHops.isEmpty()) {
+            nextHops = IntArray(addressSpace) { -1 }
         }
-
+        if (nextDatabaseHops.isEmpty()) {
+            nextDatabaseHops = IntArray(addressSpace) { -1 }
+        }
         if (nextHops[destinationAddress] != nextHopAddress) {
             updated = true
         }
-
         nextHops[destinationAddress] = nextHopAddress
         hops.add(nextHopAddress)
 
@@ -56,62 +48,36 @@ internal class RoutingTable(
         return updated
     }
 
-    private fun initializeEntries() {
-        if (nextHops.isEmpty()) {
-            nextHops = IntArray(addressSpace) { notInitialized }
-        }
-
-        if (nextDatabaseHops.isEmpty()) {
-            nextDatabaseHops = IntArray(addressSpace) { notInitialized }
-        }
-    }
-
-    internal fun getNextHop(destinationAddress: Int): Int =
-        if (!hasDestination(destinationAddress)) {
-            fallbackHop
-        } else {
-            nextHops[destinationAddress]
-        }
-    internal fun getNextDatabaseHop(destinationAddress: Int): Int {
-        val res: Int
-        println("RoutingTable.getNextDatabaseHop $destinationAddress ... ${nextDatabaseHops.map{it}} .. ${nextHops.map{it}}")
-        if (!hasDestination(destinationAddress)) {
-            res = getOwnAddressIfItHasDatabase()
-            println("RoutingTable.getNextDatabaseHop a $destinationAddress -> $res")
-        } else {
-            val hop = nextDatabaseHops[destinationAddress]
-            if (hop != notInitialized) {
-                res = hop
-                println("RoutingTable.getNextDatabaseHop b $destinationAddress -> $res")
-            } else {
-                res = getOwnAddressIfItHasDatabase()
-                println("RoutingTable.getNextDatabaseHop c $destinationAddress -> $res")
+    internal fun getNextHop(destinationAddress: Int): Int {
+        if (destinationAddress <nextHops.size) {
+            var res = nextHops[destinationAddress]
+            if (res != -1) {
+                return res
             }
         }
-        return res
+        return fallbackHop
     }
-
-    private fun getOwnAddressIfItHasDatabase(): Int =
-        if (hasDatabase) ownAddress else notInitialized
+    internal fun getNextDatabaseHop(destinationAddress: Int): Int {
+        if (destinationAddress <nextDatabaseHops.size) {
+            var res = nextDatabaseHops[destinationAddress]
+            if (res != -1) {
+                return res
+            }
+        }
+        // for routing we'd call 'fallbackHop' here .. so we dont know the next hop so we return this to the sender, such that the sender can handle it itself
+        return -1
+    }
 
     internal fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
-        val dbHops = IntArray(destinationAddresses.size) { -1 }
-        for ((index, dest) in destinationAddresses.withIndex())
-            dbHops[index] = getNextDatabaseHop(dest)
-        println("RoutingTable.getNextDatabaseHops ${destinationAddresses.map{it}} .. ${dbHops.map{it}}")
-        return dbHops
+        return IntArray(destinationAddresses.size) { getNextDatabaseHop(destinationAddresses[it]) }
     }
-
-    private fun hasDestination(destinationAddress: Int) =
-        destinationAddress <= nextHops.size - 1 && nextHops[destinationAddress] != notInitialized
 
     internal fun removeDestinationsByHop(hop: Int): Boolean {
         var updated = false
         for ((index, value) in nextHops.withIndex())
             if (value == hop) {
-                nextHops[index] = notInitialized
-                nextDatabaseHops[index] = notInitialized
-                destinationCounter--
+                nextHops[index] = -1
+                nextDatabaseHops[index] = -1
                 updated = true
             }
         hops.remove(hop)
@@ -119,36 +85,25 @@ internal class RoutingTable(
     }
 
     internal fun setDestinationsByHop(hop: Int, destinations: IntArray, existingDatabaseHops: IntArray): Boolean {
-        var updated: Boolean
-        updated = updateHop(hop, hop, notInitialized)
+        var updated = updateHop(hop, hop, -1)
         for ((index, dest) in destinations.withIndex()) {
             val flag = updateHop(dest, hop, existingDatabaseHops[index])
             updated = updated || flag
-            println("RoutingTable.setDestinationsByHop $ownAddress ... ${nextDatabaseHops.map{it}} .. ${nextHops.map{it}}")
         }
         return updated
     }
 
     internal fun setDestinationsByDatabaseHop(hop: Int, destinations: IntArray): Boolean {
-        var updated: Boolean
-        updated = updateHop(hop, hop, hop)
+        var updated = updateHop(hop, hop, hop)
         for (dest in destinations) {
             val flag = updateHop(dest, hop, hop)
             updated = updated || flag
-            println("RoutingTable.setDestinationsByDatabaseHop $ownAddress ... ${nextDatabaseHops.map{it}} .. ${nextHops.map{it}}")
         }
         return updated
     }
 
     internal fun getDestinations(): IntArray {
-        val destinations = IntArray(destinationCounter)
-        var destIndex = 0
-        for ((index, value) in nextHops.withIndex())
-            if (value != notInitialized) {
-                destinations[destIndex] = index
-                destIndex++
-            }
-        return destinations
+        return nextHops.filter { it != -1 }.toIntArray()
     }
 
     internal fun getHops(): Set<Int> = hops

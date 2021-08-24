@@ -19,7 +19,6 @@ package lupos.simulator_iot.unit
 
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.routing.RPL
-import lupos.simulator_iot.models.routing.RoutingTable
 import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -51,30 +50,30 @@ class RoutingTableSimulationTest {
         simRun.startSimulation(config)
 
         // routing table from A
-        assertEquals(5, aRouter.routingTable.destinationCounter)
+        assertEquals(5, aRouter.routingTable.getDestinations().size)
         assertEquals(b.address, aRouter.routingTable.getNextHop(b.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(c.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(d.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(e.address))
         assertEquals(c.address, aRouter.routingTable.getNextHop(f.address))
         // routing table from B
-        assertEquals(0, bRouter.routingTable.destinationCounter)
+        assertEquals(0, bRouter.routingTable.getDestinations().size)
         assertEquals(a.address, bRouter.routingTable.fallbackHop)
         // routing table from C
-        assertEquals(3, cRouter.routingTable.destinationCounter)
+        assertEquals(3, cRouter.routingTable.getDestinations().size)
         assertEquals(a.address, cRouter.routingTable.fallbackHop)
         assertEquals(d.address, cRouter.routingTable.getNextHop(d.address))
         assertEquals(e.address, cRouter.routingTable.getNextHop(e.address))
         assertEquals(e.address, cRouter.routingTable.getNextHop(f.address))
         // routing table from D
-        assertEquals(0, bRouter.routingTable.destinationCounter)
+        assertEquals(0, bRouter.routingTable.getDestinations().size)
         assertEquals(c.address, dRouter.routingTable.fallbackHop)
         // routing table from E
-        assertEquals(1, eRouter.routingTable.destinationCounter)
+        assertEquals(1, eRouter.routingTable.getDestinations().size)
         assertEquals(c.address, eRouter.routingTable.fallbackHop)
         assertEquals(f.address, eRouter.routingTable.getNextHop(f.address))
         // routing table from F
-        assertEquals(0, fRouter.routingTable.destinationCounter)
+        assertEquals(0, fRouter.routingTable.getDestinations().size)
         assertEquals(e.address, fRouter.routingTable.fallbackHop)
     }
 
@@ -91,8 +90,8 @@ class RoutingTableSimulationTest {
 
         simRun.startSimulation(config)
 
-        assertEquals(20, rootRouter.routingTable.destinationCounter)
-        assertEquals(0, child1Router.routingTable.destinationCounter)
+        assertEquals(20, rootRouter.routingTable.getDestinations().size)
+        assertEquals(0, child1Router.routingTable.getDestinations().size)
         assertEquals(root.address, rootRouter.routingTable.fallbackHop)
         assertEquals(root.address, child1Router.routingTable.fallbackHop)
         for (child in starNet.children)
@@ -121,9 +120,9 @@ class RoutingTableSimulationTest {
         // routing table from B
         actual = b.router.getNextDatabaseHops(intArrayOf(c.address, b.address, a.address, 999))
         assertEquals(c.address, actual[0])
-        assertEquals(RoutingTable.notInitialized, actual[1])
-        assertEquals(RoutingTable.notInitialized, actual[2])
-        assertEquals(RoutingTable.notInitialized, actual[3])
+        assertEquals(-1, actual[1])
+        assertEquals(-1, actual[2])
+        assertEquals(-1, actual[3])
         // routing table from C
         actual = c.router.getNextDatabaseHops(intArrayOf(c.address, 999, a.address))
         assertEquals(c.address, actual[0])
@@ -157,7 +156,7 @@ class RoutingTableSimulationTest {
         actual = b.router.getNextDatabaseHops(intArrayOf(c.address, d.address, b.address))
         assertEquals(c.address, actual[0])
         assertEquals(d.address, actual[1])
-        assertEquals(RoutingTable.notInitialized, actual[2])
+        assertEquals(-1, actual[2])
     }
 
     /**
@@ -202,8 +201,8 @@ class RoutingTableSimulationTest {
         assertEquals(g.address, actual[2])
         // routing table from E
         actual = e.router.getNextDatabaseHops(intArrayOf(e.address, f.address, a.address))
-        assertEquals(RoutingTable.notInitialized, actual[0])
+        assertEquals(-1, actual[0])
         assertEquals(f.address, actual[1])
-        assertEquals(RoutingTable.notInitialized, actual[2])
+        assertEquals(-1, actual[2])
     }
 }

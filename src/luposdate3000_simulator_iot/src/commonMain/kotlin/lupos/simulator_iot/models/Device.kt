@@ -117,6 +117,10 @@ public class Device(
             try {
                 val hop = router.getNextHop(dest)
                 simRun.visualisationNetwork.addConnectionTable(address, dest, hop)
+                if (userApplication != null) {
+                    val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
+                    simRun.visualisationNetwork.addConnectionTableDB(address, dest, dbhop)
+                }
             } catch (e: Throwable) {
             }
         }
