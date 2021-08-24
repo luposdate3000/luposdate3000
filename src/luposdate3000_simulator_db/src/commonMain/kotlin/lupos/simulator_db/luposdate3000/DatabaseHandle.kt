@@ -671,7 +671,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             }
         }
     }
-    override fun receive(pck: IPayload) {
+    override fun receive(pck: IPayload): IPayload? {
         try {
             when (pck) {
                 is MySimulatorTestingImportPackage -> receive(pck)
@@ -680,11 +680,12 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 is QueryPackage -> receive(pck, null, null, {})
                 is MySimulatorAbstractPackage -> receive(pck)
                 is MySimulatorOperatorGraphPackage -> receive(pck)
-                else -> TODO("$pck")
+                else -> return pck
             }
         } catch (e: Throwable) {
             visualisationNetwork.toImage()
             throw e
         }
+        return null
     }
 }

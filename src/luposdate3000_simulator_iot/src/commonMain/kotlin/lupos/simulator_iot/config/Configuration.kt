@@ -258,11 +258,18 @@ public class Configuration(private val simRun: SimulationRun) {
                 ) {}
             }
             val adapter = DatabaseAdapter(device)
-            val messageGrouper = ApplicationLayerMergeMessages(adapter)
+            val mergeMessages = ApplicationLayerMergeMessages(adapter)
+val multiChilds=ApplicationLayerMultipleChilds(mergeMessages)
 
             val db = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
-                "Dummy" -> DatabaseSystemDummy(device.simRun.config.jsonObjects.database, messageGrouper, initialState)
-                "Luposdate3000" -> DatabaseHandle(messageGrouper, device.simRun.config.jsonObjects.database, initialState)
+                "Dummy" -> {
+DatabaseSystemDummy(device.simRun.config.jsonObjects.database, multiChilds, initialState)
+ApplicationLayerReceiveQueryResonse(multiChilds)
+}
+                "Luposdate3000" -> {
+DatabaseHandle(multiChilds, device.simRun.config.jsonObjects.database, initialState)
+ApplicationLayerReceiveQueryResonse(multiChilds)
+}
                 else -> TODO()
             }
 

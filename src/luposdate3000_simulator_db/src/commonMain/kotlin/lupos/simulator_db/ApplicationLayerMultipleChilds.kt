@@ -16,61 +16,46 @@
  */
 package lupos.simulator_db
 
-public class ApplicationLayerMergeMessages(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
-    private val cache = mutableMapOf<Int, MutableList<IPayload>>()
-    private lateinit var child: IUserApplication
+public class ApplicationLayerMultipleChilds(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
+    private var childs = mutableListOf<IUserApplication>()
     init {
         parent.addChildApplication(this)
     }
     override fun startUp() {
-        child.startUp()
+        for (child in childs) {
+            child.startUp()
+        }
     }
     override fun shutDown() {
-        child.shutDown()
+        for (child in childs) {
+            child.shutDown()
+        }
     }
     override fun getAllChildApplications(): Set<IUserApplication> {
         var res = mutableSetOf<IUserApplication>()
-        res.add(child)
-        val c = child
-        if (c is IUserApplicationLayer) {
-            res.addAll(c.getAllChildApplications())
+        for (child in childs) {
+            res.add(child)
+            val c = child
+            if (c is IUserApplicationLayer) {
+                res.addAll(c.getAllChildApplications())
+            }
         }
         return res
     }
     override fun addChildApplication(child: IUserApplication) {
-        this.child = child
+        childs.add(child)
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is QueryPackageBlock) {
-            for (p in pck.data) {
-                val pp = child.receive(p)
-                if (pp != null) {
-                    return pp
-                }
-            }
-        } else {
+        for (child in childs) {
             val pp = child.receive(pck)
-            if (pp != null) {
-                return pp
+            if (pp == null) {
+                return null
             }
         }
-        for ((destinationAddress, pckList) in cache) {
-            if (pckList.size> 1) {
-                parent.send(destinationAddress, QueryPackageBlock(pckList))
-            } else {
-                parent.send(destinationAddress, pckList.first())
-            }
-        }
-        cache.clear()
-        return null
+        return pck
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
-        var c = cache[destinationAddress]
-        if (c == null) {
-            c = mutableListOf()
-            cache[destinationAddress] = c
-        }
-        c.add(pck)
+        parent.send(destinationAddress, pck)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)

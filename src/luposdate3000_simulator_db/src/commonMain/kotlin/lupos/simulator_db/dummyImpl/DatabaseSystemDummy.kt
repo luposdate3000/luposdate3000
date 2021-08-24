@@ -37,14 +37,15 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
         state.dataFile = "${initialStateTmp.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }
-    override fun receive(pck: IPayload) {
+    override fun receive(pck: IPayload): IPayload ? {
         when (pck) {
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)
             is QueryPackage -> receive(pck)
-            else -> TODO()
+            else -> return pck
         }
+        return null
     }
 
     public fun receive(pck: QueryPackage) {

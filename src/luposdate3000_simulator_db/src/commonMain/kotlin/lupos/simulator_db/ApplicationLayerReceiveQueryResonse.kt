@@ -14,11 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.simulator_db
 
-public interface IUserApplication {
-    public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
-    public fun startUp()
-    public fun shutDown()
+public class ApplicationLayerReceiveQueryResonse(private val parent: IUserApplicationLayer) : IUserApplication {
+    init {
+        parent.addChildApplication(this)
+    }
+    override fun startUp() {
+    }
+    override fun shutDown() {
+    }
+    override fun receive(pck: IPayload): IPayload? {
+if(pck is DBQueryResultPackage){
+return null
+}else{
+return pck
+}
+    }
 }

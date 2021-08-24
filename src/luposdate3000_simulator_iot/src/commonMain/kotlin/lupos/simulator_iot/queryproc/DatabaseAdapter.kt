@@ -46,14 +46,12 @@ public class DatabaseAdapter(
     override fun addChildApplication(child: IUserApplication) {
         this.child = child
     }
-    public override fun receive(pck: IPayload) {
-        when (pck) {
-            is DBQueryResultPackage -> processDBQueryResultPackage(pck)
-            is IDatabasePackage -> {
-                child.receive(pck)
-            }
-            else -> TODO("$pck")
+    public override fun receive(pck: IPayload): IPayload? {
+        var res = child.receive(pck)
+        if (res != null) {
+            TODO("$res")
         }
+        return null
     }
 
     init {
@@ -68,30 +66,16 @@ public class DatabaseAdapter(
         child.shutDown()
     }
 
-    private fun processDBQueryResultPackage(pck: DBQueryResultPackage) {
-        // TODO write the result with the corresponding query in a file
-    }
-
     override fun send(destinationAddress: Int, pck: IPayload) {
         if (pck is IDatabasePackage) {
             PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         }
-        if (pck is QueryResponsePackage) {
-            val pck2 = DBQueryResultPackage(device.address, destinationAddress, pck.result)
             if (device.address == destinationAddress) {
-                processDBQueryResultPackage(pck2)
-            } else {
-                device.simRun.incNumberOfSentDatabasePackages()
-                device.sendRoutedPackage(device.address, destinationAddress, pck2)
-            }
-        } else {
-            if (device.address == destinationAddress) {
-                child.receive(pck)
+                receive(pck)
             } else {
                 device.simRun.incNumberOfSentDatabasePackages()
                 device.sendRoutedPackage(device.address, destinationAddress, pck)
             }
-        }
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
