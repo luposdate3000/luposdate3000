@@ -45,9 +45,12 @@ public class QuerySender(
     override fun onEvent(source: Entity, data: Any) {
         throw Exception("Wrong way. A QuerySender is only a sender.")
     }
+    private fun hasDatabase(): Boolean {
+        return receiver.simRun.config.dbDeviceAddressesStore.contains(receiver.address) || receiver.simRun.config.dbDeviceAddressesQuery.contains(receiver.address)
+    }
 
     override fun onStartUp() {
-        require(receiver.hasDatabaseStore || receiver.hasDatabaseQuery) { "The query receiver device must have a database" }
+        require(hasDatabase()) { "The query receiver device must have a database" }
         setTimer(TimeUtils.toNanoSec(startClockInSec), StartUpTimer())
     }
 

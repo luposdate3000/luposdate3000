@@ -16,7 +16,6 @@
  */
 
 package lupos.simulator_iot
-
 import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
@@ -98,7 +97,7 @@ public class SimulationRun {
 
     private fun setUpVisualization(configuration: Configuration) {
         for (d in configuration.devices) {
-            val vis = VisualisationDevice(d.address, d.hasDatabaseStore, d.hasDatabaseQuery, d.sensor != null)
+            val vis = VisualisationDevice(d.address, configuration.dbDeviceAddressesStore.contains(d.address), configuration.dbDeviceAddressesQuery.contains(d.address), d.sensor != null)
             vis.x = d.location.longitude
             vis.y = d.location.latitude
             visualisationNetwork.addDevice(vis)

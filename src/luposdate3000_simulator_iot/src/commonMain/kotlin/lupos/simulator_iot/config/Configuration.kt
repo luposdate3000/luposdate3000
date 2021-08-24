@@ -56,9 +56,9 @@ public class Configuration(private val simRun: SimulationRun) {
         private set
 
     internal var dbDeviceAddressesStore: IntArray = intArrayOf()
-        private set
     internal var dbDeviceAddressesQuery: IntArray = intArrayOf()
-        private set
+    private var dbDeviceAddressesStoreList = mutableListOf<Int>()
+    private var dbDeviceAddressesQueryList = mutableListOf<Int>()
 
     private var rootRouterAddress: Int = -1
 
@@ -124,8 +124,8 @@ public class Configuration(private val simRun: SimulationRun) {
             createRandomStarNetwork(network)
         }
         linker.createAvailableLinks(devices)
-        dbDeviceAddressesStore = devices.filter { it.hasDatabaseStore }.map { it.address }.toIntArray()
-        dbDeviceAddressesQuery = devices.filter { it.hasDatabaseQuery }.map { it.address }.toIntArray()
+        dbDeviceAddressesStore = dbDeviceAddressesStoreList.toIntArray()
+        dbDeviceAddressesQuery = dbDeviceAddressesQueryList.toIntArray()
         if (autocorrect) {
             File(fileName).withOutputStream { out ->
                 out.println(JsonParser().jsonToString(json, false))
@@ -254,30 +254,33 @@ public class Configuration(private val simRun: SimulationRun) {
                 object : DatabaseState(
                     visualisationNetwork = device.simRun.visualisationNetwork,
                     ownAddress = device.address,
-                    allAddressesStore = device.simRun.config.dbDeviceAddressesStore,
-                    allAddressesQuery = device.simRun.config.dbDeviceAddressesQuery,
+                    allAddressesStore = dbDeviceAddressesStore,
+                    allAddressesQuery = dbDeviceAddressesQuery,
                     absolutePathToDataDirectory = "${FilePaths.dbStates}/device${device.address}",
                 ) {}
             }
+            val jsonDatabase = json!!.getOrEmptyObject("database")
             val adapter = DatabaseAdapter(device)
             val mergeMessages = ApplicationLayerMergeMessages(adapter)
             val multiChilds = ApplicationLayerMultipleChilds(mergeMessages)
-
-            val db = when (device.simRun.config.jsonObjects.database.getOrDefault("type", "Dummy")) {
+            val db = when (jsonDatabase.getOrDefault("type", "Dummy")) {
                 "Dummy" -> {
-                    DatabaseSystemDummy(device.simRun.config.jsonObjects.database, multiChilds, initialState)
+                    DatabaseSystemDummy(jsonDatabase, multiChilds, initialState)
                     ApplicationLayerReceiveQueryResonse(multiChilds)
                 }
                 "Luposdate3000" -> {
-                    DatabaseHandle(multiChilds, device.simRun.config.jsonObjects.database, initialState)
+                    DatabaseHandle(multiChilds, jsonDatabase, initialState)
                     ApplicationLayerReceiveQueryResonse(multiChilds)
                 }
                 else -> TODO()
             }
-
             device.userApplication = adapter
-            device.hasDatabaseStore = databaseStore
-            device.hasDatabaseQuery = databaseQuery
+            if (databaseStore) {
+                dbDeviceAddressesStoreList.add(device.address)
+            }
+            if (databaseQuery) {
+                dbDeviceAddressesQueryList.add(device.address)
+            }
         }
 
         devices.add(device)

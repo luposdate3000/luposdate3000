@@ -32,7 +32,6 @@ import lupos.simulator_iot.models.sensor.ISensor
 import lupos.simulator_iot.models.sensor.ParkingSample
 import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.TimeUtils
-
 public class Device(
     internal val simRun: SimulationRun,
     internal var location: GeoLocation,
@@ -43,8 +42,6 @@ public class Device(
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
 ) : Entity() {
-    internal var hasDatabaseStore: Boolean = false
-    internal var hasDatabaseQuery: Boolean = false
     public var userApplication: IUserApplicationLayer? = null
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
@@ -54,7 +51,6 @@ public class Device(
         private set
 
     private lateinit var deviceStart: Instant
-
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
         return if (destinationAddress == address) {
             getProcessingDelay()
@@ -103,12 +99,12 @@ public class Device(
             }
             pck.payload is ParkingSample -> {
                 processedSensorDataPackages++
-                val sample = pck.payload as ParkingSample
+                val sample = pck.payload
                 val query = SemanticData.getInsertQueryString(sample)
                 val bytes = query.encodeToByteArray()
-                val pck = QueryPackage(address, bytes)
-                PostProcessSend.process(address, address, simRun.sim.clock, simRun.visualisationNetwork, pck)
-                userApplication!!.receive(pck)
+                val pck2 = QueryPackage(address, bytes)
+                PostProcessSend.process(address, address, simRun.sim.clock, simRun.visualisationNetwork, pck2)
+                userApplication!!.receive(pck2)
             }
             else -> {
                 userApplication!!.receive(pck.payload)
