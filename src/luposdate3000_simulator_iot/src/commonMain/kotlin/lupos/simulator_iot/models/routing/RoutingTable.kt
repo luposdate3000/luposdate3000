@@ -54,6 +54,10 @@ internal class RoutingTable(
         if (nextDatabaseHops.isEmpty()) {
             nextDatabaseHops = IntArray(addressSpace) { -1 }
         }
+        nextHops[ownAddress] = ownAddress
+        if (hasDatabase) {
+            nextDatabaseHops[ownAddress] = ownAddress
+        }
     }
 
     internal fun getNextHop(destinationAddress: Int): Int {
@@ -66,9 +70,7 @@ internal class RoutingTable(
         return fallbackHop
     }
     internal fun getNextDatabaseHop(destinationAddress: Int): Int =
-        if (ownAddress == destinationAddress && hasDatabase) {
-            ownAddress
-        } else if (destinationAddress <nextDatabaseHops.size) {
+        if (destinationAddress <nextDatabaseHops.size) {
             nextDatabaseHops[destinationAddress]
         } else {
             -1 // tell the caller that we dont know it
@@ -79,14 +81,16 @@ internal class RoutingTable(
 
     internal fun removeDestinationsByHop(hop: Int): Boolean {
         var updated = false
-        for ((index, value) in nextHops.withIndex())
-            if (value == hop) {
-                nextHops[index] = -1
-                nextDatabaseHops[index] = -1
-                destinationCounter--
-                updated = true
-            }
-        hops.remove(hop)
+        if (hop != ownAddress) {
+            for ((index, value) in nextHops.withIndex())
+                if (value == hop) {
+                    nextHops[index] = -1
+                    nextDatabaseHops[index] = -1
+                    destinationCounter--
+                    updated = true
+                }
+            hops.remove(hop)
+        }
         return updated
     }
 
@@ -112,7 +116,7 @@ internal class RoutingTable(
         val destinations = IntArray(destinationCounter)
         var destIndex = 0
         for ((index, value) in nextHops.withIndex())
-            if (value != -1) {
+            if (value != -1 && value != ownAddress) {
                 destinations[destIndex] = index
                 destIndex++
             }

@@ -418,7 +418,9 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                     }
 // alle abhängigkeiten werden in dest berechnet, daher dies jetzt auch
 // oder die abhängigkeiten kommen von unterschiedlichen quellen
-                    packageMap[k] = dest
+                    for (i in mapBottomUpThis[k]!!) { // required for send-multi-operator
+                        packageMap[i] = dest
+                    }
                     for (i in mapTopDown[k]!!) {
                         pck.destinations[i] = dest
                     }
@@ -427,8 +429,11 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             }
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:429"/*SOURCE_FILE_END*/ },
-            { packageMap.keys.containsAll(pck.operatorGraph.keys) }
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:431"/*SOURCE_FILE_END*/ },
+            { packageMap.keys.containsAll(pck.operatorGraph.keys) },
+            {
+                "${(pck.operatorGraph.keys - packageMap.keys).map{"$it\n"}} ${packageMap.map{"$it\n"}} ${pck.operatorGraph.map{"$it\n"}}"
+            }
         )
         for ((k, v) in packageMap) {
             val p = packages[v]
@@ -562,12 +567,12 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 }
             }
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:564"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:568"/*SOURCE_FILE_END*/ },
                 { keys.size == 1 }
             )
             val key = keys.first()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:569"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:573"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData.contains(key) }
             )
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
