@@ -16,9 +16,12 @@
  */
 
 package lupos.simulator_db
-internal class QueryPackageBlock(
-    internal val data: MutableList<IPayload>,
+internal class ApplicationLayerSequence_Package(
+    internal val data: IPayload,
+    internal val num: Int,
+    internal val src: Int,
 ) : IPayload {
 
-    override fun getSizeInBytes(): Int = data.map { it.getSizeInBytes() }.sum()
+    override fun getSizeInBytes(): Int = data.getSizeInBytes() + 8
+    override fun toString(): String = "ApplicationLayerSequence_Package($data)"
 }

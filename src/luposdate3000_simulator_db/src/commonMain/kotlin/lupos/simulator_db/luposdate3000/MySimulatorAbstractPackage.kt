@@ -32,14 +32,11 @@ public class MySimulatorAbstractPackage(
     override fun getSizeInBytes(): Int {
         return path.encodeToByteArray().size + getParamsSizeInBytes() + ByteArrayWrapperExt.getSize(data)
     }
-
+    override fun toString(): String = "MySimulatorAbstractPackage $path"
     override fun getContentLogString(): String {
         return "AbstractPck(path '$path', params $params, data $data)"
     }
 
-    override fun toString(): String {
-        return getContentLogString()
-    }
     private fun getParamsSizeInBytes(): Int {
         var size = 0
         for ((key, value) in params)

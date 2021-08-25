@@ -41,7 +41,7 @@ public class ApplicationLayerMergeMessages(private val parent: IUserApplicationL
         this.child = child
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is QueryPackageBlock) {
+        if (pck is ApplicationLayerMergeMessages_Package) {
             for (p in pck.data) {
                 val pp = child.receive(p)
                 if (pp != null) {
@@ -58,7 +58,7 @@ public class ApplicationLayerMergeMessages(private val parent: IUserApplicationL
         cache = mutableMapOf()
         for ((destinationAddress, pckList) in cacheLocal) {
             if (pckList.size> 1) {
-                parent.send(destinationAddress, QueryPackageBlock(pckList))
+                parent.send(destinationAddress, ApplicationLayerMergeMessages_Package(pckList))
             } else {
                 parent.send(destinationAddress, pckList.first())
             }
