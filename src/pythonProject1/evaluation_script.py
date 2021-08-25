@@ -1,5 +1,5 @@
 
-with open("evaluation.train.me.s.25000k.ppo_model", "r") as evaluation:
+with open("evaluation.train.me.s.500k.dqn_model", "r") as evaluation:
     lines = evaluation.readlines()
     max_t = float(lines[0])
     min_t = float(lines[1])
