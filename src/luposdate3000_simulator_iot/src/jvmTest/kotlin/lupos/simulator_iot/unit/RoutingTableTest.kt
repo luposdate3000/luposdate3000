@@ -193,7 +193,7 @@ class RoutingTableTest {
         val table = RoutingTable(0, 20, true)
         val hop = 8
         table.setDestinationsByHop(hop, intArrayOf(), intArrayOf())
-        assertEquals(0, table.getNextDatabaseHop(hop))
+        assertEquals(-1, table.getNextDatabaseHop(hop))
     }
 
     @Test
@@ -218,7 +218,7 @@ class RoutingTableTest {
 
     @Test
     fun removeDestinationsRemovesAlsoDBHopsWithoutDB() {
-        val table = RoutingTable(0, 10, false)
+        val table = RoutingTable(1, 10, false)
         val hop = 0
         val dest = 4
         table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, 9))
@@ -228,12 +228,12 @@ class RoutingTableTest {
 
     @Test
     fun removeDestinationsRemovesAlsoDBHopsWithDB() {
-        val table = RoutingTable(0, 10, true)
+        val table = RoutingTable(1, 10, true)
         val hop = 0
         val dest = 4
         table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, 9))
         table.removeDestinationsByHop(hop)
-        assertEquals(0, table.getNextDatabaseHop(dest))
+        assertEquals(-1, table.getNextDatabaseHop(dest))
     }
 
     @Test
