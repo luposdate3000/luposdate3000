@@ -99,9 +99,13 @@ public class POPDistributedReceiveMulti public constructor(
         val partitions = Array(hosts.size) { Partition() }
         val keysList = hosts.keys.toList()
         for (i in 0 until hosts.size) {
-            for (k in keysList[i].split(":")) {
+            val kk = keysList[i].split(":")
+            for (ii in 1 until kk.size) {
+                val k = kk[ii]
                 val args = k.split("=")
-                partitions[i] = Partition(partitions[i], args[0], args[1].toInt(), args[2].toInt())
+                if (!args[0].startsWith("?")) {
+                    partitions[i] = Partition(partitions[i], args[0], args[1].toInt(), args[2].toInt())
+                }
             }
         }
         var partitionCount = 0
@@ -126,7 +130,7 @@ public class POPDistributedReceiveMulti public constructor(
         val connectionsOut = Array<IMyOutputStream?>(partitionCount) { null }
 
         var openConnections = 0
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:128"/*SOURCE_FILE_END*/ }, { inputs.size == partitionCount })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:132"/*SOURCE_FILE_END*/ }, { inputs.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         for (k in 0 until inputs.size) {
             val conn = inputs[k]
@@ -138,10 +142,10 @@ public class POPDistributedReceiveMulti public constructor(
                 conn.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:140"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:144"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 mapping[i] = j
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:143"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:147"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()

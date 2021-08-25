@@ -79,7 +79,9 @@ public class POPDistributedSendSingle public constructor(
         for (i in 1 until kk.size) {
             val k = kk[i]
             val args = k.split("=")
-            p = Partition(p, args[0], args[1].toInt(), args[2].toInt())
+            if (!args[0].startsWith("?")) {
+                p = Partition(p, args[0], args[1].toInt(), args[2].toInt())
+            }
         }
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
