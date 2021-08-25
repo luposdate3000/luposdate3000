@@ -77,13 +77,9 @@ public class POPSplitPartitionPassThrough public constructor(
         }
         res.addAttribute("keyPrefix", "$uuid")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to 0)
+        val theKey = mutableMapOf(partitionVariable to (0 to partitionCount))
         theKey.putAll(query.getDistributionKey())
-        if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-        } else {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-        }
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)

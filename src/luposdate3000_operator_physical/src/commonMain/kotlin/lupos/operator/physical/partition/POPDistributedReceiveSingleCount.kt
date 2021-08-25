@@ -29,12 +29,11 @@ import kotlin.jvm.JvmField
 public class POPDistributedReceiveSingleCount public constructor(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField public val partitionVariable: String,
-    @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    keyPrefix: String,
     child: IOPBase,
-    @JvmField public val hosts: Map<String, String>, // key -> hostname
+    private val input: IMyInputStream,
+    private val output: IMyOutputStream? =null,
+private val keys: String,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -42,23 +41,25 @@ public class POPDistributedReceiveSingleCount public constructor(
     "POPDistributedReceiveSingleCount",
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY,
-    keyPrefix
 ) {
-    override fun getPartitionCount(variable: String): Int {
-        return if (variable == partitionVariable) {
-            1
-        } else {
-            1
+    public companion object {
+        public operator fun invoke(
+            query: IQuery,
+            projectedVariables: List<String>,
+            partitionID: Int,
+            child: IOPBase,
+            hosts: Pair<String, String>,
+        ): POPDistributedReceiveSingleCount {
+            val handler = query.getInstance().communicationHandler!!
+                val conn = handler.openConnection(hosts.seond, "/distributed/query/execute", mapOf("key" to hosts.first, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
+            return POPDistributedReceiveSingleCount(query, projectedVariables,  partitionID,  child, conn.first,conn.second,hosts.keys)
         }
     }
-
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, true)
-    }
-
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, false)
-    }
+    override fun getPartitionCount(variable: String): Int =1
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveSingleCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
+    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -68,12 +69,10 @@ public class POPDistributedReceiveSingleCount public constructor(
         }
         res.addAttribute("keyPrefix", "$keyPrefix")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to partitionID)
+        val theKey = mutableMapOf(partitionVariable to (partitionID to partitionCount))
         theKey.putAll(query.getDistributionKey())
         res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionVariable", partitionVariable)
-        res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -83,17 +82,11 @@ public class POPDistributedReceiveSingleCount public constructor(
         return res
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveSingleCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
-    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val handler = query.getInstance().communicationHandler!!
-        var count = 0
-        for ((k, v) in hosts) {
-            val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
-            count += conn.first.readInt()
-            conn.first.close()
-            conn.second.close()
-        }
+        var count =  input.readInt()
+input.close()
+output?.close()
         return IteratorBundle(count)
     }
 }

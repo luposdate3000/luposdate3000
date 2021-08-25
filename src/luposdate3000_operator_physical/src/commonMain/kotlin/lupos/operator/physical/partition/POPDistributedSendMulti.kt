@@ -32,12 +32,9 @@ import kotlin.jvm.JvmField
 public class POPDistributedSendMulti public constructor(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField public val partitionVariable: String,
-    @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    keyPrefix: String,
     child: IOPBase,
-    @JvmField public val hosts: List<String>, // key
+    @JvmField public val keys: List<String>, // key
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -45,27 +42,17 @@ public class POPDistributedSendMulti public constructor(
     "POPDistributedSendMulti",
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY,
-    keyPrefix
 ) {
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
-    override fun getPartitionCount(variable: String): Int {
-        return if (variable == partitionVariable) {
-            partitionCount
-        } else {
-            1
-        }
-    }
-
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, true)
-    }
-
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, false)
-    }
+    override fun getPartitionCount(variable: String): Int =TODO()
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
+    override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables,  partitionID,  children[0].cloneOP(), keys)
+    override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0] 
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle         throw Exception("this must not be called !!")
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -73,22 +60,11 @@ public class POPDistributedSendMulti public constructor(
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        res.addAttribute("keyPrefix", "$keyPrefix")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to 0)
-        theKey.putAll(query.getDistributionKey())
-        if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-        } else {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-            for (i in 1 until partitionCount) {
-                theKey[partitionVariable] = theKey[partitionVariable]!! + 1
-                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-            }
-        }
+for(k in keys){
+res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k,query.getDistributionKey())))
+}
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionVariable", partitionVariable)
-        res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -98,13 +74,26 @@ public class POPDistributedSendMulti public constructor(
         return res
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
-    override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        throw Exception("this must not be called !!")
-    }
 
     public fun evaluate(data: Array<IMyOutputStream?>) {
+val partitions=Array(keys.size){Partition()}
+for(i in 0 until keys.size){
+for (k in keys[i].split(":")) {
+val args=k.split("=")
+partitions[i]=Partition(partitions[i],args[0],args[1].toInt(),args[2].toInt())
+            }
+}
+var partitionCount=0
+var partitionVariable=""
+for((k,v) in partitions[0].data){
+if(v!=partitions[1].data[k]){
+partitionVariable=k
+partitionCount=partitions[0].limit[k]!!
+break
+}
+}
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:128"/*SOURCE_FILE_END*/ }, 
+{ partitionCount!=0 })
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
         for (connectionOut in data) {
@@ -128,8 +117,7 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:130"/*SOURCE_FILE_END*/ }, { i == variables.size })
-        val p = Partition()
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:128"/*SOURCE_FILE_END*/ }, { i == variables.size })
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()

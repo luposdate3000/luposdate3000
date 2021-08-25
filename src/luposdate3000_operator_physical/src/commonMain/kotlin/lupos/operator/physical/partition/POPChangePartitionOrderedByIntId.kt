@@ -99,18 +99,18 @@ public class POPChangePartitionOrderedByIntId public constructor(
         }
         res.addAttribute("keyPrefix", "$uuid")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to 0)
+        val theKey = mutableMapOf(partitionVariable to (0 to partitionCountFrom))
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
             res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCountTo / partitionCountFrom) {
-                theKey[partitionVariable] = theKey[partitionVariable]!! + i * partitionCountFrom
+                theKey[partitionVariable] = (theKey[partitionVariable]!!.first + i * partitionCountFrom) to partitionCountTo
                 res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             }
         } else {
             res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCountFrom / partitionCountTo) {
-                theKey[partitionVariable] = theKey[partitionVariable]!! + i * partitionCountTo
+                theKey[partitionVariable] = (theKey[partitionVariable]!!.first + i * partitionCountTo) to partitionCountFrom
                 res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             }
         }

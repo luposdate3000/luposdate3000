@@ -82,7 +82,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public var root: IOPBase? = null
 
     @JvmField
-    public var allVariationsKey: MutableMap<String, Int> = mutableMapOf()
+    public var allVariationsKey: MutableMap<String, Pair<Int, Int>> = mutableMapOf()
 
     @JvmField
     public var dictionaryUrl: String? = null
@@ -105,7 +105,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     }
 
     public override fun getDictionaryUrl(): String? = dictionaryUrl
-    override fun getDistributionKey(): Map<String, Int> = allVariationsKey
+    override fun getDistributionKey(): Map<String, Pair<Int, Int>> = allVariationsKey
     override fun initialize(newroot: IOPBase, wantReturnValue: Boolean, splitEverything: Boolean): IOPBase {
         root = newroot
         transactionID = UUID_Counter.getNextUUID()

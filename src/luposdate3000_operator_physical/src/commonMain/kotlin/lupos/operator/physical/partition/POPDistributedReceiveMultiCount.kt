@@ -32,12 +32,11 @@ import kotlin.jvm.JvmField
 public class POPDistributedReceiveMultiCount public constructor(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField public val partitionVariable: String,
-    @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    keyPrefix: String,
     child: IOPBase,
-    @JvmField public val hosts: Map<String, String>, // key -> hostname
+    private val inputs: Array<IMyInputStream>,
+    private val outputs: Array<IMyOutputStream?> = Array(inputs.size) { null },
+private val keys: Map<String, String>,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -45,17 +44,31 @@ public class POPDistributedReceiveMultiCount public constructor(
     "POPDistributedReceiveMultiCount",
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY,
-    keyPrefix,
 ) {
+    public companion object {
+        public operator fun invoke(
+            query: IQuery,
+            projectedVariables: List<String>,
+            partitionID: Int,
+            child: IOPBase,
+            hosts: Map<String, String>,
+        ): POPDistributedReceiveMultiCount {
+            val handler = query.getInstance().communicationHandler!!
+            val inputs = mutableListOf<IMyInputStream>()
+            val outputs = mutableListOf<IMyOutputStream?>()
+            for ((k, v) in hosts) {
+                val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
+                inputs.add(conn.first)
+                outputs.add(conn.second)
+            }
+            return POPDistributedReceiveMultiCount(query, projectedVariables,  partitionID,  child, inputs.toTypedArray(), outputs.toTypedArray(),hosts.keys)
+        }
+    }
     override fun getPartitionCount(variable: String): Int = 1
-
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, true)
-    }
-
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, false)
-    }
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID,  children[0].cloneOP(), hosts)
+    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -63,22 +76,11 @@ public class POPDistributedReceiveMultiCount public constructor(
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        res.addAttribute("keyPrefix", "$keyPrefix")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to 0)
-        theKey.putAll(query.getDistributionKey())
-        if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-        } else {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-            for (i in 1 until partitionCount) {
-                theKey[partitionVariable] = theKey[partitionVariable]!! + 1
-                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-            }
-        }
+for(k in hosts.keys){
+res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k,query.getDistributionKey())))
+}
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionVariable", partitionVariable)
-        res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -88,21 +90,17 @@ public class POPDistributedReceiveMultiCount public constructor(
         return res
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
-    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiCount.kt:93"/*SOURCE_FILE_END*/ }, { hosts.size == partitionCount })
         val handler = query.getInstance().communicationHandler!!
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {
             allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
         }
         var count = 0
-        for (k in hosts.keys) {
-            val conn = allConnections[k]!!
-            count += conn.first.readInt()
-            conn.first.close()
-            conn.second.close()
+        for (i in 0 until inputs.size) {
+            count += inputs[i].readInt()
+inputs[i].close()
+outputs[i]?.close()
         }
         return IteratorBundle(count)
     }

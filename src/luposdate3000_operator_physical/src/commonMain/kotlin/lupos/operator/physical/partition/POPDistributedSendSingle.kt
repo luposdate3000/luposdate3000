@@ -32,12 +32,9 @@ import kotlin.jvm.JvmField
 public class POPDistributedSendSingle public constructor(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField public val partitionVariable: String,
-    @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    keyPrefix: String,
     child: IOPBase,
-    @JvmField public val hosts: List<String>, // key
+    @JvmField public val keys: String, // key
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -45,27 +42,17 @@ public class POPDistributedSendSingle public constructor(
     "POPDistributedSendSingle",
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY,
-    keyPrefix,
 ) {
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
-    override fun getPartitionCount(variable: String): Int {
-        return if (variable == partitionVariable) {
-            partitionCount
-        } else {
-            1
-        }
-    }
-
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, true)
-    }
-
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, false)
-    }
+    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables,  partitionID, children[0].cloneOP(), keys)
+    override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] 
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =        throw Exception("this must not be called !!")
+    override fun getPartitionCount(variable: String): Int =TODO()
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -73,14 +60,9 @@ public class POPDistributedSendSingle public constructor(
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        res.addAttribute("keyPrefix", "$keyPrefix")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to partitionID)
-        theKey.putAll(query.getDistributionKey())
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
+res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys,query.getDistributionKey())))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionVariable", partitionVariable)
-        res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -90,28 +72,12 @@ public class POPDistributedSendSingle public constructor(
         return res
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), hosts)
-    override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        throw Exception("this must not be called !!")
-    }
-
     public fun evaluate(connectionOut: IMyOutputStream) {
-        var partitionNumber = -1
-        for (j in hosts) {
-            for (k in j.split(":")) {
-                if (k.startsWith("$partitionVariable=")) {
-                    // dont care, if this is not directly visible to the triple store ... .
-                    partitionNumber = k.substring("$partitionVariable=".length).toInt()
-                    break
-                }
+var p=Partition()
+            for (k in keys.split(":")) {
+val args=k.split("=")
+p=Partition(p,args[0],args[1].toInt(),args[2].toInt())
             }
-        }
-        val p = if (partitionNumber >= 0 && partitionNumber < partitionCount) {
-            Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
-        } else {
-            Partition()
-        }
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
         connectionOut.writeInt(variables.size)

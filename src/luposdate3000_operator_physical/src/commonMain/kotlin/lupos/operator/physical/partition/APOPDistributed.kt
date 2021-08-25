@@ -28,7 +28,6 @@ public abstract class APOPDistributed public constructor(
     classname: String,
     children: Array<IOPBase>,
     sortPriority: ESortPriority,
-    @JvmField public val keyPrefix: String,
 ) : APOPParallel(
     query,
     projectedVariables,
@@ -37,10 +36,10 @@ public abstract class APOPDistributed public constructor(
     children,
     sortPriority,
 ) {
-    override fun theKeyToString(key: Map<String, Int>): String {
+    override fun theKeyToString(keyPrefix: String,key: Map<String, Pair<Int, Int>>): String {
         var s = "$keyPrefix"
         for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
+            s += ":$k=${key[k]!!.first}=${key[k]!!.second}"
         }
         return s
     }

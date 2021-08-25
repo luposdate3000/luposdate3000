@@ -638,10 +638,10 @@ public object XMLElementToOPBase {
         }
         operatorMap["POPDistributedSendSingle"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
-            val hosts = mutableListOf<String>()
+            val keys = mutableListOf<String>()
             for (c in node.childs) {
                 if (c.tag == "partitionDistributionKey") {
-                    hosts.add(c.attributes["key"]!!)
+                    keys.add(c.attributes["key"]!!)
                 }
             }
             val res = POPDistributedSendSingle(
@@ -652,7 +652,7 @@ public object XMLElementToOPBase {
                 id,
                 node.attributes["keyPrefix"]!!,
                 XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
-                hosts
+                keys
             )
             query.addPartitionOperator(res.uuid, id)
             res

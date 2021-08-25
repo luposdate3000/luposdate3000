@@ -30,7 +30,7 @@ public interface IQuery {
     public fun getTransactionID(): Long
     public fun setTransactionID(id: Long)
 
-    public fun getDistributionKey(): Map<String, Int>
+    public fun getDistributionKey(): Map<String, Pair<Int, Int>>
     public fun getDependenciesMapTopDown(): MutableMap<String, Set<String>>
 
     public fun getDictionaryUrl(): String?

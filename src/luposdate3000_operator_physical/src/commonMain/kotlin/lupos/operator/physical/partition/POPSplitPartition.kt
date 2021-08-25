@@ -87,16 +87,14 @@ public class POPSplitPartition public constructor(
         }
         res.addAttribute("keyPrefix", "$uuid")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to 0)
+        val theKey = mutableMapOf(partitionVariable to (0 to partitionCount))
         theKey.putAll(query.getDistributionKey())
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCount) {
-                theKey[partitionVariable] = theKey[partitionVariable]!! + 1
+                theKey[partitionVariable] = (theKey[partitionVariable]!!.first + 1) to partitionCount
                 res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
             }
-        } else {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
@@ -132,9 +130,9 @@ public class POPSplitPartition public constructor(
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:134"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:135"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:136"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:132"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:133"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:134"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
                 var queue_size = query.getInstance().queue_size
                 var elementsPerRing = queue_size * variables.size
                 var buffersize = elementsPerRing * partitionCount
@@ -169,7 +167,7 @@ public class POPSplitPartition public constructor(
                                 }
                             }
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:171"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:169"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()

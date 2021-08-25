@@ -68,13 +68,9 @@ public class POPSplitMergePartitionFromStore public constructor(
         }
         res.addAttribute("keyPrefix", "$uuid")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf<String, Int>()
+        val theKey = mutableMapOf<String, Pair<Int, Int>>()
         theKey.putAll(query.getDistributionKey())
-        if (isRoot) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-        } else {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
-        }
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", "$uuid")
         res.addAttribute("partitionCount", "1")

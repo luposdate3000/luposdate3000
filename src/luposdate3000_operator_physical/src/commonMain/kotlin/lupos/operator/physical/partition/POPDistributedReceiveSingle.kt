@@ -35,13 +35,11 @@ import kotlin.jvm.JvmField
 public class POPDistributedReceiveSingle public constructor(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField public val partitionVariable: String,
-    @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    keyPrefix: String,
     child: IOPBase,
     private val input: IMyInputStream,
     private val output: IMyOutputStream? = null,
+private val keys:  String,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -49,46 +47,29 @@ public class POPDistributedReceiveSingle public constructor(
     "POPDistributedReceiveSingle",
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY,
-    keyPrefix
 ) {
     public companion object {
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
-            partitionVariable: String,
-            partitionCount: Int,
             partitionID: Int,
-            keyPrefix: String,
             child: IOPBase,
-            hosts: Map<String, String>,
+            hosts: Pair<String, String>,
         ): POPDistributedReceiveSingle {
             val handler = query.getInstance().communicationHandler!!
-            for ((k, v) in hosts) {
-                val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
-                return POPDistributedReceiveSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, child, conn.first, conn.second)
-            }
-            TODO()
+                val conn = handler.openConnection(hosts.second, "/distributed/query/execute", mapOf("key" to hosts.first, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
+            return POPDistributedReceiveSingle(query, projectedVariables,  partitionID,  child, conn.first,conn.second,hosts.keys)
         }
     }
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:73"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
-    override fun getPartitionCount(variable: String): Int {
-        return if (variable == partitionVariable) {
-            1
-        } else {
-            1
-        }
-    }
-
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, true)
-    }
-
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, false)
-    }
+    override fun getPartitionCount(variable: String): Int =1
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), input, output)
+    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -96,14 +77,11 @@ public class POPDistributedReceiveSingle public constructor(
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        res.addAttribute("keyPrefix", "$keyPrefix")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to partitionID)
-        theKey.putAll(query.getDistributionKey())
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
+for(k in keys){
+res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k,query.getDistributionKey())))
+}
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionVariable", partitionVariable)
-        res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -113,8 +91,6 @@ public class POPDistributedReceiveSingle public constructor(
         return res
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, keyPrefix, children[0].cloneOP(), input, output)
-    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()

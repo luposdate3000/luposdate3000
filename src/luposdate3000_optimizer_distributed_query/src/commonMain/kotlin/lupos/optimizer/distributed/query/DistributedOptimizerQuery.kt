@@ -57,7 +57,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
     private fun splitPartitionsVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
             for (i in 0 until allNames.size) {
-                query.allVariationsKey[allNames[i]] = allIdx[i]
+                query.allVariationsKey[allNames[i]] = allIdx[i] to allSize[i]
             }
             val xml = node.toXMLElementRoot(true)
             val keys = mutableSetOf<String>()

@@ -36,10 +36,20 @@ public abstract class APOPParallel public constructor(
     children,
     sortPriority,
 ) {
-    internal open fun theKeyToString(key: Map<String, Int>): String {
+internal fun mergeKey(s:String,key: Map<String, Pair<Int/*num*/, Int/*limit*/>>):String{
+val myKey=mutableMapOf<String,Pair<Int,Int>>()
+val ss=s.split(":")
+for(i in 1 until ss.size){
+val c=ss[i].split("=")
+myKey[c[0]]=c[1].toInt() to c[2].toInt()
+}
+myKey.putAll(key)
+return theKeyToString(ss[0],myKey)
+}
+    internal open fun theKeyToString(keyPrefix: String,key: Map<String, Pair<Int/*num*/, Int/*limit*/>>): String {
         var s = "$uuid"
         for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]}"
+            s += ":$k=${key[k]!!.first}=${key[k]!!.second}"
         }
         return s
     }
