@@ -74,7 +74,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs,outputs,keys)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, keys)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0]
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -99,7 +99,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val partitions = Array(keys.size) { Partition() }
-val keysList=keys.toList()
+        val keysList = keys.toList()
         for (i in 0 until keys.size) {
             for (k in keysList[i].split(":")) {
                 val args = k.split("=")
@@ -175,7 +175,7 @@ val keysList=keys.toList()
                 }
                 if (buffer[off] == DictionaryValueHelper.nullValue) {
                     connMin.input.close()
-                    connMin.output.close()
+                    connMin.output?.close()
                     val off2 = (openConnections - 1) * variables.size
                     if (off != off2) {
                         val connOther = connections[openConnections - 1]!!

@@ -39,7 +39,7 @@ public class POPDistributedReceiveSingle public constructor(
     child: IOPBase,
     private val input: IMyInputStream,
     private val output: IMyOutputStream? = null,
-private val keys:  String,
+    private val keys: String,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -57,19 +57,19 @@ private val keys:  String,
             hosts: Pair<String, String>,
         ): POPDistributedReceiveSingle {
             val handler = query.getInstance().communicationHandler!!
-                val conn = handler.openConnection(hosts.second, "/distributed/query/execute", mapOf("key" to hosts.first, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
-            return POPDistributedReceiveSingle(query, projectedVariables,  partitionID,  child, conn.first,conn.second,hosts.first)
+            val conn = handler.openConnection(hosts.second, "/distributed/query/execute", mapOf("key" to hosts.first, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
+            return POPDistributedReceiveSingle(query, projectedVariables, partitionID, child, conn.first, conn.second, hosts.first)
         }
     }
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:64"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
-    override fun getPartitionCount(variable: String): Int =1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output,keys)
-    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0] 
+    override fun getPartitionCount(variable: String): Int = 1
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, keys)
+    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0]
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -78,7 +78,7 @@ private val keys:  String,
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
         res.addAttribute("uuid", "$uuid")
-res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys,query.getDistributionKey())))
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys, query.getDistributionKey())))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
@@ -88,7 +88,6 @@ res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeK
         }
         return res
     }
-
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()

@@ -21,7 +21,6 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
-import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -42,12 +41,12 @@ public class POPDistributedSendSingleCount public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY,
 ) {
-    override fun getPartitionCount(variable: String): Int =TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables,partitionID,  children[0].cloneOP(), keys)
-    override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0] 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =        throw Exception("this must not be called !!")
+    override fun getPartitionCount(variable: String): Int = TODO()
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
+    override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), keys)
+    override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0]
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -56,7 +55,7 @@ public class POPDistributedSendSingleCount public constructor(
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
         res.addAttribute("uuid", "$uuid")
-res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys,query.getDistributionKey())))
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys, query.getDistributionKey())))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
@@ -67,13 +66,12 @@ res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeK
         return res
     }
 
-
     public fun evaluate(connectionOut: IMyOutputStream) {
-var p=Partition()
-            for (k in keys.split(":")) {
-val args=k.split("=")
-p=Partition(p,args[0],args[1].toInt(),args[2].toInt())
-            }
+        var p = Partition()
+        for (k in keys.split(":")) {
+            val args = k.split("=")
+            p = Partition(p, args[0], args[1].toInt(), args[2].toInt())
+        }
         val bundle = children[0].evaluate(p)
         connectionOut.writeInt(bundle.count())
         connectionOut.flush()

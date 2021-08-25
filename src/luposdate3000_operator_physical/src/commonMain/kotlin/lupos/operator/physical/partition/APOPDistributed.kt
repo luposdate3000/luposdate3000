@@ -19,7 +19,6 @@ import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.IQuery
 import lupos.shared.operator.IOPBase
-import kotlin.jvm.JvmField
 
 public abstract class APOPDistributed public constructor(
     query: IQuery,
@@ -35,5 +34,4 @@ public abstract class APOPDistributed public constructor(
     classname,
     children,
     sortPriority,
-) {
-}
+)

@@ -60,8 +60,8 @@ public class POPDistributedReceiveSingleCount public constructor(
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedReceiveSingleCount(query, projectedVariables,  partitionID,  children[0].cloneOP(),input,output,keys)
-    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0] 
+    override fun cloneOP(): IOPBase = POPDistributedReceiveSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, keys)
+    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0]
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -70,7 +70,7 @@ public class POPDistributedReceiveSingleCount public constructor(
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
         res.addAttribute("uuid", "$uuid")
-res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys, query.getDistributionKey())))
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys, query.getDistributionKey())))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")

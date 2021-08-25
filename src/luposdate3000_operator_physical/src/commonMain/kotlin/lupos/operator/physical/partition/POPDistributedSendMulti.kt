@@ -47,12 +47,12 @@ public class POPDistributedSendMulti public constructor(
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:46"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
-    override fun getPartitionCount(variable: String): Int =TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables,  partitionID,  children[0].cloneOP(), keys)
-    override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0] 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle         =throw Exception("this must not be called !!")
+    override fun getPartitionCount(variable: String): Int = TODO()
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
+    override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionID, children[0].cloneOP(), keys)
+    override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0]
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -61,9 +61,9 @@ public class POPDistributedSendMulti public constructor(
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
         res.addAttribute("uuid", "$uuid")
-for(k in keys){
-res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k,query.getDistributionKey())))
-}
+        for (k in keys) {
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k, query.getDistributionKey())))
+        }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
@@ -74,28 +74,29 @@ res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeK
         return res
     }
 
-
     public fun evaluate(data: Array<IMyOutputStream?>) {
-val partitions=Array(keys.size){Partition()}
-for(i in 0 until keys.size){
-for (k in keys[i].split(":")) {
-val args=k.split("=")
-partitions[i]=Partition(partitions[i],args[0],args[1].toInt(),args[2].toInt())
+        val partitions = Array(keys.size) { Partition() }
+        for (i in 0 until keys.size) {
+            for (k in keys[i].split(":")) {
+                val args = k.split("=")
+                partitions[i] = Partition(partitions[i], args[0], args[1].toInt(), args[2].toInt())
             }
-}
-var partitionCount=0
-var partitionVariable=""
-for((k,v) in partitions[0].data){
-if(v!=partitions[1].data[k]){
-partitionVariable=k
-partitionCount=partitions[0].limit[k]!!
-break
-}
-}
-partitions[0].data.remove(partitionVariable)
-partitions[0].limit.remove(partitionVariable)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:96"/*SOURCE_FILE_END*/ }, 
-{ partitionCount!=0 })
+        }
+        var partitionCount = 0
+        var partitionVariable = ""
+        for ((k, v) in partitions[0].data) {
+            if (v != partitions[1].data[k]) {
+                partitionVariable = k
+                partitionCount = partitions[0].limit[k]!!
+                break
+            }
+        }
+        partitions[0].data.remove(partitionVariable)
+        partitions[0].limit.remove(partitionVariable)
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:96"/*SOURCE_FILE_END*/ },
+            { partitionCount != 0 }
+        )
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
         for (connectionOut in data) {
