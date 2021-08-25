@@ -74,7 +74,10 @@ public class POPDistributedSendSingle public constructor(
 
     public fun evaluate(connectionOut: IMyOutputStream) {
         var p = Partition()
-        for (k in keys.split(":")) {
+        println(keys)
+        val kk = keys.split(":")
+        for (i in 1 until kk.size) {
+            val k = kk[i]
             val args = k.split("=")
             p = Partition(p, args[0], args[1].toInt(), args[2].toInt())
         }

@@ -77,7 +77,9 @@ public class POPDistributedSendMulti public constructor(
     public fun evaluate(data: Array<IMyOutputStream?>) {
         val partitions = Array(keys.size) { Partition() }
         for (i in 0 until keys.size) {
-            for (k in keys[i].split(":")) {
+            val kk = keys[i].split(":")
+            for (ii in 1 until kk.size) {
+                val k = kk[ii]
                 val args = k.split("=")
                 partitions[i] = Partition(partitions[i], args[0], args[1].toInt(), args[2].toInt())
             }
@@ -94,7 +96,7 @@ public class POPDistributedSendMulti public constructor(
         partitions[0].data.remove(partitionVariable)
         partitions[0].limit.remove(partitionVariable)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:96"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:98"/*SOURCE_FILE_END*/ },
             { partitionCount != 0 }
         )
         val variables = Array(projectedVariables.size) { "" }
@@ -120,7 +122,7 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:122"/*SOURCE_FILE_END*/ }, { i == variables.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:124"/*SOURCE_FILE_END*/ }, { i == variables.size })
         val bundle = children[0].evaluate(partitions[0])
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
