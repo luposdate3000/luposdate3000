@@ -66,7 +66,9 @@ internal class RoutingTable(
         return fallbackHop
     }
     internal fun getNextDatabaseHop(destinationAddress: Int): Int =
-        if (destinationAddress <nextDatabaseHops.size) {
+        if (ownAddress == destinationAddress && hasDatabase) {
+            ownAddress
+        } else if (destinationAddress <nextDatabaseHops.size) {
             nextDatabaseHops[destinationAddress]
         } else {
             -1 // tell the caller that we dont know it

@@ -254,52 +254,42 @@ public object InputToIntermediate {
                 )
                 val buf = ByteArrayWrapper()
                 parserObject.convertDecimalToDict = {
-                    println("parserObject.convertDecimalToDict $it")
                     DictionaryHelper.decimalToByteArray(buf, it)
                     addToDict(buf)
                 }
                 parserObject.convertBooleanToDict = {
-                    println("parserObject.convertBooleanToDict $it")
                     DictionaryHelper.booleanToByteArray(buf, it)
                     addToDict(buf)
                 }
                 parserObject.convertDoubleToDict = {
-                    println("parserObject.convertDoubleToDict $it")
                     DictionaryHelper.doubleToByteArray(buf, it)
                     addToDict(buf)
                 }
                 parserObject.convertFloatToDict = {
-                    println("parserObject.convertFloatToDict $it")
                     DictionaryHelper.floatToByteArray(buf, it)
                     addToDict(buf)
                 }
                 parserObject.convertIntegerToDict = {
-                    println("parserObject.convertIntegerToDict $it")
                     DictionaryHelper.integerToByteArray(buf, it)
                     addToDict(buf)
                 }
                 parserObject.convertIriToDict = {
-                    println("parserObject.convertIriToDict $it")
                     DictionaryHelper.iriToByteArray(buf, it)
                     addToDict(buf)
                 }
                 parserObject.convertStringToDict = {
-                    println("parserObject.convertStringToDict $it")
                     DictionaryHelper.stringToByteArray(buf, MyStringExt.replaceEscapes(it, strictMode))
                     addToDict(buf)
                 }
                 parserObject.convertLangToDict = { c, l ->
-                    println("parserObject.convertLangToDict $c $l")
                     DictionaryHelper.langToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(l, strictMode))
                     addToDict(buf)
                 }
                 parserObject.convertTypedToDict = { c, t ->
-                    println("parserObject.convertTypedToDict $c $t")
                     DictionaryHelper.typedToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(t, strictMode))
                     addToDict(buf)
                 }
                 parserObject.convertBnodeToDict = {
-                    println("parserObject.convertBnodeToDict $it")
                     DictionaryHelper.bnodeToByteArray(buf, it)
                     addToDict(buf)
                 }

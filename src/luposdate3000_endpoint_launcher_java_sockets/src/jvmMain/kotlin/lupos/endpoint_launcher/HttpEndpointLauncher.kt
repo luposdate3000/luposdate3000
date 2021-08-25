@@ -58,7 +58,6 @@ public actual object HttpEndpointLauncher {
             instance.communicationHandler = CommunicationHandler()
             val server = ServerSocket()
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
-            println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             if (localhost == instance.LUPOS_PROCESS_URLS_ALL[0]) {
                 RestEndpoint.registerDictionary(RestEndpoint.key_global_dict, instance.nodeGlobalDictionary!!, instance)
             } else {
@@ -67,7 +66,6 @@ public actual object HttpEndpointLauncher {
             }
             while (true) {
                 val connection = server.accept()
-                println("received connection from ${connection.remoteSocketAddress}")
                 Thread {
                     var closeSockets: Boolean = true
                     Parallel.runBlocking {
@@ -99,7 +97,6 @@ public actual object HttpEndpointLauncher {
                                 extractParamsFromString(path.substring(idx + 1), params)
                                 path = path.substring(0, idx)
                             }
-                            println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
                             paths["/shutdown"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
                                 RestEndpoint.removeDictionary(RestEndpoint.key_global_dict)

@@ -145,7 +145,6 @@ public class VisualisationOperatorGraph {
                             res += a[i][1]
                         }
                     }
-                    println("$a $b $res")
                     res
                 } else {
                     ""
@@ -169,14 +168,14 @@ public class VisualisationOperatorGraph {
                     }
                     "POPTripleStoreIterator" -> {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:171"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:170"/*SOURCE_FILE_END*/ },
                             { n.parentKeys.size <= 1 }
                         )
                         if (n.parentKeys.size == 1) {
                             val pkey = n.parentKeys.first()
                             val parr = pkey.split("=")
                             SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:178"/*SOURCE_FILE_END*/ },
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:177"/*SOURCE_FILE_END*/ },
                                 { parr.size == 2 },
                                 { "${parr.map{it}}" }
                             )

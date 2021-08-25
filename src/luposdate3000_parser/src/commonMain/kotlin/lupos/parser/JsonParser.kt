@@ -133,7 +133,6 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
                 is JsonParserDouble -> r.setDefault((v as JsonParserDouble).value)
             }
         } catch (e: Throwable) {
-            println("$k -> $r ... $v")
             throw e
         }
         return r

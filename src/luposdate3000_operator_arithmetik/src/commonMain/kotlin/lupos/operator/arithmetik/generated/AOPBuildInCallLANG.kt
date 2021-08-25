@@ -99,7 +99,6 @@ public class AOPBuildInCallLANG public constructor(query: IQuery, child0: AOPBas
                     val tmp_27_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
                     val tmp_27_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
                     val tmp_28: String = tmp_27_lang
-                    println("lang from lang-call $tmp_28")
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_28)
                     res = query.getDictionary().createValue(tmp_2)
                 }

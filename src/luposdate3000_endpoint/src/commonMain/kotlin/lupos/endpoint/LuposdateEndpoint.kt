@@ -138,7 +138,6 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_string_b")
     /*suspend*/ public fun importTurtleString(instance: Luposdate3000Instance, data: String, graphName: String): String {
-        println("importTurtleString >$graphName<")
         val dir = FileExt.createTempDirectory()
         val fileName = dir + "data.n3"
         File(fileName).withOutputStream { out ->
@@ -179,7 +178,6 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_file_b")
     /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String, graphName: String): String {
-        println("importTurtleFile >$graphName<")
         if (!DictionaryIntermediate.fileExists(fileName)) {
             InputToIntermediate.process(fileName, instance)
         }
@@ -191,7 +189,6 @@ public object LuposdateEndpoint {
     }
 
     /*suspend*/ private fun importIntermediateFile(instance: Luposdate3000Instance, fileName: String, graphName: String): String {
-        println("importIntermediateFile >$graphName<")
         val query = Query(instance)
         val key = "${query.getTransactionID()}"
         try {
@@ -201,7 +198,6 @@ public object LuposdateEndpoint {
             }
             instance.tripleStoreManager!!.resetDefaultTripleStoreLayout()
             var counter = 0L
-            println("importing intermediate file '$fileName'")
             val startTime = DateHelperRelative.markNow()
             setEstimatedPartitionsFromFile(instance, "$fileName.partitions")
             if (instance.tripleStoreManager!!.getGraphNames().contains(graphName)) {
@@ -217,7 +213,6 @@ public object LuposdateEndpoint {
             var requireSorting = false
             for (i in 1 until mappingLength) {
                 if (mapping[i] < mapping[i - 1]) {
-                    println("${mapping[i]} < ${mapping[i - 1]} -> requireSorting")
                     requireSorting = true
                     break
                 }

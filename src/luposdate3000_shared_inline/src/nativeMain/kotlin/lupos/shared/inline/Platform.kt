@@ -51,6 +51,5 @@ internal actual object Platform {
     }
 
     internal actual inline fun setShutdownHock(crossinline action: () -> Unit) {
-        println("registering shutdown hook not implemented")
     }
 }
