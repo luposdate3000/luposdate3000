@@ -89,11 +89,11 @@ public class POPSplitPartition public constructor(
         res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to (0 to partitionCount))
         theKey.putAll(query.getDistributionKey())
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString("$uuid",theKey)))
         if (isRoot) {
             for (i in 1 until partitionCount) {
                 theKey[partitionVariable] = (theKey[partitionVariable]!!.first + 1) to partitionCount
-                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
+                res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString("$uuid",theKey)))
             }
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())

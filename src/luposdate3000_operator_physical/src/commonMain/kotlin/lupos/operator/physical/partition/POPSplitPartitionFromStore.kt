@@ -80,7 +80,7 @@ public class POPSplitPartitionFromStore public constructor(
         res.addAttribute("uuid", "$uuid")
         val theKey = mutableMapOf(partitionVariable to (0 to partitionCount))
         theKey.putAll(query.getDistributionKey())
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString(theKey)))
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString("$uuid",theKey)))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)

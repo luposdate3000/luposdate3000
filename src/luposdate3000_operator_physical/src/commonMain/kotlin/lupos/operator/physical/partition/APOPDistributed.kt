@@ -36,11 +36,4 @@ public abstract class APOPDistributed public constructor(
     children,
     sortPriority,
 ) {
-    override fun theKeyToString(keyPrefix: String,key: Map<String, Pair<Int, Int>>): String {
-        var s = "$keyPrefix"
-        for (k in key.keys.sorted()) {
-            s += ":$k=${key[k]!!.first}=${key[k]!!.second}"
-        }
-        return s
-    }
 }

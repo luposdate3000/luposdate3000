@@ -46,8 +46,8 @@ myKey[c[0]]=c[1].toInt() to c[2].toInt()
 myKey.putAll(key)
 return theKeyToString(ss[0],myKey)
 }
-    internal open fun theKeyToString(keyPrefix: String,key: Map<String, Pair<Int/*num*/, Int/*limit*/>>): String {
-        var s = "$uuid"
+    internal fun theKeyToString(keyPrefix: String,key: Map<String, Pair<Int/*num*/, Int/*limit*/>>): String {
+        var s = keyPrefix
         for (k in key.keys.sorted()) {
             s += ":$k=${key[k]!!.first}=${key[k]!!.second}"
         }

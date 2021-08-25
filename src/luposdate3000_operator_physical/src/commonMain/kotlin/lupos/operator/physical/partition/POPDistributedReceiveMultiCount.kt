@@ -36,7 +36,7 @@ public class POPDistributedReceiveMultiCount public constructor(
     child: IOPBase,
     private val inputs: Array<IMyInputStream>,
     private val outputs: Array<IMyOutputStream?> = Array(inputs.size) { null },
-private val keys: Map<String, String>,
+private val keys: Set< String>,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -67,7 +67,7 @@ private val keys: Map<String, String>,
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement =toXMLElementHelper2(partial, true)
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID,  children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID,  children[0].cloneOP(), inputs,outputs,keys)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -77,7 +77,7 @@ private val keys: Map<String, String>,
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
         res.addAttribute("uuid", "$uuid")
-for(k in hosts.keys){
+for(k in keys){
 res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k,query.getDistributionKey())))
 }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
@@ -92,16 +92,12 @@ res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeK
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val handler = query.getInstance().communicationHandler!!
-        val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
-        for ((k, v) in hosts) {
-            allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
-        }
         var count = 0
-        for (i in 0 until inputs.size) {
-            count += inputs[i].readInt()
+for(i in 0 until inputs.size){
+ count += inputs[i].readInt()
 inputs[i].close()
 outputs[i]?.close()
-        }
+}
         return IteratorBundle(count)
     }
 }

@@ -44,7 +44,7 @@ public class POPDistributedSendMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:46"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int =TODO()
@@ -52,7 +52,7 @@ public class POPDistributedSendMulti public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false)
     override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables,  partitionID,  children[0].cloneOP(), keys)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0] 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle         throw Exception("this must not be called !!")
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle         =throw Exception("this must not be called !!")
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
@@ -92,7 +92,9 @@ partitionCount=partitions[0].limit[k]!!
 break
 }
 }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:128"/*SOURCE_FILE_END*/ }, 
+partitions[0].data.remove(partitionVariable)
+partitions[0].limit.remove(partitionVariable)
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:96"/*SOURCE_FILE_END*/ }, 
 { partitionCount!=0 })
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
@@ -117,8 +119,8 @@ break
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:128"/*SOURCE_FILE_END*/ }, { i == variables.size })
-        val bundle = children[0].evaluate(p)
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:121"/*SOURCE_FILE_END*/ }, { i == variables.size })
+        val bundle = children[0].evaluate(partitions[0])
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
         while (buf != DictionaryValueHelper.nullValue) {

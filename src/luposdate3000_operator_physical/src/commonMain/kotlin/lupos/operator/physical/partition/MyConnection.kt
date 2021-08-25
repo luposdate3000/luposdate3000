@@ -20,4 +20,4 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import kotlin.jvm.JvmField
 
-internal class MyConnection(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, @JvmField val mapping: IntArray)
+internal class MyConnection(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream?, @JvmField val mapping: IntArray)

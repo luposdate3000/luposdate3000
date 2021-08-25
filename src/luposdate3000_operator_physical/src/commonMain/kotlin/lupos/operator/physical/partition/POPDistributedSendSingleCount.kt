@@ -74,8 +74,6 @@ var p=Partition()
 val args=k.split("=")
 p=Partition(p,args[0],args[1].toInt(),args[2].toInt())
             }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingleCount.kt:104"/*SOURCE_FILE_END*/ }, { partitionNumber >= 0 && partitionNumber < partitionCount })
-        val p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
         connectionOut.writeInt(bundle.count())
         connectionOut.flush()
