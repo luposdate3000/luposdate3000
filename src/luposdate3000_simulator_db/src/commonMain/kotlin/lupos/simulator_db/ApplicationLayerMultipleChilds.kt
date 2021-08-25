@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db
-import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
-import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
 public class ApplicationLayerMultipleChilds(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
     private var childs = mutableListOf<IUserApplication>()
     init {
@@ -56,13 +54,6 @@ public class ApplicationLayerMultipleChilds(private val parent: IUserApplication
         return pck
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
-        when (pck) {
-            is QueryPackage -> println("ApplicationLayerMultipleChilds.send($destinationAddress)QueryPackage")
-            is MySimulatorAbstractPackage -> println("ApplicationLayerMultipleChilds.send($destinationAddress)MySimulatorAbstractPackage ${pck.path}")
-            is MySimulatorOperatorGraphPackage -> println("ApplicationLayerMultipleChilds.send($destinationAddress)MySimulatorOperatorGraphPackage")
-            else -> println("ApplicationLayerMultipleChilds.sendElse$pck")
-        }
-
         parent.send(destinationAddress, pck)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {

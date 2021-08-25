@@ -43,7 +43,6 @@ public class ApplicationLayerSequence(private val parent: IUserApplicationLayer,
         this.child = child
     }
     override fun receive(pck: IPayload): IPayload? {
-        println("ApplicationLayerSequence.receive $pck")
         if (pck is ApplicationLayerSequence_Package) {
             while (incomingNum.size <= pck.src) {
                 incomingNum.add(0)
@@ -84,7 +83,6 @@ public class ApplicationLayerSequence(private val parent: IUserApplicationLayer,
         }
         val num = outgoingNum[destinationAddress]++
         val pck2 = ApplicationLayerSequence_Package(pck, num, ownAddress)
-        println("ApplicationLayerSequence.send $pck2")
         parent.send(destinationAddress, pck2)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
