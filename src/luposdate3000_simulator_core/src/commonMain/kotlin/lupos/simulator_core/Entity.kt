@@ -16,7 +16,7 @@
  */
 
 package lupos.simulator_core
-
+import lupos.shared.SanityCheck
 public abstract class Entity : ISimulationLifeCycle {
 
     internal lateinit var simulation: Simulation
@@ -38,7 +38,10 @@ public abstract class Entity : ISimulationLifeCycle {
     }
 
     protected fun scheduleEvent(destination: Entity, data: Any, delay: Long) {
-        require(!isTerminated)
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Entity.kt:41"/*SOURCE_FILE_END*/ },
+            { !isTerminated },
+        )
         val sim = simulation
         sim.addEvent(delay, this, destination, data)
     }

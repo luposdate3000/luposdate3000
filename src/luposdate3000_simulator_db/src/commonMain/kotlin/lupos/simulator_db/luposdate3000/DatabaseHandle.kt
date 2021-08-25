@@ -71,6 +71,8 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
     private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
     private var router: IUserApplicationLayer? = null
     private var nodeGlobalDictionaryBackup: IDictionary? = null
+    private var rootAddress = ""
+    private var rootAddressInt = -1
 
     private companion object {
         // this is used for cheating .... because currently streams of data are not working in simulator
@@ -122,6 +124,8 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
         instance.queue_size = 2048
         instance.communicationHandler = MySimulatorCommunicationHandler(instance, parent)
         instance = LuposdateEndpoint.initializeB(instance)
+        rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
+        rootAddressInt = rootAddress.toInt()
         if (enableSharedMemoryDictionaryCheat) {
             globalCheatStart(instance)
             nodeGlobalDictionaryBackup = instance.nodeGlobalDictionary
@@ -184,10 +188,10 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
 
     private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?, verifyAction: () -> Unit) {
         val queryString = pck.query.decodeToString()
-        // println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString")
+        println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString")
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
-        // println("$ownAdress DatabaseHandle.receiveQueryPackage ${q.getRoot()}")
+        println("$ownAdress DatabaseHandle.receiveQueryPackage ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
         visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
@@ -200,8 +204,6 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             }
         }
 // calculating all dependencies --->>>
-        val rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
-        val rootAddressInt = rootAddress.toInt()
         val mapTopDown = mutableMapOf<String, MutableSet<String>>()
         val mapBottomUpThis = mutableMapOf<String, MutableSet<String>>()
         val mapBottomUpAbove = mutableMapOf<String, MutableSet<String>>()
@@ -209,17 +211,17 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:211"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:213"/*SOURCE_FILE_END*/ },
                 { mapBottomUpThis[k]!!.contains(k) },
                 { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:216"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:218"/*SOURCE_FILE_END*/ },
                 { !mapTopDown[k]!!.contains(k) },
                 { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:221"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:223"/*SOURCE_FILE_END*/ },
                 { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
@@ -255,7 +257,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 // define everything as in the DB outside of the simulator - later in the execution-pass there are some overrides due to the not implemented distributed dictionary in the simulator for example
                 hostMap.putAll(q.getOperatorgraphPartsToHostMap())
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:257"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:259"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size },
                     { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
                 )
@@ -291,11 +293,12 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             }
         }
 // this fixes the inability of the simulator for an distributed dictionary <<<---
-        // println("$ownAdress DatabaseHandle.receiveQueryPackage $parts $hostMap")
+        println("$ownAdress DatabaseHandle.receiveQueryPackage $parts $hostMap")
         receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult, verifyAction, q))
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
+        println("$ownAdress DatabaseHandle.receiveMySimulatorAbstractPackage ${pck.path}")
         val paths = mutableMapOf<String, PathMappingHelper>()
         RestEndpoint.initialize(instance, paths)
         WebRootEndpoint.initialize(paths)
@@ -307,7 +310,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:309"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:312"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!] == null }
             )
             myPendingWorkData[pck.params["key"]!!] = pck.data
@@ -327,11 +330,9 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
     }
 
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
-        // println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage")
+        println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage")
         val mapTopDown = mutableMapOf<String, MutableSet<String>>()
         val mapBottomUpThis = mutableMapOf<String, MutableSet<String>>()
-        val rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
-        val rootAddressInt = rootAddress.toInt()
         val operatorGraphPartsToHostMapTmp = mutableSetOf<String>(rootAddress)
         operatorGraphPartsToHostMapTmp.addAll(pck.operatorGraphPartsToHostMap.values)
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
@@ -368,17 +369,17 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:370"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:371"/*SOURCE_FILE_END*/ },
                 { mapBottomUpThis[k]!!.contains(k) },
                 { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:375"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:376"/*SOURCE_FILE_END*/ },
                 { !mapTopDown[k]!!.contains(k) },
                 { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:380"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:381"/*SOURCE_FILE_END*/ },
                 { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
@@ -394,7 +395,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
 // k benötigt alle Ergebnisse von v
                 if (!packageMap.contains(k)) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:396"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:397"/*SOURCE_FILE_END*/ },
                         { v.isNotEmpty() },
                         {
                             "${pck.operatorGraph[k]}"
@@ -429,7 +430,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             }
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:431"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:432"/*SOURCE_FILE_END*/ },
             { packageMap.keys.containsAll(pck.operatorGraph.keys) },
             {
                 "${(pck.operatorGraph.keys - packageMap.keys).map{"$it\n"}} ${packageMap.map{"$it\n"}} ${pck.operatorGraph.map{"$it\n"}}"
@@ -452,7 +453,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 }
             }
         }
-        // println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage ${allHostAdresses.map{it}}:${nextHops.map{it}} ${pck.operatorGraphPartsToHostMap}->$packageMap")
+        println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage ${allHostAdresses.map{it}}:${nextHops.map{it}} ${pck.operatorGraphPartsToHostMap}->$packageMap")
         for ((k, p) in packages) {
             if (k != ownAdress) {
                 if (p.operatorGraph.size> 0) {
@@ -567,12 +568,12 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 }
             }
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:569"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:570"/*SOURCE_FILE_END*/ },
                 { keys.size == 1 }
             )
             val key = keys.first()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:574"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:575"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData.contains(key) }
             )
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
@@ -641,7 +642,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                     myPendingWork.remove(w)
                     changed = true
                     val query: IQuery
-                    if (ownAdress != 0 || w.operatorGraph.tag != "OPBaseCompound") {
+                    if (ownAdress != rootAddressInt || w.operatorGraph.tag != "OPBaseCompound") {
                         query = Query(instance)
                         query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
                     } else {
@@ -687,6 +688,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                                     router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray(), w.queryID))
                                 }
                             }
+                            println("done executing")
                         }
                         else -> TODO(node.toString())
                     }

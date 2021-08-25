@@ -17,8 +17,8 @@
 
 package lupos.simulator_iot
 
+import lupos.shared.SanityCheck
 import kotlin.random.Random
-
 internal class RandomGenerator {
     internal var seed: Int = 1
         set(value) {
@@ -32,7 +32,10 @@ internal class RandomGenerator {
         if (minInclusive == maxInclusive) {
             return minInclusive
         }
-        require(maxInclusive < Double.MAX_VALUE)
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/RandomGenerator.kt:35"/*SOURCE_FILE_END*/ },
+            { maxInclusive < Double.MAX_VALUE },
+        )
         val maxExclusive = maxInclusive + Double.MIN_VALUE
         return random.nextDouble(minInclusive, maxExclusive)
     }

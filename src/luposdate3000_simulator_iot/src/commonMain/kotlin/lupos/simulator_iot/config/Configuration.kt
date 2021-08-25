@@ -19,8 +19,10 @@ package lupos.simulator_iot.config
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
+import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
+import lupos.simulator_db.ApplicationLayerCatchSelfMessages
 import lupos.simulator_db.ApplicationLayerMergeMessages
 import lupos.simulator_db.ApplicationLayerMultipleChilds
 import lupos.simulator_db.DatabaseState
@@ -90,7 +92,11 @@ public class Configuration(private val simRun: SimulationRun) {
             val location = GeoLocation(fixedDevice.getOrDefault("latitude", 0.0), fixedDevice.getOrDefault("longitude", 0.0))
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
-            require(namedAddresses[name] == null) { "name $name must be unique" }
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:95"/*SOURCE_FILE_END*/ },
+                { namedAddresses[name] == null },
+                { "name $name must be unique" }
+            )
             namedAddresses[name] = created.address
         }
         val rootRouterName = json.getOrDefault("rootRouter", "")
@@ -231,7 +237,11 @@ public class Configuration(private val simRun: SimulationRun) {
         val deviceTypes = json!!.getOrEmptyObject("deviceType")
         val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
-        require(deviceType.getOrDefault("performance", 100.0) != 0.0) { "The performance level of a device can not be 0.0 %" }
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:240"/*SOURCE_FILE_END*/ },
+            { deviceType.getOrDefault("performance", 100.0) > 0.0 },
+            { "The performance level of a device can not be 0.0 %" },
+        )
         val device = Device(simRun, location, devices.size, null, deviceType.getOrDefault("performance", 100.0), linkTypes, nameIndex, jsonObjects.deterministic)
         val sensorTypeName = deviceType.getOrDefault("parkingSensor", "")
         if (sensorTypeName.isNotEmpty()) {
@@ -262,7 +272,8 @@ public class Configuration(private val simRun: SimulationRun) {
             val jsonDatabase = json!!.getOrEmptyObject("database")
             val adapter = DatabaseAdapter(device)
             val mergeMessages = ApplicationLayerMergeMessages(adapter)
-            val multiChilds = ApplicationLayerMultipleChilds(mergeMessages)
+            val catchSelfMessages = ApplicationLayerCatchSelfMessages(mergeMessages, device.address)
+            val multiChilds = ApplicationLayerMultipleChilds(catchSelfMessages)
             val db = when (jsonDatabase.getOrDefault("type", "Dummy")) {
                 "Dummy" -> {
                     DatabaseSystemDummy(jsonDatabase, multiChilds, initialState)

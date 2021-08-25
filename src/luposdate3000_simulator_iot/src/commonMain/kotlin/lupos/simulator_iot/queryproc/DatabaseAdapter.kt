@@ -17,6 +17,7 @@
 
 package lupos.simulator_iot.queryproc
 
+import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IPayload
@@ -68,12 +69,12 @@ public class DatabaseAdapter(
         if (pck is IDatabasePackage) {
             PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
         }
-        if (device.address == destinationAddress) {
-            receive(pck)
-        } else {
-            device.simRun.incNumberOfSentDatabasePackages()
-            device.sendRoutedPackage(device.address, destinationAddress, pck)
-        }
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/queryproc/DatabaseAdapter.kt:72"/*SOURCE_FILE_END*/ },
+            { device.address != destinationAddress },
+        )
+        device.simRun.incNumberOfSentDatabasePackages()
+        device.sendRoutedPackage(device.address, destinationAddress, pck)
     }
 
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {

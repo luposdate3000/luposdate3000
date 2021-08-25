@@ -15,55 +15,42 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db
-import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
-import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
-public class ApplicationLayerMultipleChilds(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
-    private var childs = mutableListOf<IUserApplication>()
+
+public class ApplicationLayerCatchSelfMessages(
+    private val parent: IUserApplicationLayer,
+    private val ownAddress: Int,
+) : IUserApplicationLayer {
+    private lateinit var child: IUserApplication
     init {
         parent.addChildApplication(this)
     }
     override fun startUp() {
-        for (child in childs) {
-            child.startUp()
-        }
+        child.startUp()
     }
     override fun shutDown() {
-        for (child in childs) {
-            child.shutDown()
-        }
+        child.shutDown()
     }
     override fun getAllChildApplications(): Set<IUserApplication> {
         var res = mutableSetOf<IUserApplication>()
-        for (child in childs) {
-            res.add(child)
-            val c = child
-            if (c is IUserApplicationLayer) {
-                res.addAll(c.getAllChildApplications())
-            }
+        res.add(child)
+        val c = child
+        if (c is IUserApplicationLayer) {
+            res.addAll(c.getAllChildApplications())
         }
         return res
     }
     override fun addChildApplication(child: IUserApplication) {
-        childs.add(child)
+        this.child = child
     }
     override fun receive(pck: IPayload): IPayload? {
-        for (child in childs) {
-            val pp = child.receive(pck)
-            if (pp == null) {
-                return null
-            }
-        }
-        return pck
+        return child.receive(pck)
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
-        when (pck) {
-            is QueryPackage -> println("ApplicationLayerMultipleChilds.send($destinationAddress)QueryPackage")
-            is MySimulatorAbstractPackage -> println("ApplicationLayerMultipleChilds.send($destinationAddress)MySimulatorAbstractPackage ${pck.path}")
-            is MySimulatorOperatorGraphPackage -> println("ApplicationLayerMultipleChilds.send($destinationAddress)MySimulatorOperatorGraphPackage")
-            else -> println("ApplicationLayerMultipleChilds.sendElse$pck")
+        if (ownAddress == destinationAddress) {
+            receive(pck)
+        } else {
+            parent.send(destinationAddress, pck)
         }
-
-        parent.send(destinationAddress, pck)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)

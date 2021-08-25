@@ -16,7 +16,7 @@
  */
 
 package lupos.simulator_core
-
+import lupos.shared.SanityCheck
 public class Simulation(private val entities: List<Entity>) {
 
     private var futureEvents: PriorityQueue<Event> = PriorityQueue(compareBy<Event> { it.occurrenceTime }.thenBy { it.eventNumber })
@@ -98,7 +98,11 @@ public class Simulation(private val entities: List<Entity>) {
     }
 
     internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
-        require(delay >= 0) { "Clock cannot go backwards." }
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Simulation.kt:101"/*SOURCE_FILE_END*/ },
+            { delay >= 0 },
+            { "Clock cannot go backwards." }
+        )
         addedEventCounter++
         val occurringTime = clock + delay
         val ev = Event(addedEventCounter, occurringTime, src, dest, data)

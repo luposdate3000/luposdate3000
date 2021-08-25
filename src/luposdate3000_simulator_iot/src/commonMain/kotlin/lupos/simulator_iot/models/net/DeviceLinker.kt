@@ -16,7 +16,7 @@
  */
 
 package lupos.simulator_iot.models.net
-
+import lupos.shared.SanityCheck
 import lupos.simulator_iot.config.LinkType
 import lupos.simulator_iot.models.Device
 
@@ -37,7 +37,11 @@ internal class DeviceLinker {
         val result = IntArray(linkTypeNames.size) { -1 }
         for ((index, name) in linkTypeNames.withIndex()) {
             val indexOfFirst = this.sortedLinkTypes.indexOfFirst { it.name == name }
-            require(indexOfFirst != -1) { "The LinkType with name '$name' does not exist in the LinkType configuration." }
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/models/net/DeviceLinker.kt:40"/*SOURCE_FILE_END*/ },
+                { indexOfFirst != -1 },
+                { "The LinkType with name '$name' does not exist in the LinkType configuration." },
+            )
             result[index] = indexOfFirst
         }
         result.sort()
@@ -110,7 +114,11 @@ internal class DeviceLinker {
     }
 
     internal fun link(one: Device, two: Device, link: Link) {
-        require(one != two) { "Self link is not allowed" }
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/models/net/DeviceLinker.kt:117"/*SOURCE_FILE_END*/ },
+            { one != two },
+            { "Self link is not allowed" }
+        )
         one.linkManager.links[two.address] = link
         two.linkManager.links[one.address] = link
         numberOfLinks++

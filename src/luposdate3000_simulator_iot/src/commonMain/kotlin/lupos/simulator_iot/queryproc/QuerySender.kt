@@ -17,6 +17,7 @@
 
 package lupos.simulator_iot.queryproc
 
+import lupos.shared.SanityCheck
 import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IDatabasePackage
@@ -50,7 +51,11 @@ public class QuerySender(
     }
 
     override fun onStartUp() {
-        require(hasDatabase()) { "The query receiver device must have a database" }
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/queryproc/QuerySender.kt:54"/*SOURCE_FILE_END*/ },
+            { hasDatabase() },
+            { "The query receiver device must have a database" }
+        )
         setTimer(TimeUtils.toNanoSec(startClockInSec), StartUpTimer())
     }
 

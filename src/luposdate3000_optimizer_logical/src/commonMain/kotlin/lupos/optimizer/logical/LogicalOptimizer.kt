@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-
 import lupos.operator.base.Query
 
 public class LogicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID, "LogicalOptimizer") {
