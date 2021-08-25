@@ -45,6 +45,7 @@ def train_model():
     model.save("train.me.s.500k" + ".dqn_model")
 
 
+
 def optimize_query():
     benched_queries = read_query(query_file)
     # find min max execution times
