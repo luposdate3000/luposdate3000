@@ -574,12 +574,11 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             val res = POPDistributedReceiveSingle(
                 query,
                 XMLElementToOPBase.createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
-                input
+                input,
+                null,
+                keys.first() to "",
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -600,12 +599,11 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             val res = POPDistributedReceiveMulti(
                 query,
                 XMLElementToOPBase.createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
-                inputs
+                inputs,
+                Array<IMyOutputStream?>(inputs.size) { null },
+                keys.map { it to "" }.toMap()
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -662,8 +660,9 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                             out.close()
                         }
                         is POPDistributedSendMulti -> {
-                            val out = Array<IMyOutputStream?>(node.hosts.size) {
-                                MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to node.hosts[it]), router!!)
+                            val keysList = node.keys.toList()
+                            val out = Array<IMyOutputStream?>(keysList.size) {
+                                MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to keysList[it]), router!!)
                             }
                             node.evaluate(out)
                             for (o in out) {

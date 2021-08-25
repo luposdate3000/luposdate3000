@@ -35,7 +35,7 @@ public class POPDistributedReceiveMultiCount public constructor(
     child: IOPBase,
     private val inputs: Array<IMyInputStream>,
     private val outputs: Array<IMyOutputStream?> = Array(inputs.size) { null },
-    private val keys: Set<String>,
+    private val hosts: Map<String, String>,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -60,13 +60,13 @@ public class POPDistributedReceiveMultiCount public constructor(
                 inputs.add(conn.first)
                 outputs.add(conn.second)
             }
-            return POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray(), hosts.keys)
+            return POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray(), hosts)
         }
     }
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, keys)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -76,8 +76,8 @@ public class POPDistributedReceiveMultiCount public constructor(
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
         res.addAttribute("uuid", "$uuid")
-        for (k in keys) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k, query.getDistributionKey())))
+        for ((k, h) in hosts) {
+            res.addContent(XMLElement("partitionDistributionKey").addAttribute("host", h).addAttribute("key", mergeKey(k, query.getDistributionKey())))
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionID", "" + partitionID)

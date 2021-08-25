@@ -39,7 +39,7 @@ public class POPDistributedReceiveSingle public constructor(
     child: IOPBase,
     private val input: IMyInputStream,
     private val output: IMyOutputStream? = null,
-    private val keys: String,
+    private val hosts: Pair<String, String>,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -58,7 +58,7 @@ public class POPDistributedReceiveSingle public constructor(
         ): POPDistributedReceiveSingle {
             val handler = query.getInstance().communicationHandler!!
             val conn = handler.openConnection(hosts.second, "/distributed/query/execute", mapOf("key" to hosts.first, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
-            return POPDistributedReceiveSingle(query, projectedVariables, partitionID, child, conn.first, conn.second, hosts.first)
+            return POPDistributedReceiveSingle(query, projectedVariables, partitionID, child, conn.first, conn.second, hosts)
         }
     }
     init {
@@ -68,7 +68,7 @@ public class POPDistributedReceiveSingle public constructor(
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, keys)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0]
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
@@ -78,7 +78,7 @@ public class POPDistributedReceiveSingle public constructor(
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
         res.addAttribute("uuid", "$uuid")
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys, query.getDistributionKey())))
+        res.addContent(XMLElement("partitionDistributionKey").addAttribute("host", hosts.second).addAttribute("key", mergeKey(hosts.first, query.getDistributionKey())))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
@@ -97,14 +97,14 @@ public class POPDistributedReceiveSingle public constructor(
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)
         val cnt = input.readInt()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:100"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:99"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
         for (i in 0 until variables.size) {
             val len = input.readInt()
             val buf = ByteArray(len)
             input.read(buf, len)
             val name = buf.decodeToString()
             val j = variables.indexOf(name)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:107"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:106"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
             mapping[i] = j
         }
         var closed = false

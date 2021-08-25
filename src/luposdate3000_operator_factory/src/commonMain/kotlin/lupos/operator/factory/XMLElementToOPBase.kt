@@ -647,54 +647,45 @@ public object XMLElementToOPBase {
             val res = POPDistributedSendSingle(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
-                keys
+                keys.first()
             )
             query.addPartitionOperator(res.uuid, id)
             res
         }
         operatorMap["POPDistributedSendSingleCount"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
-            val hosts = mutableListOf<String>()
+            val keys = mutableListOf<String>()
             for (c in node.childs) {
                 if (c.tag == "partitionDistributionKey") {
-                    hosts.add(c.attributes["key"]!!)
+                    keys.add(c.attributes["key"]!!)
                 }
             }
             val res = POPDistributedSendSingleCount(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
-                hosts
+                keys.first()
             )
             query.addPartitionOperator(res.uuid, id)
             res
         }
         operatorMap["POPDistributedSendMulti"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
-            val hosts = mutableListOf<String>()
+            val keys = mutableListOf<String>()
             for (c in node.childs) {
                 if (c.tag == "partitionDistributionKey") {
-                    hosts.add(c.attributes["key"]!!)
+                    keys.add(c.attributes["key"]!!)
                 }
             }
             val res = POPDistributedSendMulti(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc),
-                hosts
+                keys
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -710,12 +701,9 @@ public object XMLElementToOPBase {
             val res = POPDistributedReceiveSingle(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
-                hosts
+                hosts.toList().first()
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -731,12 +719,9 @@ public object XMLElementToOPBase {
             val res = POPDistributedReceiveSingleCount(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
-                hosts
+                hosts.toList().first()
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -752,10 +737,7 @@ public object XMLElementToOPBase {
             val res = POPDistributedReceiveMulti(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -773,10 +755,7 @@ public object XMLElementToOPBase {
             val res = POPDistributedReceiveMultiCount(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -794,10 +773,7 @@ public object XMLElementToOPBase {
             val res = POPDistributedReceiveMultiOrdered(
                 query,
                 createProjectedVariables(node),
-                node.attributes["partitionVariable"]!!,
-                node.attributes["partitionCount"]!!.toInt(),
                 id,
-                node.attributes["keyPrefix"]!!,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts
             )
@@ -995,7 +971,7 @@ public object XMLElementToOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap [node.tag]
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:997"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:973"/*SOURCE_FILE_END*/ },
             { theOperator != null },
             { node.tag }
         )
