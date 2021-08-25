@@ -4,7 +4,8 @@ import socket
 from datetime import date
 import sys
 import numpy as np
-from stable_baselines3 import DQN, PPO, DDPG
+from stable_baselines3 import DQN, PPO, DDPG, A2C
+from stable_baselines3.common.env_util import make_vec_env
 import math
 
 N_JOIN_ORDERS = 3
@@ -20,12 +21,15 @@ def train_model():
     max_dict_id = max_id(benched_queries)
     # setup environment
     env = gym.make('gym_database:Database-v0')
+    #env = make_vec_env('gym_database:Database-v0')
     env.set_observation_space(max_dict_id)
     env.set_max_exec_t(max_execution_time)
     env.set_min_exec_t(min_execution_time)
     # setup model
+    model = PPO("MlpPolicy", env, verbose=2)
     #model = PPO("MlpPolicy", env, verbose=2)
-    model = DQN("MlpPolicy", env, verbose=2)
+    #model = DQN("MlpPolicy", env, verbose=2)
+    #model = A2C("MlpPolicy", env, verbose=0)
     #print(model)
 
     # for i in range(len(benched_queries)):
@@ -39,10 +43,10 @@ def train_model():
     # env = model.get_env()
 
     env.set_training_data(benched_queries)
-    model.learn(total_timesteps=500000, log_interval=1)
+    model.learn(total_timesteps=50000, log_interval=None)
     # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
     #model.save("train.me.s.50k" + ".ppo_model")
-    model.save("train.me.s.500k" + ".dqn_model")
+    model.save("train.me.s.50k" + ".ppo_model")
 
 
 
@@ -60,7 +64,8 @@ def optimize_query():
     env.set_min_exec_t(min_execution_time)
     # setup model
     #model = PPO.load(optimizer_model_file)
-    model = DQN.load(optimizer_model_file)
+    #model = DQN.load(optimizer_model_file)
+    model = A2C.load(optimizer_model_file)
 
     rewards = []
     actions = []
