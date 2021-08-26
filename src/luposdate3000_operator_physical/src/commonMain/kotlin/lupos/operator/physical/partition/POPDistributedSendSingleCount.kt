@@ -72,9 +72,7 @@ public class POPDistributedSendSingleCount public constructor(
         for (i in 1 until kk.size) {
             val k = kk[i]
             val args = k.split("=")
-            if (!args[0].startsWith("?")) {
-                p = Partition(p, args[0], args[1].toInt(), args[2].toInt())
-            }
+            p = Partition(p, args[0], args[1].toInt(), args[2].toInt())
         }
         val bundle = children[0].evaluate(p)
         connectionOut.writeInt(bundle.count())

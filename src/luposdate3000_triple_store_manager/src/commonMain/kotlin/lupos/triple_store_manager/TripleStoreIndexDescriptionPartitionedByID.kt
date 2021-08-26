@@ -83,12 +83,23 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     }
 
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:85"/*SOURCE_FILE_END*/ }, { partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:86"/*SOURCE_FILE_END*/ }, { partition.data.size == 1 }, { "${partition.limit} ${partition.data}" })
-        for (v in partition.data.values) {
-            return Pair(hostnames[v], keys[v])
+        var data = -1
+        var flag = false
+        for ((k, v) in partition.data) {
+            if (!k.startsWith("?")) {
+                SanityCheck.check(
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:90"/*SOURCE_FILE_END*/ },
+                    { flag == false }
+                )
+                data = v
+                flag = true
+            }
         }
-        throw Exception("unreachable")
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:98"/*SOURCE_FILE_END*/ },
+            { flag == true }
+        )
+        return Pair(hostnames[data], keys[data])
     }
 
     init {
@@ -106,8 +117,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(i)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:108"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:109"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:119"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:120"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

@@ -124,8 +124,12 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         dict1.getValue(buffer1, data[i][k])
                         dict2.getValue(buffer2, other.data[j][k])
                         if (buffer1 != buffer2) {
-                            flag = false
-                            break@loop1
+                            if (DictionaryHelper.byteArrayToType(buffer1) == DictionaryHelper.byteArrayToType(buffer2) && DictionaryHelper.byteArrayToType(buffer1) == ETripleComponentTypeExt.BLANK_NODE) {
+// bnodes should not be compared
+                            } else {
+                                flag = false
+                                break@loop1
+                            }
                         }
                     }
                     if (flag) {
