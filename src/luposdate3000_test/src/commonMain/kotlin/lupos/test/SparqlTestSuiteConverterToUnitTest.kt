@@ -24,7 +24,7 @@ import kotlin.jvm.JvmField
 
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
-    private val withSimulator = true
+    private val withSimulator = false
 
     @JvmField
     internal var counter = 0
@@ -334,25 +334,23 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 }
                 out.println("    internal val query = \"${cleanFileContent(File(queryFile).readAsString())}\"")
                 out.println("")
-                if (!useCodeGen) {
-                    if (ignored) {
-                        val reason = ignoreList[testCaseName]
-                        if (reason != null) {
-                            out.println("    @Ignore // Reason: >$reason<")
-                        } else {
-                            out.println("    @Ignore")
-                        }
-                    }
-                    out.println("    @Test(timeout = 2000)")
-                }
-
                 for (LUPOS_PARTITION_MODE in EPartitionModeExt.names) {
                     for (predefinedPartitionScheme in EPredefinedPartitionSchemesExt.names) {
                         for (useDictionaryInlineEncoding in listOf("true", "false")) {
                             if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
                                 continue
                             }
-
+                            if (!useCodeGen) {
+                                if (ignored) {
+                                    val reason = ignoreList[testCaseName]
+                                    if (reason != null) {
+                                        out.println("    @Ignore // Reason: >$reason<")
+                                    } else {
+                                        out.println("    @Ignore")
+                                    }
+                                }
+                                out.println("    @Test(timeout = 2000)")
+                            }
                             out.println("    public fun `$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding`() {")
                             out.println("      var instance = Luposdate3000Instance()")
                             out.println("      try{")

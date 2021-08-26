@@ -2,7 +2,7 @@
 
 rm -rf tmp
 mkdir tmp
-
+flag=true
 withCodeGen="false"
 withSimulator="false"
 filePrefix="./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueTo"
