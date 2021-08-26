@@ -20,15 +20,12 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxaggregate13rq {
     internal val query = "SELECT (GROUP_CONCAT(?x) AS ?y) {} \n" +
         ""
 
-    @Ignore
-    // Reason: >using not implemented feature<
     @Test(timeout = 2000)
     public fun `syntaxaggregate13rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

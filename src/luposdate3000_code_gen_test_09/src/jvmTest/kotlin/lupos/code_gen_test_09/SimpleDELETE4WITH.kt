@@ -32,7 +32,6 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -75,8 +74,6 @@ public class SimpleDELETE4WITH {
         "} \n" +
         ""
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -811,8 +808,6 @@ public class SimpleDELETE4WITH {
         }
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -828,8 +823,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -845,8 +838,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -862,8 +853,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -879,8 +868,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -896,8 +883,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -913,8 +898,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -930,8 +913,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -947,8 +928,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -964,8 +943,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -981,8 +958,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -998,8 +973,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -1015,8 +988,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -1032,8 +1003,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -1049,8 +1018,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1066,8 +1033,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1083,8 +1048,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1100,8 +1063,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1117,8 +1078,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1134,8 +1093,6 @@ public class SimpleDELETE4WITH {
         )
     }
 
-    @Ignore
-    // Reason: >Bug<
     @Test(timeout = 2000)
     public fun `Simple DELETE 4 WITH - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
