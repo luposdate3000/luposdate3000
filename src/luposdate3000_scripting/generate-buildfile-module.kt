@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package launcher
-import lupos.shared.SanityCheck
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.inline.Platform
 import java.io.File
@@ -784,7 +783,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        events.add(TestLogEvent.STARTED)")
                 out.println("        events.add(TestLogEvent.FAILED)")
                 out.println("        events.add(TestLogEvent.PASSED)")
-                out.println("        //events.add(TestLogEvent.SKIPPED)")
+                out.println("        events.add(TestLogEvent.SKIPPED)")
                 out.println("        events.add(TestLogEvent.STANDARD_OUT)")
                 out.println("        events.add(TestLogEvent.STANDARD_ERROR)")
                 out.println("    }")

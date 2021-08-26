@@ -176,10 +176,10 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
 
     private fun receive(pck: QueryPackage, onFinish: IDatabasePackage?, expectedResult: MemoryTable?, verifyAction: () -> Unit) {
         val queryString = pck.query.decodeToString()
-        //println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString")
+        // println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString")
         val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         val q = op.getQuery()
-        //println("$ownAdress DatabaseHandle.receiveQueryPackage ${q.getRoot()}")
+        // println("$ownAdress DatabaseHandle.receiveQueryPackage ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
         visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
@@ -281,17 +281,17 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             }
         }
 // this fixes the inability of the simulator for an distributed dictionary <<<---
-        //println("$ownAdress DatabaseHandle.receiveQueryPackage $parts $hostMap")
+        // println("$ownAdress DatabaseHandle.receiveQueryPackage $parts $hostMap")
         for ((k, v) in parts) {
             if (!hostMap.keys.contains(k)) {
-                //println("not assigned $k $v")
+                // println("not assigned $k $v")
             }
         }
         receive(MySimulatorOperatorGraphPackage(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult, verifyAction, q))
     }
 
     private fun receive(pck: MySimulatorAbstractPackage) {
-        //println("$ownAdress DatabaseHandle.receiveMySimulatorAbstractPackage ${pck.path}")
+        // println("$ownAdress DatabaseHandle.receiveMySimulatorAbstractPackage ${pck.path}")
         val paths = mutableMapOf<String, PathMappingHelper>()
         RestEndpoint.initialize(instance, paths)
         WebRootEndpoint.initialize(paths)
@@ -323,7 +323,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
     }
 
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
-        //println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage")
+        // println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage")
         val mapTopDown = mutableMapOf<String, MutableSet<String>>()
         val mapBottomUpThis = mutableMapOf<String, MutableSet<String>>()
         val operatorGraphPartsToHostMapTmp = mutableSetOf<String>(rootAddress)
@@ -446,7 +446,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 }
             }
         }
-        //println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage ${allHostAdresses.map{it}}:${nextHops.map{it}} ${pck.operatorGraphPartsToHostMap}->$packageMap")
+        // println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage ${allHostAdresses.map{it}}:${nextHops.map{it}} ${pck.operatorGraphPartsToHostMap}->$packageMap")
         for ((k, p) in packages) {
             if (k != ownAdress) {
                 if (p.operatorGraph.size> 0) {
@@ -643,7 +643,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             for (w in myPendingWork) {
                 if (myPendingWorkData.keys.containsAll(w.dependencies)) {
                     myPendingWork.remove(w)
-                    //println("$ownAdress ${w.key} executing .. ${w.operatorGraph}")
+                    // println("$ownAdress ${w.key} executing .. ${w.operatorGraph}")
                     changed = true
                     val query: IQuery
                     if (ownAdress != rootAddressInt || w.operatorGraph.tag != "OPBaseCompound") {
@@ -693,7 +693,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                                     router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray(), w.queryID))
                                 }
                             }
-                            //println("done executing")
+                            // println("done executing")
                         }
                         else -> TODO(node.toString())
                     }
