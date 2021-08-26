@@ -473,6 +473,7 @@ public class resourcesmyqueriesoptional5sparql4 {
         LuposdateEndpoint.close(instance)
       }
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -487,6 +488,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -501,6 +503,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -515,6 +518,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -529,6 +533,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -543,6 +548,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -557,6 +563,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -571,6 +578,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -585,6 +593,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -599,6 +608,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -613,6 +623,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -627,6 +638,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -641,6 +653,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -655,6 +668,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -669,6 +683,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -683,6 +698,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -697,6 +713,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -711,6 +728,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -725,6 +743,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -739,6 +758,7 @@ public class resourcesmyqueriesoptional5sparql4 {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional5sparql4 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

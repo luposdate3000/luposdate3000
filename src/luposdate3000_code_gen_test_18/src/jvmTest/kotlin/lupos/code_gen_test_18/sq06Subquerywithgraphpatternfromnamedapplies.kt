@@ -470,6 +470,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
         LuposdateEndpoint.close(instance)
       }
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -484,6 +485,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -498,6 +500,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -512,6 +515,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -526,6 +530,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -540,6 +545,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -554,6 +560,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -568,6 +575,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -582,6 +590,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -596,6 +605,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -610,6 +620,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -624,6 +635,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -638,6 +650,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -652,6 +665,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -666,6 +680,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -680,6 +695,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -694,6 +710,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -708,6 +725,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -722,6 +740,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -736,6 +755,7 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `sq06  Subquery with graph pattern from named applies - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

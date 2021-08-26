@@ -476,6 +476,7 @@ public class PostqueryVALUESwithsubjvar1row {
         LuposdateEndpoint.close(instance)
       }
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -490,6 +491,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -504,6 +506,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -518,6 +521,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -532,6 +536,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -546,6 +551,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -560,6 +566,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -574,6 +581,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -588,6 +596,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -602,6 +611,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -616,6 +626,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -630,6 +641,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -644,6 +656,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -658,6 +671,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -672,6 +686,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -686,6 +701,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -700,6 +716,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -714,6 +731,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -728,6 +746,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -742,6 +761,7 @@ public class PostqueryVALUESwithsubjvar1row {
             )
         )
     }
+    @Ignore
     @Test(timeout = 2000)
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
