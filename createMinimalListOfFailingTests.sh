@@ -62,7 +62,7 @@ mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSui
 }
 function add_too_slow_in_simulator(){
 head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlowInSimulator.kt -n 19 > tmp/a
-grep " to " ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlowInSiimulator.kt > tmp/b
+grep " to " ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlowInSimulator.kt > tmp/b
 grep org.junit.runners.model.TestTimedOutException tmp/x-minified -B1 | grep "lupos.code_gen_test_" | grep "in simulator" > tmp/d
 cat tmp/d | sed "s/\[.*/\" to \"too slow\",/g" | sed "s/.*\./        \"/g" | sort | uniq > tmp/c
 cat tmp/c >> tmp/b
@@ -158,10 +158,9 @@ remove_passed
 
 
 
-pkill java -9
-run_first
-process_results
-exit
+#pkill java -9
+#run_first
+#process_results
 while true
 do
 pkill java -9
