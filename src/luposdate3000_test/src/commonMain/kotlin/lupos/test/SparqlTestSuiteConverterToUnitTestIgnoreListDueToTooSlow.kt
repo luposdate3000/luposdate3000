@@ -15,19 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
-internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow {
-    internal val ignoreListDueToTooSlow = mapOf<String, String>( //
-        "CLEARSILENTDEFAULT" to "too slow",
-        "DELETEINSERT3b" to "too slow",
-        "DELETEINSERT6" to "too slow",
-        "jsonres02JSONResultFormat" to "too slow",
-        "resourcesbsbmexplorequery82553sparql2553" to "too slow",
-        "resourcessp2bq12b3sparql1294" to "too slow",
-        "syntaxoneof01rq" to "too slow",
-        "syntaxupdate13ru" to "too slow",
-        "syntaxupdate14ru" to "too slow",
-        "syntaxupdate35ru" to "too slow",
-        "syntaxupdate37ru" to "too slow",
-        "syntaxupdate40ru" to "too slow",
+internal object SparqlTestSuiteConverterToUnitTestIgnoreListDue./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.kt {
+    internal val ignoreList = mapOf<String, String>( //
     )
 }
