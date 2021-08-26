@@ -104,7 +104,17 @@ echo "    )" >> tmp/a
 echo "}" >> tmp/a
 mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.kt
 }
-
+function add_remaining_errors(){
+head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt -n 19 > tmp/a
+grep " to " ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt > tmp/b
+grep FAILED tmp/x-minified | grep "lupos.code_gen_test_" > tmp/d
+cat tmp/d | sed "s/\[.*/\" to \"unknown error\",/g" | sed "s/.*\./        \"/g" | sort | uniq > tmp/c
+cat tmp/c >> tmp/b
+cat tmp/b | sort | uniq >> tmp/a
+echo "    )" >> tmp/a
+echo "}" >> tmp/a
+mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt
+}
 
 function remove_findings(){
 cat tmp/d | sed "s/\[.*//g" | sort | uniq > tmp/e
@@ -141,7 +151,9 @@ add_too_slow
 remove_findings
 add_not_implemented
 remove_findings
-grep "FAILED" tmp/x-minified -A1 >> tmp/x-collected
+add_remaining_errors
+remove_findings
+remove_passed
 }
 
 

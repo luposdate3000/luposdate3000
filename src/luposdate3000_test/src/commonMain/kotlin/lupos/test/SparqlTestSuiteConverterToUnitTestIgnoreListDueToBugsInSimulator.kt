@@ -17,13 +17,5 @@
 package lupos.test
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator {
     internal val ignoreListDueToBugsInSimulator = mapOf<String, String>( //
-        "papersparqldlQ2" to "too slow",
-        "Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout" to "too slow",
-        "resourcesbtc030sparql867" to "too slow",
-        "resourcesmyqueriesoptional37sparql5" to "too slow",
-        "resourcesmyqueriesoptional56sparql5" to "too slow",
-        "resourcessp2bq12b3sparql700" to "too slow",
-        "resourcessp2bq1sparql700" to "too slow",
-        "resourcessp2bq68sparql973" to "too slow",
     )
 }

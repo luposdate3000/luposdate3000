@@ -15,18 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
-internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow {
-    internal val ignoreList= mapOf<String, String>( //
-        "bind03BIND" to "too slow",
-        "INSERT01" to "too slow",
-        "RAND" to "too slow",
-        "resourcesmyqueriesoptional35sparql5" to "too slow",
-        "resourcesmyqueriesoptional40sparql5" to "too slow",
-        "resourcesmyqueriesoptional7sparql4" to "too slow",
-        "resourcessp2bq11sparql21" to "too slow",
-        "resourcessp2bq12csparql973" to "too slow",
-        "resourcessp2bq5bsparql21" to "too slow",
-        "resourcessp2bq66sparql32978" to "too slow",
-        "ROUND" to "too slow",
+internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlowInSimulator {
+    internal val ignoreList = mapOf<String, String>( //
     )
 }
