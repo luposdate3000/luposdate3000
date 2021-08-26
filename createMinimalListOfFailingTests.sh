@@ -3,7 +3,7 @@ function run_first(){
 rm -rf tmp
 mkdir tmp
 reset_too_slow
-reset_too_slow_in_simuator
+reset_too_slow_in_simulator
 reset_not_implemented
 reset_errors
 reset_errors_in_simulator
@@ -25,7 +25,7 @@ echo "    )" >> tmp/a
 echo "}" >> tmp/a
 mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.kt
 }
-function reset_too_slow(){
+function reset_too_slow_in_simulator(){
 head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlowInSimulator.kt -n 19 > tmp/a
 echo "    )" >> tmp/a
 echo "}" >> tmp/a
