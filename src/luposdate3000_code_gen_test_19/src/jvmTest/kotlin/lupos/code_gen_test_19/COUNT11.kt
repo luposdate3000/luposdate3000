@@ -20,6 +20,7 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -29,6 +30,8 @@ public class COUNT11 {
         "WHERE { ?S :p ?O1; :q ?O2 } GROUP BY (?S) \n" +
         ""
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `COUNT 11 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

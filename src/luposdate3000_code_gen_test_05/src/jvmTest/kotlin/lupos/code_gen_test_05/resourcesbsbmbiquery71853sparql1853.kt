@@ -83,6 +83,8 @@ public class resourcesbsbmbiquery71853sparql1853 {
         "  } \n" +
         ""
 
+    @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -494,6 +496,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -510,6 +513,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -526,6 +530,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -542,6 +547,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -558,6 +564,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -574,6 +581,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -590,6 +598,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -606,6 +615,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -622,6 +632,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -638,6 +649,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -654,6 +666,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -670,6 +683,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -686,6 +700,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -702,6 +717,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -718,6 +734,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -734,6 +751,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -750,6 +768,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -766,6 +785,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -782,6 +802,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -798,6 +819,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Ignore
+    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `resourcesbsbmbiquery71853sparql1853 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

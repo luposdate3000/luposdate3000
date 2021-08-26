@@ -64,6 +64,8 @@ public class MOVE4 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "MOVE :g1 TO :g2"
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -799,6 +801,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -815,6 +818,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -831,6 +835,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -847,6 +852,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -863,6 +869,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -879,6 +886,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -895,6 +903,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -911,6 +920,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -927,6 +937,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -943,6 +954,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -959,6 +971,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -975,6 +988,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -991,6 +1005,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -1007,6 +1022,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -1023,6 +1039,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1039,6 +1056,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1055,6 +1073,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1071,6 +1090,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1087,6 +1107,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1103,6 +1124,7 @@ public class MOVE4 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `MOVE 4 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

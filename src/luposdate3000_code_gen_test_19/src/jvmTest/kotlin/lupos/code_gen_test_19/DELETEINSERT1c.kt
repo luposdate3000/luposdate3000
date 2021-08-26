@@ -76,6 +76,8 @@ public class DELETEINSERT1c {
         "} \n" +
         ""
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -535,6 +537,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -551,6 +554,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -567,6 +571,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -583,6 +588,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -599,6 +605,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -615,6 +622,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -631,6 +639,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -647,6 +656,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -663,6 +673,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -679,6 +690,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -695,6 +707,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -711,6 +724,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -727,6 +741,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -743,6 +758,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -759,6 +775,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -775,6 +792,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -791,6 +809,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -807,6 +826,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -823,6 +843,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -839,6 +860,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

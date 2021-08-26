@@ -32,7 +32,6 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -798,7 +797,6 @@ public class ADD7 {
         }
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -814,7 +812,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -830,7 +827,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -846,7 +842,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -862,7 +857,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -878,7 +872,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -894,7 +887,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -910,7 +902,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -926,7 +917,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -942,7 +932,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -958,7 +947,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -974,7 +962,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -990,7 +977,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -1006,7 +992,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -1022,7 +1007,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1038,7 +1022,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1054,7 +1037,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1070,7 +1052,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1086,7 +1067,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1102,7 +1082,6 @@ public class ADD7 {
         )
     }
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `ADD 7 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

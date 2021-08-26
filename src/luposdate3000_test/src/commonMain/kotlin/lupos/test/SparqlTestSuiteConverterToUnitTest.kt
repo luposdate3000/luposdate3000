@@ -24,7 +24,7 @@ import kotlin.jvm.JvmField
 
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
-    private val withSimulator = false
+    private val withSimulator = true
 
     @JvmField
     internal var counter = 0

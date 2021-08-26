@@ -63,6 +63,8 @@ public class SimpleDELETEDATA3 {
         "} \n" +
         ""
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -522,6 +524,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -538,6 +541,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -554,6 +558,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -570,6 +575,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -586,6 +592,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -602,6 +609,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -618,6 +626,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -634,6 +643,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -650,6 +660,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -666,6 +677,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -682,6 +694,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -698,6 +711,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -714,6 +728,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -730,6 +745,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -746,6 +762,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -762,6 +779,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -778,6 +796,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -794,6 +813,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -810,6 +830,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -826,6 +847,7 @@ public class SimpleDELETEDATA3 {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE DATA 3 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
