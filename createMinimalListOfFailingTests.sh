@@ -64,10 +64,11 @@ done
 
 
 #run_first
+while true
+do
 run_later
-
 add_too_slow
 remove_findings
 add_not_implemented
 remove_findings
-
+done
