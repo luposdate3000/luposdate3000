@@ -16,7 +16,6 @@
  */
 package lupos.test
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs {
-    internal val ignoreListDueToBugs = mapOf(
-        "" to "",
+    internal val ignoreListDueToBugs = mapOf<String, String>( //
     )
 }

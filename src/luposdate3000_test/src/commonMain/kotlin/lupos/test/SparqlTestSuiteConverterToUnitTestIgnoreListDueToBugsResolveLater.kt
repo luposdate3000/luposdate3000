@@ -16,7 +16,7 @@
  */
 package lupos.test
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsResolveLater {
-    internal val ignoreListDueToBugsResolveLater = mapOf(
+    internal val ignoreListDueToBugsResolveLater = mapOf<String, String>( //
         "csv03CSVResultFormat" to "Bug in CSV-Parser",
         "csv01CSVResultFormat" to "Bug in CSV-Parser",
         "cvs02CSVResultFormat" to "Bug in CSV-Parser",

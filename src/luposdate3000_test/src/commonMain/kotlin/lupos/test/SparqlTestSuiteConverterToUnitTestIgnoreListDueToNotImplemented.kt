@@ -16,7 +16,6 @@
  */
 package lupos.test
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToNotImplemented {
-    internal val ignoreListDueToNotImplemented = mapOf(
-        "syntaxpropertyPaths01rq" to "not implemented",
+    internal val ignoreListDueToNotImplemented = mapOf<String, String>( //
     )
 }

@@ -1,16 +1,16 @@
 #!/bin/bash
+function run_first(){
 rm -rf tmp
 mkdir tmp
-function run_first(){
+reset_too_slow
+reset_not_implemented
+reset_errors
+reset_errors_in_simulator
 ./gradlew assemble
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
 ./gradlew build > x
 grep code_gen_test.*FAILED x -A1 > tmp/x-minified
-reset_too_slow
-reset_not_implemented
-reset_errors
-reset_errors_in_simulator
 }
 function run_later(){
 ./gradlew build > x
@@ -112,12 +112,7 @@ fi
 done
 done
 }
-
-#run_first
-while true
-do
-pkill java
-run_later
+function process_results(){
 add_errors_simulator
 remove_findings
 add_errors
@@ -127,4 +122,18 @@ remove_findings
 add_not_implemented
 remove_findings
 grep "FAILED" tmp/x-minified -A1 >> tmp/x-collected
+}
+
+
+
+pkill java -9
+run_first
+process_results
+exit
+while true
+do
+pkill java -9
+run_later
+process_results
+exit
 done
