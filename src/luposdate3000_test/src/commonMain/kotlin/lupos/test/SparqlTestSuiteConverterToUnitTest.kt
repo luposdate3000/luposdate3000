@@ -444,7 +444,12 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                         val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.ignoreListDueToBugsInSimulator[testCaseName]
                                         if (reason != null) {
                                             out.println("    @Ignore // Reason: >$reason<")
+                                        }else{
+                                        val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlowInSimulator.ignoreList[testCaseName]
+                                        if (reason != null) {
+                                            out.println("    @Ignore // Reason: >$reason<")
                                         }
+}
                                     }
                                     out.println("    @Test(timeout = 2000)")
                                     out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE`() {")

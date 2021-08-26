@@ -16,7 +16,7 @@
  */
 package lupos.test
 internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow {
-    internal val ignoreListDueToTooSlow = mapOf<String, String>( //
+    internal val ignoreList= mapOf<String, String>( //
         "bind03BIND" to "too slow",
         "INSERT01" to "too slow",
         "RAND" to "too slow",

@@ -37,7 +37,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 public class QueryResultToMemoryTable : IResultFormat {
-    private val testingVerbose = true
+    private val testingVerbose = false
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable, timeoutInMs: Long) {
