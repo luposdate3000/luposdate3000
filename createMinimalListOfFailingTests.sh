@@ -9,6 +9,8 @@ function run_first(){
 grep FAILED x -A1 > tmp/x-minified
 reset_too_slow
 reset_not_implemented
+reset_errors
+reset_errors_in_simulator
 }
 function run_later(){
 ./gradlew build > x
@@ -21,6 +23,18 @@ head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteCo
 echo "    )" >> tmp/a
 echo "}" >> tmp/a
 mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.kt
+}
+function reset_errors(){
+head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt -n 19 > tmp/a
+echo "    )" >> tmp/a
+echo "}" >> tmp/a
+mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt
+}
+function reset_errors_in_simulator(){
+head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.kt -n 19 > tmp/a
+echo "    )" >> tmp/a
+echo "}" >> tmp/a
+mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.kt
 }
 function reset_not_implemented(){
 head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToNotImplemented.kt -n 19 > tmp/a
@@ -50,6 +64,30 @@ echo "    )" >> tmp/a
 echo "}" >> tmp/a
 mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToNotImplemented.kt
 }
+function add_errors(){
+head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt -n 19 > tmp/a
+grep " to " ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt > tmp/b
+grep -e java.lang.Exception -e java.lang.AssertionError tmp/x-minified -B1 | grep "lupos.code_gen_test_" > tmp/d
+cat tmp/d | sed "s/\[.*/\" to \"too slow\",/g" | sed "s/.*\./        \"/g" | sort | uniq > tmp/c
+cat tmp/c >> tmp/b
+cat tmp/b | sort | uniq >> tmp/a
+echo "    )" >> tmp/a
+echo "}" >> tmp/a
+mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.kt
+}
+function add_errors_simulator(){
+head ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.kt -n 19 > tmp/a
+grep " to " ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.kt > tmp/b
+grep -e java.lang.Exception -e java.lang.AssertionError tmp/x-minified -B1 | grep "lupos.code_gen_test_" | grep "in simulator" > tmp/d
+cat tmp/d | sed "s/\[.*/\" to \"too slow\",/g" | sed "s/.*\./        \"/g" | sort | uniq > tmp/c
+cat tmp/c >> tmp/b
+cat tmp/b | sort | uniq >> tmp/a
+echo "    )" >> tmp/a
+echo "}" >> tmp/a
+mv tmp/a ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.kt
+}
+
+
 function remove_findings(){
 cat tmp/d | sed "s/\[.*//g" | sort | uniq > tmp/e
 grep -F -v -f tmp/e tmp/x-minified > tmp/f
@@ -59,16 +97,38 @@ do
 find -name $f -delete
 done
 }
+function remove_passed(){
+for f in $(grep PASSED x | sed "s/\[.*//g" | sed "s/.*\.//g" | sort | uniq -c | sed "s/^ *//g" | sed "s/ /,/g")
+do
+g=(${f//,/ })
+echo ${g[0]} .. ${g[1]}
+for h in $(find -name "${g[1]}.kt")
+do
+i=$(grep "@Test" $h | wc -l)
+if [ "$g[0]" = "$i" ]
+then
+rm $h
+fi
+done
+done
+}
 
 
-
+remove_passed
+exit
 
 #run_first
 while true
 do
+pkill java
 run_later
+add_errors_simulator
+remove_findings
+add_errors
+remove_findings
 add_too_slow
 remove_findings
 add_not_implemented
 remove_findings
+grep "FAILED" tmp/x-minified -A1 >> tmp/x-collected
 done
