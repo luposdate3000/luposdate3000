@@ -23,9 +23,9 @@ sed -i "s/private val withSimulator.*/private val withSimulator = $withSimulator
 }
 
 function resetAll(){
-reset_file "${filePrefix}TooSlow${filePostfix}.kt"
-reset_file "${filePrefix}NotImplemented${filePostfix}.kt"
-reset_file "${filePrefix}Bugs${filePostfix}.kt"
+reset_file "TooSlow"
+reset_file "NotImplemented"
+reset_file "Bugs"
 }
 function run_first(){
 echo "run_first"
@@ -44,7 +44,7 @@ grep FAILED x -A1 > tmp/x-minified
 }
 
 function reset_file(){
-cat > $1 <<- EOF
+cat > ${filePrefix}$1${filePostfix}.kt <<- EOF
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -62,13 +62,13 @@ cat > $1 <<- EOF
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
-internal object SparqlTestSuiteConverterToUnitTestIgnoreListDue$1${filePostfix} {
+internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueTo$1${filePostfix} {
     internal val ignoreList = mapOf<String, String>( //
 EOF
-head $1 -n 19 > tmp/a
+head ${filePrefix}$1${filePostfix}.kt -n 19 > tmp/a
 echo "    )" >> tmp/a
 echo "}" >> tmp/a
-mv tmp/a $1
+mv tmp/a ${filePrefix}$1${filePostfix}.kt
 }
 
 function add_filter_target_reason(){
@@ -118,9 +118,15 @@ add_filter_target_reason "org.junit.runners.model.TestTimedOutException" "TooSlo
 remove_findings
 add_filter_target_reason "kotlin.NotImplementedError" "NotImplemented" "not implemented"
 remove_findings
-add_target_reason "Bugs" "bugs"
+add_filter_target_reason "FAILED" "Bugs" "bugs"
 remove_findings
 }
+
+
+setInSimulator
+resetAll
+setNotInSimulator
+resetAll
 
 setNotInSimulator
 resetAll

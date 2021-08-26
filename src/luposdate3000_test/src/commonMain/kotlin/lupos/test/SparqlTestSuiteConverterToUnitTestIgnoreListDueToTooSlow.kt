@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
-internal object SparqlTestSuiteConverterToUnitTestIgnoreListDue./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.kt {
+internal object SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow {
     internal val ignoreList = mapOf<String, String>( //
     )
 }

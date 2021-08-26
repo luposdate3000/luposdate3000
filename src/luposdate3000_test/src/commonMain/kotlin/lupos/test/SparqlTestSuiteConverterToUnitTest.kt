@@ -77,7 +77,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             .replace("\" +\n", " \" +\n")
             .replace("\" +\n", "\\n\" +\n")
     }
-    private val ignoreList = SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.ignoreListDueToTooSlow + SparqlTestSuiteConverterToUnitTestIgnoreListDueToNotImplemented.ignoreListDueToNotImplemented + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.ignoreListDueToBugs + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsResolveLater.ignoreListDueToBugsResolveLater
+    private val ignoreList = SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.ignoreList + SparqlTestSuiteConverterToUnitTestIgnoreListDueToNotImplemented.ignoreList + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.ignoreList + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsResolveLater.ignoreList
     override fun parseSPARQLAndEvaluate( //
         executeJena: Boolean,
         testName: String, //
@@ -441,7 +441,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                             out.println("    @Ignore")
                                         }
                                     } else {
-                                        val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.ignoreListDueToBugsInSimulator[testCaseName]
+                                        val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.ignoreList[testCaseName]
                                         if (reason != null) {
                                             out.println("    @Ignore // Reason: >$reason<")
                                         } else {
