@@ -6,7 +6,7 @@ function run_first(){
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
 ./gradlew build > x
-grep FAILED x -A1 > tmp/x-minified
+grep code_gen_test.*FAILED x -A1 > tmp/x-minified
 reset_too_slow
 reset_not_implemented
 reset_errors
@@ -98,24 +98,20 @@ find -name $f -delete
 done
 }
 function remove_passed(){
-for f in $(grep PASSED x | sed "s/\[.*//g" | sed "s/.*\.//g" | sort | uniq -c | sed "s/^ *//g" | sed "s/ /,/g")
+for f in $(grep code_gen_test.*PASSED x | sed "s/\[.*//g" | sed "s/.*\.//g" | sort | uniq -c | sed "s/^ *//g" | sed "s/ /,/g")
 do
 g=(${f//,/ })
-echo ${g[0]} .. ${g[1]}
 for h in $(find -name "${g[1]}.kt")
 do
 i=$(grep "@Test" $h | wc -l)
 if [ "$g[0]" = "$i" ]
 then
+echo "rm due to passing $i .. $h"
 rm $h
 fi
 done
 done
 }
-
-
-remove_passed
-exit
 
 #run_first
 while true
