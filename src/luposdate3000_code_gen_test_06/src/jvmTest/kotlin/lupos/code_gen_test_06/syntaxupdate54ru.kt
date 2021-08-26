@@ -31,8 +31,9 @@ public class syntaxupdate54ru {
         "INSERT DATA { _:b1 :p :o }  \n" +
         ""
 
-    @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
-    @Test
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdate54ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

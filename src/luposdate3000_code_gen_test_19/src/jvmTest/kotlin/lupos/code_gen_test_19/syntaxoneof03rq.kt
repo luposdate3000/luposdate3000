@@ -27,8 +27,9 @@ public class syntaxoneof03rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(?o IN(1,<x>)) } \n" +
         ""
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `syntaxoneof03rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

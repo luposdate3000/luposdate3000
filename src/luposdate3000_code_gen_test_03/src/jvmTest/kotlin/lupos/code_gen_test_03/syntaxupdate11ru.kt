@@ -26,7 +26,7 @@ public class syntaxupdate11ru {
     internal val query = "DROP SILENT ALL \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate11ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

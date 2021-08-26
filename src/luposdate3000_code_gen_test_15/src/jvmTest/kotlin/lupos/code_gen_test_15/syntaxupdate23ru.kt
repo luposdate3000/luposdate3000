@@ -26,7 +26,7 @@ public class syntaxupdate23ru {
     internal val query = "INSERT DATA { <s> <p> 'o1', 'o2', 'o3' } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate23ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

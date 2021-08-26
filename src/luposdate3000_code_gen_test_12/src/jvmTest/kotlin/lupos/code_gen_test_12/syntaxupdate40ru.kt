@@ -27,7 +27,7 @@ public class syntaxupdate40ru {
         "# Otherwise empty \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate40ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

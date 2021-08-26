@@ -67,8 +67,9 @@ public class resourcessp2bq41sparql32978 {
         "} \n" +
         ""
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -478,8 +479,9 @@ public class resourcessp2bq41sparql32978 {
         }
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -494,8 +496,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -510,8 +513,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -526,8 +530,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -542,8 +547,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -558,8 +564,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -574,8 +581,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -590,8 +598,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -606,8 +615,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -622,8 +632,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -638,8 +649,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -654,8 +666,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -670,8 +683,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -686,8 +700,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -702,8 +717,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -718,8 +734,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -734,8 +751,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -750,8 +768,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -766,8 +785,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -782,8 +802,9 @@ public class resourcessp2bq41sparql32978 {
         )
     }
 
-    @Ignore // Reason: >too slow<
-    @Test
+    @Ignore
+    // Reason: >too slow<
+    @Test(timeout = 2000)
     public fun `resourcessp2bq41sparql32978 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

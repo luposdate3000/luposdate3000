@@ -25,7 +25,7 @@ import kotlin.test.Test
 public class LOADSILENT {
     internal val query = "LOAD SILENT <somescheme://www.example.com/THIS-GRAPH-DOES-NOT-EXIST/>"
 
-    @Test
+    @Test(timeout = 2000)
     public fun `LOAD SILENT - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

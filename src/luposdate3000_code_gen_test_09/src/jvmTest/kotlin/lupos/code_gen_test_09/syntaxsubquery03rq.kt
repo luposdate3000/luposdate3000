@@ -26,7 +26,7 @@ public class syntaxsubquery03rq {
     internal val query = "SELECT * { {} OPTIONAL {SELECT * { ?s ?p ?o }} } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxsubquery03rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

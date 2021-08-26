@@ -30,8 +30,9 @@ public class synppincollection {
         "} \n" +
         ""
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `synppincollection - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

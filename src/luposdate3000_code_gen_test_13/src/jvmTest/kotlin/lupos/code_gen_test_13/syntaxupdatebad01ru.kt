@@ -28,7 +28,7 @@ public class syntaxupdatebad01ru {
         "LOAD ; \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdatebad01ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

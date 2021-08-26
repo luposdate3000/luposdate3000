@@ -28,7 +28,7 @@ public class syntaxupdate01ru {
         "LOAD <http://example.org/faraway> \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate01ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

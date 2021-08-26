@@ -28,7 +28,7 @@ public class syntaxupdatebad06ru {
         "INSERT WHERE { ?s ?p ?o } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdatebad06ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

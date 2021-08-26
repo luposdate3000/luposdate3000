@@ -61,8 +61,9 @@ public class pp35NamedGraph2 {
         "  FILTER (?g = <ng-01.ttl>) \n" +
         "}"
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -808,8 +809,9 @@ public class pp35NamedGraph2 {
         }
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -824,8 +826,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -840,8 +843,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -856,8 +860,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -872,8 +877,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -888,8 +894,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -904,8 +911,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -920,8 +928,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -936,8 +945,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -952,8 +962,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -968,8 +979,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -984,8 +996,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1000,8 +1013,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1016,8 +1030,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1032,8 +1047,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1048,8 +1064,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1064,8 +1081,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1080,8 +1098,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1096,8 +1115,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1112,8 +1132,9 @@ public class pp35NamedGraph2 {
         )
     }
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

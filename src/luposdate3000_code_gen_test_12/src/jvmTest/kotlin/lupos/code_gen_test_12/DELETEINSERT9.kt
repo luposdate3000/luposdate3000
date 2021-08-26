@@ -32,8 +32,9 @@ public class DELETEINSERT9 {
         " } \n" +
         "WHERE {}"
 
-    @Ignore // Reason: >Bug<
-    @Test
+    @Ignore
+    // Reason: >Bug<
+    @Test(timeout = 2000)
     public fun `DELETE INSERT 9 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

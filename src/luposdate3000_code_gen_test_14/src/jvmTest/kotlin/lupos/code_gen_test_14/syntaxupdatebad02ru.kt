@@ -28,7 +28,7 @@ public class syntaxupdatebad02ru {
         "CREATE DEAFULT \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdatebad02ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

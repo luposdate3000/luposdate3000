@@ -26,7 +26,7 @@ public class syntaxupdate12ru {
     internal val query = "DROP SILENT GRAPH <graph> \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate12ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

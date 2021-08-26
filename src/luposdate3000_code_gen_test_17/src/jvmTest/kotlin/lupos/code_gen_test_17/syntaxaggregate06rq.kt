@@ -26,7 +26,7 @@ public class syntaxaggregate06rq {
     internal val query = "SELECT (SUM(DISTINCT ?x) AS ?y) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxaggregate06rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

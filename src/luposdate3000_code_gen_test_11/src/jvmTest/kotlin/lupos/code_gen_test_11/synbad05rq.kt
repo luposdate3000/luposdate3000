@@ -27,7 +27,7 @@ public class synbad05rq {
     internal val query = "SELECT COUNT(*) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `synbad05rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

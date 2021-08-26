@@ -50,8 +50,9 @@ public class cvs02CSVResultFormat {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "SELECT * WHERE { ?s ?p ?o OPTIONAL {?o ?p2 ?o2 } } ORDER BY ?s ?p ?o ?p2 ?o2"
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -461,8 +462,9 @@ public class cvs02CSVResultFormat {
         }
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -477,8 +479,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -493,8 +496,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -509,8 +513,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -525,8 +530,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -541,8 +547,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -557,8 +564,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -573,8 +581,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -589,8 +598,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -605,8 +615,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -621,8 +632,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -637,8 +649,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -653,8 +666,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -669,8 +683,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -685,8 +700,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -701,8 +717,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -717,8 +734,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -733,8 +751,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -749,8 +768,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -765,8 +785,9 @@ public class cvs02CSVResultFormat {
         )
     }
 
-    @Ignore // Reason: >Bug in CSV-Parser<
-    @Test
+    @Ignore
+    // Reason: >Bug in CSV-Parser<
+    @Test(timeout = 2000)
     public fun `cvs02  CSV Result Format - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

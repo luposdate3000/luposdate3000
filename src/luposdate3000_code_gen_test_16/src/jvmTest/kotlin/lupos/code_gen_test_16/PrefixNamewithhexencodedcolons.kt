@@ -29,7 +29,7 @@ public class PrefixNamewithhexencodedcolons {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `PrefixName with hexencoded colons - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

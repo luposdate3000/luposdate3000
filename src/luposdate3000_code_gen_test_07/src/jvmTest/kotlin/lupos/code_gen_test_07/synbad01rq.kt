@@ -29,8 +29,9 @@ public class synbad01rq {
         "SELECT * { ?s ?p ?o } GROUP BY ?s \n" +
         ""
 
-    @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
-    @Test
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `synbad01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

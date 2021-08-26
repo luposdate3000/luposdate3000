@@ -26,7 +26,7 @@ public class syntaxaggregate04rq {
     internal val query = "SELECT (COUNT(DISTINCT ?x) AS ?count) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxaggregate04rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

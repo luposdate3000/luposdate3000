@@ -26,7 +26,7 @@ public class LOADSILENTINTO {
     internal val query = "LOAD SILENT <somescheme://www.example.com/THIS-GRAPH-DOES-NOT-EXIST/> INTO GRAPH <http://www.example.org/> \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `LOAD SILENT INTO - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

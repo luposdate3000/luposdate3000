@@ -31,8 +31,9 @@ public class syntaxupdatebad08ru {
         "LOAD <remote> INTO GRAPH <g> \n" +
         ""
 
-    @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
-    @Test
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdatebad08ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

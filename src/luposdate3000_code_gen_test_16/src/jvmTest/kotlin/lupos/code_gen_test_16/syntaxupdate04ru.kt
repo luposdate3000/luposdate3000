@@ -26,7 +26,7 @@ public class syntaxupdate04ru {
     internal val query = "LOAD <http://example.org/faraway> INTO GRAPH <localCopy> \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate04ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

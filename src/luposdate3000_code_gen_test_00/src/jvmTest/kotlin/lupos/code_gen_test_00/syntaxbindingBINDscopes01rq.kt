@@ -26,7 +26,7 @@ public class syntaxbindingBINDscopes01rq {
     internal val query = "SELECT ?Z { ?s ?p ?o . BIND(?o+1 AS ?Z) } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxbindingBINDscopes01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

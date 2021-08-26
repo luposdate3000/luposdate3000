@@ -27,7 +27,7 @@ public class synpname01 {
         "ASK{} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `synpname01 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

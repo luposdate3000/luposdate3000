@@ -32,7 +32,7 @@ public class syntaxSELECTscope3rq {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxSELECTscope3rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

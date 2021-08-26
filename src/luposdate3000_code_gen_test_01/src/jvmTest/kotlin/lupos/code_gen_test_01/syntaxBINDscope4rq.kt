@@ -32,7 +32,7 @@ public class syntaxBINDscope4rq {
         "  } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxBINDscope4rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

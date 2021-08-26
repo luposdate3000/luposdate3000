@@ -31,8 +31,9 @@ public class syntaxpropertyPaths01rq {
         "} \n" +
         ""
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `syntaxpropertyPaths01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

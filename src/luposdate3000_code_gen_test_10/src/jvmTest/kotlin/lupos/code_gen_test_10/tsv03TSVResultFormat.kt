@@ -49,7 +49,7 @@ public class tsv03TSVResultFormat {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "SELECT * WHERE { ?s ?p ?o} ORDER BY ?s ?p ?o"
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -459,7 +459,7 @@ public class tsv03TSVResultFormat {
         }
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -474,7 +474,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -489,7 +489,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -504,7 +504,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -519,7 +519,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -534,7 +534,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -549,7 +549,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -564,7 +564,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -579,7 +579,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -594,7 +594,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -609,7 +609,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -624,7 +624,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -639,7 +639,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -654,7 +654,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -669,7 +669,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -684,7 +684,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -699,7 +699,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -714,7 +714,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -729,7 +729,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -744,7 +744,7 @@ public class tsv03TSVResultFormat {
         )
     }
 
-    @Test
+    @Test(timeout = 2000)
     public fun `tsv03  TSV Result Format - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

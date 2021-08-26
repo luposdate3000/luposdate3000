@@ -29,8 +29,9 @@ public class syntaxupdatebad10ru {
         "DELETE WHERE { _:a <p> <o> } \n" +
         ""
 
-    @Ignore // Reason: >Bug in Error-detection during Query-Parsing<
-    @Test
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdatebad10ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

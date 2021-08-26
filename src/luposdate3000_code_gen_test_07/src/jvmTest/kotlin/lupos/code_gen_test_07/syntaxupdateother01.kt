@@ -166,7 +166,7 @@ public class syntaxupdateother01 {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdateother01 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

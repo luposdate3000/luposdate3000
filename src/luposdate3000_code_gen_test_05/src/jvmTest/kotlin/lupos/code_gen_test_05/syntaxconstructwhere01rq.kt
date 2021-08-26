@@ -26,7 +26,7 @@ public class syntaxconstructwhere01rq {
     internal val query = "CONSTRUCT WHERE { ?s ?p 1816 } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxconstructwhere01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

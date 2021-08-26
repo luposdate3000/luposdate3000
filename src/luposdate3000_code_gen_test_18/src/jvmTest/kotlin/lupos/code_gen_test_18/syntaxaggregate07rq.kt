@@ -26,7 +26,7 @@ public class syntaxaggregate07rq {
     internal val query = "SELECT (MIN(?x) AS ?y) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxaggregate07rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

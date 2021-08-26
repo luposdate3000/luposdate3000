@@ -26,7 +26,7 @@ public class COPYSILENTTODEFAULT {
     internal val query = "COPY SILENT GRAPH <http://www.example.com/g1> TO DEFAULT \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `COPY SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

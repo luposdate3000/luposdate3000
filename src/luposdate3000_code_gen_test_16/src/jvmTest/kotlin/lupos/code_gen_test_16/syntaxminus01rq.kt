@@ -26,7 +26,7 @@ public class syntaxminus01rq {
     internal val query = "SELECT * { ?s ?p ?o MINUS { ?s ?q ?v } } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxminus01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

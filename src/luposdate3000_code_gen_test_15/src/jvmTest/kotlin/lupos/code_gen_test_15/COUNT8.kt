@@ -30,7 +30,7 @@ public class COUNT8 {
         "ORDER BY ?O12 \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `COUNT 8 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

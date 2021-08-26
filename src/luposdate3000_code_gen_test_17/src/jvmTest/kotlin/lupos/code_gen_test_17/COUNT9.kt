@@ -30,8 +30,9 @@ public class COUNT9 {
         "WHERE { ?S ?P ?O } GROUP BY ?S \n" +
         ""
 
-    @Ignore // Reason: >Bug<
-    @Test
+    @Ignore
+    // Reason: >Bug<
+    @Test(timeout = 2000)
     public fun `COUNT 9 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

@@ -343,7 +343,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                             out.println("    @Ignore")
                         }
                     }
-                    out.println("    @Test")
+                    out.println("    @Test(timeout = 2000)")
                 }
 
                 for (LUPOS_PARTITION_MODE in EPartitionModeExt.names) {
@@ -446,7 +446,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                                             out.println("    @Ignore // Reason: >$reason<")
                                         }
                                     }
-                                    out.println("    @Test")
+                                    out.println("    @Test(timeout = 2000)")
                                     out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE`() {")
                                     out.println("        simulatorHelper(")
                                     if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
@@ -493,7 +493,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                             out.println("    @Ignore")
                         }
                     }
-                    out.println("    @Test")
+                    out.println("    @Test(timeout = 2000)")
 
                     out.println("    public fun `$testCaseName2 - codegen`() {")
                     out.println("        ${testCaseName}_CodeGen().`$testCaseName2`()")

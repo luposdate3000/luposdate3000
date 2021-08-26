@@ -26,7 +26,7 @@ public class DROPSILENTDEFAULT {
     internal val query = "DROP DEFAULT \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `DROP SILENT DEFAULT - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

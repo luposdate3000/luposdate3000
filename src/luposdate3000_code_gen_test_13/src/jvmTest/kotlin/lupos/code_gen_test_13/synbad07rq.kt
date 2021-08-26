@@ -27,7 +27,7 @@ public class synbad07rq {
     internal val query = "SELECT * { {} SELECT * { ?s ?p ?o } } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `synbad07rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

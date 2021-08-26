@@ -26,7 +26,7 @@ public class syntaxnotexists01rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(NOT EXISTS{?s ?p ?o}) } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxnotexists01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

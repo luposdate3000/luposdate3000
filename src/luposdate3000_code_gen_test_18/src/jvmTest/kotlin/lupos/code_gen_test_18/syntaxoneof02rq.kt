@@ -26,7 +26,7 @@ public class syntaxoneof02rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(?o NOT IN()) } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxoneof02rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

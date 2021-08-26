@@ -28,7 +28,7 @@ public class syntaxupdate26ru {
         "DATA { GRAPH <G> { <s> <p> 'o1', 'o2', 'o3' } } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate26ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

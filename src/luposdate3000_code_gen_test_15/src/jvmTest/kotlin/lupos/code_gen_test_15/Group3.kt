@@ -56,7 +56,7 @@ public class Group3 {
         "GROUP BY ?w \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `Group3 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -466,8 +466,9 @@ public class Group3 {
         }
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -482,8 +483,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -498,8 +500,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -514,8 +517,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -530,8 +534,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -546,8 +551,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -562,8 +568,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -578,8 +585,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -594,8 +602,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -610,8 +619,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -626,8 +636,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -642,8 +653,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -658,8 +670,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -674,8 +687,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -690,8 +704,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -706,8 +721,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -722,8 +738,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -738,8 +755,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -754,8 +772,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -770,8 +789,9 @@ public class Group3 {
         )
     }
 
-    @Ignore // Reason: >distributed dictionary access<
-    @Test
+    @Ignore
+    // Reason: >distributed dictionary access<
+    @Test(timeout = 2000)
     public fun `Group3 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

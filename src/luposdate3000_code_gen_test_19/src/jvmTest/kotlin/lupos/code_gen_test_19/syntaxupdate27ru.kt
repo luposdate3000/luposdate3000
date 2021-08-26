@@ -27,7 +27,7 @@ public class syntaxupdate27ru {
         "DATA { } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate27ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

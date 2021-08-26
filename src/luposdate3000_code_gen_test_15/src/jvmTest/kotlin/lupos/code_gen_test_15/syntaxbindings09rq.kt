@@ -27,7 +27,7 @@ public class syntaxbindings09rq {
     internal val query = "SELECT * { } BINDINGS ?x ?y { (1 2) (3) } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxbindings09rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

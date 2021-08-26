@@ -31,7 +31,7 @@ public class synbadpname12 {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `synbadpname12 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

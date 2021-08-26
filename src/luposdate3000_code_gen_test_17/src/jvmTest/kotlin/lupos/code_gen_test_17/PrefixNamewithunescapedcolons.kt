@@ -29,7 +29,7 @@ public class PrefixNamewithunescapedcolons {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `PrefixName with unescaped colons - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

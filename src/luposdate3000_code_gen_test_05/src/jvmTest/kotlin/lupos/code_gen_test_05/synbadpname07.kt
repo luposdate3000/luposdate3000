@@ -27,7 +27,7 @@ public class synbadpname07 {
     internal val query = "PREFIX 1: <http://example/> \n" +
         "ASK{}"
 
-    @Test
+    @Test(timeout = 2000)
     public fun `synbadpname07 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

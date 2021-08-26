@@ -28,7 +28,7 @@ public class synbadpname02 {
         "PREFIX ex:ex:ex <http://example/> \n" +
         "ASK{}"
 
-    @Test
+    @Test(timeout = 2000)
     public fun `synbadpname02 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

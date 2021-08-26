@@ -33,7 +33,7 @@ public class syntaxupdatebad05ru {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdatebad05ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

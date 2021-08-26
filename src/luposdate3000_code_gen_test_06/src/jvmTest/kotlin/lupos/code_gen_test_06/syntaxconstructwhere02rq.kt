@@ -29,8 +29,9 @@ public class syntaxconstructwhere02rq {
         "WHERE { ?s ?p 1816 } \n" +
         ""
 
-    @Ignore // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
-    @Test
+    @Ignore
+    // Reason: >Bug in SparqlTestSuiteConverterToUnitTest<
+    @Test(timeout = 2000)
     public fun `syntaxconstructwhere02rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

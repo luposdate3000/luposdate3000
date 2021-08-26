@@ -26,7 +26,7 @@ public class syntaxupdate35ru {
     internal val query = "DELETE WHERE { ?s ?p ?o } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate35ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

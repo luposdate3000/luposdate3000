@@ -27,7 +27,7 @@ public class syntaxselectexpr05rq {
         "SELECT (COUNT(*) AS ?count) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxselectexpr05rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

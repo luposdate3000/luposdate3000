@@ -43,8 +43,9 @@ public class Group7 {
         "GROUP BY ?event \n" +
         ""
 
-    @Ignore // Reason: >Bug<
-    @Test
+    @Ignore
+    // Reason: >Bug<
+    @Test(timeout = 2000)
     public fun `Group7 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

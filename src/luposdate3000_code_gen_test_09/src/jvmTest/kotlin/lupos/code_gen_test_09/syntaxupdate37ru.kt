@@ -27,7 +27,7 @@ public class syntaxupdate37ru {
         "LOAD <remote> INTO GRAPH <g> ; \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxupdate37ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

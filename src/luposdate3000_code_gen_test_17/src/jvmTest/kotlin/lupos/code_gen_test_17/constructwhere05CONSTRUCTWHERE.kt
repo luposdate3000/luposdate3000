@@ -28,7 +28,7 @@ public class constructwhere05CONSTRUCTWHERE {
         "CONSTRUCT  \n" +
         "WHERE { ?s ?p ?o FILTER ( ?o = :o1) }"
 
-    @Test
+    @Test(timeout = 2000)
     public fun `constructwhere05  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

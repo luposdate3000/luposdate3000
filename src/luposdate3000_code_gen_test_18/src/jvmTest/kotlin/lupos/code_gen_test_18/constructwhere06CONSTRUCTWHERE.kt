@@ -27,7 +27,7 @@ public class constructwhere06CONSTRUCTWHERE {
     internal val query = "CONSTRUCT  \n" +
         "WHERE { GRAPH <data.ttl> { ?s ?p ?o } }"
 
-    @Test
+    @Test(timeout = 2000)
     public fun `constructwhere06  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

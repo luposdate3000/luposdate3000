@@ -27,7 +27,7 @@ public class synbad06rq {
     internal val query = "SELECT (SUM(?x,?y) AS ?S) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `synbad06rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

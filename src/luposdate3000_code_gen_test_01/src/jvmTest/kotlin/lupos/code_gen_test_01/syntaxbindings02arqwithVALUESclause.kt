@@ -26,7 +26,7 @@ public class syntaxbindings02arqwithVALUESclause {
     internal val query = "SELECT * { } VALUES () { } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxbindings02arq with VALUES clause - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

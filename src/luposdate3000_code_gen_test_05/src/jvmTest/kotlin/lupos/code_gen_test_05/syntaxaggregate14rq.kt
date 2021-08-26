@@ -27,8 +27,9 @@ public class syntaxaggregate14rq {
     internal val query = "SELECT (GROUP_CONCAT(DISTINCT ?x) AS ?y) {} \n" +
         ""
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `syntaxaggregate14rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

@@ -26,7 +26,7 @@ public class syntaxaggregate11rq {
     internal val query = "SELECT (AVG(?x) AS ?y) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxaggregate11rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

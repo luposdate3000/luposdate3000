@@ -26,7 +26,7 @@ public class syntaxservice01rq {
     internal val query = "SELECT * { SERVICE <g> { ?s ?p ?o } } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxservice01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

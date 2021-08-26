@@ -28,8 +28,9 @@ public class syntaxselectexpr04rq {
         "SELECT (:function(?x +?y) AS ?F) ?z {} \n" +
         ""
 
-    @Ignore // Reason: >using not implemented feature<
-    @Test
+    @Ignore
+    // Reason: >using not implemented feature<
+    @Test(timeout = 2000)
     public fun `syntaxselectexpr04rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

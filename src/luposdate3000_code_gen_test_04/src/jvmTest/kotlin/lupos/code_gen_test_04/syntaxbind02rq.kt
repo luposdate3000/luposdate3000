@@ -26,7 +26,7 @@ public class syntaxbind02rq {
     internal val query = "SELECT ?Z { ?s ?p ?o . BIND(?o+1 AS ?Z) BIND(?Z/2 AS ?Zby2) } \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxbind02rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

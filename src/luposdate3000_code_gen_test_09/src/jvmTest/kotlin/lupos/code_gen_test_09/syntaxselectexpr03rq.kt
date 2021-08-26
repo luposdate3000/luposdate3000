@@ -26,7 +26,7 @@ public class syntaxselectexpr03rq {
     internal val query = "SELECT (datatype(?x +?y) AS ?z) {} \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `syntaxselectexpr03rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

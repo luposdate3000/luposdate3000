@@ -26,7 +26,7 @@ public class MOVESILENTTODEFAULT {
     internal val query = "MOVE SILENT GRAPH <http://www.example.com/g1> TO DEFAULT \n" +
         ""
 
-    @Test
+    @Test(timeout = 2000)
     public fun `MOVE SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
