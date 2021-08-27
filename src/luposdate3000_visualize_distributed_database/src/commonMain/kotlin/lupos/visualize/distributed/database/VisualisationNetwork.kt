@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
-import lupos.parser.JsonParserObject
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -30,9 +29,8 @@ import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-public class VisualisationNetwork(config: JsonParserObject, private val getClock: () -> Long) : ILogger {
+public class VisualisationNetwork(private val outputDirectory: String, private val getClock: () -> Long) : ILogger {
     private val skipQueriesWithLessPartsThan = 1
-    private var outputdirectory: String = ""
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
     private var devicesMaxID = 0
     private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
@@ -60,9 +58,6 @@ public class VisualisationNetwork(config: JsonParserObject, private val getClock
         const val layerWork = 11
         var deviceRadius = 20.0
         const val minDistToOtherPath = 4.0
-    }
-    init {
-        outputdirectory = config.getOrDefault("outputDirectory", "") + "/"
     }
     private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
         val tmp = mutableListOf<Int>()
@@ -311,7 +306,7 @@ public class VisualisationNetwork(config: JsonParserObject, private val getClock
             } else {
                 "visual-overview-${queryNumber.toString().padStart(4,'0')}.svg"
             }
-            File(outputdirectory + name).withOutputStream { out ->
+            File(outputDirectory + name).withOutputStream { out ->
                 out.println(imgOverview.toString())
             }
         }
@@ -393,7 +388,7 @@ public class VisualisationNetwork(config: JsonParserObject, private val getClock
                             }
                             umfang += opGraph.getRadius()
                             allWork.add(opGraph)
-                            File(outputdirectory + "visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
+                            File(outputDirectory + "visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
                                 out.println(opImage.toString())
                             }
                             helperImageCounter++
@@ -435,7 +430,7 @@ public class VisualisationNetwork(config: JsonParserObject, private val getClock
                 for (w in allWork) {
                     w.toImage(image, layerWork, mapOfSenders, mapOfReceivers)
                 }
-                File(outputdirectory + "visual-db-work-$queryID.svg").withOutputStream { out ->
+                File(outputDirectory + "visual-db-work-$queryID.svg").withOutputStream { out ->
                     out.println(image.toString())
                 }
             }
@@ -445,13 +440,13 @@ public class VisualisationNetwork(config: JsonParserObject, private val getClock
         val imageHelperBase = toBaseImage()
         val imageHelperBaseDB = toBaseImageDB()
 // ---->>>> save it as file
-        File(outputdirectory + "visual.svg").withOutputStream { out ->
+        File(outputDirectory + "visual.svg").withOutputStream { out ->
             out.println(imageHelperBase.toString())
         }
-        File(outputdirectory + "visual-db.svg").withOutputStream { out ->
+        File(outputDirectory + "visual-db.svg").withOutputStream { out ->
             out.println(imageHelperBaseDB.toString())
         }
-        File(outputdirectory + "visual-db-storage.svg").withOutputStream { out ->
+        File(outputDirectory + "visual-db-storage.svg").withOutputStream { out ->
             out.println(saveDBStorageLocations(imageHelperBaseDB).toString())
         }
         var flag = true
@@ -536,10 +531,10 @@ public class VisualisationNetwork(config: JsonParserObject, private val getClock
         if (src != dest) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:538"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:539"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:540"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:541"/*SOURCE_FILE_END*/ }, { src != hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:533"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:534"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:535"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:536"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size <size) {
                 connectionTable = IntArray(size) { -1 }
             }
@@ -551,9 +546,9 @@ public class VisualisationNetwork(config: JsonParserObject, private val getClock
         if (src != dest && src != hop) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:553"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:554"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:555"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:548"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:549"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:550"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
             if (connectionTableDB.size <size) {
                 connectionTableDB = IntArray(size) { -1 }
             }
