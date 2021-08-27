@@ -37,7 +37,7 @@ public class TimeMeasurer(private val simRun: SimulationRun) {
     }
 
     private fun getSimulationTime(): Instant {
-        return TimeUtils.addNanoSeconds(startUpTimeStamp, simRun.getCurrentSimulationClock())
+        return TimeUtils.addNanoSeconds(startUpTimeStamp, simRun.sim.clock)
     }
 
     internal fun getTimeString(time: Instant): String {

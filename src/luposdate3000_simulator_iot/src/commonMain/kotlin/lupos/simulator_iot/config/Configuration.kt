@@ -23,6 +23,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_db.ApplicationLayerCatchSelfMessages
+import lupos.simulator_db.ApplicationLayerLogger
 import lupos.simulator_db.ApplicationLayerMergeMessages
 import lupos.simulator_db.ApplicationLayerMultipleChilds
 import lupos.simulator_db.ApplicationLayerSequence
@@ -94,7 +95,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:96"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:97"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -239,7 +240,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:241"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:242"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -263,7 +264,7 @@ public class Configuration(private val simRun: SimulationRun) {
             numberOfDatabases++
             val initialState = {
                 object : DatabaseState(
-                    logger = device.simRun.logger,
+                    logger = simRun.logger,
                     ownAddress = device.address,
                     allAddressesStore = dbDeviceAddressesStore,
                     allAddressesQuery = dbDeviceAddressesQuery,
@@ -278,12 +279,12 @@ public class Configuration(private val simRun: SimulationRun) {
             val multiChilds = ApplicationLayerMultipleChilds(catchSelfMessages)
             val db = when (jsonDatabase.getOrDefault("type", "Dummy")) {
                 "Dummy" -> {
-                    DatabaseSystemDummy(jsonDatabase, multiChilds, initialState)
-                    ApplicationLayerReceiveQueryResonse(multiChilds)
+                    DatabaseSystemDummy(jsonDatabase, ApplicationLayerLogger(multiChilds, device.address, simRun.logger), initialState)
+                    ApplicationLayerReceiveQueryResonse(ApplicationLayerLogger(multiChilds, device.address, simRun.logger))
                 }
                 "Luposdate3000" -> {
-                    DatabaseHandle(multiChilds, jsonDatabase, initialState)
-                    ApplicationLayerReceiveQueryResonse(multiChilds)
+                    DatabaseHandle(ApplicationLayerLogger(multiChilds, device.address, simRun.logger), jsonDatabase, initialState)
+                    ApplicationLayerReceiveQueryResonse(ApplicationLayerLogger(multiChilds, device.address, simRun.logger))
                 }
                 else -> TODO()
             }

@@ -19,8 +19,8 @@ package lupos.simulator_core
 import lupos.shared.SanityCheck
 public class Simulation(
     private val entities: List<Entity>,
-    private val logger: ILoggerCore,
 ) {
+    public lateinit var logger: ILoggerCore
 
     private var futureEvents: PriorityQueue<Event> = PriorityQueue(compareBy<Event> { it.occurrenceTime }.thenBy { it.eventNumber })
 

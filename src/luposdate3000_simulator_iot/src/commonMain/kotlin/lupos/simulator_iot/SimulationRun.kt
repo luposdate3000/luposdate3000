@@ -56,16 +56,15 @@ public class SimulationRun {
     }
 
     internal fun startSimulation(configuration: Configuration) {
+        sim = Simulation(configuration.getEntities())
         if (configuration.jsonObjects.logging) {
             logger = LoggerStdout(sim)
         }
-        sim = Simulation(configuration.getEntities(), logger)
+        sim.logger = logger
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if (simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
+        timeMeasurer.onStartUp()
         sim.startSimulation()
-    }
-
-    internal fun getCurrentSimulationClock(): Long {
-        return sim.clock
+        timeMeasurer.onShutDown()
     }
 }

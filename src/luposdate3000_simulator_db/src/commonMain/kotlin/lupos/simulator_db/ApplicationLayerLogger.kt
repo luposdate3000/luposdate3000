@@ -15,48 +15,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db
-public class ApplicationLayerMultipleChilds(
+
+public class ApplicationLayerLogger(
     private val parent: IUserApplicationLayer,
+    private val ownAddress: Int,
+    private val logger: ILogger,
 ) : IUserApplicationLayer {
-    private var childs = mutableListOf<IUserApplication>()
+    private lateinit var child: IUserApplication
     init {
         parent.addChildApplication(this)
     }
     override fun startUp() {
-        for (child in childs) {
-            child.startUp()
-        }
+        child.startUp()
     }
     override fun shutDown() {
-        for (child in childs) {
-            child.shutDown()
-        }
+        child.shutDown()
     }
     override fun getAllChildApplications(): Set<IUserApplication> {
         var res = mutableSetOf<IUserApplication>()
-        for (child in childs) {
-            res.add(child)
-            val c = child
-            if (c is IUserApplicationLayer) {
-                res.addAll(c.getAllChildApplications())
-            }
+        res.add(child)
+        val c = child
+        if (c is IUserApplicationLayer) {
+            res.addAll(c.getAllChildApplications())
         }
         return res
     }
     override fun addChildApplication(child: IUserApplication) {
-        childs.add(child)
+        this.child = child
     }
     override fun receive(pck: IPayload): IPayload? {
-        for (child in childs) {
-            val pp = child.receive(pck)
-            if (pp == null) {
-                return null
-            }
-        }
-        return pck
+        logger.onReceivePackage(ownAddress, pck)
+        return child.receive(pck)
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
-        parent.send(destinationAddress, pck)
+        logger.onSendPackage(ownAddress, destinationAddress, pck)
+        if (ownAddress == destinationAddress) {
+            receive(pck)
+        } else {
+            parent.send(destinationAddress, pck)
+        }
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)

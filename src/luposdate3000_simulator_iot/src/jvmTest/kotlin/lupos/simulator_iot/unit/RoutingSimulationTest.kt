@@ -37,7 +37,7 @@ class RoutingSimulationTest {
         val config = simRun.parseConfig("$prefix/runSimulationWithoutEntities.json")
         simRun.startSimulation(config)
 
-        assertEquals(0, simRun.getCurrentSimulationClock())
+        assertEquals(0, simRun.sim.clock)
     }
 
     @Test
@@ -127,7 +127,7 @@ class RoutingSimulationTest {
 
         val querySender = config.querySenders[0]
         val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec + querySender.startClockInSec
-        assertEquals(TimeUtils.toNanoSec(expectedTimeSec), simRun.getCurrentSimulationClock())
+        assertEquals(TimeUtils.toNanoSec(expectedTimeSec), simRun.sim.clock)
     }
 
     @Test
