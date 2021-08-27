@@ -122,10 +122,21 @@ add_filter_target_reason "FAILED" "Bugs" "bugs"
 remove_findings
 }
 
+
+
+
+
+#####
 grep FAILED x -A1 > tmp/x-minified
 setNotInSimulator
 process
 exit
+#####
+
+
+
+
+
 
 
 setInSimulator
