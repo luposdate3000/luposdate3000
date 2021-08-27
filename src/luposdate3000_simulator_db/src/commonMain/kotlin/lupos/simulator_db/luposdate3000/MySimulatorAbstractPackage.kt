@@ -21,10 +21,10 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IDatabasePackage
 
 public class MySimulatorAbstractPackage(
-    internal val queryID: Int,
-    internal val path: String,
-    internal val params: Map<String, String>,
-    internal val data: ByteArrayWrapper = ByteArrayWrapper()
+    public val queryID: Int,
+    public val path: String,
+    public val params: Map<String, String>,
+    public val data: ByteArrayWrapper = ByteArrayWrapper()
 ) : IDatabasePackage {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID

@@ -20,15 +20,15 @@ import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
 import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
-internal class MySimulatorOperatorGraphPackage(
-    val queryID: Int,
-    val operatorGraph: MutableMap<String, XMLElement>,
-    val destinations: MutableMap<String, Int>,
-    val operatorGraphPartsToHostMap: MutableMap<String, String>,
-    val onFinish: IDatabasePackage?,
-    val expectedResult: MemoryTable?,
-    val verifyAction: () -> Unit,
-    val query: IQuery, // this is an required fake, because the intermediate valued definetly need to share a dictionary, which requires streaming, which the simulator does not support
+public class MySimulatorOperatorGraphPackage(
+    public val queryID: Int,
+    public val operatorGraph: MutableMap<String, XMLElement>,
+    public val destinations: MutableMap<String, Int>,
+    public val operatorGraphPartsToHostMap: MutableMap<String, String>,
+    public val onFinish: IDatabasePackage?,
+    public val expectedResult: MemoryTable?,
+    public val verifyAction: () -> Unit,
+    public val query: IQuery, // this is an required fake, because the intermediate valued definetly need to share a dictionary, which requires streaming, which the simulator does not support
 ) : IDatabasePackage {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID

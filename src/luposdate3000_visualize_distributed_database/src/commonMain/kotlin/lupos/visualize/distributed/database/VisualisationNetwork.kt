@@ -16,14 +16,21 @@
  */
 package lupos.visualize.distributed.database
 import lupos.parser.JsonParserObject
-import lupos.shared.Luposdate3000Config
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.inline.File
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.simulator_db.ILogger
+import lupos.simulator_db.IPayload
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.QueryResponsePackage
+import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
+import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-public class VisualisationNetwork() {
+public class VisualisationNetwork(config: JsonParserObject, private val getClock: () -> Long) : ILogger {
     private val skipQueriesWithLessPartsThan = 1
     private var outputdirectory: String = ""
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
@@ -54,8 +61,7 @@ public class VisualisationNetwork() {
         var deviceRadius = 20.0
         const val minDistToOtherPath = 4.0
     }
-
-    public fun setup(config: JsonParserObject) {
+    init {
         outputdirectory = config.getOrDefault("outputDirectory", "") + "/"
     }
     private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
@@ -463,138 +469,168 @@ public class VisualisationNetwork() {
         return devices.filter { it.id == id }.first()
     }
     public fun addDistributedStorage(source: Int, destination: Int, time: Long, graphname: String, metaString: String) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            addMessage(VisualisationMessage(source, destination, time, "create '$graphname'"))
-            val metad = metaString.split("|")
-            for (meta in metad) {
-                val args = meta.split(";")
-                if (args.size > 1) {
-                    when (args[0]) {
-                        "PartitionedByID" -> {
-                            val keys = mutableSetOf<String>()
-                            for (i in 0 until args[2].toInt()) {
-                                val hostname = args[4 + i * 2]
-                                val key = args[4 + i * 2 + 1]
-                                var l = device_to_key[hostname.toInt()]
-                                if (l == null) {
-                                    l = mutableSetOf()
-                                    device_to_key[hostname.toInt()] = l
-                                }
-                                keys.add("${args[1]}@$hostname:$key")
-                                l.add("${args[1]}@$hostname:$key")
-                            }
-                            graph_index_to_key["$graphname-${args[0]}(${args[1]},${args[2]},${args[3]})"] = keys
-                        }
-                        "PartitionedByKey" -> {
-                            val keys = mutableSetOf<String>()
-                            val type = "${args[0]}(${args[1]},${args[2]})"
-                            for (i in 0 until args[2].toInt()) {
-                                val hostname = args[3 + i * 2]
-                                val key = args[3 + i * 2 + 1]
-                                var l = device_to_key[hostname.toInt()]
-                                if (l == null) {
-                                    l = mutableSetOf()
-                                    device_to_key[hostname.toInt()] = l
-                                }
-                                keys.add("${args[1]}@$hostname:$key")
-                                l.add("${args[1]}@$hostname:$key")
-                            }
-                            graph_index_to_key["$graphname-${args[0]}(${args[1]},${args[2]})"] = keys
-                        }
-                        "Simple" -> {
-                            val type = "${args[0]}(${args[1]})"
-                            val hostname = args[2]
-                            val key = args[3]
+        addMessage(VisualisationMessage(source, destination, time, "create '$graphname'"))
+        val metad = metaString.split("|")
+        for (meta in metad) {
+            val args = meta.split(";")
+            if (args.size > 1) {
+                when (args[0]) {
+                    "PartitionedByID" -> {
+                        val keys = mutableSetOf<String>()
+                        for (i in 0 until args[2].toInt()) {
+                            val hostname = args[4 + i * 2]
+                            val key = args[4 + i * 2 + 1]
                             var l = device_to_key[hostname.toInt()]
                             if (l == null) {
                                 l = mutableSetOf()
                                 device_to_key[hostname.toInt()] = l
                             }
-                            val keys = mutableSetOf<String>()
                             keys.add("${args[1]}@$hostname:$key")
                             l.add("${args[1]}@$hostname:$key")
-                            graph_index_to_key["$graphname-${args[0]}(${args[1]})"] = keys
                         }
-                        else -> throw Exception("unexpected type")
+                        graph_index_to_key["$graphname-${args[0]}(${args[1]},${args[2]},${args[3]})"] = keys
                     }
+                    "PartitionedByKey" -> {
+                        val keys = mutableSetOf<String>()
+                        val type = "${args[0]}(${args[1]},${args[2]})"
+                        for (i in 0 until args[2].toInt()) {
+                            val hostname = args[3 + i * 2]
+                            val key = args[3 + i * 2 + 1]
+                            var l = device_to_key[hostname.toInt()]
+                            if (l == null) {
+                                l = mutableSetOf()
+                                device_to_key[hostname.toInt()] = l
+                            }
+                            keys.add("${args[1]}@$hostname:$key")
+                            l.add("${args[1]}@$hostname:$key")
+                        }
+                        graph_index_to_key["$graphname-${args[0]}(${args[1]},${args[2]})"] = keys
+                    }
+                    "Simple" -> {
+                        val type = "${args[0]}(${args[1]})"
+                        val hostname = args[2]
+                        val key = args[3]
+                        var l = device_to_key[hostname.toInt()]
+                        if (l == null) {
+                            l = mutableSetOf()
+                            device_to_key[hostname.toInt()] = l
+                        }
+                        val keys = mutableSetOf<String>()
+                        keys.add("${args[1]}@$hostname:$key")
+                        l.add("${args[1]}@$hostname:$key")
+                        graph_index_to_key["$graphname-${args[0]}(${args[1]})"] = keys
+                    }
+                    else -> throw Exception("unexpected type")
                 }
             }
         }
     }
     public fun addDevice(device: VisualisationDevice) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            if (device.id> devicesMaxID) {
-                devicesMaxID = device.id
-            }
-            devices.add(device)
+        if (device.id> devicesMaxID) {
+            devicesMaxID = device.id
         }
+        devices.add(device)
     }
 
-    public fun addConnectionTable(src: Int, dest: Int, hop: Int) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            if (src != dest) {
-                val idx = src * devicesMaxID + dest
-                val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:537"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:538"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:539"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:540"/*SOURCE_FILE_END*/ }, { src != hop })
-                if (connectionTable.size <size) {
-                    connectionTable = IntArray(size) { -1 }
-                }
-                connectionTable[idx] = hop
-                connectionsInRouting.add(VisualisationConnection(src, hop))
+    public override fun addConnectionTable(src: Int, dest: Int, hop: Int) {
+        if (src != dest) {
+            val idx = src * devicesMaxID + dest
+            val size = devicesMaxID * devicesMaxID
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:538"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:539"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:540"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:541"/*SOURCE_FILE_END*/ }, { src != hop })
+            if (connectionTable.size <size) {
+                connectionTable = IntArray(size) { -1 }
             }
+            connectionTable[idx] = hop
+            connectionsInRouting.add(VisualisationConnection(src, hop))
         }
     }
-    public fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            if (src != dest && src != hop) {
-                val idx = src * devicesMaxID + dest
-                val size = devicesMaxID * devicesMaxID
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:554"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:555"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:556"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-                if (connectionTableDB.size <size) {
-                    connectionTableDB = IntArray(size) { -1 }
-                }
-                connectionTableDB[idx] = hop
-                connectionsInRoutingDB.add(VisualisationConnection(src, hop))
+    public override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {
+        if (src != dest && src != hop) {
+            val idx = src * devicesMaxID + dest
+            val size = devicesMaxID * devicesMaxID
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:553"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:554"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:555"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            if (connectionTableDB.size <size) {
+                connectionTableDB = IntArray(size) { -1 }
             }
+            connectionTableDB[idx] = hop
+            connectionsInRoutingDB.add(VisualisationConnection(src, hop))
         }
     }
     public fun addConnection(connection: VisualisationConnection) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            connections.add(connection)
+        connections.add(connection)
+    }
+
+    override fun onSendPackage(source: Int, destination: Int, pck: IPayload) {
+        val clock = getClock()
+        when (pck) {
+            is MySimulatorAbstractPackage -> {
+                when (pck.path) {
+                    "/distributed/query/dictionary/remove",
+                    "/distributed/query/dictionary/register" -> {
+// ignore dictionary right now
+                    }
+                    "/distributed/graph/create" -> {
+                        addDistributedStorage(source, destination, clock, pck.params["name"]!!, pck.params["metadata"]!!)
+                    }
+                    "/distributed/graph/modify" -> {
+                        val count = ((ByteArrayWrapperExt.getSize(pck.data) / DictionaryValueHelper.getSize()) - 1) / 3
+                        addMessage(VisualisationMessage(source, destination, clock, "modify ${pck.params["mode"]} ${pck.params["idx"]}@$destination:${pck.params["key"]} .. triples=$count"))
+                    }
+                    "simulator-intermediate-result" -> {
+                        val bytes = ByteArrayWrapperExt.getSize(pck.data)
+                        addMessage(VisualisationMessage(source, destination, clock, "intermediate ${pck.params["key"]} .. count=$bytes"))
+                    }
+                    else -> addMessage(VisualisationMessage(source, destination, clock, pck.toString()))
+                }
+            }
+            is MySimulatorOperatorGraphPackage -> {
+                addMessage(VisualisationMessage(source, destination, clock, "operatorgraph ${pck.queryID} .. ${pck.operatorGraph.keys}"))
+            }
+            is QueryResponsePackage -> {
+                addMessage(VisualisationMessage(source, destination, clock, "response ${pck.queryID} .. ${pck.result.size}"))
+            }
+            is QueryPackage -> {
+                addMessage(VisualisationMessage(source, destination, clock, "query ${pck.queryID} .. ${pck.query.decodeToString()}"))
+            }
+            else -> addMessage(VisualisationMessage(source, destination, clock, pck.toString()))
         }
     }
 
     public fun addMessage(message: VisualisationMessage) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            allMessageTypes.add(message.type)
-            message.messageCounter = messages.size
-            messages.add(message)
-        }
+        allMessageTypes.add(message.type)
+        message.messageCounter = messages.size
+        messages.add(message)
     }
-    public fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            var workNode = workForQueryAtNode[queryID]
-            if (workNode == null) {
-                workNode = mutableMapOf()
-                workForQueryAtNode[queryID] = workNode
-            }
-            var workquery = workNode[address]
-            if (workquery == null) {
-                workquery = mutableSetOf()
-                workNode[address] = workquery
-            }
-            workquery.add("$keysIn -> $keysOut" to operatorGraph)
+    public override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {
+        var workNode = workForQueryAtNode[queryID]
+        if (workNode == null) {
+            workNode = mutableMapOf()
+            workForQueryAtNode[queryID] = workNode
         }
+        var workquery = workNode[address]
+        if (workquery == null) {
+            workquery = mutableSetOf()
+            workNode[address] = workquery
+        }
+        workquery.add("$keysIn -> $keysOut" to operatorGraph)
     }
-    public fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-            fullOperatorGraph[queryId] = operatorGraph
-        }
+    public override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {
+        fullOperatorGraph[queryId] = operatorGraph
     }
     override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}"
+    override fun onStartSimulation() {}
+    override fun onStopSimulation() {
+        toImage()
+    }
+    override fun onStartUp() { }
+    override fun onShutDown() { }
+    override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {}
+    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
+    override fun onReceivePackage(address: Int, pck: IPayload) {}
+    override fun onSteadyState() {}
 }
