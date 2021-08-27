@@ -39,7 +39,10 @@ internal actual class File {
     internal actual inline fun exists() = java.io.File(filename).exists()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun mkdirs() = java.io.File(filename).mkdirs()
+    internal actual inline fun mkdirs(): Boolean {
+        println(java.io.File(filename).absolutePath)
+        return java.io.File(filename).mkdirs()
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
