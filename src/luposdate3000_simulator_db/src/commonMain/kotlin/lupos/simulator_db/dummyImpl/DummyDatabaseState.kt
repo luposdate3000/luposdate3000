@@ -18,15 +18,15 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.simulator_db.DatabaseState
-import lupos.visualize.distributed.database.VisualisationNetwork
+import lupos.simulator_db.ILogger
 public class DummyDatabaseState(
-    visualisationNetwork: VisualisationNetwork,
+    logger: ILogger,
     ownAddress: Int,
     allAddressesStore: IntArray,
     allAddressesQuery: IntArray,
     absolutePathToDataDirectory: String
 ) :
-    DatabaseState(visualisationNetwork, ownAddress, allAddressesStore, allAddressesQuery, absolutePathToDataDirectory) {
+    DatabaseState(logger, ownAddress, allAddressesStore, allAddressesQuery, absolutePathToDataDirectory) {
 
     public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
     public var addressForQueryEndResult: Int = -1

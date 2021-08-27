@@ -17,15 +17,16 @@
 
 package lupos.simulator_core
 import lupos.shared.SanityCheck
-public class Simulation(private val entities: List<Entity>) {
+public class Simulation(
+    private val entities: List<Entity>,
+    private val logger: ILoggerCore,
+) {
 
     private var futureEvents: PriorityQueue<Event> = PriorityQueue(compareBy<Event> { it.occurrenceTime }.thenBy { it.eventNumber })
 
     public var maxClock: Long = Long.MAX_VALUE
 
     public var steadyClock: Long = Long.MAX_VALUE
-
-    public var callback: ISimulationLifeCycle? = null
 
     public var clock: Long = 0
         private set
@@ -94,12 +95,12 @@ public class Simulation(private val entities: List<Entity>) {
     private fun notifyAboutSteadyState() {
         for (entity in entities)
             entity.onSteadyState()
-        callback?.onSteadyState()
+        logger.onSteadyState()
     }
 
     internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Simulation.kt:101"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Simulation.kt:102"/*SOURCE_FILE_END*/ },
             { delay >= 0 },
             { "Clock cannot go backwards." }
         )
@@ -110,13 +111,13 @@ public class Simulation(private val entities: List<Entity>) {
     }
 
     public fun startUp() {
-        callback?.onStartUp()
+        logger.onStartUp()
         startUpAllEntities()
     }
 
     public fun shutDown() {
         shutDownAllEntities()
-        callback?.onShutDown()
+        logger.onShutDown()
     }
 
     private fun shutDownAllEntities() {

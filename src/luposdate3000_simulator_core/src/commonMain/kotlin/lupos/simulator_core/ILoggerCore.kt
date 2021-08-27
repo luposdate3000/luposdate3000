@@ -15,28 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot
-import lupos.shared.Luposdate3000Config
-import lupos.simulator_core.ISimulationLifeCycle
+package lupos.simulator_core
 
-public class LifeCycleImpl(private val simRun: SimulationRun) : ISimulationLifeCycle {
-
-    override fun onStartUp() {
-        simRun.timeMeasurer.onStartUp()
-        simRun.measureOnStartUp()
-        simRun.logger?.logStartUp()
-    }
-
-    override fun onSteadyState() {
-    }
-
-    override fun onShutDown() {
-        simRun.timeMeasurer.onShutDown()
-        simRun.measureOnShutDown()
-        simRun.logger?.logShutDown()
-        if (Luposdate3000Config.enableVisualisationInSimulator) {
-//            println(simRun.visualisationNetwork.toString())
-            simRun.visualisationNetwork.toImage()
-        }
-    }
+public interface ILoggerCore {
+    public fun onStartUp()
+    public fun onShutDown()
+    public fun onSteadyState()
 }

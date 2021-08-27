@@ -263,7 +263,7 @@ public class Configuration(private val simRun: SimulationRun) {
             numberOfDatabases++
             val initialState = {
                 object : DatabaseState(
-                    visualisationNetwork = device.simRun.visualisationNetwork,
+                    logger = device.simRun.logger,
                     ownAddress = device.address,
                     allAddressesStore = dbDeviceAddressesStore,
                     allAddressesQuery = dbDeviceAddressesQuery,

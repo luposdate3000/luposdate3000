@@ -22,7 +22,6 @@ import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
-import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage
@@ -52,7 +51,7 @@ public class QuerySender(
 
     override fun onStartUp() {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/queryproc/QuerySender.kt:54"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/queryproc/QuerySender.kt:53"/*SOURCE_FILE_END*/ },
             { hasDatabase() },
             { "The query receiver device must have a database" }
         )
@@ -86,10 +85,8 @@ public class QuerySender(
     }
 
     private fun triggerQueryProcessing() {
-        simRun.incNumberOfQueries()
         val pck = queryPck
         val netPck = NetworkPackage(receiver.address, receiver.address, pck)
-        PostProcessSend.process(receiver.address, receiver.address, receiver.simRun.sim.clock, receiver.simRun.visualisationNetwork, queryPck)
         scheduleEvent(receiver, netPck, 0)
     }
 }

@@ -50,7 +50,6 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     private fun sendDIO(destinationAddress: Int) {
         val dio = DIO(rank)
         device.sendUnRoutedPackage(destinationAddress, dio)
-        device.simRun.incNumberOfSentDIOPackages()
     }
     private fun hasDatabase(): Boolean {
         return device.simRun.config.dbDeviceAddressesStore.contains(device.address) || device.simRun.config.dbDeviceAddressesQuery.contains(device.address)
@@ -61,13 +60,11 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
         val dao = DAO(true, destinations, hasDatabase(), nextDatabaseHops)
         device.sendUnRoutedPackage(destinationAddress, dao)
-        device.simRun.incNumberOfSentDAOPackages()
     }
 
     private fun sendDAONoPath(destinationAddress: Int) {
         val dao = DAO(false, IntArray(0), false, IntArray(0))
         device.sendUnRoutedPackage(destinationAddress, dao)
-        device.simRun.incNumberOfSentDAOPackages()
     }
 
     private fun processDIO(pck: NetworkPackage) {

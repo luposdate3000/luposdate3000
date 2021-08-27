@@ -33,7 +33,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
     }
     override fun startUp() {
         val initialStateTmp = initialState()
-        state = DummyDatabaseState(initialStateTmp.visualisationNetwork, initialStateTmp.ownAddress, initialStateTmp.allAddressesStore, initialStateTmp.allAddressesQuery, initialStateTmp.absolutePathToDataDirectory)
+        state = DummyDatabaseState(initialStateTmp.logger, initialStateTmp.ownAddress, initialStateTmp.allAddressesStore, initialStateTmp.allAddressesQuery, initialStateTmp.absolutePathToDataDirectory)
         state.dataFile = "${initialStateTmp.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }

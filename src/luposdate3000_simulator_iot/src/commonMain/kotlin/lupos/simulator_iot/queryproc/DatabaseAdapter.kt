@@ -17,13 +17,10 @@
 
 package lupos.simulator_iot.queryproc
 
-import lupos.shared.SanityCheck
 import lupos.shared.inline.File
-import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
-import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.utils.FilePaths
 
@@ -66,14 +63,6 @@ public class DatabaseAdapter(
     }
 
     override fun send(destinationAddress: Int, pck: IPayload) {
-        if (pck is IDatabasePackage) {
-            PostProcessSend.process(device.address, destinationAddress, device.simRun.sim.clock, device.simRun.visualisationNetwork, pck)
-        }
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/queryproc/DatabaseAdapter.kt:72"/*SOURCE_FILE_END*/ },
-            { device.address != destinationAddress },
-        )
-        device.simRun.incNumberOfSentDatabasePackages()
         device.sendRoutedPackage(device.address, destinationAddress, pck)
     }
 

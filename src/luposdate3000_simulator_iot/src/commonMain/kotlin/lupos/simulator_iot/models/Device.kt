@@ -21,7 +21,6 @@ import lupos.simulator_core.Entity
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
-import lupos.simulator_db.luposdate3000.PostProcessSend
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
@@ -46,9 +45,6 @@ public class Device(
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false
-
-    internal var processedSensorDataPackages: Long = 0
-        private set
 
     private lateinit var deviceStart: Instant
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
@@ -85,7 +81,6 @@ public class Device(
         val pck = data as NetworkPackage
         deviceStart = TimeUtils.stamp()
         if (pck.destinationAddress == address) {
-            logReceivePackage(pck)
             processPackage(pck)
         } else {
             forwardPackage(pck)
@@ -93,17 +88,17 @@ public class Device(
     }
 
     private fun processPackage(pck: NetworkPackage) {
+        simRun.logger.onReceiveNetworkPackage(address, simRun.getCurrentSimulationClock(), pck)
         when {
             router.isControlPackage(pck) -> {
                 router.processControlPackage(pck)
             }
             pck.payload is ParkingSample -> {
-                processedSensorDataPackages++
                 val sample = pck.payload
                 val query = SemanticData.getInsertQueryString(sample)
                 val bytes = query.encodeToByteArray()
                 val pck2 = QueryPackage(address, bytes)
-                PostProcessSend.process(address, address, simRun.sim.clock, simRun.visualisationNetwork, pck2)
+                simRun.logger.onSendPackage(address, address, simRun.getCurrentSimulationClock(), pck2)
                 userApplication!!.receive(pck2)
             }
             else -> {
@@ -116,10 +111,10 @@ public class Device(
         for (dest in 0 until simRun.config.devices.size) {
             try {
                 val hop = router.getNextHop(dest)
-                simRun.visualisationNetwork.addConnectionTable(address, dest, hop)
+                simRun.logger.addConnectionTable(address, dest, hop)
                 if (userApplication != null) {
                     val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
-                    simRun.visualisationNetwork.addConnectionTableDB(address, dest, dbhop)
+                    simRun.logger.addConnectionTableDB(address, dest, dbhop)
                 }
             } catch (e: Throwable) {
             }
@@ -129,70 +124,32 @@ public class Device(
     }
 
     private fun forwardPackage(pck: NetworkPackage) {
-        val nextHop = router.getNextHop(pck.destinationAddress)
-        val delay = getNetworkDelay(nextHop, pck)
-        measureForwarding(pck)
-        assignToSimulation(nextHop, pck, delay)
+        val hop = router.getNextHop(pck.destinationAddress)
+        val delay = getNetworkDelay(hop, pck)
+        assignToSimulation(pck.destinationAddress, hop, pck, delay)
     }
 
-    internal fun sendUnRoutedPackage(destinationNeighbour: Int, data: IPayload) {
-        val pck = NetworkPackage(address, destinationNeighbour, data)
-        val delay = getNetworkDelay(destinationNeighbour, pck)
-        logSendPackage(pck, delay)
-        measureSending(pck)
-        assignToSimulation(destinationNeighbour, pck, delay)
+    internal fun sendUnRoutedPackage(hop: Int, data: IPayload) {
+        val pck = NetworkPackage(address, hop, data)
+        val delay = getNetworkDelay(hop, pck)
+        assignToSimulation(hop, hop, pck, delay)
     }
 
     internal fun sendRoutedPackage(src: Int, dest: Int, data: IPayload) {
         val pck = NetworkPackage(src, dest, data)
-        val nextHop = router.getNextHop(pck.destinationAddress)
-        val delay = getNetworkDelay(nextHop, pck)
-        logSendPackage(pck, delay)
-        measureSending(pck)
-        assignToSimulation(nextHop, pck, delay)
+        val hop = router.getNextHop(pck.destinationAddress)
+        val delay = getNetworkDelay(hop, pck)
+        assignToSimulation(dest, hop, pck, delay)
     }
 
-    private fun assignToSimulation(destinationAddress: Int, pck: NetworkPackage, delay: Long) {
-        val entity = simRun.config.getDeviceByAddress(destinationAddress)
+    private fun assignToSimulation(dest: Int, hop: Int, pck: NetworkPackage, delay: Long) {
+        val entity = simRun.config.getDeviceByAddress(hop)
         scheduleEvent(entity, pck, delay)
+        simRun.logger.onSendNetworkPackage(address, dest, hop, simRun.getCurrentSimulationClock(), pck, delay)
     }
 
-    private fun measureSending(pck: NetworkPackage) {
-        // ignore rpl for the evaluation
-        if (router.isControlPackage(pck)) {
-            return
-        }
-
-        if (pck.destinationAddress != address) {
-            // ignore self packages
-            simRun.incNumberOfSentPackages()
-            simRun.incNetworkTraffic(pck.pckSize)
-        }
-    }
-
-    private fun measureForwarding(pck: NetworkPackage) {
-        // ignore rpl for the evaluation
-        if (router.isControlPackage(pck)) {
-            return
-        }
-        simRun.incNumberOfForwardedPackages()
-        simRun.incNetworkTraffic(pck.pckSize)
-    }
-
-    internal fun sendSensorSample(destinationAddress: Int, data: IPayload) {
-        if (destinationAddress != address) {
-            // ignore self packages
-            simRun.incNumberOfSentSamplePackages()
-        }
-        sendRoutedPackage(address, destinationAddress, data)
-    }
-
-    private fun logReceivePackage(pck: NetworkPackage) {
-        simRun.logger?.log("> $this receives $pck at clock ${simRun.getCurrentSimulationClock()}")
-    }
-
-    private fun logSendPackage(pck: NetworkPackage, delay: Long) {
-        simRun.logger?.log("> $this sends $pck at clock ${simRun.getCurrentSimulationClock()} with delay $delay")
+    internal fun sendSensorSample(dest: Int, data: IPayload) {
+        sendRoutedPackage(address, dest, data)
     }
 
     override fun equals(other: Any?): Boolean {

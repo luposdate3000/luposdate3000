@@ -55,16 +55,16 @@ import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
-import lupos.visualize.distributed.database.VisualisationNetwork
 public class DatabaseHandle public constructor(private val parent: IUserApplicationLayer, internal val config: JsonParserObject, internal val initialState: () -> DatabaseState) : IUserApplication {
 
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
-    private lateinit var visualisationNetwork: VisualisationNetwork
+    private lateinit var logger: ILogger
     private var ownAdress: Int = 0
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
@@ -101,7 +101,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
     }
     override fun startUp() {
         val initialStateTmp = initialState()
-        visualisationNetwork = initialStateTmp.visualisationNetwork
+        logger = initialStateTmp.logger
         if (initialStateTmp.allAddressesStore.isEmpty()) {
             throw Exception("invalid input")
         }
@@ -182,7 +182,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
         // println("$ownAdress DatabaseHandle.receiveQueryPackage ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
-        visualisationNetwork.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
+        logger.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
         val parts = q.getOperatorgraphParts()
         var hostMap = mutableMapOf<String, String>()
         if (parts.size <= 1) {
@@ -488,7 +488,7 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 }
                 for (k in p.operatorGraph.keys) {
                     val graph = p.operatorGraph[k]!!
-                    visualisationNetwork.addWork(p.queryID, ownAdress, graph, mapTopDown[k]!!, mapBottomUpThis[k]!!)
+                    logger.addWork(p.queryID, ownAdress, graph, mapTopDown[k]!!, mapBottomUpThis[k]!!)
                     val w = MySimulatorPendingWork(
                         p.queryID,
                         p.operatorGraph[k]!!,
@@ -716,7 +716,6 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
                 else -> return pck
             }
         } catch (e: Throwable) {
-            visualisationNetwork.toImage()
             throw e
         }
         return null

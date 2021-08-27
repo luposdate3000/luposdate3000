@@ -83,7 +83,6 @@ internal class ParkingSensor(
         val data = getSample()
         device.sendSensorSample(getSinkAddress(), data)
         sampleCounter++
-        device.simRun.incNumberOfParkingSamples()
         startSampling()
     }
 
