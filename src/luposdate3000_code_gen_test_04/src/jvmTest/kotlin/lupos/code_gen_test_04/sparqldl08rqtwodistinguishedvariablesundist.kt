@@ -55,6 +55,8 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
         "{?X :p _:a. \n" +
         " _:a :r ?Y.}"
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -92,6 +94,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -108,6 +111,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -124,6 +128,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -140,6 +145,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -156,6 +162,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -172,6 +179,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -188,6 +196,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -204,6 +213,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -220,6 +230,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -236,6 +247,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -252,6 +264,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -268,6 +281,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -284,6 +298,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -300,6 +315,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -316,6 +332,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -332,6 +349,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -348,6 +366,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -364,6 +383,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -380,6 +400,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -396,6 +417,7 @@ public class sparqldl08rqtwodistinguishedvariablesundist {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `sparqldl08rq two distinguished variables  undist - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

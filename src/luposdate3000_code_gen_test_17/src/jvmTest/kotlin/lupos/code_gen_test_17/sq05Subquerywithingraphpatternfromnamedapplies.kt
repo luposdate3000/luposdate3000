@@ -57,6 +57,8 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
         "} \n" +
         ""
 
+    @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -94,6 +96,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -110,6 +113,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -126,6 +130,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -142,6 +147,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -158,6 +164,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -174,6 +181,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -190,6 +198,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -206,6 +215,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -222,6 +232,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -238,6 +249,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -254,6 +266,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -270,6 +283,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -286,6 +300,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -302,6 +317,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -318,6 +334,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -334,6 +351,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -350,6 +368,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -366,6 +385,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -382,6 +402,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -398,6 +419,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

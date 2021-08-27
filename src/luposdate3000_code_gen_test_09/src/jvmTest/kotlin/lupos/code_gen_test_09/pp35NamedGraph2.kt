@@ -61,6 +61,8 @@ public class pp35NamedGraph2 {
         "  FILTER (?g = <ng-01.ttl>) \n" +
         "}"
 
+    @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -126,6 +128,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -142,6 +145,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -158,6 +162,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -174,6 +179,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -190,6 +196,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -206,6 +213,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -222,6 +230,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -238,6 +247,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -254,6 +264,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -270,6 +281,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -286,6 +298,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -302,6 +315,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -318,6 +332,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -334,6 +349,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -350,6 +366,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -366,6 +383,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -382,6 +400,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -398,6 +417,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -414,6 +434,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -430,6 +451,7 @@ public class pp35NamedGraph2 {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp35 Named Graph 2 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

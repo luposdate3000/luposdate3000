@@ -53,6 +53,8 @@ public class pp09Reversesequencepath {
         "in:c ^(ex:p1/ex:p2) ?x \n" +
         "}"
 
+    @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -90,6 +92,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -106,6 +109,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -122,6 +126,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -138,6 +143,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -154,6 +160,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -170,6 +177,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -186,6 +194,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -202,6 +211,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -218,6 +228,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -234,6 +245,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -250,6 +262,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -266,6 +279,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -282,6 +296,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -298,6 +313,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -314,6 +330,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -330,6 +347,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -346,6 +364,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -362,6 +381,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -378,6 +398,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -394,6 +415,7 @@ public class pp09Reversesequencepath {
     }
 
     @Ignore
+    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `pp09 Reverse sequence path - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
