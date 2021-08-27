@@ -49,8 +49,6 @@ public class Simpleinsertdatanamed1 {
         "INSERT DATA { GRAPH <http://example.org/g1> { :s :p :o } } \n" +
         ""
 
-    @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -76,6 +74,8 @@ public class Simpleinsertdatanamed1 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple insert data named 1 - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -100,6 +100,8 @@ public class Simpleinsertdatanamed1 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple insert data named 1 - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -124,6 +126,8 @@ public class Simpleinsertdatanamed1 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple insert data named 1 - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -148,6 +152,8 @@ public class Simpleinsertdatanamed1 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple insert data named 1 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -172,6 +178,8 @@ public class Simpleinsertdatanamed1 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple insert data named 1 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -196,153 +204,8 @@ public class Simpleinsertdatanamed1 {
             LuposdateEndpoint.close(instance)
         }
     }
-    public fun `Simple insert data named 1 - Thread - PartitionByIDTwiceAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator12 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator12, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query13 = Query(instance)
-            val graph13 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator13 = graph13.getIterator(query13, arrayOf(AOPVariable(query13, "s"), AOPVariable(query13, "p"), AOPVariable(query13, "o")), EIndexPatternExt.SPO)
-            val actual13 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator13, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected13 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err13 = MyPrintWriter()
-            if (!expected13.equalsVerbose(actual13, true, true, buf_err13)) {
-                fail(expected13.toString() + " .. " + actual13.toString() + " .. " + buf_err13.toString() + " .. " + operator13)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple insert data named 1 - Thread - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator14 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator14, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query15 = Query(instance)
-            val graph15 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator15 = graph15.getIterator(query15, arrayOf(AOPVariable(query15, "s"), AOPVariable(query15, "p"), AOPVariable(query15, "o")), EIndexPatternExt.SPO)
-            val actual15 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator15, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected15 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err15 = MyPrintWriter()
-            if (!expected15.equalsVerbose(actual15, true, true, buf_err15)) {
-                fail(expected15.toString() + " .. " + actual15.toString() + " .. " + buf_err15.toString() + " .. " + operator15)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple insert data named 1 - Thread - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator16 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator16, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query17 = Query(instance)
-            val graph17 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator17 = graph17.getIterator(query17, arrayOf(AOPVariable(query17, "s"), AOPVariable(query17, "p"), AOPVariable(query17, "o")), EIndexPatternExt.SPO)
-            val actual17 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator17, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected17 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err17 = MyPrintWriter()
-            if (!expected17.equalsVerbose(actual17, true, true, buf_err17)) {
-                fail(expected17.toString() + " .. " + actual17.toString() + " .. " + buf_err17.toString() + " .. " + operator17)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple insert data named 1 - Thread - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator18 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator18, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query19 = Query(instance)
-            val graph19 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator19 = graph19.getIterator(query19, arrayOf(AOPVariable(query19, "s"), AOPVariable(query19, "p"), AOPVariable(query19, "o")), EIndexPatternExt.SPO)
-            val actual19 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator19, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected19 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err19 = MyPrintWriter()
-            if (!expected19.equalsVerbose(actual19, true, true, buf_err19)) {
-                fail(expected19.toString() + " .. " + actual19.toString() + " .. " + buf_err19.toString() + " .. " + operator19)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple insert data named 1 - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator20 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator20, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query21 = Query(instance)
-            val graph21 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator21 = graph21.getIterator(query21, arrayOf(AOPVariable(query21, "s"), AOPVariable(query21, "p"), AOPVariable(query21, "o")), EIndexPatternExt.SPO)
-            val actual21 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator21, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected21 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err21 = MyPrintWriter()
-            if (!expected21.equalsVerbose(actual21, true, true, buf_err21)) {
-                fail(expected21.toString() + " .. " + actual21.toString() + " .. " + buf_err21.toString() + " .. " + operator21)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple insert data named 1 - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator22 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator22, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query23 = Query(instance)
-            val graph23 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator23 = graph23.getIterator(query23, arrayOf(AOPVariable(query23, "s"), AOPVariable(query23, "p"), AOPVariable(query23, "o")), EIndexPatternExt.SPO)
-            val actual23 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator23, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected23 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err23 = MyPrintWriter()
-            if (!expected23.equalsVerbose(actual23, true, true, buf_err23)) {
-                fail(expected23.toString() + " .. " + actual23.toString() + " .. " + buf_err23.toString() + " .. " + operator23)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -359,7 +222,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -376,7 +238,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -393,7 +254,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -410,7 +270,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -427,7 +286,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -444,7 +302,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -461,7 +318,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -478,7 +334,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -495,7 +350,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -512,7 +366,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -529,7 +382,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -546,7 +398,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -563,7 +414,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -580,7 +430,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -597,7 +446,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -614,7 +462,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -631,7 +478,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -648,7 +494,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -665,7 +510,6 @@ public class Simpleinsertdatanamed1 {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple insert data named 1 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

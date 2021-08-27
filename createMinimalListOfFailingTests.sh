@@ -6,7 +6,7 @@ flag=true
 withCodeGen="false"
 withSimulator="false"
 filePrefix="./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTestIgnoreListDueTo"
-filePostfix=".kt"
+filePostfix=""
 function setInSimulator(){
 echo "setInSimulator"
 withSimulator="true"

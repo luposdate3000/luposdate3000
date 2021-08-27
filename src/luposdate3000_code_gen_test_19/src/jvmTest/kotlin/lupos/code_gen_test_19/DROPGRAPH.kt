@@ -32,6 +32,7 @@ import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -143,6 +144,8 @@ public class DROPGRAPH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `DROP GRAPH - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -218,6 +221,8 @@ public class DROPGRAPH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `DROP GRAPH - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -293,6 +298,8 @@ public class DROPGRAPH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `DROP GRAPH - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -368,6 +375,8 @@ public class DROPGRAPH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `DROP GRAPH - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -443,6 +452,8 @@ public class DROPGRAPH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `DROP GRAPH - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -518,457 +529,8 @@ public class DROPGRAPH {
             LuposdateEndpoint.close(instance)
         }
     }
-    public fun `DROP GRAPH - Thread - PartitionByIDTwiceAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[2], inputGraph[2])
-            } else {
-                TODO()
-            }
-            val query36 = Query(instance)
-            val graph36 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator36 = graph36.getIterator(query36, arrayOf(AOPVariable(query36, "s"), AOPVariable(query36, "p"), AOPVariable(query36, "o")), EIndexPatternExt.SPO)
-            val actual36 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator36, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected36 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err36 = MyPrintWriter()
-            if (!expected36.equalsVerbose(actual36, true, true, buf_err36)) {
-                fail(expected36.toString() + " .. " + actual36.toString() + " .. " + buf_err36.toString() + " .. " + operator36)
-            }
-            val query37 = Query(instance)
-            val graph37 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator37 = graph37.getIterator(query37, arrayOf(AOPVariable(query37, "s"), AOPVariable(query37, "p"), AOPVariable(query37, "o")), EIndexPatternExt.SPO)
-            val actual37 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator37, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected37 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err37 = MyPrintWriter()
-            if (!expected37.equalsVerbose(actual37, true, true, buf_err37)) {
-                fail(expected37.toString() + " .. " + actual37.toString() + " .. " + buf_err37.toString() + " .. " + operator37)
-            }
-            val query38 = Query(instance)
-            val graph38 = instance.tripleStoreManager!!.getGraph(inputGraph[2])
-            val operator38 = graph38.getIterator(query38, arrayOf(AOPVariable(query38, "s"), AOPVariable(query38, "p"), AOPVariable(query38, "o")), EIndexPatternExt.SPO)
-            val actual38 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator38, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected38 = MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!
-            val buf_err38 = MyPrintWriter()
-            if (!expected38.equalsVerbose(actual38, true, true, buf_err38)) {
-                fail(expected38.toString() + " .. " + actual38.toString() + " .. " + buf_err38.toString() + " .. " + operator38)
-            }
-            val operator39 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator39, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query40 = Query(instance)
-            val graph40 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator40 = graph40.getIterator(query40, arrayOf(AOPVariable(query40, "s"), AOPVariable(query40, "p"), AOPVariable(query40, "o")), EIndexPatternExt.SPO)
-            val actual40 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator40, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected40 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err40 = MyPrintWriter()
-            if (!expected40.equalsVerbose(actual40, true, true, buf_err40)) {
-                fail(expected40.toString() + " .. " + actual40.toString() + " .. " + buf_err40.toString() + " .. " + operator40)
-            }
-            val query41 = Query(instance)
-            val graph41 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator41 = graph41.getIterator(query41, arrayOf(AOPVariable(query41, "s"), AOPVariable(query41, "p"), AOPVariable(query41, "o")), EIndexPatternExt.SPO)
-            val actual41 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator41, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected41 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err41 = MyPrintWriter()
-            if (!expected41.equalsVerbose(actual41, true, true, buf_err41)) {
-                fail(expected41.toString() + " .. " + actual41.toString() + " .. " + buf_err41.toString() + " .. " + operator41)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `DROP GRAPH - Thread - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[2], inputGraph[2])
-            } else {
-                TODO()
-            }
-            val query42 = Query(instance)
-            val graph42 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator42 = graph42.getIterator(query42, arrayOf(AOPVariable(query42, "s"), AOPVariable(query42, "p"), AOPVariable(query42, "o")), EIndexPatternExt.SPO)
-            val actual42 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator42, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected42 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err42 = MyPrintWriter()
-            if (!expected42.equalsVerbose(actual42, true, true, buf_err42)) {
-                fail(expected42.toString() + " .. " + actual42.toString() + " .. " + buf_err42.toString() + " .. " + operator42)
-            }
-            val query43 = Query(instance)
-            val graph43 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator43 = graph43.getIterator(query43, arrayOf(AOPVariable(query43, "s"), AOPVariable(query43, "p"), AOPVariable(query43, "o")), EIndexPatternExt.SPO)
-            val actual43 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator43, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected43 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err43 = MyPrintWriter()
-            if (!expected43.equalsVerbose(actual43, true, true, buf_err43)) {
-                fail(expected43.toString() + " .. " + actual43.toString() + " .. " + buf_err43.toString() + " .. " + operator43)
-            }
-            val query44 = Query(instance)
-            val graph44 = instance.tripleStoreManager!!.getGraph(inputGraph[2])
-            val operator44 = graph44.getIterator(query44, arrayOf(AOPVariable(query44, "s"), AOPVariable(query44, "p"), AOPVariable(query44, "o")), EIndexPatternExt.SPO)
-            val actual44 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator44, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected44 = MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!
-            val buf_err44 = MyPrintWriter()
-            if (!expected44.equalsVerbose(actual44, true, true, buf_err44)) {
-                fail(expected44.toString() + " .. " + actual44.toString() + " .. " + buf_err44.toString() + " .. " + operator44)
-            }
-            val operator45 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator45, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query46 = Query(instance)
-            val graph46 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator46 = graph46.getIterator(query46, arrayOf(AOPVariable(query46, "s"), AOPVariable(query46, "p"), AOPVariable(query46, "o")), EIndexPatternExt.SPO)
-            val actual46 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator46, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected46 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err46 = MyPrintWriter()
-            if (!expected46.equalsVerbose(actual46, true, true, buf_err46)) {
-                fail(expected46.toString() + " .. " + actual46.toString() + " .. " + buf_err46.toString() + " .. " + operator46)
-            }
-            val query47 = Query(instance)
-            val graph47 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator47 = graph47.getIterator(query47, arrayOf(AOPVariable(query47, "s"), AOPVariable(query47, "p"), AOPVariable(query47, "o")), EIndexPatternExt.SPO)
-            val actual47 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator47, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected47 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err47 = MyPrintWriter()
-            if (!expected47.equalsVerbose(actual47, true, true, buf_err47)) {
-                fail(expected47.toString() + " .. " + actual47.toString() + " .. " + buf_err47.toString() + " .. " + operator47)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `DROP GRAPH - Thread - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[2], inputGraph[2])
-            } else {
-                TODO()
-            }
-            val query48 = Query(instance)
-            val graph48 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator48 = graph48.getIterator(query48, arrayOf(AOPVariable(query48, "s"), AOPVariable(query48, "p"), AOPVariable(query48, "o")), EIndexPatternExt.SPO)
-            val actual48 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator48, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected48 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err48 = MyPrintWriter()
-            if (!expected48.equalsVerbose(actual48, true, true, buf_err48)) {
-                fail(expected48.toString() + " .. " + actual48.toString() + " .. " + buf_err48.toString() + " .. " + operator48)
-            }
-            val query49 = Query(instance)
-            val graph49 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator49 = graph49.getIterator(query49, arrayOf(AOPVariable(query49, "s"), AOPVariable(query49, "p"), AOPVariable(query49, "o")), EIndexPatternExt.SPO)
-            val actual49 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator49, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected49 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err49 = MyPrintWriter()
-            if (!expected49.equalsVerbose(actual49, true, true, buf_err49)) {
-                fail(expected49.toString() + " .. " + actual49.toString() + " .. " + buf_err49.toString() + " .. " + operator49)
-            }
-            val query50 = Query(instance)
-            val graph50 = instance.tripleStoreManager!!.getGraph(inputGraph[2])
-            val operator50 = graph50.getIterator(query50, arrayOf(AOPVariable(query50, "s"), AOPVariable(query50, "p"), AOPVariable(query50, "o")), EIndexPatternExt.SPO)
-            val actual50 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator50, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected50 = MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!
-            val buf_err50 = MyPrintWriter()
-            if (!expected50.equalsVerbose(actual50, true, true, buf_err50)) {
-                fail(expected50.toString() + " .. " + actual50.toString() + " .. " + buf_err50.toString() + " .. " + operator50)
-            }
-            val operator51 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator51, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query52 = Query(instance)
-            val graph52 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator52 = graph52.getIterator(query52, arrayOf(AOPVariable(query52, "s"), AOPVariable(query52, "p"), AOPVariable(query52, "o")), EIndexPatternExt.SPO)
-            val actual52 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator52, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected52 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err52 = MyPrintWriter()
-            if (!expected52.equalsVerbose(actual52, true, true, buf_err52)) {
-                fail(expected52.toString() + " .. " + actual52.toString() + " .. " + buf_err52.toString() + " .. " + operator52)
-            }
-            val query53 = Query(instance)
-            val graph53 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator53 = graph53.getIterator(query53, arrayOf(AOPVariable(query53, "s"), AOPVariable(query53, "p"), AOPVariable(query53, "o")), EIndexPatternExt.SPO)
-            val actual53 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator53, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected53 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err53 = MyPrintWriter()
-            if (!expected53.equalsVerbose(actual53, true, true, buf_err53)) {
-                fail(expected53.toString() + " .. " + actual53.toString() + " .. " + buf_err53.toString() + " .. " + operator53)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `DROP GRAPH - Thread - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[2], inputGraph[2])
-            } else {
-                TODO()
-            }
-            val query54 = Query(instance)
-            val graph54 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator54 = graph54.getIterator(query54, arrayOf(AOPVariable(query54, "s"), AOPVariable(query54, "p"), AOPVariable(query54, "o")), EIndexPatternExt.SPO)
-            val actual54 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator54, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected54 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err54 = MyPrintWriter()
-            if (!expected54.equalsVerbose(actual54, true, true, buf_err54)) {
-                fail(expected54.toString() + " .. " + actual54.toString() + " .. " + buf_err54.toString() + " .. " + operator54)
-            }
-            val query55 = Query(instance)
-            val graph55 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator55 = graph55.getIterator(query55, arrayOf(AOPVariable(query55, "s"), AOPVariable(query55, "p"), AOPVariable(query55, "o")), EIndexPatternExt.SPO)
-            val actual55 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator55, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected55 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err55 = MyPrintWriter()
-            if (!expected55.equalsVerbose(actual55, true, true, buf_err55)) {
-                fail(expected55.toString() + " .. " + actual55.toString() + " .. " + buf_err55.toString() + " .. " + operator55)
-            }
-            val query56 = Query(instance)
-            val graph56 = instance.tripleStoreManager!!.getGraph(inputGraph[2])
-            val operator56 = graph56.getIterator(query56, arrayOf(AOPVariable(query56, "s"), AOPVariable(query56, "p"), AOPVariable(query56, "o")), EIndexPatternExt.SPO)
-            val actual56 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator56, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected56 = MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!
-            val buf_err56 = MyPrintWriter()
-            if (!expected56.equalsVerbose(actual56, true, true, buf_err56)) {
-                fail(expected56.toString() + " .. " + actual56.toString() + " .. " + buf_err56.toString() + " .. " + operator56)
-            }
-            val operator57 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator57, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query58 = Query(instance)
-            val graph58 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator58 = graph58.getIterator(query58, arrayOf(AOPVariable(query58, "s"), AOPVariable(query58, "p"), AOPVariable(query58, "o")), EIndexPatternExt.SPO)
-            val actual58 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator58, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected58 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err58 = MyPrintWriter()
-            if (!expected58.equalsVerbose(actual58, true, true, buf_err58)) {
-                fail(expected58.toString() + " .. " + actual58.toString() + " .. " + buf_err58.toString() + " .. " + operator58)
-            }
-            val query59 = Query(instance)
-            val graph59 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator59 = graph59.getIterator(query59, arrayOf(AOPVariable(query59, "s"), AOPVariable(query59, "p"), AOPVariable(query59, "o")), EIndexPatternExt.SPO)
-            val actual59 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator59, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected59 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err59 = MyPrintWriter()
-            if (!expected59.equalsVerbose(actual59, true, true, buf_err59)) {
-                fail(expected59.toString() + " .. " + actual59.toString() + " .. " + buf_err59.toString() + " .. " + operator59)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `DROP GRAPH - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[2], inputGraph[2])
-            } else {
-                TODO()
-            }
-            val query60 = Query(instance)
-            val graph60 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator60 = graph60.getIterator(query60, arrayOf(AOPVariable(query60, "s"), AOPVariable(query60, "p"), AOPVariable(query60, "o")), EIndexPatternExt.SPO)
-            val actual60 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator60, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected60 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err60 = MyPrintWriter()
-            if (!expected60.equalsVerbose(actual60, true, true, buf_err60)) {
-                fail(expected60.toString() + " .. " + actual60.toString() + " .. " + buf_err60.toString() + " .. " + operator60)
-            }
-            val query61 = Query(instance)
-            val graph61 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator61 = graph61.getIterator(query61, arrayOf(AOPVariable(query61, "s"), AOPVariable(query61, "p"), AOPVariable(query61, "o")), EIndexPatternExt.SPO)
-            val actual61 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator61, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected61 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err61 = MyPrintWriter()
-            if (!expected61.equalsVerbose(actual61, true, true, buf_err61)) {
-                fail(expected61.toString() + " .. " + actual61.toString() + " .. " + buf_err61.toString() + " .. " + operator61)
-            }
-            val query62 = Query(instance)
-            val graph62 = instance.tripleStoreManager!!.getGraph(inputGraph[2])
-            val operator62 = graph62.getIterator(query62, arrayOf(AOPVariable(query62, "s"), AOPVariable(query62, "p"), AOPVariable(query62, "o")), EIndexPatternExt.SPO)
-            val actual62 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator62, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected62 = MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!
-            val buf_err62 = MyPrintWriter()
-            if (!expected62.equalsVerbose(actual62, true, true, buf_err62)) {
-                fail(expected62.toString() + " .. " + actual62.toString() + " .. " + buf_err62.toString() + " .. " + operator62)
-            }
-            val operator63 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator63, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query64 = Query(instance)
-            val graph64 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator64 = graph64.getIterator(query64, arrayOf(AOPVariable(query64, "s"), AOPVariable(query64, "p"), AOPVariable(query64, "o")), EIndexPatternExt.SPO)
-            val actual64 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator64, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected64 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err64 = MyPrintWriter()
-            if (!expected64.equalsVerbose(actual64, true, true, buf_err64)) {
-                fail(expected64.toString() + " .. " + actual64.toString() + " .. " + buf_err64.toString() + " .. " + operator64)
-            }
-            val query65 = Query(instance)
-            val graph65 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator65 = graph65.getIterator(query65, arrayOf(AOPVariable(query65, "s"), AOPVariable(query65, "p"), AOPVariable(query65, "o")), EIndexPatternExt.SPO)
-            val actual65 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator65, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected65 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err65 = MyPrintWriter()
-            if (!expected65.equalsVerbose(actual65, true, true, buf_err65)) {
-                fail(expected65.toString() + " .. " + actual65.toString() + " .. " + buf_err65.toString() + " .. " + operator65)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `DROP GRAPH - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[2], inputGraph[2])
-            } else {
-                TODO()
-            }
-            val query66 = Query(instance)
-            val graph66 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator66 = graph66.getIterator(query66, arrayOf(AOPVariable(query66, "s"), AOPVariable(query66, "p"), AOPVariable(query66, "o")), EIndexPatternExt.SPO)
-            val actual66 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator66, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected66 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err66 = MyPrintWriter()
-            if (!expected66.equalsVerbose(actual66, true, true, buf_err66)) {
-                fail(expected66.toString() + " .. " + actual66.toString() + " .. " + buf_err66.toString() + " .. " + operator66)
-            }
-            val query67 = Query(instance)
-            val graph67 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator67 = graph67.getIterator(query67, arrayOf(AOPVariable(query67, "s"), AOPVariable(query67, "p"), AOPVariable(query67, "o")), EIndexPatternExt.SPO)
-            val actual67 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator67, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected67 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err67 = MyPrintWriter()
-            if (!expected67.equalsVerbose(actual67, true, true, buf_err67)) {
-                fail(expected67.toString() + " .. " + actual67.toString() + " .. " + buf_err67.toString() + " .. " + operator67)
-            }
-            val query68 = Query(instance)
-            val graph68 = instance.tripleStoreManager!!.getGraph(inputGraph[2])
-            val operator68 = graph68.getIterator(query68, arrayOf(AOPVariable(query68, "s"), AOPVariable(query68, "p"), AOPVariable(query68, "o")), EIndexPatternExt.SPO)
-            val actual68 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator68, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected68 = MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!
-            val buf_err68 = MyPrintWriter()
-            if (!expected68.equalsVerbose(actual68, true, true, buf_err68)) {
-                fail(expected68.toString() + " .. " + actual68.toString() + " .. " + buf_err68.toString() + " .. " + operator68)
-            }
-            val operator69 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator69, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query70 = Query(instance)
-            val graph70 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator70 = graph70.getIterator(query70, arrayOf(AOPVariable(query70, "s"), AOPVariable(query70, "p"), AOPVariable(query70, "o")), EIndexPatternExt.SPO)
-            val actual70 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator70, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected70 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err70 = MyPrintWriter()
-            if (!expected70.equalsVerbose(actual70, true, true, buf_err70)) {
-                fail(expected70.toString() + " .. " + actual70.toString() + " .. " + buf_err70.toString() + " .. " + operator70)
-            }
-            val query71 = Query(instance)
-            val graph71 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator71 = graph71.getIterator(query71, arrayOf(AOPVariable(query71, "s"), AOPVariable(query71, "p"), AOPVariable(query71, "o")), EIndexPatternExt.SPO)
-            val actual71 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator71, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected71 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err71 = MyPrintWriter()
-            if (!expected71.equalsVerbose(actual71, true, true, buf_err71)) {
-                fail(expected71.toString() + " .. " + actual71.toString() + " .. " + buf_err71.toString() + " .. " + operator71)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -984,6 +546,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -999,6 +562,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -1014,6 +578,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -1029,6 +594,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -1044,6 +610,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -1059,6 +626,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -1074,6 +642,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -1089,6 +658,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -1104,6 +674,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -1119,6 +690,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -1134,6 +706,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -1149,6 +722,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -1164,6 +738,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -1179,6 +754,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1194,6 +770,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1209,6 +786,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1224,6 +802,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -1239,6 +818,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -1254,6 +834,7 @@ public class DROPGRAPH {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `DROP GRAPH - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

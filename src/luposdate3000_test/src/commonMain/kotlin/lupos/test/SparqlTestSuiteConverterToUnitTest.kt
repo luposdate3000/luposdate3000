@@ -340,6 +340,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                             if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
                                 continue
                             }
+                            if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Thread]) {
+                                continue // because junit fails to abort these
+                            }
                             if (!useCodeGen) {
                                 if (ignored) {
                                     val reason = ignoreList[testCaseName]

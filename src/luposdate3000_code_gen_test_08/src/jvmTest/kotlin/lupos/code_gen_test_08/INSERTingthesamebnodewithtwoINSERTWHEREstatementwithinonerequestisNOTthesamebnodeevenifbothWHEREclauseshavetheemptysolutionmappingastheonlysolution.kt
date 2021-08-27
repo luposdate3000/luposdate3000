@@ -78,8 +78,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
         "DROP GRAPH :g2 \n" +
         ""
 
-    @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -128,6 +126,8 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -175,6 +175,8 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -222,6 +224,8 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -269,6 +273,8 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -316,6 +322,8 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -363,291 +371,8 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
             LuposdateEndpoint.close(instance)
         }
     }
-    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - PartitionByIDTwiceAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query24 = Query(instance)
-            val graph24 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator24 = graph24.getIterator(query24, arrayOf(AOPVariable(query24, "s"), AOPVariable(query24, "p"), AOPVariable(query24, "o")), EIndexPatternExt.SPO)
-            val actual24 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator24, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected24 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err24 = MyPrintWriter()
-            if (!expected24.equalsVerbose(actual24, true, true, buf_err24)) {
-                fail(expected24.toString() + " .. " + actual24.toString() + " .. " + buf_err24.toString() + " .. " + operator24)
-            }
-            val operator25 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator25, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query26 = Query(instance)
-            val graph26 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator26 = graph26.getIterator(query26, arrayOf(AOPVariable(query26, "s"), AOPVariable(query26, "p"), AOPVariable(query26, "o")), EIndexPatternExt.SPO)
-            val actual26 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator26, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected26 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err26 = MyPrintWriter()
-            if (!expected26.equalsVerbose(actual26, true, true, buf_err26)) {
-                fail(expected26.toString() + " .. " + actual26.toString() + " .. " + buf_err26.toString() + " .. " + operator26)
-            }
-            val query27 = Query(instance)
-            val graph27 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator27 = graph27.getIterator(query27, arrayOf(AOPVariable(query27, "s"), AOPVariable(query27, "p"), AOPVariable(query27, "o")), EIndexPatternExt.SPO)
-            val actual27 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator27, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected27 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err27 = MyPrintWriter()
-            if (!expected27.equalsVerbose(actual27, true, true, buf_err27)) {
-                fail(expected27.toString() + " .. " + actual27.toString() + " .. " + buf_err27.toString() + " .. " + operator27)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query28 = Query(instance)
-            val graph28 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator28 = graph28.getIterator(query28, arrayOf(AOPVariable(query28, "s"), AOPVariable(query28, "p"), AOPVariable(query28, "o")), EIndexPatternExt.SPO)
-            val actual28 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator28, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected28 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err28 = MyPrintWriter()
-            if (!expected28.equalsVerbose(actual28, true, true, buf_err28)) {
-                fail(expected28.toString() + " .. " + actual28.toString() + " .. " + buf_err28.toString() + " .. " + operator28)
-            }
-            val operator29 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator29, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query30 = Query(instance)
-            val graph30 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator30 = graph30.getIterator(query30, arrayOf(AOPVariable(query30, "s"), AOPVariable(query30, "p"), AOPVariable(query30, "o")), EIndexPatternExt.SPO)
-            val actual30 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator30, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected30 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err30 = MyPrintWriter()
-            if (!expected30.equalsVerbose(actual30, true, true, buf_err30)) {
-                fail(expected30.toString() + " .. " + actual30.toString() + " .. " + buf_err30.toString() + " .. " + operator30)
-            }
-            val query31 = Query(instance)
-            val graph31 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator31 = graph31.getIterator(query31, arrayOf(AOPVariable(query31, "s"), AOPVariable(query31, "p"), AOPVariable(query31, "o")), EIndexPatternExt.SPO)
-            val actual31 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator31, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected31 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err31 = MyPrintWriter()
-            if (!expected31.equalsVerbose(actual31, true, true, buf_err31)) {
-                fail(expected31.toString() + " .. " + actual31.toString() + " .. " + buf_err31.toString() + " .. " + operator31)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query32 = Query(instance)
-            val graph32 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator32 = graph32.getIterator(query32, arrayOf(AOPVariable(query32, "s"), AOPVariable(query32, "p"), AOPVariable(query32, "o")), EIndexPatternExt.SPO)
-            val actual32 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator32, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected32 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err32 = MyPrintWriter()
-            if (!expected32.equalsVerbose(actual32, true, true, buf_err32)) {
-                fail(expected32.toString() + " .. " + actual32.toString() + " .. " + buf_err32.toString() + " .. " + operator32)
-            }
-            val operator33 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator33, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query34 = Query(instance)
-            val graph34 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator34 = graph34.getIterator(query34, arrayOf(AOPVariable(query34, "s"), AOPVariable(query34, "p"), AOPVariable(query34, "o")), EIndexPatternExt.SPO)
-            val actual34 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator34, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected34 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err34 = MyPrintWriter()
-            if (!expected34.equalsVerbose(actual34, true, true, buf_err34)) {
-                fail(expected34.toString() + " .. " + actual34.toString() + " .. " + buf_err34.toString() + " .. " + operator34)
-            }
-            val query35 = Query(instance)
-            val graph35 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator35 = graph35.getIterator(query35, arrayOf(AOPVariable(query35, "s"), AOPVariable(query35, "p"), AOPVariable(query35, "o")), EIndexPatternExt.SPO)
-            val actual35 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator35, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected35 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err35 = MyPrintWriter()
-            if (!expected35.equalsVerbose(actual35, true, true, buf_err35)) {
-                fail(expected35.toString() + " .. " + actual35.toString() + " .. " + buf_err35.toString() + " .. " + operator35)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query36 = Query(instance)
-            val graph36 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator36 = graph36.getIterator(query36, arrayOf(AOPVariable(query36, "s"), AOPVariable(query36, "p"), AOPVariable(query36, "o")), EIndexPatternExt.SPO)
-            val actual36 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator36, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected36 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err36 = MyPrintWriter()
-            if (!expected36.equalsVerbose(actual36, true, true, buf_err36)) {
-                fail(expected36.toString() + " .. " + actual36.toString() + " .. " + buf_err36.toString() + " .. " + operator36)
-            }
-            val operator37 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator37, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query38 = Query(instance)
-            val graph38 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator38 = graph38.getIterator(query38, arrayOf(AOPVariable(query38, "s"), AOPVariable(query38, "p"), AOPVariable(query38, "o")), EIndexPatternExt.SPO)
-            val actual38 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator38, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected38 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err38 = MyPrintWriter()
-            if (!expected38.equalsVerbose(actual38, true, true, buf_err38)) {
-                fail(expected38.toString() + " .. " + actual38.toString() + " .. " + buf_err38.toString() + " .. " + operator38)
-            }
-            val query39 = Query(instance)
-            val graph39 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator39 = graph39.getIterator(query39, arrayOf(AOPVariable(query39, "s"), AOPVariable(query39, "p"), AOPVariable(query39, "o")), EIndexPatternExt.SPO)
-            val actual39 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator39, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected39 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err39 = MyPrintWriter()
-            if (!expected39.equalsVerbose(actual39, true, true, buf_err39)) {
-                fail(expected39.toString() + " .. " + actual39.toString() + " .. " + buf_err39.toString() + " .. " + operator39)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query40 = Query(instance)
-            val graph40 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator40 = graph40.getIterator(query40, arrayOf(AOPVariable(query40, "s"), AOPVariable(query40, "p"), AOPVariable(query40, "o")), EIndexPatternExt.SPO)
-            val actual40 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator40, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected40 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err40 = MyPrintWriter()
-            if (!expected40.equalsVerbose(actual40, true, true, buf_err40)) {
-                fail(expected40.toString() + " .. " + actual40.toString() + " .. " + buf_err40.toString() + " .. " + operator40)
-            }
-            val operator41 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator41, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query42 = Query(instance)
-            val graph42 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator42 = graph42.getIterator(query42, arrayOf(AOPVariable(query42, "s"), AOPVariable(query42, "p"), AOPVariable(query42, "o")), EIndexPatternExt.SPO)
-            val actual42 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator42, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected42 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err42 = MyPrintWriter()
-            if (!expected42.equalsVerbose(actual42, true, true, buf_err42)) {
-                fail(expected42.toString() + " .. " + actual42.toString() + " .. " + buf_err42.toString() + " .. " + operator42)
-            }
-            val query43 = Query(instance)
-            val graph43 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator43 = graph43.getIterator(query43, arrayOf(AOPVariable(query43, "s"), AOPVariable(query43, "p"), AOPVariable(query43, "o")), EIndexPatternExt.SPO)
-            val actual43 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator43, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected43 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err43 = MyPrintWriter()
-            if (!expected43.equalsVerbose(actual43, true, true, buf_err43)) {
-                fail(expected43.toString() + " .. " + actual43.toString() + " .. " + buf_err43.toString() + " .. " + operator43)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query44 = Query(instance)
-            val graph44 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator44 = graph44.getIterator(query44, arrayOf(AOPVariable(query44, "s"), AOPVariable(query44, "p"), AOPVariable(query44, "o")), EIndexPatternExt.SPO)
-            val actual44 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator44, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected44 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err44 = MyPrintWriter()
-            if (!expected44.equalsVerbose(actual44, true, true, buf_err44)) {
-                fail(expected44.toString() + " .. " + actual44.toString() + " .. " + buf_err44.toString() + " .. " + operator44)
-            }
-            val operator45 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator45, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query46 = Query(instance)
-            val graph46 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator46 = graph46.getIterator(query46, arrayOf(AOPVariable(query46, "s"), AOPVariable(query46, "p"), AOPVariable(query46, "o")), EIndexPatternExt.SPO)
-            val actual46 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator46, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected46 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err46 = MyPrintWriter()
-            if (!expected46.equalsVerbose(actual46, true, true, buf_err46)) {
-                fail(expected46.toString() + " .. " + actual46.toString() + " .. " + buf_err46.toString() + " .. " + operator46)
-            }
-            val query47 = Query(instance)
-            val graph47 = instance.tripleStoreManager!!.getGraph(outputGraph[1])
-            val operator47 = graph47.getIterator(query47, arrayOf(AOPVariable(query47, "s"), AOPVariable(query47, "p"), AOPVariable(query47, "o")), EIndexPatternExt.SPO)
-            val actual47 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator47, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected47 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
-            val buf_err47 = MyPrintWriter()
-            if (!expected47.equalsVerbose(actual47, true, true, buf_err47)) {
-                fail(expected47.toString() + " .. " + actual47.toString() + " .. " + buf_err47.toString() + " .. " + operator47)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -664,7 +389,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -681,7 +405,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -698,7 +421,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -715,7 +437,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -732,7 +453,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -749,7 +469,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -766,7 +485,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -783,7 +501,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -800,7 +517,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -817,7 +533,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -834,7 +549,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -851,7 +565,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -868,7 +581,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -885,7 +597,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -902,7 +613,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -919,7 +629,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -936,7 +645,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -953,7 +661,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -970,7 +677,6 @@ public class INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisN
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

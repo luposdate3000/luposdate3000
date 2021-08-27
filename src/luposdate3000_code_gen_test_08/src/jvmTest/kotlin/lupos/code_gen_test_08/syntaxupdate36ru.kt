@@ -49,6 +49,10 @@ public class syntaxupdate36ru {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdate36ru - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -63,6 +67,10 @@ public class syntaxupdate36ru {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdate36ru - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -77,6 +85,10 @@ public class syntaxupdate36ru {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdate36ru - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -91,6 +103,10 @@ public class syntaxupdate36ru {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdate36ru - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -105,6 +121,10 @@ public class syntaxupdate36ru {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Ignore
+    // Reason: >Bug in Error-detection during Query-Parsing<
+    @Test(timeout = 2000)
     public fun `syntaxupdate36ru - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -115,90 +135,6 @@ public class syntaxupdate36ru {
             instance = LuposdateEndpoint.initializeB(instance)
             val buf = MyPrintWriter(false)
             val operator5 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator6 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator7 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `syntaxupdate36ru - Thread - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator8 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `syntaxupdate36ru - Thread - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator9 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `syntaxupdate36ru - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator10 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `syntaxupdate36ru - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator11 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         } finally {
             LuposdateEndpoint.close(instance)
         }

@@ -69,8 +69,6 @@ public class SimpleDELETE3WITH {
         "} \n" +
         ""
 
-    @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -110,6 +108,8 @@ public class SimpleDELETE3WITH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -148,6 +148,8 @@ public class SimpleDELETE3WITH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -186,6 +188,8 @@ public class SimpleDELETE3WITH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -224,6 +228,8 @@ public class SimpleDELETE3WITH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -262,6 +268,8 @@ public class SimpleDELETE3WITH {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -300,237 +308,8 @@ public class SimpleDELETE3WITH {
             LuposdateEndpoint.close(instance)
         }
     }
-    public fun `Simple DELETE 3 WITH - Thread - PartitionByIDTwiceAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query18 = Query(instance)
-            val graph18 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator18 = graph18.getIterator(query18, arrayOf(AOPVariable(query18, "s"), AOPVariable(query18, "p"), AOPVariable(query18, "o")), EIndexPatternExt.SPO)
-            val actual18 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator18, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected18 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err18 = MyPrintWriter()
-            if (!expected18.equalsVerbose(actual18, true, true, buf_err18)) {
-                fail(expected18.toString() + " .. " + actual18.toString() + " .. " + buf_err18.toString() + " .. " + operator18)
-            }
-            val operator19 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator19, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query20 = Query(instance)
-            val graph20 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator20 = graph20.getIterator(query20, arrayOf(AOPVariable(query20, "s"), AOPVariable(query20, "p"), AOPVariable(query20, "o")), EIndexPatternExt.SPO)
-            val actual20 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator20, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected20 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err20 = MyPrintWriter()
-            if (!expected20.equalsVerbose(actual20, true, true, buf_err20)) {
-                fail(expected20.toString() + " .. " + actual20.toString() + " .. " + buf_err20.toString() + " .. " + operator20)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple DELETE 3 WITH - Thread - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query21 = Query(instance)
-            val graph21 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator21 = graph21.getIterator(query21, arrayOf(AOPVariable(query21, "s"), AOPVariable(query21, "p"), AOPVariable(query21, "o")), EIndexPatternExt.SPO)
-            val actual21 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator21, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected21 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err21 = MyPrintWriter()
-            if (!expected21.equalsVerbose(actual21, true, true, buf_err21)) {
-                fail(expected21.toString() + " .. " + actual21.toString() + " .. " + buf_err21.toString() + " .. " + operator21)
-            }
-            val operator22 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator22, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query23 = Query(instance)
-            val graph23 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator23 = graph23.getIterator(query23, arrayOf(AOPVariable(query23, "s"), AOPVariable(query23, "p"), AOPVariable(query23, "o")), EIndexPatternExt.SPO)
-            val actual23 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator23, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected23 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err23 = MyPrintWriter()
-            if (!expected23.equalsVerbose(actual23, true, true, buf_err23)) {
-                fail(expected23.toString() + " .. " + actual23.toString() + " .. " + buf_err23.toString() + " .. " + operator23)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple DELETE 3 WITH - Thread - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query24 = Query(instance)
-            val graph24 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator24 = graph24.getIterator(query24, arrayOf(AOPVariable(query24, "s"), AOPVariable(query24, "p"), AOPVariable(query24, "o")), EIndexPatternExt.SPO)
-            val actual24 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator24, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected24 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err24 = MyPrintWriter()
-            if (!expected24.equalsVerbose(actual24, true, true, buf_err24)) {
-                fail(expected24.toString() + " .. " + actual24.toString() + " .. " + buf_err24.toString() + " .. " + operator24)
-            }
-            val operator25 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator25, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query26 = Query(instance)
-            val graph26 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator26 = graph26.getIterator(query26, arrayOf(AOPVariable(query26, "s"), AOPVariable(query26, "p"), AOPVariable(query26, "o")), EIndexPatternExt.SPO)
-            val actual26 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator26, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected26 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err26 = MyPrintWriter()
-            if (!expected26.equalsVerbose(actual26, true, true, buf_err26)) {
-                fail(expected26.toString() + " .. " + actual26.toString() + " .. " + buf_err26.toString() + " .. " + operator26)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple DELETE 3 WITH - Thread - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query27 = Query(instance)
-            val graph27 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator27 = graph27.getIterator(query27, arrayOf(AOPVariable(query27, "s"), AOPVariable(query27, "p"), AOPVariable(query27, "o")), EIndexPatternExt.SPO)
-            val actual27 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator27, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected27 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err27 = MyPrintWriter()
-            if (!expected27.equalsVerbose(actual27, true, true, buf_err27)) {
-                fail(expected27.toString() + " .. " + actual27.toString() + " .. " + buf_err27.toString() + " .. " + operator27)
-            }
-            val operator28 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator28, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query29 = Query(instance)
-            val graph29 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator29 = graph29.getIterator(query29, arrayOf(AOPVariable(query29, "s"), AOPVariable(query29, "p"), AOPVariable(query29, "o")), EIndexPatternExt.SPO)
-            val actual29 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator29, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected29 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err29 = MyPrintWriter()
-            if (!expected29.equalsVerbose(actual29, true, true, buf_err29)) {
-                fail(expected29.toString() + " .. " + actual29.toString() + " .. " + buf_err29.toString() + " .. " + operator29)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple DELETE 3 WITH - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query30 = Query(instance)
-            val graph30 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator30 = graph30.getIterator(query30, arrayOf(AOPVariable(query30, "s"), AOPVariable(query30, "p"), AOPVariable(query30, "o")), EIndexPatternExt.SPO)
-            val actual30 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator30, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected30 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err30 = MyPrintWriter()
-            if (!expected30.equalsVerbose(actual30, true, true, buf_err30)) {
-                fail(expected30.toString() + " .. " + actual30.toString() + " .. " + buf_err30.toString() + " .. " + operator30)
-            }
-            val operator31 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator31, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query32 = Query(instance)
-            val graph32 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator32 = graph32.getIterator(query32, arrayOf(AOPVariable(query32, "s"), AOPVariable(query32, "p"), AOPVariable(query32, "o")), EIndexPatternExt.SPO)
-            val actual32 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator32, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected32 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err32 = MyPrintWriter()
-            if (!expected32.equalsVerbose(actual32, true, true, buf_err32)) {
-                fail(expected32.toString() + " .. " + actual32.toString() + " .. " + buf_err32.toString() + " .. " + operator32)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `Simple DELETE 3 WITH - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query33 = Query(instance)
-            val graph33 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator33 = graph33.getIterator(query33, arrayOf(AOPVariable(query33, "s"), AOPVariable(query33, "p"), AOPVariable(query33, "o")), EIndexPatternExt.SPO)
-            val actual33 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator33, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected33 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err33 = MyPrintWriter()
-            if (!expected33.equalsVerbose(actual33, true, true, buf_err33)) {
-                fail(expected33.toString() + " .. " + actual33.toString() + " .. " + buf_err33.toString() + " .. " + operator33)
-            }
-            val operator34 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator34, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query35 = Query(instance)
-            val graph35 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator35 = graph35.getIterator(query35, arrayOf(AOPVariable(query35, "s"), AOPVariable(query35, "p"), AOPVariable(query35, "o")), EIndexPatternExt.SPO)
-            val actual35 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator35, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected35 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err35 = MyPrintWriter()
-            if (!expected35.equalsVerbose(actual35, true, true, buf_err35)) {
-                fail(expected35.toString() + " .. " + actual35.toString() + " .. " + buf_err35.toString() + " .. " + operator35)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -547,7 +326,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -564,7 +342,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -581,7 +358,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -598,7 +374,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -615,7 +390,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -632,7 +406,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -649,7 +422,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -666,7 +438,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -683,7 +454,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -700,7 +470,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -717,7 +486,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -734,7 +502,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -751,7 +518,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -768,7 +534,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -785,7 +550,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -802,7 +566,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -819,7 +582,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -836,7 +598,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -853,7 +614,6 @@ public class SimpleDELETE3WITH {
     }
 
     @Ignore
-    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 WITH - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

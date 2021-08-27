@@ -31,6 +31,7 @@ import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.SimulationRun
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -91,6 +92,8 @@ public class resourcesmyqueriesoptional10sparql5 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -125,6 +128,8 @@ public class resourcesmyqueriesoptional10sparql5 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -159,6 +164,8 @@ public class resourcesmyqueriesoptional10sparql5 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -193,6 +200,8 @@ public class resourcesmyqueriesoptional10sparql5 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -227,6 +236,8 @@ public class resourcesmyqueriesoptional10sparql5 {
             LuposdateEndpoint.close(instance)
         }
     }
+
+    @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -261,211 +272,8 @@ public class resourcesmyqueriesoptional10sparql5 {
             LuposdateEndpoint.close(instance)
         }
     }
-    public fun `resourcesmyqueriesoptional10sparql5 - Thread - PartitionByIDTwiceAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query12 = Query(instance)
-            val graph12 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator12 = graph12.getIterator(query12, arrayOf(AOPVariable(query12, "s"), AOPVariable(query12, "p"), AOPVariable(query12, "o")), EIndexPatternExt.SPO)
-            val actual12 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator12, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected12 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err12 = MyPrintWriter()
-            if (!expected12.equalsVerbose(actual12, true, true, buf_err12)) {
-                fail(expected12.toString() + " .. " + actual12.toString() + " .. " + buf_err12.toString() + " .. " + operator12)
-            }
-            val operator13 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual13 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator13, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected13 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err13 = MyPrintWriter()
-            if (!expected13.equalsVerbose(actual13, true, true, buf_err13)) {
-                fail(expected13.toString() + " .. " + actual13.toString() + " .. " + buf_err13.toString() + " .. " + operator13)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `resourcesmyqueriesoptional10sparql5 - Thread - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query14 = Query(instance)
-            val graph14 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator14 = graph14.getIterator(query14, arrayOf(AOPVariable(query14, "s"), AOPVariable(query14, "p"), AOPVariable(query14, "o")), EIndexPatternExt.SPO)
-            val actual14 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator14, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected14 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err14 = MyPrintWriter()
-            if (!expected14.equalsVerbose(actual14, true, true, buf_err14)) {
-                fail(expected14.toString() + " .. " + actual14.toString() + " .. " + buf_err14.toString() + " .. " + operator14)
-            }
-            val operator15 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual15 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator15, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected15 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err15 = MyPrintWriter()
-            if (!expected15.equalsVerbose(actual15, true, true, buf_err15)) {
-                fail(expected15.toString() + " .. " + actual15.toString() + " .. " + buf_err15.toString() + " .. " + operator15)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `resourcesmyqueriesoptional10sparql5 - Thread - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query16 = Query(instance)
-            val graph16 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator16 = graph16.getIterator(query16, arrayOf(AOPVariable(query16, "s"), AOPVariable(query16, "p"), AOPVariable(query16, "o")), EIndexPatternExt.SPO)
-            val actual16 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator16, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected16 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err16 = MyPrintWriter()
-            if (!expected16.equalsVerbose(actual16, true, true, buf_err16)) {
-                fail(expected16.toString() + " .. " + actual16.toString() + " .. " + buf_err16.toString() + " .. " + operator16)
-            }
-            val operator17 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual17 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator17, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected17 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err17 = MyPrintWriter()
-            if (!expected17.equalsVerbose(actual17, true, true, buf_err17)) {
-                fail(expected17.toString() + " .. " + actual17.toString() + " .. " + buf_err17.toString() + " .. " + operator17)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `resourcesmyqueriesoptional10sparql5 - Thread - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query18 = Query(instance)
-            val graph18 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator18 = graph18.getIterator(query18, arrayOf(AOPVariable(query18, "s"), AOPVariable(query18, "p"), AOPVariable(query18, "o")), EIndexPatternExt.SPO)
-            val actual18 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator18, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected18 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err18 = MyPrintWriter()
-            if (!expected18.equalsVerbose(actual18, true, true, buf_err18)) {
-                fail(expected18.toString() + " .. " + actual18.toString() + " .. " + buf_err18.toString() + " .. " + operator18)
-            }
-            val operator19 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual19 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator19, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected19 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err19 = MyPrintWriter()
-            if (!expected19.equalsVerbose(actual19, true, true, buf_err19)) {
-                fail(expected19.toString() + " .. " + actual19.toString() + " .. " + buf_err19.toString() + " .. " + operator19)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `resourcesmyqueriesoptional10sparql5 - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query20 = Query(instance)
-            val graph20 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator20 = graph20.getIterator(query20, arrayOf(AOPVariable(query20, "s"), AOPVariable(query20, "p"), AOPVariable(query20, "o")), EIndexPatternExt.SPO)
-            val actual20 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator20, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected20 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err20 = MyPrintWriter()
-            if (!expected20.equalsVerbose(actual20, true, true, buf_err20)) {
-                fail(expected20.toString() + " .. " + actual20.toString() + " .. " + buf_err20.toString() + " .. " + operator20)
-            }
-            val operator21 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual21 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator21, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected21 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err21 = MyPrintWriter()
-            if (!expected21.equalsVerbose(actual21, true, true, buf_err21)) {
-                fail(expected21.toString() + " .. " + actual21.toString() + " .. " + buf_err21.toString() + " .. " + operator21)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-    public fun `resourcesmyqueriesoptional10sparql5 - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query22 = Query(instance)
-            val graph22 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator22 = graph22.getIterator(query22, arrayOf(AOPVariable(query22, "s"), AOPVariable(query22, "p"), AOPVariable(query22, "o")), EIndexPatternExt.SPO)
-            val actual22 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator22, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected22 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err22 = MyPrintWriter()
-            if (!expected22.equalsVerbose(actual22, true, true, buf_err22)) {
-                fail(expected22.toString() + " .. " + actual22.toString() + " .. " + buf_err22.toString() + " .. " + operator22)
-            }
-            val operator23 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual23 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator23, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected23 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err23 = MyPrintWriter()
-            if (!expected23.equalsVerbose(actual23, true, true, buf_err23)) {
-                fail(expected23.toString() + " .. " + actual23.toString() + " .. " + buf_err23.toString() + " .. " + operator23)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -481,6 +289,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -496,6 +305,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -511,6 +321,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -526,6 +337,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -541,6 +353,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -556,6 +369,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -571,6 +385,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -586,6 +401,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -601,6 +417,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -616,6 +433,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -631,6 +449,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -646,6 +465,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -661,6 +481,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -676,6 +497,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -691,6 +513,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -706,6 +529,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -721,6 +545,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -736,6 +561,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -751,6 +577,7 @@ public class resourcesmyqueriesoptional10sparql5 {
         )
     }
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `resourcesmyqueriesoptional10sparql5 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
