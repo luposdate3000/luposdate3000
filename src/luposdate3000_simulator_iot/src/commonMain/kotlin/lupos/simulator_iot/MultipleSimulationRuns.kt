@@ -16,17 +16,17 @@
  */
 
 package lupos.simulator_iot
-
 import lupos.parser.JsonParserObject
-import lupos.simulator_db.ILogger
-import lupos.simulator_iot.measure.MeasurementPrinter
+import lupos.shared.inline.File
+import kotlin.math.sqrt
 internal class MultipleSimulationRuns(
     private val json: JsonParserObject,
     private val numberOfRepetitions: Int,
-    private val printer: MeasurementPrinter
 ) {
-
-    private val loggers: MutableList<ILogger> = mutableListOf()
+    init {
+        json.getOrEmptyObject("logging").getOrEmptyObject("measure").set("enabled", true)
+    }
+    private val measurements: MutableList<LoggerMeasure> = mutableListOf()
 
     internal fun startSimulationRuns() {
         for (repetition in 1..numberOfRepetitions) {
@@ -39,10 +39,60 @@ internal class MultipleSimulationRuns(
         val simRun = SimulationRun()
         val config = simRun.parseConfig(json, "", false)
         simRun.startSimulation(config)
-        loggers.add(simRun.logger)
+        for (logger in simRun.logger.loggers) {
+            if (logger is LoggerMeasure) {
+                measurements.add(logger)
+            }
+        }
     }
 
     private fun evaluate() {
-// TODO
+        fun appendLineToFile(f: File, l: String, append: Boolean) {
+            val stream = f.openOutputStream(append)
+            stream.println(l)
+            stream.close()
+        }
+        if (measurements.size> 0) {
+            val firstLogger = measurements.first()
+            val outputDirectory = json.getOrDefault("outputDirectory", "simulation_output")
+            File(outputDirectory).mkdirs()
+            val fileAvg = File(outputDirectory + "/average.csv")
+            val fileDev = File(outputDirectory + "/deviation.csv")
+            val fileDevp = File(outputDirectory + "/deviationPercent.csv")
+            if (!fileAvg.exists()) {
+                appendLineToFile(fileAvg, firstLogger.headers.toList().joinToString(","), false)
+            }
+            if (!fileDev.exists()) {
+                appendLineToFile(fileDev, firstLogger.headers.toList().joinToString(","), false)
+            }
+            if (!fileDevp.exists()) {
+                appendLineToFile(fileDevp, firstLogger.headers.toList().joinToString(","), false)
+            }
+            val dataAvg = DoubleArray(LoggerMeasure.StatCounter)
+            val dataDev = DoubleArray(LoggerMeasure.StatCounter)
+            val dataDevp = DoubleArray(LoggerMeasure.StatCounter)
+            for (i in 0 until LoggerMeasure.StatCounter) {
+                var sum = 0.0
+                for (m in measurements) {
+                    sum += m.data[i]
+                }
+                val avg = sum / measurements.size
+                var dev = 0.0
+                for (m in measurements) {
+                    dev += (m.data[i] - avg) * (m.data[i] - avg)
+                }
+                val devPercent = if (avg == 0.0) {
+                    0.0
+                } else {
+                    sqrt(dev / measurements.size) * 100 / avg
+                }
+                dataAvg[i] = avg
+                dataDev[i] = dev
+                dataDevp[i] = devPercent
+            }
+            appendLineToFile(fileAvg, dataAvg.toList().joinToString(","), true)
+            appendLineToFile(fileDev, dataDev.toList().joinToString(","), true)
+            appendLineToFile(fileDevp, dataDevp.toList().joinToString(","), true)
+        }
     }
 }

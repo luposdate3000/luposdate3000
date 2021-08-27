@@ -21,7 +21,6 @@ import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
-import lupos.simulator_db.ILogger
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.measure.TimeMeasurer
 public class SimulationRun {
@@ -33,7 +32,7 @@ public class SimulationRun {
 
     internal val timeMeasurer = TimeMeasurer(this)
 
-    internal lateinit var logger: ILogger
+    public val logger: Loggers = Loggers(mutableListOf())
 
     public var notInitializedClock: Long = -1
 

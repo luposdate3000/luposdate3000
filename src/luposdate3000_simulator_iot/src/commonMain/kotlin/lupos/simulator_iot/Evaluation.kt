@@ -19,7 +19,6 @@ package lupos.simulator_iot
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
-import lupos.simulator_iot.measure.MeasurementPrinter
 import lupos.simulator_iot.queryproc.SemanticData
 import lupos.simulator_iot.utils.FilePaths
 public class Evaluation {
@@ -69,8 +68,8 @@ public class Evaluation {
 
     public fun evalConfigFile(configFileName: String) {
         val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-        val printer = MeasurementPrinter(json.getOrDefault("outputDirectory", FilePaths.outputDir + "/" + configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf("."))))
-        val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1), printer)
+        json.getOrDefault("outputDirectory", FilePaths.outputDir + "/" + configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf(".")))
+        val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1))
         runs.startSimulationRuns()
         File(configFileName).withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json, true))
@@ -106,8 +105,7 @@ public class Evaluation {
         File(outputdirectory + ".generated.parsed.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json, false))
         }
-        val printer = MeasurementPrinter(outputdirectory)
-        val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1), printer)
+        val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1))
         runs.startSimulationRuns()
         File(outputdirectory + ".generated.used.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json, true))
@@ -174,21 +172,19 @@ public class Evaluation {
 
     public fun evalCampusNumberOfSamplings() {
         val configFileName = "${FilePaths.jvmResource}/campusNumberOfSampling.json"
-        val printer = MeasurementPrinter("${FilePaths.outputDir}/campusNumberOfSampling")
         val range = getSamplingNumber()
         for ((run, numOfSamples) in range.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val sensorType = json.getOrEmptyArray("sensorType")
             val sensorType0 = sensorType.firstOrEmptyObject()
             sensorType0["maxSamples"] = numOfSamples
-            MultipleSimulationRuns(json, 1, printer).startSimulationRuns()
+            MultipleSimulationRuns(json, 1).startSimulationRuns()
             println("evalQueryProcessingDistributedCase: Run ${run + 1} finished. ${501 - run - 1 } runs left..")
         }
     }
 
     public fun evalCampusDistributedSampling() {
         val configFileName = "${FilePaths.jvmResource}/campusDistributedSampling.json"
-        val printer = MeasurementPrinter("${FilePaths.outputDir}/campusDistributedSampling")
         for (run in 0 until 11) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val deviceType = json.getOrEmptyArray("deviceType")
@@ -196,7 +192,7 @@ public class Evaluation {
                 val dev = deviceType[instance] as JsonParserObject
                 dev["database"] = true
             }
-            MultipleSimulationRuns(json, 1, printer).startSimulationRuns()
+            MultipleSimulationRuns(json, 1).startSimulationRuns()
             println("evalQueryProcessingDistributedCase: Run ${run + 1} finished. ${11 - run - 1 } runs left..")
         }
     }
@@ -205,13 +201,12 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/meshPerformance.json"
         var ranges = getMeshPerfRanges()
         ranges = addInitialBuffer(ranges, 4)
-        val printer = MeasurementPrinter("${FilePaths.outputDir}/meshPerf")
         for ((index, range) in ranges.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val linkType = json.getOrEmptyArray("linkType")
             val linkType0 = linkType.firstOrEmptyObject()
             linkType0["rangeInMeters"] = range
-            MultipleSimulationRuns(json, 1, printer).startSimulationRuns()
+            MultipleSimulationRuns(json, 1).startSimulationRuns()
             println("evalMeshPerformance: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
         }
     }
@@ -220,7 +215,6 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(22, 50) // max. 1171 instances are possible.
         nodeSizes = addInitialBuffer(nodeSizes, 4)
-        val printer = MeasurementPrinter("${FilePaths.outputDir}/starPerf_Luposdate")
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
@@ -231,7 +225,7 @@ public class Evaluation {
             randomStarNetwork0["number"] = numberOfNodes
             deviceType0["database"] = true
             database["type"] = "Luposdate3000"
-            MultipleSimulationRuns(json, 100, printer).startSimulationRuns()
+            MultipleSimulationRuns(json, 100).startSimulationRuns()
             println("evalStarPerformanceWithLuposdate: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
@@ -240,7 +234,6 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(22, 50)
         nodeSizes = addInitialBuffer(nodeSizes, 4)
-        val printer = MeasurementPrinter("${FilePaths.outputDir}/starPerf_Dummy")
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
@@ -251,7 +244,7 @@ public class Evaluation {
             randomStarNetwork0["number"] = numberOfNodes
             deviceType0["database"] = true
             database["type"] = "Dummy"
-            MultipleSimulationRuns(json, 100, printer).startSimulationRuns()
+            MultipleSimulationRuns(json, 100).startSimulationRuns()
             println("evalStarPerfWithDummy: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
@@ -260,7 +253,6 @@ public class Evaluation {
         val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(21, 1000)
         nodeSizes = addInitialBuffer(nodeSizes, 4)
-        val printer = MeasurementPrinter("${FilePaths.outputDir}/starPerf_Without")
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
@@ -271,7 +263,7 @@ public class Evaluation {
             randomStarNetwork0["number"] = numberOfNodes
             deviceType0["database"] = false
             database["type"] = "Dummy"
-            MultipleSimulationRuns(json, 100, printer).startSimulationRuns()
+            MultipleSimulationRuns(json, 100).startSimulationRuns()
             println("evalStarPerf: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
