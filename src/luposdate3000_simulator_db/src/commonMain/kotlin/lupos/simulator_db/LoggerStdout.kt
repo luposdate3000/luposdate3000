@@ -17,16 +17,17 @@
 
 package lupos.simulator_db
 import lupos.shared.XMLElement
-public interface LoggerStdout (val sim:Simulation): ILogger {
-    override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int,  pck: IPayload, delay: Long) {println("${sim.clock} onSendNetworkPackage $src $dest $hop $delay $pck")}
-    override fun onReceiveNetworkPackage(address: Int,  pck: IPayload) {println("${sim.clock} onReceiveNetworkPackage $address $pck")}
-    override fun onSendPackage(src: Int, dest: Int,  pck: IPayload) {println("${sim.clock} onSendPackage $src $dest $pck")}
-    override fun onReceivePackage(address: Int,  pck: IPayload) {println("${sim.clock} onReceivePackage $address $pck")}
-    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {println("${sim.clock} addWork $queryID $address $operatorGraph $keysIn $keysOut")}
-    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {println("${sim.clock} addOperatorGraph $queryId $operatorGraph")}
-    override fun addConnectionTable(src: Int, dest: Int, hop: Int) {println("${sim.clock} addConnectionTable $src $dest $hop")}
-    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {println("${sim.clock} addConnectionTableDB $src $dest $hop")}
-    override fun onStartUp() {println("${sim.clock} onStartUp")}
-    override fun onShutDown() {println("${sim.clock} onShutDown")}
-    override fun onSteadyState() {println("${sim.clock} onSteadyState")}
+import lupos.simulator_core.Simulation
+public class LoggerStdout public constructor(private val sim: Simulation) : ILogger {
+    override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) { println("${sim.clock} onSendNetworkPackage $src $dest $hop $delay $pck") }
+    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { println("${sim.clock} onReceiveNetworkPackage $address $pck") }
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { println("${sim.clock} onSendPackage $src $dest $pck") }
+    override fun onReceivePackage(address: Int, pck: IPayload) { println("${sim.clock} onReceivePackage $address $pck") }
+    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) { println("${sim.clock} addWork $queryID $address $operatorGraph $keysIn $keysOut") }
+    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) { println("${sim.clock} addOperatorGraph $queryId $operatorGraph") }
+    override fun addConnectionTable(src: Int, dest: Int, hop: Int) { println("${sim.clock} addConnectionTable $src $dest $hop") }
+    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) { println("${sim.clock} addConnectionTableDB $src $dest $hop") }
+    override fun onStartUp() { println("${sim.clock} onStartUp") }
+    override fun onShutDown() { println("${sim.clock} onShutDown") }
+    override fun onSteadyState() { println("${sim.clock} onSteadyState") }
 }

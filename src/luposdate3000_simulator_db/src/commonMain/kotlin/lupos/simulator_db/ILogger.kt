@@ -18,13 +18,13 @@
 package lupos.simulator_db
 import lupos.shared.XMLElement
 import lupos.simulator_core.ILoggerCore
-public interface ILogger :ILoggerCore{
-    public fun onSendNetworkPackage(src: Int, dest: Int, hop: Int,  pck: IPayload, delay: Long) 
-    public fun onReceiveNetworkPackage(address: Int,  pck: IPayload) 
-    public fun onSendPackage(src: Int, dest: Int,  pck: IPayload) 
-    public fun onReceivePackage(address: Int,  pck: IPayload) 
-    public fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) 
-    public fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) 
-    public fun addConnectionTable(src: Int, dest: Int, hop: Int) 
-    public fun addConnectionTableDB(src: Int, dest: Int, hop: Int) 
+public interface ILogger : ILoggerCore {
+    public fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long)
+    public fun onReceiveNetworkPackage(address: Int, pck: IPayload)
+    public fun onSendPackage(src: Int, dest: Int, pck: IPayload)
+    public fun onReceivePackage(address: Int, pck: IPayload)
+    public fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>)
+    public fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>)
+    public fun addConnectionTable(src: Int, dest: Int, hop: Int)
+    public fun addConnectionTableDB(src: Int, dest: Int, hop: Int)
 }

@@ -79,6 +79,7 @@ public class Device(
 
     override fun onEvent(source: Entity, data: Any) {
         val pck = data as NetworkPackage
+        simRun.logger.onReceiveNetworkPackage(address, pck.payload)
         deviceStart = TimeUtils.stamp()
         if (pck.destinationAddress == address) {
             processPackage(pck)
@@ -88,7 +89,6 @@ public class Device(
     }
 
     private fun processPackage(pck: NetworkPackage) {
-        simRun.logger.onReceiveNetworkPackage(address, simRun.getCurrentSimulationClock(), pck)
         when {
             router.isControlPackage(pck) -> {
                 router.processControlPackage(pck)
@@ -98,7 +98,7 @@ public class Device(
                 val query = SemanticData.getInsertQueryString(sample)
                 val bytes = query.encodeToByteArray()
                 val pck2 = QueryPackage(address, bytes)
-                simRun.logger.onSendPackage(address, address, simRun.getCurrentSimulationClock(), pck2)
+                simRun.logger.onSendPackage(address, address, pck2)
                 userApplication!!.receive(pck2)
             }
             else -> {
@@ -145,7 +145,7 @@ public class Device(
     private fun assignToSimulation(dest: Int, hop: Int, pck: NetworkPackage, delay: Long) {
         val entity = simRun.config.getDeviceByAddress(hop)
         scheduleEvent(entity, pck, delay)
-        simRun.logger.onSendNetworkPackage(address, dest, hop, simRun.getCurrentSimulationClock(), pck, delay)
+        simRun.logger.onSendNetworkPackage(address, dest, hop, pck.payload, delay)
     }
 
     internal fun sendSensorSample(dest: Int, data: IPayload) {

@@ -22,7 +22,7 @@ import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
 import lupos.simulator_db.ILogger
-import lupos.simulator_db.LoggerNone
+import lupos.simulator_db.LoggerStdout
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.measure.TimeMeasurer
 public class SimulationRun {
@@ -57,7 +57,7 @@ public class SimulationRun {
 
     internal fun startSimulation(configuration: Configuration) {
         if (configuration.jsonObjects.logging) {
-            logger = LoggerStdOut(sim)
+            logger = LoggerStdout(sim)
         }
         sim = Simulation(configuration.getEntities(), logger)
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
