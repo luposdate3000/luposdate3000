@@ -123,6 +123,11 @@ remove_findings
 }
 
 
+setNotInSimulator
+process
+exit
+
+
 setInSimulator
 resetAll
 setNotInSimulator

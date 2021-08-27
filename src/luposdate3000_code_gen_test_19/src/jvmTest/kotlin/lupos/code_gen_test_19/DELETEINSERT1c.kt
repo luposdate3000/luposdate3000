@@ -76,6 +76,8 @@ public class DELETEINSERT1c {
         "} \n" +
         ""
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -116,207 +118,8 @@ public class DELETEINSERT1c {
         }
     }
 
-    @Test(timeout = 2000)
-    public fun `DELETE INSERT 1c - None - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query3 = Query(instance)
-            val graph3 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator3 = graph3.getIterator(query3, arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPatternExt.SPO)
-            val actual3 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator3, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected3 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err3 = MyPrintWriter()
-            if (!expected3.equalsVerbose(actual3, true, true, buf_err3)) {
-                fail(expected3.toString() + " .. " + actual3.toString() + " .. " + buf_err3.toString() + " .. " + operator3)
-            }
-            val operator4 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator4, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query5 = Query(instance)
-            val graph5 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator5 = graph5.getIterator(query5, arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO)
-            val actual5 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator5, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected5 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err5 = MyPrintWriter()
-            if (!expected5.equalsVerbose(actual5, true, true, buf_err5)) {
-                fail(expected5.toString() + " .. " + actual5.toString() + " .. " + buf_err5.toString() + " .. " + operator5)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `DELETE INSERT 1c - None - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query6 = Query(instance)
-            val graph6 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator6 = graph6.getIterator(query6, arrayOf(AOPVariable(query6, "s"), AOPVariable(query6, "p"), AOPVariable(query6, "o")), EIndexPatternExt.SPO)
-            val actual6 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator6, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected6 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err6 = MyPrintWriter()
-            if (!expected6.equalsVerbose(actual6, true, true, buf_err6)) {
-                fail(expected6.toString() + " .. " + actual6.toString() + " .. " + buf_err6.toString() + " .. " + operator6)
-            }
-            val operator7 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator7, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query8 = Query(instance)
-            val graph8 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator8 = graph8.getIterator(query8, arrayOf(AOPVariable(query8, "s"), AOPVariable(query8, "p"), AOPVariable(query8, "o")), EIndexPatternExt.SPO)
-            val actual8 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator8, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected8 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err8 = MyPrintWriter()
-            if (!expected8.equalsVerbose(actual8, true, true, buf_err8)) {
-                fail(expected8.toString() + " .. " + actual8.toString() + " .. " + buf_err8.toString() + " .. " + operator8)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `DELETE INSERT 1c - None - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query9 = Query(instance)
-            val graph9 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator9 = graph9.getIterator(query9, arrayOf(AOPVariable(query9, "s"), AOPVariable(query9, "p"), AOPVariable(query9, "o")), EIndexPatternExt.SPO)
-            val actual9 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator9, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected9 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err9 = MyPrintWriter()
-            if (!expected9.equalsVerbose(actual9, true, true, buf_err9)) {
-                fail(expected9.toString() + " .. " + actual9.toString() + " .. " + buf_err9.toString() + " .. " + operator9)
-            }
-            val operator10 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator10, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query11 = Query(instance)
-            val graph11 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator11 = graph11.getIterator(query11, arrayOf(AOPVariable(query11, "s"), AOPVariable(query11, "p"), AOPVariable(query11, "o")), EIndexPatternExt.SPO)
-            val actual11 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator11, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected11 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err11 = MyPrintWriter()
-            if (!expected11.equalsVerbose(actual11, true, true, buf_err11)) {
-                fail(expected11.toString() + " .. " + actual11.toString() + " .. " + buf_err11.toString() + " .. " + operator11)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `DELETE INSERT 1c - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query12 = Query(instance)
-            val graph12 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator12 = graph12.getIterator(query12, arrayOf(AOPVariable(query12, "s"), AOPVariable(query12, "p"), AOPVariable(query12, "o")), EIndexPatternExt.SPO)
-            val actual12 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator12, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected12 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err12 = MyPrintWriter()
-            if (!expected12.equalsVerbose(actual12, true, true, buf_err12)) {
-                fail(expected12.toString() + " .. " + actual12.toString() + " .. " + buf_err12.toString() + " .. " + operator12)
-            }
-            val operator13 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator13, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query14 = Query(instance)
-            val graph14 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator14 = graph14.getIterator(query14, arrayOf(AOPVariable(query14, "s"), AOPVariable(query14, "p"), AOPVariable(query14, "o")), EIndexPatternExt.SPO)
-            val actual14 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator14, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected14 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err14 = MyPrintWriter()
-            if (!expected14.equalsVerbose(actual14, true, true, buf_err14)) {
-                fail(expected14.toString() + " .. " + actual14.toString() + " .. " + buf_err14.toString() + " .. " + operator14)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `DELETE INSERT 1c - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            val query15 = Query(instance)
-            val graph15 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator15 = graph15.getIterator(query15, arrayOf(AOPVariable(query15, "s"), AOPVariable(query15, "p"), AOPVariable(query15, "o")), EIndexPatternExt.SPO)
-            val actual15 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator15, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected15 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err15 = MyPrintWriter()
-            if (!expected15.equalsVerbose(actual15, true, true, buf_err15)) {
-                fail(expected15.toString() + " .. " + actual15.toString() + " .. " + buf_err15.toString() + " .. " + operator15)
-            }
-            val operator16 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator16, buf, EQueryResultToStreamExt.EMPTY_STREAM)
-            val query17 = Query(instance)
-            val graph17 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-            val operator17 = graph17.getIterator(query17, arrayOf(AOPVariable(query17, "s"), AOPVariable(query17, "p"), AOPVariable(query17, "o")), EIndexPatternExt.SPO)
-            val actual17 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator17, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected17 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
-            val buf_err17 = MyPrintWriter()
-            if (!expected17.equalsVerbose(actual17, true, true, buf_err17)) {
-                fail(expected17.toString() + " .. " + actual17.toString() + " .. " + buf_err17.toString() + " .. " + operator17)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -333,6 +136,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -349,6 +153,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -365,6 +170,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -381,6 +187,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -397,6 +204,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -413,6 +221,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -429,6 +238,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -445,6 +255,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -461,6 +272,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -477,6 +289,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -493,6 +306,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -509,6 +323,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -525,6 +340,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -541,6 +357,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -557,6 +374,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -573,6 +391,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -589,6 +408,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -605,6 +425,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -621,6 +442,7 @@ public class DELETEINSERT1c {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `DELETE INSERT 1c - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(

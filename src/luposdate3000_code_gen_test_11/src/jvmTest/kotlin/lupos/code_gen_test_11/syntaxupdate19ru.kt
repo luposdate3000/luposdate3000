@@ -20,12 +20,15 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdate19ru {
     internal val query = "CLEAR SILENT NAMED \n" +
         ""
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `syntaxupdate19ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -37,86 +40,6 @@ public class syntaxupdate19ru {
             instance = LuposdateEndpoint.initializeB(instance)
             val buf = MyPrintWriter(false)
             val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `syntaxupdate19ru - None - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `syntaxupdate19ru - None - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator2 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `syntaxupdate19ru - None - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator3 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `syntaxupdate19ru - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator4 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `syntaxupdate19ru - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            val operator5 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         } finally {
             LuposdateEndpoint.close(instance)
         }

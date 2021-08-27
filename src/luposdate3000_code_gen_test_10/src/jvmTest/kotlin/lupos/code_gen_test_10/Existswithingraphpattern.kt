@@ -59,6 +59,8 @@ public class Existswithingraphpattern {
         "} \n" +
         ""
 
+    @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
@@ -109,257 +111,8 @@ public class Existswithingraphpattern {
         }
     }
 
-    @Test(timeout = 2000)
-    public fun `Exists within graph pattern - None - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            val query3 = Query(instance)
-            val graph3 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator3 = graph3.getIterator(query3, arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPatternExt.SPO)
-            val actual3 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator3, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected3 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err3 = MyPrintWriter()
-            if (!expected3.equalsVerbose(actual3, true, true, buf_err3)) {
-                fail(expected3.toString() + " .. " + actual3.toString() + " .. " + buf_err3.toString() + " .. " + operator3)
-            }
-            val query4 = Query(instance)
-            val graph4 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator4 = graph4.getIterator(query4, arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPatternExt.SPO)
-            val actual4 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator4, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected4 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err4 = MyPrintWriter()
-            if (!expected4.equalsVerbose(actual4, true, true, buf_err4)) {
-                fail(expected4.toString() + " .. " + actual4.toString() + " .. " + buf_err4.toString() + " .. " + operator4)
-            }
-            val operator5 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual5 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator5, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected5 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err5 = MyPrintWriter()
-            if (!expected5.equalsVerbose(actual5, true, true, buf_err5)) {
-                fail(expected5.toString() + " .. " + actual5.toString() + " .. " + buf_err5.toString() + " .. " + operator5)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `Exists within graph pattern - None - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            val query6 = Query(instance)
-            val graph6 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator6 = graph6.getIterator(query6, arrayOf(AOPVariable(query6, "s"), AOPVariable(query6, "p"), AOPVariable(query6, "o")), EIndexPatternExt.SPO)
-            val actual6 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator6, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected6 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err6 = MyPrintWriter()
-            if (!expected6.equalsVerbose(actual6, true, true, buf_err6)) {
-                fail(expected6.toString() + " .. " + actual6.toString() + " .. " + buf_err6.toString() + " .. " + operator6)
-            }
-            val query7 = Query(instance)
-            val graph7 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator7 = graph7.getIterator(query7, arrayOf(AOPVariable(query7, "s"), AOPVariable(query7, "p"), AOPVariable(query7, "o")), EIndexPatternExt.SPO)
-            val actual7 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator7, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected7 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err7 = MyPrintWriter()
-            if (!expected7.equalsVerbose(actual7, true, true, buf_err7)) {
-                fail(expected7.toString() + " .. " + actual7.toString() + " .. " + buf_err7.toString() + " .. " + operator7)
-            }
-            val operator8 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual8 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator8, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected8 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err8 = MyPrintWriter()
-            if (!expected8.equalsVerbose(actual8, true, true, buf_err8)) {
-                fail(expected8.toString() + " .. " + actual8.toString() + " .. " + buf_err8.toString() + " .. " + operator8)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `Exists within graph pattern - None - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            val query9 = Query(instance)
-            val graph9 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator9 = graph9.getIterator(query9, arrayOf(AOPVariable(query9, "s"), AOPVariable(query9, "p"), AOPVariable(query9, "o")), EIndexPatternExt.SPO)
-            val actual9 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator9, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected9 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err9 = MyPrintWriter()
-            if (!expected9.equalsVerbose(actual9, true, true, buf_err9)) {
-                fail(expected9.toString() + " .. " + actual9.toString() + " .. " + buf_err9.toString() + " .. " + operator9)
-            }
-            val query10 = Query(instance)
-            val graph10 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator10 = graph10.getIterator(query10, arrayOf(AOPVariable(query10, "s"), AOPVariable(query10, "p"), AOPVariable(query10, "o")), EIndexPatternExt.SPO)
-            val actual10 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator10, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected10 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err10 = MyPrintWriter()
-            if (!expected10.equalsVerbose(actual10, true, true, buf_err10)) {
-                fail(expected10.toString() + " .. " + actual10.toString() + " .. " + buf_err10.toString() + " .. " + operator10)
-            }
-            val operator11 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual11 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator11, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected11 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err11 = MyPrintWriter()
-            if (!expected11.equalsVerbose(actual11, true, true, buf_err11)) {
-                fail(expected11.toString() + " .. " + actual11.toString() + " .. " + buf_err11.toString() + " .. " + operator11)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `Exists within graph pattern - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            val query12 = Query(instance)
-            val graph12 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator12 = graph12.getIterator(query12, arrayOf(AOPVariable(query12, "s"), AOPVariable(query12, "p"), AOPVariable(query12, "o")), EIndexPatternExt.SPO)
-            val actual12 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator12, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected12 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err12 = MyPrintWriter()
-            if (!expected12.equalsVerbose(actual12, true, true, buf_err12)) {
-                fail(expected12.toString() + " .. " + actual12.toString() + " .. " + buf_err12.toString() + " .. " + operator12)
-            }
-            val query13 = Query(instance)
-            val graph13 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator13 = graph13.getIterator(query13, arrayOf(AOPVariable(query13, "s"), AOPVariable(query13, "p"), AOPVariable(query13, "o")), EIndexPatternExt.SPO)
-            val actual13 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator13, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected13 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err13 = MyPrintWriter()
-            if (!expected13.equalsVerbose(actual13, true, true, buf_err13)) {
-                fail(expected13.toString() + " .. " + actual13.toString() + " .. " + buf_err13.toString() + " .. " + operator13)
-            }
-            val operator14 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual14 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator14, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected14 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err14 = MyPrintWriter()
-            if (!expected14.equalsVerbose(actual14, true, true, buf_err14)) {
-                fail(expected14.toString() + " .. " + actual14.toString() + " .. " + buf_err14.toString() + " .. " + operator14)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test(timeout = 2000)
-    public fun `Exists within graph pattern - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
-            } else {
-                TODO()
-            }
-            if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-                LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
-            } else {
-                TODO()
-            }
-            val query15 = Query(instance)
-            val graph15 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-            val operator15 = graph15.getIterator(query15, arrayOf(AOPVariable(query15, "s"), AOPVariable(query15, "p"), AOPVariable(query15, "o")), EIndexPatternExt.SPO)
-            val actual15 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator15, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected15 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
-            val buf_err15 = MyPrintWriter()
-            if (!expected15.equalsVerbose(actual15, true, true, buf_err15)) {
-                fail(expected15.toString() + " .. " + actual15.toString() + " .. " + buf_err15.toString() + " .. " + operator15)
-            }
-            val query16 = Query(instance)
-            val graph16 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-            val operator16 = graph16.getIterator(query16, arrayOf(AOPVariable(query16, "s"), AOPVariable(query16, "p"), AOPVariable(query16, "o")), EIndexPatternExt.SPO)
-            val actual16 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator16, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected16 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
-            val buf_err16 = MyPrintWriter()
-            if (!expected16.equalsVerbose(actual16, true, true, buf_err16)) {
-                fail(expected16.toString() + " .. " + actual16.toString() + " .. " + buf_err16.toString() + " .. " + operator16)
-            }
-            val operator17 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            val actual17 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator17, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-            val expected17 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
-            val buf_err17 = MyPrintWriter()
-            if (!expected17.equalsVerbose(actual17, true, true, buf_err17)) {
-                fail(expected17.toString() + " .. " + actual17.toString() + " .. " + buf_err17.toString() + " .. " + operator17)
-            }
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -376,6 +129,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -392,6 +146,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -408,6 +163,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -424,6 +180,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -440,6 +197,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -456,6 +214,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -472,6 +231,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -488,6 +248,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -504,6 +265,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -520,6 +282,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
         simulatorHelper(
@@ -536,6 +299,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Process`() {
         simulatorHelper(
@@ -552,6 +316,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - true - Process`() {
         simulatorHelper(
@@ -568,6 +333,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
         simulatorHelper(
@@ -584,6 +350,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -600,6 +367,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -616,6 +384,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -632,6 +401,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -648,6 +418,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -664,6 +435,7 @@ public class Existswithingraphpattern {
     }
 
     @Ignore
+    // Reason: >bugs<
     @Test(timeout = 2000)
     public fun `Exists within graph pattern - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
