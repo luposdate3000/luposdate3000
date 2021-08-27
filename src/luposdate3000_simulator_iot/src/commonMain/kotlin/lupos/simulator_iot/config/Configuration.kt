@@ -30,6 +30,7 @@ import lupos.simulator_db.ApplicationLayerSequence
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_iot.LoggerStdout
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
@@ -80,6 +81,9 @@ public class Configuration(private val simRun: SimulationRun) {
     internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
         jsonObjects = JsonObjects(json)
+        when (json.getOrDefault("logging", "true")) {
+            "true" -> simRun.logger = LoggerStdout(simRun)
+        }
         linker.sortedLinkTypes = json!!.getOrEmptyObject("linkType").iterator().asSequence().map {
             val v = it.second
             v as JsonParserObject
@@ -95,7 +99,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:97"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:101"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -240,7 +244,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:242"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:246"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )

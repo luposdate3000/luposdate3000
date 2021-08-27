@@ -27,4 +27,6 @@ public interface ILogger : ILoggerCore {
     public fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>)
     public fun addConnectionTable(src: Int, dest: Int, hop: Int)
     public fun addConnectionTableDB(src: Int, dest: Int, hop: Int)
+    public fun onStartSimulation()
+    public fun onStopSimulation()
 }

@@ -22,7 +22,6 @@ import lupos.parser.JsonParserObject
 public class JsonObjects {
     public var database: JsonParserObject
     public var deterministic: Boolean
-    public var logging: Boolean
     public val fixedLink: MutableList<FixedLink>
     public val randomMeshNetwork: MutableList<RandomMeshNetwork>
     public val randomStarNetwork: MutableList<RandomStarNetwork>
@@ -34,7 +33,6 @@ public class JsonObjects {
         json = data
         database = data.getOrEmptyObject("database")
         deterministic = data.getOrDefault("deterministic", true)
-        logging = data.getOrDefault("logging", true)
         fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
