@@ -307,7 +307,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 dbDeviceAddressesQueryList.add(device.address)
             }
         }
-
+        simRun.logger.addDevice(device.address, location.longitude, location.latitude, databaseStore, databaseQuery, sensorTypeName.isNotEmpty())
         devices.add(device)
         return device
     }

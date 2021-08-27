@@ -23,10 +23,11 @@ public interface ILogger : ILoggerCore {
     public fun onReceiveNetworkPackage(address: Int, pck: IPayload)
     public fun onSendPackage(src: Int, dest: Int, pck: IPayload)
     public fun onReceivePackage(address: Int, pck: IPayload)
+    public fun onStartSimulation()
+    public fun onStopSimulation()
     public fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>)
     public fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>)
     public fun addConnectionTable(src: Int, dest: Int, hop: Int)
     public fun addConnectionTableDB(src: Int, dest: Int, hop: Int)
-    public fun onStartSimulation()
-    public fun onStopSimulation()
+    public fun addDevice(address: Int, x: Double, y: Double, hasDBStore: Boolean, hasDBQuery: Boolean, hasSensor: Boolean)
 }

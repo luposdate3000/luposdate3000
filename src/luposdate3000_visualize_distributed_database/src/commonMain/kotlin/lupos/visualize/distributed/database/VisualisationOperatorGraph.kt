@@ -176,7 +176,7 @@ public class VisualisationOperatorGraph {
                             val parr = pkey.split("=")
                             SanityCheck.check(
                                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:177"/*SOURCE_FILE_END*/ },
-                                { parr.size == 2 },
+                                { parr.size == 3 },
                                 { "${parr.map{it}}" }
                             )
                             val idxName = parr[1]

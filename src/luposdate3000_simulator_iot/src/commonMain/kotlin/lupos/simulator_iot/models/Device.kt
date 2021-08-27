@@ -111,10 +111,14 @@ public class Device(
         for (dest in 0 until simRun.config.devices.size) {
             try {
                 val hop = router.getNextHop(dest)
-                simRun.logger.addConnectionTable(address, dest, hop)
+                if (hop != -1) {
+                    simRun.logger.addConnectionTable(address, dest, hop)
+                }
                 if (userApplication != null) {
                     val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
-                    simRun.logger.addConnectionTableDB(address, dest, dbhop)
+                    if (dbhop != -1) {
+                        simRun.logger.addConnectionTableDB(address, dest, dbhop)
+                    }
                 }
             } catch (e: Throwable) {
             }
