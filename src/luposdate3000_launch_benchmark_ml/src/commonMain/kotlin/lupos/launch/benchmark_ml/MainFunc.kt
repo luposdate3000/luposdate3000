@@ -25,7 +25,7 @@ import lupos.shared.inline.MyPrintWriter
 import java.io.FileOutputStream
 
 internal enum class OptimizerMode {
-    All, OnlyWith, OnlyWithout
+    All, OnlyWith, OnlyWithout, Test
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
@@ -46,6 +46,8 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         optimizerMode2 = OptimizerMode.OnlyWith
     } else if (optimizerMode == "OnlyWithout") {
         optimizerMode2 = OptimizerMode.OnlyWithout
+    } else if (optimizerMode == "Test") {
+        optimizerMode2 = OptimizerMode.Test
     } else {
         optimizerMode2 = OptimizerMode.All
     }
@@ -73,8 +75,40 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples2,0,1,${numberOfTriples2 * 1000.0},${1.0 / time}")
     val groupSize = IntArray(queryFiles2.size) { 1 } // int array with a 1 for every input query file, used to measure time
 
+    if (optimizerMode2 == OptimizerMode.Test) {
+        var inputStringforPython = ""
+        for (queryFileIdx in queryFiles2.indices) { // for every query
+            // Read in query file
+            val queryFile = queryFiles2[queryFileIdx]
+            val query = File(queryFile).readAsString()
+            var testFile = java.io.File("$queryFile.test")
+            testFile.printWriter().use { it ->
+                it.print("")
+            }
+            // Optimize query and convert to operatorgraph
+            val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphBB(instance, query, true)
+            var lopjoin0 = node.getChildren() // lopjoin
+
+            var pred0 = lopjoin0[0].getChildren()[0].getChildren()[1]
+            var pred1 = lopjoin0[0].getChildren()[1].getChildren()[0].getChildren()[1]
+            var pred2 = lopjoin0[0].getChildren()[1].getChildren()[1].getChildren()[1]
+
+            FileOutputStream(testFile, true).bufferedWriter().use { it ->
+                it.write(query)
+                it.append(pred0.toString())
+                it.append(pred1.toString())
+                it.append(pred2.toString())
+            }
+            inputStringforPython += "$queryFile.test;"
+        }
+        var inputStringFile = java.io.File("${queryFiles2[0]}.luposTestDataFile")
+        inputStringFile.printWriter().use { it ->
+            it.write(inputStringforPython)
+        }
+    }
+
     // Benchmark with Optimizer
-    if (optimizerMode2 != OptimizerMode.OnlyWithout) { // All or OnlyWith
+    if (optimizerMode2 != OptimizerMode.OnlyWithout && optimizerMode2 != OptimizerMode.Test) { // All or OnlyWith
         for (queryFileIdx in queryFiles2.indices) { // for every queryfile
             // Read in query file
             val queryFile = queryFiles2[queryFileIdx]
@@ -110,7 +144,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     }
 
     // Benchmark without Optimizer
-    if (optimizerMode2 != OptimizerMode.OnlyWith) { // All or OnlyWithout
+    if (optimizerMode2 != OptimizerMode.OnlyWith && optimizerMode2 != OptimizerMode.Test) { // All or OnlyWithout
         for (queryFileIdx in queryFiles2.indices) { // for every query
             for (joinOrder in 0..2) { // for every permutation
                 // Read in query file

@@ -24,6 +24,7 @@ import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
+import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.logical.LogicalOptimizerML
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.InputToIntermediate
@@ -305,6 +306,13 @@ public object LuposdateEndpointML {
         SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lopNode2 = LogicalOptimizerML(q, joinOrder).optimizeCall(lopNode)
         SanityCheck.println { lopNode2 }
+
+//        for (i in lopjoin0) {
+//            println("#################")
+//            println(lopjoin0.size)
+//            println(i.toString())
+//            println("#################")
+//        }
         SanityCheck.println { "----------Physical Operator Graph" }
         val popOptimizer = PhysicalOptimizer(q)
         val popNode = popOptimizer.optimizeCall(lopNode2)
@@ -318,6 +326,35 @@ public object LuposdateEndpointML {
             println(OperatorGraphToLatex(popNode.toString(), ""))
         }
         return popNode
+    }
+
+    @JsName("evaluate_sparql_to_operatorgraph_bb")
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphBB(
+        instance: Luposdate3000Instance,
+        query: String,
+        logOperatorGraph: Boolean
+    ): IOPBase {
+        val q = Query(instance)
+        SanityCheck.println { "----------String Query" }
+        SanityCheck.println { query }
+        SanityCheck.println { "----------Abstract Syntax Tree" }
+        val lcit = LexerCharIterator(query)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
+        val astNode = parser.expr()
+        SanityCheck.println { astNode }
+        SanityCheck.println { "----------Logical Operator Graph" }
+        val lopNode = astNode.visit(OperatorGraphVisitor(q))
+        SanityCheck.println { lopNode }
+        SanityCheck.println { "----------Logical Operator Graph optimized" }
+        val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
+        SanityCheck.println { lopNode2 }
+
+        if (logOperatorGraph) {
+            println(query)
+        }
+        return lopNode2
     }
 
     @JsName("evaluate_operatorgraph_to_result")
