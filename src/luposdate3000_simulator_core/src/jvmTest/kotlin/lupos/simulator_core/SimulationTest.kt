@@ -27,7 +27,6 @@ class SimulationTest {
     fun `run without entities has no effect on clock`() {
         val startClock: Long = 0
         val sim = Simulation(emptyList())
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
         assertEquals(startClock, sim.clock)
     }
@@ -69,7 +68,6 @@ class SimulationTest {
             override fun onShutDown() {}
         }
         val sim = Simulation(mutableListOf(receivingEntity, sendingEntity))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(delay, sim.clock)
@@ -119,7 +117,6 @@ class SimulationTest {
             override fun onShutDown() {}
         }
         val sim = Simulation(mutableListOf(receivingEntity, sendingEntity))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(firstDelay, actualFirstClock)
@@ -160,7 +157,6 @@ class SimulationTest {
             override fun onShutDown() {}
         }
         val sim = Simulation(mutableListOf(entityA, entityB, entityC))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(true, entityAIsCalled)
@@ -181,7 +177,6 @@ class SimulationTest {
             override fun onShutDown() {}
         }
         val sim = Simulation(mutableListOf(entityA))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(false, entityAIsCalled)
@@ -217,7 +212,6 @@ class SimulationTest {
             }
         }
         val sim = Simulation(mutableListOf(entityA, entityB, entityC))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(true, entityAIsCalled)
@@ -256,7 +250,6 @@ class SimulationTest {
         }
 
         val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         val expected: Long = firstDelay + responseDelay
@@ -297,7 +290,6 @@ class SimulationTest {
         }
 
         val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals((delay * 3), sim.clock)
@@ -328,7 +320,6 @@ class SimulationTest {
         }
 
         val sim = Simulation(mutableListOf(busyEntity))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(delay, eventProcessedAt)
@@ -337,7 +328,6 @@ class SimulationTest {
     @Test
     fun `check default end time`() {
         val sim = Simulation(mutableListOf())
-        sim.callback = LoggerStub(sim)
         assertEquals(Long.MAX_VALUE, sim.maxClock)
     }
 
@@ -362,7 +352,6 @@ class SimulationTest {
             override fun onShutDown() {}
         }
         val sim = Simulation(mutableListOf(receivingEntity, sendingEntity))
-        sim.callback = LoggerStub(sim)
         sim.maxClock = maxClock
         sim.startSimulation()
 
@@ -398,7 +387,6 @@ class SimulationTest {
             override fun onShutDown() {}
         }
         val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
-        sim.callback = LoggerStub(sim)
         sim.maxClock = maxClock
         sim.startSimulation()
 
@@ -441,7 +429,6 @@ class SimulationTest {
         }
 
         val sim = Simulation(mutableListOf(respondingEntity, sendingEntity))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(currentProcessedEventCounter, sim.addedEventCounter - 1)
@@ -485,7 +472,6 @@ class SimulationTest {
             override fun onShutDown() {}
         }
         val sim = Simulation(mutableListOf(entity))
-        sim.callback = LoggerStub(sim)
         sim.startSimulation()
 
         assertEquals(timerDelay1, timer1Result)
@@ -526,7 +512,6 @@ class SimulationTest {
         }
 
         val sim = Simulation(mutableListOf(entityA, entityB))
-        sim.callback = LoggerStub(sim)
         sim.steadyClock = steadyStateAt
         sim.startSimulation()
 

@@ -20,7 +20,7 @@ import lupos.shared.SanityCheck
 public class Simulation(
     private val entities: List<Entity>,
 ) {
-    public lateinit var logger: ILoggerCore
+    public var logger: ILoggerCore = LoggerCoreNone()
 
     private var futureEvents: PriorityQueue<Event> = PriorityQueue(compareBy<Event> { it.occurrenceTime }.thenBy { it.eventNumber })
 
