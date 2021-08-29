@@ -1,3 +1,5 @@
+import random
+
 
 with open("train.me.test", "r") as inp:
     lines = inp.readlines()
@@ -16,16 +18,23 @@ for i, line in enumerate(lines):
         continue
     ll += 1
 
+q.reverse()
+
 with open("queriesqS7.sparql.luposTestDataFile", "r") as inp:
     lines = inp.readlines()
 
 data_files = lines[0].split(";")
 data_files.pop(-1)
 
+lines_t = len(data_files)
+lines_q = len(q)
+
 num_maxs = 0
 num_mins = 0
 num_middles = 0
-
+num_zeroes = 0
+num_ones = 0
+num_twos = 0
 for i, file in enumerate(data_files):
     with open(file, "r") as inp:
         lines = inp.readlines()
@@ -56,12 +65,17 @@ for i, file in enumerate(data_files):
 
     if pos0_tree == a0_tree or pos0_tree == a1_tree:
         join_order = 0
+        num_zeroes += 1
     elif pos1_tree == a0_tree or pos1_tree == a1_tree:
         join_order = 1
+        num_ones += 1
     elif pos2_tree == a0_tree or pos2_tree == a1_tree:
         join_order = 2
+        num_twos += 1
     else:
         join_order = -1
+        break
+
 
     print(join_order)
     #print(pos0_tree)
@@ -83,10 +97,39 @@ for i, file in enumerate(data_files):
     print(float(q[i][join_order].split(" ")[2]) == max(max_list))
     print(float(q[i][join_order].split(" ")[2]) == min(max_list))
 
+print(lines_q)
+print(lines_t)
+print(f"zeroes: {num_zeroes}")
+print(f"ones: {num_ones}")
+print(f"twos: {num_twos}")
+print("maxs")
+print(num_maxs)
+print(num_maxs/len(q))
+print("mins")
+print(num_mins)
+print(num_mins/len(q))
+print("middles")
+print(num_middles)
+print(num_middles/len(q))
+
+num_maxs = 0
+num_mins = 0
+num_middles = 0
+rand_list = []
+for i in range(len(q)):
+    rand_list.append(random.randint(0, 2))
+    max_list = [float(q[i][0].split(" ")[2]), float(q[i][1].split(" ")[2]), float(q[i][2].split(" ")[2])]
+
+    if float(q[i][rand_list[i]].split(" ")[2]) == max(max_list):
+        num_maxs += 1
+    elif float(q[i][rand_list[i]].split(" ")[2]) == min(max_list):
+        num_mins += 1
+    else:
+        num_middles += 1
+
 print(num_maxs)
 print(num_maxs/len(q))
 print(num_mins)
 print(num_mins/len(q))
 print(num_middles)
 print(num_middles/len(q))
-
