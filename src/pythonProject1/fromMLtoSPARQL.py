@@ -42,11 +42,11 @@ print(p_nums)
 
 str_lupos_params = ""
 for i in p_nums:
-    str_lupos_params += "/home/a/lupos/luposGitRepo/luposdate3000/src/pythonProject1/1024/" + \
+    str_lupos_params += "~/lupos/luposGitRepo/luposdate3000/src/pythonProject1/1024/" + \
                         "queries" + "qS" + str(i) + ".sparql;"
 
 str_lupos_params = str_lupos_params[:-1]
 
-with open("/home/a/lupos/luposGitRepo/luposdate3000/src/pythonProject1/" +
+with open("~/lupos/luposGitRepo/luposdate3000/src/pythonProject1/" +
           "lupos_test_data_params", "w") as params_file:
     params_file.write(str_lupos_params)
