@@ -280,10 +280,12 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             var res: XMLElement? = null
             for ((k, v) in query2.operatorgraphParts) {
                 assignHosts(query2, v)
-                if (k == "") {
-                    res = v
-                } else {
-                    query2.getInstance().communicationHandler!!.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"), query2.getTransactionID().toInt())
+                if (wantReturnValue) {
+                    if (k == "") {
+                        res = v
+                    } else {
+                        query2.getInstance().communicationHandler!!.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"), query2.getTransactionID().toInt())
+                    }
                 }
             }
             if (wantReturnValue) {

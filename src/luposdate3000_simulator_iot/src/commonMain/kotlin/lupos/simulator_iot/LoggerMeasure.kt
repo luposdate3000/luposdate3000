@@ -64,12 +64,16 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
         public const val StatNetworkTrafficParkingSampleInBytes: Int = 14
         public const val StatNetworkTrafficQueryInBytes: Int = 15
         public const val StatNetworkTrafficResponseInBytes: Int = 16
-        public const val StatNetworkTrafficAbstractInBytes: Int = 17
-        public const val StatNetworkTrafficOperatorGraphInBytes: Int = 18
-        public const val StatNetworkTrafficRoutingInBytes: Int = 19
-        public const val StatNetworkTrafficForwardedInBytes: Int = 20
-        public const val StatNetworkTrafficInBytes: Int = 21
-        public const val StatCounter: Int = 22
+        public const val StatNetworkTrafficOperatorGraphInBytes: Int = 17
+        public const val StatNetworkTrafficIntermediateResultsInBytes: Int = 18
+        public const val StatNetworkTrafficGraphCreateInBytes: Int = 19
+        public const val StatNetworkTrafficGraphUpdateInBytes: Int = 20
+        public const val StatNetworkTrafficDictionaryInBytes: Int = 21
+
+        public const val StatNetworkTrafficRoutingInBytes: Int = 22
+        public const val StatNetworkTrafficForwardedInBytes: Int = 23
+        public const val StatNetworkTrafficInBytes: Int = 24
+        public const val StatCounter: Int = 25
     }
     public val data: DoubleArray = DoubleArray(StatCounter)
     public val headers: Array<String> = Array(StatCounter) {
@@ -92,10 +96,13 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             StatNetworkTrafficParkingSampleInBytes -> "virtual network traffic parking samples(Bytes)"
             StatNetworkTrafficQueryInBytes -> "virtual network traffic query(Bytes)"
             StatNetworkTrafficResponseInBytes -> "virtual network traffic response(Bytes)"
-            StatNetworkTrafficAbstractInBytes -> "virtual network traffic abstract(Bytes)"
             StatNetworkTrafficOperatorGraphInBytes -> "virtual network traffic operatorGraph(Bytes)"
             StatNetworkTrafficRoutingInBytes -> "network traffic routing(Bytes)"
             StatNetworkTrafficForwardedInBytes -> "network traffic forwarded(Bytes)"
+            StatNetworkTrafficIntermediateResultsInBytes -> "virtual network traffic intermediate results(Bytes)"
+            StatNetworkTrafficGraphCreateInBytes -> "virtual network traffic graph create(Bytes)"
+            StatNetworkTrafficGraphUpdateInBytes -> "virtual network traffic graph update(Bytes)"
+            StatNetworkTrafficDictionaryInBytes -> "virtual network traffic dictionary(Bytes)"
             else -> TODO("$it")
         }
     }
@@ -123,7 +130,15 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             }
         }
     }
-    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
+/*
+        if (pck is MySimulatorAbstractPackage) {
+            if (pck.path == "/distributed/query/dictionary/register" || pck.path == "/distributed/query/dictionary/remove") {
+                TODO("this is completely wasted network traffic")
+            }
+        }
+*/
+    }
     override fun onReceivePackage(address: Int, pck: IPayload) {
         when (pck) {
             is MySimulatorTestingImportPackage, is MySimulatorTestingExecute, is MySimulatorTestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
@@ -134,7 +149,21 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             }
             is MySimulatorAbstractPackage -> {
                 data[StatNumberOfSentDatabasePackages]++
-                data[StatNetworkTrafficAbstractInBytes] += pck.getSizeInBytes().toDouble()
+                when (pck.path) {
+                    "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> {
+                        data[StatNetworkTrafficDictionaryInBytes] += pck.getSizeInBytes().toDouble()
+                    }
+                    "/distributed/graph/create" -> {
+                        data[StatNetworkTrafficGraphCreateInBytes] += pck.getSizeInBytes().toDouble()
+                    }
+                    "/distributed/graph/modify" -> {
+                        data[StatNetworkTrafficGraphUpdateInBytes] += pck.getSizeInBytes().toDouble()
+                    }
+                    "simulator-intermediate-result" -> {
+                        data[StatNetworkTrafficIntermediateResultsInBytes] += pck.getSizeInBytes().toDouble()
+                    }
+                    else -> TODO(pck.path)
+                }
             }
             is MySimulatorOperatorGraphPackage -> {
                 data[StatNumberOfSentDatabasePackages]++

@@ -29,7 +29,7 @@ import lupos.shared.inline.DictionaryHelper
 
 public class DictionaryCacheLayer(
     private val instance: Luposdate3000Instance,
-    private val dictionary: IDictionary,
+    public val dictionary: IDictionary,
     private val isLocal: Boolean,
 ) : IDictionary {
 

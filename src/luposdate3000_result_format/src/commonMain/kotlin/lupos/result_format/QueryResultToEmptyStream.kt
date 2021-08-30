@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.result_format
-
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
@@ -29,6 +28,7 @@ import lupos.shared.Parallel
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
+import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 
@@ -70,9 +70,9 @@ public class QueryResultToEmptyStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun invokeInternal(rootNode: IOPBase, timeoutInMs: Long, asRoot: Boolean) {
         val query = rootNode.getQuery()
-        val flag = query.getDictionaryUrl() == null
+        val flag = query.getDictionaryUrl() == null && query.getDictionary() !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
         val key = "${query.getTransactionID()}"
-        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (flag) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
@@ -163,7 +163,7 @@ public class QueryResultToEmptyStream : IResultFormat {
                 }
             }
         }
-        if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
+        if (flag) {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
         }
     }
