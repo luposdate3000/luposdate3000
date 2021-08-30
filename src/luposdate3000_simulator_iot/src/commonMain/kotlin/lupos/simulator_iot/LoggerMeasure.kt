@@ -42,38 +42,42 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 public class LoggerMeasure public constructor(private val simRun: SimulationRun) : ILogger {
     public companion object {
-        public const val StatNumberOfDevices: Int = 0
-        public const val StatNumberOfSensorDevices: Int = 1
-        public const val StatNumberOfDatabaseDevices: Int = 2
+        public var StatCounter: Int = 0
+        public val StatNumberOfDevices: Int = StatCounter++
+        public val StatNumberOfSensorDevices: Int = StatCounter++
+        public val StatNumberOfDatabaseDevices: Int = StatCounter++
 
-        public const val StatSimulationStartupDurationReal: Int = 3
-        public const val StatSimulationShutdownDurationReal: Int = 4
-        public const val StatSimulationDurationReal: Int = 5
-        public const val StatSimulationDurationVirtual: Int = 6
+        public val StatSimulationStartupDurationReal: Int = StatCounter++
+        public val StatSimulationShutdownDurationReal: Int = StatCounter++
+        public val StatSimulationDurationReal: Int = StatCounter++
+        public val StatSimulationDurationVirtual: Int = StatCounter++
 
-        public const val StatNumberOfQueriesRequested: Int = 7
-        public const val StatNumberOfSentSamplePackages: Int = 8
+        public val StatNetworkCounterParkingSample: Int = StatCounter++
+        public val StatNetworkCounterQuery: Int = StatCounter++
+        public val StatNetworkCounterResponse: Int = StatCounter++
+        public val StatNetworkCounterOperatorGraph: Int = StatCounter++
+        public val StatNetworkCounterIntermediateResults: Int = StatCounter++
+        public val StatNetworkCounterGraphCreate: Int = StatCounter++
+        public val StatNetworkCounterGraphUpdate: Int = StatCounter++
+        public val StatNetworkCounterDictionary: Int = StatCounter++
 
-        public const val StatNumberOfSentDatabasePackages: Int = 9
+        public val StatNetworkCounterRoutingDIO: Int = StatCounter++
+        public val StatNetworkCounterRoutingDAO: Int = StatCounter++
+        public val StatNetworkCounterForwarded: Int = StatCounter++
+        public val StatNetworkCounter: Int = StatCounter++
 
-        public const val StatNumberOfSentDIOPackages: Int = 10
-        public const val StatNumberOfSentDAOPackages: Int = 11
-        public const val StatNumberOfSentPackages: Int = 12
-        public const val StatNumberOfForwardedPackages: Int = 13
+        public val StatNetworkTrafficParkingSample: Int = StatCounter++
+        public val StatNetworkTrafficQuery: Int = StatCounter++
+        public val StatNetworkTrafficResponse: Int = StatCounter++
+        public val StatNetworkTrafficOperatorGraph: Int = StatCounter++
+        public val StatNetworkTrafficIntermediateResults: Int = StatCounter++
+        public val StatNetworkTrafficGraphCreate: Int = StatCounter++
+        public val StatNetworkTrafficGraphUpdate: Int = StatCounter++
+        public val StatNetworkTrafficDictionary: Int = StatCounter++
 
-        public const val StatNetworkTrafficParkingSampleInBytes: Int = 14
-        public const val StatNetworkTrafficQueryInBytes: Int = 15
-        public const val StatNetworkTrafficResponseInBytes: Int = 16
-        public const val StatNetworkTrafficOperatorGraphInBytes: Int = 17
-        public const val StatNetworkTrafficIntermediateResultsInBytes: Int = 18
-        public const val StatNetworkTrafficGraphCreateInBytes: Int = 19
-        public const val StatNetworkTrafficGraphUpdateInBytes: Int = 20
-        public const val StatNetworkTrafficDictionaryInBytes: Int = 21
-
-        public const val StatNetworkTrafficRoutingInBytes: Int = 22
-        public const val StatNetworkTrafficForwardedInBytes: Int = 23
-        public const val StatNetworkTrafficInBytes: Int = 24
-        public const val StatCounter: Int = 25
+        public val StatNetworkTrafficRouting: Int = StatCounter++
+        public val StatNetworkTrafficForwarded: Int = StatCounter++
+        public val StatNetworkTraffic: Int = StatCounter++
     }
     public val data: DoubleArray = DoubleArray(StatCounter)
     public val headers: Array<String> = Array(StatCounter) {
@@ -81,28 +85,39 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             StatNumberOfDevices -> "number of devices"
             StatNumberOfSensorDevices -> "number of sensor devices"
             StatNumberOfDatabaseDevices -> "number of database devices"
+
             StatSimulationStartupDurationReal -> "simulation startup duration real (Seconds)"
             StatSimulationShutdownDurationReal -> "simulation shutdown duration real (Seconds)"
             StatSimulationDurationReal -> "simulation duration real (Seconds)"
             StatSimulationDurationVirtual -> "simulation duration virtual (Seconds)"
-            StatNumberOfSentPackages -> "number of sent packages"
-            StatNumberOfSentSamplePackages -> "number of virtually sent sample packages"
-            StatNumberOfQueriesRequested -> "number of queries requested (including all sensor inserts)"
-            StatNumberOfSentDatabasePackages -> "number of virtually sent database packages"
-            StatNumberOfSentDIOPackages -> "number of sent DIO packages"
-            StatNumberOfSentDAOPackages -> "number of sent DAO packages"
-            StatNumberOfForwardedPackages -> "number of forwarded packages"
-            StatNetworkTrafficInBytes -> "network traffic total (Bytes)"
-            StatNetworkTrafficParkingSampleInBytes -> "virtual network traffic parking samples(Bytes)"
-            StatNetworkTrafficQueryInBytes -> "virtual network traffic query(Bytes)"
-            StatNetworkTrafficResponseInBytes -> "virtual network traffic response(Bytes)"
-            StatNetworkTrafficOperatorGraphInBytes -> "virtual network traffic operatorGraph(Bytes)"
-            StatNetworkTrafficRoutingInBytes -> "network traffic routing(Bytes)"
-            StatNetworkTrafficForwardedInBytes -> "network traffic forwarded(Bytes)"
-            StatNetworkTrafficIntermediateResultsInBytes -> "virtual network traffic intermediate results(Bytes)"
-            StatNetworkTrafficGraphCreateInBytes -> "virtual network traffic graph create(Bytes)"
-            StatNetworkTrafficGraphUpdateInBytes -> "virtual network traffic graph update(Bytes)"
-            StatNetworkTrafficDictionaryInBytes -> "virtual network traffic dictionary(Bytes)"
+
+            StatNetworkCounterParkingSample -> "number of virtually sent parking samples packages"
+            StatNetworkCounterQuery -> "number of virtually sent query packages"
+            StatNetworkCounterResponse -> "number of virtually sent response packages"
+            StatNetworkCounterOperatorGraph -> "number of virtually sent operatorGraph packages"
+            StatNetworkCounterIntermediateResults -> "number of virtually sent intermediate results packages"
+            StatNetworkCounterGraphCreate -> "number of virtually sent graph create packages"
+            StatNetworkCounterGraphUpdate -> "number of virtually sent graph update packages"
+            StatNetworkCounterDictionary -> "number of virtually sent dictionary packages"
+
+            StatNetworkCounterRoutingDIO -> "number of sent DIO packages"
+            StatNetworkCounterRoutingDAO -> "number of sent DAO packages"
+            StatNetworkCounterForwarded -> "number of forwarded packages"
+            StatNetworkCounter -> "number of sent packages"
+
+            StatNetworkTrafficParkingSample -> "virtual network traffic parking samples(Bytes)"
+            StatNetworkTrafficQuery -> "virtual network traffic query(Bytes)"
+            StatNetworkTrafficResponse -> "virtual network traffic response(Bytes)"
+            StatNetworkTrafficOperatorGraph -> "virtual network traffic operatorGraph(Bytes)"
+            StatNetworkTrafficIntermediateResults -> "virtual network traffic intermediate results(Bytes)"
+            StatNetworkTrafficGraphCreate -> "virtual network traffic graph create(Bytes)"
+            StatNetworkTrafficGraphUpdate -> "virtual network traffic graph update(Bytes)"
+            StatNetworkTrafficDictionary -> "virtual network traffic dictionary(Bytes)"
+
+            StatNetworkTrafficRouting -> "network traffic routing(Bytes)"
+            StatNetworkTrafficForwarded -> "network traffic forwarded(Bytes)"
+            StatNetworkTraffic -> "network traffic total (Bytes)"
+
             else -> TODO("$it")
         }
     }
@@ -111,22 +126,22 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     private lateinit var shutDownTimeStamp: Instant
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
-        data[StatNetworkTrafficInBytes] += pck.getSizeInBytes().toDouble()
+        data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
         if (dest != hop) {
-            data[StatNumberOfForwardedPackages]++
-            data[StatNetworkTrafficForwardedInBytes] += pck.getSizeInBytes().toDouble()
+            data[StatNetworkCounterForwarded]++
+            data[StatNetworkTrafficForwarded] += pck.getSizeInBytes().toDouble()
         }
     }
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {
-        data[StatNumberOfSentPackages]++
+        data[StatNetworkCounter]++
         when (pck) {
             is DIO -> {
-                data[StatNumberOfSentDIOPackages]++
-                data[StatNetworkTrafficRoutingInBytes] += pck.getSizeInBytes().toDouble()
+                data[StatNetworkCounterRoutingDIO]++
+                data[StatNetworkTrafficRouting] += pck.getSizeInBytes().toDouble()
             }
             is DAO -> {
-                data[StatNumberOfSentDAOPackages]++
-                data[StatNetworkTrafficRoutingInBytes] += pck.getSizeInBytes().toDouble()
+                data[StatNetworkCounterRoutingDAO]++
+                data[StatNetworkTrafficRouting] += pck.getSizeInBytes().toDouble()
             }
         }
     }
@@ -142,44 +157,45 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     override fun onReceivePackage(address: Int, pck: IPayload) {
         when (pck) {
             is MySimulatorTestingImportPackage, is MySimulatorTestingExecute, is MySimulatorTestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
-                data[StatNumberOfSentDatabasePackages]++
             }
             is PreprocessingPackage, is ResultPackage, is ChoosenOperatorPackage -> { // dummyImpl
-                data[StatNumberOfSentDatabasePackages]++
             }
             is MySimulatorAbstractPackage -> {
-                data[StatNumberOfSentDatabasePackages]++
                 when (pck.path) {
                     "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> {
-                        data[StatNetworkTrafficDictionaryInBytes] += pck.getSizeInBytes().toDouble()
+                        data[StatNetworkTrafficDictionary] += pck.getSizeInBytes().toDouble()
+data[StatNetworkCounterDictionary]++
                     }
                     "/distributed/graph/create" -> {
-                        data[StatNetworkTrafficGraphCreateInBytes] += pck.getSizeInBytes().toDouble()
+                        data[StatNetworkTrafficGraphCreate] += pck.getSizeInBytes().toDouble()
+data[StatNetworkCounterGraphCreate]++
                     }
                     "/distributed/graph/modify" -> {
-                        data[StatNetworkTrafficGraphUpdateInBytes] += pck.getSizeInBytes().toDouble()
+                        data[StatNetworkTrafficGraphUpdate] += pck.getSizeInBytes().toDouble()
+data[StatNetworkCounterGraphUpdate] ++
                     }
                     "simulator-intermediate-result" -> {
-                        data[StatNetworkTrafficIntermediateResultsInBytes] += pck.getSizeInBytes().toDouble()
+                        data[StatNetworkTrafficIntermediateResults] += pck.getSizeInBytes().toDouble()
+data[StatNetworkCounterIntermediateResults] ++
                     }
                     else -> TODO(pck.path)
                 }
             }
             is MySimulatorOperatorGraphPackage -> {
-                data[StatNumberOfSentDatabasePackages]++
-                data[StatNetworkTrafficOperatorGraphInBytes] += pck.getSizeInBytes().toDouble()
+                data[StatNetworkTrafficOperatorGraph] += pck.getSizeInBytes().toDouble()
+data[StatNetworkCounterOperatorGraph] ++
             }
             is QueryResponsePackage -> {
-                data[StatNumberOfSentDatabasePackages]++
-                data[StatNetworkTrafficResponseInBytes] += pck.getSizeInBytes().toDouble()
+                data[StatNetworkTrafficResponse] += pck.getSizeInBytes().toDouble()
+ data[StatNetworkCounterResponse] ++
             }
             is ParkingSample -> {
-                data[StatNumberOfSentSamplePackages]++
-                data[StatNetworkTrafficParkingSampleInBytes] += pck.getSizeInBytes().toDouble()
+                data[StatNetworkTrafficParkingSample] += pck.getSizeInBytes().toDouble()
+data[StatNetworkCounterParkingSample] ++
             }
             is QueryPackage -> {
-                data[StatNumberOfQueriesRequested]++
-                data[StatNetworkTrafficQueryInBytes] += pck.getSizeInBytes().toDouble()
+                data[StatNetworkTrafficQuery] += pck.getSizeInBytes().toDouble()
+data[StatNetworkCounterQuery] ++
             }
             else -> TODO("$pck")
         }
