@@ -66,8 +66,10 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
         public const val StatNetworkTrafficResponseInBytes: Int = 16
         public const val StatNetworkTrafficAbstractInBytes: Int = 17
         public const val StatNetworkTrafficOperatorGraphInBytes: Int = 18
-        public const val StatNetworkTrafficInBytes: Int = 19
-        public const val StatCounter: Int = 20
+        public const val StatNetworkTrafficRoutingInBytes: Int = 19
+        public const val StatNetworkTrafficForwardedInBytes: Int = 20
+        public const val StatNetworkTrafficInBytes: Int = 21
+        public const val StatCounter: Int = 22
     }
     public val data: DoubleArray = DoubleArray(StatCounter)
     public val headers: Array<String> = Array(StatCounter) {
@@ -87,11 +89,13 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             StatNumberOfSentDAOPackages -> "number of sent DAO packages"
             StatNumberOfForwardedPackages -> "number of forwarded packages"
             StatNetworkTrafficInBytes -> "network traffic total (Bytes)"
-            StatNetworkTrafficParkingSampleInBytes -> "network traffic parking samples(Bytes)"
-            StatNetworkTrafficQueryInBytes -> "network traffic query(Bytes)"
-            StatNetworkTrafficResponseInBytes -> "network traffic response(Bytes)"
-            StatNetworkTrafficAbstractInBytes -> "network traffic abstract(Bytes)"
-            StatNetworkTrafficOperatorGraphInBytes -> "network traffic operatorGraph(Bytes)"
+            StatNetworkTrafficParkingSampleInBytes -> "virtual network traffic parking samples(Bytes)"
+            StatNetworkTrafficQueryInBytes -> "virtual network traffic query(Bytes)"
+            StatNetworkTrafficResponseInBytes -> "virtual network traffic response(Bytes)"
+            StatNetworkTrafficAbstractInBytes -> "virtual network traffic abstract(Bytes)"
+            StatNetworkTrafficOperatorGraphInBytes -> "virtual network traffic operatorGraph(Bytes)"
+            StatNetworkTrafficRoutingInBytes -> "network traffic routing(Bytes)"
+            StatNetworkTrafficForwardedInBytes -> "network traffic forwarded(Bytes)"
             else -> TODO("$it")
         }
     }
@@ -103,13 +107,20 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
         data[StatNetworkTrafficInBytes] += pck.getSizeInBytes().toDouble()
         if (dest != hop) {
             data[StatNumberOfForwardedPackages]++
+            data[StatNetworkTrafficForwardedInBytes] += pck.getSizeInBytes().toDouble()
         }
     }
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {
         data[StatNumberOfSentPackages]++
         when (pck) {
-            is DIO -> data[StatNumberOfSentDIOPackages]++
-            is DAO -> data[StatNumberOfSentDAOPackages]++
+            is DIO -> {
+                data[StatNumberOfSentDIOPackages]++
+                data[StatNetworkTrafficRoutingInBytes] += pck.getSizeInBytes().toDouble()
+            }
+            is DAO -> {
+                data[StatNumberOfSentDAOPackages]++
+                data[StatNetworkTrafficRoutingInBytes] += pck.getSizeInBytes().toDouble()
+            }
         }
     }
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
