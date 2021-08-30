@@ -20,7 +20,6 @@ import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.sensor.ParkingSensor
-import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -31,7 +30,7 @@ import kotlin.test.assertTrue
 class ConfigurationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/configurationTest"
+        private const val prefix = "src/jvmTest/resources/configurationTest"
     }
 
     @Test

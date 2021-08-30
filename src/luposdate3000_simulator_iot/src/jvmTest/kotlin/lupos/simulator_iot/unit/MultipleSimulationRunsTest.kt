@@ -19,13 +19,12 @@ package lupos.simulator_iot.unit
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.MultipleSimulationRuns
-import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 
 internal class MultipleSimulationRunsTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/multipleSimulationRunsTest"
+        private const val prefix = "src/jvmTest/resources/multipleSimulationRunsTest"
     }
 
     @Test

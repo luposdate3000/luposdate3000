@@ -18,7 +18,6 @@
 package lupos.simulator_iot.unit
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.routing.RPL
-import lupos.simulator_iot.utils.FilePaths
 import lupos.simulator_iot.utils.TimeUtils
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -28,7 +27,7 @@ import kotlin.test.assertTrue
 class RoutingSimulationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/routingSimulationTest"
+        private const val prefix = "src/jvmTest/resources/routingSimulationTest"
     }
 
     @Test

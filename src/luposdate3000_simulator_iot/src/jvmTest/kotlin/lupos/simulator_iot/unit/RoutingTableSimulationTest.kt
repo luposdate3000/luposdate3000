@@ -19,14 +19,13 @@ package lupos.simulator_iot.unit
 
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.routing.RPL
-import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RoutingTableSimulationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/routingTableSimulationTest"
+        private const val prefix = "src/jvmTest/resources/routingTableSimulationTest"
     }
 
     @Test

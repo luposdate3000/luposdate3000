@@ -17,18 +17,15 @@
 
 package lupos.simulator_iot.queryproc
 
-import lupos.shared.inline.File
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.utils.FilePaths
 
 public class DatabaseAdapter(
     private val device: Device,
 ) : IUserApplicationLayer {
     private lateinit var child: IUserApplication
-    private var pathToStateOfThisDevice = "${FilePaths.dbStates}/device${device.address}"
 
     override fun getAllChildApplications(): Set<IUserApplication> {
         var res = mutableSetOf<IUserApplication>()
@@ -48,10 +45,6 @@ public class DatabaseAdapter(
             TODO("$res")
         }
         return null
-    }
-
-    init {
-        File(pathToStateOfThisDevice).mkdirs()
     }
 
     public override fun startUp() {

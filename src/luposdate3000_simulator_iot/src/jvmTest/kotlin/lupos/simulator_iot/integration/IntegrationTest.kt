@@ -23,13 +23,12 @@ import lupos.simulator_iot.Evaluation
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.queryproc.SemanticData
-import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 
 class IntegrationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/integrationTest"
+        private const val prefix = "src/jvmTest/resources/integrationTest"
     }
 
     @Test

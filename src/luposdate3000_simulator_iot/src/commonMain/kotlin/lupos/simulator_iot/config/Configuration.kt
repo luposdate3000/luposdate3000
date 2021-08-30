@@ -41,15 +41,16 @@ import lupos.simulator_iot.models.net.StarNetwork
 import lupos.simulator_iot.models.sensor.ParkingSensor
 import lupos.simulator_iot.queryproc.ApplicationLayerReceiveQueryResonse
 import lupos.simulator_iot.queryproc.DatabaseAdapter
-import lupos.simulator_iot.utils.FilePaths
 import lupos.visualize.distributed.database.VisualisationNetwork
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
-    private val defaultOutputDirectory = "simulator_output"
+    public companion object {
+        public val defaultOutputDirectory: String = "simulator_output"
+    }
     public var devices: MutableList<Device> = mutableListOf()
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
-
+    public var outputDirectory: String = defaultOutputDirectory
     public var jsonObjects: JsonObjects = JsonObjects()
         private set
     public var json: JsonParserObject? = null
@@ -83,7 +84,7 @@ public class Configuration(private val simRun: SimulationRun) {
     internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
         jsonObjects = JsonObjects(json)
-        var outputDirectory = json.getOrDefault("outputDirectory", defaultOutputDirectory) + "/"
+        outputDirectory = json.getOrDefault("outputDirectory", defaultOutputDirectory) + "/"
         if (outputDirectory == "") {
             outputDirectory = defaultOutputDirectory
             json.set("outputDirectory", defaultOutputDirectory)
@@ -113,7 +114,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:115"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:116"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -258,7 +259,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:260"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:261"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -286,8 +287,12 @@ public class Configuration(private val simRun: SimulationRun) {
                     ownAddress = device.address,
                     allAddressesStore = dbDeviceAddressesStore,
                     allAddressesQuery = dbDeviceAddressesQuery,
-                    absolutePathToDataDirectory = "${FilePaths.dbStates}/device${device.address}",
-                ) {}
+                    absolutePathToDataDirectory = "$outputDirectory/db_states/device${device.address}",
+                ) {
+                    init {
+                        File(absolutePathToDataDirectory).mkdirs()
+                    }
+                }
             }
             val jsonDatabase = json!!.getOrEmptyObject("database")
             val adapter = DatabaseAdapter(device)

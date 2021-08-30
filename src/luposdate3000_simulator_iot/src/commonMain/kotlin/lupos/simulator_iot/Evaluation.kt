@@ -19,8 +19,8 @@ package lupos.simulator_iot
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
+import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.queryproc.SemanticData
-import lupos.simulator_iot.utils.FilePaths
 public class Evaluation {
     public constructor() {}
     public fun simulate(configFileName: String) {
@@ -68,7 +68,7 @@ public class Evaluation {
 
     public fun evalConfigFile(configFileName: String) {
         val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-        json.getOrDefault("outputDirectory", FilePaths.outputDir + "/" + configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf(".")))
+        json.getOrDefault("outputDirectory", Configuration.defaultOutputDirectory + "/" + configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf(".")))
         val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1))
         runs.startSimulationRuns()
         File(configFileName).withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
@@ -77,7 +77,7 @@ public class Evaluation {
     }
     public fun evalConfigFileMerge(configFileNames: List<String>) {
         val json = JsonParser().fileMergeToJson(configFileNames)as JsonParserObject
-        var outputdirectoryTmp = FilePaths.outputDir + "/"
+        var outputdirectoryTmp = Configuration.defaultOutputDirectory + "/"
         for (n in configFileNames) {
             val a = n.lastIndexOf("/") + 1
             val b = n.lastIndexOf(".")
@@ -126,35 +126,35 @@ public class Evaluation {
     public fun evalQueryProcessingCentralizedCase() {
         evalConfigFilesMerge(
             setOf(
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q0.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q1.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q2.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q3.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q4.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q5.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q6.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q7.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/central.json", "${FilePaths.jvmResource}/Q8.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q0.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q1.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q2.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q3.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q4.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q5.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q6.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q7.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/central.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q8.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
             )
         )
     }
 
     public fun evalQueryProcessingDistributedCaseDummy() {
-        evalConfigFileMerge(listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/dummy.json"))
+        evalConfigFileMerge(listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/dummy.json"))
     }
 
     public fun evalQueryProcessingDistributedCase() {
         evalConfigFilesMerge(
             setOf(
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q0.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q1.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q2.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q3.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q4.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q5.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q6.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q7.json", "${FilePaths.jvmResource}/luposdate3000.json",),
-                listOf("${FilePaths.jvmResource}/campus.json", "${FilePaths.jvmResource}/distributed.json", "${FilePaths.jvmResource}/Q8.json", "${FilePaths.jvmResource}/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q0.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q1.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q2.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q3.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q4.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q5.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q6.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q7.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
+                listOf("src/luposdate3000_simulator_iot/src/jvmMain/resources/campus.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/distributed.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/Q8.json", "src/luposdate3000_simulator_iot/src/jvmMain/resources/luposdate3000.json",),
             )
         )
     }
@@ -171,7 +171,7 @@ public class Evaluation {
     }
 
     public fun evalCampusNumberOfSamplings() {
-        val configFileName = "${FilePaths.jvmResource}/campusNumberOfSampling.json"
+        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/campusNumberOfSampling.json"
         val range = getSamplingNumber()
         for ((run, numOfSamples) in range.withIndex()) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
@@ -184,7 +184,7 @@ public class Evaluation {
     }
 
     public fun evalCampusDistributedSampling() {
-        val configFileName = "${FilePaths.jvmResource}/campusDistributedSampling.json"
+        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/campusDistributedSampling.json"
         for (run in 0 until 11) {
             val json = JsonParser().fileToJson(configFileName)as JsonParserObject
             val deviceType = json.getOrEmptyArray("deviceType")
@@ -198,7 +198,7 @@ public class Evaluation {
     }
 
     public fun evalMeshPerformance() {
-        val configFileName = "${FilePaths.jvmResource}/meshPerformance.json"
+        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/meshPerformance.json"
         var ranges = getMeshPerfRanges()
         ranges = addInitialBuffer(ranges, 4)
         for ((index, range) in ranges.withIndex()) {
@@ -212,7 +212,7 @@ public class Evaluation {
     }
 
     public fun evalStarPerformanceWithLuposdate() {
-        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
+        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(22, 50) // max. 1171 instances are possible.
         nodeSizes = addInitialBuffer(nodeSizes, 4)
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
@@ -231,7 +231,7 @@ public class Evaluation {
     }
 
     public fun evalStarPerformanceWithDummy() {
-        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
+        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(22, 50)
         nodeSizes = addInitialBuffer(nodeSizes, 4)
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {
@@ -250,7 +250,7 @@ public class Evaluation {
     }
 
     public fun evalStarPerformance() {
-        val configFileName = "${FilePaths.jvmResource}/starPerformance.json"
+        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/starPerformance.json"
         var nodeSizes = buildNodeSizesArray(21, 1000)
         nodeSizes = addInitialBuffer(nodeSizes, 4)
         for ((index, numberOfNodes) in nodeSizes.withIndex()) {

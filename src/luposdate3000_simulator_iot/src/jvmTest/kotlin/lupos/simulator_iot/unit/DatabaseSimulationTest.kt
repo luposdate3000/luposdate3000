@@ -18,13 +18,12 @@
 package lupos.simulator_iot.unit
 
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
 
 class DatabaseSimulationTest {
 
     companion object {
-        private const val prefix = "${FilePaths.testResource}/databaseSimulationTest"
+        private const val prefix = "src/jvmTest/resources/databaseSimulationTest"
     }
 
     /**
