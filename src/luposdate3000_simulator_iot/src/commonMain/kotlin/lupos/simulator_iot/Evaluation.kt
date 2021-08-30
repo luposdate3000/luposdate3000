@@ -69,7 +69,7 @@ public class Evaluation {
     public fun evalConfigFile(configFileName: String) {
         val json = JsonParser().fileToJson(configFileName)as JsonParserObject
         json.getOrDefault("outputDirectory", Configuration.defaultOutputDirectory + "/" + configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf(".")))
-        val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1))
+        val runs = MultipleSimulationRuns(json)
         runs.startSimulationRuns()
         File(configFileName).withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json, true))
@@ -105,7 +105,7 @@ public class Evaluation {
         File(outputdirectory + ".generated.parsed.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json, false))
         }
-        val runs = MultipleSimulationRuns(json, json.getOrDefault("repeatSimulationCount", 1))
+        val runs = MultipleSimulationRuns(json)
         runs.startSimulationRuns()
         File(outputdirectory + ".generated.used.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json, true))
@@ -178,7 +178,7 @@ public class Evaluation {
             val sensorType = json.getOrEmptyArray("sensorType")
             val sensorType0 = sensorType.firstOrEmptyObject()
             sensorType0["maxSamples"] = numOfSamples
-            MultipleSimulationRuns(json, 1).startSimulationRuns()
+            MultipleSimulationRuns(json).startSimulationRuns()
             println("evalQueryProcessingDistributedCase: Run ${run + 1} finished. ${501 - run - 1 } runs left..")
         }
     }
@@ -192,7 +192,7 @@ public class Evaluation {
                 val dev = deviceType[instance] as JsonParserObject
                 dev["database"] = true
             }
-            MultipleSimulationRuns(json, 1).startSimulationRuns()
+            MultipleSimulationRuns(json).startSimulationRuns()
             println("evalQueryProcessingDistributedCase: Run ${run + 1} finished. ${11 - run - 1 } runs left..")
         }
     }
@@ -206,7 +206,7 @@ public class Evaluation {
             val linkType = json.getOrEmptyArray("linkType")
             val linkType0 = linkType.firstOrEmptyObject()
             linkType0["rangeInMeters"] = range
-            MultipleSimulationRuns(json, 1).startSimulationRuns()
+            MultipleSimulationRuns(json).startSimulationRuns()
             println("evalMeshPerformance: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
         }
     }
@@ -225,7 +225,7 @@ public class Evaluation {
             randomStarNetwork0["number"] = numberOfNodes
             deviceType0["database"] = true
             database["type"] = "Luposdate3000"
-            MultipleSimulationRuns(json, 100).startSimulationRuns()
+            MultipleSimulationRuns(json).startSimulationRuns()
             println("evalStarPerformanceWithLuposdate: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
@@ -244,7 +244,7 @@ public class Evaluation {
             randomStarNetwork0["number"] = numberOfNodes
             deviceType0["database"] = true
             database["type"] = "Dummy"
-            MultipleSimulationRuns(json, 100).startSimulationRuns()
+            MultipleSimulationRuns(json).startSimulationRuns()
             println("evalStarPerfWithDummy: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
@@ -263,7 +263,7 @@ public class Evaluation {
             randomStarNetwork0["number"] = numberOfNodes
             deviceType0["database"] = false
             database["type"] = "Dummy"
-            MultipleSimulationRuns(json, 100).startSimulationRuns()
+            MultipleSimulationRuns(json).startSimulationRuns()
             println("evalStarPerf: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }

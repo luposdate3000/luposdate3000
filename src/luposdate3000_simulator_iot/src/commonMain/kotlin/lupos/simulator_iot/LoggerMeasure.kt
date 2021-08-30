@@ -164,38 +164,38 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                 when (pck.path) {
                     "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> {
                         data[StatNetworkTrafficDictionary] += pck.getSizeInBytes().toDouble()
-data[StatNetworkCounterDictionary]++
+                        data[StatNetworkCounterDictionary]++
                     }
                     "/distributed/graph/create" -> {
                         data[StatNetworkTrafficGraphCreate] += pck.getSizeInBytes().toDouble()
-data[StatNetworkCounterGraphCreate]++
+                        data[StatNetworkCounterGraphCreate]++
                     }
                     "/distributed/graph/modify" -> {
                         data[StatNetworkTrafficGraphUpdate] += pck.getSizeInBytes().toDouble()
-data[StatNetworkCounterGraphUpdate] ++
+                        data[StatNetworkCounterGraphUpdate]++
                     }
                     "simulator-intermediate-result" -> {
                         data[StatNetworkTrafficIntermediateResults] += pck.getSizeInBytes().toDouble()
-data[StatNetworkCounterIntermediateResults] ++
+                        data[StatNetworkCounterIntermediateResults]++
                     }
                     else -> TODO(pck.path)
                 }
             }
             is MySimulatorOperatorGraphPackage -> {
                 data[StatNetworkTrafficOperatorGraph] += pck.getSizeInBytes().toDouble()
-data[StatNetworkCounterOperatorGraph] ++
+                data[StatNetworkCounterOperatorGraph]++
             }
             is QueryResponsePackage -> {
                 data[StatNetworkTrafficResponse] += pck.getSizeInBytes().toDouble()
- data[StatNetworkCounterResponse] ++
+                data[StatNetworkCounterResponse]++
             }
             is ParkingSample -> {
                 data[StatNetworkTrafficParkingSample] += pck.getSizeInBytes().toDouble()
-data[StatNetworkCounterParkingSample] ++
+                data[StatNetworkCounterParkingSample]++
             }
             is QueryPackage -> {
                 data[StatNetworkTrafficQuery] += pck.getSizeInBytes().toDouble()
-data[StatNetworkCounterQuery] ++
+                data[StatNetworkCounterQuery]++
             }
             else -> TODO("$pck")
         }

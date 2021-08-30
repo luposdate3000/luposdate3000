@@ -16,62 +16,44 @@
  */
 
 package lupos.simulator_iot
+
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import kotlin.math.sqrt
+
 internal class MultipleSimulationRuns(
     private val json: JsonParserObject,
-    private val numberOfRepetitions: Int,
 ) {
-    init {
-        json.getOrEmptyObject("logging").getOrEmptyObject("measure").set("enabled", true)
-    }
-    private val measurements: MutableList<LoggerMeasure> = mutableListOf()
 
     internal fun startSimulationRuns() {
-        for (repetition in 1..numberOfRepetitions) {
-            startSimulationRun()
-        }
-        evaluate()
-    }
-
-    private fun startSimulationRun() {
-        val simRun = SimulationRun()
-        val config = simRun.parseConfig(json, "", false)
-        simRun.startSimulation(config)
-        for (logger in simRun.logger.loggers) {
-            if (logger is LoggerMeasure) {
-                measurements.add(logger)
+        val measurements = mutableListOf()
+        json.getOrEmptyObject("logging").getOrEmptyObject("measure").set("enabled", true)
+        val outputDirectory = json.getOrDefault("outputDirectory", "simulation_output") + "/"
+        File(outputDirectory).mkdirs()
+        fun appendLineToFile(name: String, header: () -> String, line: String) {
+            val f = File(outputDirectory + name)
+            val flag = f.exists()
+            val stream = f.openOutputStream(flag)
+            if (!flag) {
+                stream.println(header())
             }
-        }
-    }
-
-    private fun evaluate() {
-        fun appendLineToFile(f: File, l: String, append: Boolean) {
-            val stream = f.openOutputStream(append)
-            stream.println(l)
+            stream.println(line)
             stream.close()
         }
-        if (measurements.size> 0) {
+        val numberOfRepetitions: Int = json.getOrDefault("repeatSimulationCount", 1)
+        for (repetition in 0 until numberOfRepetitions) {
+            val simRun = SimulationRun()
+            val config = simRun.parseConfig(json, "", false)
+            simRun.startSimulation(config)
+            for (logger in simRun.logger.loggers) {
+                if (logger is LoggerMeasure) {
+                    measurements.add(logger)
+                    appendLineToFile("measurement.csv", { logger.headers.toList().joinToString(",") }, logger.data.toList().joinToString(","))
+                }
+            }
+        }
+        if (measurements.size > 0) {
             val firstLogger = measurements.first()
-            val outputDirectory = json.getOrDefault("outputDirectory", "simulation_output")
-            File(outputDirectory).mkdirs()
-            val fileMea = File(outputDirectory + "/measurement.csv")
-            val fileAvg = File(outputDirectory + "/average.csv")
-            val fileDev = File(outputDirectory + "/deviation.csv")
-            val fileDevp = File(outputDirectory + "/deviationPercent.csv")
-            if (!fileMea.exists()) {
-                appendLineToFile(fileMea, firstLogger.headers.toList().joinToString(","), false)
-            }
-            if (!fileAvg.exists()) {
-                appendLineToFile(fileAvg, firstLogger.headers.toList().joinToString(","), false)
-            }
-            if (!fileDev.exists()) {
-                appendLineToFile(fileDev, firstLogger.headers.toList().joinToString(","), false)
-            }
-            if (!fileDevp.exists()) {
-                appendLineToFile(fileDevp, firstLogger.headers.toList().joinToString(","), false)
-            }
             val dataAvg = DoubleArray(LoggerMeasure.StatCounter)
             val dataDev = DoubleArray(LoggerMeasure.StatCounter)
             val dataDevp = DoubleArray(LoggerMeasure.StatCounter)
@@ -94,12 +76,9 @@ internal class MultipleSimulationRuns(
                 dataDev[i] = dev
                 dataDevp[i] = devPercent
             }
-            for (m in measurements) {
-                appendLineToFile(fileMea, m.data.toList().joinToString(","), true)
-            }
-            appendLineToFile(fileAvg, dataAvg.toList().joinToString(","), true)
-            appendLineToFile(fileDev, dataDev.toList().joinToString(","), true)
-            appendLineToFile(fileDevp, dataDevp.toList().joinToString(","), true)
+            appendLineToFile("average.csv", { firstLogger.headers.toList().joinToString(",") }, dataAvg.toList().joinToString(","))
+            appendLineToFile("deviation.csv", { firstLogger.headers.toList().joinToString(",") }, dataDev.toList().joinToString(","))
+            appendLineToFile("deviationPercent.csv", { firstLogger.headers.toList().joinToString(",") }, dataDevp.toList().joinToString(","))
         }
     }
 }

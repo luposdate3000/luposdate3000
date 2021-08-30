@@ -31,7 +31,6 @@ internal class MultipleSimulationRunsTest {
     fun runMultipleStarNetworkSimulations() {
         val runs = MultipleSimulationRuns(
             json = JsonParser().fileToJson("$prefix/runMultipleStarNetworkSimulations.json") as JsonParserObject,
-            numberOfRepetitions = 3,
         )
         runs.startSimulationRuns()
     }
@@ -40,7 +39,6 @@ internal class MultipleSimulationRunsTest {
     fun test_1() {
         val runs = MultipleSimulationRuns(
             json = JsonParser().fileToJson("$prefix/meshToDODAG.json") as JsonParserObject,
-            numberOfRepetitions = 2,
         )
         runs.startSimulationRuns()
     }
