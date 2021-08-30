@@ -20,3 +20,6 @@ package lupos.simulator_db
 public interface IPayload {
     public fun getSizeInBytes(): Int
 }
+public interface IPayloadLayer : IPayload {
+    public fun getApplicationPayload(): List<IPayload>
+}

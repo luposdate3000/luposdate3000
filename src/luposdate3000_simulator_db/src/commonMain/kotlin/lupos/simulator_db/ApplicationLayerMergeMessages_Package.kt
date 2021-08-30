@@ -18,7 +18,18 @@
 package lupos.simulator_db
 internal class ApplicationLayerMergeMessages_Package(
     internal val data: MutableList<IPayload>,
-) : IPayload {
+) : IPayloadLayer {
     override fun toString(): String = "ApplicationLayerMergeMessages_Package($data)"
     override fun getSizeInBytes(): Int = data.map { it.getSizeInBytes() }.sum()
+    override fun getApplicationPayload(): List<IPayload> {
+        var res = mutableListOf<IPayload>()
+        for (d in data) {
+            if (d is IPayloadLayer) {
+                res.addAll(d.getApplicationPayload())
+            } else {
+                res.add(d)
+            }
+        }
+        return res
+    }
 }

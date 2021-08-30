@@ -20,8 +20,15 @@ internal class ApplicationLayerSequence_Package(
     internal val data: IPayload,
     internal val num: Int,
     internal val src: Int,
-) : IPayload {
+) : IPayloadLayer {
 
     override fun getSizeInBytes(): Int = data.getSizeInBytes() + 8
     override fun toString(): String = "ApplicationLayerSequence_Package($data)"
+    override fun getApplicationPayload(): List<IPayload> {
+        if (data is IPayloadLayer) {
+            return data.getApplicationPayload()
+        } else {
+            return listOf(data)
+        }
+    }
 }

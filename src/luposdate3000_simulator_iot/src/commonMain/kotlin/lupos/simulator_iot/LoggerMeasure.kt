@@ -24,6 +24,7 @@ import kotlinx.datetime.plus
 import lupos.shared.XMLElement
 import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
+import lupos.simulator_db.IPayloadLayer
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
 import lupos.simulator_db.dummyImpl.ChoosenOperatorPackage
@@ -126,14 +127,23 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     private lateinit var shutDownTimeStamp: Instant
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
-        data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
         if (dest != hop) {
             data[StatNetworkCounterForwarded]++
             data[StatNetworkTrafficForwarded] += pck.getSizeInBytes().toDouble()
         }
     }
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {
+        data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
         data[StatNetworkCounter]++
+        if (pck is IPayloadLayer) {
+            for (p in pck.getApplicationPayload()) {
+                onReceiveNetworkPackageInternal(address, p)
+            }
+        } else {
+            onReceiveNetworkPackageInternal(address, pck)
+        }
+    }
+    private fun onReceiveNetworkPackageInternal(address: Int, pck: IPayload) {
         when (pck) {
             is DIO -> {
                 data[StatNetworkCounterRoutingDIO]++
@@ -143,19 +153,6 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                 data[StatNetworkCounterRoutingDAO]++
                 data[StatNetworkTrafficRouting] += pck.getSizeInBytes().toDouble()
             }
-        }
-    }
-    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
-/*
-        if (pck is MySimulatorAbstractPackage) {
-            if (pck.path == "/distributed/query/dictionary/register" || pck.path == "/distributed/query/dictionary/remove") {
-                TODO("this is completely wasted network traffic")
-            }
-        }
-*/
-    }
-    override fun onReceivePackage(address: Int, pck: IPayload) {
-        when (pck) {
             is MySimulatorTestingImportPackage, is MySimulatorTestingExecute, is MySimulatorTestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
             }
             is PreprocessingPackage, is ResultPackage, is ChoosenOperatorPackage -> { // dummyImpl
@@ -200,6 +197,8 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             else -> TODO("$pck")
         }
     }
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { }
+    override fun onReceivePackage(address: Int, pck: IPayload) { }
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {}
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {}
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
