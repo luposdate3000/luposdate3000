@@ -1,0 +1,73 @@
+{
+    "deviceType": {
+        "Central Tower": {
+            "database": true,
+        },
+        "Edge Gateway WSN 1": {
+            "database": true,
+        },
+        "Edge Gateway WSN 10": {
+            "database": true,
+        },
+        "Edge Gateway WSN 2": {
+            "database": true,
+        },
+        "Edge Gateway WSN 3": {
+            "database": true,
+        },
+        "Edge Gateway WSN 4": {
+            "database": true,
+        },
+        "Edge Gateway WSN 5": {
+            "database": true,
+        },
+        "Edge Gateway WSN 6": {
+            "database": true,
+        },
+        "Edge Gateway WSN 7": {
+            "database": true,
+        },
+        "Edge Gateway WSN 8": {
+            "database": true,
+        },
+        "Edge Gateway WSN 9": {
+            "database": true,
+        },
+        "Mesh Hop": {
+            "databaseQuery": true,
+            "databaseStore": false,
+        },
+    },
+    "sensorType": {
+        "Parking Sensor WSN 1": {
+            "dataSink": "Root WSN 1",
+        },
+        "Parking Sensor WSN 10": {
+            "dataSink": "Root WSN 10",
+        },
+        "Parking Sensor WSN 2": {
+            "dataSink": "Root WSN 2",
+        },
+        "Parking Sensor WSN 3": {
+            "dataSink": "Root WSN 3",
+        },
+        "Parking Sensor WSN 4": {
+            "dataSink": "Root WSN 4",
+        },
+        "Parking Sensor WSN 5": {
+            "dataSink": "Root WSN 5",
+        },
+        "Parking Sensor WSN 6": {
+            "dataSink": "Root WSN 6",
+        },
+        "Parking Sensor WSN 7": {
+            "dataSink": "Root WSN 7",
+        },
+        "Parking Sensor WSN 8": {
+            "dataSink": "Root WSN 8",
+        },
+        "Parking Sensor WSN 9": {
+            "dataSink": "Root WSN 9",
+        },
+    },
+}

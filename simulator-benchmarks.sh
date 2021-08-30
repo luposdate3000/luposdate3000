@@ -1,8 +1,9 @@
 #!/bin/bash
 
-git clean -xdf
-./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
-./gradlew assemble
+#git clean -xdf
+#./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
+#./launcher.main.kts --setup --intellijMode=Disable
+#./gradlew assemble
 
 BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 EVALUATION_LOCATION="${BASE_PATH}/evaluation.json"

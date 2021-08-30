@@ -56,9 +56,13 @@ internal class MultipleSimulationRuns(
             val firstLogger = measurements.first()
             val outputDirectory = json.getOrDefault("outputDirectory", "simulation_output")
             File(outputDirectory).mkdirs()
+            val fileMea = File(outputDirectory + "/measurement.csv")
             val fileAvg = File(outputDirectory + "/average.csv")
             val fileDev = File(outputDirectory + "/deviation.csv")
             val fileDevp = File(outputDirectory + "/deviationPercent.csv")
+            if (!fileMea.exists()) {
+                appendLineToFile(fileMea, firstLogger.headers.toList().joinToString(","), false)
+            }
             if (!fileAvg.exists()) {
                 appendLineToFile(fileAvg, firstLogger.headers.toList().joinToString(","), false)
             }
@@ -90,6 +94,9 @@ internal class MultipleSimulationRuns(
                 dataDev[i] = dev
                 dataDevp[i] = devPercent
             }
+for (m in measurements) {
+                appendLineToFile(fileMea, m.data.toList().joinToString(","), true)
+}
             appendLineToFile(fileAvg, dataAvg.toList().joinToString(","), true)
             appendLineToFile(fileDev, dataDev.toList().joinToString(","), true)
             appendLineToFile(fileDevp, dataDevp.toList().joinToString(","), true)
