@@ -25,6 +25,8 @@ do
 JSON_DATABASE="${BASE_PATH}/$d.json"
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION
 eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION
+echo "simulator_output/_campus_${t}_${q}_${d}_evaluation/measurement.csv"
+csvtool transpose "simulator_output/_campus_${t}_${q}_${d}_evaluation/measurement.csv" | column -s, -t
 done
 exit
 done
