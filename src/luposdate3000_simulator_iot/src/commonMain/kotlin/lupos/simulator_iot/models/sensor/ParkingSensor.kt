@@ -88,12 +88,10 @@ internal class ParkingSensor(
 
     private fun getSample(): ParkingSample {
         return ParkingSample(
-            sampleID = sampleCounter,
             sensorID = device.address,
             sampleTime = device.simRun.timeMeasurer.getSimulationTimeString(),
             isOccupied = device.simRun.randGenerator.getBoolean(0.5f),
-            parkingSpotID = device.address,
-            area = parkingAreaID.toString()
+            area = parkingAreaID,
         )
     }
 

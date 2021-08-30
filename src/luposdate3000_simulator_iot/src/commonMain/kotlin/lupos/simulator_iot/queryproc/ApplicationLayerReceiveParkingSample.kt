@@ -14,16 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-package lupos.simulator_iot.models.sensor
-
+package lupos.simulator_iot.queryproc
 import lupos.simulator_db.IPayload
-
-internal class ParkingSample(
-    internal val sensorID: Int,
-    internal val sampleTime: String,
-    internal val isOccupied: Boolean,
-    internal val area: Int
-) : IPayload {
-    override fun getSizeInBytes(): Int = 4 + sampleTime.length + 1 + 4
+import lupos.simulator_db.IUserApplication
+import lupos.simulator_db.IUserApplicationLayer
+import lupos.simulator_db.QueryPackage
+import lupos.simulator_iot.models.sensor.ParkingSample
+public class ApplicationLayerReceiveParkingSample(private val parent: IUserApplicationLayer, private val ownAddress: Int) : IUserApplication {
+    init {
+        parent.addChildApplication(this)
+    }
+    override fun startUp() {
+    }
+    override fun shutDown() {
+    }
+    override fun receive(pck: IPayload): IPayload? {
+        if (pck is ParkingSample) {
+            val query = SemanticData.getInsertQueryString(pck)
+            parent.send(ownAddress, QueryPackage(ownAddress, query.encodeToByteArray()))
+            return null
+        } else {
+            return pck
+        }
+    }
 }
