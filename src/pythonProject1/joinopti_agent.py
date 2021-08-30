@@ -43,10 +43,10 @@ def train_model():
     # env = model.get_env()
 
     env.set_training_data(benched_queries)
-    model.learn(total_timesteps=50000, log_interval=None)
+    model.learn(total_timesteps=5000000, log_interval=1)
     # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
     #model.save("train.me.s.50k" + ".ppo_model")
-    model.save("train.me.s.50k" + ".ppo_model")
+    model.save("train.me.s.5000k" + "3:7" + ".ppo_model")
 
 
 
@@ -63,9 +63,9 @@ def optimize_query():
     env.set_max_exec_t(max_execution_time)
     env.set_min_exec_t(min_execution_time)
     # setup model
-    #model = PPO.load(optimizer_model_file)
+    model = PPO.load(optimizer_model_file)
     #model = DQN.load(optimizer_model_file)
-    model = A2C.load(optimizer_model_file)
+    #model = A2C.load(optimizer_model_file)
 
     rewards = []
     actions = []
