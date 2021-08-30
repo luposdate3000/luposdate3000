@@ -171,27 +171,36 @@ public class VisualisationOperatorGraph {
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:170"/*SOURCE_FILE_END*/ },
                             { n.parentKeys.size <= 1 }
                         )
+/*                        var res: String? = null
                         if (n.parentKeys.size == 1) {
                             val pkey = n.parentKeys.first()
+
                             val parr = pkey.split("=")
-                            SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:177"/*SOURCE_FILE_END*/ },
-                                { parr.size == 3 },
-                                { "${parr.map{it}}" }
-                            )
-                            val idxName = parr[1]
-                            val desc = n.op["idx"]!!["TripleStoreIndexDescription"]!!
-                            val patternUsed = desc.attributes["pattern"]!!
-                            val hostUsed = desc.attributes["hostname$idxName"]!!
-                            val keyUsed = desc.attributes["key$idxName"]!!
-                            "S[$patternUsed@$hostUsed:$keyUsed]"
-                        } else {
-                            val hostUsed = n.op.attributes["targetHost"]
-                            val keyUsed = n.op.attributes["targetKey"]
-                            val desc = n.op["idx"]!!["TripleStoreIndexDescription"]!!
-                            val patternUsed = desc.attributes["pattern"]!!
-                            "S[$patternUsed@$hostUsed:$keyUsed]"
+                            if (parr.size > 1) {
+                                SanityCheck.check(
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:180"/*SOURCE_FILE_END*/ },
+                                    { parr.size == 3 },
+                                    { "${parr.map{it}} $pkey ${n.parentKeys}" }
+                                )
+                                val idxName = parr[1]
+                                val desc = n.op["idx"]!!["TripleStoreIndexDescription"]!!
+                                val patternUsed = desc.attributes["pattern"]!!
+                                val hostUsed = desc.attributes["hostname$idxName"]!!
+                                val keyUsed = desc.attributes["key$idxName"]!!
+                                res = "S[$patternUsed@$hostUsed:$keyUsed]"
+                            }
                         }
+                        if (res == null) {
+*/
+                        val hostUsed = n.op.attributes["targetHost"]
+                        val keyUsed = n.op.attributes["targetKey"]
+                        val desc = n.op["idx"]!!["TripleStoreIndexDescription"]!!
+                        val patternUsed = desc.attributes["pattern"]!!
+                        "S[$patternUsed@$hostUsed:$keyUsed]"
+/*                        } else {
+                            res
+                        }
+*/
                     }
                     else -> {
                         if (n.op.tag.contains("Send") || n.op.tag.contains("Receive")) {

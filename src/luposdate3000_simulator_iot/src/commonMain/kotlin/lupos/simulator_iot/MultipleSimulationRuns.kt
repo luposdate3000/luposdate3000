@@ -94,9 +94,9 @@ internal class MultipleSimulationRuns(
                 dataDev[i] = dev
                 dataDevp[i] = devPercent
             }
-for (m in measurements) {
+            for (m in measurements) {
                 appendLineToFile(fileMea, m.data.toList().joinToString(","), true)
-}
+            }
             appendLineToFile(fileAvg, dataAvg.toList().joinToString(","), true)
             appendLineToFile(fileDev, dataDev.toList().joinToString(","), true)
             appendLineToFile(fileDevp, dataDevp.toList().joinToString(","), true)
