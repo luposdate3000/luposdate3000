@@ -46,8 +46,8 @@ import lupos.visualize.distributed.database.VisualisationNetwork
 import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
+    private val defaultOutputDirectory = "simulator_output"
     public var devices: MutableList<Device> = mutableListOf()
-
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
 
     public var jsonObjects: JsonObjects = JsonObjects()
@@ -83,7 +83,11 @@ public class Configuration(private val simRun: SimulationRun) {
     internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
         jsonObjects = JsonObjects(json)
-        val outputDirectory = json.getOrDefault("outputDirectory", "simulator_output") + "/"
+        var outputDirectory = json.getOrDefault("outputDirectory", defaultOutputDirectory) + "/"
+        if (outputDirectory == "") {
+            outputDirectory = defaultOutputDirectory
+            json.set("outputDirectory", defaultOutputDirectory)
+        }
         val jsonLoggers = json.getOrEmptyObject("logging")
         if (jsonLoggers.getOrEmptyObject("stdout").getOrDefault("enabled", false)) {
             simRun.logger.loggers.add(LoggerStdout(simRun))
@@ -109,7 +113,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:111"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:115"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -254,7 +258,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:256"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:260"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )

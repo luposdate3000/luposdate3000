@@ -38,7 +38,17 @@
             "rangeInMeters": 30,
         },
     },
-    "logging": true,
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
     "outputDirectory": "",
     "querySender": [
         {

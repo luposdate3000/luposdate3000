@@ -193,7 +193,6 @@
             "rangeInMeters": 1,
         },
     },
-    "logging": true,
     "outputDirectory": "",
     "querySender": [
         {

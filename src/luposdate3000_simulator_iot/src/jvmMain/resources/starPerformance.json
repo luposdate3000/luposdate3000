@@ -3,7 +3,7 @@
         "type" : "Dummy"
     },
     "deterministic": true,
-    "logging": false,
+    
     "linkType": [{
         "name": "WPAN",
         "rangeInMeters": 100,

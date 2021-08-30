@@ -20,7 +20,6 @@ package lupos.simulator_iot.unit
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.utils.FilePaths
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class DatabaseSimulationTest {
 
@@ -42,6 +41,5 @@ class DatabaseSimulationTest {
 
         simRun.simMaxClock = 100000000
         simRun.startSimulation(config)
-
     }
 }

@@ -50,7 +50,7 @@
             "rangeInMeters": 40000,
         },
     },
-    "logging": true,
+    
     "outputDirectory": "",
     "querySender": [
         {

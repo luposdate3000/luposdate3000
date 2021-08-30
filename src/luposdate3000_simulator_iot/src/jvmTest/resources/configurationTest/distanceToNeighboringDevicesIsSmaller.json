@@ -25,7 +25,7 @@
             "rangeInMeters": 10,
         },
     ],
-    "logging": true,
+    
     "querySender": [],
     "randomMeshNetwork": [
         {

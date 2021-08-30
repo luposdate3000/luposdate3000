@@ -43,7 +43,6 @@
             "rangeInMeters": 30,
         },
     },
-    "logging": true,
     "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [

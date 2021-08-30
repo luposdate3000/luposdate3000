@@ -25,7 +25,18 @@
             "rangeInMeters": 1,
         },
     },
-    "logging": true,
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
+    "outputDirectory": "simulator_output",
     "querySender": [],
     "randomMeshNetwork": [
         {
