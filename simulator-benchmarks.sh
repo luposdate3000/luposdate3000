@@ -4,6 +4,7 @@
 #./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 #./launcher.main.kts --setup --intellijMode=Disable
 #./gradlew assemble
+cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
 
 BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 EVALUATION_LOCATION="${BASE_PATH}/evaluation.json"
@@ -21,9 +22,8 @@ for d in luposdate3000_by_key luposdate3000_by_id
 #for d in luposdate3000_by_key
 do
 JSON_DATABASE="${BASE_PATH}/$d.json"
-cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION
-eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION
+#eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION
 done
 done
 done
