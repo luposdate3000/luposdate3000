@@ -29,10 +29,8 @@ public class Simulation(
     public var steadyClock: Long = Long.MAX_VALUE
 
     public var clock: Long = 0
-        private set
 
     internal var addedEventCounter: Int = 0
-        private set
 
     public fun startSimulation() {
         startUp()
@@ -93,14 +91,15 @@ public class Simulation(
     private fun isMaxClockReached() = getTimeOfNextTimeStep() > maxClock
 
     private fun notifyAboutSteadyState() {
-        for (entity in entities)
+        for (entity in entities) {
             entity.onSteadyState()
-        logger.onSteadyState()
+        }
+        logger.onSteadyState() // call this last due to time measurement
     }
 
     internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Simulation.kt:102"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Simulation.kt:101"/*SOURCE_FILE_END*/ },
             { delay >= 0 },
             { "Clock cannot go backwards." }
         )
@@ -111,18 +110,15 @@ public class Simulation(
     }
 
     public fun startUp() {
-        logger.onStartUp()
         startUpAllEntities()
+        logger.onStartUp() // call this last due to time measurement
     }
 
     public fun shutDown() {
-        shutDownAllEntities()
-        logger.onShutDown()
-    }
-
-    private fun shutDownAllEntities() {
-        for (ent: Entity in entities)
+        logger.onShutDown() // call this first due to time measurement
+        for (ent: Entity in entities) {
             ent.onShutDown()
+        }
     }
 
     internal fun numberOfEntities(): Int = entities.size

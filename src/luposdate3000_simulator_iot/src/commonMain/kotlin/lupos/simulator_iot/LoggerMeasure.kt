@@ -22,35 +22,52 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import lupos.shared.XMLElement
-import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.QueryResponsePackage
+import lupos.simulator_db.dummyImpl.ChoosenOperatorPackage
+import lupos.simulator_db.dummyImpl.PreprocessingPackage
+import lupos.simulator_db.dummyImpl.ResultPackage
+import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
+import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
 import lupos.simulator_iot.models.routing.DAO
 import lupos.simulator_iot.models.routing.DIO
 import lupos.simulator_iot.models.sensor.ParkingSample
 import kotlin.time.ExperimentalTime
+
 @OptIn(ExperimentalTime::class)
 public class LoggerMeasure public constructor(private val simRun: SimulationRun) : ILogger {
     public companion object {
         public const val StatNumberOfDevices: Int = 0
         public const val StatNumberOfSensorDevices: Int = 1
         public const val StatNumberOfDatabaseDevices: Int = 2
-        public const val StatNumberOfQuerySenders: Int = 3 // TODO
-        public const val StatNumberOfLinks: Int = 4 // TODO
-        public const val StatSimulationStartupDurationReal: Int = 5
-        public const val StatSimulationShutdownDurationReal: Int = 6
-        public const val StatSimulationDurationReal: Int = 7
-        public const val StatSimulationDurationVirtual: Int = 8
-        public const val StatNumberOfSentSamplePackages: Int = 9
-        public const val StatNumberOfQueriesRequested: Int = 10
-        public const val StatNumberOfSentDatabasePackages: Int = 11
-        public const val StatNumberOfSentDIOPackages: Int = 12
-        public const val StatNumberOfSentDAOPackages: Int = 13
-        public const val StatNumberOfForwardedPackages: Int = 14
-        public const val StatNumberOfSentPackages: Int = 15
-        public const val StatNetworkTrafficInBytes: Int = 16
-        public const val StatCounter: Int = 17
+
+        public const val StatSimulationStartupDurationReal: Int = 3
+        public const val StatSimulationShutdownDurationReal: Int = 4
+        public const val StatSimulationDurationReal: Int = 5
+        public const val StatSimulationDurationVirtual: Int = 6
+
+        public const val StatNumberOfQueriesRequested: Int = 7
+        public const val StatNumberOfSentSamplePackages: Int = 8
+
+        public const val StatNumberOfSentDatabasePackages: Int = 9
+
+        public const val StatNumberOfSentDIOPackages: Int = 10
+        public const val StatNumberOfSentDAOPackages: Int = 11
+        public const val StatNumberOfSentPackages: Int = 12
+        public const val StatNumberOfForwardedPackages: Int = 13
+
+        public const val StatNetworkTrafficParkingSampleInBytes: Int = 14
+        public const val StatNetworkTrafficQueryInBytes: Int = 15
+        public const val StatNetworkTrafficResponseInBytes: Int = 16
+        public const val StatNetworkTrafficAbstractInBytes: Int = 17
+        public const val StatNetworkTrafficOperatorGraphInBytes: Int = 18
+        public const val StatNetworkTrafficInBytes: Int = 19
+        public const val StatCounter: Int = 20
     }
     public val data: DoubleArray = DoubleArray(StatCounter)
     public val headers: Array<String> = Array(StatCounter) {
@@ -58,20 +75,23 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             StatNumberOfDevices -> "number of devices"
             StatNumberOfSensorDevices -> "number of sensor devices"
             StatNumberOfDatabaseDevices -> "number of database devices"
-            StatNumberOfQuerySenders -> "number of query senders"
-            StatNumberOfLinks -> "number of links"
             StatSimulationStartupDurationReal -> "simulation startup duration real (Seconds)"
             StatSimulationShutdownDurationReal -> "simulation shutdown duration real (Seconds)"
             StatSimulationDurationReal -> "simulation duration real (Seconds)"
             StatSimulationDurationVirtual -> "simulation duration virtual (Seconds)"
             StatNumberOfSentPackages -> "number of sent packages"
-            StatNetworkTrafficInBytes -> "network traffic (Bytes)"
-            StatNumberOfSentSamplePackages -> "number of sent sample packages"
-            StatNumberOfQueriesRequested -> "number of queries requested"
-            StatNumberOfSentDatabasePackages -> "number of sent database packages"
+            StatNumberOfSentSamplePackages -> "number of virtually sent sample packages"
+            StatNumberOfQueriesRequested -> "number of queries requested (including all sensor inserts)"
+            StatNumberOfSentDatabasePackages -> "number of virtually sent database packages"
             StatNumberOfSentDIOPackages -> "number of sent DIO packages"
             StatNumberOfSentDAOPackages -> "number of sent DAO packages"
             StatNumberOfForwardedPackages -> "number of forwarded packages"
+            StatNetworkTrafficInBytes -> "network traffic total (Bytes)"
+            StatNetworkTrafficParkingSampleInBytes -> "network traffic parking samples(Bytes)"
+            StatNetworkTrafficQueryInBytes -> "network traffic query(Bytes)"
+            StatNetworkTrafficResponseInBytes -> "network traffic response(Bytes)"
+            StatNetworkTrafficAbstractInBytes -> "network traffic abstract(Bytes)"
+            StatNetworkTrafficOperatorGraphInBytes -> "network traffic operatorGraph(Bytes)"
             else -> TODO("$it")
         }
     }
@@ -95,9 +115,33 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
     override fun onReceivePackage(address: Int, pck: IPayload) {
         when (pck) {
-            is ParkingSample -> data[StatNumberOfSentSamplePackages]++
-            is QueryPackage -> data[StatNumberOfQueriesRequested]++
-            is IDatabasePackage -> data[StatNumberOfSentDatabasePackages]++
+            is MySimulatorTestingImportPackage, is MySimulatorTestingExecute, is MySimulatorTestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
+                data[StatNumberOfSentDatabasePackages]++
+            }
+            is PreprocessingPackage, is ResultPackage, is ChoosenOperatorPackage -> { // dummyImpl
+                data[StatNumberOfSentDatabasePackages]++
+            }
+            is MySimulatorAbstractPackage -> {
+                data[StatNumberOfSentDatabasePackages]++
+                data[StatNetworkTrafficAbstractInBytes] += pck.getSizeInBytes().toDouble()
+            }
+            is MySimulatorOperatorGraphPackage -> {
+                data[StatNumberOfSentDatabasePackages]++
+                data[StatNetworkTrafficOperatorGraphInBytes] += pck.getSizeInBytes().toDouble()
+            }
+            is QueryResponsePackage -> {
+                data[StatNumberOfSentDatabasePackages]++
+                data[StatNetworkTrafficResponseInBytes] += pck.getSizeInBytes().toDouble()
+            }
+            is ParkingSample -> {
+                data[StatNumberOfSentSamplePackages]++
+                data[StatNetworkTrafficParkingSampleInBytes] += pck.getSizeInBytes().toDouble()
+            }
+            is QueryPackage -> {
+                data[StatNumberOfQueriesRequested]++
+                data[StatNetworkTrafficQueryInBytes] += pck.getSizeInBytes().toDouble()
+            }
+            else -> TODO("$pck")
         }
     }
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {}
