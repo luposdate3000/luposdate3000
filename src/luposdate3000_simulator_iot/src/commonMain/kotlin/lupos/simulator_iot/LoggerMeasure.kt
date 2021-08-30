@@ -127,31 +127,33 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     private lateinit var shutDownTimeStamp: Instant
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
+        data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
+        data[StatNetworkCounter]++
         if (dest != hop) {
             data[StatNetworkCounterForwarded]++
             data[StatNetworkTrafficForwarded] += pck.getSizeInBytes().toDouble()
         }
-    }
-    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {
-        data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
-        data[StatNetworkCounter]++
         if (pck is IPayloadLayer) {
             for (p in pck.getApplicationPayload()) {
-                onReceiveNetworkPackageInternal(address, p)
+                onSendNetworkPackageInternal(src, dest, hop, p, delay)
             }
         } else {
-            onReceiveNetworkPackageInternal(address, pck)
+            onSendNetworkPackageInternal(src, dest, hop, pck, delay)
         }
     }
-    private fun onReceiveNetworkPackageInternal(address: Int, pck: IPayload) {
+    private fun onSendNetworkPackageInternal(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         when (pck) {
             is DIO -> {
-                data[StatNetworkCounterRoutingDIO]++
                 data[StatNetworkTrafficRouting] += pck.getSizeInBytes().toDouble()
+                if (dest == hop) {
+                    data[StatNetworkCounterRoutingDIO]++
+                }
             }
             is DAO -> {
-                data[StatNetworkCounterRoutingDAO]++
                 data[StatNetworkTrafficRouting] += pck.getSizeInBytes().toDouble()
+                if (dest == hop) {
+                    data[StatNetworkCounterRoutingDAO]++
+                }
             }
             is MySimulatorTestingImportPackage, is MySimulatorTestingExecute, is MySimulatorTestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
             }
@@ -161,48 +163,65 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                 when (pck.path) {
                     "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> {
                         data[StatNetworkTrafficDictionary] += pck.getSizeInBytes().toDouble()
-                        data[StatNetworkCounterDictionary]++
+                        if (dest == hop) {
+                            data[StatNetworkCounterDictionary]++
+                        }
                     }
                     "/distributed/graph/create" -> {
                         data[StatNetworkTrafficGraphCreate] += pck.getSizeInBytes().toDouble()
-                        data[StatNetworkCounterGraphCreate]++
+                        if (dest == hop) {
+                            data[StatNetworkCounterGraphCreate]++
+                        }
                     }
                     "/distributed/graph/modify" -> {
                         data[StatNetworkTrafficGraphUpdate] += pck.getSizeInBytes().toDouble()
-                        data[StatNetworkCounterGraphUpdate]++
+                        if (dest == hop) {
+                            data[StatNetworkCounterGraphUpdate]++
+                        }
                     }
                     "simulator-intermediate-result" -> {
                         data[StatNetworkTrafficIntermediateResults] += pck.getSizeInBytes().toDouble()
-                        data[StatNetworkCounterIntermediateResults]++
+                        if (dest == hop) {
+                            data[StatNetworkCounterIntermediateResults]++
+                        }
                     }
                     else -> TODO(pck.path)
                 }
             }
             is MySimulatorOperatorGraphPackage -> {
                 data[StatNetworkTrafficOperatorGraph] += pck.getSizeInBytes().toDouble()
-                data[StatNetworkCounterOperatorGraph]++
+                if (dest == hop) {
+                    data[StatNetworkCounterOperatorGraph]++
+                }
             }
             is QueryResponsePackage -> {
                 data[StatNetworkTrafficResponse] += pck.getSizeInBytes().toDouble()
-                data[StatNetworkCounterResponse]++
+                if (dest == hop) {
+                    data[StatNetworkCounterResponse]++
+                }
             }
             is ParkingSample -> {
                 data[StatNetworkTrafficParkingSample] += pck.getSizeInBytes().toDouble()
-                data[StatNetworkCounterParkingSample]++
+                if (dest == hop) {
+                    data[StatNetworkCounterParkingSample]++
+                }
             }
             is QueryPackage -> {
                 data[StatNetworkTrafficQuery] += pck.getSizeInBytes().toDouble()
-                data[StatNetworkCounterQuery]++
+                if (dest == hop) {
+                    data[StatNetworkCounterQuery]++
+                }
             }
             else -> TODO("$pck")
         }
     }
+    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { }
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { }
     override fun onReceivePackage(address: Int, pck: IPayload) { }
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {}
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {}
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
-    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {}
+    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) { }
 
     override fun onStartSimulation() { // phase 1
         startSimulationTimeStamp = Clock.System.now()
