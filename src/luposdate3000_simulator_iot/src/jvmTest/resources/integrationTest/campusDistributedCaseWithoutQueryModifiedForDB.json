@@ -193,6 +193,17 @@
             "rangeInMeters": 1,
         },
     },
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
     "outputDirectory": "",
     "querySender": [
         {
