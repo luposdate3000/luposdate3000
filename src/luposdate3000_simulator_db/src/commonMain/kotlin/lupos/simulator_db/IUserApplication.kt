@@ -21,4 +21,5 @@ public interface IUserApplication {
     public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
     public fun startUp()
     public fun shutDown()
+    public fun setRouter(router: IUserApplicationLayer)
 }

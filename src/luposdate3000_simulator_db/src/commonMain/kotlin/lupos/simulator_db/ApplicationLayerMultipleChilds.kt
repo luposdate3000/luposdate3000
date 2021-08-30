@@ -16,11 +16,13 @@
  */
 package lupos.simulator_db
 public class ApplicationLayerMultipleChilds(
-    private val parent: IUserApplicationLayer,
+    private val childs: Array<IUserApplication>,
 ) : IUserApplicationLayer {
-    private var childs = mutableListOf<IUserApplication>()
+    private lateinit var parent: IUserApplicationLayer
     init {
-        parent.addChildApplication(this)
+        for (child in childs) {
+            child.setRouter(this)
+        }
     }
     override fun startUp() {
         for (child in childs) {
@@ -43,8 +45,8 @@ public class ApplicationLayerMultipleChilds(
         }
         return res
     }
-    override fun addChildApplication(child: IUserApplication) {
-        childs.add(child)
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
         for (child in childs) {

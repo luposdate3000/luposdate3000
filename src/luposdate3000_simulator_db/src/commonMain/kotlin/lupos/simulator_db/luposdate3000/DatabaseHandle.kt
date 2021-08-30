@@ -61,8 +61,8 @@ import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_db.QueryResponsePackage
-public class DatabaseHandle public constructor(private val parent: IUserApplicationLayer, internal val config: JsonParserObject, internal val initialState: () -> DatabaseState) : IUserApplication {
-
+public class DatabaseHandle public constructor(internal val config: JsonParserObject, internal val initialState: () -> DatabaseState) : IUserApplication {
+    private lateinit var parent: IUserApplicationLayer
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
     private lateinit var logger: ILogger
     private var ownAdress: Int = 0
@@ -96,8 +96,8 @@ public class DatabaseHandle public constructor(private val parent: IUserApplicat
             }
         }
     }
-    init {
-        parent.addChildApplication(this)
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun startUp() {
         val initialStateTmp = initialState()

@@ -16,11 +16,11 @@
  */
 package lupos.simulator_db
 
-public class ApplicationLayerMergeMessages(private val parent: IUserApplicationLayer) : IUserApplicationLayer {
+public class ApplicationLayerMergeMessages(private val child: IUserApplication) : IUserApplicationLayer {
     private var cache = mutableMapOf<Int, MutableList<IPayload>>()
-    private lateinit var child: IUserApplication
+    private lateinit var parent: IUserApplicationLayer
     init {
-        parent.addChildApplication(this)
+        child.setRouter(this)
     }
     override fun startUp() {
         child.startUp()
@@ -37,8 +37,8 @@ public class ApplicationLayerMergeMessages(private val parent: IUserApplicationL
         }
         return res
     }
-    override fun addChildApplication(child: IUserApplication) {
-        this.child = child
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
         if (pck is ApplicationLayerMergeMessages_Package) {

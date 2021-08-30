@@ -17,12 +17,12 @@
 package lupos.simulator_db
 
 public class ApplicationLayerCatchSelfMessages(
-    private val parent: IUserApplicationLayer,
     private val ownAddress: Int,
+    private val child: IUserApplication,
 ) : IUserApplicationLayer {
-    private lateinit var child: IUserApplication
+    private lateinit var parent: IUserApplicationLayer
     init {
-        parent.addChildApplication(this)
+        child.setRouter(this)
     }
     override fun startUp() {
         child.startUp()
@@ -39,8 +39,8 @@ public class ApplicationLayerCatchSelfMessages(
         }
         return res
     }
-    override fun addChildApplication(child: IUserApplication) {
-        this.child = child
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
         return child.receive(pck)

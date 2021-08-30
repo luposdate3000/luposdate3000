@@ -16,13 +16,16 @@
  */
 package lupos.simulator_db
 
-public class ApplicationLayerSequence(private val parent: IUserApplicationLayer, private val ownAddress: Int) : IUserApplicationLayer {
+public class ApplicationLayerSequence(
+    private val ownAddress: Int,
+    private val child: IUserApplication,
+) : IUserApplicationLayer {
     private val outgoingNum = mutableListOf<Int>() // index is the dest-address
     private val incomingNum = mutableListOf<Int>() // index is the src-address
     private val caches = mutableListOf<MutableList<ApplicationLayerSequence_Package>>() // index is the src-address
-    private lateinit var child: IUserApplication
+    private lateinit var parent: IUserApplicationLayer
     init {
-        parent.addChildApplication(this)
+        child.setRouter(this)
     }
     override fun startUp() {
         child.startUp()
@@ -39,8 +42,8 @@ public class ApplicationLayerSequence(private val parent: IUserApplicationLayer,
         }
         return res
     }
-    override fun addChildApplication(child: IUserApplication) {
-        this.child = child
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
         if (pck is ApplicationLayerSequence_Package) {

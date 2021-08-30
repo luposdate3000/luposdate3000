@@ -24,9 +24,14 @@ import lupos.simulator_iot.models.Device
 
 public class DatabaseAdapter(
     private val device: Device,
+    private val child: IUserApplication,
 ) : IUserApplicationLayer {
-    private lateinit var child: IUserApplication
-
+    init {
+        child.setRouter(this)
+    }
+    override fun setRouter(router: IUserApplicationLayer) {
+        TODO("this must not be called as this is the topmost layer")
+    }
     override fun getAllChildApplications(): Set<IUserApplication> {
         var res = mutableSetOf<IUserApplication>()
         res.add(child)
@@ -35,9 +40,6 @@ public class DatabaseAdapter(
             res.addAll(c.getAllChildApplications())
         }
         return res
-    }
-    override fun addChildApplication(child: IUserApplication) {
-        this.child = child
     }
     public override fun receive(pck: IPayload): IPayload? {
         var res = child.receive(pck)

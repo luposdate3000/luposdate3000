@@ -20,9 +20,10 @@ import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.models.sensor.ParkingSample
-public class ApplicationLayerReceiveParkingSample(private val parent: IUserApplicationLayer, private val ownAddress: Int) : IUserApplication {
-    init {
-        parent.addChildApplication(this)
+public class ApplicationLayerReceiveParkingSample(private val ownAddress: Int) : IUserApplication {
+    private lateinit var parent: IUserApplicationLayer
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun startUp() {
     }

@@ -296,25 +296,36 @@ public class Configuration(private val simRun: SimulationRun) {
                 }
             }
             val jsonDatabase = json!!.getOrEmptyObject("database")
-            val adapter = DatabaseAdapter(device)
-            val sequencedPackages = ApplicationLayerSequence(adapter, device.address)
-            val mergeMessages = ApplicationLayerMergeMessages(sequencedPackages)
-            val catchSelfMessages = ApplicationLayerCatchSelfMessages(mergeMessages, device.address)
-            val multiChilds = ApplicationLayerMultipleChilds(catchSelfMessages)
-            val db = when (jsonDatabase.getOrDefault("type", "Dummy")) {
-                "Dummy" -> {
-                    DatabaseSystemDummy(jsonDatabase, ApplicationLayerLogger(multiChilds, device.address, simRun.logger), initialState)
-                    ApplicationLayerReceiveQueryResonse(ApplicationLayerLogger(multiChilds, device.address, simRun.logger))
-                    ApplicationLayerReceiveParkingSample(ApplicationLayerLogger(multiChilds, device.address, simRun.logger), device.address)
-                }
-                "Luposdate3000" -> {
-                    DatabaseHandle(ApplicationLayerLogger(multiChilds, device.address, simRun.logger), jsonDatabase, initialState)
-                    ApplicationLayerReceiveQueryResonse(ApplicationLayerLogger(multiChilds, device.address, simRun.logger))
-                    ApplicationLayerReceiveParkingSample(ApplicationLayerLogger(multiChilds, device.address, simRun.logger), device.address)
-                }
-                else -> TODO()
-            }
-            device.userApplication = adapter
+            device.userApplication = DatabaseAdapter(
+                device,
+                ApplicationLayerSequence(
+                    device.address,
+                    ApplicationLayerMergeMessages(
+                        ApplicationLayerCatchSelfMessages(
+                            device.address,
+                            ApplicationLayerMultipleChilds(
+                                when (jsonDatabase.getOrDefault("type", "Dummy")) {
+                                    "Dummy" -> {
+                                        arrayOf(
+                                            DatabaseSystemDummy(jsonDatabase, initialState),
+                                            ApplicationLayerReceiveQueryResonse(),
+                                            ApplicationLayerReceiveParkingSample(device.address),
+                                        )
+                                    }
+                                    "Luposdate3000" -> {
+                                        arrayOf(
+                                            DatabaseHandle(jsonDatabase, initialState),
+                                            ApplicationLayerReceiveQueryResonse(),
+                                            ApplicationLayerReceiveParkingSample(device.address),
+                                        )
+                                    }
+                                    else -> TODO()
+                                }.map { it -> ApplicationLayerLogger(device.address, simRun.logger, it) }.toTypedArray()
+                            )
+                        )
+                    )
+                )
+            )
             if (databaseStore) {
                 dbDeviceAddressesStoreList.add(device.address)
             }

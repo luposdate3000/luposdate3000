@@ -24,10 +24,12 @@ import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryPackage
 
-public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val sender: IUserApplicationLayer, internal val initialState: () -> DatabaseState) : IUserApplication {
+public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val initialState: () -> DatabaseState) : IUserApplication {
     internal lateinit var state: DummyDatabaseState
-    init {
-        sender.addChildApplication(this)
+
+    internal lateinit var sender: IUserApplicationLayer
+    override fun setRouter(router: IUserApplicationLayer) {
+        sender = router
     }
     override fun shutDown() {
     }

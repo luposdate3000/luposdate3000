@@ -17,13 +17,13 @@
 package lupos.simulator_db
 
 public class ApplicationLayerLogger(
-    private val parent: IUserApplicationLayer,
     private val ownAddress: Int,
     private val logger: ILogger,
+    private val child: IUserApplication,
 ) : IUserApplicationLayer {
-    private lateinit var child: IUserApplication
+    private lateinit var parent: IUserApplicationLayer
     init {
-        parent.addChildApplication(this)
+        child.setRouter(this)
     }
     override fun startUp() {
         child.startUp()
@@ -40,20 +40,20 @@ public class ApplicationLayerLogger(
         }
         return res
     }
-    override fun addChildApplication(child: IUserApplication) {
-        this.child = child
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
-        logger.onReceivePackage(ownAddress, pck)
-        return child.receive(pck)
+        val res = child.receive(pck)
+        if (res == null) {
+// only if child consumed the message
+            logger.onReceivePackage(ownAddress, pck)
+        }
+        return res
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
         logger.onSendPackage(ownAddress, destinationAddress, pck)
-        if (ownAddress == destinationAddress) {
-            receive(pck)
-        } else {
-            parent.send(destinationAddress, pck)
-        }
+        parent.send(destinationAddress, pck)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)

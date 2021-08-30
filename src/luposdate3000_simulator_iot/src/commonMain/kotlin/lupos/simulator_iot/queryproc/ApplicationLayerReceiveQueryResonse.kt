@@ -19,9 +19,10 @@ import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryResponsePackage
-public class ApplicationLayerReceiveQueryResonse(private val parent: IUserApplicationLayer) : IUserApplication {
-    init {
-        parent.addChildApplication(this)
+public class ApplicationLayerReceiveQueryResonse : IUserApplication {
+    private lateinit var parent: IUserApplicationLayer
+    override fun setRouter(router: IUserApplicationLayer) {
+        parent = router
     }
     override fun startUp() {
     }
