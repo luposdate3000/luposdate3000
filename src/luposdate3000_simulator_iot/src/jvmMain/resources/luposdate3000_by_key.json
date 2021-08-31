@@ -1,11 +1,5 @@
 {
     "database": {
-        "REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
         "predefinedPartitionScheme": "PartitionByKeyAllCollations",
-        "queryDistributionMode": "Routing",
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
     },
 }

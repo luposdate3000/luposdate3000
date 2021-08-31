@@ -3,8 +3,6 @@
         "REPLACE_STORE_WITH_VALUES": false,
         "SharedMemoryDictionaryCheat": true,
         "mergeLocalOperatorgraphs": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
     },
