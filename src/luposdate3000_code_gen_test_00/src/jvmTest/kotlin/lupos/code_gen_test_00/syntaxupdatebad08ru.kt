@@ -20,7 +20,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -31,7 +30,6 @@ public class syntaxupdatebad08ru {
         "LOAD <remote> INTO GRAPH <g> \n" +
         ""
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxupdatebad08ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

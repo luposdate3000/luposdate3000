@@ -20,7 +20,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdateother01 {
@@ -167,7 +166,6 @@ public class syntaxupdateother01 {
         "} \n" +
         ""
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxupdateother01 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

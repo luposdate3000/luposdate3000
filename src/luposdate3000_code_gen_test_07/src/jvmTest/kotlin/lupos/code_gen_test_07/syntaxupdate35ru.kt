@@ -20,14 +20,12 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdate35ru {
     internal val query = "DELETE WHERE { ?s ?p ?o } \n" +
         ""
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxupdate35ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

@@ -20,7 +20,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxSELECTscope1rq {
@@ -34,7 +33,6 @@ public class syntaxSELECTscope1rq {
         "} \n" +
         ""
 
-    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxSELECTscope1rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

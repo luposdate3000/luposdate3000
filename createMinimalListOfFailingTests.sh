@@ -6,18 +6,18 @@ sed "s/minifyMode = .*/minifyMode = true/g" -i ./src/luposdate3000_test/src/comm
 rm -rf tmp
 mkdir tmp
 sleep 1
-./launcher.main.kts --setup
-./gradlew assemble
+#./launcher.main.kts --setup
+#./gradlew assemble
 sleep 1
 while true
 do
 
-./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
-./launcher.main.kts --setup
-./gradlew build > x & read -t 600 || kill $!
+#./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
+#./launcher.main.kts --setup
+timeout2 -t 600 ./gradlew build > x
 cp x backupX
 pkill java -9
-sleep 1
+sleep 5
 
 grep lupos.*PASSED x \
  | tr -cd '\11\12\15\40-\176' | sed "s/\[[0-9]*m//g" | sed "s/\[0K//g" \
@@ -57,4 +57,5 @@ cat resources/tests/timeout \
 cat resources/tests/failed \
  | tr -cd '\11\12\15\40-\176' | sed "s/\[[0-9]*m//g" | sed "s/\[0K//g" \
  | sort| uniq > tmp/x ; mv tmp/x resources/tests/failed
+exit
 done
