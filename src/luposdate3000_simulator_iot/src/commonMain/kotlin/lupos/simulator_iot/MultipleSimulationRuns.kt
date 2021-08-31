@@ -28,7 +28,7 @@ internal class MultipleSimulationRuns(
     internal fun startSimulationRuns() {
         val measurements = mutableListOf<LoggerMeasure>()
         json.getOrEmptyObject("logging").getOrEmptyObject("measure").set("enabled", true)
-        val outputDirectory = json.getOrDefault("outputDirectory", "simulation_output") + "/"
+        val outputDirectory = json.getOrDefault("outputDirectory", "simulator_output") + "/"
         File(outputDirectory).mkdirs()
         fun appendLineToFile(name: String, header: () -> String, line: String) {
             val f = File(outputDirectory + name)
