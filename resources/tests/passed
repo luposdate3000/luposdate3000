@@ -1,22 +1,49 @@
+CLEAR SILENT DEFAULT - None - PartitionByIDTwiceAllCollations - true
 DROP SILENT DEFAULT - None - PartitionByIDTwiceAllCollations - true
 LOAD SILENT - None - PartitionByIDTwiceAllCollations - true
+PrefixName with unescaped colons - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12csparql1640 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+resourcessp2bq66sparql1640 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
+synbad04rq - None - PartitionByIDTwiceAllCollations - true
 synbad08rq - None - PartitionByIDTwiceAllCollations - true
+synbadpname02 - None - PartitionByIDTwiceAllCollations - true
+synbadpname05 - None - PartitionByIDTwiceAllCollations - true
+synbadpname07 - None - PartitionByIDTwiceAllCollations - true
 synbadpname08 - None - PartitionByIDTwiceAllCollations - true
 synbadpname10 - None - PartitionByIDTwiceAllCollations - true
 synbadpname11 - None - PartitionByIDTwiceAllCollations - true
+synbadpname12 - None - PartitionByIDTwiceAllCollations - true
+synbadpname13 - None - PartitionByIDTwiceAllCollations - true
 synpname02 - None - PartitionByIDTwiceAllCollations - true
 synpname06 - None - PartitionByIDTwiceAllCollations - true
+synpname07 - None - PartitionByIDTwiceAllCollations - true
 syntaxaggregate03rq - None - PartitionByIDTwiceAllCollations - true
+syntaxaggregate06rq - None - PartitionByIDTwiceAllCollations - true
+syntaxaggregate09rq - None - PartitionByIDTwiceAllCollations - true
 syntaxaggregate10rq - None - PartitionByIDTwiceAllCollations - true
 syntaxbind02rq - None - PartitionByIDTwiceAllCollations - true
 syntaxbindings09rq - None - PartitionByIDTwiceAllCollations - true
+syntaxBINDscope4rq - None - PartitionByIDTwiceAllCollations - true
+syntaxexists02rq - None - PartitionByIDTwiceAllCollations - true
 syntaxexists03rq - None - PartitionByIDTwiceAllCollations - true
+syntaxminus01rq - None - PartitionByIDTwiceAllCollations - true
+syntaxnotexists01rq - None - PartitionByIDTwiceAllCollations - true
 syntaxselectexpr02rq - None - PartitionByIDTwiceAllCollations - true
+syntaxselectexpr05rq - None - PartitionByIDTwiceAllCollations - true
+syntaxsubquery03rq - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate03ru - None - PartitionByIDTwiceAllCollations - true
 syntaxupdate05ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate09ru - None - PartitionByIDTwiceAllCollations - true
 syntaxupdate12ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate13ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate14ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate16ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate20ru - None - PartitionByIDTwiceAllCollations - true
 syntaxupdate28ru - None - PartitionByIDTwiceAllCollations - true
 syntaxupdate35ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate37ru - None - PartitionByIDTwiceAllCollations - true
 syntaxupdate38ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate40ru - None - PartitionByIDTwiceAllCollations - true
 test0
 test1
 test10
