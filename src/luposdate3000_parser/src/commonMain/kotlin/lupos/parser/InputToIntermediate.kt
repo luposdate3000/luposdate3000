@@ -17,7 +17,7 @@
 package lupos.parser
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
-import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriplesObject
+import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
 import lupos.shared.DateHelperRelative
@@ -235,7 +235,7 @@ public object InputToIntermediate {
         if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
             val row = DictionaryValueTypeArray(3)
             if (parserFromSoenke) {
-                val parserObject = TurtleParserWithDictionaryValueTypeTriplesObject.setUp(
+                val parserObject = TurtleParserWithDictionaryValueTypeTriples(
                     consume_triple = { s, p, o ->
                         outTriples.write(s, p, o)
                         cnt++
@@ -250,7 +250,7 @@ public object InputToIntermediate {
                             chunc++
                         }
                     },
-                    file = inputFileName,
+                    kpFileLoc = inputFileName,
                 )
                 val buf = ByteArrayWrapper()
                 parserObject.convertDecimalToDict = {

@@ -20,6 +20,7 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -28,6 +29,7 @@ public class syntaxupdatebad12ru {
         "DELETE DATA { _:a <p> <o> } \n" +
         ""
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxupdatebad12ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

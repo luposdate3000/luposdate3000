@@ -26,7 +26,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     private val withCodeGen = false
     private val withSimulator = true
     private val onlyFirstTest = true // to reduce the number of tests, which are failing and can not be abortet by timeout
-    private val minifyMode = true
+    private val minifyMode = false
 /*
 in minify mode all passing tests will be removed, such that the next execution will skip them.
 without minify mode only the passing tests will be added

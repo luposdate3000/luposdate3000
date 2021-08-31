@@ -20,12 +20,14 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxexists01rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(EXISTS{?s ?p ?o}) } \n" +
         ""
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxexists01rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

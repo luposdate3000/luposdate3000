@@ -15,6 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_16
+import lupos.endpoint.LuposdateEndpoint
+import lupos.shared.EPartitionModeExt
+import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.Luposdate3000Instance
+import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Test
 
 public class synpname07 {
     internal val query = "PREFIX : <http://example/> \n" +
@@ -23,4 +29,20 @@ public class synpname07 {
         "  :a :b%3D :c\\~z\\. . \n" +
         "} \n" +
         ""
+
+    @Test(timeout = 2000)
+    public fun `synpname07 - None - PartitionByIDTwiceAllCollations - true`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            val buf = MyPrintWriter(false)
+            val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
 }

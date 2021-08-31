@@ -20,12 +20,14 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxaggregate09rq {
     internal val query = "SELECT (MAX(?x) AS ?y) {} \n" +
         ""
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxaggregate09rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

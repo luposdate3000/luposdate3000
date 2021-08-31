@@ -20,6 +20,7 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -36,6 +37,7 @@ public class syntaxBINDscope8rq {
         " } \n" +
         ""
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `syntaxBINDscope8rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

@@ -20,6 +20,7 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -27,6 +28,7 @@ public class synbad03rq {
     internal val query = "SELECT (1 AS ?X) (1 AS ?X) {} \n" +
         ""
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `synbad03rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

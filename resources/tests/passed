@@ -82,7 +82,6 @@ databasesAsStarRoots
 DAY - None - PartitionByIDTwiceAllCollations - true
 DELETE INSERT 6b - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
-DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - true
 dequeue() return and remove lowest time
 deviceWithoutLinkTypeCanNotLink
@@ -156,27 +155,6 @@ onlyOneMeshDevice
 onlySouthernMeshDevices
 onSteadyState is not called when it was not set
 parseEmptyConfigFile
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - false - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - None
-Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
-Plain literals with language tag are not the same as the same literal without - in simulator - Simple - Centralized - false - Thread
 PrefixName with hexencoded colons - None - PartitionByIDTwiceAllCollations - true
 PrefixName with unescaped colons - None - PartitionByIDTwiceAllCollations - true
 queue should peak() lowest time

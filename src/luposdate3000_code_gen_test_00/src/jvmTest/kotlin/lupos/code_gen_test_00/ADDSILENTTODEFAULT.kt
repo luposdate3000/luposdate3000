@@ -20,12 +20,14 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class ADDSILENTTODEFAULT {
     internal val query = "ADD SILENT GRAPH <http://www.example.com/g1> TO DEFAULT \n" +
         ""
 
+    @Ignore
     @Test(timeout = 2000)
     public fun `ADD SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
