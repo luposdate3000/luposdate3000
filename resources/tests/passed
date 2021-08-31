@@ -159,6 +159,7 @@ Plain literals with language tag are not the same as the same literal without - 
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
@@ -169,6 +170,7 @@ Plain literals with language tag are not the same as the same literal without - 
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - false - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread

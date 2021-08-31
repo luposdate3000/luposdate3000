@@ -1,0 +1,76 @@
+ENCODEFORURI - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+ENCODEFORURI - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+ENCODEFORURI - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
+ENCODEFORURI - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+ENCODEFORURI - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
+ENCODEFORURI - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
+ENCODEFORURI - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+ENCODEFORURI - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
+ENCODEFORURI - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+ENCODEFORURI - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
+ENCODEFORURI - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+ENCODEFORURI - in simulator - PartitionByID_S_AllCollations - Routing - false - Process
+ENCODEFORURI - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
+ENCODEFORURI - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+ENCODEFORURI - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process
+ENCODEFORURI - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+ENCODEFORURI - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+ENCODEFORURI - in simulator - PartitionByKeyAllCollations - Routing - true - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+parent query with hasChild some Female restriction - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+parent query with hasChild some Female restriction - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByID_O_AllCollations - Routing - true - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+parent query with hasChild some Female restriction - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+parent query with hasChild some Female restriction - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+parent query with hasChild some Female restriction - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+parent query with hasChild some Female restriction - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+parent query with hasChild some Female restriction - in simulator - PartitionByKeyAllCollations - Routing - false - Process
+parent query with hasChild some Female restriction - in simulator - PartitionByKeyAllCollations - Routing - true - Process
+parent query with hasChild some Female restriction - in simulator - Simple - Centralized - false - None
+parent query with hasChild some Female restriction - in simulator - Simple - Centralized - true - None
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Routing - false - Process
+resourcesbsbmexplorequery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Routing - true - Process
+resourcesbsbmexplorequery41853sparql1853 - in simulator - Simple - Centralized - false - Thread
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
+resourcessp2bq5bsparql1294 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process
+resourcessp2bq62sparql1294 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+resourcessp2bq62sparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
+resourcessp2bq62sparql1294 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process
+resourcessp2bq62sparql1294 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+resourcessp2bq62sparql1294 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process
+resourcessp2bq62sparql1294 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+resourcessp2bq62sparql1294 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
+resourcessp2bq62sparql1294 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+resourcessp2bq62sparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
+resourcessp2bq62sparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process
+resourcessp2bq62sparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+resourcessp2bq62sparql1294 - in simulator - PartitionByKeyAllCollations - Routing - false - Process
+resourcessp2bq62sparql1294 - in simulator - Simple - Centralized - false - None
