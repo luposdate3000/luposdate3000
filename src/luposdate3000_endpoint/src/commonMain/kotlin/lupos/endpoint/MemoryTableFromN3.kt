@@ -16,59 +16,43 @@
  */
 package lupos.endpoint
 
-import lupos.parser.LexerCharIterator
-import lupos.parser.LookAheadTokenIterator
-import lupos.parser.turtle.Turtle2Parser
-import lupos.parser.turtle.TurtleParserWithStringTriples
-import lupos.parser.turtle.TurtleScanner
+import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryHelper
-import lupos.shared.inline.MyStringStream
-
+import lupos.shared.inline.File
+import lupos.shared.inline.FileExt
 public class MemoryTableFromN3 : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
         var res = MemoryTable(arrayOf("s", "p", "o"))
         res.query = query
         var dictionary = res.query!!.getDictionary()
+        val inputFileName = FileExt.createTempDirectory() + "a.n3"
+        val f = File(inputFileName)
+        f.withOutputStream {
+            it.println(data)
+        }
+        val parserObject = TurtleParserWithDictionaryValueTypeTriples(
+            consume_triple = { s, p, o ->
+                val row = DictionaryValueTypeArray(3)
+                row[0] = s
+                row[0] = p
+                row[0] = o
+                res.data.add(row)
+            },
+            kpFileLoc = inputFileName,
+        )
+        val buf = ByteArrayWrapper()
+        parserObject.convertByteArrayWrapperToID = {
+            dictionary.createValue(it)
+        }
         try {
-            val inputstream = MyStringStream(data)
-            val parser = object : Turtle2Parser(inputstream) {
-                override fun onTriple() {
-                    val row = DictionaryValueTypeArray(3)
-                    res.data.add(row)
-                    for (i in 0 until 3) {
-                        row[i] = dictionary.createValue(triple[i])
-                    }
-                }
-            }
-            parser.parse()
+            parserObject.initializeCache()
+            parserObject.turtleDoc()
         } catch (e: Throwable) {
-            res = MemoryTable(arrayOf("s", "p", "o"))
-            res.query = query
-            dictionary = res.query!!.getDictionary()
-            val lcit = LexerCharIterator(data)
-            val tit = TurtleScanner(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
-            val buffer = ByteArrayWrapper()
-            val action: (DictionaryValueTypeArray, Int, String) -> Unit = { row, i, v ->
-                DictionaryHelper.sparqlToByteArray(buffer, v)
-                row[i] = dictionary.createValue(buffer)
-            }
-            val x = object : TurtleParserWithStringTriples() {
-                /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                    val row = DictionaryValueTypeArray(3)
-                    action(row, 0, s)
-                    action(row, 1, p)
-                    action(row, 2, o)
-                    res.data.add(row)
-                }
-            }
-            x.ltit = ltit
-            x.parse()
+            throw Exception(inputFileName, e)
         }
         return res
     }

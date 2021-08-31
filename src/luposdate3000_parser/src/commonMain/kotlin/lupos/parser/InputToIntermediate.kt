@@ -31,7 +31,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
-import lupos.shared.inline.MyStringExt
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
 import lupos.shared.inline.fileformat.DictionaryIntermediateReader
@@ -42,7 +41,7 @@ import lupos.shared.inline.fileformat.TriplesIntermediateWriter
 import kotlin.math.min
 
 public object InputToIntermediate {
-    private val parserFromSoenke = false
+    private val parserFromSoenke = true
     private val parserBenchmarkOnly = false
     public fun helperCleanString(s: String): String {
         var res: String = s
@@ -252,48 +251,11 @@ public object InputToIntermediate {
                     },
                     kpFileLoc = inputFileName,
                 )
-                val buf = ByteArrayWrapper()
-                parserObject.convertDecimalToDict = {
-                    DictionaryHelper.decimalToByteArray(buf, it)
-                    addToDict(buf)
-                }
-                parserObject.convertBooleanToDict = {
-                    DictionaryHelper.booleanToByteArray(buf, it)
-                    addToDict(buf)
-                }
-                parserObject.convertDoubleToDict = {
-                    DictionaryHelper.doubleToByteArray(buf, it)
-                    addToDict(buf)
-                }
-                parserObject.convertFloatToDict = {
-                    DictionaryHelper.floatToByteArray(buf, it)
-                    addToDict(buf)
-                }
-                parserObject.convertIntegerToDict = {
-                    DictionaryHelper.integerToByteArray(buf, it)
-                    addToDict(buf)
-                }
-                parserObject.convertIriToDict = {
-                    DictionaryHelper.iriToByteArray(buf, it)
-                    addToDict(buf)
-                }
-                parserObject.convertStringToDict = {
-                    DictionaryHelper.stringToByteArray(buf, MyStringExt.replaceEscapes(it, strictMode))
-                    addToDict(buf)
-                }
-                parserObject.convertLangToDict = { c, l ->
-                    DictionaryHelper.langToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(l, strictMode))
-                    addToDict(buf)
-                }
-                parserObject.convertTypedToDict = { c, t ->
-                    DictionaryHelper.typedToByteArray(buf, MyStringExt.replaceEscapes(c, strictMode), MyStringExt.replaceEscapes(t, strictMode))
-                    addToDict(buf)
-                }
-                parserObject.convertBnodeToDict = {
-                    DictionaryHelper.bnodeToByteArray(buf, it)
-                    addToDict(buf)
+                parserObject.convertByteArrayWrapperToID = {
+                    addToDict(it)
                 }
                 try {
+                    parserObject.initializeCache()
                     parserObject.turtleDoc()
                 } catch (e: Throwable) {
                     throw Exception(inputFileName, e)

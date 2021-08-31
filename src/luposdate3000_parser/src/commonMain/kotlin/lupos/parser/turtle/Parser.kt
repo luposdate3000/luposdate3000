@@ -1,10 +1,14 @@
 
 package lupos.parser.turtle
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
+import lupos.shared.inline.MyStringExt
 
-internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpFileLoc: String) {
+public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpFileLoc: String) {
     internal companion object {
 
         internal const val kpBufferSize = 16384 * 2
@@ -1941,20 +1945,33 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         return kpLookAheadTokens[(kpLookAheadIndex1 + number) % kpLookAheadTokens.size]
     }
 
-    val consume_triple = consume_triple
-    val prefixes = mutableMapOf("" to "")
-    var bnode_counter = 0
-    var convertIriToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertBnodeToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertBooleanToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertIntegerToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertDecimalToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertDoubleToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertFloatToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertStringToDict: (String) -> DictionaryValueType = { TODO() }
-    var convertLangToDict: (String, String) -> DictionaryValueType = { c, l -> TODO() }
-    var convertTypedToDict: (String, String) -> DictionaryValueType = { c, t -> TODO() }
-    fun turtleDoc() {
+    internal val strictMode = false
+    internal val consume_triple = consume_triple
+    internal val prefixes = mutableMapOf("" to "")
+    internal var bnode_counter = 0
+    internal val buf = ByteArrayWrapper()
+    public var convertByteArrayWrapperToID: (ByteArrayWrapper) -> DictionaryValueType = { TODO() }
+    internal var valueCachedNil: DictionaryValueType = DictionaryValueHelper.nullValue
+    internal var valueCachedFirst: DictionaryValueType = DictionaryValueHelper.nullValue
+    internal var valueCachedRest: DictionaryValueType = DictionaryValueHelper.nullValue
+    internal var valueCachedTrue: DictionaryValueType = DictionaryValueHelper.nullValue
+    internal var valueCachedType: DictionaryValueType = DictionaryValueHelper.nullValue
+    internal var valueCachedFalse: DictionaryValueType = DictionaryValueHelper.nullValue
+    public fun initializeCache() {
+        DictionaryHelper.iriToByteArray(buf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+        valueCachedNil = convertByteArrayWrapperToID(buf)
+        DictionaryHelper.iriToByteArray(buf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+        valueCachedFirst = convertByteArrayWrapperToID(buf)
+        DictionaryHelper.iriToByteArray(buf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
+        valueCachedRest = convertByteArrayWrapperToID(buf)
+        DictionaryHelper.iriToByteArray(buf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+        valueCachedType = convertByteArrayWrapperToID(buf)
+        DictionaryHelper.booleanToByteArray(buf, true)
+        valueCachedTrue = convertByteArrayWrapperToID(buf)
+        DictionaryHelper.booleanToByteArray(buf, false)
+        valueCachedFalse = convertByteArrayWrapperToID(buf)
+    }
+    public fun turtleDoc() {
         var token: Token
         var t1 = kpLookAhead(70)
         while (t1.type == STRING_0 || t1.type == STRING_1 || t1.type == STRING_3 || t1.type == STRING_2 || t1.type == IRI || t1.type == PNAMELN || t1.type == PNAMENS || t1.type == BNODE || t1.type == ANONBNODE || t1.type == LBRACE || t1.type == SLBRACE) {
@@ -1964,7 +1981,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         token = kpLookAheadNextToken(105)
     }
 
-    fun statement() {
+    internal fun statement() {
         var token: Token
         val t2 = kpLookAhead(70)
         when {
@@ -1979,7 +1996,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         }
     }
 
-    fun directive() {
+    internal fun directive() {
         var token: Token
         val t3 = kpLookAhead(141)
         when {
@@ -1999,7 +2016,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         }
     }
 
-    fun prefixID() {
+    internal fun prefixID() {
         var token: Token
         token = kpLookAheadNextToken(96)
         token = kpLookAheadNextToken(92)
@@ -2009,7 +2026,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         token = kpLookAheadNextToken(71)
     }
 
-    fun base() {
+    internal fun base() {
         var token: Token
         token = kpLookAheadNextToken(94)
         token = kpLookAheadNextToken(102)
@@ -2017,14 +2034,14 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         token = kpLookAheadNextToken(71)
     }
 
-    fun sparqlBase() {
+    internal fun sparqlBase() {
         var token: Token
         token = kpLookAheadNextToken(101)
         token = kpLookAheadNextToken(102)
         prefixes.put("", token.image.drop(1).dropLast(1))
     }
 
-    fun sparqlPrefix() {
+    internal fun sparqlPrefix() {
         var token: Token
         token = kpLookAheadNextToken(83)
         token = kpLookAheadNextToken(92)
@@ -2033,7 +2050,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         prefixes.put(key, token.image.drop(1).dropLast(1))
     }
 
-    fun triples() {
+    internal fun triples() {
         var token: Token
         val t5 = kpLookAhead(138)
         when {
@@ -2052,7 +2069,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         }
     }
 
-    fun predicateObjectList(s: DictionaryValueType) {
+    internal fun predicateObjectList(s: DictionaryValueType) {
         var token: Token
         val p = verb()
         objectList(s, p)
@@ -2068,7 +2085,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         }
     }
 
-    fun objectList(s: DictionaryValueType, p: DictionaryValueType) {
+    internal fun objectList(s: DictionaryValueType, p: DictionaryValueType) {
         var token: Token
         val o = triple_object()
         consume_triple(s, p, o)
@@ -2081,7 +2098,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         }
     }
 
-    fun verb(): DictionaryValueType {
+    internal fun verb(): DictionaryValueType {
         var token: Token
         val t9 = kpLookAhead(107)
         when {
@@ -2094,14 +2111,14 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
                 if (token.image != "a") {
                     throw UnexpectedToken(token, arrayOf("a"), kpIndex, kpColumnNumber, kpLineNumber)
                 } else {
-                    return convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+                    return valueCachedType
                 }
             }
             else -> { throw UnexpectedToken(t9, arrayOf("IRI", "PNAMELN", "PNAMENS", "STRING_4"), kpIndex, kpColumnNumber, kpLineNumber) }
         }
     }
 
-    fun subject(): DictionaryValueType {
+    internal fun subject(): DictionaryValueType {
         var token: Token
         val result: DictionaryValueType
         val t10 = kpLookAhead(127)
@@ -2120,13 +2137,13 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         return result
     }
 
-    fun predicate(): DictionaryValueType {
+    internal fun predicate(): DictionaryValueType {
         var token: Token
         val result = iri()
         return result
     }
 
-    fun triple_object(): DictionaryValueType {
+    internal fun triple_object(): DictionaryValueType {
         var token: Token
         val result: DictionaryValueType
         val t11 = kpLookAhead(155)
@@ -2151,7 +2168,7 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         return result
     }
 
-    fun literal(): DictionaryValueType {
+    internal fun literal(): DictionaryValueType {
         var token: Token
         val result: DictionaryValueType
         val t12 = kpLookAhead(132)
@@ -2170,61 +2187,66 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         return result
     }
 
-    fun blankNodePropertyList(): DictionaryValueType {
+    internal fun blankNodePropertyList(): DictionaryValueType {
         var token: Token
-        val result = convertBnodeToDict("_:_" + bnode_counter); bnode_counter++
+        DictionaryHelper.bnodeToByteArray(buf, "_:_" + bnode_counter++)
+        val result = convertByteArrayWrapperToID(buf)
         token = kpLookAheadNextToken(123)
         predicateObjectList(result)
         token = kpLookAheadNextToken(106)
         return result
     }
 
-    fun collection(): DictionaryValueType {
+    internal fun collection(): DictionaryValueType {
         var token: Token
-        var first = convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
-        var current = convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+        var first = valueCachedNil
+        var current = valueCachedNil
         token = kpLookAheadNextToken(137)
         var t13 = kpLookAhead(163)
         while (t13.type == IRI || t13.type == PNAMELN || t13.type == PNAMENS || t13.type == BNODE || t13.type == ANONBNODE || t13.type == LBRACE || t13.type == SLBRACE || t13.type == STRING || t13.type == INTEGER || t13.type == DECIMAL || t13.type == DOUBLE || t13.type == STRING_5 || t13.type == STRING_6) {
-            val next = convertBnodeToDict("_:_" + bnode_counter); bnode_counter++
-            if (current == convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")) {
+            DictionaryHelper.bnodeToByteArray(buf, "_:_" + bnode_counter++)
+            val next = convertByteArrayWrapperToID(buf)
+            if (current == valueCachedNil) {
                 first = next
             } else {
-                consume_triple(current, convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"), next)
+                consume_triple(current, valueCachedRest, next)
             }
             current = next
             val o = triple_object()
-            consume_triple(current, convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"), o)
+            consume_triple(current, valueCachedFirst, o)
             t13 = kpLookAhead(163)
         }
         token = kpLookAheadNextToken(124)
-        if (current != convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")) {
-            consume_triple(current, convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"), convertIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
+        if (current != valueCachedNil) {
+            consume_triple(current, valueCachedRest, valueCachedNil)
         }
         return first
     }
 
-    fun NumericLiteral(): DictionaryValueType {
+    internal fun NumericLiteral(): DictionaryValueType {
         var token: Token
         val t14 = kpLookAhead(143)
         when {
             t14.type == INTEGER -> {
                 token = kpLookAheadNextToken(149)
-                return convertIntegerToDict(token.image)
+                DictionaryHelper.integerToByteArray(buf, token.image)
+                return convertByteArrayWrapperToID(buf)
             }
             t14.type == DECIMAL -> {
                 token = kpLookAheadNextToken(88)
-                return convertDecimalToDict(token.image)
+                DictionaryHelper.decimalToByteArray(buf, token.image)
+                return convertByteArrayWrapperToID(buf)
             }
             t14.type == DOUBLE -> {
                 token = kpLookAheadNextToken(89)
-                return convertDoubleToDict(token.image)
+                DictionaryHelper.doubleToByteArray(buf, token.image)
+                return convertByteArrayWrapperToID(buf)
             }
             else -> { throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), kpIndex, kpColumnNumber, kpLineNumber) }
         }
     }
 
-    fun RDFLiteral(): DictionaryValueType {
+    internal fun RDFLiteral(): DictionaryValueType {
         var token: Token
         token = kpLookAheadNextToken(120)
         val content = token.image.drop(1).dropLast(1)
@@ -2234,36 +2256,45 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
             when {
                 t15.type == LANGTAG -> {
                     token = kpLookAheadNextToken(95)
-                    return convertLangToDict(content, token.image.drop(1))
+                    DictionaryHelper.langToByteArray(buf, MyStringExt.replaceEscapes(content, strictMode), MyStringExt.replaceEscapes(token.image.drop(1), strictMode))
+                    return convertByteArrayWrapperToID(buf)
                 }
                 t15.type == DOUBLECIRCUMFLEX -> {
                     token = kpLookAheadNextToken(3)
                     val type_iri = iri_string()
-                    return convertTypedToDict(content, type_iri)
+                    DictionaryHelper.typedToByteArray(buf, MyStringExt.replaceEscapes(content, strictMode), MyStringExt.replaceEscapes(type_iri, strictMode))
+                    return convertByteArrayWrapperToID(buf)
                 }
                 else -> { throw UnexpectedToken(t15, arrayOf("LANGTAG", "DOUBLECIRCUMFLEX"), kpIndex, kpColumnNumber, kpLineNumber) }
             }
         }
-        return convertStringToDict(content)
+        DictionaryHelper.stringToByteArray(buf, MyStringExt.replaceEscapes(content, strictMode))
+        return convertByteArrayWrapperToID(buf)
     }
 
-    fun BooleanLiteral(): DictionaryValueType {
+    internal fun BooleanLiteral(): DictionaryValueType {
         var token: Token
         val t17 = kpLookAhead(165)
         when {
             t17.type == STRING_5 -> {
                 token = kpLookAheadNextToken(74)
-                if (token.image != "true") { throw UnexpectedToken(token, arrayOf("true"), kpIndex, kpColumnNumber, kpLineNumber); }; return convertBooleanToDict("true")
+                if (token.image != "true") {
+                    throw UnexpectedToken(token, arrayOf("true"), kpIndex, kpColumnNumber, kpLineNumber)
+                }
+                return valueCachedTrue
             }
             t17.type == STRING_6 -> {
                 token = kpLookAheadNextToken(77)
-                if (token.image != "false") { throw UnexpectedToken(token, arrayOf("false"), kpIndex, kpColumnNumber, kpLineNumber); }; return convertBooleanToDict("false")
+                if (token.image != "false") {
+                    throw UnexpectedToken(token, arrayOf("false"), kpIndex, kpColumnNumber, kpLineNumber)
+                }
+                return valueCachedFalse
             }
             else -> { throw UnexpectedToken(t17, arrayOf("STRING_5", "STRING_6"), kpIndex, kpColumnNumber, kpLineNumber) }
         }
     }
 
-    fun iri(): DictionaryValueType {
+    internal fun iri(): DictionaryValueType {
         var token: Token
         val iri: String
         val t18 = kpLookAhead(97)
@@ -2277,10 +2308,11 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
             }
             else -> { throw UnexpectedToken(t18, arrayOf("IRI", "PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber) }
         }
-        return convertIriToDict(iri)
+        DictionaryHelper.iriToByteArray(buf, iri)
+        return convertByteArrayWrapperToID(buf)
     }
 
-    fun iri_string(): String {
+    internal fun iri_string(): String {
         var token: Token
         val iri: String
         val t19 = kpLookAhead(97)
@@ -2297,33 +2329,48 @@ internal class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Dicti
         return iri
     }
 
-    fun PrefixedName(): String {
+    internal fun PrefixedName(): String {
         var token: Token
         val t20 = kpLookAhead(91)
         when {
             t20.type == PNAMELN -> {
                 token = kpLookAheadNextToken(147)
-                val split = token.image.split(":"); val key = split[0]; val result = prefixes[key]; if (result == null) throw Error("Prefix " + key + " has not been defined $kpLineNumber:$kpColumnNumber"); else return result + split[1]
+                val split = token.image.split(":")
+                val key = split[0]
+                val result = prefixes[key]
+                if (result == null) {
+                    throw Error("Prefix " + key + " has not been defined $kpLineNumber:$kpColumnNumber")
+                } else {
+                    return result + split[1]
+                }
             }
             t20.type == PNAMENS -> {
                 token = kpLookAheadNextToken(92)
-                val key = token.image.dropLast(1); val result = prefixes[key]; if (result == null) throw Error("Prefix " + key + " has not been defined $kpLineNumber:$kpColumnNumber"); else return result
+                val key = token.image.dropLast(1)
+                val result = prefixes[key]
+                if (result == null) {
+                    throw Error("Prefix " + key + " has not been defined $kpLineNumber:$kpColumnNumber")
+                } else {
+                    return result
+                }
             }
             else -> { throw UnexpectedToken(t20, arrayOf("PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber) }
         }
     }
 
-    fun BlankNode(): DictionaryValueType {
+    internal fun BlankNode(): DictionaryValueType {
         var token: Token
         val t21 = kpLookAhead(134)
         when {
             t21.type == BNODE -> {
                 token = kpLookAheadNextToken(139)
-                return convertBnodeToDict("_:_" + token.image.drop(2))
+                DictionaryHelper.bnodeToByteArray(buf, "_:_" + token.image.drop(2))
+                return convertByteArrayWrapperToID(buf)
             }
             t21.type == ANONBNODE -> {
                 token = kpLookAheadNextToken(128)
-                return convertBnodeToDict("_:_" + bnode_counter); bnode_counter++
+                DictionaryHelper.bnodeToByteArray(buf, "_:_" + bnode_counter++)
+                return convertByteArrayWrapperToID(buf)
             }
             else -> { throw UnexpectedToken(t21, arrayOf("BNODE", "ANONBNODE"), kpIndex, kpColumnNumber, kpLineNumber) }
         }
