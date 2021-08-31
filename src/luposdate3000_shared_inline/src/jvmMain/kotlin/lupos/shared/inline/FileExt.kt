@@ -22,6 +22,6 @@ internal actual object FileExt {
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun createTempDirectory(): String {
         val tmp = kotlinCreateTempDirectory()
-        return "$tmp/"
+        return "$tmp/luposdate"
     }
 }

@@ -233,21 +233,6 @@ public class resourcessp2bq72sparql700 {
     }
 
     @Test(timeout = 2000)
-    public fun `resourcessp2bq72sparql700 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            )
-        )
-    }
-
-    @Test(timeout = 2000)
     public fun `resourcessp2bq72sparql700 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -316,21 +301,6 @@ public class resourcessp2bq72sparql700 {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            )
-        )
-    }
-
-    @Test(timeout = 2000)
-    public fun `resourcessp2bq72sparql700 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             )
