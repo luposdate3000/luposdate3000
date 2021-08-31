@@ -82,6 +82,7 @@ databasesAsStarRoots
 DAY - None - PartitionByIDTwiceAllCollations - true
 DELETE INSERT 6b - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - true
 dequeue() return and remove lowest time
 deviceWithoutLinkTypeCanNotLink
@@ -157,6 +158,7 @@ onSteadyState is not called when it was not set
 parseEmptyConfigFile
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
@@ -314,11 +316,13 @@ resourcessp2bq2sparql247 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcessp2bq3asparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 resourcessp2bq3asparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
 resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcessp2bq3asparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
 resourcessp2bq3asparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
@@ -333,10 +337,13 @@ resourcessp2bq3asparql21 - in simulator - Simple - Centralized - false - None
 resourcessp2bq3asparql21 - in simulator - Simple - Centralized - false - Thread
 resourcessp2bq3asparql21 - in simulator - Simple - Centralized - true - None
 resourcessp2bq3asparql21 - in simulator - Simple - Centralized - true - Thread
+resourcessp2bq3asparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq3csparql247 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq42sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq4sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq5asparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
 resourcessp2bq5bsparql1294 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
 resourcessp2bq5bsparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 resourcessp2bq5bsparql21 - None - PartitionByIDTwiceAllCollations - true
