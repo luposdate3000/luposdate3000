@@ -24,8 +24,13 @@ import kotlin.jvm.JvmField
 
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
-    private val withSimulator = false
+    private val withSimulator = true
     private val onlyFirstTest = true // to reduce the number of tests, which are failing and can not be abortet by timeout
+private val minifyMode=true 
+/*
+in minify mode all passing tests will be removed, such that the next execution will skip them.
+without minify mode only the passing tests will be added
+*/
 
     @JvmField
     internal var counter = 0
@@ -47,20 +52,40 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     @JvmField
     internal val allTests = mutableListOf<String>()
 
-internal val listOfErrored=mutableListOf<String>()
-internal val listOfTimeout=mutableListOf<String>()
-internal val listOfPassed=mutableListOf<String>()
+    internal val listOfFailed = mutableSetOf<String>()
+    internal val listOfTimeout = mutableSetOf<String>()
+    internal val listOfPassed = mutableSetOf<String>()
+internal val listOfRemoved=mutableSetOf<String>()
 
+fun isIgnored(testName:String):Boolean{
+if(minifyMode){
+return listOfRemoved.contains(testName)
+}else{
+return !listOfPassed.contains(testName)
+}
+}
+fun shouldAddFunction(testName:String):Boolean{
+if(minifyMode){
+return if !isIgnored(testName)
+}else{
+return true
+}
+}
     init {
         prefixDirectory = "$resource_folder/"
-File("resources/tests/errored").forEachLine{
-listOfErrored.add(it)
-}
-File("resources/tests/passed").forEachLine{
-listOfPassed.add(it)
-}
-File("resources/tests/timeout").forEachLine{
-listOfTimeout.add(it)
+        File("resources/tests/failed").forEachLine {
+            listOfFailed.add(it)
+        }
+        File("resources/tests/passed").forEachLine {
+            listOfPassed.add(it)
+        }
+        File("resources/tests/timeout").forEachLine {
+            listOfTimeout.add(it)
+        }
+if(minifyMode){
+listOfRemoved.addAll(listOfFailed)
+listOfRemoved.addAll(listOfTimeout)
+listOfRemoved.addAll(listOfPassed)
 }
         for (idx in 0 until folderCount) {
             File(outputFolderRoot(idx)).deleteRecursively()
@@ -91,7 +116,6 @@ listOfTimeout.add(it)
             .replace("\" +\n", " \" +\n")
             .replace("\" +\n", "\\n\" +\n")
     }
-    private val ignoreList = SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlow.ignoreList + SparqlTestSuiteConverterToUnitTestIgnoreListDueToNotImplemented.ignoreList + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugs.ignoreList + SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsResolveLater.ignoreList
     override fun parseSPARQLAndEvaluate( //
         executeJena: Boolean,
         testName: String, //
@@ -173,7 +197,6 @@ listOfTimeout.add(it)
         counter++
         allTests.add(testCaseName)
         val queryResultIsOrdered = false
-        val ignored = ignoreList.contains(testCaseName)
         for (useCodeGen in setOf(false, withCodeGen)) {
             var filenamePart = ""
             if (useCodeGen) {
@@ -362,18 +385,15 @@ listOfTimeout.add(it)
                                     break@outerloop
                                 }
                             }
+val finalTestName="$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding"
+if(shouldAddFunction(finalTestName)){
                             if (!useCodeGen) {
-                                if (ignored) {
-                                    val reason = ignoreList[testCaseName]
-                                    if (reason != null) {
-                                        out.println("    @Ignore // Reason: >$reason<")
-                                    } else {
+                                if (isIgnored(finalTestName)) {
                                         out.println("    @Ignore")
-                                    }
                                 }
                                 out.println("    @Test(timeout = 2000)")
                             }
-                            out.println("    public fun `$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding`() {")
+                            out.println("    public fun `$finalTestName`() {")
                             out.println("      var instance = Luposdate3000Instance()")
                             out.println("      try{")
                             out.println("        instance.LUPOS_BUFFER_SIZE = 128")
@@ -438,6 +458,7 @@ listOfTimeout.add(it)
                             out.println("      }")
                             out.println("    }")
                             distributedTestAppendFlag = false
+}
                         }
                     }
                 }
@@ -453,26 +474,13 @@ listOfTimeout.add(it)
                                     if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
                                         continue
                                     }
-                                    if (ignored || !withSimulator) {
-                                        val reason = ignoreList[testCaseName]
-                                        if (reason != null) {
-                                            out.println("    @Ignore // Reason: >$reason<")
-                                        } else {
+val finalTestName="$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE"
+if(shouldAddFunction(finalTestName)){
+                                    if (isIgnored(finalTestName) || !withSimulator) {
                                             out.println("    @Ignore")
-                                        }
-                                    } else {
-                                        val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToBugsInSimulator.ignoreList[testCaseName]
-                                        if (reason != null) {
-                                            out.println("    @Ignore // Reason: >$reason<")
-                                        } else {
-                                            val reason = SparqlTestSuiteConverterToUnitTestIgnoreListDueToTooSlowInSimulator.ignoreList[testCaseName]
-                                            if (reason != null) {
-                                                out.println("    @Ignore // Reason: >$reason<")
-                                            }
-                                        }
                                     }
                                     out.println("    @Test(timeout = 2000)")
-                                    out.println("    public fun `$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE`() {")
+                                    out.println("    public fun `$finalTestName`() {")
                                     out.println("        simulatorHelper(")
                                     if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
                                         out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
@@ -491,6 +499,7 @@ listOfTimeout.add(it)
                                     out.println("    }")
                                 }
                             }
+}
                         }
                     }
                     out.println("    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {")
@@ -510,20 +519,18 @@ listOfTimeout.add(it)
                     out.println("    }")
                 }
                 if (!useCodeGen && withCodeGen) {
-                    if (ignored) {
-                        val reason = ignoreList[testCaseName]
-                        if (reason != null) {
-                            out.println("    @Ignore // Reason: >$reason<")
-                        } else {
+val finalTestName="$testCaseName2 - codegen"
+if(shouldAddFunction(finalTestName)){
+                    if (isIgnored(finalTestName)) {
                             out.println("    @Ignore")
-                        }
                     }
                     out.println("    @Test(timeout = 2000)")
 
-                    out.println("    public fun `$testCaseName2 - codegen`() {")
+                    out.println("    public fun `$finalTestName`() {")
                     out.println("        ${testCaseName}_CodeGen().`$testCaseName2`()")
                     out.println("    }")
                 }
+}
                 out.println("}")
             }
         }
