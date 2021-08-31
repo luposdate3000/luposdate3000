@@ -6,6 +6,7 @@ sed "s/minifyMode = .*/minifyMode = true/g" -i ./src/luposdate3000_test/src/comm
 rm -rf tmp
 mkdir tmp
 sleep 1
+./launcher.main.kts --setup
 ./gradlew assemble
 sleep 1
 while true
