@@ -20,15 +20,12 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxbindings05arqwithVALUESclause {
     internal val query = "SELECT * { } VALUES (?x ?y) { (1 2) } \n" +
         ""
 
-    @Ignore
-    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `syntaxbindings05arq with VALUES clause - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

@@ -20,15 +20,12 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdate08ru {
     internal val query = "DROP GRAPH <graph> \n" +
         ""
 
-    @Ignore
-    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `syntaxupdate08ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

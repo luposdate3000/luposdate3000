@@ -20,15 +20,12 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class LOADSILENTINTO {
     internal val query = "LOAD SILENT <somescheme://www.example.com/THIS-GRAPH-DOES-NOT-EXIST/> INTO GRAPH <http://www.example.org/> \n" +
         ""
 
-    @Ignore
-    // Reason: >too slow<
     @Test(timeout = 2000)
     public fun `LOAD SILENT INTO - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

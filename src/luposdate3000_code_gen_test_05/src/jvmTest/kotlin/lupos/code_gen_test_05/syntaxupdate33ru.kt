@@ -20,7 +20,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxupdate33ru {
@@ -33,8 +32,6 @@ public class syntaxupdate33ru {
         "  { ?s ?p ?o } \n" +
         ""
 
-    @Ignore
-    // Reason: >Bug in Error-detection during Query-Parsing<
     @Test(timeout = 2000)
     public fun `syntaxupdate33ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

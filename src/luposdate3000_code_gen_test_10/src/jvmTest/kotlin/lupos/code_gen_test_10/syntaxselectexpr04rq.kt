@@ -20,7 +20,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 public class syntaxselectexpr04rq {
@@ -28,8 +27,6 @@ public class syntaxselectexpr04rq {
         "SELECT (:function(?x +?y) AS ?F) ?z {} \n" +
         ""
 
-    @Ignore
-    // Reason: >not implemented<
     @Test(timeout = 2000)
     public fun `syntaxselectexpr04rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()

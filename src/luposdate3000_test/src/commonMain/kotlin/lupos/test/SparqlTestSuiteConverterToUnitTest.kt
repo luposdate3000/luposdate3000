@@ -56,17 +56,16 @@ without minify mode only the passing tests will be added
     internal val listOfTimeout = mutableSetOf<String>()
     internal val listOfPassed = mutableSetOf<String>()
 internal val listOfRemoved=mutableSetOf<String>()
-
-fun isIgnored(testName:String):Boolean{
+internal fun isIgnored(testName:String):Boolean{
 if(minifyMode){
 return listOfRemoved.contains(testName)
 }else{
 return !listOfPassed.contains(testName)
 }
 }
-fun shouldAddFunction(testName:String):Boolean{
+internal fun shouldAddFunction(testName:String):Boolean{
 if(minifyMode){
-return if !isIgnored(testName)
+return !isIgnored(testName)
 }else{
 return true
 }
