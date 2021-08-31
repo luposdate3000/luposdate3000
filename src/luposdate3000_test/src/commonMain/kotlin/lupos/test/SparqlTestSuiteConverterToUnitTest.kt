@@ -47,8 +47,21 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     @JvmField
     internal val allTests = mutableListOf<String>()
 
+internal val listOfErrored=mutableListOf<String>()
+internal val listOfTimeout=mutableListOf<String>()
+internal val listOfPassed=mutableListOf<String>()
+
     init {
         prefixDirectory = "$resource_folder/"
+File("resources/tests/errored").forEachLine{
+listOfErrored.add(it)
+}
+File("resources/tests/passed").forEachLine{
+listOfPassed.add(it)
+}
+File("resources/tests/timeout").forEachLine{
+listOfTimeout.add(it)
+}
         for (idx in 0 until folderCount) {
             File(outputFolderRoot(idx)).deleteRecursively()
             File(outputFolderRoot(idx)).mkdirs()
