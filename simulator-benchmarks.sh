@@ -23,7 +23,7 @@ for t in distributed distributedWithQueryHops central
 #for t in distributed
 do
 JSON_TOPOLOGY="${BASE_PATH}/$t.json"
-for d in luposdate3000_by_key luposdate3000_by_id_twice_all_collations
+for d in luposdate3000_by_key luposdate3000_by_id_twice_all_collations luposdate3000_by_id_0_all_collations luposdate3000_by_id_1_all_collations luposdate3000_by_id_O_all_collations luposdate3000_by_id_S_all_collations luposdate3000_by_simple
 #for d in luposdate3000_by_key
 do
 JSON_DATABASE="${BASE_PATH}/$d.json"

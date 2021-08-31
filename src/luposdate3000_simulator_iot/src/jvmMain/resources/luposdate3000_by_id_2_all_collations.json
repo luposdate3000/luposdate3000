@@ -1,0 +1,5 @@
+{
+    "database": {
+        "predefinedPartitionScheme": "PartitionByID_2_AllCollations",
+    },
+}
