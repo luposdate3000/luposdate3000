@@ -80,6 +80,8 @@ countNumberOfDevicesInRandomNetwork
 create random location within radius
 databasesAsStarRoots
 DAY - None - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 6b - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
 DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - true
 dequeue() return and remove lowest time
 deviceWithoutLinkTypeCanNotLink
@@ -153,6 +155,24 @@ onlyOneMeshDevice
 onlySouthernMeshDevices
 onSteadyState is not called when it was not set
 parseEmptyConfigFile
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - Simple - Centralized - false - Thread
 PrefixName with hexencoded colons - None - PartitionByIDTwiceAllCollations - true
 PrefixName with unescaped colons - None - PartitionByIDTwiceAllCollations - true
 queue should peak() lowest time
@@ -172,6 +192,24 @@ resourcesmyqueriesoptional10sparql5 - None - PartitionByIDTwiceAllCollations - t
 resourcesmyqueriesoptional11sparql5 - None - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional12sparql4 - None - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional13sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - Simple - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - Simple - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - None - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional14sparql5 - None - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional15sparql4 - None - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional15sparql5 - None - PartitionByIDTwiceAllCollations - true
@@ -271,20 +309,40 @@ resourcessp2bq12csparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq1sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq2sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq2sparql247 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - true - Thread
 resourcessp2bq3csparql247 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq42sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq4sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq5asparql21 - None - PartitionByIDTwiceAllCollations - true
-resourcessp2bq5asparql700 - None - PartitionByIDTwiceAllCollations - true[0K
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+resourcessp2bq5bsparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 resourcessp2bq5bsparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq61sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq62sparql21 - None - PartitionByIDTwiceAllCollations - true
-resourcessp2bq62sparql247 - None - PartitionByIDTwiceAllCollations - true[0K
 resourcessp2bq63sparql247 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq65sparql21 - None - PartitionByIDTwiceAllCollations - true
-resourcessp2bq65sparql247 - None - PartitionByIDTwiceAllCollations - true[0K
 resourcessp2bq67sparql21 - None - PartitionByIDTwiceAllCollations - true
-resourcessp2bq67sparql247 - None - PartitionByIDTwiceAllCollations - true[0K
 resourcessp2bq6sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq71sparql247 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq72sparql21 - None - PartitionByIDTwiceAllCollations - true
@@ -431,11 +489,8 @@ test_1
 test1
 test10
 test100
-test10[0K
 test11
-test11[0K
 test12
-test12[0K
 test13
 test14
 test15

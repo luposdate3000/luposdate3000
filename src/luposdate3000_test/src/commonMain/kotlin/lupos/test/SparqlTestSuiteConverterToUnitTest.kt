@@ -26,7 +26,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     private val withCodeGen = false
     private val withSimulator = true
     private val onlyFirstTest = true // to reduce the number of tests, which are failing and can not be abortet by timeout
-private val minifyMode=true 
+    private val minifyMode = true
 /*
 in minify mode all passing tests will be removed, such that the next execution will skip them.
 without minify mode only the passing tests will be added
@@ -55,21 +55,21 @@ without minify mode only the passing tests will be added
     internal val listOfFailed = mutableSetOf<String>()
     internal val listOfTimeout = mutableSetOf<String>()
     internal val listOfPassed = mutableSetOf<String>()
-internal val listOfRemoved=mutableSetOf<String>()
-internal fun isIgnored(testName:String):Boolean{
-if(minifyMode){
-return listOfRemoved.contains(testName)
-}else{
-return !listOfPassed.contains(testName)
-}
-}
-internal fun shouldAddFunction(testName:String):Boolean{
-if(minifyMode){
-return !isIgnored(testName)
-}else{
-return true
-}
-}
+    internal val listOfRemoved = mutableSetOf<String>()
+    internal fun isIgnored(testName: String): Boolean {
+        if (minifyMode) {
+            return listOfRemoved.contains(testName)
+        } else {
+            return !listOfPassed.contains(testName)
+        }
+    }
+    internal fun shouldAddFunction(testName: String): Boolean {
+        if (minifyMode) {
+            return !isIgnored(testName)
+        } else {
+            return true
+        }
+    }
     init {
         prefixDirectory = "$resource_folder/"
         File("resources/tests/failed").forEachLine {
@@ -81,11 +81,11 @@ return true
         File("resources/tests/timeout").forEachLine {
             listOfTimeout.add(it)
         }
-if(minifyMode){
-listOfRemoved.addAll(listOfFailed)
-listOfRemoved.addAll(listOfTimeout)
-listOfRemoved.addAll(listOfPassed)
-}
+        if (minifyMode) {
+            listOfRemoved.addAll(listOfFailed)
+            listOfRemoved.addAll(listOfTimeout)
+            listOfRemoved.addAll(listOfPassed)
+        }
         for (idx in 0 until folderCount) {
             File(outputFolderRoot(idx)).deleteRecursively()
             File(outputFolderRoot(idx)).mkdirs()
@@ -384,80 +384,80 @@ listOfRemoved.addAll(listOfPassed)
                                     break@outerloop
                                 }
                             }
-val finalTestName="$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding"
-if(shouldAddFunction(finalTestName)){
-                            if (!useCodeGen) {
-                                if (isIgnored(finalTestName)) {
+                            val finalTestName = "$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding"
+                            if (shouldAddFunction(finalTestName)) {
+                                if (!useCodeGen) {
+                                    if (isIgnored(finalTestName)) {
                                         out.println("    @Ignore")
-                                }
-                                out.println("    @Test(timeout = 2000)")
-                            }
-                            out.println("    public fun `$finalTestName`() {")
-                            out.println("      var instance = Luposdate3000Instance()")
-                            out.println("      try{")
-                            out.println("        instance.LUPOS_BUFFER_SIZE = 128")
-                            out.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
-                            out.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
-                            out.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
-                            out.println("        instance = LuposdateEndpoint.initializeB(instance)")
-                            out.println("        val buf = MyPrintWriter(false)")
-                            for (i in 0 until inputGraphs.size) {
-                                appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])", false)
-                                out.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
-                                out.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i], inputGraph[$i])")
-                                out.println("        } else {")
-                                out.println("            TODO()")
-                                out.println("        }")
-                            }
-                            for (i in 0 until inputGraphs.size) {
-                                val c = localCounter++
-                                myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i])
-                            }
-                            val counter = localCounter++
-                            val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
-                            if (evaluateIt || expectedResult) {
-                                if (useCodeGen) {
-                                    out.println("            val operator$counter = query_evaluate(instance)")
-                                } else {
-                                    out.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
-                                }
-                                if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                                    myVerifyGraph(counter, "targetData", "targetType", "", "query", false)
-                                } else {
-                                    if (evaluateIt) {
-                                        appendDistributedTest("MySimulatorTestingExecute(query)", false)
-                                        out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                                     }
+                                    out.println("    @Test(timeout = 2000)")
                                 }
-                            } else {
-                                out.println("        var flag = false")
-                                out.println("        try {")
-                                if (useCodeGen) {
-                                    out.println("            query_evaluate()")
+                                out.println("    public fun `$finalTestName`() {")
+                                out.println("      var instance = Luposdate3000Instance()")
+                                out.println("      try{")
+                                out.println("        instance.LUPOS_BUFFER_SIZE = 128")
+                                out.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
+                                out.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
+                                out.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
+                                out.println("        instance = LuposdateEndpoint.initializeB(instance)")
+                                out.println("        val buf = MyPrintWriter(false)")
+                                for (i in 0 until inputGraphs.size) {
+                                    appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])", false)
+                                    out.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
+                                    out.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i], inputGraph[$i])")
+                                    out.println("        } else {")
+                                    out.println("            TODO()")
+                                    out.println("        }")
+                                }
+                                for (i in 0 until inputGraphs.size) {
+                                    val c = localCounter++
+                                    myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i])
+                                }
+                                val counter = localCounter++
+                                val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
+                                if (evaluateIt || expectedResult) {
+                                    if (useCodeGen) {
+                                        out.println("            val operator$counter = query_evaluate(instance)")
+                                    } else {
+                                        out.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                                    }
+                                    if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
+                                        myVerifyGraph(counter, "targetData", "targetType", "", "query", false)
+                                    } else {
+                                        if (evaluateIt) {
+                                            appendDistributedTest("MySimulatorTestingExecute(query)", false)
+                                            out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
+                                        }
+                                    }
                                 } else {
-                                    out.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                                    out.println("        var flag = false")
+                                    out.println("        try {")
+                                    if (useCodeGen) {
+                                        out.println("            query_evaluate()")
+                                    } else {
+                                        out.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                                    }
+                                    out.println("        } catch (e: Throwable) {")
+                                    out.println("            flag = true")
+                                    out.println("        }")
+                                    out.println("        if (!flag) {")
+                                    if (useCodeGen) {
+                                        out.println("            throw Exception(\"expected failure\")")
+                                    } else {
+                                        out.println("            fail(\"expected failure\")")
+                                    }
+                                    out.println("        }")
                                 }
-                                out.println("        } catch (e: Throwable) {")
-                                out.println("            flag = true")
-                                out.println("        }")
-                                out.println("        if (!flag) {")
-                                if (useCodeGen) {
-                                    out.println("            throw Exception(\"expected failure\")")
-                                } else {
-                                    out.println("            fail(\"expected failure\")")
+                                for (i in 0 until outputGraphs.size) {
+                                    val c = localCounter++
+                                    myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i])
                                 }
-                                out.println("        }")
+                                out.println("      }finally{")
+                                out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
+                                out.println("      }")
+                                out.println("    }")
+                                distributedTestAppendFlag = false
                             }
-                            for (i in 0 until outputGraphs.size) {
-                                val c = localCounter++
-                                myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i])
-                            }
-                            out.println("      }finally{")
-                            out.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
-                            out.println("      }")
-                            out.println("    }")
-                            distributedTestAppendFlag = false
-}
                         }
                     }
                 }
@@ -473,32 +473,32 @@ if(shouldAddFunction(finalTestName)){
                                     if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
                                         continue
                                     }
-val finalTestName="$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE"
-if(shouldAddFunction(finalTestName)){
-                                    if (isIgnored(finalTestName) || !withSimulator) {
+                                    val finalTestName = "$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE"
+                                    if (shouldAddFunction(finalTestName)) {
+                                        if (isIgnored(finalTestName) || !withSimulator) {
                                             out.println("    @Ignore")
+                                        }
+                                        out.println("    @Test(timeout = 2000)")
+                                        out.println("    public fun `$finalTestName`() {")
+                                        out.println("        simulatorHelper(")
+                                        if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
+                                            out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
+                                        } else {
+                                            out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
+                                        }
+                                        out.println("            mutableMapOf(")
+                                        out.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
+                                        out.println("                \"mergeLocalOperatorgraphs\" to true,")
+                                        out.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
+                                        out.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
+                                        out.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
+                                        out.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
+                                        out.println("            )")
+                                        out.println("        )")
+                                        out.println("    }")
                                     }
-                                    out.println("    @Test(timeout = 2000)")
-                                    out.println("    public fun `$finalTestName`() {")
-                                    out.println("        simulatorHelper(")
-                                    if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                        out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
-                                    } else {
-                                        out.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
-                                    }
-                                    out.println("            mutableMapOf(")
-                                    out.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
-                                    out.println("                \"mergeLocalOperatorgraphs\" to true,")
-                                    out.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
-                                    out.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
-                                    out.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
-                                    out.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
-                                    out.println("            )")
-                                    out.println("        )")
-                                    out.println("    }")
                                 }
                             }
-}
                         }
                     }
                     out.println("    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {")
@@ -518,18 +518,18 @@ if(shouldAddFunction(finalTestName)){
                     out.println("    }")
                 }
                 if (!useCodeGen && withCodeGen) {
-val finalTestName="$testCaseName2 - codegen"
-if(shouldAddFunction(finalTestName)){
-                    if (isIgnored(finalTestName)) {
+                    val finalTestName = "$testCaseName2 - codegen"
+                    if (shouldAddFunction(finalTestName)) {
+                        if (isIgnored(finalTestName)) {
                             out.println("    @Ignore")
-                    }
-                    out.println("    @Test(timeout = 2000)")
+                        }
+                        out.println("    @Test(timeout = 2000)")
 
-                    out.println("    public fun `$finalTestName`() {")
-                    out.println("        ${testCaseName}_CodeGen().`$testCaseName2`()")
-                    out.println("    }")
+                        out.println("    public fun `$finalTestName`() {")
+                        out.println("        ${testCaseName}_CodeGen().`$testCaseName2`()")
+                        out.println("    }")
+                    }
                 }
-}
                 out.println("}")
             }
         }
