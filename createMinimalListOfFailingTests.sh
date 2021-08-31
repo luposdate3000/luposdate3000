@@ -2,16 +2,18 @@
 
 rm -rf tmp
 mkdir tmp
+sleep 1
 ./gradlew assemble
-
+sleep 1
 while true
 do
 
-pkill java -9
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
-timeout --signal=9 600 ./gradlew build > x
+./gradlew build > x & read -t 600 || kill $!
+cp x backupX
 pkill java -9
+sleep 1
 
 grep lupos.*PASSED x \
  | tr -cd '\11\12\15\40-\176' | sed "s/\[[0-9]*m//g" | sed "s/\[0K//g" \
