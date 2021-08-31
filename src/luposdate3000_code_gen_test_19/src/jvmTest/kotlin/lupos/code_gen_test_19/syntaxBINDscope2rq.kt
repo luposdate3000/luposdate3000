@@ -16,31 +16,11 @@
  */
 package lupos.code_gen_test_19
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.Query
-import lupos.parser.JsonParser
-import lupos.parser.JsonParserObject
-import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
-import lupos.shared.EQueryDistributionModeExt
-import lupos.shared.Luposdate3000Config
-import lupos.shared.Luposdate3000Instance
 import lupos.shared.EPartitionModeExt
-import lupos.shared.MemoryTable
 import lupos.shared.EPredefinedPartitionSchemesExt
-import lupos.shared.inline.File
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
-import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_iot.log.Logger
-import lupos.simulator_iot.SimulationRun
-
-import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.test.fail
 
 public class syntaxBINDscope2rq {
     internal val query = " PREFIX : <http://www.example.org> \n" +
@@ -54,17 +34,17 @@ public class syntaxBINDscope2rq {
 
     @Test(timeout = 2000)
     public fun `syntaxBINDscope2rq - None - PartitionByIDTwiceAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        val buf = MyPrintWriter(false)
-        val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            val buf = MyPrintWriter(false)
+            val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
     }
 }
