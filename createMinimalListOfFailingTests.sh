@@ -10,7 +10,7 @@ do
 pkill java -9
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
-timeout --signal=9 60 ./gradlew build > x
+timeout --signal=9 600 ./gradlew build > x
 pkill java -9
 
 grep lupos.*PASSED x \
