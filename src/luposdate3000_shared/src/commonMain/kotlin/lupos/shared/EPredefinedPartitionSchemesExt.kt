@@ -20,15 +20,23 @@ import kotlin.jvm.JvmField
 
 public object EPredefinedPartitionSchemesExt {
     public const val PartitionByIDTwiceAllCollations: EPredefinedPartitionSchemes = 0 // 0x00000000
-    public const val PartitionByKeyAllCollations: EPredefinedPartitionSchemes = 1 // 0x00000001
-    public const val Simple: EPredefinedPartitionSchemes = 2 // 0x00000002
-    public const val values_size: Int = 3
-    public const val values_mask: Int = 3 // 0x00000003
-    public const val values_mask_inversed: Int = 2147483644 // 0x7ffffffc
+    public const val PartitionByID_1_AllCollations: EPredefinedPartitionSchemes = 1 // 0x00000001
+    public const val PartitionByID_2_AllCollations: EPredefinedPartitionSchemes = 2 // 0x00000002
+    public const val PartitionByID_O_AllCollations: EPredefinedPartitionSchemes = 3 // 0x00000003
+    public const val PartitionByID_S_AllCollations: EPredefinedPartitionSchemes = 4 // 0x00000004
+    public const val PartitionByKeyAllCollations: EPredefinedPartitionSchemes = 5 // 0x00000005
+    public const val Simple: EPredefinedPartitionSchemes = 6 // 0x00000006
+    public const val values_size: Int = 7
+    public const val values_mask: Int = 7 // 0x00000007
+    public const val values_mask_inversed: Int = 2147483640 // 0x7ffffff8
 
     @JvmField
     public val names: Array<String> = arrayOf(
         "PartitionByIDTwiceAllCollations",
+        "PartitionByID_1_AllCollations",
+        "PartitionByID_2_AllCollations",
+        "PartitionByID_O_AllCollations",
+        "PartitionByID_S_AllCollations",
         "PartitionByKeyAllCollations",
         "Simple",
     )
