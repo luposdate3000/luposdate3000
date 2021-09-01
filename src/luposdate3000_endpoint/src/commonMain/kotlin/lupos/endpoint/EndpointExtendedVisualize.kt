@@ -50,7 +50,6 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
         val lopNode: IOPBase = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
         val logSteps: MutableList<IOPBase> = mutableListOf()
         val optLog: IOPBase = LogicalOptimizer(q).optimizeCall(lopNode, {}, { logSteps.add(it.cloneOP()) })
-        val resultLogTmp = mutableListOf<OPVisualGraph>()
         resultLog = logSteps.map {
             val g = OPVisualGraph()
             LuposdateEndpoint.evaluateOperatorgraphToVisual(instance, it, g)

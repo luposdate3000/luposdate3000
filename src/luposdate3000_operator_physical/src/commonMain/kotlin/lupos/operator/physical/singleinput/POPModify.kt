@@ -204,11 +204,11 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
                     val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT)
-                    val iterator = Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }
+                    val iterator2 = Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }
                     while (true) {
-                        val s = dict.valueToGlobal(iterator[0].next())
-                        val p = dict.valueToGlobal(iterator[1].next())
-                        val o = dict.valueToGlobal(iterator[2].next())
+                        val s = dict.valueToGlobal(iterator2[0].next())
+                        val p = dict.valueToGlobal(iterator2[1].next())
+                        val o = dict.valueToGlobal(iterator2[2].next())
                         if (s == DictionaryValueHelper.nullValue) {
                             break
                         }
@@ -220,7 +220,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryValueHelper.booleanTrueValue)))
     }
-    public open override fun usesDictionary(): Boolean {
+    public override fun usesDictionary(): Boolean {
         return true
     }
 }

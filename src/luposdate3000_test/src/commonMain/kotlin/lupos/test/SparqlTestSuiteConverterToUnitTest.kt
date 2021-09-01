@@ -503,7 +503,7 @@ without minify mode only the passing tests will be added
             val prefix = fileBufferPrefix.toString()
             val postfix = fileBufferPostfix.toString()
             var ctr = 0
-            for ((testname, fileBufferTest) in fileBufferTests) {
+            for (testname in fileBufferTests.keys) {
                 if (shouldAddFunction(testname)) {
                     ctr++
                 }
@@ -576,7 +576,6 @@ without minify mode only the passing tests will be added
                             }
                         }
                     }
-                    var targetType = "NONE"
                     if (resultDataFileName != null) {
                         File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.output").withOutputStream { out ->
                             File(resultDataFileName).forEachLine {

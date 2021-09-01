@@ -500,12 +500,6 @@ public object XMLElementToOPBase {
         }
         operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
             TODO("$node")
-            val dictvalue = node.attributes["dictvalue"]
-            if (dictvalue != null) {
-                AOPConstant(query, DictionaryValueHelper.fromString(dictvalue))
-            } else {
-                XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping, recursionFunc)
-            }
         }
         operatorMap["AOPMultiplication"] = { query, node, mapping, recursionFunc ->
             AOPMultiplication(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
@@ -800,7 +794,7 @@ public object XMLElementToOPBase {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                 storeNodeTmp = storeNodeTmp.getChildren()[0]
             }
-            val storeNode = storeNodeTmp as POPTripleStoreIterator
+            val storeNode = storeNodeTmp
             storeNode.hasSplitFromStore = true
             query.addPartitionOperator(res.uuid, id)
             res
@@ -971,7 +965,7 @@ public object XMLElementToOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap [node.tag]
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:973"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:967"/*SOURCE_FILE_END*/ },
             { theOperator != null },
             { node.tag }
         )

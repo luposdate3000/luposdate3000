@@ -43,11 +43,11 @@ public object WebRootEndpoint {
                         } else {
                             connectionOutMy.println("Content-Type: text/plain")
                         }
-                        val f = File(p)
-                        connectionOutMy.println("Content-Length: ${f.length()}")
+                        val f2 = File(p)
+                        connectionOutMy.println("Content-Length: ${f2.length()}")
                         connectionOutMy.println()
                         val buf = ByteArray(4096)
-                        f.withInputStream { input ->
+                        f2.withInputStream { input ->
                             var len = input.read(buf)
                             while (len > 0) {
                                 connectionOutMy.write(buf, len)

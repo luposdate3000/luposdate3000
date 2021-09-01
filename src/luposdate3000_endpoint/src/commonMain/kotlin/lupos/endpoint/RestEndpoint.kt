@@ -18,8 +18,8 @@ package lupos.endpoint
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
-import lupos.endpoint.EndpointExtendedVisualize
-import lupos.endpoint.LuposdateEndpoint
+import lupos.dictionary.RemoteDictionaryClient
+import lupos.dictionary.RemoteDictionaryServer
 import lupos.jena_wrapper.JenaWrapper
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
@@ -43,14 +43,12 @@ import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.MyStringStream
-import lupos.dictionary.RemoteDictionaryClient
-import lupos.dictionary.RemoteDictionaryServer
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.xmlParser.XMLParser
 import kotlin.jvm.JvmField
 
 public object RestEndpoint {
-    public const val key_global_dict :String= "global_dict"
+    public const val key_global_dict: String = "global_dict"
 
     @JvmField
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
@@ -104,29 +102,18 @@ public object RestEndpoint {
     }
 
     public fun initialize(instance: Luposdate3000Instance, paths: MutableMap<String, PathMappingHelper>) {
-        paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) { params, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
             true
         }
-        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, _, connectionOutMy ->
             JenaWrapper.loadFromFile(params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("success")
             true
         }
-        paths["/sparql/startSession"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, connectionInMy, connectionOutMy ->
-            val e = params["evaluator"]
-            val evaluator = if (e == null) {
-                EQueryResultToStreamExt.DEFAULT_STREAM
-            } else {
-                val e2 = EQueryResultToStreamExt.names.indexOf(e)
-                if (e2 >= 0) {
-                    e2
-                } else {
-                    EQueryResultToStreamExt.DEFAULT_STREAM
-                }
-            }
+        paths["/sparql/startSession"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, _, connectionOutMy ->
             val eev = EndpointExtendedVisualize(params["query"].toString(), instance)
             val key = sessionMap.size + 1
             sessionMap[key] = eev
@@ -134,7 +121,7 @@ public object RestEndpoint {
             connectionOutMy.print(key.toString())
             true
         }
-        paths["/shacl/ontology/import"] = PathMappingHelper(true, mapOf(Pair("data", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/shacl/ontology/import"] = PathMappingHelper(true, mapOf(Pair("data", "") to ::inputElement)) { params, _, connectionOutMy ->
             if (instance.LUPOS_PROCESS_ID == 0) {
                 LuposdateEndpoint.loadShaclOntology(instance, params["data"]!!)
             } else {
@@ -164,7 +151,7 @@ public object RestEndpoint {
             }
             true
         }
-        paths["/sparql/getLogicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/getLogicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, _, connectionOutMy ->
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
@@ -184,7 +171,7 @@ public object RestEndpoint {
             }
             true
         }
-        paths["/sparql/getPhysicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/getPhysicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, _, connectionOutMy ->
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
@@ -204,7 +191,7 @@ public object RestEndpoint {
             }
             true
         }
-        paths["/sparql/getResult"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/getResult"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, _, connectionOutMy ->
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
@@ -214,7 +201,7 @@ public object RestEndpoint {
             }
             true
         }
-        paths["/sparql/getVisualisationData"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/getVisualisationData"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, _, connectionOutMy ->
             val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
@@ -234,13 +221,13 @@ public object RestEndpoint {
             }
             true
         }
-        paths["/sparql/closeSession"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/closeSession"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) { params, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("SessionClosedACK")
             sessionMap.remove(params["sessionID"]!!.toInt())
             true
         }
-        paths["/sparql/query"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/query"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, _, connectionOutMy ->
             val e = params["evaluator"]
             val evaluator = if (e == null) {
                 EQueryResultToStreamExt.DEFAULT_STREAM
@@ -257,7 +244,7 @@ public object RestEndpoint {
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
             true
         }
-        paths["/sparql/benchmark"] = PathMappingHelper(true, mapOf(Pair("minimumTime", "10") to ::inputElement, Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/benchmark"] = PathMappingHelper(true, mapOf(Pair("minimumTime", "10") to ::inputElement, Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, _, connectionOutMy ->
             val e = params["evaluator"]
             val evaluator = if (e == null) {
                 EQueryResultToStreamExt.DEFAULT_STREAM
@@ -277,7 +264,6 @@ public object RestEndpoint {
             }
             val writer = MyPrintWriter(false)
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
-            val query = node.getQuery()
             printHeaderSuccess(connectionOutMy)
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, evaluator)
             val timer = DateHelperRelative.markNow()
@@ -294,7 +280,7 @@ public object RestEndpoint {
             connectionOutMy.println("$counter,${time * 1000.0},${counter / time},${params["query"]!!}")
             true
         }
-        paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, connectionInMy, connectionOutMy ->
+        paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, _, connectionOutMy ->
             val e = params["evaluator"]
             val evaluator = if (e == null) {
                 EQueryResultToStreamExt.DEFAULT_STREAM
@@ -312,22 +298,22 @@ public object RestEndpoint {
             LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
             true
         }
-        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(LuposdateEndpoint.importTurtleFile(instance, params["file"]!!))
             true
         }
-        paths["/import/partition/scheme"] = PathMappingHelper(true, mapOf(Pair("file", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/import/partition/scheme"] = PathMappingHelper(true, mapOf(Pair("file", "") to ::inputElement)) { params, _, connectionOutMy ->
             LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             true
         }
-        paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) { params, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(LuposdateEndpoint.importTurtleString(instance, params["data"]!!))
             true
         }
-        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement)) { params, _, connectionOutMy ->
             LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             true
@@ -337,38 +323,38 @@ public object RestEndpoint {
             dict.connect(connectionInMy, connectionOutMy)
             true
         }
-        paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
             val key = params["key"]!!
             registerDictionary(key, instance)
             printHeaderSuccess(connectionOutMy)
             true
         }
-        paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
             val key = params["key"]!!
             removeDictionary(key)
             printHeaderSuccess(connectionOutMy)
             true
         }
-        paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, _, connectionOutMy ->
             distributed_graph_create(params, instance)
             printHeaderSuccess(connectionOutMy)
             true
         }
-        paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
             val query = Query(instance)
             val origin = params["origin"] == null || params["origin"]!!.toBoolean()
             instance.tripleStoreManager!!.remoteCommit(query, origin)
             printHeaderSuccess(connectionOutMy)
             true
         }
-        paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, _, connectionOutMy ->
             val query = Query(instance)
             val origin = params["origin"] == null || params["origin"]!!.toBoolean()
             instance.tripleStoreManager!!.remoteDropGraph(query, params["name"]!!, origin)
             printHeaderSuccess(connectionOutMy)
             true
         }
-        paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, _, connectionOutMy ->
             val query = Query(instance)
             val origin = params["origin"] == null || params["origin"]!!.toBoolean()
             instance.tripleStoreManager!!.remoteClearGraph(query, params["name"]!!, origin)
@@ -387,7 +373,7 @@ public object RestEndpoint {
             instance.tripleStoreManager!!.remoteModifySorted(query, key, mode, idx2, connectionInMy)
             true
         }
-        paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) { params, _, connectionOutMy ->
             instance.tripleStoreManager!!.debugAllLocalStoreContent()
             printHeaderSuccess(connectionOutMy)
             true
@@ -404,7 +390,7 @@ public object RestEndpoint {
             connectionOutMy.flush()
             true
         }
-        paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
             val xml = XMLParser(MyStringStream(params["query"]!!))
             val keys = mutableListOf<String>()
             for (c in xml.childs) {
@@ -496,14 +482,14 @@ public object RestEndpoint {
             queryMappings.remove(key)
             false
         }
-        paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             for ((k, v) in queryMappings) {
                 connectionOutMy.println("<p> $k :: $v </p>")
             }
             true
         }
-        paths["/debug.html"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/debug.html"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
             connectionOutMy.println("HTTP/1.1 200 OK")
             connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
             connectionOutMy.println()

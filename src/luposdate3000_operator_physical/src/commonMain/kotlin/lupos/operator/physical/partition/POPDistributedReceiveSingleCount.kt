@@ -82,7 +82,6 @@ public class POPDistributedReceiveSingleCount public constructor(
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val handler = query.getInstance().communicationHandler!!
         var count = input.readInt()
         input.close()
         output?.close()

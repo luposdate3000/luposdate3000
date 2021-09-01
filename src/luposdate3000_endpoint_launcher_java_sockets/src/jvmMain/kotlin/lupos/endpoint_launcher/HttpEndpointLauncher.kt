@@ -15,7 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
+import lupos.dictionary.RemoteDictionaryClient
 import lupos.endpoint.LuposdateEndpoint
+import lupos.endpoint.PathMappingHelper
+import lupos.endpoint.RestEndpoint
+import lupos.endpoint.WebRootEndpoint
 import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
@@ -26,10 +30,6 @@ import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.URLDecoder
 import kotlin.system.exitProcess
-import lupos.endpoint.RestEndpoint
-import lupos.endpoint.WebRootEndpoint
-import lupos.dictionary.RemoteDictionaryClient
-import lupos.endpoint.PathMappingHelper
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
 
@@ -51,7 +51,6 @@ public actual object HttpEndpointLauncher {
     public actual /*suspend*/ fun start(instance: Luposdate3000Instance) {
         val localhost = instance.tripleStoreManager!!.getLocalhost()
         val hosturl = localhost.split(":")
-        val hostname = hosturl[0]
         val port = if (hosturl.size > 1) {
             hosturl[1].toInt()
         } else {
@@ -101,11 +100,10 @@ public actual object HttpEndpointLauncher {
                                 path = path.substring(0, idx)
                             }
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
                                 RestEndpoint.removeDictionary(RestEndpoint.key_global_dict)
                                 LuposdateEndpoint.close()
                                 exitProcess(0)
-                                true
                             }
                             RestEndpoint.initialize(instance, paths)
                             WebRootEndpoint.initialize(paths)

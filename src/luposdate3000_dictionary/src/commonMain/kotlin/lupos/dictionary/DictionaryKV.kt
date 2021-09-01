@@ -253,8 +253,8 @@ public class DictionaryKV internal constructor(
                             ready = true
                             val type = DictionaryHelper.byteArrayToType(buffer)
                             if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                                val id = createNewBNode()
-                                mymapping = addEntry(originalID, id, mymapping)
+                                val id2 = createNewBNode()
+                                mymapping = addEntry(originalID, id2, mymapping)
                                 ready = false
                             }
                         }

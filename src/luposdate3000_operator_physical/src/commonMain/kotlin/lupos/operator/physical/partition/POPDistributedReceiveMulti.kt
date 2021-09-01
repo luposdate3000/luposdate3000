@@ -116,7 +116,7 @@ public class POPDistributedReceiveMulti public constructor(
         val connectionsOut = Array<IMyOutputStream?>(inputs.size) { null }
 
         var openConnections = 0
-        val handler = query.getInstance().communicationHandler!!
+
         for (k in 0 until inputs.size) {
             val conn = inputs[k]
             val cnt = conn.readInt()
@@ -171,8 +171,6 @@ public class POPDistributedReceiveMulti public constructor(
                     connMinOut?.close()
                     val off2 = (openConnections - 1) * variables.size
                     if (off != off2) {
-                        val connOtherIn = connectionsIn[openConnections - 1]!!
-                        val connOtherOut = connectionsOut[openConnections - 1]
                         val connOtherMapping = connectionsMapping[openConnections - 1]!!
                         for (i in 0 until variables.size) {
                             buffer[off + connMinMapping[i]] = buffer[off2 + connOtherMapping[i]]

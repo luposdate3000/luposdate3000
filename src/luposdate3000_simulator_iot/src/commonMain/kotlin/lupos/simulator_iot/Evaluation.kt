@@ -76,7 +76,7 @@ public class Evaluation {
         }
     }
     public fun evalConfigFileMerge(configFileNames: List<String>) {
-        val json = JsonParser().fileMergeToJson(configFileNames)as JsonParserObject
+        val json = JsonParser().fileMergeToJson(configFileNames)
         var outputdirectoryTmp = Configuration.defaultOutputDirectory + "/"
         for (n in configFileNames) {
             val a = n.lastIndexOf("/") + 1

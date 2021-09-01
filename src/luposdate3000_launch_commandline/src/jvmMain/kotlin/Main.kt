@@ -30,7 +30,7 @@ public fun main() {
     val commands = mutableMapOf<String, MyCommands>()
     commands["help"] = MyCommands(
         params = arrayOf(),
-        action = { args ->
+        action = { _ ->
             println("available commands:")
             for ((name, command) in commands) {
                 println("$name ${command.params.joinToString(" ")}")
@@ -39,7 +39,7 @@ public fun main() {
     )
     commands["quit"] = MyCommands(
         params = arrayOf(),
-        action = { args ->
+        action = { _ ->
             done = true
         }
     )

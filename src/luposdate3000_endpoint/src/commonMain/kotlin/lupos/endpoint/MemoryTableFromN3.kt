@@ -20,12 +20,10 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 public class MemoryTableFromN3 : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
-        val buf = ByteArrayWrapper()
         var res = MemoryTable(arrayOf("s", "p", "o"))
         res.query = query
         var dictionary = res.query!!.getDictionary()

@@ -62,10 +62,10 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
         override fun write(buf: ByteArray, len: Int) {
         }
-        override fun writeInt(i: Int) {}
+        override fun writeInt(value: Int) {}
         override fun writeLong(value: Long) {}
-        override fun writeDictionaryValueType(i: DictionaryValueType) {
-            if (i != DictionaryValueHelper.nullValue) {
+        override fun writeDictionaryValueType(value: DictionaryValueType) {
+            if (value != DictionaryValueHelper.nullValue) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
                         store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
@@ -74,7 +74,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     }
                     off = 0
                 }
-                buf[off++] = i
+                buf[off++] = value
             } else if (off> 0) {
                 if (mode == EModifyTypeExt.INSERT) {
                     store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
@@ -116,10 +116,10 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
         override fun write(buf: ByteArray, len: Int) {
         }
-        override fun writeInt(i: Int) {}
+        override fun writeInt(value: Int) {}
         override fun writeLong(value: Long) {}
-        override fun writeDictionaryValueType(i: DictionaryValueType) {
-            if (i != DictionaryValueHelper.nullValue) {
+        override fun writeDictionaryValueType(value: DictionaryValueType) {
+            if (value != DictionaryValueHelper.nullValue) {
                 if (off >= limit) {
                     if (mode == EModifyTypeExt.INSERT) {
                         store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
@@ -128,7 +128,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     }
                     off = 0
                 }
-                buf[off++] = i
+                buf[off++] = value
             } else if (off> 0) {
                 if (mode == EModifyTypeExt.INSERT) {
                     store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)

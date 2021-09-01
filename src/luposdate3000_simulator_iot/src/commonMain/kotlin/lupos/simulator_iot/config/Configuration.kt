@@ -100,7 +100,7 @@ public class Configuration(private val simRun: SimulationRun) {
         if (jsonLoggers.getOrEmptyObject("measure").getOrDefault("enabled", false)) {
             simRun.logger.loggers.add(LoggerMeasure(simRun))
         }
-        linker.sortedLinkTypes = json!!.getOrEmptyObject("linkType").iterator().asSequence().map {
+        linker.sortedLinkTypes = json.getOrEmptyObject("linkType").iterator().asSequence().map {
             val v = it.second
             v as JsonParserObject
             LinkType(

@@ -16,8 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.dictionary.ADictionary
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
@@ -25,10 +23,9 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import kotlin.jvm.JvmField
 
 public class RemoteDictionaryServer(
-private    @JvmField val dictionary: IDictionary,
+    private val dictionary: IDictionary,
     instance: Luposdate3000Instance,
 ) : ADictionary(instance, true) {
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
@@ -40,9 +37,7 @@ private    @JvmField val dictionary: IDictionary,
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
-        var res: DictionaryValueType = 0
-        res = dictionary.valueToGlobal(value)
-        return res
+        return dictionary.valueToGlobal(value)
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
@@ -65,7 +60,7 @@ private    @JvmField val dictionary: IDictionary,
         return dictionary.hasValue(buffer)
     }
 
-public    fun connect(input: IMyInputStream, output: IMyOutputStream) {
+    public fun connect(input: IMyInputStream, output: IMyOutputStream) {
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
             when (input.readInt()) {
@@ -81,11 +76,7 @@ public    fun connect(input: IMyInputStream, output: IMyOutputStream) {
                     ByteArrayWrapperExt.setSize(buffer, len, false)
                     input.read(ByteArrayWrapperExt.getBuf(buffer), len)
                     val res = hasValue(buffer)
-                    if (res == null) {
-                        output.writeDictionaryValueType(DictionaryValueHelper.nullValue)
-                    } else {
-                        output.writeDictionaryValueType(res)
-                    }
+                    output.writeDictionaryValueType(res)
                 }
                 3 -> {
                     val value = input.readDictionaryValueType()

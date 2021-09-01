@@ -111,7 +111,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryValueHelper.booleanTrueValue)))
     }
-    public open override fun usesDictionary(): Boolean {
+    public override fun usesDictionary(): Boolean {
         return true
     }
 }

@@ -36,7 +36,7 @@ import lupos.shared.operator.iterator.ColumnIterator
 
 public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, output: IMyOutputStream, timeoutInMs: Long) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val buffer = ByteArrayWrapper()
         val startTime = DateHelperRelative.markNow()
@@ -144,7 +144,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
                                             child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
                                         }
                                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                                        writeAllRows(variables, columns, node.getQuery().getDictionary(), output, timeoutInMs)
+                                        writeAllRows(variables, columns, node.getQuery().getDictionary(), timeoutInMs)
                                     } catch (e: Throwable) {
                                         e.printStackTrace()
                                         errors[p] = e
@@ -166,7 +166,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
                                 node.evaluate(parent)
                             }
                             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                            writeAllRows(variables, columns, node.getQuery().getDictionary(), output, timeoutInMs)
+                            writeAllRows(variables, columns, node.getQuery().getDictionary(), timeoutInMs)
                         }
                     }
                 }

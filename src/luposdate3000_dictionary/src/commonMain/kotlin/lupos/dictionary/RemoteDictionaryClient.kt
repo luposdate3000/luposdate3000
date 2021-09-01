@@ -16,8 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.dictionary.ADictionary
-import lupos.dictionary.DictionaryCacheLayer
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
@@ -25,12 +23,9 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import kotlin.jvm.JvmField
 
 public class RemoteDictionaryClient public constructor(
-    @JvmField
-private    val input: IMyInputStream,
-    @JvmField
+    private val input: IMyInputStream,
     private val output: IMyOutputStream,
     instance: Luposdate3000Instance,
     isLocal: Boolean,

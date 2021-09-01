@@ -117,7 +117,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         }
     }
 
-    private fun splitPartitions(query: Query, node: IOPBase, currentPartitions: Map<String, Int>, root: Boolean) {
+    private fun splitPartitions(query: Query, node: IOPBase, currentPartitions: Map<String, Int>) {
         if ((node is POPBase) || (node is OPBaseCompound)) {
             val currentPartitionsCopy = mutableMapOf<String, Int>()
             currentPartitionsCopy.putAll(currentPartitions)
@@ -154,7 +154,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             }
             for (ci in 0 until (node as OPBase).childrenToVerifyCount()) {
                 val c = node.getChildren()[ci]
-                splitPartitions(query, c, currentPartitionsCopy, false)
+                splitPartitions(query, c, currentPartitionsCopy)
             }
             when (node) {
                 is POPMergePartition,
@@ -241,7 +241,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             query.operatorgraphParts[""] = root.toXMLElement(true)
             query.operatorgraphPartsToHostMap[""] = (query.getInstance().tripleStoreManager!!).getLocalhost()
 // split query into parts, and automatically assign hosts to triple store access parts
-            splitPartitions(query, root, mutableMapOf(), true)
+            splitPartitions(query, root, mutableMapOf())
 // calculate dependencies
             for ((k, v) in query.operatorgraphParts) {
                 query.dependenciesMapTopDown[k] = calculateDependenciesTopDown(v, "")

@@ -282,7 +282,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
 // this fixes the inability of the simulator for an distributed dictionary <<<---
         // println("$ownAdress DatabaseHandle.receiveQueryPackage $parts $hostMap")
-        for ((k, v) in parts) {
+        for (k in parts.keys) {
             if (!hostMap.keys.contains(k)) {
                 // println("not assigned $k $v")
             }
@@ -455,8 +455,8 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             } else {
                 if (instance.mergeLocalOperatorgraphs) {
                     var containsSendMultiFlag = false
-                    for ((k, v) in p.operatorGraph) {
-                        if (mapBottomUpThis[k]!!.size > 1) {
+                    for (k2 in p.operatorGraph.keys) {
+                        if (mapBottomUpThis[k2]!!.size > 1) {
                             containsSendMultiFlag = true
                         }
                     }
@@ -486,15 +486,15 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         }
                     }
                 }
-                for (k in p.operatorGraph.keys) {
-                    val graph = p.operatorGraph[k]!!
-                    logger.addWork(p.queryID, ownAdress, graph, mapTopDown[k]!!, mapBottomUpThis[k]!!)
+                for (k2 in p.operatorGraph.keys) {
+                    val graph = p.operatorGraph[k2]!!
+                    logger.addWork(p.queryID, ownAdress, graph, mapTopDown[k2]!!, mapBottomUpThis[k2]!!)
                     val w = MySimulatorPendingWork(
                         p.queryID,
-                        p.operatorGraph[k]!!,
-                        p.destinations[k]!!,
-                        mapTopDown[k]!!,
-                        k,
+                        p.operatorGraph[k2]!!,
+                        p.destinations[k2]!!,
+                        mapTopDown[k2]!!,
+                        k2,
                         pck.onFinish,
                         pck.expectedResult,
                         pck.verifyAction,
@@ -548,8 +548,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         return res
     }
 
-    private fun localXMLElementToOPBase(query2: IQuery, node: XMLElement): IOPBase {
-        val query = query2 as Query
+    private fun localXMLElementToOPBase(query2: IQuery, node2: XMLElement): IOPBase {
         val operatorMap = mutableMapOf<String, XMLElementToOPBaseMap>()
         operatorMap.putAll(XMLElementToOPBase.operatorMap)
         operatorMap["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
@@ -561,12 +560,12 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 }
             }
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:563"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:562"/*SOURCE_FILE_END*/ },
                 { keys.size == 1 }
             )
             val key = keys.first()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:568"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:567"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData.contains(key) }
             )
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
@@ -608,7 +607,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             query.addPartitionOperator(res.uuid, id)
             res
         }
-        return XMLElementToOPBase(query, node, mutableMapOf(), operatorMap)
+        return XMLElementToOPBase(query2 as Query, node2, mutableMapOf(), operatorMap)
     }
     private fun containsTripleStoreAccess(node: XMLElement): Boolean {
         var res = false
@@ -697,8 +696,6 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         }
                         else -> TODO(node.toString())
                     }
-
-                    changed = true
                     break
                 }
             }

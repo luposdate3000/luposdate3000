@@ -180,7 +180,7 @@ public class POPTripleStoreIterator(
         val filter = DictionaryValueTypeArray(filter2.size) { filter2[it] }
         return store.getIterator(query, filter, projection)
     }
-    public open override fun usesDictionary(): Boolean {
+    public override fun usesDictionary(): Boolean {
         return false
     }
 }

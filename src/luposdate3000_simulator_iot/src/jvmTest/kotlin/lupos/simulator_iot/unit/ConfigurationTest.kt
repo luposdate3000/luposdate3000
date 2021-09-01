@@ -222,7 +222,7 @@ class ConfigurationTest {
         val json = JsonParser().fileToJson(configFile) as JsonParserObject
         val randomStarNetworks = json.getOrEmptyArray("randomStarNetwork")
         randomStarNetworks.add(JsonParser().stringToJson("{\"networkPrefix\":\"star2\",\"starRoot\":\"Tower1\",\"linkType\":\"WPAN\",\"deviceType\":\"StandAloneParkingSensor\",\"number\":3}"))
-        val jsonObjects = config.parse(json, configFile, false)
+        config.parse(json, configFile, false)
         assertEquals(2, config.randStarNetworks.size)
     }
 }

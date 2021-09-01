@@ -174,12 +174,12 @@ public object DictionaryHelperLarge {
                     }
                     '.' -> {
                         while (si < seconds.length) {
-                            val s = seconds[si]
+                            val s2 = seconds[si]
                             si++
-                            when (s) {
+                            when (s2) {
                                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
                                     digitsAfterDot++
-                                    secondsAfterDot = secondsAfterDot * 10 + (s - '0')
+                                    secondsAfterDot = secondsAfterDot * 10 + (s2 - '0')
                                     if (secondsAfterDot >= 1000) {
                                         shortEncoding = false
                                         break
@@ -228,10 +228,10 @@ public object DictionaryHelperLarge {
                         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:227"/*SOURCE_FILE_END*/ }, { componentYearSign >= (1L shl 36) })
                         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:228"/*SOURCE_FILE_END*/ }, { componentYearSign < (1L shl 37) })
                         var componentYear = 0L
-                        var si = 0
-                        while (si < year.length) {
-                            val s = year[si]
-                            si++
+                        var si2 = 0
+                        while (si2 < year.length) {
+                            val s = year[si2]
+                            si2++
                             when (s) {
                                 '-' -> {
                                     componentYearSign = 0L

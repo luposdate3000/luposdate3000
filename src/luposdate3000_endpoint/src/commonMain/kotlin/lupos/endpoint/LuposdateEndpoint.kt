@@ -109,22 +109,22 @@ public object LuposdateEndpoint {
         }
         x.ltit = ltit
         x.parse()
-        var data = ByteArrayWrapper()
+        var data2 = ByteArrayWrapper()
         cache.forEach { value, key ->
-            var c1 = ByteArrayWrapperExt.getSize(data)
+            var c1 = ByteArrayWrapperExt.getSize(data2)
             val c2 = c1 + DictionaryValueHelper.getSize() + 4
-            ByteArrayWrapperExt.setSize(data, c2, true)
-            DictionaryValueHelper.toByteArray(data, c1, key)
+            ByteArrayWrapperExt.setSize(data2, c2, true)
+            DictionaryValueHelper.toByteArray(data2, c1, key)
             c1 += DictionaryValueHelper.getSize()
-            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(data), c1, ByteArrayWrapperExt.getSize(value))
-            ByteArrayWrapperExt.appendTo(value, data)
+            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(data2), c1, ByteArrayWrapperExt.getSize(value))
+            ByteArrayWrapperExt.appendTo(value, data2)
         }
-        val c3 = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, c3 + DictionaryValueHelper.getSize(), true)
-        DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(data), c3, DictionaryValueHelper.nullValue)
+        val c3 = ByteArrayWrapperExt.getSize(data2)
+        ByteArrayWrapperExt.setSize(data2, c3 + DictionaryValueHelper.getSize(), true)
+        DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(data2), c3, DictionaryValueHelper.nullValue)
         for (i in 1 until instance.LUPOS_PROCESS_URLS_ALL.size) {
             val (input, output) = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS_ALL[i], "/shacl/ontology/load", mapOf(), -1)
-            output.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
+            output.write(ByteArrayWrapperExt.getBuf(data2), ByteArrayWrapperExt.getSize(data2))
             output.close()
             input.close()
         }
@@ -230,22 +230,6 @@ public object LuposdateEndpoint {
                 println("imported $counter triples without sorting")
                 cache.close()
             } else {
-                val orders = arrayOf(
-                    intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
-                    intArrayOf(0, 2, 1), // "spo" -> "sop" -> "spo"
-                    intArrayOf(1, 0, 2), // "spo" -> "pso" -> "spo"
-                    intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp" !!!
-                    intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos" !!!
-                    intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
-                )
-                val ordersReverse = arrayOf(
-                    orders[0],
-                    orders[1],
-                    orders[2],
-                    orders[4], // swapped here !!!! intentionally
-                    orders[3],
-                    orders[5]
-                )
                 val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
                 val orderPatterns = arrayOf(
                     EIndexPatternExt.SPO,
@@ -257,7 +241,6 @@ public object LuposdateEndpoint {
                 )
                 for (o in 0 until 6) {
                     counter = 0
-                    val order = ordersReverse[o]
                     val orderName = orderNames[o]
                     val sortedBy = orderPatterns[o]
                     val cache = store.modify_create_cache_sorted(query, EModifyTypeExt.INSERT, sortedBy)
@@ -371,6 +354,7 @@ public object LuposdateEndpoint {
         return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, timeoutInMs, asRoot)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
         val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[evaluator]]
         if (evaluatorInstance == null) {

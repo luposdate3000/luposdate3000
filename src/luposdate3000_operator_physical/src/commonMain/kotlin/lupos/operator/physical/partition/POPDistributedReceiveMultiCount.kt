@@ -90,7 +90,6 @@ public class POPDistributedReceiveMultiCount public constructor(
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val handler = query.getInstance().communicationHandler!!
         var count = 0
         for (i in 0 until inputs.size) {
             count += inputs[i].readInt()
