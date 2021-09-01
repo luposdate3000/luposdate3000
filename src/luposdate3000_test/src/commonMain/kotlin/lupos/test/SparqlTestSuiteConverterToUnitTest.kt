@@ -61,6 +61,9 @@ without minify mode only the passing tests will be added
     internal val listOfTimeout = mutableSetOf<String>()
     internal val listOfPassed = mutableSetOf<String>()
     internal val listOfRemoved = mutableSetOf<String>()
+    internal val listOfAllTests = mutableSetOf<String>()
+    internal val listOfBlacklist = mutableSetOf<String>()
+
     internal fun isIgnored(testName: String): Boolean {
         if (minifyMode) {
             return listOfRemoved.contains(testName)
@@ -80,6 +83,9 @@ without minify mode only the passing tests will be added
         File("resources/tests/failed").forEachLine {
             listOfFailed.add(it)
         }
+        File("resources/tests/blacklist").forEachLine {
+            listOfBlacklist.add(it)
+        }
         File("resources/tests/passed").forEachLine {
             listOfPassed.add(it)
         }
@@ -91,6 +97,7 @@ without minify mode only the passing tests will be added
             listOfRemoved.addAll(listOfTimeout)
             listOfRemoved.addAll(listOfPassed)
         }
+        listOfRemoved.addAll(listOfBlacklist)
         for (idx in 0 until folderCount) {
             File(outputFolderRoot(idx)).deleteRecursively()
             File(outputFolderRoot(idx)).mkdirs()
@@ -107,6 +114,11 @@ without minify mode only the passing tests will be added
     }
 
     public fun finish() {
+        File("resources/tests/all").withOutputStream { out ->
+            for (t in listOfAllTests) {
+                out.println(t)
+            }
+        }
     }
 
     private fun cleanFileContent(s: String): String {
@@ -145,9 +157,6 @@ without minify mode only the passing tests will be added
 
         if (services != null && services.isNotEmpty()) {
             return false
-        }
-        if (minifyMode && funcCounter> 5000) {
-            return true
         }
         var inputFile = inputDataFileName
         if (inputFile == "#keep-data#") {
@@ -359,67 +368,66 @@ without minify mode only the passing tests will be added
                         }
                     }
                     val finalTestName = "$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding"
-                    if (shouldAddFunction(finalTestName)) {
-                        val fileBufferTest = MyPrintWriter(true)
-                        fileBufferTests[finalTestName] = fileBufferTest
-                        if (isIgnored(finalTestName)) {
-                            fileBufferTest.println("    @Ignore")
-                        }
-                        fileBufferTest.println("    @Test(timeout = 2000)")
-                        fileBufferTest.println("    public fun `$finalTestName`() {")
-                        fileBufferTest.println("      var instance = Luposdate3000Instance()")
-                        fileBufferTest.println("      try{")
-                        fileBufferTest.println("        instance.LUPOS_BUFFER_SIZE = 128")
-                        fileBufferTest.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
-                        fileBufferTest.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
-                        fileBufferTest.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
-                        fileBufferTest.println("        instance = LuposdateEndpoint.initializeB(instance)")
-                        fileBufferTest.println("        val buf = MyPrintWriter(false)")
-                        for (i in 0 until inputGraphs.size) {
-                            appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])", false)
-                            fileBufferTest.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
-                            fileBufferTest.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i], inputGraph[$i])")
-                            fileBufferTest.println("        } else {")
-                            fileBufferTest.println("            TODO()")
-                            fileBufferTest.println("        }")
-                        }
-                        for (i in 0 until inputGraphs.size) {
-                            val c = localCounter++
-                            myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i], fileBufferTest)
-                        }
-                        val counter = localCounter++
-                        val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
-                        if (evaluateIt || expectedResult) {
-                            fileBufferTest.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
-                            if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                                myVerifyGraph(counter, "targetData", "targetType", "", "query", false, fileBufferTest)
-                            } else {
-                                if (evaluateIt) {
-                                    appendDistributedTest("MySimulatorTestingExecute(query)", false)
-                                    fileBufferTest.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
-                                }
-                            }
-                        } else {
-                            fileBufferTest.println("        var flag = false")
-                            fileBufferTest.println("        try {")
-                            fileBufferTest.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
-                            fileBufferTest.println("        } catch (e: Throwable) {")
-                            fileBufferTest.println("            flag = true")
-                            fileBufferTest.println("        }")
-                            fileBufferTest.println("        if (!flag) {")
-                            fileBufferTest.println("            fail(\"expected failure\")")
-                            fileBufferTest.println("        }")
-                        }
-                        for (i in 0 until outputGraphs.size) {
-                            val c = localCounter++
-                            myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i], fileBufferTest)
-                        }
-                        fileBufferTest.println("      }finally{")
-                        fileBufferTest.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
-                        fileBufferTest.println("      }")
-                        fileBufferTest.println("    }")
-                        distributedTestAppendFlag = false
+                    listOfAllTests.add(finalTestName)
+                    val fileBufferTest = MyPrintWriter(true)
+                    fileBufferTests[finalTestName] = fileBufferTest
+                    if (isIgnored(finalTestName)) {
+                        fileBufferTest.println("    @Ignore")
                     }
+                    fileBufferTest.println("    @Test(timeout = 2000)")
+                    fileBufferTest.println("    public fun `$finalTestName`() {")
+                    fileBufferTest.println("      var instance = Luposdate3000Instance()")
+                    fileBufferTest.println("      try{")
+                    fileBufferTest.println("        instance.LUPOS_BUFFER_SIZE = 128")
+                    fileBufferTest.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
+                    fileBufferTest.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
+                    fileBufferTest.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
+                    fileBufferTest.println("        instance = LuposdateEndpoint.initializeB(instance)")
+                    fileBufferTest.println("        val buf = MyPrintWriter(false)")
+                    for (i in 0 until inputGraphs.size) {
+                        appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])", false)
+                        fileBufferTest.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
+                        fileBufferTest.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i], inputGraph[$i])")
+                        fileBufferTest.println("        } else {")
+                        fileBufferTest.println("            TODO()")
+                        fileBufferTest.println("        }")
+                    }
+                    for (i in 0 until inputGraphs.size) {
+                        val c = localCounter++
+                        myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i], fileBufferTest)
+                    }
+                    val counter = localCounter++
+                    val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
+                    if (evaluateIt || expectedResult) {
+                        fileBufferTest.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                        if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
+                            myVerifyGraph(counter, "targetData", "targetType", "", "query", false, fileBufferTest)
+                        } else {
+                            if (evaluateIt) {
+                                appendDistributedTest("MySimulatorTestingExecute(query)", false)
+                                fileBufferTest.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
+                            }
+                        }
+                    } else {
+                        fileBufferTest.println("        var flag = false")
+                        fileBufferTest.println("        try {")
+                        fileBufferTest.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+                        fileBufferTest.println("        } catch (e: Throwable) {")
+                        fileBufferTest.println("            flag = true")
+                        fileBufferTest.println("        }")
+                        fileBufferTest.println("        if (!flag) {")
+                        fileBufferTest.println("            fail(\"expected failure\")")
+                        fileBufferTest.println("        }")
+                    }
+                    for (i in 0 until outputGraphs.size) {
+                        val c = localCounter++
+                        myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i], fileBufferTest)
+                    }
+                    fileBufferTest.println("      }finally{")
+                    fileBufferTest.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
+                    fileBufferTest.println("      }")
+                    fileBufferTest.println("    }")
+                    distributedTestAppendFlag = false
                 }
             }
         }
@@ -437,48 +445,47 @@ without minify mode only the passing tests will be added
                                 continue
                             }
                             val finalTestName = "$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE"
-                            if (shouldAddFunction(finalTestName)) {
-                                val fileBufferTest = MyPrintWriter(true)
-                                fileBufferTests[finalTestName] = fileBufferTest
-                                if (isIgnored(finalTestName) || !withSimulator) {
-                                    fileBufferTest.println("    @Ignore")
-                                }
-                                fileBufferTest.println("    @Test(timeout = 2000)")
-                                fileBufferTest.println("    public fun `$finalTestName`() {")
-                                fileBufferTest.println("        simulatorHelper(")
-                                if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                    fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
-                                } else {
-                                    fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
-                                }
-                                fileBufferTest.println("            mutableMapOf(")
-                                fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
-                                fileBufferTest.println("                \"mergeLocalOperatorgraphs\" to true,")
-                                fileBufferTest.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
-                                fileBufferTest.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
-                                fileBufferTest.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
-                                fileBufferTest.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
-                                fileBufferTest.println("            )")
-                                fileBufferTest.println("        )")
+                            listOfAllTests.add(finalTestName)
+                            val fileBufferTest = MyPrintWriter(true)
+                            fileBufferTests[finalTestName] = fileBufferTest
+                            if (isIgnored(finalTestName) || !withSimulator) {
+                                fileBufferTest.println("    @Ignore")
+                            }
+                            fileBufferTest.println("    @Test(timeout = 2000)")
+                            fileBufferTest.println("    public fun `$finalTestName`() {")
+                            fileBufferTest.println("        simulatorHelper(")
+                            if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
+                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
+                            } else {
+                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
+                            }
+                            fileBufferTest.println("            mutableMapOf(")
+                            fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
+                            fileBufferTest.println("                \"mergeLocalOperatorgraphs\" to true,")
+                            fileBufferTest.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
+                            fileBufferTest.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
+                            fileBufferTest.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
+                            fileBufferTest.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
+                            fileBufferTest.println("            )")
+                            fileBufferTest.println("        )")
+                            fileBufferTest.println("    }")
+                            if (fileModeMany || firstHelper) {
+                                firstHelper = false
+                                fileBufferTest.println("    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {")
+                                fileBufferTest.println("        val simRun = SimulationRun()")
+                                fileBufferTest.println("        val config=simRun.parseConfig(fileName,false)")
+                                fileBufferTest.println("        config.jsonObjects.database.putAll(cfg)")
+                                fileBufferTest.println("        simRun.sim = Simulation(config.getEntities())")
+                                fileBufferTest.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
+                                fileBufferTest.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
+                                fileBufferTest.println("        simRun.sim.startUp()")
+                                fileBufferTest.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance")
+                                fileBufferTest.print(str)
+                                fileBufferTest.println("        config.querySenders[0].queryPck = pkg0")
+                                fileBufferTest.println("        simRun.sim.run()")
+                                fileBufferTest.println("        simRun.sim.shutDown()")
+                                fileBufferTest.print(distributedTestAtEnd.toString())
                                 fileBufferTest.println("    }")
-                                if (fileModeMany || firstHelper) {
-                                    firstHelper = false
-                                    fileBufferTest.println("    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {")
-                                    fileBufferTest.println("        val simRun = SimulationRun()")
-                                    fileBufferTest.println("        val config=simRun.parseConfig(fileName,false)")
-                                    fileBufferTest.println("        config.jsonObjects.database.putAll(cfg)")
-                                    fileBufferTest.println("        simRun.sim = Simulation(config.getEntities())")
-                                    fileBufferTest.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
-                                    fileBufferTest.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
-                                    fileBufferTest.println("        simRun.sim.startUp()")
-                                    fileBufferTest.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance")
-                                    fileBufferTest.print(str)
-                                    fileBufferTest.println("        config.querySenders[0].queryPck = pkg0")
-                                    fileBufferTest.println("        simRun.sim.run()")
-                                    fileBufferTest.println("        simRun.sim.shutDown()")
-                                    fileBufferTest.print(distributedTestAtEnd.toString())
-                                    fileBufferTest.println("    }")
-                                }
                             }
                         }
                     }
@@ -486,54 +493,68 @@ without minify mode only the passing tests will be added
             }
         }
         fileBufferPostfix.println("}")
-        val prefix = fileBufferPrefix.toString()
-        val postfix = fileBufferPostfix.toString()
-        if (fileModeMany) {
+        if (!minifyMode || funcCounter < 5000) {
+            val prefix = fileBufferPrefix.toString()
+            val postfix = fileBufferPostfix.toString()
+            var ctr = 0
             for ((testname, fileBufferTest) in fileBufferTests) {
-                funcCounter++
-                val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
-                File("${outputFolderTestJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
-                    val content = fileBufferTest.toString()
-                    out.print(prefix.replace("class $testCaseName", "class $finalClassName"))
-                    out.print(content)
-                    out.print(postfix)
+                if (shouldAddFunction(testname)) {
+                    ctr++
                 }
             }
-        } else {
-            File("${outputFolderTestJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
-                out.print(prefix)
-                for ((testname, fileBufferTest) in fileBufferTests) {
-                    funcCounter++
-                    val content = fileBufferTest.toString()
-                    out.print(content)
-                }
-                out.print(postfix)
-            }
-        }
-        if (fileBufferTests.size> 0) {
-            for ((x, g) in inputGraphs) {
-                File(g.filename).withOutputStream { out ->
-                    File(g.filenameoriginal).forEachLine {
-                        out.println(it)
+            if (ctr> 0) {
+                if (fileModeMany) {
+                    for ((testname, fileBufferTest) in fileBufferTests) {
+                        if (shouldAddFunction(testname)) {
+                            funcCounter++
+                            val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
+                            File("${outputFolderTestJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
+                                val content = fileBufferTest.toString()
+                                out.print(prefix.replace("class $testCaseName", "class $finalClassName"))
+                                out.print(content)
+                                out.print(postfix)
+                            }
+                        }
+                    }
+                } else {
+                    File("${outputFolderTestJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
+                        out.print(prefix)
+                        for ((testname, fileBufferTest) in fileBufferTests) {
+                            if (shouldAddFunction(testname)) {
+                                funcCounter++
+                                val content = fileBufferTest.toString()
+                                out.print(content)
+                            }
+                        }
+                        out.print(postfix)
                     }
                 }
-            }
-            for ((x, g) in outputGraphs) {
-                File(g.filename).withOutputStream { out ->
-                    File(g.filenameoriginal).forEachLine {
-                        out.println(it)
+                if (fileBufferTests.size> 0) {
+                    for ((x, g) in inputGraphs) {
+                        File(g.filename).withOutputStream { out ->
+                            File(g.filenameoriginal).forEachLine {
+                                out.println(it)
+                            }
+                        }
                     }
+                    for ((x, g) in outputGraphs) {
+                        File(g.filename).withOutputStream { out ->
+                            File(g.filenameoriginal).forEachLine {
+                                out.println(it)
+                            }
+                        }
+                    }
+                    var targetType = "NONE"
+                    if (resultDataFileName != null) {
+                        File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.output").withOutputStream { out ->
+                            File(resultDataFileName).forEachLine {
+                                out.println(it)
+                            }
+                        }
+                    }
+                    folderCurrent = (folderCurrent + 1) % folderCount
                 }
             }
-            var targetType = "NONE"
-            if (resultDataFileName != null) {
-                File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.output").withOutputStream { out ->
-                    File(resultDataFileName).forEachLine {
-                        out.println(it)
-                    }
-                }
-            }
-            folderCurrent = (folderCurrent + 1) % folderCount
         }
         return true
     }

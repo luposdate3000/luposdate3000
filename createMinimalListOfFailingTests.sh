@@ -13,6 +13,33 @@ i=0
 while true
 do
 i=$((i+1))
+
+#blacklisting some random tests -->>
+cat resources/tests/all \
+ | grep -v -F -f resources/tests/timeout \
+ | grep -v -F -f resources/tests/passed \
+ | grep -v -F -f resources/tests/failed  \
+ > tmp/blacklist1
+truncate -s0 resources/tests/blacklist
+grep -v -F -f tmp/blacklist1 resources/tests/all > resources/tests/blacklist
+grep -v " - in simulator - " tmp/blacklist1 > tmp/blacklist2
+if [[ $(wc -l < tmp/blacklist2) -ge 500 ]]
+then
+ grep " - in simulator - " tmp/blacklist1 >> resources/tests/blacklist
+ mv tmp/blacklist2 tmp/blacklist1
+fi
+grep -v " - Thread - " tmp/blacklist1 > tmp/blacklist2
+if [[ $(wc -l < tmp/blacklist2) -ge 500 ]]
+then
+ grep " - Thread - " tmp/blacklist1 >> resources/tests/blacklist
+ mv tmp/blacklist2 tmp/blacklist1
+fi
+cat tmp/blacklist1 \
+ | shuf \
+ | head -n -5000  >> resources/tests/blacklist
+
+#blacklisting some random tests <<--
+
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup --intellijMode=Disable
 timeout2 -t 600 ./gradlew build > x

@@ -252,7 +252,7 @@ public object InputToIntermediate {
                     kpFileLoc = inputFileName,
                 )
                 parserObject.convertByteArrayWrapperToID = {
- addToDict(it)
+                    addToDict(it)
                 }
                 try {
                     parserObject.initializeCache()
