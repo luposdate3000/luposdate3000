@@ -25651,6 +25651,7 @@ resourcessp2bq67sparql1294 - None - PartitionByIDTwiceAllCollations - false
 resourcessp2bq67sparql1294 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq67sparql1294 - None - PartitionByKeyAllCollations - false
 resourcessp2bq67sparql1294 - None - PartitionByKeyAllCollations - true
+resourcessp2bq67sparql1294 - None - Simple - false
 resourcessp2bq67sparql1294 - None - Simple - true
 resourcessp2bq67sparql1640 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 resourcessp2bq67sparql1640 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process

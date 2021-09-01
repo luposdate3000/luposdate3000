@@ -2,6 +2,7 @@
 [31;1m> Task :src:luposdate3000_code_gen_test_06:runKtlintCheckOverJvmTestSourceSet[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_08:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_09:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_15:allTests[0;39m FAILED
 ABS - Thread - PartitionByID_1_AllCollations - false
 ABS - Thread - PartitionByID_1_AllCollations - true
 ABS - Thread - PartitionByID_2_AllCollations - false
@@ -5921,6 +5922,7 @@ resourcessp2bq9sparql247 - None - PartitionByID_O_AllCollations - true
 resourcessp2bq9sparql247 - None - PartitionByID_S_AllCollations - false
 resourcessp2bq9sparql247 - None - PartitionByIDTwiceAllCollations - false
 resourcessp2bq9sparql247 - None - PartitionByKeyAllCollations - true
+resourcessp2bq9sparql973 - None - PartitionByID_S_AllCollations - false
 Reuse a project expression variable in select - None - PartitionByID_1_AllCollations - true
 Reuse a project expression variable in select - None - PartitionByID_2_AllCollations - false
 Reuse a project expression variable in select - None - PartitionByID_O_AllCollations - false
@@ -8580,11 +8582,13 @@ tvs02  TSV Result Format - in simulator - PartitionByID_1_AllCollations - Centra
 tvs02  TSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 tvs02  TSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 tvs02  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+tvs02  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 tvs02  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
 tvs02  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 tvs02  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 tvs02  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 tvs02  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+tvs02  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 tvs02  TSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
 tvs02  TSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 tvs02  TSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - true - None

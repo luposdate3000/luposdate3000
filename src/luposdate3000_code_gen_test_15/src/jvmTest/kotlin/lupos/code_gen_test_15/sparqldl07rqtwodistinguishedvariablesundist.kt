@@ -62,32 +62,6 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
             )
         )
     }
-    public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
-        val simRun = SimulationRun()
-        val config = simRun.parseConfig(fileName, false)
-        config.jsonObjects.database.putAll(cfg)
-        simRun.sim = Simulation(config.getEntities())
-        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
-        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
-        simRun.sim.startUp()
-        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
-        var verifyExecuted1 = 0
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ })
-        pkg0.onFinish = pkg1
-        var verifyExecuted2 = 0
-        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ })
-        pkg1.onFinish = pkg2
-        config.querySenders[0].queryPck = pkg0
-        simRun.sim.run()
-        simRun.sim.shutDown()
-        if (verifyExecuted1 == 0) {
-            fail("pck1 not verified")
-        }
-        if (verifyExecuted2 == 0) {
-            fail("pck2 not verified")
-        }
-    }
 
     @Test(timeout = 2000)
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
@@ -387,5 +361,31 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
                 "LUPOS_PARTITION_MODE" to "Thread",
             )
         )
+    }
+    public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
+        val simRun = SimulationRun()
+        val config = simRun.parseConfig(fileName, false)
+        config.jsonObjects.database.putAll(cfg)
+        simRun.sim = Simulation(config.getEntities())
+        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
+        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
+        simRun.sim.startUp()
+        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
+        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
+        var verifyExecuted1 = 0
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ })
+        pkg0.onFinish = pkg1
+        var verifyExecuted2 = 0
+        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ })
+        pkg1.onFinish = pkg2
+        config.querySenders[0].queryPck = pkg0
+        simRun.sim.run()
+        simRun.sim.shutDown()
+        if (verifyExecuted1 == 0) {
+            fail("pck1 not verified")
+        }
+        if (verifyExecuted2 == 0) {
+            fail("pck2 not verified")
+        }
     }
 }

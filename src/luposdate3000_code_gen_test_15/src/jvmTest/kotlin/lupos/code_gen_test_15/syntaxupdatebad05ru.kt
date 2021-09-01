@@ -42,16 +42,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -66,16 +57,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -90,16 +72,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -114,16 +87,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -138,16 +102,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -162,16 +117,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -186,16 +132,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -210,16 +147,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -234,16 +162,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -258,16 +177,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -282,16 +192,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -306,16 +207,7 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -330,18 +222,21 @@ public class syntaxupdatebad05ru {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            val buf = MyPrintWriter(false)
-            var flag = false
-            try {
-                LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-            } catch (e: Throwable) {
-                flag = true
-            }
-            if (!flag) {
-                fail("expected failure")
-            }
+            normalHelper(instance)
         } finally {
             LuposdateEndpoint.close(instance)
+        }
+    }
+    internal fun normalHelper(instance: Luposdate3000Instance) {
+        val buf = MyPrintWriter(false)
+        var flag = false
+        try {
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        } catch (e: Throwable) {
+            flag = true
+        }
+        if (!flag) {
+            fail("expected failure")
         }
     }
 }
