@@ -113,6 +113,7 @@ without minify mode only the passing tests will be added
             .replace("\" +\n", " \" +\n")
             .replace("\" +\n", "\\n\" +\n")
     }
+    internal class GraphHelper(val graph: String, val type: String, val filename: String, val filenameoriginal: String)
     override fun parseSPARQLAndEvaluate( //
         executeJena: Boolean,
         testName: String, //
@@ -149,23 +150,37 @@ without minify mode only the passing tests will be added
         if (resultDataFileName == null) {
             mode = BinaryTestCaseOutputModeExt.MODIFY_RESULT
         }
-
-        val inputGraphs = mutableMapOf<String, Pair<String, String>>() // filename -> graphname, filetype
+        val inputGraphs = mutableMapOf<String, GraphHelper>() // filename -> graphname, filetype
         if (inputFile != null) {
-            inputGraphs["$testCaseName.input"] = Pair(TripleStoreManager.DEFAULT_GRAPH_NAME, inputFile.substring(inputFile.lastIndexOf(".")))
+            inputGraphs["$testCaseName.input"] = GraphHelper(
+                TripleStoreManager.DEFAULT_GRAPH_NAME,
+                inputFile.substring(inputFile.lastIndexOf(".")),
+                "${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.input",
+                inputFile,
+            )
         }
         for (g in inputDataGraph) {
             val name = g["name"]!!
             val file = g["filename"]!!
             val outfile = "$testCaseName.input" + inputGraphs.size
-            inputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
+            inputGraphs[outfile] = GraphHelper(
+                name,
+                file.substring(file.lastIndexOf(".")),
+                "${outputFolderTestResourcesJvm(folderCurrent)}/$outfile",
+                file,
+            )
         }
-        val outputGraphs = mutableMapOf<String, Pair<String, String>>() // filename -> graphname, filetype
+        val outputGraphs = mutableMapOf<String, GraphHelper>() // filename -> graphname, filetype
         for (g in outputDataGraph) {
             val name = g["name"]!!
             val file = g["filename"]!!
             val outfile = "$testCaseName.output" + outputGraphs.size
-            outputGraphs[outfile] = Pair(name, file.substring(file.lastIndexOf(".")))
+            outputGraphs[outfile] = GraphHelper(
+                name,
+                file.substring(file.lastIndexOf(".")),
+                "${outputFolderTestResourcesJvm(folderCurrent)}/$outfile",
+                file,
+            )
         }
         var targetType = "NONE"
         if (resultDataFileName != null) {
@@ -285,13 +300,13 @@ without minify mode only the passing tests will be added
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputGraph = arrayOf(")
             for ((k, v) in inputGraphs) {
-                fileBufferPrefix.println("        \"${v.first}\",")
-                inputGraphIsDefaultGraph.add(v.first == "")
+                fileBufferPrefix.println("        \"${v.graph}\",")
+                inputGraphIsDefaultGraph.add(v.graph == "")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputType = arrayOf(")
             for ((k, v) in inputGraphs) {
-                fileBufferPrefix.println("        \"${v.second}\",")
+                fileBufferPrefix.println("        \"${v.type}\",")
             }
             fileBufferPrefix.println("    )")
         }
@@ -303,13 +318,13 @@ without minify mode only the passing tests will be added
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputGraph = arrayOf(")
             for ((k, v) in outputGraphs) {
-                outputGraphIsDefaultGraph.add(v.first == "")
-                fileBufferPrefix.println("        \"${v.first}\",")
+                outputGraphIsDefaultGraph.add(v.graph == "")
+                fileBufferPrefix.println("        \"${v.graph}\",")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputType = arrayOf(")
             for ((k, v) in outputGraphs) {
-                fileBufferPrefix.println("        \"${v.second}\",")
+                fileBufferPrefix.println("        \"${v.type}\",")
             }
             fileBufferPrefix.println("    )")
         }
@@ -457,7 +472,6 @@ without minify mode only the passing tests will be added
             }
         }
         fileBufferPostfix.println("}")
-        // } FILEEND
         val prefix = fileBufferPrefix.toString()
         val postfix = fileBufferPostfix.toString()
         for ((testname, fileBufferTest) in fileBufferTests) {
@@ -470,30 +484,16 @@ without minify mode only the passing tests will be added
             }
         }
         if (fileBufferTests.size> 0) {
-            if (inputFile != null) {
-                File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.input").withOutputStream { out ->
-                    File(inputFile).forEachLine {
+            for ((x, g) in inputGraphs) {
+                File(g.filename).withOutputStream { out ->
+                    File(g.filenameoriginal).forEachLine {
                         out.println(it)
                     }
                 }
             }
-            for (g in inputDataGraph) {
-                val name = g["name"]!!
-                val file = g["filename"]!!
-                val outfile = "$testCaseName.input" + inputGraphs.size
-                File("${outputFolderTestResourcesJvm(folderCurrent)}/$outfile").withOutputStream { out ->
-                    File(file).forEachLine {
-                        out.println(it)
-                    }
-                }
-            }
-            val outputGraphs = mutableMapOf<String, Pair<String, String>>() // filename -> graphname, filetype
-            for (g in outputDataGraph) {
-                val name = g["name"]!!
-                val file = g["filename"]!!
-                val outfile = "$testCaseName.output" + outputGraphs.size
-                File("${outputFolderTestResourcesJvm(folderCurrent)}/$outfile").withOutputStream { out ->
-                    File(file).forEachLine {
+            for ((x, g) in outputGraphs) {
+                File(g.filename).withOutputStream { out ->
+                    File(g.filenameoriginal).forEachLine {
                         out.println(it)
                     }
                 }
