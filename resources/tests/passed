@@ -921,6 +921,14 @@ CLEAR SILENT DEFAULT - None - PartitionByIDTwiceAllCollations - true
 CLEAR SILENT DEFAULT - None - PartitionByKeyAllCollations - false
 CLEAR SILENT DEFAULT - None - Simple - false
 CLEAR SILENT DEFAULT - None - Simple - true
+CLEAR SILENT DEFAULT - Thread - PartitionByID_1_AllCollations - true
+CLEAR SILENT DEFAULT - Thread - PartitionByID_2_AllCollations - false
+CLEAR SILENT DEFAULT - Thread - PartitionByID_2_AllCollations - true
+CLEAR SILENT DEFAULT - Thread - PartitionByID_O_AllCollations - false
+CLEAR SILENT DEFAULT - Thread - PartitionByID_O_AllCollations - true
+CLEAR SILENT DEFAULT - Thread - PartitionByID_S_AllCollations - false
+CLEAR SILENT DEFAULT - Thread - PartitionByKeyAllCollations - false
+CLEAR SILENT DEFAULT - Thread - Simple - false
 CLEAR SILENT GRAPH iri - None - PartitionByID_1_AllCollations - false
 CLEAR SILENT GRAPH iri - None - PartitionByID_2_AllCollations - false
 CLEAR SILENT GRAPH iri - None - PartitionByID_2_AllCollations - true
@@ -1313,6 +1321,7 @@ COPY SILENT - None - PartitionByKeyAllCollations - false
 COPY SILENT - None - PartitionByKeyAllCollations - true
 COPY SILENT - None - Simple - false
 COPY SILENT - None - Simple - true
+COPY SILENT - Thread - Simple - true
 COPY SILENT TO DEFAULT - None - PartitionByID_1_AllCollations - false
 COPY SILENT TO DEFAULT - None - PartitionByID_1_AllCollations - true
 COPY SILENT TO DEFAULT - None - PartitionByID_2_AllCollations - true
@@ -1857,6 +1866,12 @@ DROP SILENT DEFAULT - None - PartitionByKeyAllCollations - false
 DROP SILENT DEFAULT - None - PartitionByKeyAllCollations - true
 DROP SILENT DEFAULT - None - Simple - false
 DROP SILENT DEFAULT - None - Simple - true
+DROP SILENT DEFAULT - Thread - PartitionByID_O_AllCollations - true
+DROP SILENT DEFAULT - Thread - PartitionByID_S_AllCollations - true
+DROP SILENT DEFAULT - Thread - PartitionByIDTwiceAllCollations - false
+DROP SILENT DEFAULT - Thread - PartitionByIDTwiceAllCollations - true
+DROP SILENT DEFAULT - Thread - PartitionByKeyAllCollations - false
+DROP SILENT DEFAULT - Thread - Simple - false
 DROP SILENT GRAPH iri - None - PartitionByID_1_AllCollations - false
 DROP SILENT GRAPH iri - None - PartitionByID_1_AllCollations - true
 DROP SILENT GRAPH iri - None - PartitionByID_2_AllCollations - false
@@ -1871,6 +1886,7 @@ DROP SILENT GRAPH iri - None - PartitionByKeyAllCollations - false
 DROP SILENT GRAPH iri - None - PartitionByKeyAllCollations - true
 DROP SILENT GRAPH iri - None - Simple - false
 DROP SILENT GRAPH iri - None - Simple - true
+DROP SILENT GRAPH iri - Thread - Simple - false
 edgeMeshDevicesCannotReachEachOther
 entities are called when the simulation reaches steady state
 event is processed when delay equals clock
@@ -2010,6 +2026,7 @@ Group4 - None - PartitionByKeyAllCollations - false
 Group4 - None - PartitionByKeyAllCollations - true
 Group4 - None - Simple - false
 Group4 - None - Simple - true
+Group4 - Thread - Simple - false
 Group4 - Thread - Simple - true
 Group5 - None - PartitionByID_1_AllCollations - false
 Group5 - None - PartitionByID_1_AllCollations - true
@@ -2369,6 +2386,14 @@ LOAD SILENT - None - PartitionByKeyAllCollations - false
 LOAD SILENT - None - PartitionByKeyAllCollations - true
 LOAD SILENT - None - Simple - false
 LOAD SILENT - None - Simple - true
+LOAD SILENT - Thread - PartitionByID_1_AllCollations - false
+LOAD SILENT - Thread - PartitionByID_2_AllCollations - false
+LOAD SILENT - Thread - PartitionByID_2_AllCollations - true
+LOAD SILENT - Thread - PartitionByID_O_AllCollations - false
+LOAD SILENT - Thread - PartitionByIDTwiceAllCollations - false
+LOAD SILENT - Thread - PartitionByIDTwiceAllCollations - true
+LOAD SILENT - Thread - PartitionByKeyAllCollations - true
+LOAD SILENT - Thread - Simple - false
 manipulateJsonObjects
 MD5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 MD5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
@@ -2560,6 +2585,7 @@ MOVE SILENT - None - PartitionByIDTwiceAllCollations - true
 MOVE SILENT - None - PartitionByKeyAllCollations - false
 MOVE SILENT - None - PartitionByKeyAllCollations - true
 MOVE SILENT - None - Simple - true
+MOVE SILENT - Thread - Simple - true
 MOVE SILENT TO DEFAULT - None - PartitionByID_1_AllCollations - false
 MOVE SILENT TO DEFAULT - None - PartitionByID_1_AllCollations - true
 MOVE SILENT TO DEFAULT - None - PartitionByID_2_AllCollations - false
@@ -2574,6 +2600,12 @@ MOVE SILENT TO DEFAULT - None - PartitionByKeyAllCollations - false
 MOVE SILENT TO DEFAULT - None - PartitionByKeyAllCollations - true
 MOVE SILENT TO DEFAULT - None - Simple - false
 MOVE SILENT TO DEFAULT - None - Simple - true
+MOVE SILENT TO DEFAULT - Thread - PartitionByID_1_AllCollations - false
+MOVE SILENT TO DEFAULT - Thread - PartitionByID_O_AllCollations - false
+MOVE SILENT TO DEFAULT - Thread - PartitionByID_O_AllCollations - true
+MOVE SILENT TO DEFAULT - Thread - PartitionByID_S_AllCollations - true
+MOVE SILENT TO DEFAULT - Thread - PartitionByIDTwiceAllCollations - true
+MOVE SILENT TO DEFAULT - Thread - Simple - true
 multiHopDODAGRoutingTableTest
 nextHopOnEmptyTableIsDefault
 NOT IN 1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
@@ -2977,6 +3009,7 @@ resourcesbtc002sparql46 - None - PartitionByIDTwiceAllCollations - true
 resourcesbtc002sparql46 - None - PartitionByKeyAllCollations - false
 resourcesbtc002sparql46 - None - PartitionByKeyAllCollations - true
 resourcesbtc002sparql46 - None - Simple - false
+resourcesbtc002sparql46 - Thread - Simple - false
 resourcesmyqueriesoptional10sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional10sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional10sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3019,6 +3052,7 @@ resourcesmyqueriesoptional11sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional11sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional11sparql5 - None - Simple - false
 resourcesmyqueriesoptional11sparql5 - None - Simple - true
+resourcesmyqueriesoptional11sparql5 - Thread - Simple - false
 resourcesmyqueriesoptional12sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional12sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional12sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3101,6 +3135,8 @@ resourcesmyqueriesoptional14sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional14sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional14sparql4 - None - Simple - false
 resourcesmyqueriesoptional14sparql4 - None - Simple - true
+resourcesmyqueriesoptional14sparql4 - Thread - Simple - false
+resourcesmyqueriesoptional14sparql4 - Thread - Simple - true
 resourcesmyqueriesoptional14sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional14sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional14sparql5 - None - PartitionByID_2_AllCollations - false
@@ -3157,6 +3193,7 @@ resourcesmyqueriesoptional17sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional17sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional17sparql4 - None - Simple - false
 resourcesmyqueriesoptional17sparql4 - None - Simple - true
+resourcesmyqueriesoptional17sparql4 - Thread - Simple - false
 resourcesmyqueriesoptional17sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional17sparql5 - None - PartitionByID_2_AllCollations - false
 resourcesmyqueriesoptional17sparql5 - None - PartitionByID_2_AllCollations - true
@@ -3222,6 +3259,8 @@ resourcesmyqueriesoptional1sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional1sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional1sparql4 - None - Simple - false
 resourcesmyqueriesoptional1sparql4 - None - Simple - true
+resourcesmyqueriesoptional1sparql4 - Thread - Simple - false
+resourcesmyqueriesoptional1sparql4 - Thread - Simple - true
 resourcesmyqueriesoptional1sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional1sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional1sparql5 - None - PartitionByID_2_AllCollations - false
@@ -3236,6 +3275,7 @@ resourcesmyqueriesoptional1sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional1sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional1sparql5 - None - Simple - false
 resourcesmyqueriesoptional1sparql5 - None - Simple - true
+resourcesmyqueriesoptional1sparql5 - Thread - Simple - false
 resourcesmyqueriesoptional20sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional20sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional20sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3263,6 +3303,8 @@ resourcesmyqueriesoptional20sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional20sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional20sparql5 - None - Simple - false
 resourcesmyqueriesoptional20sparql5 - None - Simple - true
+resourcesmyqueriesoptional20sparql5 - Thread - Simple - false
+resourcesmyqueriesoptional20sparql5 - Thread - Simple - true
 resourcesmyqueriesoptional21sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional21sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional21sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3277,6 +3319,8 @@ resourcesmyqueriesoptional21sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional21sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional21sparql4 - None - Simple - false
 resourcesmyqueriesoptional21sparql4 - None - Simple - true
+resourcesmyqueriesoptional21sparql4 - Thread - Simple - false
+resourcesmyqueriesoptional21sparql4 - Thread - Simple - true
 resourcesmyqueriesoptional21sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional21sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional21sparql5 - None - PartitionByID_2_AllCollations - false
@@ -3380,6 +3424,7 @@ resourcesmyqueriesoptional26sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional26sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional26sparql4 - None - Simple - false
 resourcesmyqueriesoptional26sparql4 - None - Simple - true
+resourcesmyqueriesoptional26sparql4 - Thread - Simple - false
 resourcesmyqueriesoptional26sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional26sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional26sparql5 - None - PartitionByID_2_AllCollations - false
@@ -3408,6 +3453,8 @@ resourcesmyqueriesoptional27sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional27sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional27sparql4 - None - Simple - false
 resourcesmyqueriesoptional27sparql4 - None - Simple - true
+resourcesmyqueriesoptional27sparql4 - Thread - Simple - false
+resourcesmyqueriesoptional27sparql4 - Thread - Simple - true
 resourcesmyqueriesoptional27sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional27sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional27sparql5 - None - PartitionByID_2_AllCollations - false
@@ -3417,6 +3464,7 @@ resourcesmyqueriesoptional27sparql5 - None - PartitionByID_S_AllCollations - tru
 resourcesmyqueriesoptional27sparql5 - None - PartitionByIDTwiceAllCollations - false
 resourcesmyqueriesoptional27sparql5 - None - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional27sparql5 - None - PartitionByKeyAllCollations - true
+resourcesmyqueriesoptional27sparql5 - Thread - Simple - false
 resourcesmyqueriesoptional28sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional28sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional28sparql5 - None - PartitionByID_2_AllCollations - false
@@ -3512,6 +3560,7 @@ resourcesmyqueriesoptional30sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional30sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional30sparql5 - None - Simple - false
 resourcesmyqueriesoptional30sparql5 - None - Simple - true
+resourcesmyqueriesoptional30sparql5 - Thread - Simple - true
 resourcesmyqueriesoptional31sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional31sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional31sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3526,6 +3575,7 @@ resourcesmyqueriesoptional31sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional31sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional31sparql4 - None - Simple - false
 resourcesmyqueriesoptional31sparql4 - None - Simple - true
+resourcesmyqueriesoptional31sparql4 - Thread - Simple - false
 resourcesmyqueriesoptional31sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional31sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional31sparql5 - None - PartitionByID_2_AllCollations - false
@@ -3664,6 +3714,7 @@ resourcesmyqueriesoptional36sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional36sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional36sparql5 - None - Simple - false
 resourcesmyqueriesoptional36sparql5 - None - Simple - true
+resourcesmyqueriesoptional36sparql5 - Thread - Simple - false
 resourcesmyqueriesoptional37sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional37sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional37sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3678,6 +3729,8 @@ resourcesmyqueriesoptional37sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional37sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional37sparql4 - None - Simple - false
 resourcesmyqueriesoptional37sparql4 - None - Simple - true
+resourcesmyqueriesoptional37sparql4 - Thread - Simple - false
+resourcesmyqueriesoptional37sparql4 - Thread - Simple - true
 resourcesmyqueriesoptional38sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional38sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional38sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3705,6 +3758,7 @@ resourcesmyqueriesoptional38sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional38sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional38sparql5 - None - Simple - false
 resourcesmyqueriesoptional38sparql5 - None - Simple - true
+resourcesmyqueriesoptional38sparql5 - Thread - Simple - true
 resourcesmyqueriesoptional3sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional3sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional3sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3871,6 +3925,7 @@ resourcesmyqueriesoptional45sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional45sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional45sparql4 - None - Simple - false
 resourcesmyqueriesoptional45sparql4 - None - Simple - true
+resourcesmyqueriesoptional45sparql4 - Thread - Simple - true
 resourcesmyqueriesoptional46sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional46sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional46sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3949,6 +4004,7 @@ resourcesmyqueriesoptional49sparql5 - None - PartitionByIDTwiceAllCollations - t
 resourcesmyqueriesoptional49sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional49sparql5 - None - Simple - false
 resourcesmyqueriesoptional49sparql5 - None - Simple - true
+resourcesmyqueriesoptional49sparql5 - Thread - Simple - false
 resourcesmyqueriesoptional4sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional4sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional4sparql4 - None - PartitionByID_2_AllCollations - false
@@ -3975,6 +4031,7 @@ resourcesmyqueriesoptional4sparql5 - None - PartitionByIDTwiceAllCollations - fa
 resourcesmyqueriesoptional4sparql5 - None - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional4sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional4sparql5 - None - Simple - false
+resourcesmyqueriesoptional4sparql5 - Thread - Simple - true
 resourcesmyqueriesoptional50sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional50sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional50sparql4 - None - PartitionByID_2_AllCollations - false
@@ -4092,6 +4149,7 @@ resourcesmyqueriesoptional54sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional54sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional54sparql5 - None - Simple - false
 resourcesmyqueriesoptional54sparql5 - None - Simple - true
+resourcesmyqueriesoptional54sparql5 - Thread - Simple - false
 resourcesmyqueriesoptional55sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional55sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional55sparql4 - None - PartitionByID_2_AllCollations - true
@@ -4317,6 +4375,7 @@ resourcesmyqueriesoptional64sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional64sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional64sparql4 - None - Simple - false
 resourcesmyqueriesoptional64sparql4 - None - Simple - true
+resourcesmyqueriesoptional64sparql4 - Thread - Simple - false
 resourcesmyqueriesoptional64sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional64sparql5 - None - PartitionByID_2_AllCollations - false
 resourcesmyqueriesoptional64sparql5 - None - PartitionByID_2_AllCollations - true
@@ -4370,6 +4429,7 @@ resourcesmyqueriesoptional7sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional7sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional7sparql4 - None - Simple - false
 resourcesmyqueriesoptional7sparql4 - None - Simple - true
+resourcesmyqueriesoptional7sparql4 - Thread - Simple - true
 resourcesmyqueriesoptional7sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional7sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional7sparql5 - None - PartitionByID_2_AllCollations - false
@@ -4436,6 +4496,7 @@ resourcesmyqueriesoptional9sparql5 - None - PartitionByIDTwiceAllCollations - tr
 resourcesmyqueriesoptional9sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional9sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional9sparql5 - None - Simple - false
+resourcesmyqueriesoptional9sparql5 - Thread - Simple - false
 resourcesmyqueriesx1sparql5 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesx1sparql5 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesx1sparql5 - None - PartitionByID_2_AllCollations - false
@@ -4464,6 +4525,8 @@ resourcesmyqueriesx3sparql4 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesx3sparql4 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesx3sparql4 - None - Simple - false
 resourcesmyqueriesx3sparql4 - None - Simple - true
+resourcesmyqueriesx3sparql4 - Thread - Simple - false
+resourcesmyqueriesx3sparql4 - Thread - Simple - true
 resourcesmyqueriesx4sparql4 - None - PartitionByID_1_AllCollations - false
 resourcesmyqueriesx4sparql4 - None - PartitionByID_1_AllCollations - true
 resourcesmyqueriesx4sparql4 - None - PartitionByID_2_AllCollations - false
@@ -4557,6 +4620,7 @@ resourcessp2bq11sparql21 - None - PartitionByKeyAllCollations - false
 resourcessp2bq11sparql21 - None - PartitionByKeyAllCollations - true
 resourcessp2bq11sparql21 - None - Simple - false
 resourcessp2bq11sparql21 - None - Simple - true
+resourcessp2bq11sparql21 - Thread - Simple - false
 resourcessp2bq11sparql247 - None - PartitionByIDTwiceAllCollations - false
 resourcessp2bq12a1sparql21 - None - PartitionByID_1_AllCollations - false
 resourcessp2bq12a1sparql21 - None - PartitionByID_1_AllCollations - true
@@ -4766,6 +4830,7 @@ resourcessp2bq3asparql21 - None - PartitionByKeyAllCollations - false
 resourcessp2bq3asparql21 - None - PartitionByKeyAllCollations - true
 resourcessp2bq3asparql21 - None - Simple - false
 resourcessp2bq3asparql21 - None - Simple - true
+resourcessp2bq3asparql21 - Thread - Simple - false
 resourcessp2bq3bsparql21 - None - PartitionByID_1_AllCollations - false
 resourcessp2bq3bsparql21 - None - PartitionByID_1_AllCollations - true
 resourcessp2bq3bsparql21 - None - PartitionByID_2_AllCollations - false
@@ -4915,6 +4980,7 @@ resourcessp2bq61sparql247 - None - PartitionByID_S_AllCollations - false
 resourcessp2bq61sparql247 - None - PartitionByID_S_AllCollations - true
 resourcessp2bq61sparql247 - None - PartitionByKeyAllCollations - false
 resourcessp2bq61sparql247 - None - Simple - false
+resourcessp2bq61sparql247 - Thread - Simple - true
 resourcessp2bq62sparql21 - None - PartitionByID_1_AllCollations - false
 resourcessp2bq62sparql21 - None - PartitionByID_1_AllCollations - true
 resourcessp2bq62sparql21 - None - PartitionByID_2_AllCollations - false
@@ -5267,6 +5333,7 @@ SECONDS - None - PartitionByKeyAllCollations - false
 SECONDS - None - PartitionByKeyAllCollations - true
 SECONDS - None - Simple - false
 SECONDS - None - Simple - true
+SECONDS - Thread - Simple - false
 sendLimitedNumberOfQueries
 sendQueries
 sensorFromStarSendOverMesh
@@ -5306,6 +5373,7 @@ SHA1 on Unicode data - None - PartitionByKeyAllCollations - false
 SHA1 on Unicode data - None - PartitionByKeyAllCollations - true
 SHA1 on Unicode data - None - Simple - false
 SHA1 on Unicode data - None - Simple - true
+SHA1 - Thread - Simple - true
 SHA256 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 SHA256 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 SHA256 - in simulator - Simple - Centralized - false - None
@@ -5572,6 +5640,7 @@ sq12  Subquery in CONSTRUCT with builtins - None - PartitionByKeyAllCollations -
 sq12  Subquery in CONSTRUCT with builtins - None - PartitionByKeyAllCollations - true
 sq12  Subquery in CONSTRUCT with builtins - None - Simple - false
 sq12  Subquery in CONSTRUCT with builtins - None - Simple - true
+sq12  Subquery in CONSTRUCT with builtins - Thread - Simple - true
 starNetworkIsASimpleDODAG
 starNetworkRoutingTables
 starRootIsDataSinkOfItsSensors
@@ -5764,6 +5833,11 @@ synbad04rq - None - PartitionByKeyAllCollations - false
 synbad04rq - None - PartitionByKeyAllCollations - true
 synbad04rq - None - Simple - false
 synbad04rq - None - Simple - true
+synbad04rq - Thread - PartitionByID_2_AllCollations - false
+synbad04rq - Thread - PartitionByID_2_AllCollations - true
+synbad04rq - Thread - PartitionByID_O_AllCollations - true
+synbad04rq - Thread - PartitionByID_S_AllCollations - false
+synbad04rq - Thread - PartitionByKeyAllCollations - false
 synbad05rq - None - PartitionByID_1_AllCollations - false
 synbad05rq - None - PartitionByID_1_AllCollations - true
 synbad05rq - None - PartitionByID_2_AllCollations - false
@@ -5819,6 +5893,11 @@ synbad08rq - None - PartitionByKeyAllCollations - false
 synbad08rq - None - PartitionByKeyAllCollations - true
 synbad08rq - None - Simple - false
 synbad08rq - None - Simple - true
+synbad08rq - Thread - PartitionByID_2_AllCollations - true
+synbad08rq - Thread - PartitionByID_O_AllCollations - true
+synbad08rq - Thread - PartitionByID_S_AllCollations - false
+synbad08rq - Thread - PartitionByID_S_AllCollations - true
+synbad08rq - Thread - PartitionByKeyAllCollations - false
 synbadpname01 - None - PartitionByID_1_AllCollations - false
 synbadpname01 - None - PartitionByID_1_AllCollations - true
 synbadpname01 - None - PartitionByID_2_AllCollations - false
@@ -5847,6 +5926,12 @@ synbadpname02 - None - PartitionByKeyAllCollations - false
 synbadpname02 - None - PartitionByKeyAllCollations - true
 synbadpname02 - None - Simple - false
 synbadpname02 - None - Simple - true
+synbadpname02 - Thread - PartitionByID_1_AllCollations - false
+synbadpname02 - Thread - PartitionByID_O_AllCollations - false
+synbadpname02 - Thread - PartitionByID_S_AllCollations - false
+synbadpname02 - Thread - PartitionByID_S_AllCollations - true
+synbadpname02 - Thread - PartitionByIDTwiceAllCollations - false
+synbadpname02 - Thread - PartitionByKeyAllCollations - false
 synbadpname03 - None - PartitionByID_1_AllCollations - false
 synbadpname03 - None - PartitionByID_1_AllCollations - true
 synbadpname03 - None - PartitionByID_2_AllCollations - false
@@ -5861,6 +5946,15 @@ synbadpname03 - None - PartitionByKeyAllCollations - false
 synbadpname03 - None - PartitionByKeyAllCollations - true
 synbadpname03 - None - Simple - false
 synbadpname03 - None - Simple - true
+synbadpname03 - Thread - PartitionByID_1_AllCollations - false
+synbadpname03 - Thread - PartitionByID_2_AllCollations - false
+synbadpname03 - Thread - PartitionByID_2_AllCollations - true
+synbadpname03 - Thread - PartitionByID_O_AllCollations - false
+synbadpname03 - Thread - PartitionByID_O_AllCollations - true
+synbadpname03 - Thread - PartitionByID_S_AllCollations - true
+synbadpname03 - Thread - PartitionByIDTwiceAllCollations - true
+synbadpname03 - Thread - PartitionByKeyAllCollations - false
+synbadpname03 - Thread - PartitionByKeyAllCollations - true
 synbadpname04 - None - PartitionByID_1_AllCollations - false
 synbadpname04 - None - PartitionByID_1_AllCollations - true
 synbadpname04 - None - PartitionByID_2_AllCollations - false
@@ -5889,6 +5983,16 @@ synbadpname05 - None - PartitionByKeyAllCollations - false
 synbadpname05 - None - PartitionByKeyAllCollations - true
 synbadpname05 - None - Simple - false
 synbadpname05 - None - Simple - true
+synbadpname05 - Thread - PartitionByID_1_AllCollations - false
+synbadpname05 - Thread - PartitionByID_1_AllCollations - true
+synbadpname05 - Thread - PartitionByID_2_AllCollations - false
+synbadpname05 - Thread - PartitionByID_O_AllCollations - true
+synbadpname05 - Thread - PartitionByID_S_AllCollations - false
+synbadpname05 - Thread - PartitionByIDTwiceAllCollations - false
+synbadpname05 - Thread - PartitionByKeyAllCollations - false
+synbadpname05 - Thread - PartitionByKeyAllCollations - true
+synbadpname05 - Thread - Simple - false
+synbadpname05 - Thread - Simple - true
 synbadpname07 - None - PartitionByID_1_AllCollations - true
 synbadpname07 - None - PartitionByID_2_AllCollations - false
 synbadpname07 - None - PartitionByID_2_AllCollations - true
@@ -5901,6 +6005,13 @@ synbadpname07 - None - PartitionByKeyAllCollations - false
 synbadpname07 - None - PartitionByKeyAllCollations - true
 synbadpname07 - None - Simple - false
 synbadpname07 - None - Simple - true
+synbadpname07 - Thread - PartitionByID_1_AllCollations - false
+synbadpname07 - Thread - PartitionByID_1_AllCollations - true
+synbadpname07 - Thread - PartitionByID_2_AllCollations - true
+synbadpname07 - Thread - PartitionByID_S_AllCollations - false
+synbadpname07 - Thread - PartitionByKeyAllCollations - false
+synbadpname07 - Thread - PartitionByKeyAllCollations - true
+synbadpname07 - Thread - Simple - false
 synbadpname08 - None - PartitionByID_1_AllCollations - false
 synbadpname08 - None - PartitionByID_1_AllCollations - true
 synbadpname08 - None - PartitionByID_2_AllCollations - false
@@ -5915,6 +6026,13 @@ synbadpname08 - None - PartitionByKeyAllCollations - false
 synbadpname08 - None - PartitionByKeyAllCollations - true
 synbadpname08 - None - Simple - false
 synbadpname08 - None - Simple - true
+synbadpname08 - Thread - PartitionByID_1_AllCollations - false
+synbadpname08 - Thread - PartitionByID_1_AllCollations - true
+synbadpname08 - Thread - PartitionByID_O_AllCollations - false
+synbadpname08 - Thread - PartitionByID_O_AllCollations - true
+synbadpname08 - Thread - PartitionByID_S_AllCollations - true
+synbadpname08 - Thread - PartitionByIDTwiceAllCollations - false
+synbadpname08 - Thread - Simple - false
 synbadpname09 - None - PartitionByID_1_AllCollations - false
 synbadpname09 - None - PartitionByID_1_AllCollations - true
 synbadpname09 - None - PartitionByID_2_AllCollations - false
@@ -5939,6 +6057,8 @@ synbadpname10 - None - PartitionByKeyAllCollations - false
 synbadpname10 - None - PartitionByKeyAllCollations - true
 synbadpname10 - None - Simple - false
 synbadpname10 - None - Simple - true
+synbadpname10 - Thread - PartitionByID_2_AllCollations - true
+synbadpname10 - Thread - Simple - true
 synbadpname11 - None - PartitionByID_1_AllCollations - false
 synbadpname11 - None - PartitionByID_1_AllCollations - true
 synbadpname11 - None - PartitionByID_2_AllCollations - false
@@ -5953,6 +6073,12 @@ synbadpname11 - None - PartitionByKeyAllCollations - false
 synbadpname11 - None - PartitionByKeyAllCollations - true
 synbadpname11 - None - Simple - false
 synbadpname11 - None - Simple - true
+synbadpname11 - Thread - PartitionByID_1_AllCollations - true
+synbadpname11 - Thread - PartitionByID_2_AllCollations - true
+synbadpname11 - Thread - PartitionByID_S_AllCollations - false
+synbadpname11 - Thread - PartitionByIDTwiceAllCollations - false
+synbadpname11 - Thread - PartitionByIDTwiceAllCollations - true
+synbadpname11 - Thread - Simple - false
 synbadpname12 - None - PartitionByID_1_AllCollations - false
 synbadpname12 - None - PartitionByID_1_AllCollations - true
 synbadpname12 - None - PartitionByID_2_AllCollations - false
@@ -5967,6 +6093,14 @@ synbadpname12 - None - PartitionByKeyAllCollations - false
 synbadpname12 - None - PartitionByKeyAllCollations - true
 synbadpname12 - None - Simple - false
 synbadpname12 - None - Simple - true
+synbadpname12 - Thread - PartitionByID_2_AllCollations - false
+synbadpname12 - Thread - PartitionByID_O_AllCollations - false
+synbadpname12 - Thread - PartitionByID_O_AllCollations - true
+synbadpname12 - Thread - PartitionByID_S_AllCollations - false
+synbadpname12 - Thread - PartitionByID_S_AllCollations - true
+synbadpname12 - Thread - PartitionByIDTwiceAllCollations - true
+synbadpname12 - Thread - PartitionByKeyAllCollations - false
+synbadpname12 - Thread - PartitionByKeyAllCollations - true
 synbadpname13 - None - PartitionByID_1_AllCollations - false
 synbadpname13 - None - PartitionByID_1_AllCollations - true
 synbadpname13 - None - PartitionByID_2_AllCollations - false
@@ -5981,6 +6115,12 @@ synbadpname13 - None - PartitionByKeyAllCollations - false
 synbadpname13 - None - PartitionByKeyAllCollations - true
 synbadpname13 - None - Simple - false
 synbadpname13 - None - Simple - true
+synbadpname13 - Thread - PartitionByID_1_AllCollations - false
+synbadpname13 - Thread - PartitionByID_2_AllCollations - false
+synbadpname13 - Thread - PartitionByID_O_AllCollations - true
+synbadpname13 - Thread - PartitionByIDTwiceAllCollations - false
+synbadpname13 - Thread - PartitionByIDTwiceAllCollations - true
+synbadpname13 - Thread - PartitionByKeyAllCollations - true
 synpname01 - None - PartitionByID_1_AllCollations - false
 synpname01 - None - PartitionByID_1_AllCollations - true
 synpname01 - None - PartitionByID_2_AllCollations - false
@@ -6009,6 +6149,14 @@ synpname02 - None - PartitionByKeyAllCollations - false
 synpname02 - None - PartitionByKeyAllCollations - true
 synpname02 - None - Simple - false
 synpname02 - None - Simple - true
+synpname02 - Thread - PartitionByID_1_AllCollations - false
+synpname02 - Thread - PartitionByID_1_AllCollations - true
+synpname02 - Thread - PartitionByID_2_AllCollations - true
+synpname02 - Thread - PartitionByID_O_AllCollations - false
+synpname02 - Thread - PartitionByID_S_AllCollations - false
+synpname02 - Thread - PartitionByIDTwiceAllCollations - false
+synpname02 - Thread - Simple - false
+synpname02 - Thread - Simple - true
 synpname03 - None - PartitionByID_1_AllCollations - false
 synpname03 - None - PartitionByID_1_AllCollations - true
 synpname03 - None - PartitionByID_2_AllCollations - false
@@ -6065,6 +6213,12 @@ synpname06 - None - PartitionByKeyAllCollations - false
 synpname06 - None - PartitionByKeyAllCollations - true
 synpname06 - None - Simple - false
 synpname06 - None - Simple - true
+synpname06 - Thread - PartitionByID_2_AllCollations - false
+synpname06 - Thread - PartitionByID_O_AllCollations - true
+synpname06 - Thread - PartitionByIDTwiceAllCollations - false
+synpname06 - Thread - PartitionByIDTwiceAllCollations - true
+synpname06 - Thread - Simple - false
+synpname06 - Thread - Simple - true
 synpname07 - None - PartitionByID_1_AllCollations - false
 synpname07 - None - PartitionByID_1_AllCollations - true
 synpname07 - None - PartitionByID_2_AllCollations - false
@@ -6105,6 +6259,13 @@ synpname09 - None - PartitionByKeyAllCollations - false
 synpname09 - None - PartitionByKeyAllCollations - true
 synpname09 - None - Simple - false
 synpname09 - None - Simple - true
+synpname09 - Thread - PartitionByID_1_AllCollations - true
+synpname09 - Thread - PartitionByID_2_AllCollations - false
+synpname09 - Thread - PartitionByID_O_AllCollations - false
+synpname09 - Thread - PartitionByID_O_AllCollations - true
+synpname09 - Thread - PartitionByKeyAllCollations - false
+synpname09 - Thread - Simple - false
+synpname09 - Thread - Simple - true
 syntaxaggregate01rq - None - PartitionByID_1_AllCollations - false
 syntaxaggregate01rq - None - PartitionByID_1_AllCollations - true
 syntaxaggregate01rq - None - PartitionByID_2_AllCollations - false
@@ -6146,6 +6307,12 @@ syntaxaggregate03rq - None - PartitionByKeyAllCollations - false
 syntaxaggregate03rq - None - PartitionByKeyAllCollations - true
 syntaxaggregate03rq - None - Simple - false
 syntaxaggregate03rq - None - Simple - true
+syntaxaggregate03rq - Thread - PartitionByID_1_AllCollations - false
+syntaxaggregate03rq - Thread - PartitionByID_2_AllCollations - true
+syntaxaggregate03rq - Thread - PartitionByID_O_AllCollations - true
+syntaxaggregate03rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxaggregate03rq - Thread - PartitionByKeyAllCollations - false
+syntaxaggregate03rq - Thread - Simple - true
 syntaxaggregate04rq - None - PartitionByID_1_AllCollations - true
 syntaxaggregate04rq - None - PartitionByID_2_AllCollations - true
 syntaxaggregate04rq - None - PartitionByID_O_AllCollations - false
@@ -6155,6 +6322,16 @@ syntaxaggregate04rq - None - PartitionByIDTwiceAllCollations - false
 syntaxaggregate04rq - None - PartitionByIDTwiceAllCollations - true
 syntaxaggregate04rq - None - PartitionByKeyAllCollations - true
 syntaxaggregate04rq - None - Simple - false
+syntaxaggregate04rq - Thread - PartitionByID_1_AllCollations - true
+syntaxaggregate04rq - Thread - PartitionByID_2_AllCollations - false
+syntaxaggregate04rq - Thread - PartitionByID_2_AllCollations - true
+syntaxaggregate04rq - Thread - PartitionByID_O_AllCollations - false
+syntaxaggregate04rq - Thread - PartitionByID_O_AllCollations - true
+syntaxaggregate04rq - Thread - PartitionByID_S_AllCollations - false
+syntaxaggregate04rq - Thread - PartitionByID_S_AllCollations - true
+syntaxaggregate04rq - Thread - PartitionByIDTwiceAllCollations - false
+syntaxaggregate04rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxaggregate04rq - Thread - Simple - false
 syntaxaggregate05rq - None - PartitionByID_1_AllCollations - false
 syntaxaggregate05rq - None - PartitionByID_1_AllCollations - true
 syntaxaggregate05rq - None - PartitionByID_2_AllCollations - false
@@ -6195,6 +6372,10 @@ syntaxaggregate07rq - None - PartitionByIDTwiceAllCollations - true
 syntaxaggregate07rq - None - PartitionByKeyAllCollations - false
 syntaxaggregate07rq - None - PartitionByKeyAllCollations - true
 syntaxaggregate07rq - None - Simple - true
+syntaxaggregate07rq - Thread - PartitionByID_1_AllCollations - true
+syntaxaggregate07rq - Thread - PartitionByID_O_AllCollations - false
+syntaxaggregate07rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxaggregate07rq - Thread - PartitionByKeyAllCollations - true
 syntaxaggregate08rq - None - PartitionByID_1_AllCollations - false
 syntaxaggregate08rq - None - PartitionByID_1_AllCollations - true
 syntaxaggregate08rq - None - PartitionByID_2_AllCollations - true
@@ -6219,6 +6400,11 @@ syntaxaggregate09rq - None - PartitionByKeyAllCollations - false
 syntaxaggregate09rq - None - PartitionByKeyAllCollations - true
 syntaxaggregate09rq - None - Simple - false
 syntaxaggregate09rq - None - Simple - true
+syntaxaggregate09rq - Thread - PartitionByID_2_AllCollations - false
+syntaxaggregate09rq - Thread - PartitionByID_O_AllCollations - true
+syntaxaggregate09rq - Thread - PartitionByIDTwiceAllCollations - false
+syntaxaggregate09rq - Thread - PartitionByKeyAllCollations - false
+syntaxaggregate09rq - Thread - Simple - false
 syntaxaggregate10rq - None - PartitionByID_1_AllCollations - false
 syntaxaggregate10rq - None - PartitionByID_1_AllCollations - true
 syntaxaggregate10rq - None - PartitionByID_2_AllCollations - false
@@ -6233,6 +6419,9 @@ syntaxaggregate10rq - None - PartitionByKeyAllCollations - false
 syntaxaggregate10rq - None - PartitionByKeyAllCollations - true
 syntaxaggregate10rq - None - Simple - false
 syntaxaggregate10rq - None - Simple - true
+syntaxaggregate10rq - Thread - PartitionByID_2_AllCollations - false
+syntaxaggregate10rq - Thread - PartitionByID_2_AllCollations - true
+syntaxaggregate10rq - Thread - Simple - false
 syntaxaggregate11rq - None - PartitionByID_1_AllCollations - false
 syntaxaggregate11rq - None - PartitionByID_1_AllCollations - true
 syntaxaggregate11rq - None - PartitionByID_2_AllCollations - false
@@ -6247,6 +6436,14 @@ syntaxaggregate11rq - None - PartitionByKeyAllCollations - false
 syntaxaggregate11rq - None - PartitionByKeyAllCollations - true
 syntaxaggregate11rq - None - Simple - false
 syntaxaggregate11rq - None - Simple - true
+syntaxaggregate11rq - Thread - PartitionByID_1_AllCollations - true
+syntaxaggregate11rq - Thread - PartitionByID_2_AllCollations - false
+syntaxaggregate11rq - Thread - PartitionByID_O_AllCollations - false
+syntaxaggregate11rq - Thread - PartitionByID_O_AllCollations - true
+syntaxaggregate11rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxaggregate11rq - Thread - PartitionByKeyAllCollations - false
+syntaxaggregate11rq - Thread - PartitionByKeyAllCollations - true
+syntaxaggregate11rq - Thread - Simple - false
 syntaxaggregate12rq - None - PartitionByID_1_AllCollations - false
 syntaxaggregate12rq - None - PartitionByID_1_AllCollations - true
 syntaxaggregate12rq - None - PartitionByID_2_AllCollations - false
@@ -6275,6 +6472,11 @@ syntaxbind02rq - None - PartitionByKeyAllCollations - false
 syntaxbind02rq - None - PartitionByKeyAllCollations - true
 syntaxbind02rq - None - Simple - false
 syntaxbind02rq - None - Simple - true
+syntaxbind02rq - Thread - PartitionByID_1_AllCollations - false
+syntaxbind02rq - Thread - PartitionByID_1_AllCollations - true
+syntaxbind02rq - Thread - PartitionByID_2_AllCollations - true
+syntaxbind02rq - Thread - PartitionByID_S_AllCollations - true
+syntaxbind02rq - Thread - Simple - true
 syntaxbindingBINDscopes01rq - None - PartitionByID_1_AllCollations - false
 syntaxbindingBINDscopes01rq - None - PartitionByID_1_AllCollations - true
 syntaxbindingBINDscopes01rq - None - PartitionByID_2_AllCollations - false
@@ -6345,6 +6547,10 @@ syntaxbindings09rq - None - PartitionByKeyAllCollations - false
 syntaxbindings09rq - None - PartitionByKeyAllCollations - true
 syntaxbindings09rq - None - Simple - false
 syntaxbindings09rq - None - Simple - true
+syntaxbindings09rq - Thread - PartitionByID_2_AllCollations - false
+syntaxbindings09rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxbindings09rq - Thread - PartitionByKeyAllCollations - true
+syntaxbindings09rq - Thread - Simple - true
 syntaxBINDscope1rq - None - PartitionByID_1_AllCollations - false
 syntaxBINDscope1rq - None - PartitionByID_2_AllCollations - false
 syntaxBINDscope1rq - None - PartitionByID_2_AllCollations - true
@@ -6358,6 +6564,15 @@ syntaxBINDscope1rq - None - PartitionByKeyAllCollations - false
 syntaxBINDscope1rq - None - PartitionByKeyAllCollations - true
 syntaxBINDscope1rq - None - Simple - false
 syntaxBINDscope1rq - None - Simple - true
+syntaxBINDscope1rq - Thread - PartitionByID_1_AllCollations - true
+syntaxBINDscope1rq - Thread - PartitionByID_2_AllCollations - true
+syntaxBINDscope1rq - Thread - PartitionByID_O_AllCollations - false
+syntaxBINDscope1rq - Thread - PartitionByID_O_AllCollations - true
+syntaxBINDscope1rq - Thread - PartitionByID_S_AllCollations - false
+syntaxBINDscope1rq - Thread - PartitionByID_S_AllCollations - true
+syntaxBINDscope1rq - Thread - PartitionByIDTwiceAllCollations - false
+syntaxBINDscope1rq - Thread - PartitionByKeyAllCollations - true
+syntaxBINDscope1rq - Thread - Simple - true
 syntaxBINDscope2rq - None - PartitionByID_1_AllCollations - false
 syntaxBINDscope2rq - None - PartitionByID_1_AllCollations - true
 syntaxBINDscope2rq - None - PartitionByID_2_AllCollations - false
@@ -6400,6 +6615,11 @@ syntaxBINDscope4rq - None - PartitionByKeyAllCollations - false
 syntaxBINDscope4rq - None - PartitionByKeyAllCollations - true
 syntaxBINDscope4rq - None - Simple - false
 syntaxBINDscope4rq - None - Simple - true
+syntaxBINDscope4rq - Thread - PartitionByID_O_AllCollations - false
+syntaxBINDscope4rq - Thread - PartitionByID_S_AllCollations - false
+syntaxBINDscope4rq - Thread - PartitionByID_S_AllCollations - true
+syntaxBINDscope4rq - Thread - PartitionByIDTwiceAllCollations - false
+syntaxBINDscope4rq - Thread - Simple - false
 syntaxBINDscope5rq - None - PartitionByID_1_AllCollations - false
 syntaxBINDscope5rq - None - PartitionByID_1_AllCollations - true
 syntaxBINDscope5rq - None - PartitionByID_2_AllCollations - false
@@ -6414,6 +6634,14 @@ syntaxBINDscope5rq - None - PartitionByKeyAllCollations - false
 syntaxBINDscope5rq - None - PartitionByKeyAllCollations - true
 syntaxBINDscope5rq - None - Simple - false
 syntaxBINDscope5rq - None - Simple - true
+syntaxBINDscope5rq - Thread - PartitionByID_1_AllCollations - false
+syntaxBINDscope5rq - Thread - PartitionByID_1_AllCollations - true
+syntaxBINDscope5rq - Thread - PartitionByID_2_AllCollations - false
+syntaxBINDscope5rq - Thread - PartitionByIDTwiceAllCollations - false
+syntaxBINDscope5rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxBINDscope5rq - Thread - PartitionByKeyAllCollations - true
+syntaxBINDscope5rq - Thread - Simple - false
+syntaxBINDscope5rq - Thread - Simple - true
 syntaxconstructwhere01rq - None - PartitionByID_1_AllCollations - false
 syntaxconstructwhere01rq - None - PartitionByID_1_AllCollations - true
 syntaxconstructwhere01rq - None - PartitionByID_2_AllCollations - false
@@ -6456,6 +6684,10 @@ syntaxexists02rq - None - PartitionByKeyAllCollations - false
 syntaxexists02rq - None - PartitionByKeyAllCollations - true
 syntaxexists02rq - None - Simple - false
 syntaxexists02rq - None - Simple - true
+syntaxexists02rq - Thread - PartitionByID_1_AllCollations - true
+syntaxexists02rq - Thread - PartitionByID_S_AllCollations - false
+syntaxexists02rq - Thread - PartitionByKeyAllCollations - true
+syntaxexists02rq - Thread - Simple - true
 syntaxexists03rq - None - PartitionByID_1_AllCollations - false
 syntaxexists03rq - None - PartitionByID_1_AllCollations - true
 syntaxexists03rq - None - PartitionByID_2_AllCollations - false
@@ -6470,6 +6702,12 @@ syntaxexists03rq - None - PartitionByKeyAllCollations - false
 syntaxexists03rq - None - PartitionByKeyAllCollations - true
 syntaxexists03rq - None - Simple - false
 syntaxexists03rq - None - Simple - true
+syntaxexists03rq - Thread - PartitionByID_1_AllCollations - false
+syntaxexists03rq - Thread - PartitionByID_2_AllCollations - true
+syntaxexists03rq - Thread - PartitionByID_O_AllCollations - false
+syntaxexists03rq - Thread - PartitionByID_O_AllCollations - true
+syntaxexists03rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxexists03rq - Thread - Simple - true
 syntaxminus01rq - None - PartitionByID_1_AllCollations - false
 syntaxminus01rq - None - PartitionByID_1_AllCollations - true
 syntaxminus01rq - None - PartitionByID_2_AllCollations - false
@@ -6498,6 +6736,11 @@ syntaxnotexists01rq - None - PartitionByKeyAllCollations - false
 syntaxnotexists01rq - None - PartitionByKeyAllCollations - true
 syntaxnotexists01rq - None - Simple - false
 syntaxnotexists01rq - None - Simple - true
+syntaxnotexists01rq - Thread - PartitionByID_1_AllCollations - true
+syntaxnotexists01rq - Thread - PartitionByID_O_AllCollations - false
+syntaxnotexists01rq - Thread - PartitionByID_S_AllCollations - true
+syntaxnotexists01rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxnotexists01rq - Thread - PartitionByKeyAllCollations - true
 syntaxnotexists02rq - None - PartitionByID_1_AllCollations - false
 syntaxnotexists02rq - None - PartitionByID_1_AllCollations - true
 syntaxnotexists02rq - None - PartitionByID_2_AllCollations - false
@@ -6533,6 +6776,11 @@ syntaxoneof01rq - None - PartitionByIDTwiceAllCollations - false
 syntaxoneof01rq - None - PartitionByIDTwiceAllCollations - true
 syntaxoneof01rq - None - Simple - false
 syntaxoneof01rq - None - Simple - true
+syntaxoneof01rq - Thread - PartitionByID_O_AllCollations - false
+syntaxoneof01rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxoneof01rq - Thread - PartitionByKeyAllCollations - false
+syntaxoneof01rq - Thread - PartitionByKeyAllCollations - true
+syntaxoneof01rq - Thread - Simple - false
 syntaxoneof02rq - None - PartitionByID_1_AllCollations - false
 syntaxoneof02rq - None - PartitionByID_1_AllCollations - true
 syntaxoneof02rq - None - PartitionByID_2_AllCollations - false
@@ -6588,6 +6836,12 @@ syntaxselectexpr02rq - None - PartitionByKeyAllCollations - false
 syntaxselectexpr02rq - None - PartitionByKeyAllCollations - true
 syntaxselectexpr02rq - None - Simple - false
 syntaxselectexpr02rq - None - Simple - true
+syntaxselectexpr02rq - Thread - PartitionByID_1_AllCollations - false
+syntaxselectexpr02rq - Thread - PartitionByID_1_AllCollations - true
+syntaxselectexpr02rq - Thread - PartitionByID_2_AllCollations - true
+syntaxselectexpr02rq - Thread - PartitionByID_O_AllCollations - true
+syntaxselectexpr02rq - Thread - PartitionByIDTwiceAllCollations - false
+syntaxselectexpr02rq - Thread - PartitionByKeyAllCollations - false
 syntaxselectexpr03rq - None - PartitionByID_1_AllCollations - false
 syntaxselectexpr03rq - None - PartitionByID_1_AllCollations - true
 syntaxselectexpr03rq - None - PartitionByID_2_AllCollations - false
@@ -6616,6 +6870,10 @@ syntaxselectexpr05rq - None - PartitionByKeyAllCollations - false
 syntaxselectexpr05rq - None - PartitionByKeyAllCollations - true
 syntaxselectexpr05rq - None - Simple - false
 syntaxselectexpr05rq - None - Simple - true
+syntaxselectexpr05rq - Thread - PartitionByID_O_AllCollations - false
+syntaxselectexpr05rq - Thread - PartitionByID_S_AllCollations - true
+syntaxselectexpr05rq - Thread - PartitionByIDTwiceAllCollations - true
+syntaxselectexpr05rq - Thread - PartitionByKeyAllCollations - true
 syntaxSELECTscope1rq - None - PartitionByID_1_AllCollations - false
 syntaxSELECTscope1rq - None - PartitionByID_1_AllCollations - true
 syntaxSELECTscope1rq - None - PartitionByID_2_AllCollations - false
@@ -6672,6 +6930,11 @@ syntaxservice02rq - None - PartitionByKeyAllCollations - false
 syntaxservice02rq - None - PartitionByKeyAllCollations - true
 syntaxservice02rq - None - Simple - false
 syntaxservice02rq - None - Simple - true
+syntaxservice02rq - Thread - PartitionByID_2_AllCollations - false
+syntaxservice02rq - Thread - PartitionByID_S_AllCollations - false
+syntaxservice02rq - Thread - PartitionByIDTwiceAllCollations - false
+syntaxservice02rq - Thread - PartitionByKeyAllCollations - false
+syntaxservice02rq - Thread - PartitionByKeyAllCollations - true
 syntaxservice03rq - None - PartitionByID_1_AllCollations - false
 syntaxservice03rq - None - PartitionByID_1_AllCollations - true
 syntaxservice03rq - None - PartitionByID_2_AllCollations - false
@@ -6728,6 +6991,12 @@ syntaxsubquery03rq - None - PartitionByKeyAllCollations - false
 syntaxsubquery03rq - None - PartitionByKeyAllCollations - true
 syntaxsubquery03rq - None - Simple - false
 syntaxsubquery03rq - None - Simple - true
+syntaxsubquery03rq - Thread - PartitionByID_O_AllCollations - false
+syntaxsubquery03rq - Thread - PartitionByID_O_AllCollations - true
+syntaxsubquery03rq - Thread - PartitionByID_S_AllCollations - false
+syntaxsubquery03rq - Thread - PartitionByID_S_AllCollations - true
+syntaxsubquery03rq - Thread - Simple - false
+syntaxsubquery03rq - Thread - Simple - true
 syntaxupdate01ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate01ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate01ru - None - PartitionByID_2_AllCollations - false
@@ -6770,6 +7039,13 @@ syntaxupdate03ru - None - PartitionByKeyAllCollations - false
 syntaxupdate03ru - None - PartitionByKeyAllCollations - true
 syntaxupdate03ru - None - Simple - false
 syntaxupdate03ru - None - Simple - true
+syntaxupdate03ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate03ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate03ru - Thread - PartitionByID_O_AllCollations - true
+syntaxupdate03ru - Thread - PartitionByKeyAllCollations - false
+syntaxupdate03ru - Thread - PartitionByKeyAllCollations - true
+syntaxupdate03ru - Thread - Simple - false
+syntaxupdate03ru - Thread - Simple - true
 syntaxupdate04ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate04ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate04ru - None - PartitionByID_2_AllCollations - false
@@ -6797,6 +7073,13 @@ syntaxupdate05ru - None - PartitionByKeyAllCollations - false
 syntaxupdate05ru - None - PartitionByKeyAllCollations - true
 syntaxupdate05ru - None - Simple - false
 syntaxupdate05ru - None - Simple - true
+syntaxupdate05ru - Thread - PartitionByID_1_AllCollations - false
+syntaxupdate05ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate05ru - Thread - PartitionByID_O_AllCollations - false
+syntaxupdate05ru - Thread - PartitionByID_S_AllCollations - false
+syntaxupdate05ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate05ru - Thread - PartitionByIDTwiceAllCollations - true
+syntaxupdate05ru - Thread - Simple - true
 syntaxupdate06ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate06ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate06ru - None - PartitionByID_2_AllCollations - false
@@ -6853,6 +7136,12 @@ syntaxupdate09ru - None - PartitionByKeyAllCollations - false
 syntaxupdate09ru - None - PartitionByKeyAllCollations - true
 syntaxupdate09ru - None - Simple - false
 syntaxupdate09ru - None - Simple - true
+syntaxupdate09ru - Thread - PartitionByID_1_AllCollations - false
+syntaxupdate09ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate09ru - Thread - PartitionByID_O_AllCollations - false
+syntaxupdate09ru - Thread - PartitionByID_S_AllCollations - false
+syntaxupdate09ru - Thread - PartitionByIDTwiceAllCollations - false
+syntaxupdate09ru - Thread - Simple - false
 syntaxupdate10ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate10ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate10ru - None - PartitionByID_2_AllCollations - false
@@ -6867,6 +7156,13 @@ syntaxupdate10ru - None - PartitionByKeyAllCollations - false
 syntaxupdate10ru - None - PartitionByKeyAllCollations - true
 syntaxupdate10ru - None - Simple - false
 syntaxupdate10ru - None - Simple - true
+syntaxupdate10ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate10ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate10ru - Thread - PartitionByID_O_AllCollations - true
+syntaxupdate10ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate10ru - Thread - PartitionByIDTwiceAllCollations - false
+syntaxupdate10ru - Thread - PartitionByKeyAllCollations - false
+syntaxupdate10ru - Thread - Simple - true
 syntaxupdate11ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate11ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate11ru - None - PartitionByID_2_AllCollations - false
@@ -6895,6 +7191,16 @@ syntaxupdate12ru - None - PartitionByKeyAllCollations - false
 syntaxupdate12ru - None - PartitionByKeyAllCollations - true
 syntaxupdate12ru - None - Simple - false
 syntaxupdate12ru - None - Simple - true
+syntaxupdate12ru - Thread - PartitionByID_1_AllCollations - false
+syntaxupdate12ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate12ru - Thread - PartitionByID_O_AllCollations - true
+syntaxupdate12ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate12ru - Thread - PartitionByIDTwiceAllCollations - false
+syntaxupdate12ru - Thread - PartitionByIDTwiceAllCollations - true
+syntaxupdate12ru - Thread - PartitionByKeyAllCollations - false
+syntaxupdate12ru - Thread - PartitionByKeyAllCollations - true
+syntaxupdate12ru - Thread - Simple - false
+syntaxupdate12ru - Thread - Simple - true
 syntaxupdate13ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate13ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate13ru - None - PartitionByID_2_AllCollations - false
@@ -6919,6 +7225,13 @@ syntaxupdate14ru - None - PartitionByIDTwiceAllCollations - false
 syntaxupdate14ru - None - PartitionByIDTwiceAllCollations - true
 syntaxupdate14ru - None - PartitionByKeyAllCollations - true
 syntaxupdate14ru - None - Simple - false
+syntaxupdate14ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate14ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate14ru - Thread - PartitionByID_O_AllCollations - false
+syntaxupdate14ru - Thread - PartitionByID_O_AllCollations - true
+syntaxupdate14ru - Thread - PartitionByID_S_AllCollations - false
+syntaxupdate14ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate14ru - Thread - PartitionByKeyAllCollations - false
 syntaxupdate15ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate15ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate15ru - None - PartitionByID_2_AllCollations - false
@@ -6947,6 +7260,12 @@ syntaxupdate16ru - None - PartitionByKeyAllCollations - false
 syntaxupdate16ru - None - PartitionByKeyAllCollations - true
 syntaxupdate16ru - None - Simple - false
 syntaxupdate16ru - None - Simple - true
+syntaxupdate16ru - Thread - PartitionByID_1_AllCollations - false
+syntaxupdate16ru - Thread - PartitionByID_2_AllCollations - false
+syntaxupdate16ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate16ru - Thread - PartitionByID_O_AllCollations - false
+syntaxupdate16ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate16ru - Thread - PartitionByKeyAllCollations - false
 syntaxupdate17ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate17ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate17ru - None - PartitionByID_2_AllCollations - false
@@ -7108,6 +7427,16 @@ syntaxupdate28ru - None - PartitionByKeyAllCollations - false
 syntaxupdate28ru - None - PartitionByKeyAllCollations - true
 syntaxupdate28ru - None - Simple - false
 syntaxupdate28ru - None - Simple - true
+syntaxupdate28ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate28ru - Thread - PartitionByID_2_AllCollations - false
+syntaxupdate28ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate28ru - Thread - PartitionByID_O_AllCollations - true
+syntaxupdate28ru - Thread - PartitionByID_S_AllCollations - false
+syntaxupdate28ru - Thread - PartitionByIDTwiceAllCollations - true
+syntaxupdate28ru - Thread - PartitionByKeyAllCollations - false
+syntaxupdate28ru - Thread - PartitionByKeyAllCollations - true
+syntaxupdate28ru - Thread - Simple - false
+syntaxupdate28ru - Thread - Simple - true
 syntaxupdate29ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate29ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate29ru - None - PartitionByID_2_AllCollations - false
@@ -7136,6 +7465,12 @@ syntaxupdate30ru - None - PartitionByKeyAllCollations - false
 syntaxupdate30ru - None - PartitionByKeyAllCollations - true
 syntaxupdate30ru - None - Simple - false
 syntaxupdate30ru - None - Simple - true
+syntaxupdate30ru - Thread - PartitionByID_O_AllCollations - false
+syntaxupdate30ru - Thread - PartitionByID_O_AllCollations - true
+syntaxupdate30ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate30ru - Thread - PartitionByIDTwiceAllCollations - false
+syntaxupdate30ru - Thread - PartitionByKeyAllCollations - true
+syntaxupdate30ru - Thread - Simple - false
 syntaxupdate31ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate31ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate31ru - None - PartitionByID_2_AllCollations - false
@@ -7150,6 +7485,13 @@ syntaxupdate31ru - None - PartitionByKeyAllCollations - false
 syntaxupdate31ru - None - PartitionByKeyAllCollations - true
 syntaxupdate31ru - None - Simple - false
 syntaxupdate31ru - None - Simple - true
+syntaxupdate31ru - Thread - PartitionByID_1_AllCollations - false
+syntaxupdate31ru - Thread - PartitionByID_O_AllCollations - false
+syntaxupdate31ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate31ru - Thread - PartitionByIDTwiceAllCollations - false
+syntaxupdate31ru - Thread - PartitionByIDTwiceAllCollations - true
+syntaxupdate31ru - Thread - PartitionByKeyAllCollations - false
+syntaxupdate31ru - Thread - Simple - true
 syntaxupdate35ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate35ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate35ru - None - PartitionByID_2_AllCollations - false
@@ -7164,6 +7506,15 @@ syntaxupdate35ru - None - PartitionByKeyAllCollations - false
 syntaxupdate35ru - None - PartitionByKeyAllCollations - true
 syntaxupdate35ru - None - Simple - false
 syntaxupdate35ru - None - Simple - true
+syntaxupdate35ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate35ru - Thread - PartitionByID_2_AllCollations - false
+syntaxupdate35ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate35ru - Thread - PartitionByID_S_AllCollations - false
+syntaxupdate35ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate35ru - Thread - PartitionByIDTwiceAllCollations - true
+syntaxupdate35ru - Thread - PartitionByKeyAllCollations - true
+syntaxupdate35ru - Thread - Simple - false
+syntaxupdate35ru - Thread - Simple - true
 syntaxupdate37ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate37ru - None - PartitionByID_2_AllCollations - false
 syntaxupdate37ru - None - PartitionByID_O_AllCollations - false
@@ -7176,6 +7527,16 @@ syntaxupdate37ru - None - PartitionByKeyAllCollations - false
 syntaxupdate37ru - None - PartitionByKeyAllCollations - true
 syntaxupdate37ru - None - Simple - false
 syntaxupdate37ru - None - Simple - true
+syntaxupdate37ru - Thread - PartitionByID_1_AllCollations - false
+syntaxupdate37ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate37ru - Thread - PartitionByID_2_AllCollations - false
+syntaxupdate37ru - Thread - PartitionByID_2_AllCollations - true
+syntaxupdate37ru - Thread - PartitionByID_O_AllCollations - true
+syntaxupdate37ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdate37ru - Thread - PartitionByIDTwiceAllCollations - false
+syntaxupdate37ru - Thread - PartitionByKeyAllCollations - false
+syntaxupdate37ru - Thread - PartitionByKeyAllCollations - true
+syntaxupdate37ru - Thread - Simple - true
 syntaxupdate38ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate38ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate38ru - None - PartitionByID_2_AllCollations - false
@@ -7190,6 +7551,12 @@ syntaxupdate38ru - None - PartitionByKeyAllCollations - false
 syntaxupdate38ru - None - PartitionByKeyAllCollations - true
 syntaxupdate38ru - None - Simple - false
 syntaxupdate38ru - None - Simple - true
+syntaxupdate38ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdate38ru - Thread - PartitionByID_2_AllCollations - false
+syntaxupdate38ru - Thread - PartitionByID_O_AllCollations - false
+syntaxupdate38ru - Thread - PartitionByID_S_AllCollations - false
+syntaxupdate38ru - Thread - PartitionByIDTwiceAllCollations - true
+syntaxupdate38ru - Thread - Simple - true
 syntaxupdate39ru - None - PartitionByID_1_AllCollations - false
 syntaxupdate39ru - None - PartitionByID_1_AllCollations - true
 syntaxupdate39ru - None - PartitionByID_2_AllCollations - false
@@ -7297,6 +7664,11 @@ syntaxupdatebad07ru - None - PartitionByKeyAllCollations - false
 syntaxupdatebad07ru - None - PartitionByKeyAllCollations - true
 syntaxupdatebad07ru - None - Simple - false
 syntaxupdatebad07ru - None - Simple - true
+syntaxupdatebad07ru - Thread - PartitionByID_1_AllCollations - true
+syntaxupdatebad07ru - Thread - PartitionByID_S_AllCollations - true
+syntaxupdatebad07ru - Thread - PartitionByIDTwiceAllCollations - false
+syntaxupdatebad07ru - Thread - PartitionByKeyAllCollations - true
+syntaxupdatebad07ru - Thread - Simple - false
 syntaxupdateother01 - None - PartitionByID_1_AllCollations - false
 syntaxupdateother01 - None - PartitionByID_1_AllCollations - true
 syntaxupdateother01 - None - PartitionByID_2_AllCollations - false
