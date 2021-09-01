@@ -89,7 +89,7 @@ class RoutingSimulationTest {
         simRun.simMaxClock = TimeUtils.toNanoSec(300)
         simRun.startSimulation(config)
 
-        val a = config.getDeviceByName("A")
+        config.getDeviceByName("A")
     }
 
     @Test
@@ -100,7 +100,7 @@ class RoutingSimulationTest {
         simRun.simMaxClock = TimeUtils.toNanoSec(200)
         simRun.startSimulation(config)
 
-        val f = config.getDeviceByName("F")
+        config.getDeviceByName("F")
     }
 
     @Test
@@ -111,7 +111,7 @@ class RoutingSimulationTest {
         simRun.simMaxClock = TimeUtils.toNanoSec(800)
         simRun.startSimulation(config)
 
-        val d = config.getDeviceByName("D")
+        config.getDeviceByName("D")
     }
 
     @Test
@@ -142,7 +142,7 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/sensorFromStarSendOverMesh.json")
 
-        val fog = config.getDeviceByName("Fog")
+        config.getDeviceByName("Fog")
         val starRoot = config.randStarNetworks.getValue("1")
         val child = starRoot.children[0]
         assertTrue(child.linkManager.hasLink(starRoot.root))
@@ -155,7 +155,7 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/sensorsFromStarSendOverFixedLinks.json")
 
-        val fog = config.getDeviceByName("DODAG ROOT")
+        config.getDeviceByName("DODAG ROOT")
 
         simRun.startSimulation(config)
     }

@@ -220,8 +220,8 @@ public class VisualisationOperatorGraph {
                     val l1 = sqrt(w * w + h * h)
                     val x0 = (x1 + x2) / 2.0
                     val y0 = (y1 + y2) / 2.0
-                    val a = atan2(h, w)
-                    val radius = sqrt(cos(a) * 0.5 * distanceX * cos(a) * 0.5 * distanceX + sin(a) * 0.5 * distanceY * sin(a) * 0.5 * distanceY)
+                    val a2 = atan2(h, w)
+                    val radius = sqrt(cos(a2) * 0.5 * distanceX * cos(a2) * 0.5 * distanceX + sin(a2) * 0.5 * distanceY * sin(a2) * 0.5 * distanceY)
                     var l2 = l1 - radius
                     if (l2 <0.0) {
                         l2 = 0.0

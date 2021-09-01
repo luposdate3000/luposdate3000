@@ -356,7 +356,8 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
                     var umfang = 0.0
                     var minR = 0.0
                     var list = mutableListOf<VisualisationOperatorGraph>()
-                    for ((first, second) in workList) {
+                    for (work in workList) {
+                        val second = work.second
                         val opGraph = VisualisationOperatorGraph()
                         val opImage = opGraph.operatorGraphToImage(second)
                         opGraph.anchorX = device.xnew
@@ -516,10 +517,10 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
         if (src != dest) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:518"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:519"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:520"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:521"/*SOURCE_FILE_END*/ }, { src != hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:519"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:520"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:521"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:522"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size <size) {
                 connectionTable = IntArray(size) { -1 }
             }
@@ -531,9 +532,9 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
         if (src != dest && src != hop) {
             val idx = src * devicesMaxID + dest
             val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:533"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:534"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:535"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:534"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:535"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:536"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
             if (connectionTableDB.size <size) {
                 connectionTableDB = IntArray(size) { -1 }
             }
@@ -545,7 +546,7 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
         connections.add(connection)
     }
 
-    override fun onSendPackage(source: Int, destination: Int, pck: IPayload) {
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
         val clock = getClock()
         when (pck) {
             is MySimulatorAbstractPackage -> {
@@ -555,29 +556,29 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
 // ignore dictionary right now
                     }
                     "/distributed/graph/create" -> {
-                        addDistributedStorage(source, destination, clock, pck.params["name"]!!, pck.params["metadata"]!!)
+                        addDistributedStorage(src, dest, clock, pck.params["name"]!!, pck.params["metadata"]!!)
                     }
                     "/distributed/graph/modify" -> {
                         val count = ((ByteArrayWrapperExt.getSize(pck.data) / DictionaryValueHelper.getSize()) - 1) / 3
-                        addMessage(VisualisationMessage(source, destination, clock, "modify ${pck.params["mode"]} ${pck.params["idx"]}@$destination:${pck.params["key"]} .. triples=$count"))
+                        addMessage(VisualisationMessage(src, dest, clock, "modify ${pck.params["mode"]} ${pck.params["idx"]}@$dest:${pck.params["key"]} .. triples=$count"))
                     }
                     "simulator-intermediate-result" -> {
                         val bytes = ByteArrayWrapperExt.getSize(pck.data)
-                        addMessage(VisualisationMessage(source, destination, clock, "intermediate ${pck.params["key"]} .. count=$bytes"))
+                        addMessage(VisualisationMessage(src, dest, clock, "intermediate ${pck.params["key"]} .. count=$bytes"))
                     }
-                    else -> addMessage(VisualisationMessage(source, destination, clock, pck.toString()))
+                    else -> addMessage(VisualisationMessage(src, dest, clock, pck.toString()))
                 }
             }
             is MySimulatorOperatorGraphPackage -> {
-                addMessage(VisualisationMessage(source, destination, clock, "operatorgraph ${pck.queryID} .. ${pck.operatorGraph.keys}"))
+                addMessage(VisualisationMessage(src, dest, clock, "operatorgraph ${pck.queryID} .. ${pck.operatorGraph.keys}"))
             }
             is QueryResponsePackage -> {
-                addMessage(VisualisationMessage(source, destination, clock, "response ${pck.queryID} .. ${pck.result.size}"))
+                addMessage(VisualisationMessage(src, dest, clock, "response ${pck.queryID} .. ${pck.result.size}"))
             }
             is QueryPackage -> {
-                addMessage(VisualisationMessage(source, destination, clock, "query ${pck.queryID} .. ${pck.query.decodeToString()}"))
+                addMessage(VisualisationMessage(src, dest, clock, "query ${pck.queryID} .. ${pck.query.decodeToString()}"))
             }
-            else -> addMessage(VisualisationMessage(source, destination, clock, pck.toString()))
+            else -> addMessage(VisualisationMessage(src, dest, clock, pck.toString()))
         }
     }
 

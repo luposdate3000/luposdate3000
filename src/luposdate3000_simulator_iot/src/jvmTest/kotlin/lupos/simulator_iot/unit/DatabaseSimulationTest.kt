@@ -36,7 +36,7 @@ class DatabaseSimulationTest {
     fun saveParkingSamplesInDummyTripleStore() {
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/saveParkingSamplesInDummyTripleStore.json")
-        val g = config.getDeviceByName("G")
+        config.getDeviceByName("G")
 
         simRun.simMaxClock = 100000000
         simRun.startSimulation(config)

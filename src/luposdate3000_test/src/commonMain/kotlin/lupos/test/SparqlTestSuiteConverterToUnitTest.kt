@@ -313,36 +313,36 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("public class $testCaseName {")
         if (inputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val inputData = arrayOf(")
-            for ((k, v) in inputGraphs) {
+            for (k in inputGraphs.keys) {
                 fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputGraph = arrayOf(")
-            for ((k, v) in inputGraphs) {
+            for (v in inputGraphs.values) {
                 fileBufferPrefix.println("        \"${v.graph}\",")
                 inputGraphIsDefaultGraph.add(v.graph == "")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputType = arrayOf(")
-            for ((k, v) in inputGraphs) {
+            for (v in inputGraphs.values) {
                 fileBufferPrefix.println("        \"${v.type}\",")
             }
             fileBufferPrefix.println("    )")
         }
         if (outputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val outputData = arrayOf(")
-            for ((k, v) in outputGraphs) {
+            for (k in outputGraphs.keys) {
                 fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputGraph = arrayOf(")
-            for ((k, v) in outputGraphs) {
+            for (v in outputGraphs.values) {
                 outputGraphIsDefaultGraph.add(v.graph == "")
                 fileBufferPrefix.println("        \"${v.graph}\",")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputType = arrayOf(")
-            for ((k, v) in outputGraphs) {
+            for (v in outputGraphs.values) {
                 fileBufferPrefix.println("        \"${v.type}\",")
             }
             fileBufferPrefix.println("    )")
@@ -562,14 +562,14 @@ without minify mode only the passing tests will be added
                     }
                 }
                 if (fileBufferTests.size> 0) {
-                    for ((x, g) in inputGraphs) {
+                    for (g in inputGraphs.values) {
                         File(g.filename).withOutputStream { out ->
                             File(g.filenameoriginal).forEachLine {
                                 out.println(it)
                             }
                         }
                     }
-                    for ((x, g) in outputGraphs) {
+                    for (g in outputGraphs.values) {
                         File(g.filename).withOutputStream { out ->
                             File(g.filenameoriginal).forEachLine {
                                 out.println(it)

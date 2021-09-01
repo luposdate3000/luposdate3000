@@ -591,9 +591,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 }
             }
             val inputs = keys.map { key ->
-                val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
+                val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
-                input as IMyInputStream
+                input
             }.toTypedArray()
             val res = POPDistributedReceiveMulti(
                 query,
