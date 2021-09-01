@@ -21,7 +21,6 @@ import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 public class MemoryTableFromN3 : MemoryTableParser {
@@ -42,24 +41,11 @@ public class MemoryTableFromN3 : MemoryTableParser {
                 row[1] = p
                 row[2] = o
                 res.data.add(row)
-                dictionary.getValue(buf, s)
-                val ss = DictionaryHelper.byteArrayToSparql(buf)
-                dictionary.getValue(buf, p)
-                val pp = DictionaryHelper.byteArrayToSparql(buf)
-                dictionary.getValue(buf, o)
-                val oo = DictionaryHelper.byteArrayToSparql(buf)
-                println("MemoryTableFromN3 triple $ss $pp $oo")
             },
             kpFileLoc = inputFileName,
         )
         parserObject.convertByteArrayWrapperToID = {
-            val res = dictionary.createValue(it)
-            val input = DictionaryHelper.byteArrayToSparql(it)
-            val tmp = ByteArrayWrapper()
-            dictionary.getValue(tmp, res)
-            val output = DictionaryHelper.byteArrayToSparql(tmp)
-            println("MemoryTableFromN3 dict $input -> $res -> $output")
-            res
+            dictionary.createValue(it)
         }
         try {
             parserObject.initializeCache()

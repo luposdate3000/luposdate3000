@@ -233,14 +233,9 @@ public object InputToIntermediate {
         val iter = File(inputFileName).openInputStream()
         if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
             val row = DictionaryValueTypeArray(3)
-            val reverseDict = mutableMapOf<DictionaryValueType, String>()
             if (parserFromSoenke) {
                 val parserObject = TurtleParserWithDictionaryValueTypeTriples(
                     consume_triple = { s, p, o ->
-                        val ss = reverseDict[s]
-                        val pp = reverseDict[p]
-                        val oo = reverseDict[o]
-                        println("InputToIntermediate triple $ss $pp $oo")
                         outTriples.write(s, p, o)
                         cnt++
                         if (cnt % 10000L == 0L) {
@@ -257,11 +252,7 @@ public object InputToIntermediate {
                     kpFileLoc = inputFileName,
                 )
                 parserObject.convertByteArrayWrapperToID = {
-                    val res = addToDict(it)
-                    val input = DictionaryHelper.byteArrayToSparql(it)
-                    reverseDict[res] = input
-                    println("InputToIntermediate dict $input -> $res")
-                    res
+ addToDict(it)
                 }
                 try {
                     parserObject.initializeCache()
