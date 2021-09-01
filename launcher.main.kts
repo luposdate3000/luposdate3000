@@ -221,6 +221,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             }
                         }
                     }
+line.startsWith("useKTLint=") -> {
+                        currentArgs.useKTLint = line.substring("useKTLint=".length).toBoolean()
+                    }
                     else -> {
                         throw Exception("unknown value")
                     }

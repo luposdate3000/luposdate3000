@@ -105,6 +105,7 @@ class CreateModuleArgs() {
     var dependenciesJvm: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
+var useKTLint=true
     var disableJS = false
     var disableJSNode = false
     var disableJSBrowser = false
@@ -146,6 +147,7 @@ class CreateModuleArgs() {
         res.codegenKAPT = codegenKAPT
         res.codegenKSP = codegenKSP
         res.args = args
+res.useKTLint=useKTLint
         return res
     }
 
@@ -419,7 +421,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
                 out.println("plugins {")
                 if (!onWindows) {
+if(moduleArgs.useKTLint){
                     out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
+}
                 }
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
                 if (moduleArgs.codegenKAPT) {
@@ -648,8 +652,10 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
                 out.println("tasks.register(\"luposSetup\") {")
                 if (!onWindows) {
+if(moduleArgs.useKTLint){
                     out.println("    dependsOn(\"ktlintFormat\")")
                 }
+}
                 out.println("    fun fixPathNames(s: String): String {")
                 out.println("        var res = s.trim()")
                 out.println("        var back = \"\"")
@@ -728,6 +734,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("tasks.named(\"build\") {")
                 out.println("}")
                 if (!onWindows) {
+if(moduleArgs.useKTLint){
                     out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
                     out.println("    enableExperimentalRules.set(true)")
                     out.println("    ignoreFailures.set(true)")
@@ -736,6 +743,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    }")
                     out.println("}")
                 }
+}
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
