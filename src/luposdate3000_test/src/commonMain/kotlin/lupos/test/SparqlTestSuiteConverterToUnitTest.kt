@@ -38,6 +38,9 @@ without minify mode only the passing tests will be added
     internal var counter = 0
 
     @JvmField
+    internal var funcCounter = 0
+
+    @JvmField
     internal var lastFile: String = ""
 
     internal val folderCount = 20
@@ -142,6 +145,9 @@ without minify mode only the passing tests will be added
 
         if (services != null && services.isNotEmpty()) {
             return false
+        }
+        if (minifyMode && funcCounter> 5000) {
+            return true
         }
         var inputFile = inputDataFileName
         if (inputFile == "#keep-data#") {
@@ -484,6 +490,7 @@ without minify mode only the passing tests will be added
         val postfix = fileBufferPostfix.toString()
         if (fileModeMany) {
             for ((testname, fileBufferTest) in fileBufferTests) {
+                funcCounter++
                 val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
                 File("${outputFolderTestJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
                     val content = fileBufferTest.toString()
@@ -496,6 +503,7 @@ without minify mode only the passing tests will be added
             File("${outputFolderTestJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
                 out.print(prefix)
                 for ((testname, fileBufferTest) in fileBufferTests) {
+                    funcCounter++
                     val content = fileBufferTest.toString()
                     out.print(content)
                 }
