@@ -1,8 +1,0 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="person"/>
-  <variable name="name"/>
- </head>
- <results/>
-</sparql>
-
