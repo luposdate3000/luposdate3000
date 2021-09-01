@@ -431,7 +431,6 @@ without minify mode only the passing tests will be added
                 }
             }
         }
-        var firstHelper = true
         val str = distributedTest.toString()
         if (str.isNotEmpty()) {
             for (LUPOS_PARTITION_MODE in EPartitionModeExt.names) {
@@ -469,29 +468,28 @@ without minify mode only the passing tests will be added
                             fileBufferTest.println("            )")
                             fileBufferTest.println("        )")
                             fileBufferTest.println("    }")
-                            if (fileModeMany || firstHelper) {
-                                firstHelper = false
-                                fileBufferTest.println("    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {")
-                                fileBufferTest.println("        val simRun = SimulationRun()")
-                                fileBufferTest.println("        val config=simRun.parseConfig(fileName,false)")
-                                fileBufferTest.println("        config.jsonObjects.database.putAll(cfg)")
-                                fileBufferTest.println("        simRun.sim = Simulation(config.getEntities())")
-                                fileBufferTest.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
-                                fileBufferTest.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
-                                fileBufferTest.println("        simRun.sim.startUp()")
-                                fileBufferTest.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance")
-                                fileBufferTest.print(str)
-                                fileBufferTest.println("        config.querySenders[0].queryPck = pkg0")
-                                fileBufferTest.println("        simRun.sim.run()")
-                                fileBufferTest.println("        simRun.sim.shutDown()")
-                                fileBufferTest.print(distributedTestAtEnd.toString())
-                                fileBufferTest.println("    }")
-                            }
                         }
                     }
                 }
             }
         }
+        val fileBufferSimulator = MyPrintWriter(true)
+fileBufferSimulator.println("    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {")
+                                fileBufferSimulator.println("        val simRun = SimulationRun()")
+                                fileBufferSimulator.println("        val config=simRun.parseConfig(fileName,false)")
+                                fileBufferSimulator.println("        config.jsonObjects.database.putAll(cfg)")
+                                fileBufferSimulator.println("        simRun.sim = Simulation(config.getEntities())")
+                                fileBufferSimulator.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
+                                fileBufferSimulator.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
+                                fileBufferSimulator.println("        simRun.sim.startUp()")
+                                fileBufferSimulator.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance")
+                                fileBufferSimulator.print(str)
+                                fileBufferSimulator.println("        config.querySenders[0].queryPck = pkg0")
+                                fileBufferSimulator.println("        simRun.sim.run()")
+                                fileBufferSimulator.println("        simRun.sim.shutDown()")
+                                fileBufferSimulator.print(distributedTestAtEnd.toString())
+                                fileBufferSimulator.println("    }")
+val stringBufferSimulator=fileBufferSimulator.toString()
         fileBufferPostfix.println("}")
         if (!minifyMode || funcCounter < 5000) {
             val prefix = fileBufferPrefix.toString()
@@ -509,23 +507,37 @@ without minify mode only the passing tests will be added
                             funcCounter++
                             val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
                             File("${outputFolderTestJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
+var stringBufferSimulatorRequired=false
+if(finalClassName.contains(" - in simulator - ")){
+stringBufferSimulatorRequired=true
+}
                                 val content = fileBufferTest.toString()
                                 out.print(prefix.replace("class $testCaseName", "class $finalClassName"))
                                 out.print(content)
+if(stringBufferSimulatorRequired){
+out.print(stringBufferSimulator)
+}
                                 out.print(postfix)
                             }
                         }
                     }
                 } else {
                     File("${outputFolderTestJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
+var stringBufferSimulatorRequired=false
                         out.print(prefix)
                         for ((testname, fileBufferTest) in fileBufferTests) {
                             if (shouldAddFunction(testname)) {
+if(finalClassName.contains(" - in simulator - ")){
+stringBufferSimulatorRequired=true
+}
                                 funcCounter++
                                 val content = fileBufferTest.toString()
                                 out.print(content)
                             }
                         }
+if(stringBufferSimulatorRequired){ 
+out.print(stringBufferSimulator)
+}
                         out.print(postfix)
                     }
                 }
