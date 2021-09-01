@@ -1,7 +1,128 @@
+ABS - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+ABS - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+ABS - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+ABS - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+ABS - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+ABS - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+ABS - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+ABS - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+ABS - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+ABS - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+ABS - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+ABS - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+ABS - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+ABS - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+ABS - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+ABS - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+ABS - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+ABS - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+ABS - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+ABS - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+ABS - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+ABS - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+ABS - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+ABS - in simulator - Simple - Centralized - false - None
+ABS - in simulator - Simple - Centralized - false - Thread
+ABS - in simulator - Simple - Centralized - true - None
+ABS - in simulator - Simple - Centralized - true - Thread
+ABS - None - PartitionByID_1_AllCollations - false
+ABS - None - PartitionByID_1_AllCollations - true
+ABS - None - PartitionByID_2_AllCollations - false
+ABS - None - PartitionByID_2_AllCollations - true
+ABS - None - PartitionByID_O_AllCollations - false
+ABS - None - PartitionByID_O_AllCollations - true
+ABS - None - PartitionByID_S_AllCollations - false
+ABS - None - PartitionByID_S_AllCollations - true
+ABS - None - PartitionByIDTwiceAllCollations - false
 ABS - None - PartitionByIDTwiceAllCollations - true
+ABS - None - PartitionByKeyAllCollations - false
+ABS - None - PartitionByKeyAllCollations - true
+ABS - None - Simple - false
+ABS - None - Simple - true
+ABS - Thread - Simple - false
+ABS - Thread - Simple - true
+ADD 1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+ADD 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+ADD 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+ADD 1 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+ADD 1 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+ADD 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+ADD 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+ADD 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+ADD 1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+ADD 1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+ADD 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+ADD 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+ADD 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+ADD 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+ADD 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+ADD 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+ADD 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+ADD 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+ADD 1 - in simulator - Simple - Centralized - false - None
+ADD 1 - in simulator - Simple - Centralized - false - Thread
+ADD 1 - in simulator - Simple - Centralized - true - None
+ADD 1 - in simulator - Simple - Centralized - true - Thread
+ADD 1 - None - PartitionByID_1_AllCollations - false
+ADD 1 - None - PartitionByID_1_AllCollations - true
+ADD 1 - None - PartitionByID_2_AllCollations - false
+ADD 1 - None - PartitionByID_2_AllCollations - true
+ADD 1 - None - PartitionByID_O_AllCollations - false
+ADD 1 - None - PartitionByID_O_AllCollations - true
+ADD 1 - None - PartitionByID_S_AllCollations - false
+ADD 1 - None - PartitionByID_S_AllCollations - true
+ADD 1 - None - PartitionByIDTwiceAllCollations - false
 ADD 1 - None - PartitionByIDTwiceAllCollations - true
+ADD 1 - None - PartitionByKeyAllCollations - false
+ADD 1 - None - PartitionByKeyAllCollations - true
+ADD 1 - None - Simple - false
+ADD 1 - None - Simple - true
+ADD 1 - Thread - Simple - false
+ADD 1 - Thread - Simple - true
+ADD 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+ADD 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+ADD 2 - in simulator - Simple - Centralized - false - Thread
+ADD 2 - in simulator - Simple - Centralized - true - Thread
+ADD 2 - None - PartitionByID_1_AllCollations - false
+ADD 2 - None - PartitionByID_1_AllCollations - true
+ADD 2 - None - PartitionByID_2_AllCollations - false
+ADD 2 - None - PartitionByID_2_AllCollations - true
+ADD 2 - None - PartitionByID_O_AllCollations - false
+ADD 2 - None - PartitionByID_O_AllCollations - true
+ADD 2 - None - PartitionByID_S_AllCollations - false
+ADD 2 - None - PartitionByID_S_AllCollations - true
+ADD 2 - None - PartitionByIDTwiceAllCollations - false
 ADD 2 - None - PartitionByIDTwiceAllCollations - true
+ADD 2 - None - PartitionByKeyAllCollations - false
+ADD 2 - None - PartitionByKeyAllCollations - true
+ADD 2 - None - Simple - false
+ADD 2 - None - Simple - true
+ADD 2 - Thread - Simple - false
+ADD 2 - Thread - Simple - true
+ADD 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+ADD 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+ADD 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+ADD 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+ADD 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+ADD 3 - in simulator - Simple - Centralized - false - None
+ADD 3 - in simulator - Simple - Centralized - false - Thread
+ADD 3 - in simulator - Simple - Centralized - true - Thread
+ADD 3 - None - PartitionByID_1_AllCollations - false
+ADD 3 - None - PartitionByID_1_AllCollations - true
+ADD 3 - None - PartitionByID_2_AllCollations - false
+ADD 3 - None - PartitionByID_2_AllCollations - true
+ADD 3 - None - PartitionByID_O_AllCollations - false
+ADD 3 - None - PartitionByID_O_AllCollations - true
+ADD 3 - None - PartitionByID_S_AllCollations - false
+ADD 3 - None - PartitionByID_S_AllCollations - true
+ADD 3 - None - PartitionByIDTwiceAllCollations - false
 ADD 3 - None - PartitionByIDTwiceAllCollations - true
+ADD 3 - None - PartitionByKeyAllCollations - false
+ADD 3 - None - PartitionByKeyAllCollations - true
+ADD 3 - None - Simple - false
+ADD 3 - None - Simple - true
+ADD 3 - Thread - Simple - false
+ADD 3 - Thread - Simple - true
 ADD 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 ADD 4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
 ADD 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
@@ -24,6 +145,7 @@ ADD 4 - None - Simple - true
 ADD 4 - Thread - Simple - false
 ADD 4 - Thread - Simple - true
 ADD 6 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+ADD 6 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 ADD 6 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 ADD 6 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 ADD 6 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
@@ -97,6 +219,35 @@ ADD 7 - None - Simple - false
 ADD 7 - None - Simple - true
 ADD 7 - Thread - Simple - false
 ADD 7 - Thread - Simple - true
+ADD 8 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+ADD 8 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+ADD 8 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+ADD 8 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+ADD 8 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+ADD 8 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+ADD 8 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+ADD 8 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+ADD 8 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+ADD 8 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+ADD 8 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+ADD 8 - in simulator - Simple - Centralized - false - Thread
+ADD 8 - in simulator - Simple - Centralized - true - Thread
+ADD 8 - None - PartitionByID_1_AllCollations - false
+ADD 8 - None - PartitionByID_1_AllCollations - true
+ADD 8 - None - PartitionByID_2_AllCollations - false
+ADD 8 - None - PartitionByID_2_AllCollations - true
+ADD 8 - None - PartitionByID_O_AllCollations - false
+ADD 8 - None - PartitionByID_O_AllCollations - true
+ADD 8 - None - PartitionByID_S_AllCollations - false
+ADD 8 - None - PartitionByID_S_AllCollations - true
+ADD 8 - None - PartitionByIDTwiceAllCollations - false
+ADD 8 - None - PartitionByIDTwiceAllCollations - true
+ADD 8 - None - PartitionByKeyAllCollations - false
+ADD 8 - None - PartitionByKeyAllCollations - true
+ADD 8 - None - Simple - false
+ADD 8 - None - Simple - true
+ADD 8 - Thread - Simple - false
+ADD 8 - Thread - Simple - true
 ADD SILENT - None - PartitionByIDTwiceAllCollations - true
 ADD SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true
 after comparing occurrenceTime, sequenceNumber is compared
@@ -120,7 +271,22 @@ agg empty group - in simulator - Simple - Centralized - false - None
 agg empty group - in simulator - Simple - Centralized - false - Thread
 agg empty group - in simulator - Simple - Centralized - true - None
 agg empty group - in simulator - Simple - Centralized - true - Thread
+agg empty group - None - PartitionByID_1_AllCollations - false
+agg empty group - None - PartitionByID_1_AllCollations - true
+agg empty group - None - PartitionByID_2_AllCollations - false
+agg empty group - None - PartitionByID_2_AllCollations - true
+agg empty group - None - PartitionByID_O_AllCollations - false
+agg empty group - None - PartitionByID_O_AllCollations - true
+agg empty group - None - PartitionByID_S_AllCollations - false
+agg empty group - None - PartitionByID_S_AllCollations - true
+agg empty group - None - PartitionByIDTwiceAllCollations - false
 agg empty group - None - PartitionByIDTwiceAllCollations - true
+agg empty group - None - PartitionByKeyAllCollations - false
+agg empty group - None - PartitionByKeyAllCollations - true
+agg empty group - None - Simple - false
+agg empty group - None - Simple - true
+agg empty group - Thread - Simple - false
+agg empty group - Thread - Simple - true
 all entities are called at the beginning
 all entities are called at the end
 An entity responds to an event with an event
@@ -165,8 +331,90 @@ bind01  BIND - None - Simple - false
 bind01  BIND - None - Simple - true
 bind01  BIND - Thread - Simple - false
 bind01  BIND - Thread - Simple - true
+bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+bind02  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+bind02  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+bind02  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+bind02  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+bind02  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+bind02  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+bind02  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+bind02  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+bind02  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+bind02  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+bind02  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+bind02  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+bind02  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+bind02  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+bind02  BIND - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bind02  BIND - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+bind02  BIND - in simulator - Simple - Centralized - false - None
+bind02  BIND - in simulator - Simple - Centralized - false - Thread
+bind02  BIND - in simulator - Simple - Centralized - true - None
+bind02  BIND - in simulator - Simple - Centralized - true - Thread
+bind02  BIND - None - PartitionByID_1_AllCollations - false
+bind02  BIND - None - PartitionByID_1_AllCollations - true
+bind02  BIND - None - PartitionByID_2_AllCollations - false
+bind02  BIND - None - PartitionByID_2_AllCollations - true
+bind02  BIND - None - PartitionByID_O_AllCollations - false
+bind02  BIND - None - PartitionByID_O_AllCollations - true
+bind02  BIND - None - PartitionByID_S_AllCollations - false
+bind02  BIND - None - PartitionByID_S_AllCollations - true
+bind02  BIND - None - PartitionByIDTwiceAllCollations - false
 bind02  BIND - None - PartitionByIDTwiceAllCollations - true
+bind02  BIND - None - PartitionByKeyAllCollations - false
+bind02  BIND - None - PartitionByKeyAllCollations - true
+bind02  BIND - None - Simple - false
+bind02  BIND - None - Simple - true
+bind02  BIND - Thread - Simple - false
+bind02  BIND - Thread - Simple - true
+bind03  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+bind03  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+bind03  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+bind03  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+bind03  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+bind03  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+bind03  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+bind03  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+bind03  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+bind03  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+bind03  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+bind03  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+bind03  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+bind03  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+bind03  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+bind03  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+bind03  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+bind03  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+bind03  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+bind03  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+bind03  BIND - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bind03  BIND - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+bind03  BIND - in simulator - Simple - Centralized - false - None
+bind03  BIND - in simulator - Simple - Centralized - false - Thread
+bind03  BIND - in simulator - Simple - Centralized - true - None
+bind03  BIND - in simulator - Simple - Centralized - true - Thread
+bind03  BIND - None - PartitionByID_1_AllCollations - false
+bind03  BIND - None - PartitionByID_1_AllCollations - true
+bind03  BIND - None - PartitionByID_2_AllCollations - false
+bind03  BIND - None - PartitionByID_2_AllCollations - true
+bind03  BIND - None - PartitionByID_O_AllCollations - false
+bind03  BIND - None - PartitionByID_O_AllCollations - true
+bind03  BIND - None - PartitionByID_S_AllCollations - false
+bind03  BIND - None - PartitionByID_S_AllCollations - true
+bind03  BIND - None - PartitionByIDTwiceAllCollations - false
 bind03  BIND - None - PartitionByIDTwiceAllCollations - true
+bind03  BIND - None - PartitionByKeyAllCollations - false
+bind03  BIND - None - PartitionByKeyAllCollations - true
+bind03  BIND - None - Simple - false
+bind03  BIND - None - Simple - true
+bind03  BIND - Thread - Simple - false
+bind03  BIND - Thread - Simple - true
 bind04  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind04  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 bind04  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
@@ -249,10 +497,123 @@ bind05  BIND - None - Simple - false
 bind05  BIND - None - Simple - true
 bind05  BIND - Thread - Simple - false
 bind05  BIND - Thread - Simple - true
+bind06  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+bind06  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+bind06  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+bind06  BIND - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bind06  BIND - None - PartitionByID_1_AllCollations - false
+bind06  BIND - None - PartitionByID_1_AllCollations - true
+bind06  BIND - None - PartitionByID_2_AllCollations - false
+bind06  BIND - None - PartitionByID_2_AllCollations - true
+bind06  BIND - None - PartitionByID_O_AllCollations - false
+bind06  BIND - None - PartitionByID_O_AllCollations - true
+bind06  BIND - None - PartitionByID_S_AllCollations - false
+bind06  BIND - None - PartitionByID_S_AllCollations - true
+bind06  BIND - None - PartitionByIDTwiceAllCollations - false
 bind06  BIND - None - PartitionByIDTwiceAllCollations - true
+bind06  BIND - None - PartitionByKeyAllCollations - false
+bind06  BIND - None - PartitionByKeyAllCollations - true
+bind06  BIND - None - Simple - false
+bind06  BIND - None - Simple - true
+bind06  BIND - Thread - Simple - false
+bind06  BIND - Thread - Simple - true
+bind07  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+bind07  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+bind07  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+bind07  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+bind07  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+bind07  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+bind07  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+bind07  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+bind07  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+bind07  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+bind07  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+bind07  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+bind07  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+bind07  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+bind07  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+bind07  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+bind07  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+bind07  BIND - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bind07  BIND - in simulator - Simple - Centralized - false - None
+bind07  BIND - in simulator - Simple - Centralized - true - None
+bind07  BIND - None - PartitionByID_1_AllCollations - false
+bind07  BIND - None - PartitionByID_1_AllCollations - true
+bind07  BIND - None - PartitionByID_2_AllCollations - false
+bind07  BIND - None - PartitionByID_2_AllCollations - true
+bind07  BIND - None - PartitionByID_O_AllCollations - false
+bind07  BIND - None - PartitionByID_O_AllCollations - true
+bind07  BIND - None - PartitionByID_S_AllCollations - false
+bind07  BIND - None - PartitionByID_S_AllCollations - true
+bind07  BIND - None - PartitionByIDTwiceAllCollations - false
 bind07  BIND - None - PartitionByIDTwiceAllCollations - true
+bind07  BIND - None - PartitionByKeyAllCollations - false
+bind07  BIND - None - PartitionByKeyAllCollations - true
+bind07  BIND - None - Simple - false
+bind07  BIND - None - Simple - true
+bind07  BIND - Thread - Simple - false
+bind07  BIND - Thread - Simple - true
+bind08  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+bind08  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+bind08  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+bind08  BIND - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+bind08  BIND - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+bind08  BIND - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+bind08  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+bind08  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+bind08  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+bind08  BIND - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+bind08  BIND - in simulator - Simple - Centralized - false - None
+bind08  BIND - in simulator - Simple - Centralized - true - Thread
+bind08  BIND - None - PartitionByID_1_AllCollations - false
+bind08  BIND - None - PartitionByID_1_AllCollations - true
+bind08  BIND - None - PartitionByID_2_AllCollations - false
+bind08  BIND - None - PartitionByID_2_AllCollations - true
+bind08  BIND - None - PartitionByID_O_AllCollations - false
+bind08  BIND - None - PartitionByID_O_AllCollations - true
+bind08  BIND - None - PartitionByID_S_AllCollations - false
+bind08  BIND - None - PartitionByID_S_AllCollations - true
+bind08  BIND - None - PartitionByIDTwiceAllCollations - false
 bind08  BIND - None - PartitionByIDTwiceAllCollations - true
+bind08  BIND - None - PartitionByKeyAllCollations - false
+bind08  BIND - None - PartitionByKeyAllCollations - true
+bind08  BIND - None - Simple - false
+bind08  BIND - None - Simple - true
+bind08  BIND - Thread - Simple - false
+bind08  BIND - Thread - Simple - true
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - Simple - Centralized - false - Thread
+bind10  BIND scoping  Variable in filter not in scope - in simulator - Simple - Centralized - true - None
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_1_AllCollations - false
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_1_AllCollations - true
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_2_AllCollations - false
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_2_AllCollations - true
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_O_AllCollations - false
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_O_AllCollations - true
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_S_AllCollations - false
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByID_S_AllCollations - true
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByIDTwiceAllCollations - false
 bind10  BIND scoping  Variable in filter not in scope - None - PartitionByIDTwiceAllCollations - true
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByKeyAllCollations - false
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByKeyAllCollations - true
+bind10  BIND scoping  Variable in filter not in scope - None - Simple - false
+bind10  BIND scoping  Variable in filter not in scope - None - Simple - true
+bind10  BIND scoping  Variable in filter not in scope - Thread - Simple - false
+bind10  BIND scoping  Variable in filter not in scope - Thread - Simple - true
 bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
@@ -290,8 +651,78 @@ bind11  BIND scoping  Variable in filter in scope - None - Simple - false
 bind11  BIND scoping  Variable in filter in scope - None - Simple - true
 bind11  BIND scoping  Variable in filter in scope - Thread - Simple - false
 bind11  BIND scoping  Variable in filter in scope - Thread - Simple - true
+bnodes are not existentials - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+bnodes are not existentials - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+bnodes are not existentials - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+bnodes are not existentials - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+bnodes are not existentials - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+bnodes are not existentials - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+bnodes are not existentials - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+bnodes are not existentials - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+bnodes are not existentials - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+bnodes are not existentials - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+bnodes are not existentials - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+bnodes are not existentials - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+bnodes are not existentials - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+bnodes are not existentials - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+bnodes are not existentials - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+bnodes are not existentials - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+bnodes are not existentials - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+bnodes are not existentials - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bnodes are not existentials - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+bnodes are not existentials - in simulator - Simple - Centralized - false - None
+bnodes are not existentials - in simulator - Simple - Centralized - false - Thread
+bnodes are not existentials - in simulator - Simple - Centralized - true - None
+bnodes are not existentials - in simulator - Simple - Centralized - true - Thread
+bnodes are not existentials - None - PartitionByID_1_AllCollations - false
+bnodes are not existentials - None - PartitionByID_1_AllCollations - true
+bnodes are not existentials - None - PartitionByID_2_AllCollations - false
+bnodes are not existentials - None - PartitionByID_2_AllCollations - true
+bnodes are not existentials - None - PartitionByID_O_AllCollations - false
+bnodes are not existentials - None - PartitionByID_O_AllCollations - true
+bnodes are not existentials - None - PartitionByID_S_AllCollations - false
+bnodes are not existentials - None - PartitionByID_S_AllCollations - true
+bnodes are not existentials - None - PartitionByIDTwiceAllCollations - false
 bnodes are not existentials - None - PartitionByIDTwiceAllCollations - true
+bnodes are not existentials - None - PartitionByKeyAllCollations - false
+bnodes are not existentials - None - PartitionByKeyAllCollations - true
+bnodes are not existentials - None - Simple - false
+bnodes are not existentials - None - Simple - true
+bnodes are not existentials - Thread - Simple - false
+bnodes are not existentials - Thread - Simple - true
+bnodes are not existentials with answer - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+bnodes are not existentials with answer - in simulator - Simple - Centralized - false - None
+bnodes are not existentials with answer - in simulator - Simple - Centralized - false - Thread
+bnodes are not existentials with answer - in simulator - Simple - Centralized - true - None
+bnodes are not existentials with answer - in simulator - Simple - Centralized - true - Thread
+BNODEstr - None - PartitionByID_1_AllCollations - false
+BNODEstr - None - PartitionByID_1_AllCollations - true
+BNODEstr - None - PartitionByID_2_AllCollations - false
+BNODEstr - None - PartitionByID_2_AllCollations - true
+BNODEstr - None - PartitionByID_O_AllCollations - false
+BNODEstr - None - PartitionByID_O_AllCollations - true
+BNODEstr - None - PartitionByID_S_AllCollations - false
+BNODEstr - None - PartitionByID_S_AllCollations - true
+BNODEstr - None - PartitionByIDTwiceAllCollations - false
 BNODEstr - None - PartitionByIDTwiceAllCollations - true
+BNODEstr - None - PartitionByKeyAllCollations - false
+BNODEstr - None - PartitionByKeyAllCollations - true
+BNODEstr - None - Simple - false
+BNODEstr - None - Simple - true
+BNODEstr - Thread - Simple - false
+BNODEstr - Thread - Simple - true
 campusCentralCase_getAllParkingAreas
 campusCentralCase_getAllSpacesOfParkingArea
 campusCentralCase_getAllTriples
@@ -314,12 +745,105 @@ campusDistributedCase_getNumberOfParkingAreas
 campusDistributedCase_getSampleNumberOfSensor
 campusDistributedCaseWithoutQuery
 cannotLinkWithItself
+CEIL - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+CEIL - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+CEIL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+CEIL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+CEIL - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+CEIL - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+CEIL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+CEIL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+CEIL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+CEIL - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+CEIL - in simulator - Simple - Centralized - false - None
+CEIL - in simulator - Simple - Centralized - false - Thread
+CEIL - in simulator - Simple - Centralized - true - None
+CEIL - None - PartitionByID_1_AllCollations - false
+CEIL - None - PartitionByID_1_AllCollations - true
+CEIL - None - PartitionByID_2_AllCollations - false
+CEIL - None - PartitionByID_2_AllCollations - true
+CEIL - None - PartitionByID_O_AllCollations - false
+CEIL - None - PartitionByID_O_AllCollations - true
+CEIL - None - PartitionByID_S_AllCollations - false
+CEIL - None - PartitionByID_S_AllCollations - true
+CEIL - None - PartitionByIDTwiceAllCollations - false
 CEIL - None - PartitionByIDTwiceAllCollations - true
+CEIL - None - PartitionByKeyAllCollations - false
+CEIL - None - PartitionByKeyAllCollations - true
+CEIL - None - Simple - false
+CEIL - None - Simple - true
+CEIL - Thread - Simple - false
+CEIL - Thread - Simple - true
 change seed
 check default end time
 checkLinksInStarNetwork
+CLEAR ALL - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+CLEAR ALL - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+CLEAR ALL - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+CLEAR ALL - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+CLEAR ALL - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+CLEAR ALL - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+CLEAR ALL - in simulator - Simple - Centralized - false - None
+CLEAR ALL - in simulator - Simple - Centralized - true - None
+CLEAR ALL - None - PartitionByID_1_AllCollations - false
+CLEAR ALL - None - PartitionByID_1_AllCollations - true
+CLEAR ALL - None - PartitionByID_2_AllCollations - false
+CLEAR ALL - None - PartitionByID_2_AllCollations - true
+CLEAR ALL - None - PartitionByID_O_AllCollations - false
+CLEAR ALL - None - PartitionByID_O_AllCollations - true
+CLEAR ALL - None - PartitionByID_S_AllCollations - false
+CLEAR ALL - None - PartitionByID_S_AllCollations - true
+CLEAR ALL - None - PartitionByIDTwiceAllCollations - false
 CLEAR ALL - None - PartitionByIDTwiceAllCollations - true
+CLEAR ALL - None - PartitionByKeyAllCollations - false
+CLEAR ALL - None - PartitionByKeyAllCollations - true
+CLEAR ALL - None - Simple - false
+CLEAR ALL - None - Simple - true
+CLEAR ALL - Thread - Simple - false
+CLEAR ALL - Thread - Simple - true
+CLEAR DEFAULT - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+CLEAR DEFAULT - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+CLEAR DEFAULT - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+CLEAR DEFAULT - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+CLEAR DEFAULT - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+CLEAR DEFAULT - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+CLEAR DEFAULT - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+CLEAR DEFAULT - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+CLEAR DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+CLEAR DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+CLEAR DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+CLEAR DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+CLEAR DEFAULT - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+CLEAR DEFAULT - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+CLEAR DEFAULT - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+CLEAR DEFAULT - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+CLEAR DEFAULT - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+CLEAR DEFAULT - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+CLEAR DEFAULT - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+CLEAR DEFAULT - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+CLEAR DEFAULT - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+CLEAR DEFAULT - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+CLEAR DEFAULT - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+CLEAR DEFAULT - in simulator - Simple - Centralized - false - None
+CLEAR DEFAULT - in simulator - Simple - Centralized - false - Thread
+CLEAR DEFAULT - in simulator - Simple - Centralized - true - None
+CLEAR DEFAULT - in simulator - Simple - Centralized - true - Thread
+CLEAR DEFAULT - None - PartitionByID_1_AllCollations - false
+CLEAR DEFAULT - None - PartitionByID_1_AllCollations - true
+CLEAR DEFAULT - None - PartitionByID_2_AllCollations - false
+CLEAR DEFAULT - None - PartitionByID_2_AllCollations - true
+CLEAR DEFAULT - None - PartitionByID_O_AllCollations - false
+CLEAR DEFAULT - None - PartitionByID_O_AllCollations - true
+CLEAR DEFAULT - None - PartitionByID_S_AllCollations - false
+CLEAR DEFAULT - None - PartitionByID_S_AllCollations - true
+CLEAR DEFAULT - None - PartitionByIDTwiceAllCollations - false
 CLEAR DEFAULT - None - PartitionByIDTwiceAllCollations - true
+CLEAR DEFAULT - None - PartitionByKeyAllCollations - false
+CLEAR DEFAULT - None - PartitionByKeyAllCollations - true
+CLEAR DEFAULT - None - Simple - false
+CLEAR DEFAULT - None - Simple - true
+CLEAR DEFAULT - Thread - Simple - false
+CLEAR DEFAULT - Thread - Simple - true
 CLEAR GRAPH - None - PartitionByID_1_AllCollations - false
 CLEAR GRAPH - None - PartitionByID_1_AllCollations - true
 CLEAR GRAPH - None - PartitionByID_2_AllCollations - false
@@ -426,10 +950,131 @@ constructwhere02  CONSTRUCT WHERE - None - Simple - false
 constructwhere02  CONSTRUCT WHERE - None - Simple - true
 constructwhere02  CONSTRUCT WHERE - Thread - Simple - false
 constructwhere02  CONSTRUCT WHERE - Thread - Simple - true
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+constructwhere03  CONSTRUCT WHERE - in simulator - Simple - Centralized - false - None
+constructwhere03  CONSTRUCT WHERE - in simulator - Simple - Centralized - true - None
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_1_AllCollations - false
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_1_AllCollations - true
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_2_AllCollations - false
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_2_AllCollations - true
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_O_AllCollations - false
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_O_AllCollations - true
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_S_AllCollations - false
+constructwhere03  CONSTRUCT WHERE - None - PartitionByID_S_AllCollations - true
+constructwhere03  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - false
 constructwhere03  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - true
+constructwhere03  CONSTRUCT WHERE - None - PartitionByKeyAllCollations - false
+constructwhere03  CONSTRUCT WHERE - None - PartitionByKeyAllCollations - true
+constructwhere03  CONSTRUCT WHERE - None - Simple - false
+constructwhere03  CONSTRUCT WHERE - None - Simple - true
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_1_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_1_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_2_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_2_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_O_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_O_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_S_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - None - PartitionByID_S_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - false
 constructwhere05  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - true
+constructwhere05  CONSTRUCT WHERE - None - PartitionByKeyAllCollations - false
+constructwhere05  CONSTRUCT WHERE - None - PartitionByKeyAllCollations - true
+constructwhere05  CONSTRUCT WHERE - None - Simple - false
+constructwhere05  CONSTRUCT WHERE - None - Simple - true
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - true
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - false
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false
+constructwhere05  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - true
+constructwhere05  CONSTRUCT WHERE - Thread - Simple - false
+constructwhere05  CONSTRUCT WHERE - Thread - Simple - true
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_1_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_1_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_2_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_2_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_O_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_O_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_S_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - None - PartitionByID_S_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - false
 constructwhere06  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - true
+constructwhere06  CONSTRUCT WHERE - None - PartitionByKeyAllCollations - false
+constructwhere06  CONSTRUCT WHERE - None - PartitionByKeyAllCollations - true
+constructwhere06  CONSTRUCT WHERE - None - Simple - false
+constructwhere06  CONSTRUCT WHERE - None - Simple - true
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - true
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - false
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false
+constructwhere06  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - true
+constructwhere06  CONSTRUCT WHERE - Thread - Simple - false
+constructwhere06  CONSTRUCT WHERE - Thread - Simple - true
+CONTAINS - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+CONTAINS - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+CONTAINS - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+CONTAINS - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+CONTAINS - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+CONTAINS - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+CONTAINS - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+CONTAINS - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+CONTAINS - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+CONTAINS - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+CONTAINS - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+CONTAINS - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+CONTAINS - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+CONTAINS - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+CONTAINS - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+CONTAINS - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+CONTAINS - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+CONTAINS - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+CONTAINS - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+CONTAINS - in simulator - Simple - Centralized - false - None
+CONTAINS - in simulator - Simple - Centralized - false - Thread
+CONTAINS - in simulator - Simple - Centralized - true - None
+CONTAINS - in simulator - Simple - Centralized - true - Thread
+CONTAINS - None - PartitionByID_1_AllCollations - false
+CONTAINS - None - PartitionByID_1_AllCollations - true
+CONTAINS - None - PartitionByID_2_AllCollations - false
+CONTAINS - None - PartitionByID_2_AllCollations - true
+CONTAINS - None - PartitionByID_O_AllCollations - false
+CONTAINS - None - PartitionByID_O_AllCollations - true
+CONTAINS - None - PartitionByID_S_AllCollations - false
+CONTAINS - None - PartitionByID_S_AllCollations - true
+CONTAINS - None - PartitionByIDTwiceAllCollations - false
 CONTAINS - None - PartitionByIDTwiceAllCollations - true
+CONTAINS - None - PartitionByKeyAllCollations - false
+CONTAINS - None - PartitionByKeyAllCollations - true
+CONTAINS - None - Simple - false
+CONTAINS - None - Simple - true
+CONTAINS - Thread - Simple - false
+CONTAINS - Thread - Simple - true
 COPY 1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 COPY 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 COPY 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
@@ -473,12 +1118,141 @@ COPY 1 - None - Simple - false
 COPY 1 - None - Simple - true
 COPY 1 - Thread - Simple - false
 COPY 1 - Thread - Simple - true
+COPY 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+COPY 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+COPY 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+COPY 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+COPY 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+COPY 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+COPY 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+COPY 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+COPY 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+COPY 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+COPY 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+COPY 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+COPY 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+COPY 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+COPY 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+COPY 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+COPY 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+COPY 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+COPY 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+COPY 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+COPY 3 - in simulator - Simple - Centralized - false - None
+COPY 3 - in simulator - Simple - Centralized - false - Thread
+COPY 3 - in simulator - Simple - Centralized - true - None
+COPY 3 - in simulator - Simple - Centralized - true - Thread
+COPY 3 - None - PartitionByID_1_AllCollations - false
+COPY 3 - None - PartitionByID_1_AllCollations - true
+COPY 3 - None - PartitionByID_2_AllCollations - false
+COPY 3 - None - PartitionByID_2_AllCollations - true
+COPY 3 - None - PartitionByID_O_AllCollations - false
+COPY 3 - None - PartitionByID_O_AllCollations - true
+COPY 3 - None - PartitionByID_S_AllCollations - false
+COPY 3 - None - PartitionByID_S_AllCollations - true
+COPY 3 - None - PartitionByIDTwiceAllCollations - false
 COPY 3 - None - PartitionByIDTwiceAllCollations - true
+COPY 3 - None - PartitionByKeyAllCollations - false
+COPY 3 - None - PartitionByKeyAllCollations - true
+COPY 3 - None - Simple - false
+COPY 3 - None - Simple - true
+COPY 3 - Thread - Simple - false
+COPY 3 - Thread - Simple - true
+COPY 6 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+COPY 6 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+COPY 6 - in simulator - Simple - Centralized - false - None
+COPY 6 - None - PartitionByID_1_AllCollations - false
+COPY 6 - None - PartitionByID_1_AllCollations - true
+COPY 6 - None - PartitionByID_2_AllCollations - false
+COPY 6 - None - PartitionByID_2_AllCollations - true
+COPY 6 - None - PartitionByID_O_AllCollations - false
+COPY 6 - None - PartitionByID_O_AllCollations - true
+COPY 6 - None - PartitionByID_S_AllCollations - false
+COPY 6 - None - PartitionByID_S_AllCollations - true
+COPY 6 - None - PartitionByIDTwiceAllCollations - false
 COPY 6 - None - PartitionByIDTwiceAllCollations - true
+COPY 6 - None - PartitionByKeyAllCollations - false
+COPY 6 - None - PartitionByKeyAllCollations - true
+COPY 6 - None - Simple - false
+COPY 6 - None - Simple - true
+COPY 6 - Thread - Simple - false
+COPY 6 - Thread - Simple - true
+COPY 7 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+COPY 7 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+COPY 7 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+COPY 7 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+COPY 7 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+COPY 7 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+COPY 7 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+COPY 7 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+COPY 7 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+COPY 7 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+COPY 7 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+COPY 7 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+COPY 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+COPY 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+COPY 7 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+COPY 7 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+COPY 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+COPY 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+COPY 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+COPY 7 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+COPY 7 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+COPY 7 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+COPY 7 - in simulator - Simple - Centralized - false - None
+COPY 7 - in simulator - Simple - Centralized - false - Thread
+COPY 7 - in simulator - Simple - Centralized - true - None
+COPY 7 - in simulator - Simple - Centralized - true - Thread
+COPY 7 - None - PartitionByID_1_AllCollations - false
+COPY 7 - None - PartitionByID_1_AllCollations - true
+COPY 7 - None - PartitionByID_2_AllCollations - false
+COPY 7 - None - PartitionByID_2_AllCollations - true
+COPY 7 - None - PartitionByID_O_AllCollations - false
+COPY 7 - None - PartitionByID_O_AllCollations - true
+COPY 7 - None - PartitionByID_S_AllCollations - false
+COPY 7 - None - PartitionByID_S_AllCollations - true
+COPY 7 - None - PartitionByIDTwiceAllCollations - false
 COPY 7 - None - PartitionByIDTwiceAllCollations - true
+COPY 7 - None - PartitionByKeyAllCollations - false
+COPY 7 - None - PartitionByKeyAllCollations - true
+COPY 7 - None - Simple - false
+COPY 7 - None - Simple - true
+COPY 7 - Thread - Simple - false
+COPY 7 - Thread - Simple - true
 COPY SILENT - None - PartitionByIDTwiceAllCollations - true
 COPY SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true
+COUNT 12 - None - PartitionByID_1_AllCollations - false
+COUNT 12 - None - PartitionByID_1_AllCollations - true
+COUNT 12 - None - PartitionByID_2_AllCollations - false
+COUNT 12 - None - PartitionByID_2_AllCollations - true
+COUNT 12 - None - PartitionByID_O_AllCollations - false
+COUNT 12 - None - PartitionByID_O_AllCollations - true
+COUNT 12 - None - PartitionByID_S_AllCollations - false
+COUNT 12 - None - PartitionByID_S_AllCollations - true
+COUNT 12 - None - PartitionByIDTwiceAllCollations - false
 COUNT 12 - None - PartitionByIDTwiceAllCollations - true
+COUNT 12 - None - PartitionByKeyAllCollations - false
+COUNT 12 - None - PartitionByKeyAllCollations - true
+COUNT 12 - None - Simple - false
+COUNT 12 - None - Simple - true
+COUNT 12 - Thread - PartitionByID_1_AllCollations - false
+COUNT 12 - Thread - PartitionByID_1_AllCollations - true
+COUNT 12 - Thread - PartitionByID_2_AllCollations - false
+COUNT 12 - Thread - PartitionByID_2_AllCollations - true
+COUNT 12 - Thread - PartitionByID_O_AllCollations - false
+COUNT 12 - Thread - PartitionByID_O_AllCollations - true
+COUNT 12 - Thread - PartitionByID_S_AllCollations - false
+COUNT 12 - Thread - PartitionByID_S_AllCollations - true
+COUNT 12 - Thread - PartitionByIDTwiceAllCollations - false
+COUNT 12 - Thread - PartitionByIDTwiceAllCollations - true
+COUNT 12 - Thread - PartitionByKeyAllCollations - false
+COUNT 12 - Thread - PartitionByKeyAllCollations - true
+COUNT 12 - Thread - Simple - false
+COUNT 12 - Thread - Simple - true
 COUNT 1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 COUNT 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 COUNT 1 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
@@ -515,18 +1289,76 @@ COUNT 1 - None - Simple - false
 COUNT 1 - None - Simple - true
 COUNT 1 - Thread - Simple - false
 COUNT 1 - Thread - Simple - true
+COUNT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+COUNT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 COUNT 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+COUNT 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+COUNT 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+COUNT 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
 COUNT 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+COUNT 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 COUNT 2 - in simulator - Simple - Centralized - false - Thread
 COUNT 2 - in simulator - Simple - Centralized - true - None
+COUNT 2 - None - PartitionByID_1_AllCollations - false
+COUNT 2 - None - PartitionByID_1_AllCollations - true
+COUNT 2 - None - PartitionByID_2_AllCollations - false
 COUNT 2 - None - PartitionByID_2_AllCollations - true
 COUNT 2 - None - PartitionByID_O_AllCollations - false
+COUNT 2 - None - PartitionByID_O_AllCollations - true
+COUNT 2 - None - PartitionByID_S_AllCollations - false
+COUNT 2 - None - PartitionByID_S_AllCollations - true
 COUNT 2 - None - PartitionByIDTwiceAllCollations - false
 COUNT 2 - None - PartitionByIDTwiceAllCollations - true
+COUNT 2 - None - PartitionByKeyAllCollations - false
+COUNT 2 - None - PartitionByKeyAllCollations - true
 COUNT 2 - None - Simple - false
 COUNT 2 - None - Simple - true
+COUNT 2 - Thread - Simple - false
 COUNT 2 - Thread - Simple - true
+COUNT 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+COUNT 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+COUNT 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+COUNT 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+COUNT 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+COUNT 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+COUNT 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+COUNT 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+COUNT 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+COUNT 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+COUNT 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+COUNT 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+COUNT 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+COUNT 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+COUNT 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+COUNT 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+COUNT 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+COUNT 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+COUNT 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+COUNT 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+COUNT 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+COUNT 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+COUNT 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+COUNT 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+COUNT 3 - in simulator - Simple - Centralized - false - None
+COUNT 3 - in simulator - Simple - Centralized - false - Thread
+COUNT 3 - in simulator - Simple - Centralized - true - None
+COUNT 3 - in simulator - Simple - Centralized - true - Thread
+COUNT 3 - None - PartitionByID_1_AllCollations - false
+COUNT 3 - None - PartitionByID_1_AllCollations - true
+COUNT 3 - None - PartitionByID_2_AllCollations - false
+COUNT 3 - None - PartitionByID_2_AllCollations - true
+COUNT 3 - None - PartitionByID_O_AllCollations - false
+COUNT 3 - None - PartitionByID_O_AllCollations - true
+COUNT 3 - None - PartitionByID_S_AllCollations - false
+COUNT 3 - None - PartitionByID_S_AllCollations - true
+COUNT 3 - None - PartitionByIDTwiceAllCollations - false
 COUNT 3 - None - PartitionByIDTwiceAllCollations - true
+COUNT 3 - None - PartitionByKeyAllCollations - false
+COUNT 3 - None - PartitionByKeyAllCollations - true
+COUNT 3 - None - Simple - false
+COUNT 3 - None - Simple - true
+COUNT 3 - Thread - Simple - false
+COUNT 3 - Thread - Simple - true
 COUNT 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 COUNT 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 COUNT 4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
@@ -581,10 +1413,125 @@ COUNT 5 - None - Simple - false
 COUNT 5 - None - Simple - true
 COUNT 5 - Thread - Simple - false
 COUNT 5 - Thread - Simple - true
+COUNT 6 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+COUNT 6 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+COUNT 6 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+COUNT 6 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+COUNT 6 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+COUNT 6 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+COUNT 6 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+COUNT 6 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+COUNT 6 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+COUNT 6 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+COUNT 6 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+COUNT 6 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+COUNT 6 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+COUNT 6 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+COUNT 6 - in simulator - Simple - Centralized - false - None
+COUNT 6 - None - PartitionByID_1_AllCollations - false
+COUNT 6 - None - PartitionByID_1_AllCollations - true
+COUNT 6 - None - PartitionByID_2_AllCollations - false
+COUNT 6 - None - PartitionByID_2_AllCollations - true
+COUNT 6 - None - PartitionByID_O_AllCollations - false
+COUNT 6 - None - PartitionByID_O_AllCollations - true
+COUNT 6 - None - PartitionByID_S_AllCollations - false
+COUNT 6 - None - PartitionByID_S_AllCollations - true
+COUNT 6 - None - PartitionByIDTwiceAllCollations - false
 COUNT 6 - None - PartitionByIDTwiceAllCollations - true
+COUNT 6 - None - PartitionByKeyAllCollations - false
+COUNT 6 - None - PartitionByKeyAllCollations - true
+COUNT 6 - None - Simple - false
+COUNT 6 - None - Simple - true
+COUNT 7 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+COUNT 7 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+COUNT 7 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+COUNT 7 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+COUNT 7 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+COUNT 7 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+COUNT 7 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+COUNT 7 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+COUNT 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+COUNT 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+COUNT 7 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+COUNT 7 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+COUNT 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+COUNT 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+COUNT 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+COUNT 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+COUNT 7 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+COUNT 7 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+COUNT 7 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+COUNT 7 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+COUNT 7 - in simulator - Simple - Centralized - false - None
+COUNT 7 - in simulator - Simple - Centralized - false - Thread
+COUNT 7 - in simulator - Simple - Centralized - true - None
+COUNT 7 - in simulator - Simple - Centralized - true - Thread
+COUNT 7 - None - PartitionByID_1_AllCollations - false
+COUNT 7 - None - PartitionByID_1_AllCollations - true
+COUNT 7 - None - PartitionByID_2_AllCollations - false
+COUNT 7 - None - PartitionByID_2_AllCollations - true
+COUNT 7 - None - PartitionByID_O_AllCollations - false
+COUNT 7 - None - PartitionByID_O_AllCollations - true
+COUNT 7 - None - PartitionByID_S_AllCollations - false
+COUNT 7 - None - PartitionByID_S_AllCollations - true
+COUNT 7 - None - PartitionByIDTwiceAllCollations - false
 COUNT 7 - None - PartitionByIDTwiceAllCollations - true
+COUNT 7 - None - PartitionByKeyAllCollations - false
+COUNT 7 - None - PartitionByKeyAllCollations - true
+COUNT 7 - None - Simple - false
+COUNT 7 - None - Simple - true
+COUNT 7 - Thread - Simple - false
+COUNT 7 - Thread - Simple - true
+COUNT 8b - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+COUNT 8b - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+COUNT 8b - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+COUNT 8b - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+COUNT 8b - in simulator - Simple - Centralized - false - None
+COUNT 8b - in simulator - Simple - Centralized - true - Thread
+COUNT 8b - None - PartitionByID_1_AllCollations - false
+COUNT 8b - None - PartitionByID_1_AllCollations - true
+COUNT 8b - None - PartitionByID_2_AllCollations - false
+COUNT 8b - None - PartitionByID_2_AllCollations - true
+COUNT 8b - None - PartitionByID_O_AllCollations - false
+COUNT 8b - None - PartitionByID_O_AllCollations - true
+COUNT 8b - None - PartitionByID_S_AllCollations - false
+COUNT 8b - None - PartitionByID_S_AllCollations - true
+COUNT 8b - None - PartitionByIDTwiceAllCollations - false
 COUNT 8b - None - PartitionByIDTwiceAllCollations - true
+COUNT 8b - None - PartitionByKeyAllCollations - false
+COUNT 8b - None - PartitionByKeyAllCollations - true
+COUNT 8b - None - Simple - false
+COUNT 8b - None - Simple - true
+COUNT 8b - Thread - Simple - false
+COUNT 8b - Thread - Simple - true
+COUNT 8 - None - PartitionByID_1_AllCollations - false
+COUNT 8 - None - PartitionByID_1_AllCollations - true
+COUNT 8 - None - PartitionByID_2_AllCollations - false
+COUNT 8 - None - PartitionByID_2_AllCollations - true
+COUNT 8 - None - PartitionByID_O_AllCollations - false
+COUNT 8 - None - PartitionByID_O_AllCollations - true
+COUNT 8 - None - PartitionByID_S_AllCollations - false
+COUNT 8 - None - PartitionByID_S_AllCollations - true
+COUNT 8 - None - PartitionByIDTwiceAllCollations - false
 COUNT 8 - None - PartitionByIDTwiceAllCollations - true
+COUNT 8 - None - PartitionByKeyAllCollations - false
+COUNT 8 - None - PartitionByKeyAllCollations - true
+COUNT 8 - None - Simple - false
+COUNT 8 - None - Simple - true
+COUNT 8 - Thread - PartitionByID_1_AllCollations - false
+COUNT 8 - Thread - PartitionByID_1_AllCollations - true
+COUNT 8 - Thread - PartitionByID_2_AllCollations - false
+COUNT 8 - Thread - PartitionByID_2_AllCollations - true
+COUNT 8 - Thread - PartitionByID_O_AllCollations - false
+COUNT 8 - Thread - PartitionByID_O_AllCollations - true
+COUNT 8 - Thread - PartitionByID_S_AllCollations - false
+COUNT 8 - Thread - PartitionByID_S_AllCollations - true
+COUNT 8 - Thread - PartitionByIDTwiceAllCollations - false
+COUNT 8 - Thread - PartitionByIDTwiceAllCollations - true
+COUNT 8 - Thread - PartitionByKeyAllCollations - false
+COUNT 8 - Thread - PartitionByKeyAllCollations - true
+COUNT 8 - Thread - Simple - false
+COUNT 8 - Thread - Simple - true
 countNumberOfDevicesInRandomNetwork
 create random location within radius
 databasesAsStarRoots
@@ -599,21 +1546,228 @@ DELETE INSERT 6b - None - PartitionByIDTwiceAllCollations - false
 DELETE INSERT 6b - None - PartitionByKeyAllCollations - false
 DELETE INSERT 6b - None - Simple - false
 DELETE INSERT 6b - Thread - Simple - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - false - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - true - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - true - Thread
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_1_AllCollations - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_1_AllCollations - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_2_AllCollations - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_2_AllCollations - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_O_AllCollations - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_O_AllCollations - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_S_AllCollations - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_S_AllCollations - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - false
 DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByKeyAllCollations - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByKeyAllCollations - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - Simple - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - Simple - true
 dequeue() return and remove lowest time
 deviceWithoutLinkTypeCanNotLink
 downwardRouteForwarding
+DROP ALL - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+DROP ALL - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+DROP ALL - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+DROP ALL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+DROP ALL - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+DROP ALL - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+DROP ALL - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+DROP ALL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+DROP ALL - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+DROP ALL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+DROP ALL - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+DROP ALL - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+DROP ALL - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+DROP ALL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+DROP ALL - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+DROP ALL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+DROP ALL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+DROP ALL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+DROP ALL - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+DROP ALL - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+DROP ALL - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+DROP ALL - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+DROP ALL - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+DROP ALL - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+DROP ALL - in simulator - Simple - Centralized - false - None
+DROP ALL - in simulator - Simple - Centralized - false - Thread
+DROP ALL - in simulator - Simple - Centralized - true - None
+DROP ALL - in simulator - Simple - Centralized - true - Thread
+DROP ALL - None - PartitionByID_1_AllCollations - false
+DROP ALL - None - PartitionByID_1_AllCollations - true
+DROP ALL - None - PartitionByID_2_AllCollations - false
+DROP ALL - None - PartitionByID_2_AllCollations - true
+DROP ALL - None - PartitionByID_O_AllCollations - false
+DROP ALL - None - PartitionByID_O_AllCollations - true
+DROP ALL - None - PartitionByID_S_AllCollations - false
+DROP ALL - None - PartitionByID_S_AllCollations - true
+DROP ALL - None - PartitionByIDTwiceAllCollations - false
 DROP ALL - None - PartitionByIDTwiceAllCollations - true
+DROP ALL - None - PartitionByKeyAllCollations - false
+DROP ALL - None - PartitionByKeyAllCollations - true
+DROP ALL - None - Simple - false
+DROP ALL - None - Simple - true
+DROP ALL - Thread - Simple - false
+DROP ALL - Thread - Simple - true
+DROP DEFAULT - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+DROP DEFAULT - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+DROP DEFAULT - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+DROP DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+DROP DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+DROP DEFAULT - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+DROP DEFAULT - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+DROP DEFAULT - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+DROP DEFAULT - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+DROP DEFAULT - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+DROP DEFAULT - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+DROP DEFAULT - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+DROP DEFAULT - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+DROP DEFAULT - in simulator - Simple - Centralized - false - None
+DROP DEFAULT - in simulator - Simple - Centralized - false - Thread
+DROP DEFAULT - in simulator - Simple - Centralized - true - Thread
+DROP DEFAULT - None - PartitionByID_1_AllCollations - false
+DROP DEFAULT - None - PartitionByID_1_AllCollations - true
+DROP DEFAULT - None - PartitionByID_2_AllCollations - false
+DROP DEFAULT - None - PartitionByID_2_AllCollations - true
+DROP DEFAULT - None - PartitionByID_O_AllCollations - false
+DROP DEFAULT - None - PartitionByID_O_AllCollations - true
+DROP DEFAULT - None - PartitionByID_S_AllCollations - false
+DROP DEFAULT - None - PartitionByID_S_AllCollations - true
+DROP DEFAULT - None - PartitionByIDTwiceAllCollations - false
 DROP DEFAULT - None - PartitionByIDTwiceAllCollations - true
+DROP DEFAULT - None - PartitionByKeyAllCollations - false
+DROP DEFAULT - None - PartitionByKeyAllCollations - true
+DROP DEFAULT - None - Simple - false
+DROP DEFAULT - None - Simple - true
+DROP DEFAULT - Thread - Simple - false
+DROP DEFAULT - Thread - Simple - true
+DROP GRAPH - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+DROP GRAPH - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+DROP GRAPH - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+DROP GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+DROP GRAPH - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+DROP GRAPH - in simulator - Simple - Centralized - true - Thread
+DROP GRAPH - None - PartitionByID_1_AllCollations - false
+DROP GRAPH - None - PartitionByID_1_AllCollations - true
+DROP GRAPH - None - PartitionByID_2_AllCollations - false
+DROP GRAPH - None - PartitionByID_2_AllCollations - true
+DROP GRAPH - None - PartitionByID_O_AllCollations - false
+DROP GRAPH - None - PartitionByID_O_AllCollations - true
+DROP GRAPH - None - PartitionByID_S_AllCollations - false
+DROP GRAPH - None - PartitionByID_S_AllCollations - true
+DROP GRAPH - None - PartitionByIDTwiceAllCollations - false
 DROP GRAPH - None - PartitionByIDTwiceAllCollations - true
+DROP GRAPH - None - PartitionByKeyAllCollations - false
+DROP GRAPH - None - PartitionByKeyAllCollations - true
+DROP GRAPH - None - Simple - false
+DROP GRAPH - None - Simple - true
+DROP GRAPH - Thread - Simple - false
+DROP GRAPH - Thread - Simple - true
+DROP NAMED - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+DROP NAMED - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+DROP NAMED - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+DROP NAMED - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+DROP NAMED - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+DROP NAMED - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+DROP NAMED - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+DROP NAMED - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+DROP NAMED - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+DROP NAMED - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+DROP NAMED - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+DROP NAMED - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+DROP NAMED - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+DROP NAMED - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+DROP NAMED - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+DROP NAMED - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+DROP NAMED - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+DROP NAMED - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+DROP NAMED - in simulator - Simple - Centralized - false - None
+DROP NAMED - in simulator - Simple - Centralized - false - Thread
+DROP NAMED - in simulator - Simple - Centralized - true - None
+DROP NAMED - in simulator - Simple - Centralized - true - Thread
+DROP NAMED - None - PartitionByID_1_AllCollations - false
+DROP NAMED - None - PartitionByID_1_AllCollations - true
+DROP NAMED - None - PartitionByID_2_AllCollations - false
+DROP NAMED - None - PartitionByID_2_AllCollations - true
+DROP NAMED - None - PartitionByID_O_AllCollations - false
+DROP NAMED - None - PartitionByID_O_AllCollations - true
+DROP NAMED - None - PartitionByID_S_AllCollations - false
+DROP NAMED - None - PartitionByID_S_AllCollations - true
+DROP NAMED - None - PartitionByIDTwiceAllCollations - false
 DROP NAMED - None - PartitionByIDTwiceAllCollations - true
+DROP NAMED - None - PartitionByKeyAllCollations - false
+DROP NAMED - None - PartitionByKeyAllCollations - true
+DROP NAMED - None - Simple - false
+DROP NAMED - None - Simple - true
+DROP NAMED - Thread - Simple - false
+DROP NAMED - Thread - Simple - true
 DROP SILENT DEFAULT - None - PartitionByIDTwiceAllCollations - true
 DROP SILENT GRAPH iri - None - PartitionByIDTwiceAllCollations - true
 edgeMeshDevicesCannotReachEachOther
 entities are called when the simulation reaches steady state
 event is processed when delay equals clock
 Expression is equality - None - PartitionByIDTwiceAllCollations - true
+FLOOR - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+FLOOR - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+FLOOR - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+FLOOR - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+FLOOR - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+FLOOR - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+FLOOR - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+FLOOR - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+FLOOR - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+FLOOR - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+FLOOR - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+FLOOR - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+FLOOR - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+FLOOR - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+FLOOR - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+FLOOR - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+FLOOR - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+FLOOR - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+FLOOR - in simulator - Simple - Centralized - false - None
+FLOOR - in simulator - Simple - Centralized - false - Thread
+FLOOR - in simulator - Simple - Centralized - true - None
+FLOOR - in simulator - Simple - Centralized - true - Thread
+FLOOR - None - PartitionByID_1_AllCollations - false
+FLOOR - None - PartitionByID_1_AllCollations - true
+FLOOR - None - PartitionByID_2_AllCollations - false
+FLOOR - None - PartitionByID_2_AllCollations - true
+FLOOR - None - PartitionByID_O_AllCollations - false
+FLOOR - None - PartitionByID_O_AllCollations - true
+FLOOR - None - PartitionByID_S_AllCollations - false
+FLOOR - None - PartitionByID_S_AllCollations - true
+FLOOR - None - PartitionByIDTwiceAllCollations - false
 FLOOR - None - PartitionByIDTwiceAllCollations - true
+FLOOR - None - PartitionByKeyAllCollations - false
+FLOOR - None - PartitionByKeyAllCollations - true
+FLOOR - None - Simple - false
+FLOOR - None - Simple - true
+FLOOR - Thread - Simple - false
+FLOOR - Thread - Simple - true
 getAllDBHopsByDestinations
 getDatabaseHopWithoutOwnDatabase
 getDatabaseHopWithOwnDatabase
@@ -632,12 +1786,64 @@ getSortedLinkTypeIndices
 get true
 Group1 - None - PartitionByIDTwiceAllCollations - true
 Group3 - None - PartitionByIDTwiceAllCollations - true
+Group4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+Group4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+Group4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+Group4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+Group4 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+Group4 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+Group4 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+Group4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+Group4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+Group4 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+Group4 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+Group4 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+Group4 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+Group4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+Group4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+Group4 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+Group4 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+Group4 - in simulator - Simple - Centralized - false - Thread
+Group4 - in simulator - Simple - Centralized - true - None
+Group4 - in simulator - Simple - Centralized - true - Thread
+Group4 - None - PartitionByID_1_AllCollations - false
+Group4 - None - PartitionByID_1_AllCollations - true
+Group4 - None - PartitionByID_2_AllCollations - false
+Group4 - None - PartitionByID_2_AllCollations - true
+Group4 - None - PartitionByID_O_AllCollations - false
+Group4 - None - PartitionByID_O_AllCollations - true
+Group4 - None - PartitionByID_S_AllCollations - false
+Group4 - None - PartitionByID_S_AllCollations - true
+Group4 - None - PartitionByIDTwiceAllCollations - false
 Group4 - None - PartitionByIDTwiceAllCollations - true
+Group4 - None - PartitionByKeyAllCollations - false
+Group4 - None - PartitionByKeyAllCollations - true
+Group4 - None - Simple - false
+Group4 - Thread - Simple - true
 Group5 - None - PartitionByIDTwiceAllCollations - true
 hasNext() is false
 hasNext() is true
 HOURS - None - PartitionByIDTwiceAllCollations - true
 IF - None - PartitionByIDTwiceAllCollations - true
+IN 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+IN 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+IN 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+IN 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+IN 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+IN 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+IN 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+IN 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+IN 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+IN 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+IN 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+IN 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+IN 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+IN 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+IN 2 - in simulator - Simple - Centralized - false - None
 Inline VALUES graph pattern - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 Inline VALUES graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 Inline VALUES graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
@@ -708,19 +1914,251 @@ INSERT 01 - None - Simple - false
 INSERT 01 - None - Simple - true
 INSERT 01 - Thread - Simple - false
 INSERT 01 - Thread - Simple - true
+INSERT 03 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+INSERT 03 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+INSERT 03 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+INSERT 03 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+INSERT 03 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+INSERT 03 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+INSERT 03 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+INSERT 03 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+INSERT 03 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+INSERT 03 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+INSERT 03 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+INSERT 03 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+INSERT 03 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+INSERT 03 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+INSERT 03 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+INSERT 03 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+INSERT 03 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+INSERT 03 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+INSERT 03 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+INSERT 03 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+INSERT 03 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+INSERT 03 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+INSERT 03 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+INSERT 03 - in simulator - Simple - Centralized - false - None
+INSERT 03 - in simulator - Simple - Centralized - false - Thread
+INSERT 03 - in simulator - Simple - Centralized - true - None
+INSERT 03 - in simulator - Simple - Centralized - true - Thread
+INSERT 03 - None - PartitionByID_1_AllCollations - false
+INSERT 03 - None - PartitionByID_1_AllCollations - true
+INSERT 03 - None - PartitionByID_2_AllCollations - false
+INSERT 03 - None - PartitionByID_2_AllCollations - true
+INSERT 03 - None - PartitionByID_O_AllCollations - false
+INSERT 03 - None - PartitionByID_O_AllCollations - true
+INSERT 03 - None - PartitionByID_S_AllCollations - false
+INSERT 03 - None - PartitionByID_S_AllCollations - true
+INSERT 03 - None - PartitionByIDTwiceAllCollations - false
 INSERT 03 - None - PartitionByIDTwiceAllCollations - true
+INSERT 03 - None - PartitionByKeyAllCollations - false
+INSERT 03 - None - PartitionByKeyAllCollations - true
+INSERT 03 - None - Simple - false
+INSERT 03 - None - Simple - true
+INSERT 03 - Thread - Simple - false
+INSERT 03 - Thread - Simple - true
+INSERT 04 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+INSERT 04 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+INSERT 04 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+INSERT 04 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+INSERT 04 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+INSERT 04 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+INSERT 04 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+INSERT 04 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+INSERT 04 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+INSERT 04 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+INSERT 04 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+INSERT 04 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+INSERT 04 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+INSERT 04 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+INSERT 04 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+INSERT 04 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+INSERT 04 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+INSERT 04 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+INSERT 04 - in simulator - Simple - Centralized - false - None
+INSERT 04 - in simulator - Simple - Centralized - false - Thread
+INSERT 04 - in simulator - Simple - Centralized - true - None
+INSERT 04 - in simulator - Simple - Centralized - true - Thread
+INSERT 04 - None - PartitionByID_1_AllCollations - false
+INSERT 04 - None - PartitionByID_1_AllCollations - true
+INSERT 04 - None - PartitionByID_2_AllCollations - false
+INSERT 04 - None - PartitionByID_2_AllCollations - true
+INSERT 04 - None - PartitionByID_O_AllCollations - false
+INSERT 04 - None - PartitionByID_O_AllCollations - true
+INSERT 04 - None - PartitionByID_S_AllCollations - false
+INSERT 04 - None - PartitionByID_S_AllCollations - true
+INSERT 04 - None - PartitionByIDTwiceAllCollations - false
 INSERT 04 - None - PartitionByIDTwiceAllCollations - true
+INSERT 04 - None - PartitionByKeyAllCollations - false
+INSERT 04 - None - PartitionByKeyAllCollations - true
+INSERT 04 - None - Simple - false
+INSERT 04 - None - Simple - true
+INSERT 04 - Thread - Simple - false
+INSERT 04 - Thread - Simple - true
+INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+INSERT USING 01 - in simulator - Simple - Centralized - false - None
+INSERT USING 01 - in simulator - Simple - Centralized - false - Thread
+INSERT USING 01 - in simulator - Simple - Centralized - true - None
+INSERT USING 01 - None - PartitionByID_1_AllCollations - false
+INSERT USING 01 - None - PartitionByID_1_AllCollations - true
+INSERT USING 01 - None - PartitionByID_2_AllCollations - false
+INSERT USING 01 - None - PartitionByID_2_AllCollations - true
+INSERT USING 01 - None - PartitionByID_O_AllCollations - false
+INSERT USING 01 - None - PartitionByID_O_AllCollations - true
+INSERT USING 01 - None - PartitionByID_S_AllCollations - false
+INSERT USING 01 - None - PartitionByID_S_AllCollations - true
+INSERT USING 01 - None - PartitionByIDTwiceAllCollations - false
 INSERT USING 01 - None - PartitionByIDTwiceAllCollations - true
+INSERT USING 01 - None - PartitionByKeyAllCollations - false
+INSERT USING 01 - None - PartitionByKeyAllCollations - true
+INSERT USING 01 - None - Simple - false
+INSERT USING 01 - None - Simple - true
+INSERT USING 01 - Thread - Simple - false
+INSERT USING 01 - Thread - Simple - true
 inStarNetworkChildrenDoNotKnowEachOther
 isNotReachAble
+isNumeric - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+isNumeric - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+isNumeric - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+isNumeric - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+isNumeric - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+isNumeric - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+isNumeric - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+isNumeric - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+isNumeric - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+isNumeric - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+isNumeric - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+isNumeric - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+isNumeric - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+isNumeric - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+isNumeric - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+isNumeric - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+isNumeric - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+isNumeric - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+isNumeric - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+isNumeric - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+isNumeric - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+isNumeric - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+isNumeric - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+isNumeric - in simulator - Simple - Centralized - false - None
+isNumeric - in simulator - Simple - Centralized - false - Thread
+isNumeric - in simulator - Simple - Centralized - true - None
+isNumeric - in simulator - Simple - Centralized - true - Thread
+isNumeric - None - PartitionByID_1_AllCollations - false
+isNumeric - None - PartitionByID_1_AllCollations - true
+isNumeric - None - PartitionByID_2_AllCollations - false
+isNumeric - None - PartitionByID_2_AllCollations - true
+isNumeric - None - PartitionByID_O_AllCollations - false
+isNumeric - None - PartitionByID_O_AllCollations - true
+isNumeric - None - PartitionByID_S_AllCollations - false
+isNumeric - None - PartitionByID_S_AllCollations - true
+isNumeric - None - PartitionByIDTwiceAllCollations - false
 isNumeric - None - PartitionByIDTwiceAllCollations - true
+isNumeric - None - PartitionByKeyAllCollations - false
+isNumeric - None - PartitionByKeyAllCollations - true
+isNumeric - None - Simple - false
+isNumeric - None - Simple - true
+isNumeric - Thread - Simple - false
+isNumeric - Thread - Simple - true
 isReachAble
 linkByDataRate
 linkByLink
 LOAD SILENT INTO - None - PartitionByIDTwiceAllCollations - true
 LOAD SILENT - None - PartitionByIDTwiceAllCollations - true
 manipulateJsonObjects
+MD5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+MD5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+MD5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+MD5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+MD5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+MD5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+MD5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+MD5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+MD5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+MD5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+MD5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+MD5 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+MD5 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+MD5 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+MD5 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+MD5 - in simulator - Simple - Centralized - false - None
+MD5 - in simulator - Simple - Centralized - false - Thread
+MD5 - in simulator - Simple - Centralized - true - None
+MD5 - in simulator - Simple - Centralized - true - Thread
+MD5 - None - PartitionByID_1_AllCollations - false
+MD5 - None - PartitionByID_1_AllCollations - true
+MD5 - None - PartitionByID_2_AllCollations - false
+MD5 - None - PartitionByID_2_AllCollations - true
+MD5 - None - PartitionByID_O_AllCollations - false
+MD5 - None - PartitionByID_O_AllCollations - true
+MD5 - None - PartitionByID_S_AllCollations - false
+MD5 - None - PartitionByID_S_AllCollations - true
+MD5 - None - PartitionByIDTwiceAllCollations - false
+MD5 - None - PartitionByIDTwiceAllCollations - true
+MD5 - None - PartitionByKeyAllCollations - false
+MD5 - None - PartitionByKeyAllCollations - true
+MD5 - None - Simple - false
+MD5 - None - Simple - true
+MD5 over Unicode data - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+MD5 over Unicode data - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+MD5 over Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+MD5 over Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+MD5 over Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+MD5 over Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+MD5 over Unicode data - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+MD5 over Unicode data - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+MD5 over Unicode data - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+MD5 over Unicode data - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+MD5 over Unicode data - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+MD5 over Unicode data - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+MD5 over Unicode data - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+MD5 over Unicode data - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+MD5 over Unicode data - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+MD5 over Unicode data - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+MD5 over Unicode data - in simulator - Simple - Centralized - false - None
+MD5 over Unicode data - in simulator - Simple - Centralized - false - Thread
+MD5 over Unicode data - in simulator - Simple - Centralized - true - None
+MD5 over Unicode data - in simulator - Simple - Centralized - true - Thread
+MD5 over Unicode data - None - PartitionByID_1_AllCollations - false
+MD5 over Unicode data - None - PartitionByID_1_AllCollations - true
+MD5 over Unicode data - None - PartitionByID_2_AllCollations - false
+MD5 over Unicode data - None - PartitionByID_2_AllCollations - true
+MD5 over Unicode data - None - PartitionByID_O_AllCollations - false
+MD5 over Unicode data - None - PartitionByID_O_AllCollations - true
+MD5 over Unicode data - None - PartitionByID_S_AllCollations - false
+MD5 over Unicode data - None - PartitionByID_S_AllCollations - true
+MD5 over Unicode data - None - PartitionByIDTwiceAllCollations - false
 MD5 over Unicode data - None - PartitionByIDTwiceAllCollations - true
+MD5 over Unicode data - None - PartitionByKeyAllCollations - false
+MD5 over Unicode data - None - PartitionByKeyAllCollations - true
+MD5 over Unicode data - None - Simple - false
+MD5 over Unicode data - None - Simple - true
+MD5 over Unicode data - Thread - Simple - false
+MD5 over Unicode data - Thread - Simple - true
+MD5 - Thread - Simple - false
+MD5 - Thread - Simple - true
 meshToDODAG
 MIN - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
 MIN - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
@@ -751,8 +2189,72 @@ MOVE SILENT - None - PartitionByIDTwiceAllCollations - true
 MOVE SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true
 multiHopDODAGRoutingTableTest
 nextHopOnEmptyTableIsDefault
+NOT IN 1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+NOT IN 1 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+NOT IN 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+NOT IN 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+NOT IN 1 - in simulator - Simple - Centralized - false - Thread
+NOT IN 1 - in simulator - Simple - Centralized - true - None
+NOT IN 1 - in simulator - Simple - Centralized - true - Thread
+NOT IN 1 - None - PartitionByID_1_AllCollations - false
+NOT IN 1 - None - PartitionByID_1_AllCollations - true
+NOT IN 1 - None - PartitionByID_2_AllCollations - false
+NOT IN 1 - None - PartitionByID_2_AllCollations - true
+NOT IN 1 - None - PartitionByID_O_AllCollations - false
+NOT IN 1 - None - PartitionByID_O_AllCollations - true
+NOT IN 1 - None - PartitionByID_S_AllCollations - false
+NOT IN 1 - None - PartitionByID_S_AllCollations - true
+NOT IN 1 - None - PartitionByIDTwiceAllCollations - false
 NOT IN 1 - None - PartitionByIDTwiceAllCollations - true
+NOT IN 1 - None - PartitionByKeyAllCollations - false
+NOT IN 1 - None - PartitionByKeyAllCollations - true
+NOT IN 1 - None - Simple - false
+NOT IN 1 - None - Simple - true
+NOT IN 1 - Thread - Simple - false
+NOT IN 1 - Thread - Simple - true
+NOT IN 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+NOT IN 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+NOT IN 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+NOT IN 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+NOT IN 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+NOT IN 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+NOT IN 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+NOT IN 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+NOT IN 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+NOT IN 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+NOT IN 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+NOT IN 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+NOT IN 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+NOT IN 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+NOT IN 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+NOT IN 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+NOT IN 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+NOT IN 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+NOT IN 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+NOT IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+NOT IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+NOT IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+NOT IN 2 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+NOT IN 2 - in simulator - Simple - Centralized - false - None
+NOT IN 2 - in simulator - Simple - Centralized - false - Thread
+NOT IN 2 - in simulator - Simple - Centralized - true - None
+NOT IN 2 - in simulator - Simple - Centralized - true - Thread
+NOT IN 2 - None - PartitionByID_1_AllCollations - false
+NOT IN 2 - None - PartitionByID_1_AllCollations - true
+NOT IN 2 - None - PartitionByID_2_AllCollations - false
+NOT IN 2 - None - PartitionByID_2_AllCollations - true
+NOT IN 2 - None - PartitionByID_O_AllCollations - false
+NOT IN 2 - None - PartitionByID_O_AllCollations - true
+NOT IN 2 - None - PartitionByID_S_AllCollations - false
+NOT IN 2 - None - PartitionByID_S_AllCollations - true
+NOT IN 2 - None - PartitionByIDTwiceAllCollations - false
 NOT IN 2 - None - PartitionByIDTwiceAllCollations - true
+NOT IN 2 - None - PartitionByKeyAllCollations - false
+NOT IN 2 - None - PartitionByKeyAllCollations - true
+NOT IN 2 - None - Simple - false
+NOT IN 2 - None - Simple - true
+NOT IN 2 - Thread - Simple - false
+NOT IN 2 - Thread - Simple - true
 noUpdateIfNothingIsRemoved
 noUpdatesByRedundantInserts
 onlyEasternMeshDevices
@@ -760,6 +2262,30 @@ onlyOneMeshDevice
 onlySouthernMeshDevices
 onSteadyState is not called when it was not set
 parseEmptyConfigFile
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+Plain literals with language tag are not the same as the same literal without - in simulator - Simple - Centralized - false - Thread
+Plain literals with language tag are not the same as the same literal without - None - PartitionByID_1_AllCollations - false
+Plain literals with language tag are not the same as the same literal without - None - PartitionByID_2_AllCollations - false
+Plain literals with language tag are not the same as the same literal without - None - PartitionByID_O_AllCollations - false
+Plain literals with language tag are not the same as the same literal without - None - PartitionByID_S_AllCollations - false
+Plain literals with language tag are not the same as the same literal without - None - PartitionByIDTwiceAllCollations - false
+Plain literals with language tag are not the same as the same literal without - None - PartitionByKeyAllCollations - false
+Plain literals with language tag are not the same as the same literal without - None - Simple - false
+Plain literals with language tag are not the same as the same literal without - Thread - Simple - false
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
@@ -768,22 +2294,31 @@ Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionBy
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByKeyAllCollations - Centralized - false - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - false - None
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - false - Thread
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - true - None
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - true - Thread
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_1_AllCollations - false
+Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_1_AllCollations - true
+Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_2_AllCollations - false
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_2_AllCollations - true
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_O_AllCollations - false
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_O_AllCollations - true
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_S_AllCollations - false
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByID_S_AllCollations - true
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByIDTwiceAllCollations - false
+Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByIDTwiceAllCollations - true
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByKeyAllCollations - false
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - PartitionByKeyAllCollations - true
+Postquery VALUES with subjobjvars 2 rows with UNDEF - None - Simple - false
 Postquery VALUES with subjobjvars 2 rows with UNDEF - None - Simple - true
 Postsubquery VALUES - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 Postsubquery VALUES - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
@@ -796,6 +2331,7 @@ Postsubquery VALUES - in simulator - PartitionByID_2_AllCollations - Centralized
 Postsubquery VALUES - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 Postsubquery VALUES - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 Postsubquery VALUES - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+Postsubquery VALUES - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 Postsubquery VALUES - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
 Postsubquery VALUES - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 Postsubquery VALUES - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
@@ -813,6 +2349,7 @@ Postsubquery VALUES - in simulator - Simple - Centralized - false - Thread
 Postsubquery VALUES - in simulator - Simple - Centralized - true - None
 Postsubquery VALUES - in simulator - Simple - Centralized - true - Thread
 Postsubquery VALUES - None - PartitionByID_1_AllCollations - false
+Postsubquery VALUES - None - PartitionByID_1_AllCollations - true
 Postsubquery VALUES - None - PartitionByID_2_AllCollations - false
 Postsubquery VALUES - None - PartitionByID_2_AllCollations - true
 Postsubquery VALUES - None - PartitionByID_O_AllCollations - false
@@ -821,6 +2358,7 @@ Postsubquery VALUES - None - PartitionByID_S_AllCollations - false
 Postsubquery VALUES - None - PartitionByID_S_AllCollations - true
 Postsubquery VALUES - None - PartitionByIDTwiceAllCollations - false
 Postsubquery VALUES - None - PartitionByIDTwiceAllCollations - true
+Postsubquery VALUES - None - PartitionByKeyAllCollations - false
 Postsubquery VALUES - None - PartitionByKeyAllCollations - true
 Postsubquery VALUES - None - Simple - false
 Postsubquery VALUES - None - Simple - true
@@ -830,11 +2368,172 @@ PrefixName with hexencoded colons - None - PartitionByIDTwiceAllCollations - tru
 PrefixName with unescaped colons - None - PartitionByIDTwiceAllCollations - true
 queue should peak() lowest time
 random double is between min and max
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+RDF inference test luposDuplicate1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+RDF inference test luposDuplicate1 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+RDF inference test luposDuplicate1 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+RDF inference test luposDuplicate1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+RDF inference test luposDuplicate1 - in simulator - Simple - Centralized - false - None
+RDF inference test luposDuplicate1 - in simulator - Simple - Centralized - false - Thread
+RDF inference test luposDuplicate1 - in simulator - Simple - Centralized - true - None
+RDF inference test luposDuplicate1 - in simulator - Simple - Centralized - true - Thread
+RDF inference test luposDuplicate1 - None - PartitionByID_1_AllCollations - false
+RDF inference test luposDuplicate1 - None - PartitionByID_1_AllCollations - true
+RDF inference test luposDuplicate1 - None - PartitionByID_2_AllCollations - false
+RDF inference test luposDuplicate1 - None - PartitionByID_2_AllCollations - true
+RDF inference test luposDuplicate1 - None - PartitionByID_O_AllCollations - false
+RDF inference test luposDuplicate1 - None - PartitionByID_O_AllCollations - true
+RDF inference test luposDuplicate1 - None - PartitionByID_S_AllCollations - false
+RDF inference test luposDuplicate1 - None - PartitionByID_S_AllCollations - true
+RDF inference test luposDuplicate1 - None - PartitionByIDTwiceAllCollations - false
 RDF inference test luposDuplicate1 - None - PartitionByIDTwiceAllCollations - true
+RDF inference test luposDuplicate1 - None - PartitionByKeyAllCollations - false
+RDF inference test luposDuplicate1 - None - PartitionByKeyAllCollations - true
+RDF inference test luposDuplicate1 - None - Simple - false
+RDF inference test luposDuplicate1 - None - Simple - true
+RDF inference test luposDuplicate1 - Thread - Simple - false
+RDF inference test luposDuplicate1 - Thread - Simple - true
+RDFS inference test containers - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+RDFS inference test containers - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+RDFS inference test containers - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+RDFS inference test containers - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+RDFS inference test containers - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+RDFS inference test containers - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+RDFS inference test containers - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+RDFS inference test containers - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+RDFS inference test containers - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+RDFS inference test containers - in simulator - Simple - Centralized - true - None
+RDFS inference test containers - in simulator - Simple - Centralized - true - Thread
+RDFS inference test containers - None - PartitionByID_1_AllCollations - false
+RDFS inference test containers - None - PartitionByID_1_AllCollations - true
+RDFS inference test containers - None - PartitionByID_2_AllCollations - false
+RDFS inference test containers - None - PartitionByID_2_AllCollations - true
+RDFS inference test containers - None - PartitionByID_O_AllCollations - false
+RDFS inference test containers - None - PartitionByID_O_AllCollations - true
+RDFS inference test containers - None - PartitionByID_S_AllCollations - false
+RDFS inference test containers - None - PartitionByID_S_AllCollations - true
+RDFS inference test containers - None - PartitionByIDTwiceAllCollations - false
 RDFS inference test containers - None - PartitionByIDTwiceAllCollations - true
+RDFS inference test containers - None - PartitionByKeyAllCollations - false
+RDFS inference test containers - None - PartitionByKeyAllCollations - true
+RDFS inference test containers - None - Simple - false
+RDFS inference test containers - None - Simple - true
+RDFS inference test containers - Thread - Simple - false
+RDFS inference test containers - Thread - Simple - true
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+RDFS inference test rdfXMLLiteral - in simulator - Simple - Centralized - false - None
+RDFS inference test rdfXMLLiteral - in simulator - Simple - Centralized - false - Thread
+RDFS inference test rdfXMLLiteral - in simulator - Simple - Centralized - true - None
+RDFS inference test rdfXMLLiteral - in simulator - Simple - Centralized - true - Thread
+RDFS inference test rdfXMLLiteral - None - PartitionByID_1_AllCollations - false
+RDFS inference test rdfXMLLiteral - None - PartitionByID_1_AllCollations - true
+RDFS inference test rdfXMLLiteral - None - PartitionByID_2_AllCollations - false
+RDFS inference test rdfXMLLiteral - None - PartitionByID_2_AllCollations - true
+RDFS inference test rdfXMLLiteral - None - PartitionByID_O_AllCollations - false
+RDFS inference test rdfXMLLiteral - None - PartitionByID_O_AllCollations - true
+RDFS inference test rdfXMLLiteral - None - PartitionByID_S_AllCollations - false
+RDFS inference test rdfXMLLiteral - None - PartitionByID_S_AllCollations - true
+RDFS inference test rdfXMLLiteral - None - PartitionByIDTwiceAllCollations - false
 RDFS inference test rdfXMLLiteral - None - PartitionByIDTwiceAllCollations - true
+RDFS inference test rdfXMLLiteral - None - PartitionByKeyAllCollations - false
+RDFS inference test rdfXMLLiteral - None - PartitionByKeyAllCollations - true
+RDFS inference test rdfXMLLiteral - None - Simple - false
+RDFS inference test rdfXMLLiteral - None - Simple - true
+RDFS inference test rdfXMLLiteral - Thread - Simple - false
+RDFS inference test rdfXMLLiteral - Thread - Simple - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - false - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - false - Thread
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - true - None
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - Simple - Centralized - true - Thread
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_1_AllCollations - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_1_AllCollations - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_2_AllCollations - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_2_AllCollations - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_O_AllCollations - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_O_AllCollations - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_S_AllCollations - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByID_S_AllCollations - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - false
 RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByKeyAllCollations - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByKeyAllCollations - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - Simple - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - Simple - true
+RDF test for blank node cardinalities - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+RDF test for blank node cardinalities - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+RDF test for blank node cardinalities - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+RDF test for blank node cardinalities - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+RDF test for blank node cardinalities - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+RDF test for blank node cardinalities - in simulator - Simple - Centralized - false - None
+RDF test for blank node cardinalities - in simulator - Simple - Centralized - true - Thread
+RDF test for blank node cardinalities - None - PartitionByID_1_AllCollations - false
+RDF test for blank node cardinalities - None - PartitionByID_1_AllCollations - true
+RDF test for blank node cardinalities - None - PartitionByID_2_AllCollations - false
+RDF test for blank node cardinalities - None - PartitionByID_2_AllCollations - true
+RDF test for blank node cardinalities - None - PartitionByID_O_AllCollations - false
+RDF test for blank node cardinalities - None - PartitionByID_O_AllCollations - true
+RDF test for blank node cardinalities - None - PartitionByID_S_AllCollations - false
+RDF test for blank node cardinalities - None - PartitionByID_S_AllCollations - true
+RDF test for blank node cardinalities - None - PartitionByIDTwiceAllCollations - false
 RDF test for blank node cardinalities - None - PartitionByIDTwiceAllCollations - true
+RDF test for blank node cardinalities - None - PartitionByKeyAllCollations - false
+RDF test for blank node cardinalities - None - PartitionByKeyAllCollations - true
+RDF test for blank node cardinalities - None - Simple - false
+RDF test for blank node cardinalities - None - Simple - true
+RDF test for blank node cardinalities - Thread - Simple - false
+RDF test for blank node cardinalities - Thread - Simple - true
 recursive sending events until maxClock is reached
 recursive sending events until stop is called
 removeDestinationsRemovesAlsoDBHopsWithDB
@@ -1008,7 +2707,49 @@ resourcessp2bq7sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq8sparql21 - None - PartitionByIDTwiceAllCollations - true
 resourcessp2bq9sparql21 - None - PartitionByIDTwiceAllCollations - true
 Reuse a project expression variable in order by - None - PartitionByIDTwiceAllCollations - true
+ROUND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+ROUND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+ROUND - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+ROUND - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+ROUND - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+ROUND - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+ROUND - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+ROUND - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+ROUND - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+ROUND - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+ROUND - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+ROUND - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+ROUND - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+ROUND - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+ROUND - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+ROUND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+ROUND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+ROUND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+ROUND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+ROUND - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+ROUND - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+ROUND - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+ROUND - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+ROUND - in simulator - Simple - Centralized - false - None
+ROUND - in simulator - Simple - Centralized - false - Thread
+ROUND - in simulator - Simple - Centralized - true - None
+ROUND - in simulator - Simple - Centralized - true - Thread
+ROUND - None - PartitionByID_1_AllCollations - false
+ROUND - None - PartitionByID_1_AllCollations - true
+ROUND - None - PartitionByID_2_AllCollations - false
+ROUND - None - PartitionByID_2_AllCollations - true
+ROUND - None - PartitionByID_O_AllCollations - false
+ROUND - None - PartitionByID_O_AllCollations - true
+ROUND - None - PartitionByID_S_AllCollations - false
+ROUND - None - PartitionByID_S_AllCollations - true
+ROUND - None - PartitionByIDTwiceAllCollations - false
 ROUND - None - PartitionByIDTwiceAllCollations - true
+ROUND - None - PartitionByKeyAllCollations - false
+ROUND - None - PartitionByKeyAllCollations - true
+ROUND - None - Simple - false
+ROUND - None - Simple - true
+ROUND - Thread - Simple - false
+ROUND - Thread - Simple - true
 runMultipleStarNetworkSimulations
 runSimulationWithoutEntities
 run without entities has no effect on clock
@@ -1066,8 +2807,54 @@ setOnceAndGetHops
 setTwiceAndGetHops
 severalStarNetworksDifferInTheNetworkPrefix
 SHA1 - None - PartitionByIDTwiceAllCollations - true
+SHA256 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+SHA256 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+SHA256 - in simulator - Simple - Centralized - false - None
+SHA256 - None - PartitionByID_1_AllCollations - true
+SHA256 - None - PartitionByID_2_AllCollations - false
+SHA256 - None - PartitionByID_O_AllCollations - false
+SHA256 - None - PartitionByID_S_AllCollations - true
+SHA256 - None - PartitionByIDTwiceAllCollations - false
 SHA256 - None - PartitionByIDTwiceAllCollations - true
+SHA256 - None - PartitionByKeyAllCollations - true
+SHA256 - None - Simple - false
+SHA256 - None - Simple - true
+SHA256 - Thread - Simple - true
+Simple DELETE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+Simple DELETE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+Simple DELETE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+Simple DELETE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+Simple DELETE 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+Simple DELETE 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+Simple DELETE 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+Simple DELETE 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+Simple DELETE 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+Simple DELETE 3 - in simulator - Simple - Centralized - false - None
+Simple DELETE 3 - in simulator - Simple - Centralized - false - Thread
+Simple DELETE 3 - in simulator - Simple - Centralized - true - None
+Simple DELETE 3 - in simulator - Simple - Centralized - true - Thread
+Simple DELETE 3 - None - PartitionByID_1_AllCollations - false
+Simple DELETE 3 - None - PartitionByID_1_AllCollations - true
+Simple DELETE 3 - None - PartitionByID_2_AllCollations - false
+Simple DELETE 3 - None - PartitionByID_2_AllCollations - true
+Simple DELETE 3 - None - PartitionByID_O_AllCollations - false
+Simple DELETE 3 - None - PartitionByID_O_AllCollations - true
+Simple DELETE 3 - None - PartitionByID_S_AllCollations - false
+Simple DELETE 3 - None - PartitionByID_S_AllCollations - true
+Simple DELETE 3 - None - PartitionByIDTwiceAllCollations - false
 Simple DELETE 3 - None - PartitionByIDTwiceAllCollations - true
+Simple DELETE 3 - None - PartitionByKeyAllCollations - false
+Simple DELETE 3 - None - PartitionByKeyAllCollations - true
+Simple DELETE 3 - None - Simple - false
+Simple DELETE 3 - None - Simple - true
+Simple DELETE 3 - Thread - Simple - false
+Simple DELETE 3 - Thread - Simple - true
 Simple DELETE WHERE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 Simple DELETE WHERE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 Simple DELETE WHERE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
@@ -1105,40 +2892,244 @@ Simple DELETE WHERE 3 - None - Simple - false
 Simple DELETE WHERE 3 - None - Simple - true
 Simple DELETE WHERE 3 - Thread - Simple - false
 Simple DELETE WHERE 3 - Thread - Simple - true
+Simple insert data 1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 Simple insert data 1 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 Simple insert data 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 Simple insert data 1 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 Simple insert data 1 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+Simple insert data 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 Simple insert data 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 Simple insert data 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 Simple insert data 1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 Simple insert data 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+Simple insert data 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+Simple insert data 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+Simple insert data 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+Simple insert data 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+Simple insert data 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+Simple insert data 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
 Simple insert data 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+Simple insert data 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 Simple insert data 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
 Simple insert data 1 - in simulator - Simple - Centralized - false - None
 Simple insert data 1 - in simulator - Simple - Centralized - false - Thread
+Simple insert data 1 - in simulator - Simple - Centralized - true - None
 Simple insert data 1 - None - PartitionByID_1_AllCollations - false
 Simple insert data 1 - None - PartitionByID_1_AllCollations - true
+Simple insert data 1 - None - PartitionByID_2_AllCollations - false
 Simple insert data 1 - None - PartitionByID_2_AllCollations - true
 Simple insert data 1 - None - PartitionByID_O_AllCollations - false
+Simple insert data 1 - None - PartitionByID_O_AllCollations - true
 Simple insert data 1 - None - PartitionByID_S_AllCollations - false
+Simple insert data 1 - None - PartitionByID_S_AllCollations - true
 Simple insert data 1 - None - PartitionByIDTwiceAllCollations - false
+Simple insert data 1 - None - PartitionByKeyAllCollations - false
 Simple insert data 1 - None - PartitionByKeyAllCollations - true
+Simple insert data 1 - None - Simple - false
 Simple insert data 1 - None - Simple - true
 Simple insert data 1 - Thread - Simple - false
+Simple insert data 1 - Thread - Simple - true
+simple triple pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+simple triple pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+simple triple pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+simple triple pattern match - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+simple triple pattern match - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+simple triple pattern match - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+simple triple pattern match - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+simple triple pattern match - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+simple triple pattern match - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+simple triple pattern match - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+simple triple pattern match - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+simple triple pattern match - in simulator - Simple - Centralized - false - None
+simple triple pattern match - in simulator - Simple - Centralized - false - Thread
+simple triple pattern match - in simulator - Simple - Centralized - true - Thread
+simple triple pattern match - None - PartitionByID_1_AllCollations - false
+simple triple pattern match - None - PartitionByID_1_AllCollations - true
+simple triple pattern match - None - PartitionByID_2_AllCollations - false
+simple triple pattern match - None - PartitionByID_2_AllCollations - true
+simple triple pattern match - None - PartitionByID_O_AllCollations - false
+simple triple pattern match - None - PartitionByID_O_AllCollations - true
+simple triple pattern match - None - PartitionByID_S_AllCollations - false
+simple triple pattern match - None - PartitionByID_S_AllCollations - true
+simple triple pattern match - None - PartitionByIDTwiceAllCollations - false
 simple triple pattern match - None - PartitionByIDTwiceAllCollations - true
+simple triple pattern match - None - PartitionByKeyAllCollations - false
+simple triple pattern match - None - PartitionByKeyAllCollations - true
+simple triple pattern match - None - Simple - false
+simple triple pattern match - None - Simple - true
+simple triple pattern match - Thread - Simple - false
+simple triple pattern match - Thread - Simple - true
 simulation with maxClock equals clock
 sortLinkTypesByDataRate
+sparqldl01rq triple pattern - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+sparqldl01rq triple pattern - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+sparqldl01rq triple pattern - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+sparqldl01rq triple pattern - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+sparqldl01rq triple pattern - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+sparqldl01rq triple pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+sparqldl01rq triple pattern - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+sparqldl01rq triple pattern - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+sparqldl01rq triple pattern - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+sparqldl01rq triple pattern - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+sparqldl01rq triple pattern - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+sparqldl01rq triple pattern - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+sparqldl01rq triple pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+sparqldl01rq triple pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+sparqldl01rq triple pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+sparqldl01rq triple pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+sparqldl01rq triple pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+sparqldl01rq triple pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+sparqldl01rq triple pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+sparqldl01rq triple pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+sparqldl01rq triple pattern - in simulator - Simple - Centralized - false - None
+sparqldl01rq triple pattern - in simulator - Simple - Centralized - false - Thread
+sparqldl01rq triple pattern - in simulator - Simple - Centralized - true - None
+sparqldl01rq triple pattern - in simulator - Simple - Centralized - true - Thread
+sparqldl01rq triple pattern - None - PartitionByID_1_AllCollations - false
+sparqldl01rq triple pattern - None - PartitionByID_1_AllCollations - true
+sparqldl01rq triple pattern - None - PartitionByID_2_AllCollations - false
+sparqldl01rq triple pattern - None - PartitionByID_2_AllCollations - true
+sparqldl01rq triple pattern - None - PartitionByID_O_AllCollations - false
+sparqldl01rq triple pattern - None - PartitionByID_O_AllCollations - true
+sparqldl01rq triple pattern - None - PartitionByID_S_AllCollations - false
+sparqldl01rq triple pattern - None - PartitionByID_S_AllCollations - true
+sparqldl01rq triple pattern - None - PartitionByIDTwiceAllCollations - false
 sparqldl01rq triple pattern - None - PartitionByIDTwiceAllCollations - true
+sparqldl01rq triple pattern - None - PartitionByKeyAllCollations - false
+sparqldl01rq triple pattern - None - PartitionByKeyAllCollations - true
+sparqldl01rq triple pattern - None - Simple - false
+sparqldl01rq triple pattern - None - Simple - true
+sparqldl01rq triple pattern - Thread - Simple - false
+sparqldl01rq triple pattern - Thread - Simple - true
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+sparqldl07rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - false - None
+sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - false - Thread
+sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - true - None
+sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - true - Thread
+sparqldl08rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+sparqldl09rq undist vars test - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+sparqldl09rq undist vars test - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+sparqldl09rq undist vars test - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+sparqldl09rq undist vars test - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+sparqldl09rq undist vars test - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+sparqldl09rq undist vars test - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+sparqldl09rq undist vars test - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+sparqldl09rq undist vars test - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+sparqldl09rq undist vars test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+sparqldl09rq undist vars test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+sparqldl09rq undist vars test - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+sparqldl09rq undist vars test - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+sparqldl09rq undist vars test - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+sparqldl09rq undist vars test - in simulator - Simple - Centralized - false - None
+sparqldl09rq undist vars test - in simulator - Simple - Centralized - false - Thread
+sparqldl09rq undist vars test - in simulator - Simple - Centralized - true - None
 sq12  Subquery in CONSTRUCT with builtins - None - PartitionByIDTwiceAllCollations - true
 starNetworkIsASimpleDODAG
 starNetworkRoutingTables
 starRootIsDataSinkOfItsSensors
 STRDTSTR - None - PartitionByIDTwiceAllCollations - true
+STRENDS - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+STRENDS - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+STRENDS - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+STRENDS - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+STRENDS - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+STRENDS - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+STRENDS - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+STRENDS - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+STRENDS - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+STRENDS - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+STRENDS - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+STRENDS - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+STRENDS - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+STRENDS - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+STRENDS - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+STRENDS - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+STRENDS - in simulator - Simple - Centralized - false - None
+STRENDS - in simulator - Simple - Centralized - false - Thread
+STRENDS - in simulator - Simple - Centralized - true - None
+STRENDS - in simulator - Simple - Centralized - true - Thread
+STRENDS - None - PartitionByID_1_AllCollations - false
+STRENDS - None - PartitionByID_1_AllCollations - true
+STRENDS - None - PartitionByID_2_AllCollations - false
+STRENDS - None - PartitionByID_2_AllCollations - true
+STRENDS - None - PartitionByID_O_AllCollations - false
+STRENDS - None - PartitionByID_O_AllCollations - true
+STRENDS - None - PartitionByID_S_AllCollations - false
+STRENDS - None - PartitionByID_S_AllCollations - true
+STRENDS - None - PartitionByIDTwiceAllCollations - false
 STRENDS - None - PartitionByIDTwiceAllCollations - true
+STRENDS - None - PartitionByKeyAllCollations - false
+STRENDS - None - PartitionByKeyAllCollations - true
+STRENDS - None - Simple - false
+STRENDS - None - Simple - true
+STRENDS - Thread - Simple - false
+STRENDS - Thread - Simple - true
 STRLANGSTR - None - PartitionByIDTwiceAllCollations - true
+STRLEN - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+STRLEN - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+STRLEN - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+STRLEN - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+STRLEN - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+STRLEN - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+STRLEN - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+STRLEN - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+STRLEN - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+STRLEN - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+STRLEN - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+STRLEN - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+STRLEN - in simulator - Simple - Centralized - false - Thread
+STRLEN - in simulator - Simple - Centralized - true - None
+STRLEN - in simulator - Simple - Centralized - true - Thread
+STRLEN - None - PartitionByID_1_AllCollations - false
+STRLEN - None - PartitionByID_1_AllCollations - true
+STRLEN - None - PartitionByID_2_AllCollations - false
+STRLEN - None - PartitionByID_2_AllCollations - true
+STRLEN - None - PartitionByID_O_AllCollations - false
+STRLEN - None - PartitionByID_O_AllCollations - true
+STRLEN - None - PartitionByID_S_AllCollations - false
+STRLEN - None - PartitionByID_S_AllCollations - true
+STRLEN - None - PartitionByIDTwiceAllCollations - false
 STRLEN - None - PartitionByIDTwiceAllCollations - true
+STRLEN - None - PartitionByKeyAllCollations - false
+STRLEN - None - PartitionByKeyAllCollations - true
+STRLEN - None - Simple - false
+STRLEN - None - Simple - true
+STRLEN - Thread - Simple - false
+STRLEN - Thread - Simple - true
 Subsets by exclusion NOT EXISTS - None - PartitionByIDTwiceAllCollations - true
+SUM - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+SUM - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+SUM - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+SUM - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+SUM - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+SUM - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+SUM - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+SUM - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+SUM - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+SUM - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+SUM - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+SUM - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+SUM - in simulator - Simple - Centralized - false - None
+SUM - in simulator - Simple - Centralized - false - Thread
+SUM - in simulator - Simple - Centralized - true - None
+SUM - in simulator - Simple - Centralized - true - Thread
 SUM with GROUP BY - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 SUM with GROUP BY - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 SUM with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
@@ -1393,16 +3384,43 @@ thereAreTwoHops
 thereIsOnlyOneHop
 tooFarAwayToLink
 transmissionDelay1
+tsv01  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+tsv01  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+tsv01  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+tsv01  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+tsv01  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+tsv01  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+tsv01  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+tsv01  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+tsv01  TSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+tsv01  TSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+tsv01  TSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+tsv01  TSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+tsv01  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
 tsv01  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+tsv01  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+tsv01  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+tsv01  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+tsv01  TSV Result Format - in simulator - Simple - Centralized - false - None
+tsv01  TSV Result Format - in simulator - Simple - Centralized - false - Thread
 tsv01  TSV Result Format - in simulator - Simple - Centralized - true - None
+tsv01  TSV Result Format - in simulator - Simple - Centralized - true - Thread
 tsv01  TSV Result Format - None - PartitionByID_1_AllCollations - false
+tsv01  TSV Result Format - None - PartitionByID_1_AllCollations - true
+tsv01  TSV Result Format - None - PartitionByID_2_AllCollations - false
 tsv01  TSV Result Format - None - PartitionByID_2_AllCollations - true
 tsv01  TSV Result Format - None - PartitionByID_O_AllCollations - false
+tsv01  TSV Result Format - None - PartitionByID_O_AllCollations - true
 tsv01  TSV Result Format - None - PartitionByID_S_AllCollations - false
+tsv01  TSV Result Format - None - PartitionByID_S_AllCollations - true
 tsv01  TSV Result Format - None - PartitionByIDTwiceAllCollations - false
 tsv01  TSV Result Format - None - PartitionByIDTwiceAllCollations - true
+tsv01  TSV Result Format - None - PartitionByKeyAllCollations - false
+tsv01  TSV Result Format - None - PartitionByKeyAllCollations - true
 tsv01  TSV Result Format - None - Simple - false
 tsv01  TSV Result Format - None - Simple - true
+tsv01  TSV Result Format - Thread - Simple - false
+tsv01  TSV Result Format - Thread - Simple - true
 tsv03  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 tsv03  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 tsv03  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
@@ -1426,15 +3444,64 @@ tsv03  TSV Result Format - None - Simple - false
 tsv03  TSV Result Format - None - Simple - true
 tsv03  TSV Result Format - Thread - Simple - false
 tsv03  TSV Result Format - Thread - Simple - true
+tvs02  TSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+tvs02  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+tvs02  TSV Result Format - None - PartitionByID_1_AllCollations - false
+tvs02  TSV Result Format - None - PartitionByID_2_AllCollations - false
+tvs02  TSV Result Format - None - PartitionByID_O_AllCollations - false
+tvs02  TSV Result Format - None - PartitionByID_S_AllCollations - false
+tvs02  TSV Result Format - None - PartitionByIDTwiceAllCollations - false
+tvs02  TSV Result Format - None - PartitionByKeyAllCollations - false
+tvs02  TSV Result Format - None - Simple - false
+tvs02  TSV Result Format - Thread - Simple - false
 twoDBWithOneSensor
 twoDevicesHaveOneConnection
 two devices link with most suitable linkType
 two devices link with the only possible linkType
 twoLinkedDevicesShareTheirLinkObject
 twoSensorOneDB
+UCASE - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+UCASE - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+UCASE - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+UCASE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+UCASE - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+UCASE - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+UCASE - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+UCASE - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+UCASE - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
+UCASE - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+UCASE - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+UCASE - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+UCASE - in simulator - Simple - Centralized - false - None
+UCASE - in simulator - Simple - Centralized - true - None
+UCASE - None - PartitionByID_1_AllCollations - false
+UCASE - None - PartitionByID_1_AllCollations - true
+UCASE - None - PartitionByID_2_AllCollations - false
+UCASE - None - PartitionByID_2_AllCollations - true
+UCASE - None - PartitionByID_O_AllCollations - false
+UCASE - None - PartitionByID_O_AllCollations - true
+UCASE - None - PartitionByID_S_AllCollations - false
+UCASE - None - PartitionByID_S_AllCollations - true
+UCASE - None - PartitionByIDTwiceAllCollations - false
 UCASE - None - PartitionByIDTwiceAllCollations - true
+UCASE - None - PartitionByKeyAllCollations - false
+UCASE - None - PartitionByKeyAllCollations - true
+UCASE - None - Simple - false
+UCASE - None - Simple - true
+UCASE - Thread - Simple - false
+UCASE - Thread - Simple - true
 upAndDownwardRouteForwarding
 updateIfIsRemoved
 updatesByMultipleInserts
 upwardRouteForwarding
+YEAR - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+YEAR - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+YEAR - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+YEAR - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+YEAR - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+YEAR - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+YEAR - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+YEAR - in simulator - Simple - Centralized - false - Thread
+YEAR - None - PartitionByID_2_AllCollations - true
 YEAR - None - PartitionByIDTwiceAllCollations - true
+YEAR - None - Simple - true
