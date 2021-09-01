@@ -322,6 +322,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         return
     }
+var useKTLint=moduleArgs.useKTLint && !enableJS && !enableNative
     try {
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
@@ -393,9 +394,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        mavenLocal()")
+                out.println("        jcenter()")
                 out.println("        google()")
                 out.println("        mavenCentral()")
-                out.println("        maven(\"https://plugins.gradle.org/m2/\")")
                 out.println("    }")
                 out.println("    dependencies {")
                 out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${moduleArgs.compilerVersion}\")")
@@ -421,7 +422,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
                 out.println("plugins {")
                 if (!onWindows) {
-if(moduleArgs.useKTLint){
+if(useKTLint){
                     out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
 }
                 }
@@ -451,10 +452,10 @@ if(moduleArgs.useKTLint){
                 }
                 out.println("}")
                 out.println("repositories {")
+                out.println("    jcenter()")
                 out.println("    mavenLocal()")
                 out.println("    google()")
                 out.println("    mavenCentral()")
-                out.println("    maven(\"https://plugins.gradle.org/m2/\")")
                 out.println("}")
                 out.println("group = \"luposdate3000\"") // maven-groupID
                 out.println("version = \"0.0.1\"") // maven-version
@@ -652,7 +653,7 @@ if(moduleArgs.useKTLint){
                 }
                 out.println("tasks.register(\"luposSetup\") {")
                 if (!onWindows) {
-if(moduleArgs.useKTLint){
+if(useKTLint){
                     out.println("    dependsOn(\"ktlintFormat\")")
                 }
 }
@@ -734,7 +735,7 @@ if(moduleArgs.useKTLint){
                 out.println("tasks.named(\"build\") {")
                 out.println("}")
                 if (!onWindows) {
-if(moduleArgs.useKTLint){
+if(useKTLint){
                     out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
                     out.println("    enableExperimentalRules.set(true)")
                     out.println("    ignoreFailures.set(true)")

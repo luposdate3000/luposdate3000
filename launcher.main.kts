@@ -23,7 +23,7 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
-@file:Import("src/luposdate3000_scripting/parsergenerator.kt")
+@file:Import("src/luposdate3000_scripting/parsergenerator.kt") 
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
@@ -38,7 +38,7 @@ import launcher.EDictionaryValueMode
 import launcher.ExecMode
 import launcher.InlineMode
 import launcher.IntellijMode
-import launcher.ParamClassMode
+import launcher.ParamClassMode 
 import launcher.ReleaseMode
 import launcher.SuspendMode
 import launcher.TargetMode2
@@ -609,7 +609,6 @@ val defaultParams = mutableListOf(
             "1.5.30-RC",
             "1.5.255-SNAPSHOT",
             "1.6.255-SNAPSHOT",
-"1.6.0-dev-2198",
         ),
         false,
     ),
