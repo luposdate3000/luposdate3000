@@ -24,8 +24,8 @@ import kotlin.jvm.JvmField
 
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withCodeGen = false
-    private val withSimulator = true
-    private val onlyFirstTest = false // to reduce the number of tests, which are failing and can not be abortet by timeout
+    private val withSimulator = false
+    private val onlyFirstTest = true // to reduce the number of tests, which are failing and can not be abortet by timeout
     private val minifyMode = true
 /*
 in minify mode all passing tests will be removed, such that the next execution will skip them.
