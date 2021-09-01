@@ -6,7 +6,7 @@ sed "s/minifyMode = .*/minifyMode = true/g" -i ./src/luposdate3000_test/src/comm
 rm -rf tmp
 mkdir tmp
 sleep 1
-./launcher.main.kts --setup
+./launcher.main.kts --setup --intellijMode=Disable
 ./gradlew assemble
 sleep 1
 i=0
@@ -14,7 +14,7 @@ while true
 do
 i=$((i+1))
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
-./launcher.main.kts --setup
+./launcher.main.kts --setup --intellijMode=Disable
 timeout2 -t 600 ./gradlew build > x
 cp x backupX$i
 pkill java -9
