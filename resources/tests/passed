@@ -254,3 +254,384 @@ test96
 test97
 test98
 test99
+-- a/resources/tests/passed
+ABS - None - PartitionByIDTwiceAllCollations - true
+ADD 1 - None - PartitionByIDTwiceAllCollations - true
+ADD 2 - None - PartitionByIDTwiceAllCollations - true
+ADD 3 - None - PartitionByIDTwiceAllCollations - true
+ADD 4 - None - PartitionByIDTwiceAllCollations - true
+ADD 7 - None - PartitionByIDTwiceAllCollations - true
+ADD SILENT - None - PartitionByIDTwiceAllCollations - true
+bind01  BIND - None - PartitionByIDTwiceAllCollations - true
+bind02  BIND - None - PartitionByIDTwiceAllCollations - true
+bind03  BIND - None - PartitionByIDTwiceAllCollations - true
+bind04  BIND - None - PartitionByIDTwiceAllCollations - true
+bind06  BIND - None - PartitionByIDTwiceAllCollations - true
+bind07  BIND - None - PartitionByIDTwiceAllCollations - true
+bind08  BIND - None - PartitionByIDTwiceAllCollations - true
+bind10  BIND scoping  Variable in filter not in scope - None - PartitionByIDTwiceAllCollations - true
+bind11  BIND scoping  Variable in filter in scope - None - PartitionByIDTwiceAllCollations - true
+bnodes are not existentials - None - PartitionByIDTwiceAllCollations - true
+BNODEstr - None - PartitionByIDTwiceAllCollations - true
+campusCentralCase_getAllParkingAreas
+campusCentralCase_getAllSpacesOfParkingArea
+campusCentralCase_getAllTriples
+campusCentralCase_getLastResultsOfEachSensorInArea
+campusCentralCase_getLastResultsOfEachSensorInManyAreas
+campusCentralCase_getLastSampleOfSensor
+campusCentralCase_getNumberOfCurrentlyFreeSpacesInArea
+campusCentralCase_getNumberOfParkingAreas
+campusCentralCase_getSampleNumberOfSensor
+campusCentralCaseWithoutQuery
+campusDistributedCase_getAllParkingAreas
+campusDistributedCase_getAllSpacesOfParkingArea
+campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db
+campusDistributedCase_getAllTriples
+campusDistributedCase_getLastResultsOfEachSensorInArea
+campusDistributedCase_getLastResultsOfEachSensorInManyAreas
+campusDistributedCase_getLastSampleOfSensor
+campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea
+campusDistributedCase_getNumberOfParkingAreas
+campusDistributedCase_getSampleNumberOfSensor
+campusDistributedCaseWithoutQuery
+cannotLinkWithItself
+CEIL - None - PartitionByIDTwiceAllCollations - true
+change seed
+checkLinksInStarNetwork
+CLEAR ALL - None - PartitionByIDTwiceAllCollations - true
+CLEAR DEFAULT - None - PartitionByIDTwiceAllCollations - true
+CLEAR GRAPH - None - PartitionByIDTwiceAllCollations - true
+CLEAR NAMED - None - PartitionByIDTwiceAllCollations - true
+COALESCE - None - PartitionByIDTwiceAllCollations - true
+CONCAT - None - PartitionByIDTwiceAllCollations - true
+configOneQuerySender
+constructwhere02  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - true
+constructwhere03  CONSTRUCT WHERE - None - PartitionByIDTwiceAllCollations - true
+CONTAINS - None - PartitionByIDTwiceAllCollations - true
+COPY 1 - None - PartitionByIDTwiceAllCollations - true
+COPY 3 - None - PartitionByIDTwiceAllCollations - true
+COPY 6 - None - PartitionByIDTwiceAllCollations - true
+COPY 7 - None - PartitionByIDTwiceAllCollations - true
+COPY SILENT - None - PartitionByIDTwiceAllCollations - true
+COPY SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true
+COUNT 1 - None - PartitionByIDTwiceAllCollations - true
+COUNT 3 - None - PartitionByIDTwiceAllCollations - true
+COUNT 4 - None - PartitionByIDTwiceAllCollations - true
+COUNT 5 - None - PartitionByIDTwiceAllCollations - true
+COUNT 6 - None - PartitionByIDTwiceAllCollations - true
+COUNT 7 - None - PartitionByIDTwiceAllCollations - true
+COUNT 8b - None - PartitionByIDTwiceAllCollations - true
+COUNT 8 - None - PartitionByIDTwiceAllCollations - true
+countNumberOfDevicesInRandomNetwork
+create random location within radius
+databasesAsStarRoots
+DAY - None - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 6b - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - true
+deviceWithoutLinkTypeCanNotLink
+downwardRouteForwarding
+DROP ALL - None - PartitionByIDTwiceAllCollations - true
+DROP DEFAULT - None - PartitionByIDTwiceAllCollations - true
+DROP GRAPH - None - PartitionByIDTwiceAllCollations - true
+DROP NAMED - None - PartitionByIDTwiceAllCollations - true
+DROP SILENT GRAPH iri - None - PartitionByIDTwiceAllCollations - true
+edgeMeshDevicesCannotReachEachOther
+Expression is equality - None - PartitionByIDTwiceAllCollations - true
+FLOOR - None - PartitionByIDTwiceAllCollations - true
+getAllDBHopsByDestinations
+getDatabaseHopWithoutOwnDatabase
+getDatabaseHopWithOwnDatabase
+getDefaultDatabaseHopWithoutOwnDatabase
+getDefaultDatabaseHopWithOwnDatabase
+getDestinations
+getDistanceInMeters
+getExistingDBHopWithoutOwnDB
+getExistingDBHopWithOwnDB
+get false
+getHopCount
+getNextDBHops1
+getNextDBHops2
+getNextDBHops3
+getSortedLinkTypeIndices
+get true
+Group1 - None - PartitionByIDTwiceAllCollations - true
+Group3 - None - PartitionByIDTwiceAllCollations - true
+Group4 - None - PartitionByIDTwiceAllCollations - true
+Group5 - None - PartitionByIDTwiceAllCollations - true
+HOURS - None - PartitionByIDTwiceAllCollations - true
+IF - None - PartitionByIDTwiceAllCollations - true
+Inline VALUES graph pattern - None - PartitionByIDTwiceAllCollations - true
+INSERT 01 - None - PartitionByIDTwiceAllCollations - true
+INSERT 03 - None - PartitionByIDTwiceAllCollations - true
+INSERT 04 - None - PartitionByIDTwiceAllCollations - true
+INSERT USING 01 - None - PartitionByIDTwiceAllCollations - true
+inStarNetworkChildrenDoNotKnowEachOther
+isNotReachAble
+isNumeric - None - PartitionByIDTwiceAllCollations - true
+isReachAble
+linkByDataRate
+linkByLink
+manipulateJsonObjects
+MD5 over Unicode data - None - PartitionByIDTwiceAllCollations - true
+meshToDODAG
+MINUTES - None - PartitionByIDTwiceAllCollations - true
+moreSouthernThanEasternMeshDevices
+MOVE 1 - None - PartitionByIDTwiceAllCollations - true
+MOVE 3 - None - PartitionByIDTwiceAllCollations - true
+MOVE 6 - None - PartitionByIDTwiceAllCollations - true
+MOVE 7 - None - PartitionByIDTwiceAllCollations - true
+MOVE SILENT - None - PartitionByIDTwiceAllCollations - true
+MOVE SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true
+multiHopDODAGRoutingTableTest
+nextHopOnEmptyTableIsDefault
+NOT IN 1 - None - PartitionByIDTwiceAllCollations - true
+NOT IN 2 - None - PartitionByIDTwiceAllCollations - true
+noUpdateIfNothingIsRemoved
+noUpdatesByRedundantInserts
+onlyEasternMeshDevices
+onlyOneMeshDevice
+onlySouthernMeshDevices
+parseEmptyConfigFile
+random double is between min and max
+RDF inference test luposDuplicate1 - None - PartitionByIDTwiceAllCollations - true
+RDFS inference test containers - None - PartitionByIDTwiceAllCollations - true
+RDFS inference test rdfXMLLiteral - None - PartitionByIDTwiceAllCollations - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - PartitionByIDTwiceAllCollations - true
+RDF test for blank node cardinalities - None - PartitionByIDTwiceAllCollations - true
+removeDestinationsRemovesAlsoDBHopsWithDB
+removeDestinationsRemovesAlsoDBHopsWithoutDB
+resourcesbtc002sparql46 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional10sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional10sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional11sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional12sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional13sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+resourcesmyqueriesoptional13sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - in simulator - Simple - Centralized - false - Thread
+resourcesmyqueriesoptional13sparql5 - in simulator - Simple - Centralized - true - None
+resourcesmyqueriesoptional13sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional14sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional15sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional15sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional17sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional17sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional18sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional19sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional19sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional1sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional1sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional20sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional20sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional21sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional22sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional22sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional24sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional26sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional26sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional27sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional27sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional29sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional29sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional2sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional2sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional30sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional30sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional31sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional32sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional32sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional33sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional34sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional35sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional35sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional36sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional36sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional37sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional38sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional38sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional3sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional40sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional40sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional41sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional42sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional43sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional44sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional44sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional45sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional46sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional46sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional48sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional48sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional49sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional4sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional4sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional50sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional51sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional51sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional52sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional54sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional54sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional55sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional56sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional57sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional57sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional58sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional58sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional59sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional59sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional60sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional61sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional62sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional64sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional6sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional6sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional7sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional7sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional8sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional8sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional9sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesoptional9sparql5 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesx3sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesx4sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesx5sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesx6sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcesmyqueriesx7sparql4 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq10sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq111sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq11sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12a1sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12asparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12asparql247 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12b2sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12b3sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12b4sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12bsparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq12csparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq1sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq2sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq2sparql247 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - false - None
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - false - Thread
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - true - None
+resourcessp2bq3asparql21 - in simulator - Simple - Centralized - true - Thread
+resourcessp2bq3asparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq3csparql247 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq42sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq4sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq5asparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
+resourcessp2bq5bsparql1294 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
+resourcessp2bq5bsparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+resourcessp2bq5bsparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq61sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq62sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq63sparql247 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq65sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq67sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq6sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq71sparql247 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq72sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq7sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq8sparql21 - None - PartitionByIDTwiceAllCollations - true
+resourcessp2bq9sparql21 - None - PartitionByIDTwiceAllCollations - true
+Reuse a project expression variable in order by - None - PartitionByIDTwiceAllCollations - true
+ROUND - None - PartitionByIDTwiceAllCollations - true
+runMultipleStarNetworkSimulations
+runSimulationWithoutEntities
+same seed results in same random sequence
+SAMPLE - None - PartitionByIDTwiceAllCollations - true
+saveParkingSamplesInDummyTripleStore
+sendLimitedNumberOfQueries
+sendQueries
+sensorFromStarSendOverMesh
+sensorFromStarSendOverMeshWithDB
+sensorsFromStarSendOverFixedLinks
+sensorsKnowTheirDevice
+setAndRemoveDestinations
+setOnceAndGetHops
+setTwiceAndGetHops
+severalStarNetworksDifferInTheNetworkPrefix
+SHA1 - None - PartitionByIDTwiceAllCollations - true
+SHA256 - None - PartitionByIDTwiceAllCollations - true
+Simple DELETE 3 - None - PartitionByIDTwiceAllCollations - true
+Simple DELETE WHERE 3 - None - PartitionByIDTwiceAllCollations - true
+simple triple pattern match - None - PartitionByIDTwiceAllCollations - true
+sortLinkTypesByDataRate
+sparqldl01rq triple pattern - None - PartitionByIDTwiceAllCollations - true
+sq12  Subquery in CONSTRUCT with builtins - None - PartitionByIDTwiceAllCollations - true
+starNetworkIsASimpleDODAG
+starNetworkRoutingTables
+starRootIsDataSinkOfItsSensors
+STRDTSTR - None - PartitionByIDTwiceAllCollations - true
+STRENDS - None - PartitionByIDTwiceAllCollations - true
+STRLANGSTR - None - PartitionByIDTwiceAllCollations - true
+STRLEN - None - PartitionByIDTwiceAllCollations - true
+Subsets by exclusion NOT EXISTS - None - PartitionByIDTwiceAllCollations - true
+SUM with GROUP BY - None - PartitionByIDTwiceAllCollations - true
+synpname03 - None - PartitionByIDTwiceAllCollations - true
+synpname08 - None - PartitionByIDTwiceAllCollations - true
+syntaxaggregate04rq - None - PartitionByIDTwiceAllCollations - true
+syntaxBINDscope4rq - None - PartitionByIDTwiceAllCollations - true
+syntaxBINDscope5rq - None - PartitionByIDTwiceAllCollations - true
+syntaxselectexpr01rq - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate01ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate11ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate23ru - None - PartitionByIDTwiceAllCollations - true
+syntaxupdate30ru - None - PartitionByIDTwiceAllCollations - true
+test_1
+testMultipleUpdates
+theFirstInsertUpdatesAlways
+theHopIsADestination
+thereAreTwoHops
+thereIsOnlyOneHop
+tooFarAwayToLink
+transmissionDelay1
+tsv01  TSV Result Format - None - PartitionByIDTwiceAllCollations - true
+tsv03  TSV Result Format - None - PartitionByIDTwiceAllCollations - true
+twoDBWithOneSensor
+twoDevicesHaveOneConnection
+two devices link with most suitable linkType
+two devices link with the only possible linkType
+twoLinkedDevicesShareTheirLinkObject
+twoSensorOneDB
+UCASE - None - PartitionByIDTwiceAllCollations - true
+upAndDownwardRouteForwarding
+updateIfIsRemoved
+updatesByMultipleInserts
+upwardRouteForwarding
+YEAR - None - PartitionByIDTwiceAllCollations - true
