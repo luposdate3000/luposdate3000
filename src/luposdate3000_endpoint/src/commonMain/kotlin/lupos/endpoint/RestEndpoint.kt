@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.endpoint_launcher
+package lupos.endpoint
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
@@ -43,12 +43,14 @@ import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.MyStringStream
+import lupos.dictionary.RemoteDictionaryClient
+import lupos.dictionary.RemoteDictionaryServer
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.xmlParser.XMLParser
 import kotlin.jvm.JvmField
 
 public object RestEndpoint {
-    internal const val key_global_dict = "global_dict"
+    public const val key_global_dict :String= "global_dict"
 
     @JvmField
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()

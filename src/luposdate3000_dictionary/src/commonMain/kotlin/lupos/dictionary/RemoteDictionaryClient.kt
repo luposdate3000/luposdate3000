@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.endpoint_launcher
+package lupos.dictionary
 
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryCacheLayer
@@ -27,18 +27,18 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient internal constructor(
+public class RemoteDictionaryClient public constructor(
     @JvmField
-    val input: IMyInputStream,
+private    val input: IMyInputStream,
     @JvmField
-    val output: IMyOutputStream,
+    private val output: IMyOutputStream,
     instance: Luposdate3000Instance,
     isLocal: Boolean,
     unusedParam: Int,
 ) : ADictionary(instance, isLocal) {
 
-    internal companion object {
-        internal operator fun invoke(
+    public companion object {
+        public operator fun invoke(
             input: IMyInputStream,
             output: IMyOutputStream,
             instance: Luposdate3000Instance,

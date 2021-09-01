@@ -19,9 +19,9 @@ package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
-import lupos.endpoint_launcher.PathMappingHelper
-import lupos.endpoint_launcher.RestEndpoint
-import lupos.endpoint_launcher.WebRootEndpoint
+import lupos.endpoint.PathMappingHelper
+import lupos.endpoint.RestEndpoint
+import lupos.endpoint.WebRootEndpoint
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase

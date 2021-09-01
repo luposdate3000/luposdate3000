@@ -322,7 +322,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         return
     }
-var useKTLint=moduleArgs.useKTLint && !enableJS && !enableNative
+var useKTLint=moduleArgs.useKTLint && moduleArgs.target==TargetMode2.JVM
     try {
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {

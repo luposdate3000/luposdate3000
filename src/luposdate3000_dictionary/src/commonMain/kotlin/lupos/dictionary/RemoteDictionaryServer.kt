@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.endpoint_launcher
+package lupos.dictionary
 
 import lupos.dictionary.ADictionary
 import lupos.shared.DictionaryValueHelper
@@ -27,8 +27,8 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryServer(
-    @JvmField val dictionary: IDictionary,
+public class RemoteDictionaryServer(
+private    @JvmField val dictionary: IDictionary,
     instance: Luposdate3000Instance,
 ) : ADictionary(instance, true) {
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
@@ -65,7 +65,7 @@ internal class RemoteDictionaryServer(
         return dictionary.hasValue(buffer)
     }
 
-    fun connect(input: IMyInputStream, output: IMyOutputStream) {
+public    fun connect(input: IMyInputStream, output: IMyOutputStream) {
         val buffer = ByteArrayWrapper()
         loop@ while (true) {
             when (input.readInt()) {
