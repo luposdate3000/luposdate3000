@@ -56,7 +56,7 @@ for (i in 0 until 3) {
 inputWriter.close()
 val generateFile = File("generate.sh").printWriter()
 for (i in 0 until idx) {
-    println("java -Xmx60g -cp $(printf %s: $(pwd)/build-cache/bin-effective/*.jar) MainKt --generate resources/myqueries/join/joinData.n3 resources/myqueries/join/join$i.sparql resources/myqueries/join/joinData.n3 resources/binary/join$i join$i SELECT_QUERY_RESULT")
+    println("java -Xmx100g -cp $(printf %s: $(pwd)/build-cache/bin-effective/*.jar) MainKt --generate resources/myqueries/join/joinData.n3 resources/myqueries/join/join$i.sparql resources/myqueries/join/joinData.n3 resources/binary/join$i join$i SELECT_QUERY_RESULT")
     println("echo join$i=enabled >> resources/binary/config")
 }
 generateFile.close()

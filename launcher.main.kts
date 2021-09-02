@@ -886,8 +886,8 @@ fun onRun() {
                 cmd.add("-XX:+UnlockExperimentalVMOptions")
                 when (EGarbageCollectorExt.names.indexOf(LauncherConfig.getConfigValue("--garbageCollector"))) {
                     EGarbageCollectorExt.Epsilon -> {
-                        cmd.add("-Xmx10g")
-                        cmd.add("-Xms10g")
+                        cmd.add("-Xmx100g")
+                        cmd.add("-Xms100g")
                         cmd.add("-XX:+UseEpsilonGC")
                         cmd.add("-XX:+AlwaysPreTouch")
                         cmd.add("-XX:+HeapDumpOnOutOfMemoryError")

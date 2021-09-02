@@ -13,7 +13,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-for f in $(ps -aux | grep java | grep -v "grep --color=auto java" | sed "s/^[^ ]* *//g" | sed "s/ .*//g")
+for f in $(ps -aux | grep java | grep "Gradle Test Executor" | sed "s/^[^ ]* *//g" | sed "s/ .*//g")
 do
-jmap -dump:live,format=b,file="${f}_$(date +"%Y_%m_%d_%H_%M_%S").hprof" $f
+jmap -dump:live,format=b,file="${f}_$(date +"%Y_%m_%d_%H_%M_%S").hprof" $f &
 done
+wait
