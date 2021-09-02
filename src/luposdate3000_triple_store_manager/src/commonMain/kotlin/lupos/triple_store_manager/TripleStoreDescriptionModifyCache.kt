@@ -47,18 +47,14 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         isSorted: Boolean,
         filteredBy: List<TripleStoreDescriptionModifyCacheFilterEntry>?,
     ) {
-        println("TripleStoreDescriptionModifyCache.constructor start $type $sortedBy $isSorted $filteredBy")
         val allConnLocal = mutableListOf<TripleStoreDescriptionModifyCacheConnection>()
         val allConnMap = mutableMapOf<String, TripleStoreDescriptionModifyCacheConnection>() // address -> real-targets
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
         for (index in description.indices) {
             val idx = index.idx_set[0]
-            println("TripleStoreDescriptionModifyCache.constructor for index $idx")
             if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
-                println("TripleStoreDescriptionModifyCache.constructor sortedFilter passed")
                 var j = 0
                 for ((host, key) in index.getAllLocations()) {
-                    println("TripleStoreDescriptionModifyCache.constructor location $host $key")
                     var flag: Boolean
                     if (filteredBy == null) {
                         flag = true
@@ -72,23 +68,18 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                         flag = false
                     }
                     if (flag) {
-                        println("TripleStoreDescriptionModifyCache.constructor filters passed")
                         val filter = FilterFunc(
                             j,
                             index,
                             { row2, j2, index2 ->
-                                println("TripleStoreDescriptionModifyCache.constructor filterfunc $j")
                                 index2.findPartitionFor(query, row2) == j2
                             }
                         )
                         if (host == localH) {
-                            println("TripleStoreDescriptionModifyCache.constructor localCacheConnection")
                             allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted), mutableListOf(filter)))
                         } else {
-                            println("TripleStoreDescriptionModifyCache.constructor remoteCacheConnection")
                             var conn = allConnMap[host]
                             if (conn == null) {
-                                println("TripleStoreDescriptionModifyCache.constructor first connection to $host")
                                 val tmp = instance.communicationHandler!!.openConnection(host, "/distributed/graph/modify", mapOf("graph" to description.graph, "sortedBy" to "$sortedBy", "isSorted" to "$isSorted", "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt())
                                 conn = TripleStoreDescriptionModifyCacheConnection(tmp.first, tmp.second, mutableListOf())
                                 allConnMap[host] = conn
@@ -112,23 +103,18 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             allConn.add(conn)
         }
         allConn.addAll(allConnLocal)
-        println("TripleStoreDescriptionModifyCache.constructor end ${allConn.size}")
     }
 
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:117"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:118"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:119"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
-        println("TripleStoreDescriptionModifyCache.writeRow $s $p $o")
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:108"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:109"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:110"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
         loop@ for (c in allConn) {
-            println("TripleStoreDescriptionModifyCache.writeRow for conn")
             row[0] = s
             row[1] = p
             row[2] = o
             for (f in c.filters) {
-                println("TripleStoreDescriptionModifyCache.writeRow check filter")
                 if (f.action(row, f.j, f.index)) {
-                    println("TripleStoreDescriptionModifyCache.writeRow filter passed")
                     c.output.writeDictionaryValueType(s)
                     c.output.writeDictionaryValueType(p)
                     c.output.writeDictionaryValueType(o)
