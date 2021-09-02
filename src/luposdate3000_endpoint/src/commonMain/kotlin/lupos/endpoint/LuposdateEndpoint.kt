@@ -218,7 +218,7 @@ public object LuposdateEndpoint {
                 }
             }
             if (requireSorting) {
-                val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT)
+                val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
                 val fileTriples = TriplesIntermediateReader("$fileName.spo")
                 fileTriples.readAll {
                     cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
@@ -243,7 +243,7 @@ public object LuposdateEndpoint {
                     counter = 0
                     val orderName = orderNames[o]
                     val sortedBy = orderPatterns[o]
-                    val cache = store.modify_create_cache_sorted(query, EModifyTypeExt.INSERT, sortedBy)
+                    val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT, sortedBy, true)
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)

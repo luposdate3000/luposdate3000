@@ -31,7 +31,6 @@ import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
@@ -354,11 +353,11 @@ public object RestEndpoint {
         }
         paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             val query = Query(instance)
-            val key = params["key"]!!
-            val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
             val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
+            val graph = params["graph"]!!
             val isSorted = params["isSorted"]!!.toBoolean()
-            instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy, isSorted)
+            val sortedBy = params["sortedBy"]!!.toInt()
+            instance.tripleStoreManager!!.remoteModify(query, mode, connectionInMy, isSorted, sortedBy, graph)
             true
         }
         paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) { params, _, connectionOutMy ->

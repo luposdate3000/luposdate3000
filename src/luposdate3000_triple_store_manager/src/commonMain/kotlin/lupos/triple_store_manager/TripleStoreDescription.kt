@@ -37,11 +37,14 @@ import lupos.shared.operator.noinput.IAOPVariable
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescription(
+    @JvmField internal val graph: String,
     @JvmField internal val indices: Array<TripleStoreIndexDescription>,
     @JvmField internal val instance: Luposdate3000Instance,
 ) : ITripleStoreDescription {
     public override fun toMetaString(): String {
         val res = StringBuilder()
+        res.append(graph)
+        res.append("|")
         for (idx in indices) {
             when (idx) {
                 is TripleStoreIndexDescriptionPartitionedByID -> {
@@ -70,38 +73,43 @@ public class TripleStoreDescription(
     public companion object {
         public operator fun invoke(metaString: String, instance: Luposdate3000Instance): TripleStoreDescription {
             val indices = mutableListOf<TripleStoreIndexDescription>()
+            var graph: String? = null
             val metad = metaString.split("|")
             for (meta in metad) {
-                val args = meta.split(";")
-                if (args.size > 1) {
-                    when (args[0]) {
-                        "PartitionedByID" -> {
-                            val idx = TripleStoreIndexDescriptionPartitionedByID(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), args[3].toInt(), instance)
-                            for (i in 0 until args[2].toInt()) {
-                                idx.hostnames[i] = args[4 + i * 2]
-                                idx.keys[i] = args[4 + i * 2 + 1]
+                if (graph == null) {
+                    graph = meta
+                } else {
+                    val args = meta.split(";")
+                    if (args.size > 1) {
+                        when (args[0]) {
+                            "PartitionedByID" -> {
+                                val idx = TripleStoreIndexDescriptionPartitionedByID(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), args[3].toInt(), instance)
+                                for (i in 0 until args[2].toInt()) {
+                                    idx.hostnames[i] = args[4 + i * 2]
+                                    idx.keys[i] = args[4 + i * 2 + 1]
+                                }
+                                indices.add(idx)
                             }
-                            indices.add(idx)
-                        }
-                        "PartitionedByKey" -> {
-                            val idx = TripleStoreIndexDescriptionPartitionedByKey(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), instance)
-                            for (i in 0 until args[2].toInt()) {
-                                idx.hostnames[i] = args[3 + i * 2]
-                                idx.keys[i] = args[3 + i * 2 + 1]
+                            "PartitionedByKey" -> {
+                                val idx = TripleStoreIndexDescriptionPartitionedByKey(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), instance)
+                                for (i in 0 until args[2].toInt()) {
+                                    idx.hostnames[i] = args[3 + i * 2]
+                                    idx.keys[i] = args[3 + i * 2 + 1]
+                                }
+                                indices.add(idx)
                             }
-                            indices.add(idx)
+                            "Simple" -> {
+                                val idx = TripleStoreIndexDescriptionSimple(EIndexPatternExt.names.indexOf(args[1]), instance)
+                                idx.hostname = args[2]
+                                idx.key = args[3]
+                                indices.add(idx)
+                            }
+                            else -> throw Exception("unexpected type")
                         }
-                        "Simple" -> {
-                            val idx = TripleStoreIndexDescriptionSimple(EIndexPatternExt.names.indexOf(args[1]), instance)
-                            idx.hostname = args[2]
-                            idx.key = args[3]
-                            indices.add(idx)
-                        }
-                        else -> throw Exception("unexpected type")
                     }
                 }
             }
-            val res = TripleStoreDescription(indices.toTypedArray(), instance)
+            val res = TripleStoreDescription(graph!!, indices.toTypedArray(), instance)
             for (idx in indices) {
                 idx.tripleStoreDescription = res
             }
@@ -117,12 +125,8 @@ public class TripleStoreDescription(
         return res
     }
 
-    public override fun modify_create_cache(query: IQuery, type: EModifyType): ITripleStoreDescriptionModifyCache {
-        return TripleStoreDescriptionModifyCache(query, this, type, instance)
-    }
-
-    public override fun modify_create_cache_sorted(query: IQuery, type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache {
-        return TripleStoreDescriptionModifyCache(query, this, type, sortedBy, instance)
+    public override fun modify_create_cache(query: IQuery, type: EModifyType, sortedBy: EIndexPattern, isSorted: Boolean): ITripleStoreDescriptionModifyCache {
+        return TripleStoreDescriptionModifyCache(query, this, type, sortedBy, instance, isSorted, null)
     }
 
     public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
@@ -147,7 +151,7 @@ public class TripleStoreDescription(
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:149"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:153"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {

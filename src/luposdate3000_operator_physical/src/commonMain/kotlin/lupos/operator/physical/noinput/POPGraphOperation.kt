@@ -193,7 +193,7 @@ public class POPGraphOperation public constructor(
                         ColumnIteratorMultiValue3(pa, pa.size),
                         ColumnIteratorMultiValue3(oa, oa.size),
                     )
-                    val cache = target.modify_create_cache(query, EModifyTypeExt.INSERT)
+                    val cache = target.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
                     while (true) {
                         val s = iterator[0].next()
                         val p = iterator[1].next()

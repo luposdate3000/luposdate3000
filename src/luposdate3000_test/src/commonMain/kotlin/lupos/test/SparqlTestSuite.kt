@@ -480,7 +480,7 @@ public open class SparqlTestSuite {
                         }
                         val tmp = tmp2.evaluateRoot()
                         val sstore = instance.tripleStoreManager!!.getDefaultGraph()
-                        val cache = sstore.modify_create_cache(query, EModifyTypeExt.INSERT)
+                        val cache = sstore.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
                         val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
                         while (true) {
                             val s = iterator[0].next()
@@ -526,7 +526,7 @@ public open class SparqlTestSuite {
                     }
                     val tmp = tmp2.evaluateRoot()
                     val sstore = instance.tripleStoreManager!!.getGraph(it["name"]!!)
-                    val cache = sstore.modify_create_cache(query, EModifyTypeExt.INSERT)
+                    val cache = sstore.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
                     val iterator = arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!)
                     while (true) {
                         val s = iterator[0].next()

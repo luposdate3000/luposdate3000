@@ -20,8 +20,7 @@ import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 
 public interface ITripleStoreDescription {
-    public fun modify_create_cache(query: IQuery, type: EModifyType): ITripleStoreDescriptionModifyCache
-    public fun modify_create_cache_sorted(query: IQuery, type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache
+    public fun modify_create_cache(query: IQuery, type: EModifyType, sortedBy: EIndexPattern, isSorted: Boolean): ITripleStoreDescriptionModifyCache
     public fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase
     public fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int>
     public fun toMetaString(): String

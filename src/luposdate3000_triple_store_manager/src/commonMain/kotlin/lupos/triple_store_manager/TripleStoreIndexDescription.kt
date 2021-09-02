@@ -31,8 +31,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
     @JvmField
     internal var idx_set: IntArray = intArrayOf()
 
-    @JvmField
-    internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescription(arrayOf(), instance)
+    internal lateinit var tripleStoreDescription: TripleStoreDescription
     internal abstract fun requireSplitFromStore(): Boolean
     internal abstract fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>?
     internal abstract fun toByteArray(): ByteArray

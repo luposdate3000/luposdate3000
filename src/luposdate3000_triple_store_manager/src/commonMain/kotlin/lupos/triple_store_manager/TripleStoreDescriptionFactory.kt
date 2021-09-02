@@ -45,8 +45,8 @@ public class TripleStoreDescriptionFactory(@JvmField internal val instance: Lupo
         return this
     }
 
-    internal fun build(instance: Luposdate3000Instance): TripleStoreDescription {
-        val store = TripleStoreDescription(indices.toTypedArray(), instance)
+    internal fun build(graph: String, instance: Luposdate3000Instance): TripleStoreDescription {
+        val store = TripleStoreDescription(graph, indices.toTypedArray(), instance)
         for (index in indices) {
             index.tripleStoreDescription = store
         }

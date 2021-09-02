@@ -96,7 +96,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         }
         for ((graph, iteratorData) in iteratorDataMap) {
             val graphLocal = query.getInstance().tripleStoreManager!!.getGraph(graph)
-            val cache = graphLocal.modify_create_cache(query, EModifyTypeExt.INSERT)
+            val cache = graphLocal.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
             val iterator = Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }
             while (true) {
                 val s = iterator[0].next()
