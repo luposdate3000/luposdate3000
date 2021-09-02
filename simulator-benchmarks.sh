@@ -27,14 +27,17 @@ for d in luposdate3000_by_key luposdate3000_by_id_twice_all_collations luposdate
 #for d in luposdate3000_by_key
 do
 JSON_DATABASE="${BASE_PATH}/$d.json"
+for m in Disabled Enabled
+do
+JSON_MULTICAST="${BASE_PATH}/luposdate3000Multicast${m}.json"
 for dist in luposdate3000_distribution_routing luposdate3000_distribution_centralized
 do
 JSON_DIST="${BASE_PATH}/$dist.json"
-echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST
-eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST
+echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
+eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
 echo "simulator_output/_campus_${t}_${q}_${d}_evaluation/measurement.csv"
-headerLine="topology,database,query,dist,readwrite"
-contentLine="${t},${d},${q},${dist}"
+headerLine="topology,database,query,dist,multicast,readwrite"
+contentLine="${t},${d},${q},${m},${dist}"
 if [ "$q" = "Q0" ]
 then
 contentLine="$contentLine,w"
@@ -60,6 +63,7 @@ echo $headerLine >> simulator_output/final.csv
 fi
 echo $contentLine >> simulator_output/final.csv
 first=false
+done
 done
 done
 done
