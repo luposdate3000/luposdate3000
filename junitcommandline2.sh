@@ -1,12 +1,10 @@
 #!/bin/bash
 
-testname="00"
-
-classpath="."
-classpath="$classpath:/src/luposdate3000/src/luposdate3000_code_gen_test_${testname}/build/classes/kotlin/jvm/test"
-classpath="$classpath:/src/luposdate3000/src/luposdate3000_code_gen_test_${testname}/build/processedResources/jvm/test"
-classpath="$classpath:/src/luposdate3000/src/luposdate3000_code_gen_test_${testname}/build/classes/kotlin/jvm/main"
-classpath="$classpath:/src/luposdate3000/src/luposdate3000_code_gen_test_${testname}/build/processedResources/jvm/main"
+testname="*"
+x=$(find /src/luposdate3000/src/luposdate3000_code_gen_test_* -maxdepth 0 | sed "s-\$-/build/classes/kotlin/jvm/test-g" | tr "\n" ":")
+y=$(find /src/luposdate3000/src/luposdate3000_code_gen_test_* -maxdepth 0 | sed "s-\$-/build/classes/kotlin/jvm/main-g" | tr "\n" ":")
+classpath="$classpath:$x"
+classpath="$classpath:$y"
 classpath="$classpath:/src/luposdate3000/src/luposdate3000_simulator_iot/build/libs/luposdate3000_simulator_iot-jvm-0.0.1.jar"
 classpath="$classpath:/src/luposdate3000/src/luposdate3000_visualize_distributed_database/build/libs/luposdate3000_visualize_distributed_database-jvm-0.0.1.jar"
 classpath="$classpath:/src/luposdate3000/src/luposdate3000_simulator_db/build/libs/luposdate3000_simulator_db-jvm-0.0.1.jar"
@@ -46,5 +44,10 @@ classpath="$classpath:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kot
 classpath="$classpath:/root/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"
 classpath="$classpath:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar"
 classpath="$classpath:/root/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"
-
-java -cp $classpath org.junit.runner.JUnitCore $(find src/luposdate3000_code_gen_test_${testname}/src/jvmTest/kotlin/lupos/code_gen_test_${testname}/ -type f | sed "s/.kt$//g" | sed "s-.*/-lupos.code_gen_test_${testname}.-g" | tr "\n" " ")
+echo $classpath | tr ":" "\n"
+mkdir src/tmp
+cp -r /src/luposdate3000/src/luposdate3000_code_gen_test_*/* src/tmp/
+cd src/tmp
+java -cp $classpath org.junit.runner.JUnitCore $(find /src/luposdate3000/src/luposdate3000_code_gen_test_*/src/jvmTest/kotlin/lupos/code_gen_test_*/ -type f | sed "s/.kt$//g" | sed "s/.*code_gen_test/lupos.code_gen_test/g" | sed "s-/-\.-g" | tr "\n" " ")
+cd ..
+rm -rf tmp

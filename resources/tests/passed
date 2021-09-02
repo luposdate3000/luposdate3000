@@ -2733,7 +2733,6 @@ LCASE - Thread - Simple - false
 LCASE - Thread - Simple - true
 linkByDataRate
 linkByLink
-Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
 Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
 Literal with language tag test - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
 Literal with language tag test - None - PartitionByID_1_AllCollations - false

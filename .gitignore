@@ -46,3 +46,4 @@ visual*.svg
 out.mp4
 out.avi
 resources/tests/blacklist
+src/tmp
