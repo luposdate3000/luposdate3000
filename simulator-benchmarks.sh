@@ -1,9 +1,9 @@
 #!/bin/bash
 
 rm -rf simulator_output
-git clean -xdf
-./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
-#./launcher.main.kts --setup --intellijMode=Disable
+#git clean -xdf
+#./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
+./launcher.main.kts --setup --intellijMode=Disable
 ./gradlew assemble
 cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
 declare -A baselineValues
@@ -23,7 +23,7 @@ for t in distributed distributedWithQueryHops central
 #for t in distributed
 do
 JSON_TOPOLOGY="${BASE_PATH}/$t.json"
-for d in luposdate3000_by_key luposdate3000_by_id_twice_all_collations luposdate3000_by_id_0_all_collations luposdate3000_by_id_1_all_collations luposdate3000_by_id_O_all_collations luposdate3000_by_id_S_all_collations luposdate3000_by_simple
+for d in luposdate3000_by_key luposdate3000_by_id_twice_all_collations luposdate3000_by_id_2_all_collations luposdate3000_by_id_1_all_collations luposdate3000_by_id_O_all_collations luposdate3000_by_id_S_all_collations luposdate3000_by_simple
 #for d in luposdate3000_by_key
 do
 JSON_DATABASE="${BASE_PATH}/$d.json"
@@ -35,7 +35,8 @@ do
 JSON_DIST="${BASE_PATH}/$dist.json"
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
 eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
-echo "simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}/measurement.csv"
+measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}/measurement.csv"
+echo $measurementFile
 headerLine="topology,database,query,dist,multicast,readwrite"
 contentLine="${t},${d},${q},${m},${dist}"
 if [ "$q" = "Q0" ]
@@ -46,8 +47,8 @@ contentLine="$contentLine,r"
 fi
 for idx in 11 12 14 15 18 19 23 24 26 29 30
 do
-headerLine="$headerLine,$(sed '1q;d' simulator_output/_campus_${t}_${q}_${d}_evaluation/measurement.csv | cut -f${idx} -d ',')"
-value="$(sed '2q;d' simulator_output/_campus_${t}_${q}_${d}_evaluation/measurement.csv | cut -f${idx} -d ',')"
+headerLine="$headerLine,$(sed '1q;d' $measurementFile | cut -f${idx} -d ',')"
+value="$(sed '2q;d' $measurementFile | cut -f${idx} -d ',')"
 if [ "$q" = "Q0" ]
 then
 #baseline
