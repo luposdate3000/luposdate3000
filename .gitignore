@@ -1,3 +1,4 @@
+resources/tests/all
 benchmark-results/
 src/luposdate3000_spa_client/tonejs-instruments
 build.config
@@ -44,3 +45,4 @@ simulator_output
 visual*.svg
 out.mp4
 out.avi
+resources/tests/blacklist
