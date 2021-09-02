@@ -1,5 +1,9 @@
+import sys
 
-with open("evaluation.train.me.s.5000k3:7.ppo_model", "r") as evaluation:
+eval_file = sys.argv[1]
+
+
+with open(eval_file, "r") as evaluation:
     lines = evaluation.readlines()
     max_t = float(lines[0])
     min_t = float(lines[1])

@@ -43,10 +43,10 @@ def train_model():
     # env = model.get_env()
 
     env.set_training_data(benched_queries)
-    model.learn(total_timesteps=5000000, log_interval=1)
+    model.learn(total_timesteps=25000000, log_interval=None)
     # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
     #model.save("train.me.s.50k" + ".ppo_model")
-    model.save("train.me.s.5000k" + "3:7" + ".ppo_model")
+    model.save("train.me.s.25000k" + "3:7" + ".ppo_model")
 
 
 
