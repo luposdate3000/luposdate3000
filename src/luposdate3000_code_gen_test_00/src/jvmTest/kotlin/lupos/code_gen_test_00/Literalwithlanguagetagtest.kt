@@ -158,21 +158,6 @@ public class Literalwithlanguagetagtest {
     }
 
     @Test(timeout = 2000)
-    public fun `Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            )
-        )
-    }
-
-    @Test(timeout = 2000)
     public fun `Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

@@ -1,3 +1,4 @@
+resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
 [31;1m> Task :src:luposdate3000_code_gen_test_00:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_02:allTests[0;39m FAILED

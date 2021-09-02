@@ -8725,7 +8725,6 @@ resourcessp2bq8sparql21 - None - PartitionByKeyAllCollations - false
 resourcessp2bq8sparql21 - None - PartitionByKeyAllCollations - true
 resourcessp2bq8sparql21 - None - Simple - false
 resourcessp2bq8sparql21 - None - Simple - true
-resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcessp2bq9sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 resourcessp2bq9sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
