@@ -55,7 +55,11 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
                 var j = 0
                 for ((host, key) in index.getAllLocations()) {
-                    val host2 = instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[instance.LUPOS_PROCESS_URLS_ALL.indexOf(host)] // this enables the multicast
+                    val host2 = if (instance.enableMulticastInsertions) {
+                        instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[instance.LUPOS_PROCESS_URLS_ALL.indexOf(host)] // this enables the multicast
+                    } else {
+                        host
+                    }
                     var flag: Boolean
                     if (filteredBy == null) {
                         flag = true
@@ -107,9 +111,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
 
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:109"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:110"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:111"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:113"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:114"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:115"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
         loop@ for (c in allConn) {
             row[0] = s
             row[1] = p
