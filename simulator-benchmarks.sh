@@ -1,8 +1,8 @@
 #!/bin/bash
 
 rm -rf simulator_output
-#git clean -xdf
-#./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
+git clean -xdf
+./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 #./launcher.main.kts --setup --intellijMode=Disable
 ./gradlew assemble
 cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
@@ -35,7 +35,7 @@ do
 JSON_DIST="${BASE_PATH}/$dist.json"
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
 eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
-echo "simulator_output/_campus_${t}_${q}_${d}_evaluation/measurement.csv"
+echo "simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}/measurement.csv"
 headerLine="topology,database,query,dist,multicast,readwrite"
 contentLine="${t},${d},${q},${m},${dist}"
 if [ "$q" = "Q0" ]
