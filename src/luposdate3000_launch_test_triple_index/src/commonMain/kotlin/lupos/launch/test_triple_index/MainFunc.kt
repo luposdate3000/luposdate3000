@@ -116,7 +116,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     duplicates++
                 }
             }
-            index.insertAsBulk(insertBuffer, order, insertBufferSize)
+            index.insertAsBulk(insertBuffer, order, insertBufferSize, false)
             insertBufferSize = 0
         }
     }
@@ -162,7 +162,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
                 i += 3
             }
-            index.removeAsBulk(deleteBuffer, order, deleteBufferSize)
+            index.removeAsBulk(deleteBuffer, order, deleteBufferSize, false)
             deleteBufferSize = 0
         }
     }

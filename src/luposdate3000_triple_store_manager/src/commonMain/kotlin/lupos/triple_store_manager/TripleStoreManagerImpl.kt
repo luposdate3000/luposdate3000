@@ -476,7 +476,7 @@ public class TripleStoreManagerImpl public constructor(
         return localStoresGet()[tag]!!.getHistogram(Query(instance), filter)
     }
 
-    public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
+    public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream, isSorted: Boolean) {
         val store = localStores_[key]!!
         val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
         val limit = buf.size - 3
@@ -499,38 +499,12 @@ public class TripleStoreManagerImpl public constructor(
                 buf[i++] = c
             }
             if (mode == EModifyTypeExt.INSERT) {
-                store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+                store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i, isSorted)
             } else {
-                store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i)
+                store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], i, isSorted)
             }
         }
     }
-
-    public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
-        val store = localStores_[key]!!
-        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
-        val limit = buf.size - 3
-        var done = false
-        while (!done) {
-            var i = 0
-            while (i <limit) {
-                val a = stream.readDictionaryValueType()
-                if (a == DictionaryValueHelper.nullValue) {
-                    done = true
-                    break
-                }
-                buf[i++] = a
-                buf[i++] = stream.readDictionaryValueType()
-                buf[i++] = stream.readDictionaryValueType()
-            }
-            if (mode == EModifyTypeExt.INSERT) {
-                store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
-            } else {
-                store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], i)
-            }
-        }
-    }
-
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
         if (origin) {
             createGraph(query, graphName)
@@ -546,7 +520,7 @@ public class TripleStoreManagerImpl public constructor(
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:548"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:522"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(second, tripleStore)

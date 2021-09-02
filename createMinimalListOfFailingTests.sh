@@ -46,7 +46,7 @@ timeout2 -t 600 ./gradlew build > x
 cp x backupX$i
 pkill java -9
 sleep 5
-rm -rf /tmp/native-platform* /tmp/kotlin-daemon* /tmp/kotlin-compiler* /tmp/gradle* /tmp/*luposdate*
+find /tmp/ -mindepth 1 -delete
 
 grep org.junit.runners.model.TestTimedOutException x -B1 \
  | tr -cd '\11\12\15\40-\176' | sed "s/\[[0-9]*m//g" | sed "s/\[0K//g" \

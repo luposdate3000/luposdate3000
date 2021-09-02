@@ -623,28 +623,36 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         setDistinctPrimary(iterator.distinct)
         clearCachedHistogram()
     }
-    override fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
-        val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
-        TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
-        insertAsBulkSorted(d[0], order, dataSize)
+    override fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean) {
+        if (isSorted) {
+            insertAsBulkSorted(data, order, dataSize)
+        } else {
+            val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
+            TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
+            insertAsBulkSorted(d[0], order, dataSize)
+        }
     }
 
-    override fun removeAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
-        val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
-        TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
-        removeAsBulkSorted(d[0], order, dataSize)
+    override fun removeAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean) {
+        if (isSorted) {
+            removeAsBulkSorted(data, order, dataSize)
+        } else {
+            val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
+            TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
+            removeAsBulkSorted(d[0], order, dataSize)
+        }
     }
 
-    override fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
+    private fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:640"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:648"/*SOURCE_FILE_END*/ },
                 {
                     if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:646"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:654"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
                     }
                 }
             )
@@ -654,7 +662,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             pendingImport.add(importHelper(BulkImportIterator(data, dataSize, order)))
             if (root_ != NodeManager.nodeNullPointer) {
-                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:656"/*SOURCE_FILE_END*/, root_)
+                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:664"/*SOURCE_FILE_END*/, root_)
             }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
@@ -662,16 +670,16 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             lock.writeUnlock()
         }
     }
-    override fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
+    private fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:667"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:675"/*SOURCE_FILE_END*/ },
                 {
                     if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:673"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:681"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
                     }
                 }
             )
@@ -679,12 +687,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:681"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:689"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
             if (pendingImport.size> 0) {
                 pendingRemove.add(importHelper(BulkImportIterator(data, dataSize, order)))
             }
             if (root_ != NodeManager.nodeNullPointer) {
-                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:686"/*SOURCE_FILE_END*/, root_)
+                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:694"/*SOURCE_FILE_END*/, root_)
             }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
@@ -696,7 +704,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun clear() {
         flushContinueWithWriteLock()
         if (root_ != NodeManager.nodeNullPointer) {
-            nodeManager.freeNodeAndAllRelated(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:698"/*SOURCE_FILE_END*/, root_)
+            nodeManager.freeNodeAndAllRelated(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:706"/*SOURCE_FILE_END*/, root_)
             setRoot(NodeManager.nodeNullPointer)
         }
         setFirstLeaf(NodeManager.nodeNullPointer)
@@ -707,14 +715,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun delete() {
         clear()
-        bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:709"/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:710"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:717"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:718"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     override fun close() {
         flush()
         if (root_ != NodeManager.nodeNullPointer) {
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:716"/*SOURCE_FILE_END*/, root_)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:724"/*SOURCE_FILE_END*/, root_)
         }
     }
 }

@@ -33,7 +33,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
-import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
@@ -71,14 +70,6 @@ public object RestEndpoint {
         val name = params["name"]!!
         val query = Query(instance)
         instance.tripleStoreManager!!.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
-    }
-
-    private fun distributed_graph_modify(params: Map<String, String>, instance: Luposdate3000Instance, connectionInMy: IMyInputStream) {
-        val query = Query(instance)
-        val key = params["key"]!!
-        val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
-        val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-        instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy)
     }
 
     private fun printHeaderSuccess(stream: IMyOutputStream) {
@@ -362,15 +353,12 @@ public object RestEndpoint {
             true
         }
         paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            distributed_graph_modify(params, instance, connectionInMy)
-            true
-        }
-        paths["/distributed/graph/modifysorted"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             val query = Query(instance)
             val key = params["key"]!!
             val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
             val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-            instance.tripleStoreManager!!.remoteModifySorted(query, key, mode, idx2, connectionInMy)
+            val isSorted = params["isSorted"]!!.toBoolean()
+            instance.tripleStoreManager!!.remoteModify(query, key, mode, idx2, connectionInMy, isSorted)
             true
         }
         paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) { params, _, connectionOutMy ->

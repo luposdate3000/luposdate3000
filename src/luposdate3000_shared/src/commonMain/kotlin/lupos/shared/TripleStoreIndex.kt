@@ -25,10 +25,8 @@ public interface TripleStoreIndex {
     public fun clear()
     public fun flush()
     public fun getHistogram(query: IQuery, filter: DictionaryValueTypeArray): Pair<Int, Int>
-    public fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
-    public fun removeAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
-    public fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
-    public fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int)
+    public fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean)
+    public fun removeAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean)
 
     @ProguardTestAnnotation
     public fun close()

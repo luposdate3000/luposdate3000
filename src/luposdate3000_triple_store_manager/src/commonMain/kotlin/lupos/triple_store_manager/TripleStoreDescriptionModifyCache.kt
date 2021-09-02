@@ -31,114 +31,6 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
-    private class LocalSortedInputStream(key: String, val mode: EModifyType, val idx: EIndexPattern, instance: Luposdate3000Instance) : IMyOutputStream {
-        var off = 0
-        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
-        val limit = buf.size - (buf.size % 3)
-        val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
-        override fun flush() {}
-        override fun close() { }
-
-        override fun print(x: Boolean) {
-        }
-
-        override fun print(x: Double) {
-        }
-
-        override fun print(x: Int) {
-        }
-
-        override fun print(x: String) {
-        }
-
-        override fun println() {
-        }
-
-        override fun println(x: String) {
-        }
-
-        override fun write(buf: ByteArray) {
-        }
-
-        override fun write(buf: ByteArray, len: Int) {
-        }
-        override fun writeInt(value: Int) {}
-        override fun writeLong(value: Long) {}
-        override fun writeDictionaryValueType(value: DictionaryValueType) {
-            if (value != DictionaryValueHelper.nullValue) {
-                if (off >= limit) {
-                    if (mode == EModifyTypeExt.INSERT) {
-                        store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                    } else {
-                        store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                    }
-                    off = 0
-                }
-                buf[off++] = value
-            } else if (off> 0) {
-                if (mode == EModifyTypeExt.INSERT) {
-                    store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                } else {
-                    store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                }
-                off = 0
-            }
-        }
-    }
-    private class LocalInputStream(key: String, val mode: EModifyType, val idx: EIndexPattern, instance: Luposdate3000Instance) : IMyOutputStream {
-        var off = 0
-        val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
-        val limit = buf.size - (buf.size % 3)
-        val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
-        override fun flush() {}
-        override fun close() { }
-
-        override fun print(x: Boolean) {
-        }
-
-        override fun print(x: Double) {
-        }
-
-        override fun print(x: Int) {
-        }
-
-        override fun print(x: String) {
-        }
-
-        override fun println() {
-        }
-
-        override fun println(x: String) {
-        }
-
-        override fun write(buf: ByteArray) {
-        }
-
-        override fun write(buf: ByteArray, len: Int) {
-        }
-        override fun writeInt(value: Int) {}
-        override fun writeLong(value: Long) {}
-        override fun writeDictionaryValueType(value: DictionaryValueType) {
-            if (value != DictionaryValueHelper.nullValue) {
-                if (off >= limit) {
-                    if (mode == EModifyTypeExt.INSERT) {
-                        store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                    } else {
-                        store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                    }
-                    off = 0
-                }
-                buf[off++] = value
-            } else if (off> 0) {
-                if (mode == EModifyTypeExt.INSERT) {
-                    store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                } else {
-                    store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off)
-                }
-                off = 0
-            }
-        }
-    }
 
 // list of all indices, containing list of all distributed instances
     private val allConn: MutableList<MutableList<Pair<IMyInputStream?, IMyOutputStream>>>
@@ -154,9 +46,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 val l = mutableListOf<Pair<IMyInputStream?, IMyOutputStream>>()
                 for ((host, key) in index.getAllLocations()) {
                     if (host == localH) {
-                        l.add(Pair(null, LocalSortedInputStream(key, type, idx, instance)))
+                        l.add(Pair(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, true)))
                     } else {
-                        l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modifysorted", mapOf("key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt()))
+                        l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modify", mapOf("isSorted" to "true", "key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt()))
                     }
                 }
                 allIndices.add(index)
@@ -172,9 +64,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             val l = mutableListOf<Pair<IMyInputStream?, IMyOutputStream>>()
             for ((host, key) in index.getAllLocations()) {
                 if (host == localH) {
-                    l.add(Pair(null, LocalInputStream(key, type, idx, instance)))
+                    l.add(Pair(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, false)))
                 } else {
-                    l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modify", mapOf("key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt()))
+                    l.add(instance.communicationHandler!!.openConnection(host, "/distributed/graph/modify", mapOf("isSorted" to "false", "key" to key, "idx" to EIndexPatternExt.names[idx], "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt()))
                 }
             }
             allIndices.add(index)
@@ -182,9 +74,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         }
     }
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:184"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:185"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:186"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:76"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:77"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:78"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
         for (i in 0 until allConn.size) {
             row[0] = s
             row[1] = p
