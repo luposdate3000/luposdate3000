@@ -46,6 +46,8 @@ public class Luposdate3000Instance {
 
     @JvmField public var LUPOS_PROCESS_URLS_ALL: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS_ALL
 
+    @JvmField public var LUPOS_PROCESS_URLS_ALL_NEXT_HOP: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS_ALL
+
     @JvmField public var LUPOS_PROCESS_URLS_STORE: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS_STORE
 
     @JvmField public var LUPOS_PROCESS_URLS_QUERY: Array<String> = Luposdate3000Config.LUPOS_PROCESS_URLS_QUERY

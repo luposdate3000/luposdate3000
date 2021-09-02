@@ -55,12 +55,13 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
                 var j = 0
                 for ((host, key) in index.getAllLocations()) {
+                    val host2 = instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[instance.LUPOS_PROCESS_URLS_ALL.indexOf(host)] // this enables the multicast
                     var flag: Boolean
                     if (filteredBy == null) {
                         flag = true
                     } else {
                         for (it in filteredBy) {
-                            if (it.host == host && it.key == key && it.idx == idx) {
+                            if (it.host == host2 && it.key == key && it.idx == idx) {
                                 flag = true
                                 break
                             }
@@ -78,11 +79,11 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                         if (host == localH) {
                             allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted), mutableListOf(filter)))
                         } else {
-                            var conn = allConnMap[host]
+                            var conn = allConnMap[host2]
                             if (conn == null) {
-                                val tmp = instance.communicationHandler!!.openConnection(host, "/distributed/graph/modify", mapOf("graph" to description.graph, "sortedBy" to "$sortedBy", "isSorted" to "$isSorted", "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt())
+                                val tmp = instance.communicationHandler!!.openConnection(host2, "/distributed/graph/modify", mapOf("graph" to description.graph, "sortedBy" to "$sortedBy", "isSorted" to "$isSorted", "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt())
                                 conn = TripleStoreDescriptionModifyCacheConnection(tmp.first, tmp.second, mutableListOf())
-                                allConnMap[host] = conn
+                                allConnMap[host2] = conn
                             }
                             conn.filters.add(filter)
                             val bytes = host.encodeToByteArray()
@@ -106,9 +107,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
 
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:108"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:109"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:110"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:109"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:110"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:111"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
         loop@ for (c in allConn) {
             row[0] = s
             row[1] = p
