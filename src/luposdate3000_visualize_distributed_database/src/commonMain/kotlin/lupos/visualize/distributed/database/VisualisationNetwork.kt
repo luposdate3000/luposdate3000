@@ -43,7 +43,7 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
     private val allMessageTypes = mutableSetOf<String>()
     private val workForQueryAtNode = mutableMapOf<Int/*query*/, MutableMap<Int/*node*/, MutableSet<Pair<String, XMLElement>>/*work-list*/>>()
-    private val fullOperatorGraph = mutableMapOf<Int/*queryID*/, MutableMap<String, XMLElement>>()
+    private val fullOperatorGraph = mutableMapOf<Int/*queryID*/, MutableMap<Int, XMLElement>>()
     private companion object {
         const val layerConnection = 0
         const val layerConnectionInRouting = 1
@@ -587,7 +587,7 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
         message.messageCounter = messages.size
         messages.add(message)
     }
-    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {
+    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {
         var workNode = workForQueryAtNode[queryID]
         if (workNode == null) {
             workNode = mutableMapOf()
@@ -600,7 +600,7 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
         }
         workquery.add("$keysIn -> $keysOut" to operatorGraph)
     }
-    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {
+    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {
         fullOperatorGraph[queryId] = operatorGraph
     }
     override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}"

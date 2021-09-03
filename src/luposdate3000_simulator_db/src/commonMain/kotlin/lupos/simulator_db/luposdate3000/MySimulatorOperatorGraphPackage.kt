@@ -22,9 +22,9 @@ import lupos.shared.XMLElement
 import lupos.simulator_db.IDatabasePackage
 public class MySimulatorOperatorGraphPackage(
     public val queryID: Int,
-    public val operatorGraph: MutableMap<String, XMLElement>,
-    public val destinations: MutableMap<String, Int>,
-    public val operatorGraphPartsToHostMap: MutableMap<String, String>,
+    public val operatorGraph: MutableMap<Int, XMLElement>,
+    public val destinations: MutableMap<Int, Int>,
+    public val operatorGraphPartsToHostMap: MutableMap<Int, Int>,
     public val onFinish: IDatabasePackage?,
     public val expectedResult: MemoryTable?,
     public val verifyAction: () -> Unit,
@@ -46,22 +46,18 @@ public class MySimulatorOperatorGraphPackage(
     private fun getOperatorGraphSizeInBytes(): Int {
         var size = 0
         for ((key, value) in operatorGraph)
-            size += key.encodeToByteArray().size + value.toString().encodeToByteArray().size
+            size += 4 + value.toString().encodeToByteArray().size
         return size
     }
 
     private fun getDestinationsSizeInBytes(): Int {
         val addressSizeIPv6 = 16
-        var size = 0
-        for ((key) in destinations)
-            size += key.encodeToByteArray().size + addressSizeIPv6
+        var size = (4 + addressSizeIPv6)*destinations.size
         return size
     }
 
     private fun getPartsToHostMapSizeInBytes(): Int {
-        var size = 0
-        for ((key, value) in operatorGraphPartsToHostMap)
-            size += key.encodeToByteArray().size + value.encodeToByteArray().size
+        var size = 8*operatorGraphPartsToHostMap.size
         return size
     }
 

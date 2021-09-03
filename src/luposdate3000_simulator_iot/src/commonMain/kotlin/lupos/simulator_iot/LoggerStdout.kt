@@ -24,8 +24,8 @@ public class LoggerStdout public constructor(private val simRun: SimulationRun) 
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { println("${simRun.sim.clock} onReceiveNetworkPackage $address $pck") }
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { println("${simRun.sim.clock} onSendPackage $src $dest $pck") }
     override fun onReceivePackage(address: Int, pck: IPayload) { println("${simRun.sim.clock} onReceivePackage $address $pck") }
-    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) { println("${simRun.sim.clock} addWork $queryID $address $operatorGraph $keysIn $keysOut") }
-    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) { println("${simRun.sim.clock} addOperatorGraph $queryId $operatorGraph") }
+    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) { println("${simRun.sim.clock} addWork $queryID $address $operatorGraph $keysIn $keysOut") }
+    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) { println("${simRun.sim.clock} addOperatorGraph $queryId $operatorGraph") }
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
     override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {}
     override fun onStartUp() { println("${simRun.sim.clock} onStartUp") }

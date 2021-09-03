@@ -68,7 +68,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
     private var ownAdress: Int = 0
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
-    private val myPendingWorkData = mutableMapOf<String, ByteArrayWrapper>()
+    private val myPendingWorkData = mutableMapOf<Int, ByteArrayWrapper>()
     private var router: IUserApplicationLayer? = null
     private var nodeGlobalDictionaryBackup: IDictionary? = null
     private var rootAddress = ""
@@ -187,17 +187,17 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         q.initialize(op, false, true)
         logger.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
         val parts = q.getOperatorgraphParts()
-        var hostMap = mutableMapOf<String, String>()
+        var hostMap = mutableMapOf<Int, Int>()
         if (parts.size <= 1) {
-            parts[""] = q.getRoot().toXMLElement(false)
-            if (!hostMap.contains("")) {
-                hostMap[""] = "$ownAdress"
+            parts[-1] = q.getRoot().toXMLElement(false)
+            if (!hostMap.contains(-1)) {
+                hostMap[-1] = ownAdress
             }
         }
 // calculating all dependencies --->>>
-        val mapTopDown = mutableMapOf<String, MutableSet<String>>()
-        val mapBottomUpThis = mutableMapOf<String, MutableSet<String>>()
-        val mapBottomUpAbove = mutableMapOf<String, MutableSet<String>>()
+        val mapTopDown = mutableMapOf<Int, MutableSet<Int>>()
+        val mapBottomUpThis = mutableMapOf<Int, MutableSet<Int>>()
+        val mapBottomUpAbove = mutableMapOf<Int, MutableSet<Int>>()
         for ((k, v) in parts) {
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
@@ -213,7 +213,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             )
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:214"/*SOURCE_FILE_END*/ },
-                { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") },
+                { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
         }
@@ -233,35 +233,36 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
 // calculating all dependencies <<<---
 // assign hostnames where necessary --->>>
-        val destinations = mutableMapOf("" to pck.sourceAddress)
+        val destinations = mutableMapOf(-1 to pck.sourceAddress)
         when (instance.queryDistributionMode) {
             EQueryDistributionModeExt.Routing -> {
                 // only define the explicit triple-store access
                 for ((key, value) in q.getOperatorgraphPartsToHostMap()) {
                     val part = parts[key]!!
                     if (containsTripleStoreAccess(part)) {
-                        hostMap[key] = value
+                        hostMap[key] = value.toInt()
                     }
                 }
             }
             EQueryDistributionModeExt.Centralized -> {
                 // define everything as in the DB outside of the simulator - later in the execution-pass there are some overrides due to the not implemented distributed dictionary in the simulator for example
-                hostMap.putAll(q.getOperatorgraphPartsToHostMap())
-                SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:250"/*SOURCE_FILE_END*/ },
+for((k,v) in q.getOperatorgraphPartsToHostMap()){
+hostMap[k]=v.toInt()
+}
+SanityCheck.check(	                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:251"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size },
                     { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
                 )
                 for ((k, v) in hostMap) {
                     for (d in mapTopDown[k]!!) {
-                        destinations[d] = v.toInt()
+                        destinations[d] = v
                     }
                 }
             }
         }
 // assign hostnames where necessary <<<---
 // this fixes the inability of the simulator for an distributed dictionary --->>>
-        val assignToRootDueToDictionary = mutableSetOf<String>()
+        val assignToRootDueToDictionary = mutableSetOf<Int>()
         for ((k, v) in parts) {
             if (containsRemoteDictAccess(v)) {
                 assignToRootDueToDictionary.add(k)
@@ -269,7 +270,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
         loop2@while (assignToRootDueToDictionary.size> 0) {
             val k = assignToRootDueToDictionary.first()
-            hostMap[k] = rootAddress
+            hostMap[k] = rootAddressInt
             for (v in mapTopDown[k]!!) {
                 destinations[v] = rootAddressInt
             }
@@ -277,7 +278,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             val bUp = mapBottomUpAbove[k]
             if (bUp != null) {
                 for (v in bUp) {
-                    if (hostMap[v] != rootAddress) {
+                    if (hostMap[v] != rootAddressInt) {
                         assignToRootDueToDictionary.add(v)
                     }
                 }
@@ -306,10 +307,10 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:308"/*SOURCE_FILE_END*/ },
-                { myPendingWorkData[pck.params["key"]!!] == null }
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:309"/*SOURCE_FILE_END*/ },
+                { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
-            myPendingWorkData[pck.params["key"]!!] = pck.data
+            myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
             doWork()
             true
         }
@@ -327,9 +328,9 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
 
     private fun receive(pck: MySimulatorOperatorGraphPackage) {
         // println("$ownAdress DatabaseHandle.receiveMySimulatorOperatorGraphPackage")
-        val mapTopDown = mutableMapOf<String, MutableSet<String>>()
-        val mapBottomUpThis = mutableMapOf<String, MutableSet<String>>()
-        val operatorGraphPartsToHostMapTmp = mutableSetOf<String>(rootAddress)
+        val mapTopDown = mutableMapOf<Int, MutableSet<Int>>()
+        val mapBottomUpThis = mutableMapOf<Int, MutableSet<Int>>()
+        val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt)
         operatorGraphPartsToHostMapTmp.addAll(pck.operatorGraphPartsToHostMap.values)
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
         val nextHops = router!!.getNextDatabaseHops(allHostAdresses)
@@ -365,22 +366,22 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:367"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:368"/*SOURCE_FILE_END*/ },
                 { mapBottomUpThis[k]!!.contains(k) },
                 { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:372"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:373"/*SOURCE_FILE_END*/ },
                 { !mapTopDown[k]!!.contains(k) },
                 { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:377"/*SOURCE_FILE_END*/ },
-                { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != "") },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:378"/*SOURCE_FILE_END*/ },
+                { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
         }
-        val packageMap = mutableMapOf<String, Int>()
+        val packageMap = mutableMapOf<Int, Int>()
         for ((k, v) in pck.operatorGraphPartsToHostMap) {
             val target = nextHops[allHostAdresses.indexOf(v.toInt())]
             for (i in mapBottomUpThis[k]!!) {
@@ -394,7 +395,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
 // k benötigt alle Ergebnisse von v
                 if (!packageMap.contains(k)) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:396"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:397"/*SOURCE_FILE_END*/ },
                         { v.isNotEmpty() },
                         {
                             "${pck.operatorGraph[k]}"
@@ -429,7 +430,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             }
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:431"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:432"/*SOURCE_FILE_END*/ },
             { packageMap.keys.containsAll(pck.operatorGraph.keys) },
             {
                 "${(pck.operatorGraph.keys - packageMap.keys).map{"$it\n"}} ${packageMap.map{"$it\n"}} ${pck.operatorGraph.map{"$it\n"}}"
@@ -513,14 +514,14 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
     }
 
-    private fun mergeOperatorGraphLocally(root: XMLElement, parent2: XMLElement?, parentChildIndex: Int, parent: XMLElement, child: XMLElement, key: String): Boolean {
+    private fun mergeOperatorGraphLocally(root: XMLElement, parent2: XMLElement?, parentChildIndex: Int, parent: XMLElement, child: XMLElement, key: Int): Boolean {
         if (parent.tag == "POPDistributedReceiveSingle") {
             val tmp = parent.childs.filter { it.tag == "partitionDistributionKey" }
             val tmp2 = child.childs.filter { it.tag == "partitionDistributionKey" }
             if (tmp.size == 1 &&
-                tmp.first().attributes["key"] == key &&
+                tmp.first().attributes["key"]!!.toInt() == key &&
                 tmp2.size == 1 &&
-                tmp2.first().attributes["key"] == key &&
+                tmp2.first().attributes["key"]!!.toInt() == key &&
                 parent2 != null
             ) {
                 parent2.childs.removeAt(parentChildIndex)
@@ -541,11 +542,11 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
     }
 
-    private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<String> {
-        val res = mutableSetOf<String>()
+    private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<Int> {
+        val res = mutableSetOf<Int>()
         if (parentTag.startsWith(targetTag)) {
             if (node.tag == "partitionDistributionKey") {
-                res.add(node.attributes["key"]!!)
+                res.add(node.attributes["key"]!!.toInt())
             }
         }
         for (c in node.childs) {
@@ -559,22 +560,15 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         operatorMap.putAll(XMLElementToOPBase.operatorMap)
         operatorMap["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
-            val keys = mutableSetOf<String>()
+            var key: Int = -1
             for (c in node.childs) {
                 if (c.tag == "partitionDistributionKey") {
-                    keys.add(c.attributes["key"]!!)
+                    key = c.attributes["key"]!!.toInt()
+                    break
                 }
             }
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:568"/*SOURCE_FILE_END*/ },
-                { keys.size == 1 }
-            )
-            val key = keys.first()
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:573"/*SOURCE_FILE_END*/ },
-                { myPendingWorkData.contains(key) }
-            )
-            val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
+            val keyData = myPendingWorkData[key]!!
+            val input = MyInputStreamFromByteArray(keyData)
             myPendingWorkData.remove(key)
             val res = POPDistributedReceiveSingle(
                 query,
@@ -583,20 +577,20 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 input,
                 null,
-                keys.first() to "",
+                key to "",
             )
             query.addPartitionOperator(res.uuid, id)
             res
         }
         operatorMap["POPDistributedReceiveMulti"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
-            val keys = mutableSetOf<String>()
+            val hosts = mutableMapOf<Int, String>()
             for (c in node.childs) {
                 if (c.tag == "partitionDistributionKey") {
-                    keys.add(c.attributes["key"]!!)
+                    hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
                 }
             }
-            val inputs = keys.map { key ->
+            val inputs = hosts.keys.map { key ->
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
                 input
@@ -608,7 +602,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
                 inputs,
                 Array<IMyOutputStream?>(inputs.size) { null },
-                keys.map { it to "" }.toMap()
+                hosts,
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -660,14 +654,14 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     val node = localXMLElementToOPBase(query, w.operatorGraph)
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to w.key), router!!)
+                            val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to "${w.key}"), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendMulti -> {
                             val keysList = node.keys.toList()
                             val out = Array<IMyOutputStream?>(keysList.size) {
-                                MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to keysList[it]), router!!)
+                                MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to keysList[it].toString()), router!!)
                             }
                             node.evaluate(out)
                             for (o in out) {

@@ -20,7 +20,7 @@ import lupos.shared.IQuery
 import lupos.shared.XMLElement
 
 public class DistributedOptimizerAssignLocalhost : DistributedOptimizerBase {
-    override fun optimize(query: IQuery, key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
+    override fun optimize(query: IQuery, key: Int, node: XMLElement, dependenciesTopDown: Set<Int>, dependenciesBottomUp: Set<Int>, keytoHostMapGet: (Int) -> String?, keytoHostMapSet: (Int, String) -> Unit, onChange: () -> Unit) {
         keytoHostMapSet(key, (query.getInstance().tripleStoreManager!!).getLocalhost())
         onChange()
     }

@@ -668,7 +668,7 @@ public open class SparqlTestSuite {
                 val buf2 = MyPrintWriter(true)
                 res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.lowercase().contains("order", true), true, buf2)
                 if (res) {
-                    val xmlPOP = popNode.toXMLElementRoot(false)
+                    val xmlPOP = popNode.toXMLElementRoot(false, 0)
                     val query4 = Query(instance)
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val popNodeRecovered = XMLElementToOPBase(query4, xmlPOP)

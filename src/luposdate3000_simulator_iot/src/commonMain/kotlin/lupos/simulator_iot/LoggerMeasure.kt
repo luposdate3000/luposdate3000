@@ -218,8 +218,8 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { }
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { }
     override fun onReceivePackage(address: Int, pck: IPayload) { }
-    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {}
-    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {}
+    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {}
+    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {}
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
     override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) { }
 

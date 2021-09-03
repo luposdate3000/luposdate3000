@@ -36,19 +36,19 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     @JvmField public var partitionedBy: MutableMap<String, Int> = mutableMapOf()
 
     @JvmField
-    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf()
+    public var operatorgraphParts: MutableMap<Int, XMLElement> = mutableMapOf()
 
     @JvmField
-    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf()
+    public var operatorgraphPartsToHostMap: MutableMap<Int, String> = mutableMapOf()
 
     @JvmField
-    public var dependenciesMapTopDown: MutableMap<String, Set<String>> = mutableMapOf()
+    public var dependenciesMapTopDown: MutableMap<Int, Set<Int>> = mutableMapOf()
 
     @JvmField
-    public var dependenciesMapBottomUp: MutableMap<String, Set<String>> = mutableMapOf()
+    public var dependenciesMapBottomUp: MutableMap<Int, Set<Int>> = mutableMapOf()
 
     @JvmField
-    public var keyRepresentative: MutableMap<String, String> = mutableMapOf()
+    public var keyRepresentative: MutableMap<Int, Int> = mutableMapOf()
 
     @JvmField
     public var _workingDirectory: String = ""
@@ -84,17 +84,25 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public var root: IOPBase? = null
 
     @JvmField
-    public var allVariationsKey: MutableMap<String, Pair<Int, Int>> = mutableMapOf()
-
-    @JvmField
     public var dictionaryUrl: String? = null
     override fun getPartitionedBy(): MutableMap<String, Int> = partitionedBy
-    override fun getOperatorgraphPartsToHostMap(): MutableMap<String, String> = operatorgraphPartsToHostMap
-    override fun getOperatorgraphParts(): MutableMap<String, XMLElement> = operatorgraphParts
-    override fun getDependenciesMapTopDown(): MutableMap<String, Set<String>> = dependenciesMapTopDown
+    override fun getOperatorgraphPartsToHostMap(): MutableMap<Int, String> = operatorgraphPartsToHostMap
+    override fun getOperatorgraphParts(): MutableMap<Int, XMLElement> = operatorgraphParts
+    override fun getDependenciesMapTopDown(): MutableMap<Int, Set<Int>> = dependenciesMapTopDown
     override fun getInstance(): Luposdate3000Instance = instance
-    private var partitionKeyCounter = 0
-    override fun createPartitionKey(): Int = partitionKeyCounter++
+
+    private var partitionKeyCounterStart = Int.MAX_VALUE / instance.LUPOS_PROCESS_URLS_ALL.size * instance.LUPOS_PROCESS_ID
+    private var partitionKeyCounterEnd = Int.MAX_VALUE / instance.LUPOS_PROCESS_URLS_ALL.size * (instance.LUPOS_PROCESS_ID + 1)
+
+    private var partitionKeyCounter = partitionKeyCounterStart
+    override fun createPartitionKey(): Int {
+// TODO locking here
+        var next = partitionKeyCounter++
+        if (partitionKeyCounter >= partitionKeyCounterEnd) {
+            partitionKeyCounter = partitionKeyCounterStart
+        }
+        return next
+    }
 
     override fun setDictionaryUrl(url: String) {
         this.dictionaryUrl = url
@@ -141,7 +149,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:143"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:151"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
             tmp.add(uuid)
         }
     }
@@ -149,7 +157,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:151"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:159"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

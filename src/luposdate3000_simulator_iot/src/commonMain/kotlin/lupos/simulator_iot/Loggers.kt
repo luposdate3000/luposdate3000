@@ -40,12 +40,12 @@ public class Loggers public constructor(public val loggers: MutableList<ILogger>
             logger.onReceivePackage(address, pck)
         }
     }
-    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<String>, keysOut: Set<String>) {
+    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {
         for (logger in loggers) {
             logger.addWork(queryID, address, operatorGraph, keysIn, keysOut)
         }
     }
-    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<String, XMLElement>) {
+    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {
         for (logger in loggers) {
             logger.addOperatorGraph(queryId, operatorGraph)
         }
