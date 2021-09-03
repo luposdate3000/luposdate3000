@@ -46,5 +46,5 @@ public open class POPValues2(query: IQuery, @JvmField public val data: MemoryTab
     override fun getRequiredVariableNames(): MutableList<String> = mutableListOf()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO()
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = TODO()
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = TODO()
 }

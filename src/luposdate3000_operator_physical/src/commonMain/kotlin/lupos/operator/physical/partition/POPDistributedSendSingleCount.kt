@@ -42,13 +42,13 @@ public class POPDistributedSendSingleCount public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY,
 ) {
-public companion object{ 
-internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Boolean,keys: Int,  partitionedBy: MutableMap<String, Int>,)=toXMLElementHelper9( "POPDistributedSendSingleCount",partitionID, partial, true, keys, partitionedBy)
-}
+    public companion object {
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: Int, partitionedBy: MutableMap<String, Int>,) = toXMLElementHelper9("POPDistributedSendSingleCount", partitionID, partial, true, keys, partitionedBy)
+    }
     override fun getPartitionCount(variable: String): Int = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))
-    override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), keys,partitionedBy)
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))
+    override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
     public fun evaluate(connectionOut: IMyOutputStream) {

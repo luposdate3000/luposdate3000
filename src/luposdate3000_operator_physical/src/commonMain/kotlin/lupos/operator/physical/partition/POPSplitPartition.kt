@@ -35,7 +35,7 @@ import kotlin.jvm.JvmField
 public class POPSplitPartition public constructor(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField public val partitionVariable: String,
+    @JvmField public val partitionVariable: String?,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
     child: IOPBase
@@ -47,7 +47,7 @@ public class POPSplitPartition public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
-private var keys=intArrayOf()
+    private var keys = intArrayOf()
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:51"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
@@ -64,28 +64,30 @@ private var keys=intArrayOf()
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement =toXMLElementHelper2(partial, true,partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false,-1)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean,partition:Int): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Int): XMLElement {
         val res = if (partial) {
-if(keys.size==0|| keys.size!=partitionCount){
-keys=IntArray(partitionCount){query.createPartitionKey()}
-}
+            if (keys.size == 0 || keys.size != partitionCount) {
+                keys = IntArray(partitionCount) { query.createPartitionKey() }
+            }
             if (isRoot) {
                 if (partitionCount > 1) {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedSendMulti.toXMLElementInternal(partitionID, partial, isRoot, keys.toList(), query.getPartitionedBy(), partitionVariable, partitionCount))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendMulti.toXMLElementInternal(partitionID, partial, isRoot, keys.toList(), query.getPartitionedBy(), partitionVariable!!, partitionCount))
                 } else {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
                 }
             } else {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
             }
         } else {
-            super.toXMLElementHelper(partial, partial && !isRoot)
+            super.toXMLElementHelper(partial, false, -1)
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionVariable", partitionVariable)
+        if (partitionVariable != null) {
+            res.addAttribute("partitionVariable", partitionVariable)
+        }
         res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
@@ -106,7 +108,7 @@ return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveSingle.toX
             return children[0].evaluate(parent)
         } else {
             var iterators: Array<IteratorBundle>? = null
-            val childPartition = Partition(parent, partitionVariable)
+            val childPartition = Partition(parent, partitionVariable!!)
             val partitionHelper: PartitionHelper?
             partitionHelper = (query as Query).getPartitionHelper(uuid)
             partitionHelper.lock.lock()
@@ -118,9 +120,9 @@ return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveSingle.toX
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:120"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:121"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:122"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:122"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:123"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:124"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
                 var queue_size = query.getInstance().queue_size
                 var elementsPerRing = queue_size * variables.size
                 var buffersize = elementsPerRing * partitionCount
@@ -155,7 +157,7 @@ return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveSingle.toX
                                 }
                             }
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:157"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:159"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()

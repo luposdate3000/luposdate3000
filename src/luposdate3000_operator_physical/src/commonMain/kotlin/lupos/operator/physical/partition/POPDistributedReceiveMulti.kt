@@ -48,7 +48,7 @@ public class POPDistributedReceiveMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
-internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Boolean,hosts: Map<Int, String>)= toXMLElementHelper4(  "POPDistributedReceiveMulti",partitionID, partial, isRoot, hosts)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>) = toXMLElementHelper4("POPDistributedReceiveMulti", partitionID, partial, isRoot, hosts)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
@@ -71,8 +71,8 @@ internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Bool
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:70"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, hosts))
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, hosts))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMulti(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMulti && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {

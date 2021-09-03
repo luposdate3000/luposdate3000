@@ -155,7 +155,7 @@ public class QueryResultToTurtleStream : IResultFormat {
                     val parent = Partition()
                     if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
                         var partitionCount = 0
-                        var partitionVariable = ""
+                        var partitionVariable: String? = null
                         if (node is POPMergePartition) {
                             partitionCount = node.partitionCount
                             partitionVariable = node.partitionVariable
@@ -170,10 +170,15 @@ public class QueryResultToTurtleStream : IResultFormat {
                             jobs[p] = Parallel.launch {
                                 try {
                                     val child2 = node.getChildren()[0]
-                                    val child = if (asRoot) {
-                                        child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
+                                    val p = if (partitionVariable == null) {
+                                        parent
                                     } else {
-                                        child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                                        Partition(parent, partitionVariable!!, p, partitionCount)
+                                    }
+                                    val child = if (asRoot) {
+                                        child2.evaluateRoot(p)
+                                    } else {
+                                        child2.evaluate(p)
                                     }
                                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                                     writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output, timeoutInMs)

@@ -40,7 +40,7 @@ public interface IOPBase {
 
     /*suspend*/ public fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement
 
-    /*suspend*/ public fun toXMLElement(partial: Boolean): XMLElement
+    /*suspend*/ public fun toXMLElement(partial: Boolean, partition: Int): XMLElement
     public fun getLatestChild(): IOPBase
     public fun getPossibleSortPriorities(): List<List<SortHelper>>
     public fun getUUID(): Long

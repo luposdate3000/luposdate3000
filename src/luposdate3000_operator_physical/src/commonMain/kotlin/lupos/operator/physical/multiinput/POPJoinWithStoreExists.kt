@@ -115,9 +115,9 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         return res
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        val res = super.toXMLElement(partial).addAttribute("optional", "" + optional)
-        res["children"]!!.addContent(childB.toXMLElement(partial))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+        val res = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
+        res["children"]!!.addContent(childB.toXMLElement(partial, partition))
         return res
     }
 

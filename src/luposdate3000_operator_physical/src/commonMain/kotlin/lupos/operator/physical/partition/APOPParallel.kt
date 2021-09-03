@@ -18,8 +18,8 @@ package lupos.operator.physical.partition
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
-import lupos.shared.XMLElement
 import lupos.shared.IQuery
+import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 
 public abstract class APOPParallel public constructor(
@@ -37,7 +37,7 @@ public abstract class APOPParallel public constructor(
     children,
     sortPriority,
 ) {
-internal fun toXMLElementHelperAddBase( partial: Boolean, isRoot: Boolean,res:XMLElement):XMLElement{
+    internal fun toXMLElementHelperAddBase(partition: Int, partial: Boolean, isRoot: Boolean, res: XMLElement): XMLElement {
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         val projectedXML = XMLElement("projectedVariables")
@@ -46,10 +46,10 @@ internal fun toXMLElementHelperAddBase( partial: Boolean, isRoot: Boolean,res:XM
             projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
         }
         if (!partial || isRoot) {
-            res.addContent(childrenToXML(partial))
+            res.addContent(childrenToXML(partial, partition))
         }
-return res
-}
+        return res
+    }
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {

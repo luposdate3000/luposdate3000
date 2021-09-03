@@ -47,7 +47,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
-private var keys=intArrayOf()
+    private var keys = intArrayOf()
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:51"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
@@ -64,24 +64,24 @@ private var keys=intArrayOf()
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement =toXMLElementHelper2(partial, true,partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false,-1)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean,partition:Int): XMLElement {
-val res = if (partial) {
-if(keys.size==0|| keys.size!=partitionCount){
-keys=IntArray(partitionCount){query.createPartitionKey()}
-}
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Int): XMLElement {
+        val res = if (partial) {
+            if (keys.size == 0 || keys.size != partitionCount) {
+                keys = IntArray(partitionCount) { query.createPartitionKey() }
+            }
             if (isRoot) {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
             } else {
                 if (partitionCount > 1) {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionID, partial, isRoot, keys.map{it to ""}.toMap(), partitionVariable))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionID, partial, isRoot, keys.map { it to "" }.toMap(), partitionVariable))
                 } else {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
                 }
             }
         } else {
-            super.toXMLElementHelper(partial, false)
+            super.toXMLElementHelper(partial, false, -1)
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())

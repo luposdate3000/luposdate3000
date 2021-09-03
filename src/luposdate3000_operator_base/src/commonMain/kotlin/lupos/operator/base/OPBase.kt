@@ -402,7 +402,7 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    override fun toString(): String = Parallel.runBlocking { toXMLElement(false).toPrettyString() }
+    override fun toString(): String = Parallel.runBlocking { toXMLElement(false, -1).toPrettyString() }
     override fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {
@@ -429,14 +429,14 @@ public abstract class OPBase public constructor(
 
     override fun toSparql(): String = TODO()
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement {
-        return toXMLElement(partial)
+        return toXMLElement(partial, partition)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        return toXMLElementHelper(partial, false)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+        return toXMLElementHelper(partial, false, partition)
     }
 
-    public open /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean): XMLElement {
+    public open /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean, partition: Int): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -457,7 +457,7 @@ public abstract class OPBase public constructor(
             }
             if (!excludeChildren) {
                 if (children.isNotEmpty()) {
-                    res.addContent(childrenToXML(partial))
+                    res.addContent(childrenToXML(partial, partition))
                 }
             }
         } catch (e: Throwable) {
@@ -466,10 +466,10 @@ public abstract class OPBase public constructor(
         return res
     }
 
-    public /*suspend*/ fun childrenToXML(partial: Boolean): XMLElement {
+    public /*suspend*/ fun childrenToXML(partial: Boolean, partition: Int): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
-            res.addContent(c.toXMLElement(partial))
+            res.addContent(c.toXMLElement(partial, partition))
         }
         return res
     }

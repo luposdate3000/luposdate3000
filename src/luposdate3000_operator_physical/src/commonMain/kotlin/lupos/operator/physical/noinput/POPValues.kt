@@ -185,8 +185,8 @@ public open class POPValues : POPBase {
         }
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        val res = super.toXMLElement(partial)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+        val res = super.toXMLElement(partial, partition)
         val xmlvariables = XMLElement("variables")
         res.addAttribute("rows", "" + rows)
         res.addContent(xmlvariables)

@@ -797,7 +797,7 @@ public object XMLElementToOPBase {
                 id,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts,
-node.attributes["partitionVariable"]!!,
+                node.attributes["partitionVariable"]!!,
             )
             query.addPartitionOperator(res.uuid, id)
             res

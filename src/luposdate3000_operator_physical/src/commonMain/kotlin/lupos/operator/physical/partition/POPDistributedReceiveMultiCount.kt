@@ -45,7 +45,7 @@ public class POPDistributedReceiveMultiCount public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
-internal fun toXMLElementInternal(partitionID: Int,partial:Boolean,isRoot:Boolean,hosts: Map<Int, String>)= toXMLElementHelper4("POPDistributedReceiveMultiCount",partitionID, partial, isRoot, hosts)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>) = toXMLElementHelper4("POPDistributedReceiveMultiCount", partitionID, partial, isRoot, hosts)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
@@ -65,8 +65,8 @@ internal fun toXMLElementInternal(partitionID: Int,partial:Boolean,isRoot:Boolea
         }
     }
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, hosts))
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, hosts))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
 

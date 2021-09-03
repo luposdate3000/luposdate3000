@@ -52,12 +52,12 @@ public class MySimulatorOperatorGraphPackage(
 
     private fun getDestinationsSizeInBytes(): Int {
         val addressSizeIPv6 = 16
-        var size = (4 + addressSizeIPv6)*destinations.size
+        var size = (4 + addressSizeIPv6) * destinations.size
         return size
     }
 
     private fun getPartsToHostMapSizeInBytes(): Int {
-        var size = 8*operatorGraphPartsToHostMap.size
+        var size = 8 * operatorGraphPartsToHostMap.size
         return size
     }
 

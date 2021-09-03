@@ -40,7 +40,7 @@ public class POPSplitPartitionFromStoreCount public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
-private var keys=intArrayOf()
+    private var keys = intArrayOf()
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
@@ -53,20 +53,20 @@ private var keys=intArrayOf()
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement =toXMLElementHelper2(partial, true,partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false,-1)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean,partition:Int): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Int): XMLElement {
         val res = if (partial) {
-            if(keys.size==0|| keys.size!=partitionCount){
-keys=IntArray(partitionCount){query.createPartitionKey()}
-}
-if (isRoot) {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
+            if (keys.size == 0 || keys.size != partitionCount) {
+                keys = IntArray(partitionCount) { query.createPartitionKey() }
+            }
+            if (isRoot) {
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
             } else {
-return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
             }
         } else {
-            super.toXMLElementHelper(partial, partial && !isRoot)
+            super.toXMLElementHelper(partial, false, -1)
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())

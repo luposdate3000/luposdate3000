@@ -547,8 +547,8 @@ public class POPGroup : POPBase {
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        val res = super.toXMLElement(partial)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+        val res = super.toXMLElement(partial, partition)
         val byxml = XMLElement("by")
         res.addContent(byxml)
         for (b in by) {
@@ -557,7 +557,7 @@ public class POPGroup : POPBase {
         val xmlbindings = XMLElement("bindings")
         res.addContent(xmlbindings)
         for ((first, second) in bindings) {
-            xmlbindings.addContent(XMLElement("binding").addAttribute("name", first).addContent(second.toXMLElement(partial)))
+            xmlbindings.addContent(XMLElement("binding").addAttribute("name", first).addContent(second.toXMLElement(partial, partition)))
         }
         return res
     }

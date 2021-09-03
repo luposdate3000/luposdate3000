@@ -42,15 +42,15 @@ import kotlin.jvm.JvmField
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :
     POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        val res = super.toXMLElement(false)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+        val res = super.toXMLElement(false, -1)
         val xmlInsert = XMLElement("insert")
         val xmlDelete = XMLElement("delete")
         for ((first, second) in modify) {
             if (second == EModifyTypeExt.INSERT) {
-                xmlInsert.addContent(first.toXMLElement(false))
+                xmlInsert.addContent(first.toXMLElement(false, -1))
             } else {
-                xmlDelete.addContent(first.toXMLElement(false))
+                xmlDelete.addContent(first.toXMLElement(false, -1))
             }
         }
         res.addContent(xmlInsert)

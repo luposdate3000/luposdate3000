@@ -49,12 +49,12 @@ public class POPDistributedSendMulti public constructor(
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:49"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
-public companion object{
-internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Boolean,keys: List<Int>, partitionedBy: MutableMap<String, Int>, partitionVariable: String,partitionCount: Int,)=toXMLElementHelper8(  "POPDistributedSendMulti",partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount)
-}
+    public companion object {
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: List<Int>, partitionedBy: MutableMap<String, Int>, partitionVariable: String, partitionCount: Int,) = toXMLElementHelper8("POPDistributedSendMulti", partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount)
+    }
     override fun getPartitionCount(variable: String): Int = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount))
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, keys, partitionedBy, partitionVariable, partitionCount))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy, partitionVariable, partitionCount))
     override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy, partitionVariable, partitionCount)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")

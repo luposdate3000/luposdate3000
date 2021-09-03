@@ -50,7 +50,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
-internal fun toXMLElementInternal(partitionID: Int,partial:Boolean,isRoot:Boolean,hosts:Map<Int, String>,partitionVariable: String)=toXMLElementHelper10("POPDistributedReceiveMultiOrdered",partitionID, partial, isRoot, hosts, partitionVariable)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>, partitionVariable: String) = toXMLElementHelper10("POPDistributedReceiveMultiOrdered", partitionID, partial, isRoot, hosts, partitionVariable)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
@@ -75,8 +75,8 @@ internal fun toXMLElementInternal(partitionID: Int,partial:Boolean,isRoot:Boolea
     }
 
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, hosts, partitionVariable))
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, hosts, partitionVariable))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts, partitionVariable))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, partitionVariable))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts, partitionVariable)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0]
 

@@ -68,11 +68,11 @@ public class POPTripleStoreIterator(
         return res
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        val res = super.toXMLElement(partial)
-        res.addContent(XMLElement("sparam").addContent(children[0].toXMLElement(partial)))
-        res.addContent(XMLElement("pparam").addContent(children[1].toXMLElement(partial)))
-        res.addContent(XMLElement("oparam").addContent(children[2].toXMLElement(partial)))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+        val res = super.toXMLElement(partial, partition)
+        res.addContent(XMLElement("sparam").addContent(children[0].toXMLElement(partial, partition)))
+        res.addContent(XMLElement("pparam").addContent(children[1].toXMLElement(partial, partition)))
+        res.addContent(XMLElement("oparam").addContent(children[2].toXMLElement(partial, partition)))
         res.addContent(XMLElement("idx").addContent(tripleStoreIndexDescription.toXMLElement()))
         try {
             val target = getTarget(Partition())

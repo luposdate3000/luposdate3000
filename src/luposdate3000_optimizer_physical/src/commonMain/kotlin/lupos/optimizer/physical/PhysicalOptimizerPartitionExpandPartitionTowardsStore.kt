@@ -58,17 +58,19 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                             onChange()
                         }
                         is POPTripleStoreIterator -> {
-                            val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
-                            if (new_count> 0) {
-                                c.hasSplitFromStore = true
-                                res = if (node.projectedVariables.isNotEmpty()) {
-                                    POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
-                                } else {
-                                    POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                            if (node.partitionVariable != null) {
+                                val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable!!)
+                                if (new_count> 0) {
+                                    c.hasSplitFromStore = true
+                                    res = if (node.projectedVariables.isNotEmpty()) {
+                                        POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable!!, new_count, node.partitionID, c)
+                                    } else {
+                                        POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable!!, new_count, node.partitionID, c)
+                                    }
+                                    query.removePartitionOperator(node.getUUID(), node.partitionID)
+                                    query.addPartitionOperator(res.getUUID(), node.partitionID)
+                                    onChange()
                                 }
-                                query.removePartitionOperator(node.getUUID(), node.partitionID)
-                                query.addPartitionOperator(res.getUUID(), node.partitionID)
-                                onChange()
                             }
                         }
                     }
