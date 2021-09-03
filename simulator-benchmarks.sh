@@ -2,8 +2,8 @@
 
 rm -rf simulator_output
 #git clean -xdf
-#./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
-./launcher.main.kts --setup --intellijMode=Disable
+./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
+#./launcher.main.kts --setup --intellijMode=Disable
 ./gradlew assemble
 cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
 declare -A baselineValues

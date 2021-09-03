@@ -47,7 +47,7 @@ import kotlin.math.round
 
 public class Configuration(private val simRun: SimulationRun) {
     public companion object {
-        public val defaultOutputDirectory: String = "simulator_output"
+        public val defaultOutputDirectory: String = "simulator_output/"
     }
     public var devices: MutableList<Device> = mutableListOf()
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
@@ -308,14 +308,14 @@ public class Configuration(private val simRun: SimulationRun) {
                                     "Dummy" -> {
                                         arrayOf(
                                             DatabaseSystemDummy(jsonDatabase, initialState),
-                                            ApplicationLayerReceiveQueryResonse(),
+                                            ApplicationLayerReceiveQueryResonse(outputDirectory + "/"),
                                             ApplicationLayerReceiveParkingSample(device.address),
                                         )
                                     }
                                     "Luposdate3000" -> {
                                         arrayOf(
                                             DatabaseHandle(jsonDatabase, initialState),
-                                            ApplicationLayerReceiveQueryResonse(),
+                                            ApplicationLayerReceiveQueryResonse(outputDirectory + "/"),
                                             ApplicationLayerReceiveParkingSample(device.address),
                                         )
                                     }

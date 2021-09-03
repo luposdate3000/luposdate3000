@@ -15,11 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.queryproc
+import lupos.shared.inline.File
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_db.QueryResponsePackage
-public class ApplicationLayerReceiveQueryResonse : IUserApplication {
+public class ApplicationLayerReceiveQueryResonse(
+    private val outputdirectory: String,
+) : IUserApplication {
     private lateinit var parent: IUserApplicationLayer
     override fun setRouter(router: IUserApplicationLayer) {
         parent = router
@@ -30,6 +33,9 @@ public class ApplicationLayerReceiveQueryResonse : IUserApplication {
     }
     override fun receive(pck: IPayload): IPayload? {
         if (pck is QueryResponsePackage) {
+            File(outputdirectory + "result_${pck.queryID}").withOutputStream { out ->
+                out.write(pck.result)
+            }
             return null
         } else {
             return pck
