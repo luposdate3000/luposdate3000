@@ -71,7 +71,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         return res
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = super.toXMLElement(partial, partition)
         res.addAttribute("uuid", "" + uuid)
         res.addAttribute("type", EModifyTypeExt.names[type])

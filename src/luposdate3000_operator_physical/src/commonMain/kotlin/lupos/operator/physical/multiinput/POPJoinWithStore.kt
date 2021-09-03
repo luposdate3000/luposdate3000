@@ -267,7 +267,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement(partial, partition))
         return res

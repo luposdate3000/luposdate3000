@@ -75,8 +75,8 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     }
 
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts, partitionVariable))
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, partitionVariable))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts, partitionVariable))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, partitionVariable))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts, partitionVariable)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0]
 

@@ -71,7 +71,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                     SanityCheck.check(
                         { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:71"/*SOURCE_FILE_END*/ },
                         { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { root.toXMLElement(false, -1).toPrettyString() }
+                        { root.toXMLElement(false, mapOf()).toPrettyString() }
                     )
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
@@ -82,7 +82,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                     SanityCheck.check(
                         { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:82"/*SOURCE_FILE_END*/ },
                         { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { root.toXMLElement(false, -1).toPrettyString() }
+                        { root.toXMLElement(false, mapOf()).toPrettyString() }
                     )
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }

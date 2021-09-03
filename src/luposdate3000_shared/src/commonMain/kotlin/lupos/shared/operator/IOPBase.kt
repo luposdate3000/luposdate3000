@@ -38,9 +38,9 @@ public interface IOPBase {
     public fun getRequiredVariableNames(): List<String>
     public fun getProvidedVariableNames(): List<String>
 
-    /*suspend*/ public fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement
+    /*suspend*/ public fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement
 
-    /*suspend*/ public fun toXMLElement(partial: Boolean, partition: Int): XMLElement
+    /*suspend*/ public fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement
     public fun getLatestChild(): IOPBase
     public fun getPossibleSortPriorities(): List<List<SortHelper>>
     public fun getUUID(): Long

@@ -33,7 +33,7 @@ public class LOPModify public constructor(
     child: IOPBase
 ) : LOPBase(query, EOperatorIDExt.LOPModifyID, "LOPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): MutableList<String> = mutableListOf("?boolean")
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val xmlI = XMLElement("insert")
         res.addContent(xmlI)

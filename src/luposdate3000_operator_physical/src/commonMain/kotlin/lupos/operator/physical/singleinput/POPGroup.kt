@@ -547,7 +547,7 @@ public class POPGroup : POPBase {
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val byxml = XMLElement("by")
         res.addContent(byxml)

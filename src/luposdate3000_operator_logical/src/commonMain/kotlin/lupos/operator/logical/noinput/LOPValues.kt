@@ -34,7 +34,7 @@ public class LOPValues public constructor(query: IQuery, @JvmField public val va
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = XMLElement("LOPValues").addAttribute("uuid", "" + uuid)
         val xmlvariables = XMLElement("LocalVariables")
         res.addContent(xmlvariables)

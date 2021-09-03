@@ -48,7 +48,7 @@ public class AOPConstant : AOPBase, IAOPConstant {
         value = value2
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
         val res = if (DictionaryHelper.byteArrayToType(buffer) == ETripleComponentTypeExt.BLANK_NODE) {

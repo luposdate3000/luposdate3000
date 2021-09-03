@@ -190,7 +190,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         val parts = q.getOperatorgraphParts()
         var hostMap = mutableMapOf<Int, Int>()
         if (parts.size <= 1) {
-            parts[-1] = q.getRoot().toXMLElement(false, -1)
+            parts[-1] = q.getRoot().toXMLElement(false, mapOf())
             if (!hostMap.contains(-1)) {
                 hostMap[-1] = ownAdress
             }

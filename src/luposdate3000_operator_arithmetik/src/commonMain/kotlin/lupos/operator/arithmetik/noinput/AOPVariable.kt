@@ -34,7 +34,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun getRequiredVariableNames(): List<String> = listOf(name)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name)
     override fun cloneOP(): IOPBase = AOPVariable(query, this.getName())
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
 

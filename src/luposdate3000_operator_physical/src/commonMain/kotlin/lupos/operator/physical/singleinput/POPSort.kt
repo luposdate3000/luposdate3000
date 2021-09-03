@@ -68,7 +68,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
         return res
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = XMLElement("POPSort")
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)

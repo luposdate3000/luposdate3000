@@ -73,9 +73,9 @@ public class POPChangePartitionOrderedByIntId public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, true, partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, false, partition)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Map<String, Int>): XMLElement {
         val res = if (partial) {
             val partitionCount = if (partitionCountFrom > partitionCountTo) {
                 partitionCountFrom
@@ -90,18 +90,18 @@ public class POPChangePartitionOrderedByIntId public constructor(
                     val localKeys = List(partitionCountTo / partitionCountFrom) { keys[it * partitionCountFrom] }
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendMulti.toXMLElementInternal(partitionIDFrom, partial, isRoot, localKeys, query.getPartitionedBy(), partitionVariable, partitionCountTo))
                 } else {
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionIDFrom, partial, isRoot, keys[partition], query.getPartitionedBy()))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionIDFrom, partial, isRoot, keys[partition[partitionVariable]!!], query.getPartitionedBy()))
                 }
             } else {
                 if (partitionCountTo < partitionCountFrom) {
                     val localKeys = List(partitionCountFrom / partitionCountTo) { keys[it * partitionCountTo] }
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionIDTo, partial, isRoot, localKeys.map { it to "" }.toMap(), partitionVariable))
                 } else {
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionIDTo, partial, isRoot, keys[partition] to ""))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionIDTo, partial, isRoot, keys[partition[partitionVariable]!!] to ""))
                 }
             }
         } else {
-            super.toXMLElementHelper(partial, false, -1)
+            super.toXMLElementHelper(partial, false, mapOf())
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())

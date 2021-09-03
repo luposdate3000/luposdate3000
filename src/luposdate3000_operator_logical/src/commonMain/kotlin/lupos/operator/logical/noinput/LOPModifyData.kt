@@ -29,7 +29,7 @@ import kotlin.jvm.JvmField
 public class LOPModifyData public constructor(query: IQuery, @JvmField public val type: EModifyType, @JvmField public val data: MutableList<LOPTriple>) : LOPBase(query, EOperatorIDExt.LOPModifyDataID, "LOPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     public constructor(query: IQuery, type: EModifyType) : this(query, type, mutableListOf())
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)
         for (t in data) {

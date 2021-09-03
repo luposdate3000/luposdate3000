@@ -39,7 +39,7 @@ public class LOPProjection public constructor(query: IQuery, @JvmField public va
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val vars = XMLElement("LocalVariables")
         res.addContent(vars)

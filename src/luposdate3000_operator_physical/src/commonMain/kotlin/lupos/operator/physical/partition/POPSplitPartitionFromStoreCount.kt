@@ -53,20 +53,20 @@ public class POPSplitPartitionFromStoreCount public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, true, partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Int): XMLElement = toXMLElementHelper2(partial, false, partition)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Int): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Map<String, Int>): XMLElement {
         val res = if (partial) {
             if (keys.size == 0 || keys.size != partitionCount) {
                 keys = IntArray(partitionCount) { query.createPartitionKey() }
             }
             if (isRoot) {
-                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition[partitionVariable]!!], query.getPartitionedBy()))
             } else {
-                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition[partitionVariable]!!] to ""))
             }
         } else {
-            super.toXMLElementHelper(partial, false, -1)
+            super.toXMLElementHelper(partial, false, mapOf())
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
