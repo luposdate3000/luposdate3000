@@ -476,6 +476,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     public override fun remoteModify(query: IQuery, type: EModifyType, stream: IMyInputStream, isSorted: Boolean, sortedBy: EIndexPattern, graph: String) {
+// read broadcast header
         var filterList = mutableListOf<TripleStoreDescriptionModifyCacheFilterEntry>()
         while (true) {
             val l1 = stream.readInt()
@@ -495,6 +496,7 @@ public class TripleStoreManagerImpl public constructor(
             filterList.add(TripleStoreDescriptionModifyCacheFilterEntry(host, key, idx))
         }
         val cache = TripleStoreDescriptionModifyCache(query, metadata_[graph]!!, type, sortedBy, instance, isSorted, filterList)
+// read & process the actual data
         while (true) {
             val a = stream.readDictionaryValueType()
             if (a == DictionaryValueHelper.nullValue) {
@@ -520,7 +522,7 @@ public class TripleStoreManagerImpl public constructor(
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:522"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:525"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(second, tripleStore)
@@ -542,7 +544,8 @@ public class TripleStoreManagerImpl public constructor(
         }
         createGraphShared(graph)
         val metadataStr = graph.toMetaString()
-        for (hostname in instance.LUPOS_PROCESS_URLS_STORE) {
+        for (hostname in instance.LUPOS_PROCESS_URLS_ALL) { // broadcast the metadata to every instance, even the only query instances due to multicast
+// TODO multicast here too
             if (hostname != localhost) {
                 query.getInstance().communicationHandler!!.sendData(
                     hostname,

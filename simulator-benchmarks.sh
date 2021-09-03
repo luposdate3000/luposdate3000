@@ -33,10 +33,10 @@ JSON_MULTICAST="${BASE_PATH}/luposdate3000Multicast${m}.json"
 for dist in luposdate3000_distribution_routing luposdate3000_distribution_centralized
 do
 JSON_DIST="${BASE_PATH}/$dist.json"
-echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
-eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
 measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}/measurement.csv"
+echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
 echo $measurementFile
+eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
 headerLine="topology,database,query,dist,multicast,readwrite"
 contentLine="${t},${d},${q},${m},${dist}"
 if [ "$q" = "Q0" ]
