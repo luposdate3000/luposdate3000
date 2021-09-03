@@ -38,7 +38,7 @@ public class POPDistributedReceiveMulti public constructor(
     child: IOPBase,
     private val inputs: Array<IMyInputStream>,
     private val outputs: Array<IMyOutputStream?> = Array(inputs.size) { null },
-    private val hosts: Map<String, String>,
+    private val hosts: Map<Int, String>,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -48,18 +48,19 @@ public class POPDistributedReceiveMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
+internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Boolean,hosts: Map<Int, String>)= toXMLElementHelper4(  "POPDistributedReceiveMulti",partitionID, partial, isRoot, hosts)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
             partitionID: Int,
             child: IOPBase,
-            hosts: Map<String, String>,
+            hosts: Map<Int, String>,
         ): POPDistributedReceiveMulti {
             val handler = query.getInstance().communicationHandler!!
             val inputs = mutableListOf<IMyInputStream>()
             val outputs = mutableListOf<IMyOutputStream?>()
             for ((k, v) in hosts) {
-                val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
+                val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to "$k", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
                 inputs.add(conn.first)
                 outputs.add(conn.second)
             }
@@ -67,47 +68,14 @@ public class POPDistributedReceiveMulti public constructor(
         }
     }
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:69"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:70"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, hosts))
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, hosts))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMulti(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMulti && children[0] == other.children[0]
-
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
-        val res = if (partial) {
-            XMLElement(classname).addContent(childrenToXML(partial))
-        } else {
-            super.toXMLElementHelper(partial, partial && !isRoot)
-        }
-        res.addAttribute("uuid", "$uuid")
-        for ((k, h) in hosts) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("host", h).addAttribute("key", mergeKey(k, query.getDistributionKey())))
-        }
-        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionID", "" + partitionID)
-        val projectedXML = XMLElement("projectedVariables")
-        res.addContent(projectedXML)
-        for (variable in projectedVariables) {
-            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
-        }
-        return res
-    }
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val partitions = Array(hosts.size) { Partition() }
-        val keysList = hosts.keys.toList()
-        for (i in 0 until hosts.size) {
-            val kk = keysList[i].split(":")
-            for (ii in 1 until kk.size) {
-                val k = kk[ii]
-                val args = k.split("=")
-                if (!args[0].startsWith("?")) {
-                    partitions[i] = Partition(partitions[i], args[0], args[1].toInt(), args[2].toInt())
-                }
-            }
-        }
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
         val buffer = DictionaryValueTypeArray(inputs.size * variables.size)
@@ -127,10 +95,10 @@ public class POPDistributedReceiveMulti public constructor(
                 conn.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:129"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:97"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 mapping[i] = j
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:132"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:100"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()

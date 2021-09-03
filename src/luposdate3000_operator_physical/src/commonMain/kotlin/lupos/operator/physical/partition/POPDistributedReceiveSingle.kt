@@ -39,7 +39,7 @@ public class POPDistributedReceiveSingle public constructor(
     child: IOPBase,
     private val input: IMyInputStream,
     private val output: IMyOutputStream? = null,
-    private val hosts: Pair<String, String>,
+    private val hosts: Pair<Int, String>,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -49,45 +49,28 @@ public class POPDistributedReceiveSingle public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
+internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Boolean,hosts: Pair<Int, String>,)=toXMLElementHelper5( "POPDistributedReceiveSingle",partitionID, partial, true, hosts)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
             partitionID: Int,
             child: IOPBase,
-            hosts: Pair<String, String>,
+            hosts: Pair<Int, String>,
         ): POPDistributedReceiveSingle {
             val handler = query.getInstance().communicationHandler!!
-            val conn = handler.openConnection(hosts.second, "/distributed/query/execute", mapOf("key" to hosts.first, "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
+            val conn = handler.openConnection(hosts.second, "/distributed/query/execute", mapOf("key" to "${hosts.first}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
             return POPDistributedReceiveSingle(query, projectedVariables, partitionID, child, conn.first, conn.second, hosts)
         }
     }
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:64"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:65"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, hosts))
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, hosts))
     override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0]
-
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
-        val res = if (partial) {
-            XMLElement(classname).addContent(childrenToXML(partial))
-        } else {
-            super.toXMLElementHelper(partial, partial && !isRoot)
-        }
-        res.addAttribute("uuid", "$uuid")
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("host", hosts.second).addAttribute("key", mergeKey(hosts.first, query.getDistributionKey())))
-        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionID", "" + partitionID)
-        val projectedXML = XMLElement("projectedVariables")
-        res.addContent(projectedXML)
-        for (variable in projectedVariables) {
-            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
-        }
-        return res
-    }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
@@ -97,14 +80,14 @@ public class POPDistributedReceiveSingle public constructor(
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)
         val cnt = input.readInt()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:99"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:82"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
         for (i in 0 until variables.size) {
             val len = input.readInt()
             val buf = ByteArray(len)
             input.read(buf, len)
             val name = buf.decodeToString()
             val j = variables.indexOf(name)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:106"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:89"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
             mapping[i] = j
         }
         var closed = false

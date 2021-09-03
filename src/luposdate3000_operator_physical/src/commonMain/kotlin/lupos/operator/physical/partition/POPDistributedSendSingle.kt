@@ -34,7 +34,8 @@ public class POPDistributedSendSingle public constructor(
     projectedVariables: List<String>,
     @JvmField public var partitionID: Int,
     child: IOPBase,
-    @JvmField public val keys: String, // key
+    @JvmField public val keys: Int, // key
+    @JvmField public val partitionedBy: MutableMap<String, Int>, // variable -> partition
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -44,41 +45,22 @@ public class POPDistributedSendSingle public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:46"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:47"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
-
-    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionID, children[0].cloneOP(), keys)
+public companion object{ 
+internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Boolean, keys: Int,partitionedBy: MutableMap<String, Int>,)=toXMLElementHelper9( "POPDistributedSendSingle",partitionID, partial, true, keys, partitionedBy)
+}
+    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
     override fun getPartitionCount(variable: String): Int = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
-
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
-        val res = if (partial) {
-            XMLElement(classname).addContent(childrenToXML(partial))
-        } else {
-            super.toXMLElementHelper(partial, partial && !isRoot)
-        }
-        res.addAttribute("uuid", "$uuid")
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(keys, query.getDistributionKey())))
-        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionID", "" + partitionID)
-        val projectedXML = XMLElement("projectedVariables")
-        res.addContent(projectedXML)
-        for (variable in projectedVariables) {
-            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
-        }
-        return res
-    }
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))
 
     public fun evaluate(connectionOut: IMyOutputStream) {
-        var p = Partition()
-        val kk = keys.split(":")
-        for (i in 1 until kk.size) {
-            val k = kk[i]
-            val args = k.split("=")
-            p = Partition(p, args[0], args[1].toInt(), args[2].toInt())
+        var partition = Partition()
+        for ((k, v) in partitionedBy) {
+            partition = Partition(partition, k, v, -1)
         }
         val variables = Array(projectedVariables.size) { "" }
         var i = 0
@@ -89,7 +71,7 @@ public class POPDistributedSendSingle public constructor(
             connectionOut.writeInt(buf.size)
             connectionOut.write(buf)
         }
-        val bundle = children[0].evaluate(p)
+        val bundle = children[0].evaluate(partition)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = DictionaryValueHelper.nullValue + 1
         while (buf != DictionaryValueHelper.nullValue) {

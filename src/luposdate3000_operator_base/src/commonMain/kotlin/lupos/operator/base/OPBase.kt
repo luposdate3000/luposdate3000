@@ -428,7 +428,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun toSparql(): String = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement {
         return toXMLElement(partial)
     }
 

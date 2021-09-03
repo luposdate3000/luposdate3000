@@ -42,15 +42,13 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                         var new_countMax = -1
                         for (c in node.children) {
                             if (c is AOPVariable) {
-                                try {
-                                    val partitionVariable = c.name
-                                    val new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
+                                val partitionVariable = c.name
+                                val new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
+                                if (new_count> 0) {
                                     if (new_count> new_countMax) {
                                         new_countMax = new_count
                                         partitionVariableMax = partitionVariable
                                     }
-                                } catch (e: Throwable) {
-                                    // e.printStackTrace() this is handled correctly
                                 }
                             }
                         }

@@ -34,7 +34,10 @@ public class POPDistributedSendMulti public constructor(
     projectedVariables: List<String>,
     @JvmField public var partitionID: Int,
     child: IOPBase,
-    @JvmField public val keys: List<String>, // key
+    @JvmField public val keys: List<Int>, // key
+    @JvmField public val partitionedBy: MutableMap<String, Int>, // variable -> partition
+    @JvmField public val partitionVariable: String,
+    @JvmField public val partitionCount: Int,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -44,59 +47,24 @@ public class POPDistributedSendMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:46"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:49"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
-
+public companion object{
+internal fun toXMLElementInternal(partitionID: Int,partial: Boolean, isRoot:Boolean,keys: List<Int>, partitionedBy: MutableMap<String, Int>, partitionVariable: String,partitionCount: Int,)=toXMLElementHelper8(  "POPDistributedSendMulti",partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount)
+}
     override fun getPartitionCount(variable: String): Int = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement = toXMLElementHelper2(partial, true)
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelper2(partial, false)
-    override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionID, children[0].cloneOP(), keys)
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Int): XMLElement = toXMLElementHelperAddBase(partial,true,toXMLElementInternal(partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount))
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = toXMLElementHelperAddBase(partial,false,toXMLElementInternal(partitionID, partial, false, keys, partitionedBy, partitionVariable, partitionCount))
+    override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy, partitionVariable, partitionCount)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
-
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
-        val res = if (partial) {
-            XMLElement(classname).addContent(childrenToXML(partial))
-        } else {
-            super.toXMLElementHelper(partial, partial && !isRoot)
-        }
-        res.addAttribute("uuid", "$uuid")
-        for (k in keys) {
-            res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", mergeKey(k, query.getDistributionKey())))
-        }
-        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-        res.addAttribute("partitionID", "" + partitionID)
-        val projectedXML = XMLElement("projectedVariables")
-        res.addContent(projectedXML)
-        for (variable in projectedVariables) {
-            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
-        }
-        return res
-    }
-
     public fun evaluate(data: Array<IMyOutputStream?>) {
-        val partitions = Array(keys.size) { Partition() }
-        for (i in 0 until keys.size) {
-            val kk = keys[i].split(":")
-            for (ii in 1 until kk.size) {
-                val k = kk[ii]
-                val args = k.split("=")
-                partitions[i] = Partition(partitions[i], args[0], args[1].toInt(), args[2].toInt())
-            }
+        var partition = Partition()
+        for ((k, v) in partitionedBy) {
+            partition = Partition(partition, k, v, -1)
         }
-        var partitionCount = 0
-        var partitionVariable = ""
-        for ((k, v) in partitions[0].data) {
-            if (v != partitions[1].data[k]) {
-                partitionVariable = k
-                partitionCount = partitions[0].limit[k]!!
-                break
-            }
-        }
-        partitions[0].data.remove(partitionVariable)
-        partitions[0].limit.remove(partitionVariable)
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:98"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:66"/*SOURCE_FILE_END*/ },
             { partitionCount != 0 }
         )
         val variables = Array(projectedVariables.size) { "" }
@@ -122,8 +90,8 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:124"/*SOURCE_FILE_END*/ }, { i == variables.size })
-        val bundle = children[0].evaluate(partitions[0])
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:92"/*SOURCE_FILE_END*/ }, { i == variables.size })
+        val bundle = children[0].evaluate(partition)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
         while (buf != DictionaryValueHelper.nullValue) {

@@ -26,7 +26,6 @@ import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.shared.DontCareWhichException
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
@@ -59,8 +58,8 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                             onChange()
                         }
                         is POPTripleStoreIterator -> {
-                            try {
-                                val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
+                            val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
+                            if (new_count> 0) {
                                 c.hasSplitFromStore = true
                                 res = if (node.projectedVariables.isNotEmpty()) {
                                     POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
@@ -70,8 +69,6 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)
                                 onChange()
-                            } catch (e: DontCareWhichException) {
-                                e.printStackTrace()
                             }
                         }
                     }

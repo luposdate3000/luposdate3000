@@ -33,6 +33,8 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public constructor(dictionary: IDictionary, instance: Luposdate3000Instance) : this(dictionary, UUID_Counter.getNextUUID(), instance)
     public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
 
+    @JvmField public var partitionedBy: MutableMap<String, Int> = mutableMapOf()
+
     @JvmField
     public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf()
 
@@ -86,16 +88,19 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     @JvmField
     public var dictionaryUrl: String? = null
-    public override fun getOperatorgraphPartsToHostMap(): MutableMap<String, String> = operatorgraphPartsToHostMap
-    public override fun getOperatorgraphParts(): MutableMap<String, XMLElement> = operatorgraphParts
-    public override fun getDependenciesMapTopDown(): MutableMap<String, Set<String>> = dependenciesMapTopDown
-    public override fun getInstance(): Luposdate3000Instance = instance
+    override fun getPartitionedBy(): MutableMap<String, Int> = partitionedBy
+    override fun getOperatorgraphPartsToHostMap(): MutableMap<String, String> = operatorgraphPartsToHostMap
+    override fun getOperatorgraphParts(): MutableMap<String, XMLElement> = operatorgraphParts
+    override fun getDependenciesMapTopDown(): MutableMap<String, Set<String>> = dependenciesMapTopDown
+    override fun getInstance(): Luposdate3000Instance = instance
+    private var partitionKeyCounter = 0
+    override fun createPartitionKey(): Int = partitionKeyCounter++
 
-    public override fun setDictionaryUrl(url: String) {
+    override fun setDictionaryUrl(url: String) {
         this.dictionaryUrl = url
     }
 
-    public override fun setDictionary(dict: IDictionary) {
+    override fun setDictionary(dict: IDictionary) {
         dictionary = dict
     }
 
@@ -104,8 +109,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         root = node
     }
 
-    public override fun getDictionaryUrl(): String? = dictionaryUrl
-    override fun getDistributionKey(): Map<String, Pair<Int, Int>> = allVariationsKey
+    override fun getDictionaryUrl(): String? = dictionaryUrl
     override fun initialize(newroot: IOPBase, wantReturnValue: Boolean, splitEverything: Boolean): IOPBase {
         root = newroot
         transactionID = UUID_Counter.getNextUUID()
@@ -137,7 +141,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:139"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:143"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
             tmp.add(uuid)
         }
     }
@@ -145,7 +149,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:147"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:151"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

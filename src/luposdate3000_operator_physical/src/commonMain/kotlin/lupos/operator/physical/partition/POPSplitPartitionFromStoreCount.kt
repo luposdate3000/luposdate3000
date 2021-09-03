@@ -40,6 +40,7 @@ public class POPSplitPartitionFromStoreCount public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
+private var keys=intArrayOf()
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
@@ -52,29 +53,22 @@ public class POPSplitPartitionFromStoreCount public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, true)
-    }
-
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        return toXMLElementHelper2(partial, false)
-    }
-
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean,partition:Int): XMLElement =toXMLElementHelper2(partial, true,partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement =toXMLElementHelper2(partial, false,-1)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean,partition:Int): XMLElement {
         val res = if (partial) {
-            if (isRoot) {
-                XMLElement("POPDistributedSendSingleCount").addContent(childrenToXML(partial))
+            if(keys.size==0|| keys.size!=partitionCount){
+keys=IntArray(partitionCount){query.createPartitionKey()}
+}
+if (isRoot) {
+return toXMLElementHelperAddBase(partial,isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition], query.getPartitionedBy()))
             } else {
-                XMLElement("POPDistributedReceiveSingleCount")
+return toXMLElementHelperAddBase(partial,isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition] to ""))
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
-        res.addAttribute("keyPrefix", "$uuid")
         res.addAttribute("uuid", "$uuid")
-        val theKey = mutableMapOf(partitionVariable to (0 to partitionCount))
-        theKey.putAll(query.getDistributionKey())
-        res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", theKeyToString("$uuid", theKey)))
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)

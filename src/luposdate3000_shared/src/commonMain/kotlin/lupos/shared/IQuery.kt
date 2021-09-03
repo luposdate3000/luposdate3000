@@ -30,7 +30,6 @@ public interface IQuery {
     public fun getTransactionID(): Long
     public fun setTransactionID(id: Long)
 
-    public fun getDistributionKey(): Map<String, Pair<Int, Int>>
     public fun getDependenciesMapTopDown(): MutableMap<String, Set<String>>
 
     public fun getDictionaryUrl(): String?
@@ -42,4 +41,7 @@ public interface IQuery {
 
     public fun getOperatorgraphParts(): MutableMap<String, XMLElement>
     public fun getOperatorgraphPartsToHostMap(): MutableMap<String, String>
+
+    public fun createPartitionKey(): Int
+    public fun getPartitionedBy(): MutableMap<String, Int>
 }

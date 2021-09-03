@@ -44,10 +44,12 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     val storeNode = storeNodeTmp
                     val max_count = query.partitionOperatorCount[node.partitionID]
                     var new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
-                    query.partitionOperatorCount[node.partitionID] = new_count
-                    node.partitionCount = new_count
-                    if (new_count != max_count) {
-                        onChange()
+                    if (new_count> 0) {
+                        query.partitionOperatorCount[node.partitionID] = new_count
+                        node.partitionCount = new_count
+                        if (new_count != max_count) {
+                            onChange()
+                        }
                     }
                 }
                 is POPSplitPartitionFromStoreCount -> {
@@ -59,10 +61,12 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     val storeNode = storeNodeTmp
                     val max_count = query.partitionOperatorCount[node.partitionID]
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
-                    query.partitionOperatorCount[node.partitionID] = new_count
-                    node.partitionCount = new_count
-                    if (new_count != max_count) {
-                        onChange()
+                    if (new_count> 0) {
+                        query.partitionOperatorCount[node.partitionID] = new_count
+                        node.partitionCount = new_count
+                        if (new_count != max_count) {
+                            onChange()
+                        }
                     }
                 }
                 is POPMergePartition -> {
