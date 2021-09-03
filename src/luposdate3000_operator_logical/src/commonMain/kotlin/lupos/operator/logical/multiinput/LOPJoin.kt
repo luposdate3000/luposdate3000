@@ -15,19 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.logical.multiinput
-
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPJoin public constructor(query: IQuery, first: IOPBase, second: IOPBase, @JvmField public val optional: Boolean) : LOPBase(query, EOperatorIDExt.LOPJoinID, "LOPJoin", arrayOf(first, second), ESortPriorityExt.JOIN) {
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun equals(other: Any?): Boolean = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

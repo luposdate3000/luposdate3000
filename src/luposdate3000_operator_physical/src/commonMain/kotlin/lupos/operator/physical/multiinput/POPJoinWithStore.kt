@@ -32,6 +32,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
@@ -55,8 +56,8 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
 
     override fun equals(other: Any?): Boolean = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:57"/*SOURCE_FILE_END*/ }, { !optional })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:58"/*SOURCE_FILE_END*/ }, { !childB.graphVar })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:58"/*SOURCE_FILE_END*/ }, { !optional })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:59"/*SOURCE_FILE_END*/ }, { !childB.graphVar })
         val childAv = children[0].evaluate(parent)
         val childA = children[0]
         val columnsINAO = mutableListOf<ColumnIterator>()
@@ -88,7 +89,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
             if (t is AOPVariable) {
                 val name = t.name
                 if (columnsTmp[0].contains(name)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:90"/*SOURCE_FILE_END*/ }, { name != "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:91"/*SOURCE_FILE_END*/ }, { name != "_" })
                     for (k in 0 until 3) {
                         val cc = childB.children[k]
                         if (cc is AOPVariable && cc.name == name) {
@@ -104,7 +105,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                         columnsINAJ.add(childAv.columns[name]!!)
                     }
                 } else {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:106"/*SOURCE_FILE_END*/ }, { columnsTmp[2].contains(name) || name == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:107"/*SOURCE_FILE_END*/ }, { columnsTmp[2].contains(name) || name == "_" })
                     if (name != "_") {
                         variablINBO.add(name)
                         columnsOUT.add(Pair(name, 2))
@@ -113,13 +114,13 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
             }
         }
         for (name in tmp2) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:115"/*SOURCE_FILE_END*/ }, { columnsTmp[1].contains(name) || name == "_" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:116"/*SOURCE_FILE_END*/ }, { columnsTmp[1].contains(name) || name == "_" })
             if (name != "_") {
                 columnsOUT.add(Pair(name, 0))
                 columnsINAO.add(0, childAv.columns[name]!!)
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:121"/*SOURCE_FILE_END*/ }, { variablINBO.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:122"/*SOURCE_FILE_END*/ }, { variablINBO.size > 0 })
         val distributedStore = query.getInstance().tripleStoreManager!!.getGraph(childB.graph)
         val valuesAO = DictionaryValueTypeArray(columnsINAO.size) { DictionaryValueHelper.nullValue }
         val valuesAJ = DictionaryValueTypeArray(columnsINAJ.size) { DictionaryValueHelper.nullValue }
@@ -131,20 +132,20 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
             childB.children[it] as AOPBase
         }
         for (i in 0 until indicesINBJ.size) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:133"/*SOURCE_FILE_END*/ }, { params[indicesINBJ[i]] is AOPVariable })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:134"/*SOURCE_FILE_END*/ }, { params[indicesINBJ[i]] is AOPVariable })
             params[indicesINBJ[i]] = AOPConstant(query, DictionaryExt.undefValue2)
             count++
         }
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:138"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:139"/*SOURCE_FILE_END*/ },
             {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:140"/*SOURCE_FILE_END*/ }, { count > 0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:141"/*SOURCE_FILE_END*/ }, { count < 3 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:141"/*SOURCE_FILE_END*/ }, { count > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:142"/*SOURCE_FILE_END*/ }, { count < 3 })
                 for (i in 0 until childB.mySortPriority.size) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:143"/*SOURCE_FILE_END*/ }, { childB.mySortPriority[i].sortType == ESortTypeExt.FAST })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:144"/*SOURCE_FILE_END*/ }, { childB.mySortPriority[i].sortType == ESortTypeExt.FAST })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:145"/*SOURCE_FILE_END*/ }, { indicesINBJ.size > 0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:146"/*SOURCE_FILE_END*/ }, { valuesAJ.size == indicesINBJ.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:146"/*SOURCE_FILE_END*/ }, { indicesINBJ.size > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:147"/*SOURCE_FILE_END*/ }, { valuesAJ.size == indicesINBJ.size })
             }
         )
         val columnsInB = Array<ColumnIterator>(variablINBO.size) { ColumnIteratorEmpty() }
@@ -197,7 +198,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                                             for (element in columnsInB) {
                                                 element.close()
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:199"/*SOURCE_FILE_END*/ }, { i == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStore.kt:200"/*SOURCE_FILE_END*/ }, { i == 0 })
                                             done = false
                                             break@loopB
                                         } else {
@@ -267,7 +268,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement(partial, partition))
         return res

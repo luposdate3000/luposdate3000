@@ -20,6 +20,7 @@ import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
@@ -38,7 +39,7 @@ public abstract class POPBase public constructor(
     OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
     public open fun getProvidedVariableNamesInternal(): List<String> = super.getProvidedVariableNames()
     override fun getProvidedVariableNames(): List<String> = projectedVariables
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)

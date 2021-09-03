@@ -22,6 +22,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -46,5 +47,5 @@ public open class POPValues2(query: IQuery, @JvmField public val data: MemoryTab
     override fun getRequiredVariableNames(): MutableList<String> = mutableListOf()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO()
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = TODO()
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = TODO()
 }

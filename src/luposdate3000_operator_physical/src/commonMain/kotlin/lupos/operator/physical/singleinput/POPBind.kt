@@ -28,6 +28,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.inline.ColumnIteratorQueueExt
@@ -65,7 +66,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variablesOut = getProvidedVariableNames()
         val variablesLocal = getProvidedVariableNamesInternal()
@@ -84,7 +85,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                     boundIndex = variableIndex
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPBind.kt:86"/*SOURCE_FILE_END*/ }, { boundIndex != -1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPBind.kt:87"/*SOURCE_FILE_END*/ }, { boundIndex != -1 })
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in variablesLocal.indices) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
@@ -101,7 +102,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                                     if (boundIndex != variableIndex2) {
                                         val value = columnsIn[variableIndex2]!!.next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPBind.kt:103"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPBind.kt:104"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) })
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
@@ -140,7 +141,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
             columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
         }
         expression = (children[1] as AOPBase).evaluateID(IteratorBundle(localMap))
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPBind.kt:142"/*SOURCE_FILE_END*/ }, { variablesLocal.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPBind.kt:143"/*SOURCE_FILE_END*/ }, { variablesLocal.isNotEmpty() })
         return IteratorBundle(outMap)
     }
 }

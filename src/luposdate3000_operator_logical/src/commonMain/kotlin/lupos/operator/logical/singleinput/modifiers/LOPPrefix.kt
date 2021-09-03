@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.logical.singleinput.modifiers
-
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
@@ -29,7 +29,7 @@ import kotlin.jvm.JvmField
 public class LOPPrefix public constructor(query: IQuery, @JvmField public val name: String, @JvmField public val iri: String, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPPrefixID, "LOPPrefix", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public constructor(query: IQuery, name: String, iri: String) : this(query, name, iri, OPEmptyRow(query))
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name).addAttribute("iri", iri)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name).addAttribute("iri", iri)
     override fun equals(other: Any?): Boolean = other is LOPPrefix && name == other.name && iri == other.iri && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPPrefix(query, name, iri, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

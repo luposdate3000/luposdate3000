@@ -31,6 +31,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -42,15 +43,15 @@ import kotlin.jvm.JvmField
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :
     POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
-        val res = super.toXMLElement(false, mapOf())
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
+        val res = super.toXMLElement(false, PartitionHelper())
         val xmlInsert = XMLElement("insert")
         val xmlDelete = XMLElement("delete")
         for ((first, second) in modify) {
             if (second == EModifyTypeExt.INSERT) {
-                xmlInsert.addContent(first.toXMLElement(false, mapOf()))
+                xmlInsert.addContent(first.toXMLElement(false, PartitionHelper()))
             } else {
-                xmlDelete.addContent(first.toXMLElement(false, mapOf()))
+                xmlDelete.addContent(first.toXMLElement(false, PartitionHelper()))
             }
         }
         res.addContent(xmlInsert)
@@ -59,7 +60,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:61"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:62"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -146,7 +147,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                 for (columnIndex in variables.indices) {
                     val value = columns[columnIndex].next()
                     if (value == DictionaryValueHelper.nullValue) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:148"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:149"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         break@loop
                     }
                     row[columnIndex] = value
@@ -160,7 +161,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             for ((first, second) in modify) {
                 var graphVarIdx = 0
                 if (first.graphVar) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:162"/*SOURCE_FILE_END*/ }, { variables.contains(first.graph) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:163"/*SOURCE_FILE_END*/ }, { variables.contains(first.graph) })
                     while (variables[graphVarIdx] != first.graph) {
                         graphVarIdx++
                     }

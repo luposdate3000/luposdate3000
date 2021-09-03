@@ -19,6 +19,7 @@ package lupos.shared.operator
 import lupos.shared.DictionaryValueType
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SortHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.iterator.IteratorBundle
@@ -38,9 +39,9 @@ public interface IOPBase {
     public fun getRequiredVariableNames(): List<String>
     public fun getProvidedVariableNames(): List<String>
 
-    /*suspend*/ public fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement
+    /*suspend*/ public fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement
 
-    /*suspend*/ public fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement
+    /*suspend*/ public fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement
     public fun getLatestChild(): IOPBase
     public fun getPossibleSortPriorities(): List<List<SortHelper>>
     public fun getUUID(): Long

@@ -19,6 +19,7 @@ import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 
@@ -37,7 +38,7 @@ public abstract class APOPParallel public constructor(
     children,
     sortPriority,
 ) {
-    internal fun toXMLElementHelperAddBase(partition: Map<String, Int>, partial: Boolean, isRoot: Boolean, res: XMLElement): XMLElement {
+    internal fun toXMLElementHelperAddBase(partition: PartitionHelper, partial: Boolean, isRoot: Boolean, res: XMLElement): XMLElement {
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         val projectedXML = XMLElement("projectedVariables")

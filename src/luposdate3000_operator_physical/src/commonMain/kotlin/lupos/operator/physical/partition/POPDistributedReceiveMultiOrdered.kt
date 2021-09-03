@@ -24,6 +24,7 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -71,12 +72,12 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         }
     }
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:73"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:74"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts, partitionVariable))
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, partitionVariable))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts, partitionVariable))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, partitionVariable))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts, partitionVariable)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0]
 
@@ -93,14 +94,14 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         for (kk in 0 until inputs.size) {
             val mapping = IntArray(variables.size)
             val cnt = inputs[kk].readInt()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:95"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:96"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
             for (i in 0 until variables.size) {
                 val len = inputs[kk].readInt()
                 val buf = ByteArray(len)
                 inputs[kk].read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:102"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:103"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 mapping[i] = j
             }
             val off = openConnections * variables.size

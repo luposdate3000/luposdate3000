@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
@@ -34,7 +35,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun getRequiredVariableNames(): List<String> = listOf(name)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name)
     override fun cloneOP(): IOPBase = AOPVariable(query, this.getName())
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
 
@@ -45,7 +46,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
                 DictionaryValueHelper.undefValue
             }
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:47"/*SOURCE_FILE_END*/ }, { tmp is ColumnIteratorQueue })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:48"/*SOURCE_FILE_END*/ }, { tmp is ColumnIteratorQueue })
             val column = tmp as ColumnIteratorQueue
             {
                 column.tmp
@@ -54,7 +55,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:56"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:57"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.name == name) {
             return AOPVariable(query, name2)
         }

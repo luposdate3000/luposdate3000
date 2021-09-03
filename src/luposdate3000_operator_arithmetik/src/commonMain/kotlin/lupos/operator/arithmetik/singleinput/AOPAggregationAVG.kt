@@ -23,6 +23,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -33,7 +34,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class AOPAggregationAVG public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("distinct", "" + distinct)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
             return "AVG(DISTINCT " + children[0].toSparql() + ")"

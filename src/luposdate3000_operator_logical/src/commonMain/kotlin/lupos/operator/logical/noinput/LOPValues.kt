@@ -24,6 +24,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
@@ -34,7 +35,7 @@ public class LOPValues public constructor(query: IQuery, @JvmField public val va
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = XMLElement("LOPValues").addAttribute("uuid", "" + uuid)
         val xmlvariables = XMLElement("LocalVariables")
         res.addContent(xmlvariables)

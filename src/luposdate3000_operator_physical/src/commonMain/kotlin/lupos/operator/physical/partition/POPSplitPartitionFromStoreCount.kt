@@ -20,6 +20,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -53,9 +54,9 @@ public class POPSplitPartitionFromStoreCount public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, true, partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, false, partition)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (keys.size == 0 || keys.size != partitionCount) {
                 keys = IntArray(partitionCount) { query.createPartitionKey() }

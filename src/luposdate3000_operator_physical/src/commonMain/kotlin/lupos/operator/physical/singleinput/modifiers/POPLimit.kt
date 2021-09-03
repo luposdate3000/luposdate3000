@@ -23,6 +23,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -32,7 +33,7 @@ import kotlin.jvm.JvmField
 
 public class POPLimit public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPLimitID, "POPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/modifiers/POPLimit.kt:34"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/modifiers/POPLimit.kt:35"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -91,5 +92,5 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
 }

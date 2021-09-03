@@ -23,6 +23,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -34,7 +35,7 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:36"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:37"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -49,11 +50,11 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
     }
 
     override fun toSparql(): String = children[0].toSparql() + children[1].toSparql()
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
     override fun equals(other: Any?): Boolean = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:55"/*SOURCE_FILE_END*/ }, { !optional })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:56"/*SOURCE_FILE_END*/ }, { !optional })
         // setup columns
         val child0 = children[0].evaluate(parent)
         val child1 = children[1].evaluate(parent)
@@ -88,8 +89,8 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
             outIterators.add(Pair(name, 2))
             columnsINO1.add(child1.columns[name]!!)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:90"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:91"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:91"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge.kt:92"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))

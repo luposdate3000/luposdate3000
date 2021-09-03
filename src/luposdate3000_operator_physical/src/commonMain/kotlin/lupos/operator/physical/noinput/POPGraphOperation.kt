@@ -30,6 +30,7 @@ import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescription
 import lupos.shared.MemoryTable
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
@@ -49,7 +50,7 @@ public class POPGraphOperation public constructor(
     @JvmField public var graph2iri: String?,
     @JvmField public val action: EGraphOperationType
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         res.addAttribute("uuid", "" + uuid)
         res.addAttribute("silent", "" + silent)
@@ -223,7 +224,7 @@ public class POPGraphOperation public constructor(
     public override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:225"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:226"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }

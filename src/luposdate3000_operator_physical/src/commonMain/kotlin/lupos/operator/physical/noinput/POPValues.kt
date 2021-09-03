@@ -27,6 +27,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -161,7 +162,7 @@ public open class POPValues : POPBase {
                 data[variables[variableIndex]] = columns[variableIndex]
             }
             for (v in values.children) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValues.kt:163"/*SOURCE_FILE_END*/ }, { v is AOPValue })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValues.kt:164"/*SOURCE_FILE_END*/ }, { v is AOPValue })
                 val it = v.getChildren().iterator()
                 for (variableIndex in 0 until variables.size) {
                     columns[variableIndex].add((it.next() as AOPConstant).value)
@@ -185,7 +186,7 @@ public open class POPValues : POPBase {
         }
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val xmlvariables = XMLElement("variables")
         res.addAttribute("rows", "" + rows)

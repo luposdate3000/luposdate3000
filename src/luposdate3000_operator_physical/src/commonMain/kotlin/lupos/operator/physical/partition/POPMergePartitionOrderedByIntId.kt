@@ -24,6 +24,7 @@ import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.ParallelCondition
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -49,7 +50,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
 ) {
     private var keys = intArrayOf()
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:51"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:52"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -64,9 +65,9 @@ public class POPMergePartitionOrderedByIntId public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, true, partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, false, partition)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (keys.size == 0 || keys.size != partitionCount) {
                 keys = IntArray(partitionCount) { query.createPartitionKey() }
@@ -106,9 +107,9 @@ public class POPMergePartitionOrderedByIntId public constructor(
             var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:108"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:109"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:110"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:109"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:110"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:111"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
             var queue_size = query.getInstance().queue_size
             var elementsPerRing = queue_size * variables.size
             var buffersize = elementsPerRing * partitionCount
@@ -234,11 +235,11 @@ public class POPMergePartitionOrderedByIntId public constructor(
             }
             val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:236"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:237"/*SOURCE_FILE_END*/ },
                 {
                     for (x in sortColumns.indices) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:239"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:240"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:240"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:241"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
                     }
                 }
             )

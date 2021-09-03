@@ -23,6 +23,7 @@ import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.ParallelCondition
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -52,7 +53,7 @@ public class POPMergePartition public constructor(
     }
 
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:54"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:55"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -63,9 +64,9 @@ public class POPMergePartition public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, true, partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, false, partition)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (keys.size == 0 || keys.size != partitionCount) {
                 keys = IntArray(partitionCount) { query.createPartitionKey() }
@@ -108,9 +109,9 @@ public class POPMergePartition public constructor(
             var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:110"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:111"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:112"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:111"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:112"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:113"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
             var queue_size = query.getInstance().queue_size
             var elementsPerRing = queue_size * variables.size
             var buffersize = elementsPerRing * partitionCount

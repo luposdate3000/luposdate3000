@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-import lupos.operator.base.PartitionHelper
 import lupos.operator.base.Query
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
@@ -25,6 +24,7 @@ import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.ParallelCondition
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -64,9 +64,9 @@ public class POPSplitPartition public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, true, partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, false, partition)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (keys.size == 0 || keys.size != partitionCount) {
                 keys = IntArray(partitionCount) { query.createPartitionKey() }

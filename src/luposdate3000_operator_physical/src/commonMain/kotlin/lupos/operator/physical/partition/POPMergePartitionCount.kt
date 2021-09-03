@@ -21,6 +21,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -55,9 +56,9 @@ public class POPMergePartitionCount public constructor(
         }
     }
 
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, true, partition)
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelper2(partial, false, partition)
-    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, true, partition)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (keys.size == 0 || keys.size != partitionCount) {
                 keys = IntArray(partitionCount) { query.createPartitionKey() }
@@ -96,8 +97,8 @@ public class POPMergePartitionCount public constructor(
         } else {
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:98"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:99"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:99"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:100"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
             // partitionVariable as any other variable is not included in the result of the child operator
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required - available count is the difference between "ringbufferReadHead" and "ringbufferWriteHead"
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required

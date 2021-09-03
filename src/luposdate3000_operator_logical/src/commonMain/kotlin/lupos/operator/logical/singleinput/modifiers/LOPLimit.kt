@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.logical.singleinput.modifiers
-
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
@@ -29,7 +29,7 @@ import kotlin.jvm.JvmField
 public class LOPLimit public constructor(query: IQuery, @JvmField public val limit: Int, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPLimitID, "LOPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public constructor(query: IQuery, limit: Int) : this(query, limit, OPEmptyRow(query))
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
     override fun equals(other: Any?): Boolean = other is LOPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPLimit(query, limit, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

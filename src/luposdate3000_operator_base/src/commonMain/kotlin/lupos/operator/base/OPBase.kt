@@ -26,6 +26,7 @@ import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.UUID_Counter
@@ -125,12 +126,12 @@ public abstract class OPBase public constructor(
             }
         }
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:127"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:128"/*SOURCE_FILE_END*/ },
             {
                 val v1 = getProvidedVariableNames()
                 val v2 = histogramResult!!.values.keys
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:131"/*SOURCE_FILE_END*/ }, { v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:132"/*SOURCE_FILE_END*/ }, { v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:132"/*SOURCE_FILE_END*/ }, { v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:133"/*SOURCE_FILE_END*/ }, { v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
             }
         )
         return histogramResult!!
@@ -139,7 +140,7 @@ public abstract class OPBase public constructor(
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
         val node = query.initialize(this, true, false)
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:141"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:142"/*SOURCE_FILE_END*/ },
             {
                 val usesDictionary = node.usesDictionary()
                 if (!usesDictionary) {
@@ -183,7 +184,7 @@ public abstract class OPBase public constructor(
                     if (idx == c.size) {
                         target.remove(c)
                     } else {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:185"/*SOURCE_FILE_END*/ }, { idx == data.size })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:186"/*SOURCE_FILE_END*/ }, { idx == data.size })
                         needToAdd = false
                     }
                     break@loop
@@ -249,7 +250,7 @@ public abstract class OPBase public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:251"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:252"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
 
@@ -292,7 +293,7 @@ public abstract class OPBase public constructor(
                         res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                     }
                     else -> {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:294"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:295"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
                     }
                 }
             }
@@ -371,7 +372,7 @@ public abstract class OPBase public constructor(
 
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:373"/*SOURCE_FILE_END*/ }, { i < children.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:374"/*SOURCE_FILE_END*/ }, { i < children.size })
         children[i] = child
     }
 
@@ -388,7 +389,7 @@ public abstract class OPBase public constructor(
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:390"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:391"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -402,7 +403,7 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    override fun toString(): String = Parallel.runBlocking { toXMLElement(false, mapOf()).toPrettyString() }
+    override fun toString(): String = Parallel.runBlocking { toXMLElement(false, PartitionHelper()).toPrettyString() }
     override fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {
@@ -428,15 +429,15 @@ public abstract class OPBase public constructor(
     }
 
     override fun toSparql(): String = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement {
         return toXMLElement(partial, partition)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         return toXMLElementHelper(partial, false, partition)
     }
 
-    public open /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean, partition: Map<String, Int>): XMLElement {
+    public open /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean, partition: PartitionHelper): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -466,7 +467,7 @@ public abstract class OPBase public constructor(
         return res
     }
 
-    public /*suspend*/ fun childrenToXML(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    public /*suspend*/ fun childrenToXML(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
             res.addContent(c.toXMLElement(partial, partition))
@@ -511,7 +512,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:513"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:514"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
         this.getChildren()[0] = child
         return child
     }

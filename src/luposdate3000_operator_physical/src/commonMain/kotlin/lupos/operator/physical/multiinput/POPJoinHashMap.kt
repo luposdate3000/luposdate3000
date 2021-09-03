@@ -26,6 +26,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
@@ -38,7 +39,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:40"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:41"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -63,7 +64,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 // --- obtain child columns
         val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:65"/*SOURCE_FILE_END*/ }, { columns[0].size != 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:66"/*SOURCE_FILE_END*/ }, { columns[0].size != 0 })
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
@@ -110,7 +111,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         var count: Int
         var countA: Int
         var countB: Int
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:112"/*SOURCE_FILE_END*/ }, { columnsINAJ.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:113"/*SOURCE_FILE_END*/ }, { columnsINAJ.size > 0 })
 // --- insert second child into hash table
         while (true) {
             count = if (currentKey != null) {
@@ -206,7 +207,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     for (columnIndex in 0 until columnsINAJ.size) {
                                         val value = columnsINAJ[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:208"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:209"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             nextKey = null
                                             break@loopA
                                         }
@@ -256,7 +257,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:258"/*SOURCE_FILE_END*/ }, { tmp2 != DictionaryValueHelper.nullValue })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinHashMap.kt:259"/*SOURCE_FILE_END*/ }, { tmp2 != DictionaryValueHelper.nullValue })
                                             dataOA[columnIndex].add(tmp2)
                                         }
                                     }
@@ -336,6 +337,6 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         return res
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

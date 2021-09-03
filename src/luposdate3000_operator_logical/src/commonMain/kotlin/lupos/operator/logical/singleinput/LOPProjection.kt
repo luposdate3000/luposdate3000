@@ -22,6 +22,7 @@ import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
@@ -39,7 +40,7 @@ public class LOPProjection public constructor(query: IQuery, @JvmField public va
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val vars = XMLElement("LocalVariables")
         res.addContent(vars)
@@ -67,7 +68,7 @@ public class LOPProjection public constructor(query: IQuery, @JvmField public va
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPProjection.kt:69"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPProjection.kt:70"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in 0 until this.variables.size) {
             if (this.variables[i].name == name) {
                 this.variables[i] = AOPVariable(query, name2)

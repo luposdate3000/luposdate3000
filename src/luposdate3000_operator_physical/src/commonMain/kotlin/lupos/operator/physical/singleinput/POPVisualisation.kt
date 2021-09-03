@@ -25,7 +25,6 @@
 */
 
 package lupos.operator.physical.singleinput
-
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt

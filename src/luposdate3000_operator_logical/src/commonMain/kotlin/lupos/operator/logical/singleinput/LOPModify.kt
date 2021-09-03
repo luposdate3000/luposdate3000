@@ -21,6 +21,7 @@ import lupos.operator.logical.noinput.LOPTriple
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
@@ -33,7 +34,7 @@ public class LOPModify public constructor(
     child: IOPBase
 ) : LOPBase(query, EOperatorIDExt.LOPModifyID, "LOPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): MutableList<String> = mutableListOf("?boolean")
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val xmlI = XMLElement("insert")
         res.addContent(xmlI)

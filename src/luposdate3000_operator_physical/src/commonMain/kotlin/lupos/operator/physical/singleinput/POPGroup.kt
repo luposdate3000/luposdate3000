@@ -36,6 +36,7 @@ import lupos.shared.GroupByColumnMissing
 import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.VariableNotDefinedSyntaxException
@@ -70,7 +71,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:72"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:73"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -130,7 +131,7 @@ public class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:132"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:133"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -228,7 +229,7 @@ public class POPGroup : POPBase {
                     for (columnIndex in 0 until valueColumnNames.size) {
                         val value = valueColumns[columnIndex].next()
                         if (value == DictionaryValueHelper.nullValue) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:230"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:231"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                             for (closeIndex in 0 until valueColumnNames.size) {
                                 valueColumns[closeIndex].close()
                             }
@@ -275,7 +276,7 @@ public class POPGroup : POPBase {
                         for (element in valueColumns) {
                             element.close()
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:277"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:278"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         emptyResult = true
                         break
                     }
@@ -356,7 +357,7 @@ public class POPGroup : POPBase {
                                                     for (element in valueColumns) {
                                                         element.close()
                                                     }
-                                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:358"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:359"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                                     for (columnIndex2 in keyColumnNames.indices) {
                                                         if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                             output[columnIndex2].queue.add(currentKey[columnIndex2])
@@ -482,7 +483,7 @@ public class POPGroup : POPBase {
                                 for (element in valueColumns) {
                                     element.close()
                                 }
-                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:484"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:485"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                 break@loop
                             }
                             currentKey[columnIndex] = value
@@ -547,7 +548,7 @@ public class POPGroup : POPBase {
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val byxml = XMLElement("by")
         res.addContent(byxml)

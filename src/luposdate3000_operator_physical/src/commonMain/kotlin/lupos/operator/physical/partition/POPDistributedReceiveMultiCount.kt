@@ -22,6 +22,7 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -65,8 +66,8 @@ public class POPDistributedReceiveMultiCount public constructor(
         }
     }
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts))
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
 

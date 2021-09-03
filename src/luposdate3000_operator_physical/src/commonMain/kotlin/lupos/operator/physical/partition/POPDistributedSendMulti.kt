@@ -22,6 +22,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -47,14 +48,14 @@ public class POPDistributedSendMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:49"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
     public companion object {
         internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: List<Int>, partitionedBy: MutableMap<String, Int>, partitionVariable: String, partitionCount: Int,) = toXMLElementHelper8("POPDistributedSendMulti", partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount)
     }
     override fun getPartitionCount(variable: String): Int = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount))
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy, partitionVariable, partitionCount))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy, partitionVariable, partitionCount))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy, partitionVariable, partitionCount))
     override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy, partitionVariable, partitionCount)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
@@ -64,7 +65,7 @@ public class POPDistributedSendMulti public constructor(
             partition = Partition(partition, k, v, -1)
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:66"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:67"/*SOURCE_FILE_END*/ },
             { partitionCount != 0 }
         )
         val variables = Array(projectedVariables.size) { "" }
@@ -90,7 +91,7 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:92"/*SOURCE_FILE_END*/ }, { i == variables.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:93"/*SOURCE_FILE_END*/ }, { i == variables.size })
         val bundle = children[0].evaluate(partition)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()

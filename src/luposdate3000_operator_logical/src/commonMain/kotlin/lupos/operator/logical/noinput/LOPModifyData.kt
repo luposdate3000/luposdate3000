@@ -21,6 +21,7 @@ import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
@@ -29,7 +30,7 @@ import kotlin.jvm.JvmField
 public class LOPModifyData public constructor(query: IQuery, @JvmField public val type: EModifyType, @JvmField public val data: MutableList<LOPTriple>) : LOPBase(query, EOperatorIDExt.LOPModifyDataID, "LOPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     public constructor(query: IQuery, type: EModifyType) : this(query, type, mutableListOf())
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)
         for (t in data) {

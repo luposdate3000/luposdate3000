@@ -21,6 +21,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
@@ -33,7 +34,7 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:35"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:36"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -58,7 +59,7 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
     override fun equals(other: Any?): Boolean = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:60"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:61"/*SOURCE_FILE_END*/ },
             {
                 for (v in children[0].getProvidedVariableNames()) {
                     getPartitionCount(v)
@@ -68,12 +69,12 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
                 }
             }
         )
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:70"/*SOURCE_FILE_END*/ }, { !optional })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:71"/*SOURCE_FILE_END*/ }, { projectedVariables.size == 1 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:72"/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames().size == 1 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:73"/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames()[0] == projectedVariables[0] })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:74"/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames().size == 1 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:75"/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames()[0] == projectedVariables[0] })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:71"/*SOURCE_FILE_END*/ }, { !optional })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:72"/*SOURCE_FILE_END*/ }, { projectedVariables.size == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:73"/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames().size == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:74"/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames()[0] == projectedVariables[0] })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:75"/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames().size == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn.kt:76"/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames()[0] == projectedVariables[0] })
         val child0 = children[0].evaluate(parent).columns[projectedVariables[0]]!!
         val child1 = children[1].evaluate(parent).columns[projectedVariables[0]]!!
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -89,6 +90,6 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeSingleColumn(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

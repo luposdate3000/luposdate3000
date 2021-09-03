@@ -23,6 +23,7 @@ import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
@@ -35,7 +36,7 @@ public class LOPBind public constructor(query: IQuery, @JvmField public val name
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): MutableList<String> = (children[0].getProvidedVariableNames() + name.name).distinct().toMutableList()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive().distinct()
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
     override fun equals(other: Any?): Boolean = other is LOPBind && name == other.name && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPBind(query, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
@@ -58,7 +59,7 @@ public class LOPBind public constructor(query: IQuery, @JvmField public val name
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPBind.kt:60"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPBind.kt:61"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.name.name == name) {
             val exp = this.getChildren()[1]
             if (exp is AOPVariable) {

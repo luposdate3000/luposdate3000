@@ -21,6 +21,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -46,8 +47,8 @@ public class POPDistributedSendSingleCount public constructor(
         internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: Int, partitionedBy: MutableMap<String, Int>,) = toXMLElementHelper9("POPDistributedSendSingleCount", partitionID, partial, true, keys, partitionedBy)
     }
     override fun getPartitionCount(variable: String): Int = TODO()
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))
     override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")

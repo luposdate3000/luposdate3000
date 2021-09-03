@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.ValueDefinition
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -28,7 +29,6 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPConstant
 import kotlin.jvm.JvmField
-
 public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     public val value: DictionaryValueType
@@ -48,7 +48,7 @@ public class AOPConstant : AOPBase, IAOPConstant {
         value = value2
     }
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
         val res = if (DictionaryHelper.byteArrayToType(buffer) == ETripleComponentTypeExt.BLANK_NODE) {

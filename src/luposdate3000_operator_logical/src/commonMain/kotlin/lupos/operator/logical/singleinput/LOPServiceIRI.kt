@@ -20,13 +20,14 @@ import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPServiceIRI public constructor(query: IQuery, @JvmField public val name: String, @JvmField public val silent: Boolean, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPServiceIRIID, "LOPServiceIRI", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name).addAttribute("silent", "" + silent)
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name).addAttribute("silent", "" + silent)
     override fun equals(other: Any?): Boolean = other is LOPServiceIRI && name == other.name && silent == other.silent && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPServiceIRI(query, name, silent, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

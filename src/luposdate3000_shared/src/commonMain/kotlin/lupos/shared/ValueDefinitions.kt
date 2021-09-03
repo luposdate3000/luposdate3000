@@ -23,7 +23,7 @@ import lupos.shared.inline.DateHelper
 import kotlin.jvm.JvmField
 
 public sealed class ValueDefinition : Comparable<ValueDefinition> {
-    public /*suspend*/ abstract fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement
+    public /*suspend*/ abstract fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement
     public abstract fun valueToString(): String?
     public abstract fun toDouble(): Double
     public abstract fun toDecimal(): BigDecimal
@@ -132,7 +132,7 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
 }
 
 public class ValueBnode(@JvmField public var value: String) : ValueDefinition() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueBnode").addAttribute("value", "" + value)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueBnode").addAttribute("value", "" + value)
     public override fun valueToString(): String = "_:$value"
     public override fun equals(other: Any?): Boolean {
         if (other is ValueBnode) {
@@ -202,7 +202,7 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
         }
     }
 
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueBoolean").addAttribute("value", "" + value)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueBoolean").addAttribute("value", "" + value)
     public override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     public override fun equals(other: Any?): Boolean {
         if (other is ValueBoolean) {
@@ -539,7 +539,7 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
 public sealed class ValueNumeric : ValueDefinition()
 
 public class ValueUndef : ValueDefinition() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueUndef")
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueUndef")
     public override fun valueToString(): String? = null
     public override fun equals(other: Any?): Boolean {
         if (other is ValueUndef) {
@@ -585,7 +585,7 @@ public class ValueUndef : ValueDefinition() {
 }
 
 public class ValueError : ValueDefinition() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueError")
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueError")
     public override fun valueToString(): String? = null
     public override fun equals(other: Any?): Boolean = throw IncompatibleTypesDuringCompareException()
     public override fun toDouble(): Nothing = throw CanNotCastErrorToDoubleException()
@@ -668,7 +668,7 @@ public sealed class ValueStringBase(@JvmField public val delimiter: String, @Jvm
 }
 
 public class ValueLanguageTaggedLiteral(delimiter: String, content: String, @JvmField public val language: String) : ValueStringBase(delimiter, content) {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueLanguageTaggedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("language", "" + language)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueLanguageTaggedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("language", "" + language)
     public override fun valueToString(): String = "$delimiter$content$delimiter@$language"
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueLanguageTaggedLiteral) {
@@ -684,7 +684,7 @@ public class ValueLanguageTaggedLiteral(delimiter: String, content: String, @Jvm
 }
 
 public class ValueSimpleLiteral(delimiter: String, content: String) : ValueStringBase(delimiter, content) {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueSimpleLiteral").addAttribute("delimiter", delimiter).addAttribute("content", content)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueSimpleLiteral").addAttribute("delimiter", delimiter).addAttribute("content", content)
     public override fun valueToString(): String = delimiter + content + delimiter
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueSimpleLiteral) {
@@ -728,7 +728,7 @@ public class ValueTypedLiteral(delimiter: String, content: String, @JvmField pub
         }
     }
 
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueTypedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueTypedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)
     public override fun valueToString(): String = "$delimiter$content$delimiter^^<$type_iri>"
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueTypedLiteral && type_iri == other.type_iri) {
@@ -744,7 +744,7 @@ public class ValueTypedLiteral(delimiter: String, content: String, @JvmField pub
 }
 
 public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueDecimal").addAttribute("value", "" + value)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueDecimal").addAttribute("value", "" + value)
     public override fun valueToString(): String = "\"" + value.toPlainString() + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueDecimal) {
@@ -948,7 +948,7 @@ public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric
 }
 
 public class ValueDouble(@JvmField public var value: Double) : ValueNumeric() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueDouble").addAttribute("value", "" + value)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueDouble").addAttribute("value", "" + value)
     public override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#double>"
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueDouble) {
@@ -1148,7 +1148,7 @@ public class ValueDouble(@JvmField public var value: Double) : ValueNumeric() {
 }
 
 public class ValueFloat(@JvmField public var value: Double) : ValueNumeric() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueFloat").addAttribute("value", "" + value)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueFloat").addAttribute("value", "" + value)
     public override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#float>"
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueFloat) {
@@ -1390,7 +1390,7 @@ public inline operator fun BigDecimal.div(value: ValueDefinition): BigDecimal {
 }
 
 public class ValueInteger(@JvmField public var value: BigInteger) : ValueNumeric() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueInteger").addAttribute("value", "" + value)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueInteger").addAttribute("value", "" + value)
     public override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#integer>"
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueInteger) {
@@ -1604,7 +1604,7 @@ public class ValueInteger(@JvmField public var value: BigInteger) : ValueNumeric
 }
 
 public class ValueIri(@JvmField public var iri: String) : ValueDefinition() {
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueIri").addAttribute("value", "" + iri)
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueIri").addAttribute("value", "" + iri)
     public override fun valueToString(): String = "<$iri>"
     public override fun equals(other: Any?): Boolean {
         return if (other is ValueIri) {
@@ -1893,7 +1893,7 @@ public class ValueDateTime : ValueDefinition {
         }
     }
 
-    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement = XMLElement("ValueDateTime").addAttribute("value", valueToString())
+    public /*suspend*/ override fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = XMLElement("ValueDateTime").addAttribute("value", valueToString())
     public override fun equals(other: Any?): Boolean {
         if (other is ValueDateTime) {
             return valueToString() == other.valueToString()

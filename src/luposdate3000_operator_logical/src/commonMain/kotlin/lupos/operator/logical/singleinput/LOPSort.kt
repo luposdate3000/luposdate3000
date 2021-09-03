@@ -23,6 +23,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.XMLElement
@@ -33,7 +34,7 @@ import kotlin.jvm.JvmField
 public class LOPSort public constructor(query: IQuery, @JvmField public val asc: Boolean, @JvmField public var by: AOPVariable, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSortID, "LOPSort", arrayOf(child), ESortPriorityExt.SORT) {
     public constructor(query: IQuery, asc: Boolean, by: AOPVariable) : this(query, asc, by, OPEmptyRow(query))
 
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: Map<String, Int>): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", by.name)
         if (asc) {
@@ -73,7 +74,7 @@ public class LOPSort public constructor(query: IQuery, @JvmField public val asc:
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPSort.kt:75"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPSort.kt:76"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.by.name == name) {
             this.by = AOPVariable(query, name2)
         }
